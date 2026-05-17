@@ -1,9 +1,11 @@
-import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { Alert, Modal, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Modal, SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { Button } from '@/components/ui/Button';
+import { Colors, Typography, Spacing, Radius } from '@/constants/Theme';
 
 const fatoresDeRisco = [
   'Idade entre 50 e 80 anos',
@@ -17,10 +19,6 @@ const CalculeSeuRiscoPulmaoHomem = () => {
   const [resultado, setResultado] = useState<string | null>(null);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const router = useRouter();
-  const [fontsLoaded] = useFonts({
-    'Quicksand-Medium': require('../../../../assets/fonts/Quicksand-Medium.ttf'),
-    'Quicksand-Bold': require('../../../../assets/fonts/Quicksand-Bold.ttf'),
-  });
 
   const auth = getAuth();
   const firestore = getFirestore();
@@ -98,154 +96,88 @@ const CalculeSeuRiscoPulmaoHomem = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <StatusBar hidden={true} />
-      <Text style={styles.title}>Marque as Informações Abaixo</Text>
-      <Text style={styles.subTitle}>Pulmão</Text>
-      {fatoresDeRisco.map((fator, index) => (
-        <TouchableOpacity
-          key={index}
-          style={styles.checkboxContainer}
-          onPress={() => handleSelecao(index)}
-        >
-          <View style={styles.checkbox}>
-            {selecoes[index] && <View style={styles.checkboxChecked} />}
-          </View>
-          <Text style={styles.checkboxLabel}>{fator}</Text>
-        </TouchableOpacity>
-      ))}
-      <TouchableOpacity style={styles.button} onPress={calcularRisco}>
-        <Text style={styles.buttonText}>Calcular Risco</Text>
-      </TouchableOpacity>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+      <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
 
+      {/* Blue header */}
+      <View style={{ backgroundColor: Colors.primary, paddingHorizontal: Spacing.lg, paddingTop: Spacing.lg, paddingBottom: Spacing.lg }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, marginBottom: Spacing.sm }}>
+          <TouchableOpacity
+            onPress={() => router.back()}
+            style={{ width: 22, height: 22, backgroundColor: 'rgba(255,255,255,0.12)', borderRadius: 7, alignItems: 'center', justifyContent: 'center' }}
+          >
+            <Ionicons name="chevron-back" size={12} color={Colors.white} />
+          </TouchableOpacity>
+          <Text style={{ ...Typography.label, color: 'rgba(255,255,255,0.5)' }}>CALCULE SEU RISCO</Text>
+        </View>
+        <Text style={{ ...Typography.heading, color: Colors.white, marginBottom: Spacing.md }}>Pulmão</Text>
+        <View style={{ flexDirection: 'row', gap: 4, alignItems: 'center' }}>
+          {Array.from({ length: 3 }).map((_, i) => (
+            <View key={i} style={{ flex: 1, height: 4, borderRadius: 2, backgroundColor: i === 0 ? Colors.white : 'rgba(255,255,255,0.25)' }} />
+          ))}
+        </View>
+      </View>
+
+      {/* White body */}
+      <ScrollView style={{ flex: 1, backgroundColor: Colors.white }} contentContainerStyle={{ padding: Spacing.lg }}>
+        <Text style={{ ...Typography.subheading, color: Colors.textPrimary, marginBottom: Spacing.md }}>
+          Marque os fatores de risco que se aplicam a você
+        </Text>
+
+        {fatoresDeRisco.map((fator, index) => (
+          <TouchableOpacity
+            key={index}
+            onPress={() => handleSelecao(index)}
+            style={{
+              flexDirection: 'row', alignItems: 'center', gap: Spacing.md, padding: Spacing.md,
+              borderRadius: Radius.md, borderWidth: 2,
+              borderColor: selecoes[index] ? Colors.primary : Colors.border,
+              backgroundColor: selecoes[index] ? '#f0f4ff' : Colors.background,
+              marginBottom: Spacing.sm,
+            }}
+          >
+            <View style={{
+              width: 16, height: 16, borderRadius: 8, borderWidth: 2,
+              borderColor: selecoes[index] ? Colors.primary : Colors.border,
+              alignItems: 'center', justifyContent: 'center',
+              backgroundColor: selecoes[index] ? Colors.primary : 'transparent'
+            }}>
+              {selecoes[index] && <View style={{ width: 6, height: 6, borderRadius: 3, backgroundColor: Colors.white }} />}
+            </View>
+            <Text style={{
+              ...Typography.body,
+              color: selecoes[index] ? Colors.textPrimary : Colors.textSecondary,
+              flex: 1,
+              fontFamily: selecoes[index] ? 'Poppins-SemiBold' : 'Poppins-Regular'
+            }}>{fator}</Text>
+          </TouchableOpacity>
+        ))}
+      </ScrollView>
+
+      {/* Fixed footer */}
+      <View style={{ padding: Spacing.lg, backgroundColor: Colors.background, borderTopWidth: 1, borderTopColor: Colors.border }}>
+        <Button label="Calcular Risco" onPress={calcularRisco} />
+      </View>
+
+      {/* Result modal */}
       <Modal
         animationType="slide"
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalText}>{resultado}</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={handleOk}>
-              <Text style={styles.modalButtonText}>Ok</Text>
-            </TouchableOpacity>
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+          <View style={{ width: '85%', backgroundColor: Colors.white, padding: Spacing.xl, borderRadius: Radius.lg, alignItems: 'center' }}>
+            <Text style={{ ...Typography.label, color: Colors.textMuted, marginBottom: Spacing.sm }}>SEU RESULTADO</Text>
+            <Text style={{ ...Typography.body, color: Colors.textPrimary, textAlign: 'center', marginBottom: Spacing.xl }}>
+              {resultado}
+            </Text>
+            <Button label="Ok" onPress={handleOk} />
           </View>
         </View>
       </Modal>
-    </ScrollView>
+    </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#232d97',
-  },
-  title: {
-    fontSize: 20,
-    fontFamily: 'Quicksand-Bold',
-    marginBottom: 5,
-    textAlign: 'center',
-    color: '#FFFFFF',
-  },
-  subTitle: {
-    fontSize: 18,
-    fontFamily: 'Quicksand-Bold',
-    marginBottom: 10,
-    textAlign: 'center',
-    color: '#FFFFFF',
-  },
-  checkboxContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-    width: '100%',
-    backgroundColor: '#3949AB',
-    padding: 10,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  checkbox: {
-    width: 24,
-    height: 24,
-    borderWidth: 1,
-    borderColor: '#ff5721',
-    borderRadius: 50,
-    marginRight: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  checkboxChecked: {
-    width: 16,
-    height: 16,
-    borderRadius: 50,
-    backgroundColor: '#ff5721',
-  },
-  checkboxLabel: {
-    fontSize: 16,
-    color: '#fff',
-    fontFamily: 'Quicksand-Medium',
-    textAlign: 'left',
-    flexShrink: 1,
-  },
-  button: {
-    backgroundColor: '#3949AB',
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    borderRadius: 25,
-    marginVertical: 20,
-    width: '80%',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontFamily: 'Quicksand-Bold',
-  },
-  modalContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)',
-  },
-  modalContent: {
-    width: '80%',
-    backgroundColor: '#fff',
-    padding: 20,
-    borderRadius: 10,
-    alignItems: 'center',
-  },
-  modalText: {
-    fontSize: 16,
-    fontFamily: 'Quicksand-Bold',
-    textAlign: 'center',
-    marginBottom: 20,
-  },
-  modalButton: {
-    backgroundColor: '#3949AB',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 25,
-    alignItems: 'center',
-  },
-  modalButtonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontFamily: 'Quicksand-Bold',
-  },
-});
 
 export default CalculeSeuRiscoPulmaoHomem;
