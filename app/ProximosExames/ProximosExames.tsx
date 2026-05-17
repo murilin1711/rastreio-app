@@ -1,9 +1,11 @@
-import { MaterialIcons } from '@expo/vector-icons'; // Certifique-se de instalar @expo/vector-icons
-import { useFocusEffect } from '@react-navigation/native'; // Para detectar o foco no componente
+import { MaterialIcons } from '@expo/vector-icons';
+import { useFocusEffect } from '@react-navigation/native';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
-import { Alert, FlatList, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, FlatList, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { auth, db } from '../../config/firebase-config';
+import { InternalHeader } from '@/components/ui/InternalHeader';
+import { Colors, Spacing, Typography, Radius } from '@/constants/Theme';
 
 export default function ProximosExames() {
     const [proximosExames, setProximosExames] = useState<{ exame: string; date: string }[]>([]);
@@ -131,88 +133,75 @@ export default function ProximosExames() {
     };
 
     return (
-        <View style={styles.container}>
-            <StatusBar hidden={true} />
-
-            <Text style={styles.title}>Próximos Exames</Text>
-
-            <FlatList
-                data={proximosExames}
-                keyExtractor={(item, index) => index.toString()}
-                renderItem={({ item, index }) => (
-                    <View style={styles.itemContainer}>
-                        <View style={styles.itemTextContainer}>
-                            <Text style={styles.itemTitle}>{item.exame}</Text>
-                            <Text style={styles.itemDate}>{formatDate(item.date)}</Text>
-                        </View>
-                        <TouchableOpacity
-                            style={styles.deleteButton}
-                            onPress={() => confirmarExclusao(index)}
-                        >
-                            <MaterialIcons name="delete" size={24} color="#FFFFFF" />
-                        </TouchableOpacity>
-                    </View>
-                )}
-                ListEmptyComponent={<Text style={styles.emptyText}>Nenhum próximo exame agendado.</Text>}
-            />
-        </View>
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+            <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <InternalHeader sectionLabel="AGENDA" title="Próximos Exames" />
+                <View style={{ padding: Spacing.lg, gap: Spacing.sm }}>
+                    <FlatList
+                        data={proximosExames}
+                        keyExtractor={(item, index) => index.toString()}
+                        scrollEnabled={false}
+                        renderItem={({ item, index }) => (
+                            <View style={styles.itemContainer}>
+                                <View style={styles.itemTextContainer}>
+                                    <Text style={styles.itemTitle}>{item.exame}</Text>
+                                    <Text style={styles.itemDate}>{formatDate(item.date)}</Text>
+                                </View>
+                                <TouchableOpacity
+                                    style={styles.deleteButton}
+                                    onPress={() => confirmarExclusao(index)}
+                                >
+                                    <MaterialIcons name="delete" size={24} color={Colors.white} />
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                        ListEmptyComponent={
+                            <Text style={styles.emptyText}>Nenhum próximo exame agendado.</Text>
+                        }
+                    />
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#232d97',
-        padding: 20,
-    },
-    title: {
-        fontSize: 24,
-        color: '#FFFFFF',
-        textAlign: 'center',
-        fontFamily: 'Quicksand-Bold',
-        marginBottom: 20,
-    },
     itemContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        backgroundColor: '#3949AB',
-        padding: 15,
-        borderRadius: 10,
-        marginBottom: 10,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.8,
-        shadowRadius: 5,
-        elevation: 5,
+        backgroundColor: Colors.surface,
+        padding: Spacing.md,
+        borderRadius: Radius.md,
+        marginBottom: Spacing.sm,
+        borderWidth: 1,
+        borderColor: Colors.border,
     },
     itemTextContainer: {
         flex: 1,
     },
     itemTitle: {
-        color: '#FFFFFF',
-        fontSize: 18,
-        fontFamily: 'Quicksand-Bold',
-        marginBottom: 5,
+        ...Typography.subheading,
+        color: Colors.textPrimary,
+        marginBottom: Spacing.xs,
     },
     itemDate: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        fontFamily: 'Quicksand-Medium',
+        ...Typography.body,
+        color: Colors.textSecondary,
     },
     deleteButton: {
-        backgroundColor: '#FF5252',
-        padding: 10,
-        borderRadius: 50,
+        backgroundColor: '#dc2626',
+        padding: Spacing.sm,
+        borderRadius: Radius.pill,
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 10,
+        marginLeft: Spacing.sm,
     },
     emptyText: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        fontFamily: 'Quicksand-Medium',
+        ...Typography.body,
+        color: Colors.textSecondary,
         textAlign: 'center',
-        marginVertical: 10,
+        marginVertical: Spacing.sm,
     },
 });

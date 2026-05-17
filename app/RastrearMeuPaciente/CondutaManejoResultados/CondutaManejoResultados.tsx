@@ -1,8 +1,10 @@
 import { useLocalSearchParams } from 'expo-router';
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, FlatList, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { db } from '../../../config/firebase-config';
+import { InternalHeader } from '@/components/ui/InternalHeader';
+import { Colors, Spacing, Typography, Radius } from '@/constants/Theme';
 
 const CondutaManejoResultados: React.FC = () => {
   const { sexo, neoplasia } = useLocalSearchParams();
@@ -62,78 +64,65 @@ const CondutaManejoResultados: React.FC = () => {
 
   if (loading) {
     return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color="#FFFFFF" />
-      </View>
+      <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+        <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={Colors.primary} />
+        </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar hidden={true} />
-      <Text style={styles.title}>Conduta e Manejo</Text>
-      <FlatList
-        data={condutas}
-        keyExtractor={(item) => item.combinacao}
-        renderItem={({ item }) => (
-          <View>
-            {item.itens.map((conduta: any, index: number) => (
-              <View key={index} style={styles.item}>
-                <Text style={styles.description}>{conduta.resultado}</Text>
-                <Text style={styles.description}>{conduta.descricao}</Text>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+      <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <InternalHeader sectionLabel="RESULTADOS" title="Conduta e Manejo" />
+        <View style={{ padding: Spacing.lg, gap: Spacing.sm }}>
+          <FlatList
+            data={condutas}
+            keyExtractor={(item) => item.combinacao}
+            scrollEnabled={false}
+            renderItem={({ item }) => (
+              <View>
+                {item.itens.map((conduta: any, index: number) => (
+                  <View key={index} style={styles.item}>
+                    <Text style={styles.resultado}>{conduta.resultado}</Text>
+                    <Text style={styles.description}>{conduta.descricao}</Text>
+                  </View>
+                ))}
               </View>
-            ))}
-          </View>
-        )}
-      />
-    </View>
+            )}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#232d97',
-    paddingHorizontal: 20,
-  },
-  title: {
-    fontSize: 24,
-    color: '#FFFFFF',
-    marginBottom: 20,
-    fontFamily: 'Quicksand-Bold',
-    backgroundColor: '#ff5721',
-    borderRadius: 50,
-    paddingHorizontal: 20,
-    textAlign: 'center',
-    lineHeight: 50,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 1,
-    shadowRadius: 30,
-    elevation: 10,
-    marginTop: 30,
   },
   item: {
-    backgroundColor: '#3949AB',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    marginVertical: 10,
-    width: '100%',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 10 },
-    shadowOpacity: 1,
-    shadowRadius: 30,
-    elevation: 10,
+    backgroundColor: Colors.surface,
+    paddingVertical: Spacing.md,
+    paddingHorizontal: Spacing.lg,
+    borderRadius: Radius.md,
+    marginBottom: Spacing.sm,
+    borderWidth: 1,
+    borderColor: Colors.border,
+  },
+  resultado: {
+    ...Typography.subheading,
+    color: Colors.textPrimary,
+    marginBottom: Spacing.xs,
   },
   description: {
-    fontSize: 16,
-    color: '#FFFFFF',
-    fontFamily: 'Quicksand-Medium',
-    textAlign: 'center',
+    ...Typography.body,
+    color: Colors.textSecondary,
   },
 });
 

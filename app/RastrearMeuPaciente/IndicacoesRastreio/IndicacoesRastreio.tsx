@@ -1,8 +1,10 @@
 import { useLocalSearchParams } from 'expo-router';
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { db } from '../../../config/firebase-config';
+import { InternalHeader } from '@/components/ui/InternalHeader';
+import { Colors, Spacing, Typography, Radius } from '@/constants/Theme';
 
 const IndicacoesRastreio: React.FC = () => {
     const { sexo, neoplasia } = useLocalSearchParams();
@@ -60,56 +62,49 @@ const IndicacoesRastreio: React.FC = () => {
 
     if (loading) {
         return (
-            <View style={styles.container}>
-                <ActivityIndicator size="large" color="#FFFFFF" />
-            </View>
+            <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+                <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color={Colors.primary} />
+                </View>
+            </SafeAreaView>
         );
     }
 
     return (
-        <View style={styles.container}>
-            <StatusBar hidden={true} />
-            <Text style={styles.title}>Indicações de Rastreio</Text>
-            {texto ? (
-                <Text style={styles.indicacaoText}>{texto}</Text>
-            ) : (
-                <Text style={styles.indicacaoText}>Nenhuma indicação encontrada.</Text>
-            )}
-        </View>
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+            <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <InternalHeader sectionLabel="RASTREAR" title="Indicações de Rastreio" />
+                <View style={{ padding: Spacing.lg, gap: Spacing.sm }}>
+                    <View style={styles.contentCard}>
+                        <Text style={styles.indicacaoText}>
+                            {texto ?? "Nenhuma indicação encontrada."}
+                        </Text>
+                    </View>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
-    container: {
+    loadingContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#232d97',
-        paddingHorizontal: 20,
     },
-    title: {
-        fontSize: 24,
-        color: '#FFFFFF',
-        marginBottom: 20,
-        fontFamily: 'Quicksand-Bold',
-        backgroundColor: '#ff5721',
-        borderRadius: 50,
-        paddingHorizontal: 20,
-        textAlign: 'center',
-        lineHeight: 50,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 1,
-        shadowRadius: 30,
-        elevation: 10,
-        marginTop: 30,
+    contentCard: {
+        backgroundColor: Colors.surface,
+        padding: Spacing.lg,
+        borderRadius: Radius.md,
+        borderWidth: 1,
+        borderColor: Colors.border,
     },
     indicacaoText: {
-        fontSize: 18,
-        color: '#FFFFFF',
-        textAlign: 'center',
-        fontFamily: 'Quicksand-Medium',
-        marginTop: 20,
+        ...Typography.body,
+        color: Colors.textPrimary,
+        textAlign: 'left',
     },
 });
 

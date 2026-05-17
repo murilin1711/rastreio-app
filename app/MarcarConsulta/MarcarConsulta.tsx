@@ -1,7 +1,9 @@
 import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, Linking, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, FlatList, Linking, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { db } from '../../config/firebase-config';
+import { InternalHeader } from '@/components/ui/InternalHeader';
+import { Colors, Spacing, Typography, Radius } from '@/constants/Theme';
 
 const MarcarConsulta: React.FC = () => {
   const [locais, setLocais] = useState<any[]>([]);
@@ -56,84 +58,71 @@ const MarcarConsulta: React.FC = () => {
 
   if (loading) {
     return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color="#FFFFFF" />
-      </View>
+      <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+        <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={Colors.primary} />
+        </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar hidden={true} />
-      <Text style={styles.title}>Locais para Marcar Consulta</Text>
-      <FlatList
-        data={locais}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
-          <View style={styles.item}>
-            <Text style={styles.nome}>{item.nome}</Text>
-            <TouchableOpacity onPress={() => Linking.openURL(item.link)}>
-              <Text style={styles.link}>Acessar</Text>
-            </TouchableOpacity>
-            <Text style={styles.telefone}>Telefone: {item.telefone}</Text>
-          </View>
-        )}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+      <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <InternalHeader sectionLabel="CONSULTA" title="Marcar Consulta" />
+        <View style={{ padding: Spacing.lg, gap: Spacing.sm }}>
+          <FlatList
+            data={locais}
+            keyExtractor={(item, index) => index.toString()}
+            scrollEnabled={false}
+            renderItem={({ item }) => (
+              <View style={styles.item}>
+                <Text style={styles.nome}>{item.nome}</Text>
+                <TouchableOpacity onPress={() => Linking.openURL(item.link)}>
+                  <Text style={styles.link}>Acessar</Text>
+                </TouchableOpacity>
+                <Text style={styles.telefone}>Telefone: {item.telefone}</Text>
+              </View>
+            )}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#232d97',
-    paddingHorizontal: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  title: {
-    fontSize: 24,
-    color: '#FFFFFF',
-    marginBottom: 20,
-    fontFamily: 'Quicksand-Bold',
-    textAlign: 'center',
-    marginTop: 30,
   },
   item: {
-    backgroundColor: '#3949AB',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    marginVertical: 10,
-    width: '100%',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
+    backgroundColor: Colors.surface,
+    paddingVertical: Spacing.md,
+    paddingHorizontal: Spacing.lg,
+    borderRadius: Radius.md,
+    marginBottom: Spacing.sm,
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
   nome: {
-    fontSize: 18,
-    color: '#FFFFFF',
-    fontFamily: 'Quicksand-Bold',
-    marginBottom: 5,
+    ...Typography.subheading,
+    color: Colors.textPrimary,
+    marginBottom: Spacing.xs,
   },
   link: {
-    fontSize: 16,
-    color: '#FFD700',
+    ...Typography.body,
+    color: Colors.primary,
     textDecorationLine: 'underline',
-    marginBottom: 5,
+    marginBottom: Spacing.xs,
   },
   telefone: {
-    fontSize: 16,
-    color: '#FFFFFF',
-    fontFamily: 'Quicksand-Medium',
+    ...Typography.body,
+    color: Colors.textSecondary,
   },
 });
 

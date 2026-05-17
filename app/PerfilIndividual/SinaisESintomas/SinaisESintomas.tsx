@@ -1,8 +1,10 @@
 import { useLocalSearchParams } from 'expo-router';
 import { collection, getDocs } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, View } from 'react-native';
 import { db } from '../../../config/firebase-config';
+import { InternalHeader } from '@/components/ui/InternalHeader';
+import { Colors, Spacing, Typography, Radius } from '@/constants/Theme';
 
 const SinaisESintomas: React.FC = () => {
   const { sexo, neoplasia } = useLocalSearchParams();
@@ -61,100 +63,85 @@ const SinaisESintomas: React.FC = () => {
 
   if (loading) {
     return (
-      <View style={styles.container}>
-        <ActivityIndicator size="large" color="#FFFFFF" />
-      </View>
+      <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+        <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={Colors.primary} />
+        </View>
+      </SafeAreaView>
     );
   }
 
   if (sinaisSintomas.length === 0) {
     return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Nenhum sintoma encontrado para {sexo} - {neoplasia}</Text>
-      </View>
+      <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+        <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+        <InternalHeader sectionLabel="ALERTAS" title="Sinais e Sintomas" />
+        <View style={styles.emptyContainer}>
+          <Text style={styles.emptyText}>Nenhum sintoma encontrado para {sexo} - {neoplasia}</Text>
+        </View>
+      </SafeAreaView>
     );
   }
 
   return (
-    <View style={styles.container}>
-      <StatusBar hidden={true} />
-
-      <Text style={styles.title}>Sinais e Sintomas para {sexo} - {neoplasia}</Text>
-      <FlatList
-        data={sinaisSintomas}
-        keyExtractor={(item, index) => `${item.combinacao}_${index}`}
-        renderItem={({ item }) => (
-          <View style={styles.item}>
-            {item.sintomas.map((sintoma, index) => (
-              <View key={`${item.combinacao}_${index}`} style={styles.sintomaItem}>
-                <Text style={styles.sintomasText}>{sintoma}</Text>
-              </View>
-            ))}
-          </View>
-        )}
-      />
-
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+      <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <InternalHeader sectionLabel="ALERTAS" title="Sinais e Sintomas" />
+        <View style={{ padding: Spacing.lg, gap: Spacing.sm }}>
+          {sinaisSintomas.map((group, groupIndex) => (
+            <View key={`${group.combinacao}_${groupIndex}`} style={styles.item}>
+              {group.sintomas.map((sintoma, index) => (
+                <View key={`${group.combinacao}_${index}`} style={styles.sintomaItem}>
+                  <Text style={styles.sintomasText}>{sintoma}</Text>
+                </View>
+              ))}
+            </View>
+          ))}
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
+  loadingContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#232d97',
-    paddingHorizontal: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
   },
-  title: {
-    fontSize: 24,
-    color: '#FFFFFF',
-    marginBottom: 20,
-    fontFamily: 'Quicksand-Bold',
+  emptyContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: Spacing.lg,
+  },
+  emptyText: {
+    ...Typography.body,
+    color: Colors.textSecondary,
     textAlign: 'center',
-    marginTop: 30,
   },
   item: {
-    backgroundColor: '#3949AB',
-    paddingVertical: 15,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-    marginVertical: 10,
-    width: '100%',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  itemText: {
-    fontSize: 18,
-    color: '#FFFFFF',
-    fontFamily: 'Quicksand-Medium',
-    marginBottom: 5,
+    backgroundColor: Colors.surface,
+    paddingVertical: Spacing.md,
+    paddingHorizontal: Spacing.lg,
+    borderRadius: Radius.md,
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
   sintomasText: {
-    fontSize: 16,
-    color: '#FFFFFF',
-    fontFamily: 'Quicksand-Medium',
+    ...Typography.body,
+    color: Colors.textPrimary,
   },
   sintomaItem: {
-    backgroundColor: '#5C6BC0',
-    padding: 10,
-    borderRadius: 5,
-    marginVertical: 5,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.8,
-    shadowRadius: 2,
-    elevation: 3,
+    backgroundColor: Colors.background,
+    padding: Spacing.sm,
+    borderRadius: Radius.sm,
+    marginVertical: Spacing.xs,
+    borderWidth: 1,
+    borderColor: Colors.border,
   },
-
 });
 
 export default SinaisESintomas;
