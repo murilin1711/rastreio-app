@@ -1,175 +1,43 @@
-import { useFonts } from 'expo-font';
-import { useRouter } from 'expo-router';
-import LottieView from 'lottie-react-native';
 import React, { useEffect } from 'react';
-import { BackHandler, Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, BackHandler } from 'react-native';
+import { useRouter } from 'expo-router';
+import { Button } from '@/components/ui/Button';
+import { CrabLottie } from '@/components/ui/CrabLottie';
+import { Colors, Typography, Spacing } from '@/constants/Theme';
 
 export default function PaginaInicial() {
   const router = useRouter();
-  const [fontsLoaded] = useFonts({
-    'Quicksand-Medium': require('../assets/fonts/Quicksand-Medium.ttf'),
-    'Quicksand-Bold': require('../assets/fonts/Quicksand-Bold.ttf'),
-    'Helvetica': require('../assets/fonts/Helvetica.ttf'),
-    'Helvetica-Bold': require('../assets/fonts/Helvetica-Bold.ttf'),
-    'Helvetica-Light': require('../assets/fonts/Helvetica-Light.ttf'),
-  });
 
   useEffect(() => {
-    const backAction = () => {
-      return true;
-    };
-
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
-
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => true);
     return () => backHandler.remove();
   }, []);
 
   return (
-    <View style={styles.container}>
-      <StatusBar hidden={true} />
-
-      <View style={styles.titleContainer}>
-        <Image
-          source={require('../assets/images/RastreandoNewLogo.png')}
-          style={styles.logoImage}
-          resizeMode="contain"
-        />
+    <SafeAreaView style={styles.safe}>
+      {/* Hero azul */}
+      <View style={styles.hero}>
+        <CrabLottie size={80} opacity={0.85} style={styles.crab} />
+        <Text style={styles.appName}>Rastreando</Text>
+        <Text style={styles.tagline}>Rastreamento oncológico{'\n'}para você e seus pacientes</Text>
       </View>
-      <View style={styles.subcontainer}>
-        <LottieView
-          source={require('../assets/lottie/logo.json')}
-          autoPlay
-          loop={true}
-          speed={0.6}
-          style={styles.lottie}
-        />
-        <Text style={styles.title}>Bem-vindo(a)!</Text>
 
-        <TouchableOpacity style={styles.button} onPress={() => router.push('/Login/TelaLogin')}>
-          <Text style={styles.buttonText}>Ir para Login</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity style={styles.buttonCad} onPress={() => router.push('/Cadastro/TelaCadastro')}>
-          <Text style={styles.buttonText}>Cadastre-se</Text>
-        </TouchableOpacity>
+      {/* Botões */}
+      <View style={styles.actions}>
+        <Button label="Entrar" onPress={() => router.push('/Login/TelaLogin')} style={styles.btn} />
+        <Button label="Criar conta" variant="outline" onPress={() => router.push('/Cadastro/TelaCadastro')} style={styles.btn} />
+        <Button label="Sou profissional de saúde →" variant="ghost" onPress={() => router.push('/Login/TelaLogin')} style={styles.btn} />
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#3949AB',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.25,
-    shadowRadius: 16,
-    elevation: 24,
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.25,
-    shadowRadius: 16,
-    elevation: 24,
-  },
-  subcontainer: {
-  justifyContent: 'center',
-  alignItems: 'center',
-  backgroundColor: 'white', 
-  borderRadius: 10,
-  // Sombra para iOS
-  shadowColor: '#000',
-  shadowOffset: { width: 0, height: 12 },
-  shadowOpacity: 0.25,
-  shadowRadius: 16,
-  // Sombra para Android
-  elevation: 24,
-  borderWidth: 2,
-  borderColor: 'white',
-  paddingBottom: 20
-},
-  title: {
-    fontSize: 18,
-    color: '#3949AB',
-    marginBottom: 30,
-    fontFamily: 'Quicksand-Bold',
-  },
-  button: {
-    backgroundColor: '#ff5721',
-    paddingVertical: 10,
-    paddingHorizontal: 40,
-    borderRadius: 5,
-    marginVertical: 5,
-    width: '80%',
-    alignItems: 'center',
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  buttonCad: {
-    backgroundColor: '#3949AB',
-    paddingVertical: 10,
-    paddingHorizontal: 40,
-    borderRadius: 5,
-    marginVertical: 5,
-    width: '80%',
-    alignItems: 'center',
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontFamily: 'Quicksand-Bold',
-  },
-  lottie: {
-    width: 300,
-    height: 300,
-    marginBottom: -90,
-    marginTop: -60,
-  },
-  logoImage: {
-    width: 410,
-    height: 310,
-    alignSelf: 'center',
-    marginBottom: -80,
-    marginTop: -100,
-  },
-  titleRastreando: {
-  fontSize: 35,
-  color: '#FFFFFF',
-  fontFamily: 'Quicksand-Bold',
-  backgroundColor: '#ff5721',
-  borderRadius: 10,
-  paddingHorizontal: 25,
-  paddingVertical: 5,
-  textAlign: 'center',
-  lineHeight: 70,
-  shadowColor: '#000',
-  shadowOffset: { width: 0, height: 10 },
-  shadowOpacity: 1,
-  shadowRadius: 30,
-  elevation: 10,
-  },
-  subtitle: {
-    fontSize: 25,
-    color: '#f9dd0bff',
-    fontFamily: 'Quicksand-Bold',
-    marginBottom: 10,
-    marginTop: 10,
-  },
+  safe:    { flex: 1, backgroundColor: Colors.background },
+  hero:    { backgroundColor: Colors.primary, alignItems: 'center', paddingTop: Spacing.xxl, paddingBottom: Spacing.xxl + 16, borderBottomLeftRadius: 32, borderBottomRightRadius: 32 },
+  crab:    { marginBottom: Spacing.lg },
+  appName: { ...Typography.display, color: Colors.white, marginBottom: Spacing.sm },
+  tagline: { ...Typography.body, color: 'rgba(255,255,255,0.6)', textAlign: 'center' },
+  actions: { flex: 1, padding: Spacing.xl, gap: Spacing.md, justifyContent: 'center' },
+  btn:     { width: '100%' },
 });
