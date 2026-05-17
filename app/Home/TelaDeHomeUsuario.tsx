@@ -3,11 +3,12 @@ import { useFocusEffect, useRouter } from 'expo-router';
 import { signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, BackHandler, SafeAreaView, ScrollView, StatusBar, TouchableOpacity, View } from 'react-native';
+import { Alert, BackHandler, SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import { auth, db } from '../../config/firebase-config';
 import { ScreenHeader } from '@/components/ui/ScreenHeader';
 import { ListItem } from '@/components/ui/ListItem';
-import { Colors, Spacing } from '@/constants/Theme';
+import { SectionTitle } from '@/components/ui/SectionTitle';
+import { Colors, Spacing, Typography } from '@/constants/Theme';
 
 export default function TelaDeHomeUsuario() {
   const router = useRouter();
@@ -91,19 +92,24 @@ export default function TelaDeHomeUsuario() {
 
       <ScrollView
         style={{ flex: 1, backgroundColor: Colors.background }}
-        contentContainerStyle={{ paddingTop: 44, paddingHorizontal: Spacing.lg, paddingBottom: Spacing.xxl, gap: Spacing.sm }}
+        contentContainerStyle={{ paddingTop: 52, paddingHorizontal: Spacing.lg, paddingBottom: Spacing.xxl }}
         showsVerticalScrollIndicator={false}
       >
-        <ListItem icon="person-outline" title="Perfil Individual" subtitle={userSexo === 'mulher' ? 'Feminino' : userSexo === 'homem' ? 'Masculino' : 'Ver perfil'} onPress={handlePerfilIndividualPress} />
-        <ListItem icon="calendar-outline" title="Próximos Exames" subtitle="Ver agenda" onPress={() => router.push('/ProximosExames/ProximosExames')} />
-        <ListItem icon="medical-outline" title="Marcar Consulta" subtitle="Agendar atendimento" onPress={handleMarcarConsultaPress} />
+        <SectionTitle label="SEUS RASTREIOS" />
+
+        <View style={{ gap: Spacing.md, marginBottom: Spacing.xxl }}>
+          <ListItem icon="person-outline" title="Perfil Individual" subtitle={userSexo === 'mulher' ? 'Feminino' : userSexo === 'homem' ? 'Masculino' : 'Ver perfil'} onPress={handlePerfilIndividualPress} />
+          <ListItem icon="calendar-outline" title="Próximos Exames" subtitle="Ver agenda" onPress={() => router.push('/ProximosExames/ProximosExames')} />
+          <ListItem icon="medical-outline" title="Marcar Consulta" subtitle="Agendar atendimento" onPress={handleMarcarConsultaPress} />
+        </View>
 
         {/* Logout */}
         <TouchableOpacity
           onPress={handleLogout}
-          style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: Spacing.xl, padding: Spacing.md }}
+          style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: Spacing.sm, padding: Spacing.md, borderTopWidth: 1, borderTopColor: Colors.border }}
         >
-          <Ionicons name="exit-outline" size={18} color={Colors.danger} />
+          <Ionicons name="exit-outline" size={16} color={Colors.danger} />
+          <Text style={{ ...Typography.label, color: Colors.danger }}>Sair da conta</Text>
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

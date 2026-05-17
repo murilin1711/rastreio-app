@@ -160,7 +160,7 @@ export default function PerfilIndividualMulher() {
                 <InternalHeader
                     sectionLabel="SEU PERFIL"
                     title="Perfil Individual"
-                    onBack={() => router.push('/PerfilIndividual/PerfilIndividual')}
+                    onBack={() => router.back()}
                 />
 
                 <View style={styles.body}>
