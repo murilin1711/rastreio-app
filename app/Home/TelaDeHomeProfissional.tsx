@@ -1,17 +1,18 @@
-import { Ionicons } from '@expo/vector-icons'; 
+import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, BackHandler, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, BackHandler, SafeAreaView, ScrollView, StatusBar, TouchableOpacity, View } from 'react-native';
 import { auth, db } from '../../config/firebase-config';
+import { ScreenHeader } from '@/components/ui/ScreenHeader';
+import { ListItem } from '@/components/ui/ListItem';
+import { Colors, Spacing } from '@/constants/Theme';
 
 
 export default function TelaDeHomeProfissional() {
   const router = useRouter();
   const [userName, setUserName] = useState('');
-
 
   useFocusEffect(
     useCallback(() => {
@@ -55,92 +56,57 @@ export default function TelaDeHomeProfissional() {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar hidden={true} />
-      {userName ? <Text style={styles.welcomeText}>Bem vindo(a), {userName}</Text> : null}
-      <LottieView
-        source={require('../../assets/lottie/laco.json')}
-        autoPlay
-        loop={false}
-        speed={0.8}
-        style={styles.lottie}
-      />
-      <TouchableOpacity style={styles.button} onPress={() => router.push('/RastrearMeuPaciente/RastrearMeuPaciente')}>
-        <Text style={styles.buttonText}>Rastrear Meu Paciente</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => router.push('/Home/TelaDeHomeProfissionalPessoal')}>
-        <Text style={styles.buttonText}>Meu Perfil</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Ionicons name="exit-outline" size={24} color="#FFFFFF" />
-        <Text style={styles.logoutButtonText}>Sair</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+      <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
+
+      <View style={{ zIndex: 1 }}>
+        <ScreenHeader
+          greeting={`Olá, Dr. ${userName || 'Doutor'}.`}
+          progressValue={75}
+          nextExamName="Consulta"
+          nextExamDate="Próxima semana"
+          onNextExamPress={() => router.push('/RastrearMeuPaciente/RastrearMeuPaciente')}
+        />
+      </View>
+
+      <ScrollView
+        style={{ flex: 1, backgroundColor: Colors.background }}
+        contentContainerStyle={{ paddingTop: 44, paddingHorizontal: Spacing.lg, paddingBottom: Spacing.xxl, gap: Spacing.sm }}
+        showsVerticalScrollIndicator={false}
+      >
+        <ListItem
+          icon="person-outline"
+          title="Meu Perfil"
+          subtitle="Ver meu perfil"
+          onPress={() => router.push('/Home/TelaDeHomeProfissionalPessoal')}
+        />
+        <ListItem
+          icon="people-outline"
+          title="Rastrear Paciente"
+          subtitle="Avaliar risco do paciente"
+          onPress={() => router.push('/RastrearMeuPaciente/RastrearMeuPaciente')}
+        />
+        <ListItem
+          icon="document-text-outline"
+          title="Indicações de Rastreio"
+          subtitle="Ver diretrizes"
+          onPress={() => router.push('/RastrearMeuPaciente/IndicacoesRastreio/IndicacoesRastreio')}
+        />
+        <ListItem
+          icon="clipboard-outline"
+          title="Conduta e Manejo"
+          subtitle="Ver recomendações"
+          onPress={() => router.push('/RastrearMeuPaciente/CondutaManejoResultados/CondutaManejoResultados')}
+        />
+
+        {/* Logout */}
+        <TouchableOpacity
+          onPress={handleLogout}
+          style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: Spacing.xl, padding: Spacing.md }}
+        >
+          <Ionicons name="exit-outline" size={18} color={Colors.danger} />
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#232d97',
-  },
-  logo: {
-    width: 150,
-    height: 150,
-    marginBottom: 30,
-  },
-  button: {
-    backgroundColor: '#3949AB',
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 25,
-    marginVertical: 10,
-    width: '80%',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontFamily: 'Quicksand-Bold',
-  },
-  logoutButton: {
-    flexDirection: 'row',
-    backgroundColor: '#D32F2F',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 25,
-    marginTop: 20,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  logoutButtonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    marginLeft: 10,
-    fontFamily: 'Quicksand-Bold',
-  },
-  lottie: {
-    width: 400,
-    height: 400,
-    marginBottom: -80,
-    marginTop: -100,
-  },
-  welcomeText: {
-    color: '#FFFFFF',
-    fontSize: 38,
-    fontFamily: 'Quicksand-Bold',
-    marginVertical: 20,
-    textAlign: 'center',
-  },
-});

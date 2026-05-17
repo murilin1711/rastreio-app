@@ -1,19 +1,16 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useFonts } from 'expo-font';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, BackHandler, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, BackHandler, SafeAreaView, ScrollView, StatusBar, TouchableOpacity, View } from 'react-native';
 import { auth, db } from '../../config/firebase-config';
+import { ScreenHeader } from '@/components/ui/ScreenHeader';
+import { ListItem } from '@/components/ui/ListItem';
+import { Colors, Spacing } from '@/constants/Theme';
 
-export default function TelaDeHomeUsuario() {
+export default function TelaDeHomeProfissionalPessoal() {
   const router = useRouter();
-  const [fontsLoaded] = useFonts({
-    'Quicksand-Medium': require('../../assets/fonts/Quicksand-Medium.ttf'),
-    'Quicksand-Bold': require('../../assets/fonts/Quicksand-Bold.ttf'),
-  });
   const [userName, setUserName] = useState('');
 
   useFocusEffect(
@@ -80,124 +77,46 @@ export default function TelaDeHomeUsuario() {
       });
   };
 
-  const handleBack = () => {
-    router.back();
-  };
-
   return (
-    <View style={styles.container}>
-      <StatusBar hidden={true} />
-      {userName ? <Text style={styles.welcomeText}>Bem vindo(a), {userName}</Text> : null}
-      <LottieView
-        source={require('../../assets/lottie/logo.json')}
-        autoPlay
-        loop={true}
-        speed={0.7}
-        style={styles.lottie}
-      />
-      <TouchableOpacity style={styles.button} onPress={handlePerfilIndividualPress}>
-        <Text style={styles.buttonText}>Perfil Individual</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => router.push('/ProximosExames/ProximosExames')}>
-        <Text style={styles.buttonText}>Seus próximos exames</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => router.push('/MarcarConsulta/MarcarConsulta')}>
-        <Text style={styles.buttonText}>Marque uma consulta</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.backButton} onPress={handleBack}>
-        <Ionicons name="exit-outline" size={24} color="#FFFFFF" />
-        <Text style={styles.backButtonText}>Voltar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Ionicons name="exit-outline" size={24} color="#FFFFFF" />
-        <Text style={styles.logoutButtonText}>Sair</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+      <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
+
+      <View style={{ zIndex: 1 }}>
+        <ScreenHeader
+          greeting={`Olá, Dr. ${userName || 'Doutor'}.`}
+          progressValue={75}
+          nextExamName="Consulta"
+          nextExamDate="Próxima semana"
+          onNextExamPress={() => router.push('/RastrearMeuPaciente/RastrearMeuPaciente')}
+        />
+      </View>
+
+      <ScrollView
+        style={{ flex: 1, backgroundColor: Colors.background }}
+        contentContainerStyle={{ paddingTop: 44, paddingHorizontal: Spacing.lg, paddingBottom: Spacing.xxl, gap: Spacing.sm }}
+        showsVerticalScrollIndicator={false}
+      >
+        <ListItem
+          icon="person-outline"
+          title="Perfil Individual"
+          subtitle="Ver meu perfil de saúde"
+          onPress={handlePerfilIndividualPress}
+        />
+        <ListItem
+          icon="arrow-back-outline"
+          title="Voltar"
+          subtitle="Retornar à tela anterior"
+          onPress={() => router.back()}
+        />
+
+        {/* Logout */}
+        <TouchableOpacity
+          onPress={handleLogout}
+          style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: Spacing.xl, padding: Spacing.md }}
+        >
+          <Ionicons name="exit-outline" size={18} color={Colors.danger} />
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#232d97',
-  },
-  logo: {
-    width: 150,
-    height: 150,
-    marginBottom: 30,
-  },
-  lottie: {
-    width: 300,
-    height: 300,
-    marginBottom: -80,
-    marginTop: -100,
-  },
-  welcomeText: {
-    color: '#FFFFFF',
-    fontSize: 38,
-    fontFamily: 'Quicksand-Bold',
-    marginVertical: 20,
-    textAlign: 'center',
-  },
-  button: {
-    backgroundColor: '#3949AB',
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 25,
-    marginVertical: 10,
-    width: '80%',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontFamily: 'Quicksand-Bold',
-  },
-  logoutButton: {
-    flexDirection: 'row',
-    backgroundColor: '#D32F2F',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 25,
-    marginTop: 20,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  logoutButtonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginLeft: 10,
-  },
-  backButton: {
-    flexDirection: 'row',
-    backgroundColor: '#3949AB',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 25,
-    marginTop: 20,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  backButtonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginLeft: 10,
-  },
-});
