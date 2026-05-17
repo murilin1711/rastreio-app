@@ -1,9 +1,14 @@
 import * as ImagePicker from 'expo-image-picker';
 import { doc, getDoc, updateDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { Alert, FlatList, Image, Modal, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Image, Modal, SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import DateTimePickerModal from 'react-native-modal-datetime-picker';
 import { auth, db } from '../../../../config/firebase-config';
+import { Button } from '@/components/ui/Button';
+import { Card } from '@/components/ui/Card';
+import { InternalHeader } from '@/components/ui/InternalHeader';
+import { StatusBadge } from '@/components/ui/StatusBadge';
+import { Colors, Typography, Spacing, Radius } from '@/constants/Theme';
 
 export default function SeusExamesDeRastreioPulmaoFeminino() {
     const [proximoExame, setProximoExame] = useState<string | null>(null);
@@ -135,67 +140,77 @@ export default function SeusExamesDeRastreioPulmaoFeminino() {
     };
 
     return (
-        <View style={styles.container}>
-            <StatusBar hidden={true} />
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+            <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <InternalHeader sectionLabel="SEUS EXAMES" title="Pulmão" />
 
-            <View style={styles.header}>
-                <Text style={styles.title}>Seus Exames de Rastreio - Pulmão</Text>
-            </View>
+                <View style={{ padding: Spacing.lg, gap: Spacing.sm }}>
+                    {/* Próximo Exame */}
+                    <Card style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <View style={{ flex: 1, marginRight: Spacing.sm }}>
+                            <Text style={{ ...Typography.subheading, color: Colors.textPrimary }}>Tomografia Computadorizada</Text>
+                            <Text style={{ ...Typography.caption, color: Colors.textSecondary }}>
+                                {proximoExame
+                                    ? `Próximo: ${formatDate(proximoExame)}`
+                                    : 'Nenhuma data marcada'}
+                            </Text>
+                        </View>
+                        <StatusBadge status="pending" />
+                    </Card>
 
-            <TouchableOpacity style={styles.button} onPress={openModal}>
-                <Text style={styles.buttonText}>Registrar Exame</Text>
-            </TouchableOpacity>
+                    {/* Botão Registrar */}
+                    <Button label="Registrar Exame" onPress={openModal} pill style={{ marginTop: Spacing.sm }} />
 
-            <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Exames Prévios</Text>
-                <FlatList
-                    data={examesAnteriores}
-                    keyExtractor={(item, index) => index.toString()}
-                    renderItem={({ item }) => (
-                        <TouchableOpacity
-                            style={styles.listItem}
-                            onPress={() => item.photo && openImageModal(item.photo)}
-                        >
-                            <View style={styles.row}>
-                                <Text style={styles.listText}>
-                                    {`${item.exame} - ${formatDate(item.date)}`}
-                                </Text>
-                                {item.photo && (
-                                    <Image source={{ uri: item.photo }} style={styles.image} />
-                                )}
-                            </View>
-                        </TouchableOpacity>
+                    {/* Exames Prévios */}
+                    <Text style={{ ...Typography.heading, color: Colors.textPrimary, marginTop: Spacing.md }}>
+                        Exames Prévios
+                    </Text>
+
+                    {examesAnteriores.length === 0 ? (
+                        <Text style={{ ...Typography.body, color: Colors.textSecondary, textAlign: 'center', marginVertical: Spacing.sm }}>
+                            Nenhum exame registrado.
+                        </Text>
+                    ) : (
+                        examesAnteriores.map((item, index) => (
+                            <TouchableOpacity
+                                key={index}
+                                onPress={() => item.photo && openImageModal(item.photo)}
+                                activeOpacity={0.7}
+                            >
+                                <Card style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                    <Text style={{ ...Typography.body, color: Colors.textPrimary, flex: 1 }}>
+                                        {`${item.exame} - ${formatDate(item.date)}`}
+                                    </Text>
+                                    {item.photo && (
+                                        <Image source={{ uri: item.photo }} style={{ width: 50, height: 50, borderRadius: Radius.sm }} />
+                                    )}
+                                </Card>
+                            </TouchableOpacity>
+                        ))
                     )}
-                    ListEmptyComponent={<Text style={styles.emptyText}>Nenhum exame registrado.</Text>}
-                />
-            </View>
+                </View>
+            </ScrollView>
 
-            <View style={styles.sectionContainer}>
-                <Text style={styles.sectionTitle}>Próximos Exames</Text>
-                <Text style={styles.nextExamText}>
-                    {proximoExame
-                        ? `Tomografia Computadorizada - ${formatDate(proximoExame)}`
-                        : 'Nenhuma data marcada'}
-                </Text>
-            </View>
-
+            {/* Modal Selecionar Exame */}
             <Modal visible={isModalVisible} animationType="slide" transparent={true}>
-                <View style={styles.modalContainer}>
-                    <View style={styles.modalContent}>
-                        <Text style={styles.modalTitle}>Selecione o Exame</Text>
-                        <TouchableOpacity
-                            style={styles.modalButton}
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                    <View style={{ backgroundColor: Colors.background, padding: Spacing.xl, borderRadius: Radius.lg, alignItems: 'center', width: '80%' }}>
+                        <Text style={{ ...Typography.heading, color: Colors.textPrimary, marginBottom: Spacing.lg }}>Selecione o Exame</Text>
+                        <Button
+                            label="Tomografia Computadorizada"
                             onPress={() => {
                                 setExameSelecionado('Tomografia Computadorizada');
                                 showDatePicker();
                                 closeModal();
                             }}
-                        >
-                            <Text style={styles.modalButtonText}>Tomografia Computadorizada</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.modalCancelButton} onPress={closeModal}>
-                            <Text style={styles.modalCancelButtonText}>Cancelar</Text>
-                        </TouchableOpacity>
+                            style={{ width: '100%', marginBottom: Spacing.sm }}
+                        />
+                        <Button
+                            label="Cancelar"
+                            variant="ghost"
+                            onPress={closeModal}
+                        />
                     </View>
                 </View>
             </Modal>
@@ -207,141 +222,14 @@ export default function SeusExamesDeRastreioPulmaoFeminino() {
                 onCancel={hideDatePicker}
             />
 
+            {/* Modal Imagem */}
             <Modal visible={isImageModalVisible} transparent={true} onRequestClose={closeImageModal}>
-                <View style={styles.imageModalContainer}>
+                <View style={{ flex: 1, backgroundColor: 'rgba(0,0,0,0.9)', justifyContent: 'center', alignItems: 'center' }}>
                     {selectedImageUri && (
-                        <Image source={{ uri: selectedImageUri }} style={styles.fullImage} />
+                        <Image source={{ uri: selectedImageUri }} style={{ width: '90%', height: '80%', resizeMode: 'contain' }} />
                     )}
                 </View>
             </Modal>
-        </View>
+        </SafeAreaView>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#232d97',
-        padding: 20,
-    },
-    header: {
-        backgroundColor: '#232d97',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        alignItems: 'center',
-    },
-    title: {
-        fontSize: 24,
-        color: '#FFFFFF',
-        textAlign: 'center',
-        fontFamily: 'Quicksand-Bold',
-    },
-    button: {
-        backgroundColor: '#ff5721',
-        paddingVertical: 15,
-        borderRadius: 25,
-        alignItems: 'center',
-        marginVertical: 20,
-    },
-    buttonText: {
-        color: '#FFFFFF',
-        fontSize: 18,
-        fontFamily: 'Quicksand-Bold',
-    },
-    sectionContainer: {
-        marginBottom: 20,
-    },
-    sectionTitle: {
-        fontSize: 20,
-        color: '#FFFFFF',
-        fontFamily: 'Quicksand-Bold',
-        marginBottom: 10,
-    },
-    listItem: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-        marginBottom: 10,
-        backgroundColor: '#ffffff10',
-        borderRadius: 8,
-    },
-    listText: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        flex: 1,
-    },
-    image: {
-        width: 50,
-        height: 50,
-        borderRadius: 5,
-    },
-    nextExamText: {
-        color: '#FFFFFF',
-        fontSize: 18,
-        textAlign: 'center',
-        marginVertical: 10,
-    },
-    emptyText: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        textAlign: 'center',
-        marginVertical: 10,
-    },
-    modalContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    },
-    modalContent: {
-        backgroundColor: '#FFFFFF',
-        padding: 20,
-        borderRadius: 10,
-        alignItems: 'center',
-        width: '80%',
-    },
-    modalTitle: {
-        fontSize: 20,
-        fontFamily: 'Quicksand-Bold',
-        marginBottom: 20,
-    },
-    modalButton: {
-        backgroundColor: '#3949AB',
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 20,
-        marginBottom: 10,
-        alignItems: 'center',
-    },
-    modalButtonText: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        fontFamily: 'Quicksand-Bold',
-    },
-    modalCancelButton: {
-        marginTop: 10,
-    },
-    modalCancelButtonText: {
-        color: '#3949AB',
-        fontSize: 16,
-        fontFamily: 'Quicksand-Bold',
-    },
-    imageModalContainer: {
-        flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.9)',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    fullImage: {
-        width: '90%',
-        height: '80%',
-        resizeMode: 'contain',
-    },
-    row: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        flex: 1,
-    },
-});
