@@ -2,9 +2,10 @@ import { useRouter } from 'expo-router';
 import { getAuth } from 'firebase/auth';
 import { doc, getDoc, getFirestore, updateDoc } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { Alert, Modal, SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, SafeAreaView, ScrollView, StatusBar, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Button } from '@/components/ui/Button';
+import { ResultModal } from '@/components/ui/ResultModal';
 import { Colors, Typography, Spacing, Radius } from '@/constants/Theme';
 
 const fatoresDeRisco = [
@@ -172,23 +173,7 @@ const CalculeSeuRiscoColorretalHomem = () => {
         <Button label="Calcular Risco" onPress={calcularRisco} />
       </View>
 
-      {/* Result modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
-          <View style={{ width: '85%', backgroundColor: Colors.white, padding: Spacing.xl, borderRadius: Radius.lg, alignItems: 'center' }}>
-            <Text style={{ ...Typography.label, color: Colors.textMuted, marginBottom: Spacing.sm }}>SEU RESULTADO</Text>
-            <Text style={{ ...Typography.body, color: Colors.textPrimary, textAlign: 'center', marginBottom: Spacing.xl }}>
-              {resultado}
-            </Text>
-            <Button label="Ok" onPress={handleOk} />
-          </View>
-        </View>
-      </Modal>
+      <ResultModal visible={modalVisible} resultado={resultado} onClose={handleOk} />
     </SafeAreaView>
   );
 };
