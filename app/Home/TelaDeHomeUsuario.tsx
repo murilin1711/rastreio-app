@@ -1,19 +1,16 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useFonts } from 'expo-font';
 import { useFocusEffect, useRouter } from 'expo-router';
 import { signOut } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import LottieView from 'lottie-react-native';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Alert, BackHandler, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, BackHandler, SafeAreaView, ScrollView, StatusBar, TouchableOpacity, View } from 'react-native';
 import { auth, db } from '../../config/firebase-config';
+import { ScreenHeader } from '@/components/ui/ScreenHeader';
+import { ListItem } from '@/components/ui/ListItem';
+import { Colors, Spacing } from '@/constants/Theme';
 
 export default function TelaDeHomeUsuario() {
   const router = useRouter();
-  const [fontsLoaded] = useFonts({
-    'Quicksand-Medium': require('../../assets/fonts/Quicksand-Medium.ttf'),
-    'Quicksand-Bold': require('../../assets/fonts/Quicksand-Bold.ttf'),
-  });
   const [userName, setUserName] = useState('');
   const [userSexo, setUserSexo] = useState<string | null>(null);
 
@@ -63,10 +60,7 @@ export default function TelaDeHomeUsuario() {
 
   const handleMarcarConsultaPress = () => {
     if (userSexo) {
-      router.push({
-        pathname: '/MarcarConsulta/MarcarConsulta',
-        params: { sexo: userSexo },
-      });
+      router.push({ pathname: '/MarcarConsulta/MarcarConsulta', params: { sexo: userSexo } });
     } else {
       Alert.alert('Erro', 'Sexo do usuário não encontrado.');
     }
@@ -82,95 +76,36 @@ export default function TelaDeHomeUsuario() {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar hidden={true} />
-      <LottieView
-        source={require('../../assets/lottie/logo.json')}
-        autoPlay
-        loop={true}
-        speed={0.8}
-        style={styles.lottie}
-      />
-      {userName ? <Text style={styles.welcomeText}>Bem vindo(a), {userName}</Text> : null}
-      <TouchableOpacity style={styles.button} onPress={handlePerfilIndividualPress}>
-        <Text style={styles.buttonText}>Perfil Individual</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={() => router.push('/ProximosExames/ProximosExames')}>
-        <Text style={styles.buttonText}>Seus próximos exames</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.button} onPress={handleMarcarConsultaPress}>
-        <Text style={styles.buttonText}>Marque uma consulta</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
-        <Ionicons name="exit-outline" size={24} color="#FFFFFF" />
-        <Text style={styles.logoutButtonText}>Sair</Text>
-      </TouchableOpacity>
-    </View>
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+      <StatusBar barStyle="light-content" backgroundColor={Colors.primary} />
+
+      <View style={{ zIndex: 1 }}>
+        <ScreenHeader
+          greeting={`Olá, ${userName || 'usuário'}.`}
+          progressValue={65}
+          nextExamName="Mamografia"
+          nextExamDate="Junho 2025"
+          onNextExamPress={() => router.push('/ProximosExames/ProximosExames')}
+        />
+      </View>
+
+      <ScrollView
+        style={{ flex: 1, backgroundColor: Colors.background }}
+        contentContainerStyle={{ paddingTop: 44, paddingHorizontal: Spacing.lg, paddingBottom: Spacing.xxl, gap: Spacing.sm }}
+        showsVerticalScrollIndicator={false}
+      >
+        <ListItem icon="person-outline" title="Perfil Individual" subtitle={userSexo === 'mulher' ? 'Feminino' : userSexo === 'homem' ? 'Masculino' : 'Ver perfil'} onPress={handlePerfilIndividualPress} />
+        <ListItem icon="calendar-outline" title="Próximos Exames" subtitle="Ver agenda" onPress={() => router.push('/ProximosExames/ProximosExames')} />
+        <ListItem icon="medical-outline" title="Marcar Consulta" subtitle="Agendar atendimento" onPress={handleMarcarConsultaPress} />
+
+        {/* Logout */}
+        <TouchableOpacity
+          onPress={handleLogout}
+          style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 8, marginTop: Spacing.xl, padding: Spacing.md }}
+        >
+          <Ionicons name="exit-outline" size={18} color={Colors.danger} />
+        </TouchableOpacity>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#1A237E',
-  },
-  logo: {
-    width: 150,
-    height: 150,
-    marginBottom: 30,
-  },
-  button: {
-    backgroundColor: '#3949AB',
-    paddingVertical: 15,
-    paddingHorizontal: 40,
-    borderRadius: 25,
-    marginVertical: 10,
-    width: '80%',
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontFamily: 'Quicksand-Bold',
-  },
-  logoutButton: {
-    flexDirection: 'row',
-    backgroundColor: '#D32F2F',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 25,
-    marginTop: 20,
-    alignItems: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  logoutButtonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    marginLeft: 10,
-    fontFamily: 'Quicksand-Bold',
-  },
-  lottie: {
-    width: 400,
-    height: 400,
-    marginBottom: -80,
-    marginTop: -100,
-  },
-  welcomeText: {
-    color: '#FFFFFF',
-    fontSize: 38,
-    fontFamily: 'Quicksand-Bold',
-    marginVertical: 20,
-    textAlign: 'center',
-  },
-});
