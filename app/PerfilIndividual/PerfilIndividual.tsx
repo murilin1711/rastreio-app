@@ -1,19 +1,16 @@
 import { FontAwesome5 } from '@expo/vector-icons';
-import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
 import { doc, updateDoc } from "firebase/firestore";
 import LottieView from 'lottie-react-native';
 import React, { useState } from 'react';
-import { Alert, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { auth, db } from '../../config/firebase-config';
+import { InternalHeader } from '@/components/ui/InternalHeader';
+import { Colors, Spacing, Radius, Typography } from '@/constants/Theme';
 
 export default function PerfilIndividual() {
     const [escolha, setEscolha] = useState<string | null>(null);
     const router = useRouter();
-    const [fontsLoaded] = useFonts({
-        'Quicksand-Medium': require('../../assets/fonts/Quicksand-Medium.ttf'),
-        'Quicksand-Bold': require('../../assets/fonts/Quicksand-Bold.ttf'),
-    });
 
     const confirmarEscolha = async () => {
         if (escolha) {
@@ -51,96 +48,95 @@ export default function PerfilIndividual() {
     };
 
     return (
-        <View style={styles.container}>
-            <StatusBar hidden={true} />
-            <Text style={styles.title}>Escolha seu Perfil</Text>
-            <TouchableOpacity
-                style={[styles.optionButton, escolha === 'mulher' && styles.optionButtonSelected]}
-                onPress={() => setEscolha('mulher')}>
-                <FontAwesome5 name="female" size={24} color="white" />
-                <Text style={styles.optionText}>MULHER</Text>
-            </TouchableOpacity>
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+            <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+            <ScrollView showsVerticalScrollIndicator={false}>
+                <InternalHeader sectionLabel="SEU PERFIL" title="Perfil Individual" />
+                <View style={styles.content}>
+                    <TouchableOpacity
+                        style={[styles.optionButton, escolha === 'mulher' && styles.optionButtonSelected]}
+                        onPress={() => setEscolha('mulher')}>
+                        <FontAwesome5 name="female" size={24} color={Colors.white} />
+                        <Text style={styles.optionText}>MULHER</Text>
+                    </TouchableOpacity>
 
-            <LottieView
-                source={require('../../assets/lottie/escolha3.json')}
-                autoPlay
-                loop={true}
-                speed={1.2}
-                style={styles.lottie}
-            />
+                    <LottieView
+                        source={require('../../assets/lottie/escolha3.json')}
+                        autoPlay
+                        loop={true}
+                        speed={1.2}
+                        style={styles.lottie}
+                    />
 
-            <TouchableOpacity
-                style={[styles.optionButton, escolha === 'homem' && styles.optionButtonSelected]}
-                onPress={() => setEscolha('homem')}>
-                <FontAwesome5 name="male" size={24} color="white" />
-                <Text style={styles.optionText}>HOMEM</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.confirmButton} onPress={confirmarEscolha}>
-                <Text style={styles.confirmButtonText}>Confirmar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-                <Text style={styles.backButtonText}>Voltar</Text>
-            </TouchableOpacity>
-        </View>
+                    <TouchableOpacity
+                        style={[styles.optionButton, escolha === 'homem' && styles.optionButtonSelected]}
+                        onPress={() => setEscolha('homem')}>
+                        <FontAwesome5 name="male" size={24} color={Colors.white} />
+                        <Text style={styles.optionText}>HOMEM</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.confirmButton} onPress={confirmarEscolha}>
+                        <Text style={styles.confirmButtonText}>Confirmar</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+                        <Text style={styles.backButtonText}>Voltar</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    content: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#232d97',
-        paddingHorizontal: 20,
-    },
-    title: {
-        fontSize: 24,
-        color: '#FFFFFF',
-        marginBottom: 20,
-        fontFamily: 'Quicksand-Bold',
+        paddingHorizontal: Spacing.xl,
+        paddingTop: Spacing.lg,
+        paddingBottom: Spacing.xxl,
     },
     optionButton: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#3949AB',
+        backgroundColor: Colors.accent,
         paddingVertical: 15,
         paddingHorizontal: 30,
-        borderRadius: 25,
+        borderRadius: Radius.pill,
         marginVertical: 10,
         width: '80%',
         justifyContent: 'center',
-        fontFamily: 'Quicksand-Bold',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 1,
+        shadowOpacity: 0.15,
         shadowRadius: 8,
         elevation: 5,
     },
     optionButtonSelected: {
-        backgroundColor: '#ff5721',
+        backgroundColor: Colors.primary,
     },
     optionText: {
-        color: '#FFFFFF',
+        color: Colors.white,
         fontSize: 18,
         marginLeft: 10,
-        fontFamily: 'Quicksand-Bold',
+        fontFamily: 'Poppins-Bold',
     },
     confirmButton: {
-        backgroundColor: '#3949AB',
+        backgroundColor: Colors.accent,
         paddingVertical: 15,
         paddingHorizontal: 40,
-        borderRadius: 25,
+        borderRadius: Radius.pill,
         marginTop: 40,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 1,
+        shadowOpacity: 0.15,
         shadowRadius: 8,
         elevation: 5,
     },
     confirmButtonText: {
-        color: '#FFFFFF',
+        color: Colors.white,
         fontSize: 18,
-        fontFamily: 'Quicksand-Bold',
+        fontFamily: 'Poppins-Bold',
     },
     lottie: {
         width: 300,
@@ -149,18 +145,18 @@ const styles = StyleSheet.create({
         marginTop: -30,
     },
     backButton: {
-        backgroundColor: '#cccccc',
+        backgroundColor: Colors.surface,
         paddingVertical: 8,
         paddingHorizontal: 24,
-        borderRadius: 18,
+        borderRadius: Radius.pill,
         alignItems: 'center',
         marginTop: 8,
         alignSelf: 'center',
         width: 120,
     },
     backButtonText: {
-        color: '#232d97',
+        color: Colors.primary,
         fontSize: 15,
-        fontFamily: 'Quicksand-Bold',
+        fontFamily: 'Poppins-SemiBold',
     },
 });

@@ -1,24 +1,18 @@
-import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import LottieView from 'lottie-react-native';
 import { useEffect } from 'react';
 import { StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Colors } from '@/constants/Theme';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function SplashScreenApp() {
   const router = useRouter();
-  const [fontsLoaded] = useFonts({
-    'Quicksand-Medium': require('../assets/fonts/Quicksand-Medium.ttf'),
-    'Quicksand-Bold': require('../assets/fonts/Quicksand-Bold.ttf'),
-  });
 
   useEffect(() => {
-    if (fontsLoaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [fontsLoaded]);
+    SplashScreen.hideAsync();
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -27,10 +21,6 @@ export default function SplashScreenApp() {
 
     return () => clearTimeout(timer);
   }, [router]);
-
-  if (!fontsLoaded) {
-    return null;
-  }
 
   return (
     <View style={styles.container}>
@@ -53,7 +43,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#232d97',
+    backgroundColor: Colors.primary,
   },
   lottie: {
     width: 120,
@@ -62,12 +52,12 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 32,
-    color: '#ff5721',
-    fontFamily: 'Quicksand-Bold',
+    color: Colors.white,
+    fontFamily: 'Poppins-ExtraBold',
   },
   subtitle: {
     fontSize: 24,
-    color: 'white',
-    fontFamily: 'Quicksand-Medium',
+    color: Colors.white,
+    fontFamily: 'Poppins-Regular',
   },
 });
