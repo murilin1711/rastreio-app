@@ -1,31 +1,26 @@
-import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
-import LottieView from 'lottie-react-native';
-import React, { useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, BackHandler, Dimensions, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Alert, BackHandler, SafeAreaView, Text, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { auth, db } from '../../config/firebase-config';
+import { Button } from '@/components/ui/Button';
+import { Input } from '@/components/ui/Input';
+import { CrabLottie } from '@/components/ui/CrabLottie';
+import { Colors, Typography, Spacing } from '@/constants/Theme';
 
 export default function TelaLogin() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const lottieRef = useRef<LottieView>(null);
-  const [fontsLoaded] = useFonts({
-    'Quicksand-Medium': require('../../assets/fonts/Quicksand-Medium.ttf'),
-    'Quicksand-Bold': require('../../assets/fonts/Quicksand-Bold.ttf'),
-  });
 
   useEffect(() => {
-    const backAction = () => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       router.replace('/paginaInicial');
       return true;
-    };
-
-    const backHandler = BackHandler.addEventListener('hardwareBackPress', backAction);
-
+    });
     return () => backHandler.remove();
   }, []);
 
@@ -67,128 +62,38 @@ export default function TelaLogin() {
   };
 
   return (
-    <View style={styles.container}>
-      <StatusBar hidden={true} />
-
-      <View style={styles.lottieContainer}>
-        <LottieView
-          ref={lottieRef}
-          source={require('../../assets/lottie/LOGIN.json')}
-          autoPlay
-          loop={false}
-          speed={0.5}
-          onAnimationFinish={() => { }}
-          style={styles.lottie}
-        />
-
+    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+      {/* Mini hero */}
+      <View style={{ backgroundColor: Colors.primary, alignItems: 'center', paddingTop: Spacing.xl, paddingBottom: Spacing.xxl + 8, borderBottomLeftRadius: 28, borderBottomRightRadius: 28 }}>
+        <CrabLottie size={44} opacity={0.75} style={{ marginBottom: Spacing.sm }} />
+        <Text style={{ ...Typography.heading, color: Colors.white }}>Bem-vindo de volta</Text>
       </View>
-      <View style={styles.subcontainer}>
-        <Text style={styles.title}>Login</Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          placeholderTextColor="#AAA"
-          value={email}
-          onChangeText={setEmail}
+
+      {/* Formulário */}
+      <View style={{ flex: 1, padding: Spacing.xl, gap: Spacing.md, justifyContent: 'center' }}>
+        <Input
+          icon={<Ionicons name="mail-outline" size={16} color={Colors.textMuted} />}
+          placeholder="seu@email.com"
           keyboardType="email-address"
           autoCapitalize="none"
+          value={email}
+          onChangeText={setEmail}
         />
-        <TextInput
-          style={styles.input}
+        <Input
+          icon={<Ionicons name="lock-closed-outline" size={16} color={Colors.textMuted} />}
           placeholder="Senha"
-          placeholderTextColor="#AAA"
+          secureTextEntry
           value={senha}
           onChangeText={setSenha}
-          secureTextEntry
         />
-
-        {loading ? (
-          <ActivityIndicator size="large" color="#ff5721" />
-        ) : (
-          <TouchableOpacity style={styles.button} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Entrar</Text>
-          </TouchableOpacity>
-        )}
+        <Button label="Entrar" onPress={handleLogin} loading={loading} style={{ marginTop: Spacing.sm }} />
+        <Text style={{ ...Typography.caption, color: Colors.textMuted, textAlign: 'center' }}>
+          Não tem conta?{' '}
+          <Text style={{ color: Colors.primary, fontFamily: 'Poppins-SemiBold' }} onPress={() => router.push('/Cadastro/TelaCadastro')}>
+            Criar conta
+          </Text>
+        </Text>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
-    backgroundColor: '#232d97',
-  },
-  title: {
-    fontSize: 24,
-    color: '#FFFFFF',
-    marginBottom: 30,
-    fontFamily: 'Quicksand-Bold',
-  },
-  input: {
-    width: 220,
-    height: 50,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 10,
-    paddingHorizontal: 10,
-    fontSize: 18,
-    marginVertical: 10,
-    fontFamily: 'Quicksand-Bold',
-    textAlign: 'left',
-    marginHorizontal: 10,
-  },
-  button: {
-    backgroundColor: '#ff5721',
-    paddingVertical: 10,
-    paddingHorizontal: 40,
-    borderRadius: 25,
-    marginVertical: 30,
-    width: '80%',
-    alignItems: 'center',
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  buttonText: {
-    color: '#FFFFFF',
-    fontSize: 18,
-    fontFamily: 'Quicksand-Bold',
-  },
-  subcontainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#3949AB',
-    borderRadius: 15,
-    padding: 50,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 1,
-    shadowRadius: 8,
-    elevation: 5,
-  },
-  titleAcima: {
-    fontSize: 30,
-    color: '#232d97',
-    fontFamily: 'Quicksand-Bold',
-    paddingHorizontal: 25,
-    paddingVertical: 10,
-    textAlign: 'center',
-    marginBottom: 40,
-  },
-  lottieContainer: {
-    width: '100%',
-    position: 'relative',
-    alignItems: 'center',
-    marginTop: 35,
-    marginBottom: 5,
-  },
-  lottie: {
-    width: Dimensions.get('window').width,
-    height: 200,
-  },
-});
