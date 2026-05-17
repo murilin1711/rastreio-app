@@ -1,19 +1,16 @@
 import { FontAwesome5 } from '@expo/vector-icons';
-import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
 import { doc, updateDoc } from "firebase/firestore";
 import LottieView from 'lottie-react-native';
 import React, { useState } from 'react';
-import { Alert, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { auth, db } from '../../config/firebase-config';
+import { InternalHeader } from '@/components/ui/InternalHeader';
+import { Colors, Spacing, Radius, Shadows } from '@/constants/Theme';
 
 export default function RastrearMeuPaciente() {
     const [escolha, setEscolha] = useState<string | null>(null);
     const router = useRouter();
-    const [fontsLoaded] = useFonts({
-        'Quicksand-Medium': require('../../assets/fonts/Quicksand-Medium.ttf'),
-        'Quicksand-Bold': require('../../assets/fonts/Quicksand-Bold.ttf'),
-    });
 
     const confirmarEscolha = async () => {
         if (escolha) {
@@ -51,93 +48,97 @@ export default function RastrearMeuPaciente() {
     };
 
     return (
-        <View style={styles.container}>
-            <StatusBar hidden={true} />
-            <Text style={styles.title}>Quem você quer rastrear?</Text>
-            <TouchableOpacity
-                style={[styles.optionButton, escolha === 'mulher' && styles.optionButtonSelected]}
-                onPress={() => setEscolha('mulher')}>
-                <FontAwesome5 name="female" size={24} color="white" />
-                <Text style={styles.optionText}>MULHER</Text>
-            </TouchableOpacity>
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+            <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+                <InternalHeader sectionLabel="RASTREAR" title="Meu Paciente" />
 
-            <LottieView
-                source={require('../../assets/lottie/escolha3.json')}
-                autoPlay
-                loop={true}
-                speed={1.2}
-                style={styles.lottie}
-            />
+                <View style={styles.body}>
+                    <Text style={styles.question}>Quem você quer rastrear?</Text>
 
-            <TouchableOpacity
-                style={[styles.optionButton, escolha === 'homem' && styles.optionButtonSelected]}
-                onPress={() => setEscolha('homem')}>
-                <FontAwesome5 name="male" size={24} color="white" />
-                <Text style={styles.optionText}>HOMEM</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.confirmButton} onPress={confirmarEscolha}>
-                <Text style={styles.confirmButtonText}>Confirmar</Text>
-            </TouchableOpacity>
-        </View>
+                    <TouchableOpacity
+                        style={[styles.optionButton, escolha === 'mulher' && styles.optionButtonSelected]}
+                        onPress={() => setEscolha('mulher')}
+                        activeOpacity={0.8}>
+                        <FontAwesome5 name="female" size={24} color={Colors.white} />
+                        <Text style={styles.optionText}>MULHER</Text>
+                    </TouchableOpacity>
+
+                    <LottieView
+                        source={require('../../assets/lottie/escolha3.json')}
+                        autoPlay
+                        loop={true}
+                        speed={1.2}
+                        style={styles.lottie}
+                    />
+
+                    <TouchableOpacity
+                        style={[styles.optionButton, escolha === 'homem' && styles.optionButtonSelected]}
+                        onPress={() => setEscolha('homem')}
+                        activeOpacity={0.8}>
+                        <FontAwesome5 name="male" size={24} color={Colors.white} />
+                        <Text style={styles.optionText}>HOMEM</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.confirmButton} onPress={confirmarEscolha} activeOpacity={0.8}>
+                        <Text style={styles.confirmButtonText}>Confirmar</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#232d97',
-        paddingHorizontal: 20,
+    scrollContent: {
+        flexGrow: 1,
     },
-    title: {
-        fontSize: 24,
-        color: '#FFFFFF',
-        marginBottom: 20,
-        fontFamily: 'Quicksand-Bold',
+    body: {
+        flex: 1,
+        alignItems: 'center',
+        paddingHorizontal: Spacing.xl,
+        paddingTop: Spacing.lg,
+    },
+    question: {
+        fontSize: 20,
+        color: Colors.textPrimary,
+        fontFamily: 'Poppins-SemiBold',
+        marginBottom: Spacing.xl,
+        textAlign: 'center',
     },
     optionButton: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#3949AB',
+        backgroundColor: Colors.primary,
         paddingVertical: 15,
         paddingHorizontal: 30,
-        borderRadius: 25,
-        marginVertical: 10,
+        borderRadius: Radius.pill,
+        marginVertical: Spacing.sm,
         width: '80%',
         justifyContent: 'center',
-        fontFamily: 'Quicksand-Bold',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 1,
-        shadowRadius: 8,
-        elevation: 5,
+        ...(Shadows.card as object),
     },
     optionButtonSelected: {
-        backgroundColor: '#ff5721',
+        backgroundColor: Colors.danger,
     },
     optionText: {
-        color: '#FFFFFF',
+        color: Colors.white,
         fontSize: 18,
-        marginLeft: 10,
-        fontFamily: 'Quicksand-Bold',
+        marginLeft: Spacing.sm,
+        fontFamily: 'Poppins-SemiBold',
     },
     confirmButton: {
-        backgroundColor: '#3949AB',
+        backgroundColor: Colors.primary,
         paddingVertical: 15,
         paddingHorizontal: 40,
-        borderRadius: 25,
-        marginTop: 40,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 1,
-        shadowRadius: 8,
-        elevation: 5,
+        borderRadius: Radius.pill,
+        marginTop: Spacing.xl,
+        ...(Shadows.card as object),
     },
     confirmButtonText: {
-        color: '#FFFFFF',
+        color: Colors.white,
         fontSize: 18,
-        fontFamily: 'Quicksand-Bold',
+        fontFamily: 'Poppins-SemiBold',
     },
     lottie: {
         width: 300,

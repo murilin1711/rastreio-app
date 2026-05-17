@@ -1,10 +1,11 @@
-import { useFonts } from 'expo-font';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, getFirestore } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
-import { StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { auth } from '../../config/firebase-config';
+import { InternalHeader } from '@/components/ui/InternalHeader';
+import { Colors, Spacing, Radius, Shadows } from '@/constants/Theme';
 
 const firestore = getFirestore();
 
@@ -12,11 +13,6 @@ export default function RastrearPacienteNeoplasia() {
     const router = useRouter();
     const { neoplasia } = useLocalSearchParams();
     const [title, setTitle] = useState<string>('');
-
-    const [fontsLoaded] = useFonts({
-        'Quicksand-Medium': require('../../assets/fonts/Quicksand-Medium.ttf'),
-        'Quicksand-Bold': require('../../assets/fonts/Quicksand-Bold.ttf'),
-    });
 
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -31,10 +27,6 @@ export default function RastrearPacienteNeoplasia() {
 
         return () => unsubscribe();
     }, [neoplasia]);
-
-    if (!fontsLoaded) {
-        return null;
-    }
 
     const redirecionarParaSinaisAlarmeFatoresRisco = async () => {
         const user = auth.currentUser;
@@ -118,71 +110,80 @@ export default function RastrearPacienteNeoplasia() {
     };
 
     return (
-        <View style={styles.container}>
-            <StatusBar hidden={true} />
-            <Text style={styles.title}>{title}</Text>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={redirecionarParaSinaisAlarmeFatoresRisco}>
-                <Text style={styles.buttonText}>Sinais de Alarme e Fatores de Risco</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={redirecionarParaIndicacoesRastreio}>
-                <Text style={styles.buttonText}>Indicações de Rastreio</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-                style={styles.button}
-                onPress={redirecionarParaCondutaManejoResultados}>
-                <Text style={styles.buttonText}>Conduta e Manejo Após Resultados</Text>
-            </TouchableOpacity>
-        </View>
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+            <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+                <InternalHeader sectionLabel="RASTREAR" title="Por Neoplasia" />
+
+                <View style={styles.body}>
+                    <View style={styles.neoplasiaTag}>
+                        <Text style={styles.neoplasiaTagText}>{title}</Text>
+                    </View>
+
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={redirecionarParaSinaisAlarmeFatoresRisco}
+                        activeOpacity={0.8}>
+                        <Text style={styles.buttonText}>Sinais de Alarme e Fatores de Risco</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={redirecionarParaIndicacoesRastreio}
+                        activeOpacity={0.8}>
+                        <Text style={styles.buttonText}>Indicações de Rastreio</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity
+                        style={styles.button}
+                        onPress={redirecionarParaCondutaManejoResultados}
+                        activeOpacity={0.8}>
+                        <Text style={styles.buttonText}>Conduta e Manejo Após Resultados</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#232d97',
-        paddingHorizontal: 30,
+    scrollContent: {
+        flexGrow: 1,
     },
-    title: {
-        fontSize: 24,
-        color: '#FFFFFF',
-        marginBottom: 20,
-        fontFamily: 'Quicksand-Bold',
-        backgroundColor: '#ff5721',
-        borderRadius: 50,
-        paddingHorizontal: 20,
+    body: {
+        flex: 1,
+        alignItems: 'center',
+        paddingHorizontal: Spacing.xl,
+        paddingTop: Spacing.lg,
+    },
+    neoplasiaTag: {
+        backgroundColor: Colors.danger,
+        borderRadius: Radius.pill,
+        paddingHorizontal: Spacing.xl,
+        paddingVertical: Spacing.sm,
+        marginBottom: Spacing.xxl,
+        ...(Shadows.floating as object),
+    },
+    neoplasiaTagText: {
+        fontSize: 20,
+        color: Colors.white,
+        fontFamily: 'Poppins-Bold',
         textAlign: 'center',
-        lineHeight: 50,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 1,
-        shadowRadius: 30,
-        elevation: 10,
     },
     button: {
-        backgroundColor: '#3949AB',
+        backgroundColor: Colors.primary,
         paddingVertical: 15,
         paddingHorizontal: 30,
-        borderRadius: 20,
-        marginVertical: 10,
+        borderRadius: Radius.lg,
+        marginVertical: Spacing.sm,
         width: '80%',
         alignItems: 'center',
-        fontFamily: 'Quicksand-Bold',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 1,
-        shadowRadius: 30,
-        elevation: 10,
+        ...(Shadows.card as object),
     },
     buttonText: {
-        color: '#FFFFFF',
-        fontSize: 18,
-        fontFamily: 'Quicksand-Bold',
+        color: Colors.white,
+        fontSize: 16,
+        fontFamily: 'Poppins-SemiBold',
         textAlign: 'center',
     },
 });

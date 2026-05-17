@@ -1,18 +1,15 @@
 import { FontAwesome5 } from '@expo/vector-icons';
-import { useFonts } from 'expo-font';
 import { useRouter } from 'expo-router';
 import { onAuthStateChanged } from 'firebase/auth';
 import LottieView from 'lottie-react-native';
 import React, { useEffect, useRef, useState } from 'react';
-import { Animated, BackHandler, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Animated, BackHandler, SafeAreaView, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { auth } from '../../config/firebase-config';
+import { InternalHeader } from '@/components/ui/InternalHeader';
+import { Colors, Spacing, Radius, Shadows } from '@/constants/Theme';
 
 export default function PerfilIndividualMulher() {
     const router = useRouter();
-    const [fontsLoaded] = useFonts({
-        'Quicksand-Medium': require('../../assets/fonts/Quicksand-Medium.ttf'),
-        'Quicksand-Bold': require('../../assets/fonts/Quicksand-Bold.ttf'),
-    });
 
     const fillAnim1 = useRef(new Animated.Value(0)).current;
     const fillAnim2 = useRef(new Animated.Value(0)).current;
@@ -138,179 +135,157 @@ export default function PerfilIndividualMulher() {
 
     const backgroundColorInterpolation1 = fillAnim1.interpolate({
         inputRange: [0, 1],
-        outputRange: ['#3949AB', '#ff5721'],
+        outputRange: [Colors.primary, Colors.danger],
     });
 
     const backgroundColorInterpolation2 = fillAnim2.interpolate({
         inputRange: [0, 1],
-        outputRange: ['#3949AB', '#ff5721'],
+        outputRange: [Colors.primary, Colors.danger],
     });
 
     const backgroundColorInterpolation3 = fillAnim3.interpolate({
         inputRange: [0, 1],
-        outputRange: ['#3949AB', '#ff5721'],
+        outputRange: [Colors.primary, Colors.danger],
     });
 
     const backgroundColorInterpolation4 = fillAnim4.interpolate({
         inputRange: [0, 1],
-        outputRange: ['#3949AB', '#ff5721'],
+        outputRange: [Colors.primary, Colors.danger],
     });
 
     return (
-        <View style={styles.container}>
-            <StatusBar hidden={true} />
+        <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+            <StatusBar barStyle="dark-content" backgroundColor={Colors.background} />
+            <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scrollContent}>
+                <InternalHeader
+                    sectionLabel="SEU PERFIL"
+                    title="Perfil Individual"
+                    onBack={() => router.push('/PerfilIndividual/PerfilIndividual')}
+                />
 
-            <TouchableOpacity style={styles.changeButton} onPress={() => router.push('/PerfilIndividual/PerfilIndividual')}>
-                <FontAwesome5 name="arrow-left" size={15} color="white" style={styles.iconMudar} />
-                <Text style={styles.changeButtonText}>Trocar</Text>
-            </TouchableOpacity>
+                <View style={styles.body}>
+                    <Text style={styles.subtitle}>Selecione uma neoplasia</Text>
+                    <Text style={styles.hint}>Segure para escolher</Text>
 
-            <Text style={styles.title}>MULHER</Text>
-            <Text style={styles.subtitulo}>Segure para escolher</Text>
+                    <View style={styles.grid}>
+                        <Animated.View style={[styles.squareButton, { backgroundColor: backgroundColorInterpolation1 }]}>
+                            <TouchableOpacity
+                                onPressIn={handlePressIn1}
+                                onPressOut={handlePressOut1}
+                                activeOpacity={1}
+                                style={styles.squareButtonInner}
+                            >
+                                <FontAwesome5 name="venus" size={30} color={Colors.white} />
+                                <Text style={styles.buttonText}>Colo de Útero</Text>
+                            </TouchableOpacity>
+                        </Animated.View>
 
-            <View style={styles.grid}>
-                <Animated.View style={[styles.squareButton, { backgroundColor: backgroundColorInterpolation1 }]}>
-                    <TouchableOpacity
-                        onPressIn={handlePressIn1}
-                        onPressOut={handlePressOut1}
-                        activeOpacity={1}
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-                    >
-                        <FontAwesome5 name="venus" size={30} color="white" />
-                        <Text style={styles.buttonText}>Colo de Útero</Text>
-                    </TouchableOpacity>
-                </Animated.View>
+                        <Animated.View style={[styles.squareButton, { backgroundColor: backgroundColorInterpolation2 }]}>
+                            <TouchableOpacity
+                                onPressIn={handlePressIn2}
+                                onPressOut={handlePressOut2}
+                                activeOpacity={1}
+                                style={styles.squareButtonInner}
+                            >
+                                <FontAwesome5 name="ribbon" size={30} color={Colors.white} />
+                                <Text style={styles.buttonText}>Mama</Text>
+                            </TouchableOpacity>
+                        </Animated.View>
 
-                <Animated.View style={[styles.squareButton, { backgroundColor: backgroundColorInterpolation2 }]}>
-                    <TouchableOpacity
-                        onPressIn={handlePressIn2}
-                        onPressOut={handlePressOut2}
-                        activeOpacity={1}
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-                    >
-                        <FontAwesome5 name="ribbon" size={30} color="white" />
-                        <Text style={styles.buttonText}>Mama</Text>
-                    </TouchableOpacity>
-                </Animated.View>
+                        <Animated.View style={[styles.squareButton, { backgroundColor: backgroundColorInterpolation3 }]}>
+                            <TouchableOpacity
+                                onPressIn={handlePressIn3}
+                                onPressOut={handlePressOut3}
+                                activeOpacity={1}
+                                style={styles.squareButtonInner}
+                            >
+                                <FontAwesome5 name="stethoscope" size={30} color={Colors.white} />
+                                <Text style={styles.buttonText}>Colorretal</Text>
+                            </TouchableOpacity>
+                        </Animated.View>
 
-                <Animated.View style={[styles.squareButton, { backgroundColor: backgroundColorInterpolation3 }]}>
-                    <TouchableOpacity
-                        onPressIn={handlePressIn3}
-                        onPressOut={handlePressOut3}
-                        activeOpacity={1}
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-                    >
-                        <FontAwesome5 name="stethoscope" size={30} color="white" />
-                        <Text style={styles.buttonText}>Colorretal</Text>
-                    </TouchableOpacity>
-                </Animated.View>
+                        <Animated.View style={[styles.squareButton, { backgroundColor: backgroundColorInterpolation4 }]}>
+                            <TouchableOpacity
+                                onPressIn={handlePressIn4}
+                                onPressOut={handlePressOut4}
+                                activeOpacity={1}
+                                style={styles.squareButtonInner}
+                            >
+                                <FontAwesome5 name="lungs" size={30} color={Colors.white} />
+                                <Text style={styles.buttonText}>Pulmão</Text>
+                            </TouchableOpacity>
+                        </Animated.View>
+                    </View>
 
-                <Animated.View style={[styles.squareButton, { backgroundColor: backgroundColorInterpolation4 }]}>
-                    <TouchableOpacity
-                        onPressIn={handlePressIn4}
-                        onPressOut={handlePressOut4}
-                        activeOpacity={1}
-                        style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}
-                    >
-                        <FontAwesome5 name="lungs" size={30} color="white" />
-                        <Text style={styles.buttonText}>Pulmão</Text>
-                    </TouchableOpacity>
-                </Animated.View>
-            </View>
-
-            <LottieView
-                source={require('../../assets/lottie/mulher2.json')}
-                autoPlay
-                loop={true}
-                style={styles.lottie}
-            />
-        </View>
+                    <LottieView
+                        source={require('../../assets/lottie/mulher2.json')}
+                        autoPlay
+                        loop={true}
+                        style={styles.lottie}
+                    />
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
+    scrollContent: {
+        flexGrow: 1,
+    },
+    body: {
         flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#232d97',
-        paddingHorizontal: 30,
+        paddingHorizontal: Spacing.xl,
+        paddingTop: Spacing.lg,
     },
-    changeButton: {
-        position: 'absolute',
-        flexDirection: 'row',
-        top: 20,
-        width: 90,
-        right: 20,
-        padding: 10,
-        backgroundColor: '#3949AB',
-        borderRadius: 20,
-        fontFamily: 'Quicksand-Bold',
-    },
-    changeButtonText: {
-        color: '#FFFFFF',
-        fontSize: 14,
-        justifyContent: 'center',
-        textAlign: 'center',
-        alignItems: 'center',
-        marginTop: -2,
-        fontFamily: 'Quicksand-Bold',
-    },
-    title: {
-        fontSize: 24,
-        color: '#FFFFFF',
-        fontFamily: 'Quicksand-Bold',
-        marginBottom: 20,
-    },
-    subtitulo: {
+    subtitle: {
         fontSize: 18,
-        color: '#FFFFFF',
-        fontFamily: 'Quicksand-Bold',
-        marginBottom: 20,
+        color: Colors.textPrimary,
+        fontFamily: 'Poppins-SemiBold',
+        marginBottom: Spacing.xs,
+    },
+    hint: {
+        fontSize: 14,
+        color: Colors.textSecondary,
+        fontFamily: 'Poppins-Regular',
+        marginBottom: Spacing.xl,
     },
     grid: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
         alignItems: 'center',
-        width: '80%',
-        marginBottom: 160,
-        zIndex: 1,
+        width: '100%',
+        marginBottom: Spacing.xxl,
     },
     squareButton: {
-        width: '45%',
+        width: '47%',
         aspectRatio: 1,
-        backgroundColor: '#3949AB',
-        marginVertical: 10,
+        marginVertical: Spacing.sm,
         justifyContent: 'center',
         alignItems: 'center',
-        borderRadius: 20,
-        fontFamily: 'Quicksand-Bold',
+        borderRadius: Radius.lg,
         padding: 6,
-        borderWidth: 3,
-        borderColor: '#ff5721',
+        borderWidth: 2,
+        borderColor: Colors.border,
+        ...(Shadows.card as object),
+    },
+    squareButtonInner: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     buttonText: {
-        color: '#FFFFFF',
-        fontSize: 18,
-        marginTop: 10,
-        fontFamily: 'Quicksand-Bold',
+        color: Colors.white,
+        fontSize: 16,
+        marginTop: Spacing.sm,
+        fontFamily: 'Poppins-SemiBold',
         textAlign: 'center',
-    },
-    iconMudar: {
-        marginRight: 8,
-        display: 'flex',
-        justifyContent: 'center',
-        textAlign: 'center',
-        alignItems: 'center',
     },
     lottie: {
-        position: 'absolute',
-        bottom: 0,
-        width: 900,
-        height: 276,
-        marginBottom: -20,
-        left: -255,
-        zIndex: 0,
+        width: 300,
+        height: 200,
+        marginBottom: Spacing.lg,
     },
 });
