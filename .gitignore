@@ -18,3 +18,8 @@ web-build/
 
 expo-env.d.ts
 # @end expo-cli
+
+# Claude Code / ferramentas locais
+.claude/
+.superpowers/
+docs/contexto-rastreio/

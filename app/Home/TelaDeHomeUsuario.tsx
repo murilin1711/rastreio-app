@@ -92,7 +92,7 @@ export default function TelaDeHomeUsuario() {
 
       <ScrollView
         style={{ flex: 1, backgroundColor: Colors.background }}
-        contentContainerStyle={{ paddingTop: 52, paddingHorizontal: Spacing.lg, paddingBottom: Spacing.xxl }}
+        contentContainerStyle={{ paddingTop: 68, paddingHorizontal: Spacing.lg, paddingBottom: Spacing.xxl }}
         showsVerticalScrollIndicator={false}
       >
         <SectionTitle label="SEUS RASTREIOS" />

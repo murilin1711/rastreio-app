@@ -6,7 +6,7 @@ interface InputProps extends TextInputProps {
   icon?: React.ReactNode;
 }
 
-export function Input({ icon, style, ...rest }: InputProps) {
+export function Input({ icon, style, onFocus, onBlur, ...rest }: InputProps) {
   const [focused, setFocused] = useState(false);
   return (
     <View style={[styles.container, focused && styles.focused, style as any]}>
@@ -14,8 +14,8 @@ export function Input({ icon, style, ...rest }: InputProps) {
       <TextInput
         style={styles.input}
         placeholderTextColor={Colors.textMuted}
-        onFocus={() => setFocused(true)}
-        onBlur={() => setFocused(false)}
+        onFocus={(e) => { setFocused(true); onFocus?.(e); }}
+        onBlur={(e) => { setFocused(false); onBlur?.(e); }}
         {...rest}
       />
     </View>

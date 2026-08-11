@@ -5,20 +5,35 @@ import { doc, setDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
 import {
   Alert,
+  Dimensions,
   KeyboardAvoidingView,
   Platform,
   SafeAreaView,
   ScrollView,
+  StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+
+const { height } = Dimensions.get('window');
 import { TextInputMask } from 'react-native-masked-text';
 import { Ionicons } from '@expo/vector-icons';
 import { auth, db } from '../../config/firebase-config';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
-import { Colors, Typography, Spacing } from '@/constants/Theme';
+import { Colors, Typography, Spacing, Radius } from '@/constants/Theme';
+
+const cadastroStyles = StyleSheet.create({
+  hero:      { backgroundColor: Colors.primary, borderBottomLeftRadius: 40, borderBottomRightRadius: 40, overflow: 'hidden' },
+  heroInner: { paddingHorizontal: Spacing.lg, paddingBottom: Spacing.xl },
+  backBtn:   { width: 36, height: 36, borderRadius: Radius.sm, backgroundColor: 'rgba(255,255,255,0.12)', alignItems: 'center', justifyContent: 'center', marginTop: Spacing.md, marginBottom: Spacing.xl },
+  label:     { ...Typography.label, color: 'rgba(255,255,255,0.5)', marginBottom: 4 },
+  title:     { ...Typography.display, color: Colors.white, fontSize: 26, marginBottom: Spacing.sm },
+  tabs:      { flexDirection: 'row', gap: Spacing.sm, backgroundColor: 'rgba(255,255,255,0.12)', borderRadius: Radius.md, padding: 4, marginTop: Spacing.sm },
+  tab:       { flex: 1, paddingVertical: 9, borderRadius: Radius.sm, alignItems: 'center' },
+  tabText:   { ...Typography.subheading, fontSize: 13 },
+});
 
 const isValidCPF = (cpf: string) => {
   cpf = cpf.replace(/[^\d]+/g, '');
@@ -105,31 +120,33 @@ export default function TelaCadastro() {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: Colors.background }}>
+    <View style={{ flex: 1, backgroundColor: Colors.background }}>
       <KeyboardAvoidingView style={{ flex: 1 }} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        {/* Header azul com seletor */}
-        <View style={{ backgroundColor: Colors.primary, paddingHorizontal: Spacing.lg, paddingTop: Spacing.lg, paddingBottom: Spacing.xxl + 4, borderBottomLeftRadius: 28, borderBottomRightRadius: 28 }}>
-          <TouchableOpacity onPress={() => router.back()} style={{ marginBottom: Spacing.sm }}>
-            <Ionicons name="chevron-back" size={20} color={Colors.white} />
-          </TouchableOpacity>
-          <Text style={{ ...Typography.label, color: 'rgba(255,255,255,0.5)', marginBottom: 2 }}>CRIAR CONTA</Text>
-          <Text style={{ ...Typography.display, color: Colors.white, fontSize: 20, marginBottom: 4 }}>Crie sua conta</Text>
-          <Text style={{ ...Typography.caption, color: 'rgba(255,255,255,0.55)', marginBottom: Spacing.md }}>Paciente ou profissional de saúde</Text>
-          {/* Seletor Paciente / Profissional */}
-          <View style={{ flexDirection: 'row', gap: Spacing.sm, backgroundColor: 'rgba(255,255,255,0.1)', borderRadius: 10, padding: 4 }}>
-            <TouchableOpacity
-              onPress={() => setTipoUsuario('populacao')}
-              style={{ flex: 1, paddingVertical: 8, borderRadius: 8, alignItems: 'center', backgroundColor: tipoUsuario === 'populacao' ? Colors.white : 'transparent' }}
-            >
-              <Text style={{ ...Typography.subheading, fontSize: 13, color: tipoUsuario === 'populacao' ? Colors.primary : 'rgba(255,255,255,0.7)' }}>Paciente</Text>
+        {/* Topo azul */}
+        <View style={cadastroStyles.hero}>
+          <SafeAreaView>
+          <View style={cadastroStyles.heroInner}>
+            <TouchableOpacity onPress={() => router.back()} style={cadastroStyles.backBtn}>
+              <Ionicons name="chevron-back" size={18} color={Colors.white} />
             </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => setTipoUsuario('saude')}
-              style={{ flex: 1, paddingVertical: 8, borderRadius: 8, alignItems: 'center', backgroundColor: tipoUsuario === 'saude' ? Colors.white : 'transparent' }}
-            >
-              <Text style={{ ...Typography.subheading, fontSize: 13, color: tipoUsuario === 'saude' ? Colors.primary : 'rgba(255,255,255,0.7)' }}>Profissional</Text>
-            </TouchableOpacity>
+            <Text style={cadastroStyles.label}>CRIAR CONTA</Text>
+            <Text style={cadastroStyles.title}>Crie sua conta</Text>
+            <View style={cadastroStyles.tabs}>
+              <TouchableOpacity
+                onPress={() => setTipoUsuario('populacao')}
+                style={[cadastroStyles.tab, { backgroundColor: tipoUsuario === 'populacao' ? Colors.white : 'transparent' }]}
+              >
+                <Text style={[cadastroStyles.tabText, { color: tipoUsuario === 'populacao' ? Colors.primary : 'rgba(255,255,255,0.7)' }]}>Paciente</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => setTipoUsuario('saude')}
+                style={[cadastroStyles.tab, { backgroundColor: tipoUsuario === 'saude' ? Colors.white : 'transparent' }]}
+              >
+                <Text style={[cadastroStyles.tabText, { color: tipoUsuario === 'saude' ? Colors.primary : 'rgba(255,255,255,0.7)' }]}>Profissional</Text>
+              </TouchableOpacity>
+            </View>
           </View>
+          </SafeAreaView>
         </View>
 
         <ScrollView contentContainerStyle={{ padding: Spacing.xl, gap: Spacing.md }} keyboardShouldPersistTaps="handled">
@@ -157,6 +174,6 @@ export default function TelaCadastro() {
           <Button label="Criar conta" onPress={handleCadastro} loading={loading} style={{ marginTop: Spacing.sm }} />
         </ScrollView>
       </KeyboardAvoidingView>
-    </SafeAreaView>
+    </View>
   );
 }
