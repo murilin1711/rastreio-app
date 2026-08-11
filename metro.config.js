@@ -11,8 +11,9 @@ module.exports = (() => {
   };
   config.resolver = {
     ...resolver,
-    assetExts: resolver.assetExts.filter((ext) => ext !== 'svg'),
+    assetExts: [...resolver.assetExts.filter((ext) => ext !== 'svg'), 'lottie'],
     sourceExts: [...resolver.sourceExts, 'svg'],
+    unstable_enablePackageExports: false,
   };
 
   return config;
