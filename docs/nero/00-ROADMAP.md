@@ -51,7 +51,7 @@ O alicerce que todos os módulos usam. Nenhuma tela de módulo é construída an
 - [x] Home com bloco "Hoje" + 4 módulos + abas + tela-ponte do Rastreando
 - [x] Design system consolidado em `src/ui` (`docs/nero/03-DESIGN.md`)
 - [x] Meus medicamentos
-- [ ] Checklist manual no celular (`docs/nero/checklists/fase-0.md`) — pendente do Murilo
+- [x] Checklist manual no celular — percorrido pelo Murilo em 15/09; ajustes derivados (onboarding v3, Home v2, declarações negativas) implementados
 
 ### Fase 1 — Rastreando v2 (oncológico)
 Migrar o módulo que já existe para a nova base — valida o motor de regras com o domínio já conhecido.
@@ -97,6 +97,7 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 |------|------|-----------------|
 | 14/09/2026 | — | Documento NERO importado e estruturado em `docs/nero/`. Roadmap e registro de decisões criados. Início da discussão de arquitetura. |
 | 14/09/2026 | 0 | D-001 decidida: evoluir o código atual — Rastreando vira módulo, construímos a camada anterior (Home com módulos + perfil único). |
+| 15/09/2026 | 0 | **Fase 0 encerrada.** Push para `github.com/murilin1711/rastreio-app` (`origin`; remoto antigo `app-de-rastreio` não existia mais e foi removido). Próximo: Fase 1 — decisões clínicas C-001..C-009. |
 | 15/09/2026 | 0 | Supabase remoto criado e migrado (`db push`); RLS validado na nuvem; app apontando para produção. Home v2 (pendências como tarefas, galeria 2×2) e declarações negativas ("não uso medicamentos"). |
 | 15/09/2026 | 0 | Onboarding v3 aprovado no aparelho pelo Murilo (gradiente marinho + miniaturas do produto). Fundo interno branco frio. **Merge de `nero-fundacao` em `desenvolvimento-2`** (`b9de3c1`). Teste pgTAP corrigido para não depender do estado do banco. |
 | 15/09/2026 | 0 | Tasks 1–11 do plano implementadas na branch `nero-fundacao`: Expo 57, Supabase local, auth, motor de regras, perfil, Minha Saúde, medicamentos, Home. 59 testes Jest + 4 pgTAP verdes. Falta: checklist manual e projeto Supabase remoto. |
