@@ -3,12 +3,31 @@
   "compilerOptions": {
     "strict": true,
     "paths": {
-      "@/*": ["./*"],
-      "@ui/*": ["./src/ui/*"],
-      "@core/*": ["./src/core/*"],
-      "@modules/*": ["./src/modules/*"]
-    }
+      "@/*": [
+        "./*"
+      ],
+      "@ui/*": [
+        "./src/ui/*"
+      ],
+      "@core/*": [
+        "./src/core/*"
+      ],
+      "@modules/*": [
+        "./src/modules/*"
+      ]
+    },
+    "types": [
+      "jest"
+    ]
   },
-  "include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"],
-  "exclude": ["legado", "node_modules"]
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    ".expo/types/**/*.ts",
+    "expo-env.d.ts"
+  ],
+  "exclude": [
+    "legado",
+    "node_modules"
+  ]
 }

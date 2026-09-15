@@ -8,7 +8,9 @@ import {
 } from '@expo-google-fonts/poppins';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { SessaoProvider } from '@core/sessao/SessaoProvider';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -27,5 +29,10 @@ export default function Layout() {
 
   if (!fontesCarregadas) return null;
 
-  return <Stack screenOptions={{ headerShown: false }} />;
+  return (
+    <SessaoProvider>
+      <StatusBar style="dark" />
+      <Stack screenOptions={{ headerShown: false }} />
+    </SessaoProvider>
+  );
 }
