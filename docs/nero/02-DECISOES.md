@@ -79,3 +79,10 @@
 - **Logo NERO** — pendente de envio.
 - **Paleta derivada do mascote:** azul-aço `~#5B8DB8`, azul-marinho `~#1C3A5E` (compatível com o `#0f2d63` atual), fundo bege claro `~#E8E4DD`, branco perolado.
 - **Caminho 3D:** por ser render 3D, o GLB rigado do Meshy é o caminho natural para o spike futuro (D-006).
+
+
+## Infraestrutura (referência)
+
+- **Supabase remoto:** projeto `Nero Saude APP`, ref `ycljqpwpeoonqisqdrws`, região South America (São Paulo), criado em 15/09/2026. URL `https://ycljqpwpeoonqisqdrws.supabase.co`. Chave publicável no `.env` (não versionado). Confirmação de e-mail **desativada** durante o desenvolvimento — reativar antes de publicar nas lojas.
+- **Local:** `supabase start` (Docker) para testes pgTAP; `.env.local-docker` guarda a configuração local.
+- **Segredos:** token de acesso do CLI e senha do banco foram usados uma vez para `link`/`db push` e não ficam em nenhum arquivo do projeto. O CLI mantém o vínculo em `supabase/.temp/` (ignorado pelo git). Recomendação: revogar o token `nero-cli` em supabase.com/dashboard/account/tokens e gerar outro quando precisar.

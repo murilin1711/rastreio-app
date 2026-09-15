@@ -28,3 +28,5 @@ docs/contexto-rastreio/
 .env.local
 supabase/.temp/
 supabase/.branches/
+.env.remoto
+.env.local-docker

@@ -43,7 +43,7 @@
 O alicerce que todos os módulos usam. Nenhuma tela de módulo é construída antes disto.
 - [x] Decisões de arquitetura (D-001 a D-006)
 - [x] Supabase **local** (Docker) com schema, RLS e testes pgTAP; credenciais em `.env`
-- [ ] Projeto Supabase **remoto** criado (conta nova, região São Paulo) e `supabase db push` — pendente do Murilo
+- [x] Projeto Supabase **remoto** `Nero Saude APP` (ref `ycljqpwpeoonqisqdrws`, São Paulo) com as 7 migrações aplicadas; app aponta para a nuvem (`.env`); `.env.local-docker` guarda a config local
 - [x] Substituir Firebase por Supabase: Auth (e-mail/senha), cliente, cadastro e login
 - [x] Modelo de dados compartilhado: 9 tabelas (perfil, antecedentes, regras, exames, pendências, MRPA, medidas, medicações, lembretes)
 - [x] **Motor de regras clínicas** em `src/core/regras` — hierarquia de segurança, elegibilidade (8 status), classificação; 29 testes; teste de isolamento de UI/banco
@@ -97,6 +97,7 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 |------|------|-----------------|
 | 14/09/2026 | — | Documento NERO importado e estruturado em `docs/nero/`. Roadmap e registro de decisões criados. Início da discussão de arquitetura. |
 | 14/09/2026 | 0 | D-001 decidida: evoluir o código atual — Rastreando vira módulo, construímos a camada anterior (Home com módulos + perfil único). |
+| 15/09/2026 | 0 | Supabase remoto criado e migrado (`db push`); RLS validado na nuvem; app apontando para produção. Home v2 (pendências como tarefas, galeria 2×2) e declarações negativas ("não uso medicamentos"). |
 | 15/09/2026 | 0 | Onboarding v3 aprovado no aparelho pelo Murilo (gradiente marinho + miniaturas do produto). Fundo interno branco frio. **Merge de `nero-fundacao` em `desenvolvimento-2`** (`b9de3c1`). Teste pgTAP corrigido para não depender do estado do banco. |
 | 15/09/2026 | 0 | Tasks 1–11 do plano implementadas na branch `nero-fundacao`: Expo 57, Supabase local, auth, motor de regras, perfil, Minha Saúde, medicamentos, Home. 59 testes Jest + 4 pgTAP verdes. Falta: checklist manual e projeto Supabase remoto. |
 | 15/09/2026 | 0 | Spec da Fundação aprovada pelo Murilo. Plano de implementação escrito: `docs/superpowers/plans/2026-09-15-nero-fundacao.md` (12 tarefas). |
