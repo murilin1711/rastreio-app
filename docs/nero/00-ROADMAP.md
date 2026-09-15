@@ -98,6 +98,7 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 |------|------|-----------------|
 | 14/09/2026 | — | Documento NERO importado e estruturado em `docs/nero/`. Roadmap e registro de decisões criados. Início da discussão de arquitetura. |
 | 14/09/2026 | 0 | D-001 decidida: evoluir o código atual — Rastreando vira módulo, construímos a camada anterior (Home com módulos + perfil único). |
+| 15/09/2026 | 1 | C-001, C-005 e C-008 validados em fontes primárias (CBR 2023 PDF, ACG 2021 PDF, notas SBU). Acervo `docs/nero/referencias/` criado. Plano da Fase 1 escrito: `docs/superpowers/plans/2026-09-15-nero-fase1-rastreando.md` (13 tarefas). |
 | 15/09/2026 | 1 | Decisões clínicas C-001–C-009 aprovadas; 6 validadas nos textos-fonte (INCA 2025 PDF, CONITEC 2026 PDF, USPSTF, ACR Lung-RADS, SBU). Spec da Fase 1 escrita: `docs/superpowers/specs/2026-09-15-nero-fase1-rastreando-design.md`. |
 | 15/09/2026 | 0 | **Fase 0 encerrada.** Push para `github.com/murilin1711/rastreio-app` (`origin`; remoto antigo `app-de-rastreio` não existia mais e foi removido). Próximo: Fase 1 — decisões clínicas C-001..C-009. |
 | 15/09/2026 | 0 | Supabase remoto criado e migrado (`db push`); RLS validado na nuvem; app apontando para produção. Home v2 (pendências como tarefas, galeria 2×2) e declarações negativas ("não uso medicamentos"). |
