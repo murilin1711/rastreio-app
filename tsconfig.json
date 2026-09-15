@@ -5,13 +5,30 @@
     "paths": {
       "@/*": [
         "./*"
+      ],
+      "@ui/*": [
+        "./src/ui/*"
+      ],
+      "@core/*": [
+        "./src/core/*"
+      ],
+      "@modules/*": [
+        "./src/modules/*"
       ]
-    }
+    },
+    "types": [
+      "jest",
+      "node"
+    ]
   },
   "include": [
     "**/*.ts",
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
+  ],
+  "exclude": [
+    "legado",
+    "node_modules"
   ]
 }

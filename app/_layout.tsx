@@ -1,37 +1,38 @@
 import {
-  useFonts,
   Poppins_400Regular,
   Poppins_500Medium,
   Poppins_600SemiBold,
   Poppins_700Bold,
   Poppins_800ExtraBold,
+  useFonts,
 } from '@expo-google-fonts/poppins';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
+import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { SessaoProvider } from '@core/sessao/SessaoProvider';
 
 SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
-  const [fontsLoaded] = useFonts({
-    'Poppins-Regular':   Poppins_400Regular,
-    'Poppins-Medium':    Poppins_500Medium,
-    'Poppins-SemiBold':  Poppins_600SemiBold,
-    'Poppins-Bold':      Poppins_700Bold,
+  const [fontesCarregadas] = useFonts({
+    'Poppins-Regular': Poppins_400Regular,
+    'Poppins-Medium': Poppins_500Medium,
+    'Poppins-SemiBold': Poppins_600SemiBold,
+    'Poppins-Bold': Poppins_700Bold,
     'Poppins-ExtraBold': Poppins_800ExtraBold,
   });
 
   useEffect(() => {
-    if (fontsLoaded) SplashScreen.hideAsync();
-  }, [fontsLoaded]);
+    if (fontesCarregadas) SplashScreen.hideAsync();
+  }, [fontesCarregadas]);
 
-  if (!fontsLoaded) return null;
+  if (!fontesCarregadas) return null;
 
   return (
-    <Stack screenOptions={{ headerShown: false }}>
-      <Stack.Screen name="splashScreen" />
-      <Stack.Screen name="paginaInicial" />
-      <Stack.Screen name="PerfilIndividual" />
-    </Stack>
+    <SessaoProvider>
+      <StatusBar style="dark" />
+      <Stack screenOptions={{ headerShown: false }} />
+    </SessaoProvider>
   );
 }

@@ -41,15 +41,17 @@
 
 ### Fase 0 — Fundação
 O alicerce que todos os módulos usam. Nenhuma tela de módulo é construída antes disto.
-- [ ] Decisões de arquitetura (D-001 ✅, D-002 ✅, D-003 ✅, D-004 ✅, D-005 ✅, D-006 ✅)
-- [ ] Projeto Supabase criado (conta nova, região São Paulo) e credenciais em `.env` (nunca no código — corrige a chave exposta do Firebase)
-- [ ] Substituir Firebase por Supabase: Auth (e-mail/senha), cliente, cadastro e login
-- [ ] Modelo de dados compartilhado: Perfil de Saúde, Exame (com resultado estruturado), Medicação, Pendência, Lembrete, Documento anexado
-- [ ] **Motor de regras clínicas**: funções puras `classificar(exame, perfil) → {classificação, nível de alerta, próxima ação, data, pendência, fonte/versão}` — 100% testado, sem dependência de UI (§31, §42, §43, §53, §65, §66)
-- [ ] Hierarquia de segurança implementada no motor (§66): sintoma de alarme > pendência > acompanhamento especializado > rastreamento habitual
-- [ ] Autenticação + cadastro do Perfil de Saúde único (§28, §59, §64)
-- [ ] Shell de navegação com os 4 módulos + Home com "o que precisa de atenção" (§55, §56, §89)
-- [ ] Design system consolidado (aproveitar `Theme.ts` e `components/ui`)
+- [x] Decisões de arquitetura (D-001 a D-006)
+- [x] Supabase **local** (Docker) com schema, RLS e testes pgTAP; credenciais em `.env`
+- [ ] Projeto Supabase **remoto** criado (conta nova, região São Paulo) e `supabase db push` — pendente do Murilo
+- [x] Substituir Firebase por Supabase: Auth (e-mail/senha), cliente, cadastro e login
+- [x] Modelo de dados compartilhado: 9 tabelas (perfil, antecedentes, regras, exames, pendências, MRPA, medidas, medicações, lembretes)
+- [x] **Motor de regras clínicas** em `src/core/regras` — hierarquia de segurança, elegibilidade (8 status), classificação; 29 testes; teste de isolamento de UI/banco
+- [x] Autenticação + Perfil de Saúde único (perfil inicial em passos + Meu perfil completo + antecedentes)
+- [x] Home com bloco "Hoje" + 4 módulos + abas + tela-ponte do Rastreando
+- [x] Design system consolidado em `src/ui` (`docs/nero/03-DESIGN.md`)
+- [x] Meus medicamentos
+- [ ] Checklist manual no celular (`docs/nero/checklists/fase-0.md`) — pendente do Murilo
 
 ### Fase 1 — Rastreando v2 (oncológico)
 Migrar o módulo que já existe para a nova base — valida o motor de regras com o domínio já conhecido.
@@ -95,6 +97,7 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 |------|------|-----------------|
 | 14/09/2026 | — | Documento NERO importado e estruturado em `docs/nero/`. Roadmap e registro de decisões criados. Início da discussão de arquitetura. |
 | 14/09/2026 | 0 | D-001 decidida: evoluir o código atual — Rastreando vira módulo, construímos a camada anterior (Home com módulos + perfil único). |
+| 15/09/2026 | 0 | Tasks 1–11 do plano implementadas na branch `nero-fundacao`: Expo 57, Supabase local, auth, motor de regras, perfil, Minha Saúde, medicamentos, Home. 59 testes Jest + 4 pgTAP verdes. Falta: checklist manual e projeto Supabase remoto. |
 | 15/09/2026 | 0 | Spec da Fundação aprovada pelo Murilo. Plano de implementação escrito: `docs/superpowers/plans/2026-09-15-nero-fundacao.md` (12 tarefas). |
 | 14/09/2026 | 0 | D-006 decidida: mascote Nero (PNG por módulo agora; GLB 3D como spike futuro). Todas as decisões técnicas iniciais fechadas. |
 | 14/09/2026 | 0 | D-005 decidida: Fundação entrega dashboard com 4 módulos (3 "em breve") → Rastreando é o 1º módulo completo. |

@@ -1,0 +1,63 @@
+import { useRouter } from 'expo-router';
+import { useState } from 'react';
+import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { supabase } from '@core/supabase/client';
+import { traduzirErro } from '@core/supabase/erros';
+import { Button, Colors, Input, InternalHeader, Spacing, Typography } from '@ui/index';
+
+export default function Cadastro() {
+  const router = useRouter();
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [senha, setSenha] = useState('');
+  const [carregando, setCarregando] = useState(false);
+
+  const cadastrar = async () => {
+    if (nome.trim().length < 2) return Alert.alert('Faltou algo', 'Informe seu nome.');
+    if (!/^\S+@\S+\.\S+$/.test(email.trim())) return Alert.alert('E-mail inválido', 'Confira o endereço digitado.');
+    if (senha.length < 8) return Alert.alert('Senha curta', 'A senha precisa ter pelo menos 8 caracteres.');
+
+    setCarregando(true);
+    const { data, error } = await supabase.auth.signUp({
+      email: email.trim(),
+      password: senha,
+      options: { data: { nome: nome.trim() } },
+    });
+    setCarregando(false);
+
+    if (error) return Alert.alert('Não foi possível cadastrar', traduzirErro(error).mensagemUsuario);
+    if (!data.session) {
+      return Alert.alert('Confirme seu e-mail', 'Enviamos um link de confirmação. Depois de confirmar, volte e entre.', [
+        { text: 'OK', onPress: () => router.replace('/(auth)/login') },
+      ]);
+    }
+    router.replace('/');
+  };
+
+  return (
+    <SafeAreaView style={styles.tela}>
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
+          <InternalHeader sectionLabel="NERO" title="Criar conta" />
+          <View style={styles.form}>
+            <Input placeholder="Nome" autoComplete="name" value={nome} onChangeText={setNome} />
+            <Input placeholder="E-mail" autoCapitalize="none" autoComplete="email" keyboardType="email-address" value={email} onChangeText={setEmail} />
+            <Input placeholder="Senha (mínimo 8 caracteres)" secureTextEntry autoComplete="new-password" value={senha} onChangeText={setSenha} />
+            <Button label="Criar conta" onPress={cadastrar} loading={carregando} />
+            <Text style={styles.aviso}>
+              Seus dados de saúde são seus. O NERO organiza informações e não substitui a avaliação do seu médico.
+            </Text>
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  tela: { flex: 1, backgroundColor: Colors.background },
+  conteudo: { flexGrow: 1, paddingHorizontal: Spacing.xxl },
+  form: { gap: Spacing.md },
+  aviso: { ...Typography.caption, color: Colors.textSecondary, textAlign: 'center', marginTop: Spacing.md },
+});

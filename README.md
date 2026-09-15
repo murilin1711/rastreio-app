@@ -1,50 +1,51 @@
-# Welcome to your Expo app 👋
+# NERO
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Plataforma de prevenção, rastreamento e acompanhamento de saúde para pacientes, em quatro módulos: **Saúde & Bem-estar**, **Coração & Metabolismo**, **Rastreando** (rastreamento oncológico) e **Minha Saúde**. Organiza informações e orienta; não substitui a avaliação médica.
 
-## Get started
+- Especificação de produto: [`docs/nero/01-ESPECIFICACAO-NERO.md`](docs/nero/01-ESPECIFICACAO-NERO.md)
+- Roadmap e estado: [`docs/nero/00-ROADMAP.md`](docs/nero/00-ROADMAP.md)
+- Decisões (técnicas e clínicas): [`docs/nero/02-DECISOES.md`](docs/nero/02-DECISOES.md)
+- Sistema de design: [`docs/nero/03-DESIGN.md`](docs/nero/03-DESIGN.md)
 
-1. Install dependencies
+## Stack
 
-   ```bash
-   npm install
-   ```
+Expo SDK 57 · React Native · TypeScript · Expo Router · Supabase (Auth, Postgres com RLS, Storage) · Jest · pgTAP.
 
-2. Start the app
+## Estrutura
 
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+app/            rotas (Expo Router): (auth), perfil-inicial, (app) com abas
+src/core/       supabase, sessão, perfil, medicações, regras (motor clínico — TS puro)
+src/modules/    lógica e componentes por módulo (home, minha-saude, rastreando…)
+src/ui/         design system (theme.ts + componentes)
+supabase/       migrações SQL, testes pgTAP, config local
+legado/         telas do Rastreando v1 (fora do roteador até a Fase 1)
+docs/nero/      documentação viva do projeto
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## Rodar localmente
 
-## Learn more
+Pré-requisitos: Node 20+, Docker Desktop, [Supabase CLI](https://supabase.com/docs/guides/cli), Expo Go no celular (mesma rede Wi-Fi).
 
-To learn more about developing your project with Expo, look at the following resources:
+```bash
+npm install
+supabase start                 # sobe Postgres/Auth/Storage locais (Docker)
+supabase db reset              # aplica migrações
+cp .env.example .env           # preencha com a anon key de `supabase status`
+                               # use o IP da máquina no URL para o celular alcançar
+npx expo start                 # escaneie o QR code no Expo Go
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Após criar rotas novas em `app/`, rode `npm run rotas` para regenerar os tipos do Expo Router.
 
-## Join the community
+## Testes
 
-Join our community of developers creating universal apps.
+```bash
+npm test          # Jest: motor de regras, cálculos, mapeamentos, erros
+npm run db:test   # pgTAP: isolamento RLS entre usuários
+npm run typecheck # tsc --noEmit
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+## Banco
+
+Migrações em `supabase/migrations/`. Toda tabela do paciente tem `user_id` com RLS `(select auth.uid()) = user_id`. Regras clínicas ficam em `regras_clinicas` (parâmetros, fonte, versão); a lógica fica em `src/core/regras`. Após alterar o schema: `npm run db:types`.
