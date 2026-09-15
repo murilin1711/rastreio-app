@@ -6,7 +6,7 @@ import { usePerfil } from '@core/perfil/usePerfil';
 import { CardModulo } from '@modules/home/CardModulo';
 import { ItemHoje } from '@modules/home/ItemHoje';
 import { montarItensHoje } from '@modules/home/montarItensHoje';
-import { Colors, NeroImage, Spacing, Typography } from '@ui/index';
+import { Colors, LogoNero, Radius, Spacing, Typography } from '@ui/index';
 
 function saudacao(nome?: string | null) {
   const h = new Date().getHours();
@@ -15,12 +15,14 @@ function saudacao(nome?: string | null) {
   return primeiro ? `${periodo}, ${primeiro}` : periodo;
 }
 
-/** Home do NERO (§55, §56, §89): saudação, o que precisa de atenção hoje e os quatro módulos. */
+/** Home do NERO (§55, §56, §89): pendências e galeria de módulos. */
 export default function Home() {
   const router = useRouter();
   const { perfil, antecedentes, carregando, recarregar } = usePerfil();
   const { ativas, recarregar: recarregarMed } = useMedicacoes();
   const itens = montarItensHoje({ perfil, antecedentesQtd: antecedentes.length, medicacoesAtivasQtd: ativas.length });
+  const pendentes = itens.filter((i) => i.nivel !== 'verde').length;
+  const inicial = perfil?.nome?.trim().charAt(0).toUpperCase() ?? '';
 
   const atualizar = () => { recarregar(); recarregarMed(); };
 
@@ -30,27 +32,35 @@ export default function Home() {
         contentContainerStyle={styles.conteudo}
         refreshControl={<RefreshControl refreshing={carregando} onRefresh={atualizar} tintColor={Colors.primary} />}
       >
-        <View style={styles.cabecalho}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.saudacao}>{saudacao(perfil?.nome)}</Text>
-            <Text style={styles.pergunta}>Como está sua saúde hoje?</Text>
+        <View style={styles.topo}>
+          <View style={styles.marca}>
+            <LogoNero variante="simbolo" width={26} />
+            <Text style={styles.marcaTexto}>NERO</Text>
           </View>
-          <NeroImage size={104} />
+          <View style={styles.avatar}><Text style={styles.avatarTexto}>{inicial}</Text></View>
         </View>
 
-        <Text style={styles.secao}>Hoje</Text>
-        <View>
-          {itens.map((i, idx) => (
-            <ItemHoje key={i.id} item={i} ultimo={idx === itens.length - 1} onPress={() => router.push(i.rota as Href)} />
-          ))}
+        <Text style={styles.saudacao}>{saudacao(perfil?.nome)}</Text>
+        <Text style={styles.pergunta}>Como está sua saúde hoje?</Text>
+
+        <View style={styles.secaoTopo}>
+          <Text style={styles.secao}>Pendências</Text>
+          {pendentes > 0 ? <View style={styles.contador}><Text style={styles.contadorTexto}>{pendentes}</Text></View> : null}
+        </View>
+        <View style={{ gap: Spacing.sm }}>
+          {itens.map((i) => <ItemHoje key={i.id} item={i} onPress={() => router.push(i.rota as Href)} />)}
         </View>
 
-        <Text style={[styles.secao, { marginTop: Spacing.xxxl }]}>Seus módulos</Text>
-        <View style={{ gap: Spacing.md }}>
-          <CardModulo titulo="Rastreando" descricao="Rastreamento de câncer organizado pelo seu perfil" variant="rastreando" cor={Colors.accent} onPress={() => router.push('/(app)/rastreando')} />
-          <CardModulo titulo="Minha Saúde" descricao="Perfil, medicamentos, exames e relatórios" variant="minha_saude" cor={Colors.primary} onPress={() => router.push('/(app)/minha-saude')} />
-          <CardModulo titulo="Coração & Metabolismo" descricao="Pressão, glicemia, exames e risco cardiovascular" variant="cardio" cor="#C2410C" emBreve />
-          <CardModulo titulo="Saúde & Bem-estar" descricao="Peso, alimentação, atividade e sono" variant="bem_estar" cor="#15803D" emBreve />
+        <Text style={[styles.secao, { marginTop: Spacing.xxxl, marginBottom: Spacing.md }]}>Módulos</Text>
+        <View style={styles.grade}>
+          <View style={styles.linhaGrade}>
+            <CardModulo titulo="Rastreando" descricao="Rastreamento de câncer pelo seu perfil" icone="search-outline" capa={[Colors.logoAco, Colors.logoCiano]} onPress={() => router.push('/(app)/rastreando')} />
+            <CardModulo titulo="Minha Saúde" descricao="Perfil, medicamentos e relatórios" icone="person-outline" capa={[Colors.logoMarinho, Colors.logoAco]} onPress={() => router.push('/(app)/minha-saude')} />
+          </View>
+          <View style={styles.linhaGrade}>
+            <CardModulo titulo="Coração & Metabolismo" descricao="Pressão, glicemia e risco cardiovascular" icone="heart-outline" capa={['#B4321F', '#F2734A']} emBreve />
+            <CardModulo titulo="Saúde & Bem-estar" descricao="Peso, alimentação, atividade e sono" icone="leaf-outline" capa={['#15803D', '#5FCB8A']} emBreve />
+          </View>
         </View>
 
         <Text style={styles.rodape}>O NERO organiza suas informações e não substitui a avaliação do seu médico.</Text>
@@ -62,9 +72,18 @@ export default function Home() {
 const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: Colors.background },
   conteudo: { padding: Spacing.xxl, paddingBottom: Spacing.xxxl },
-  cabecalho: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md, marginBottom: Spacing.xxl },
-  saudacao: { ...Typography.display, fontSize: 26, lineHeight: 32, color: Colors.primary },
-  pergunta: { ...Typography.body, color: Colors.textSecondary, marginTop: Spacing.xs },
-  secao: { ...Typography.heading, color: Colors.textPrimary, marginBottom: Spacing.sm },
+  topo: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Spacing.xl },
+  marca: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm },
+  marcaTexto: { fontFamily: 'Poppins-ExtraBold', fontSize: 15, letterSpacing: 2, color: Colors.primary },
+  avatar: { width: 36, height: 36, borderRadius: 18, backgroundColor: Colors.primary, alignItems: 'center', justifyContent: 'center' },
+  avatarTexto: { fontFamily: 'Poppins-Bold', fontSize: 15, color: Colors.white },
+  saudacao: { ...Typography.display, fontSize: 28, lineHeight: 34, color: Colors.primary },
+  pergunta: { ...Typography.body, color: Colors.textSecondary, marginTop: Spacing.xs, marginBottom: Spacing.xxl },
+  secaoTopo: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, marginBottom: Spacing.md },
+  secao: { ...Typography.heading, color: Colors.textPrimary },
+  contador: { minWidth: 22, height: 22, borderRadius: Radius.pill, paddingHorizontal: 6, backgroundColor: Colors.warning, alignItems: 'center', justifyContent: 'center' },
+  contadorTexto: { fontFamily: 'Poppins-Bold', fontSize: 12, color: Colors.white },
+  grade: { gap: Spacing.md },
+  linhaGrade: { flexDirection: 'row', gap: Spacing.md },
   rodape: { ...Typography.caption, color: Colors.textMuted, textAlign: 'center', marginTop: Spacing.xxxl },
 });

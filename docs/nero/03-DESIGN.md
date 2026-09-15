@@ -50,3 +50,12 @@ Eyebrow em caps · cartões idênticos com o mesmo raio · sombra cinza · "→"
 - Marca: símbolo pequeno + "NERO" em texto branco, canto superior esquerdo. Sem recorte da logo como herói.
 - Progresso em três barras finas (é uma sequência real).
 - Sem movimento ocioso. Só o deslize entre slides, controlado pelo usuário.
+
+## Revisão 3 — 15/09/2026: Home
+
+**Feedback no aparelho:** "Hoje" não deixava claro que eram tarefas pendentes; logo grande no cabeçalho incomodou; módulos em lista não agradaram — preferência por **galeria em cards (estilo Notion gallery view)**.
+
+- **Pendências**: título com contador; cada linha é uma tarefa com verbo no infinitivo ("Completar meu perfil…") e um anel colorido do nível; quando concluída, o anel vira check preenchido. Estado vazio: "Nada pendente".
+- **Cabeçalho**: marca pequena (símbolo 26px + "NERO" em texto) à esquerda, avatar com inicial à direita; saudação grande abaixo. Sem logo-herói.
+- **Módulos**: grade 2×2; cada card tem **capa** com gradiente na cor do módulo e ícone (o Nero do módulo entra na capa quando o PNG chegar), título e descrição em duas linhas. "Em breve" como etiqueta sobre a capa, com a capa esmaecida.
+- Cores de capa: Rastreando aço→ciano (da logo) · Minha Saúde marinho→aço · Coração vermelho-tijolo→coral · Bem-estar verde→verde-claro.

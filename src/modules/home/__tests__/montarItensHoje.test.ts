@@ -8,7 +8,7 @@ const completo: PerfilSaude = {
   historicoCancerPessoal: [], lesoesPrecursoras: [], doencasGeneticas: [], radioterapiaToracica: false, perfilInicialCompleto: true,
 };
 
-test('perfil com campo essencial nulo → "Complete seu perfil" (amarelo)', () => {
+test('perfil com campo essencial nulo → "Completar meu perfil" (amarelo)', () => {
   const itens = montarItensHoje({ perfil: { ...completo, tabagismoStatus: null }, antecedentesQtd: 1, medicacoesAtivasQtd: 1 });
   expect(itens.find((i) => i.id === 'perfil_incompleto')?.nivel).toBe('amarelo');
 });

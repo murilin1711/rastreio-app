@@ -1,53 +1,46 @@
 import React from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { Colors, EmBreveBadge, NeroImage, Radius, Shadows, Spacing, Typography, type NeroVariant } from '@ui/index';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Colors, EmBreveBadge, Radius, Shadows, Spacing, Typography } from '@ui/index';
 
 interface Props {
   titulo: string;
   descricao: string;
-  variant: NeroVariant;
-  /** Cor de identidade do módulo — aparece como faixa lateral fina. */
-  cor: string;
+  icone: keyof typeof Ionicons.glyphMap;
+  /** Duas cores do gradiente da capa. */
+  capa: [string, string];
   emBreve?: boolean;
   onPress?: () => void;
 }
 
-/** Bloco de módulo na Home: raio grande, faixa de cor à esquerda, Nero do módulo à direita. */
-export function CardModulo({ titulo, descricao, variant, cor, emBreve, onPress }: Props) {
+/** Card de módulo em galeria (estilo Notion): capa com gradiente + ícone, título e descrição embaixo. */
+export function CardModulo({ titulo, descricao, icone, capa, emBreve, onPress }: Props) {
   return (
     <Pressable
       onPress={emBreve ? undefined : onPress}
       disabled={emBreve}
       accessibilityRole="button"
       accessibilityState={{ disabled: !!emBreve }}
-      style={({ pressed }) => [styles.card, pressed && !emBreve && styles.pressionado, emBreve && styles.emBreve]}
+      style={({ pressed }) => [styles.card, pressed && !emBreve && { opacity: 0.85 }]}
     >
-      <View style={[styles.faixa, { backgroundColor: cor }]} />
-      <View style={styles.texto}>
-        <Text style={styles.titulo}>{titulo}</Text>
-        <Text style={styles.descricao}>{descricao}</Text>
-        {emBreve ? <View style={{ marginTop: Spacing.sm }}><EmBreveBadge /></View> : null}
+      <LinearGradient colors={capa} start={{ x: 0, y: 0 }} end={{ x: 1, y: 1 }} style={[styles.capa, emBreve && { opacity: 0.45 }]}>
+        <Ionicons name={icone} size={34} color="rgba(255,255,255,0.92)" />
+      </LinearGradient>
+      {emBreve ? <View style={styles.etiqueta}><EmBreveBadge /></View> : null}
+      <View style={styles.corpo}>
+        <Text style={[styles.titulo, emBreve && { color: Colors.textSecondary }]} numberOfLines={1}>{titulo}</Text>
+        <Text style={styles.descricao} numberOfLines={2}>{descricao}</Text>
       </View>
-      {emBreve ? (
-        <View style={styles.neroApagado}><NeroImage variant={variant} size={64} /></View>
-      ) : (
-        <>
-          <NeroImage variant={variant} size={64} />
-          <Ionicons name="chevron-forward" size={18} color={Colors.textMuted} />
-        </>
-      )}
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  card: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md, backgroundColor: Colors.surface, borderRadius: Radius.bloco, paddingVertical: Spacing.lg, paddingRight: Spacing.lg, paddingLeft: 0, overflow: 'hidden', ...Shadows.card },
-  pressionado: { opacity: 0.85 },
-  emBreve: { backgroundColor: Colors.surfaceAlt, shadowOpacity: 0, elevation: 0 },
-  faixa: { width: 5, alignSelf: 'stretch', borderTopRightRadius: 3, borderBottomRightRadius: 3, marginRight: Spacing.sm },
-  texto: { flex: 1, gap: 2 },
-  titulo: { ...Typography.heading, color: Colors.textPrimary },
+  card: { flex: 1, backgroundColor: Colors.surface, borderRadius: Radius.bloco, overflow: 'hidden', borderWidth: 1, borderColor: Colors.border, ...Shadows.card },
+  capa: { height: 92, alignItems: 'center', justifyContent: 'center' },
+  etiqueta: { position: 'absolute', top: Spacing.sm, left: Spacing.sm },
+  corpo: { padding: Spacing.md, paddingTop: Spacing.sm + 2, gap: 2, minHeight: 74 },
+  titulo: { ...Typography.subheading, color: Colors.textPrimary },
   descricao: { ...Typography.caption, color: Colors.textSecondary },
-  neroApagado: { opacity: 0.35 },
 });
