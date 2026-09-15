@@ -36,3 +36,17 @@ Só **Poppins**. Escala: display 28 ExtraBold · title 22 Bold · heading 17 Sem
 
 ## O que evitamos de propósito (defaults genéricos)
 Eyebrow em caps · cartões idênticos com o mesmo raio · sombra cinza · "→" em links · metadados separados por "·" em excesso · acento terracota.
+
+
+## Revisão 2 — 15/09/2026: onboarding e escala de azuis
+
+**Feedback no aparelho:** bolhas estranhas; símbolo recortado flutuando parecia solto; formulário de login bom; marinho bom.
+
+**Paleta extraída da logo** (k-means): marinho `#1D2E45` · ardósia `#335073` · aço `#4175A6` · céu `#48A8CD` · ciano `#75D7E9`. Essa escala é o eixo cromático do NERO: superfícies escuras usam marinho→ardósia; o **ciano é o único acento** sobre fundo escuro; aço/céu entram em gráficos e detalhes.
+
+**Onboarding v3:**
+- Fundo em gradiente vertical `#0B1E44 → #14315F` (mesma direção do gradiente do "N"). Sem bolhas.
+- Elemento memorável = **miniaturas nativas do produto** por slide (cartão de pressão, rastreamento em dia, alerta de conduta). Específico do NERO; mostra o que a pessoa vai usar.
+- Marca: símbolo pequeno + "NERO" em texto branco, canto superior esquerdo. Sem recorte da logo como herói.
+- Progresso em três barras finas (é uma sequência real).
+- Sem movimento ocioso. Só o deslize entre slides, controlado pelo usuário.

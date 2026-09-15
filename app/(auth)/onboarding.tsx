@@ -1,18 +1,20 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { LinearGradient } from 'expo-linear-gradient';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useRef, useState } from 'react';
-import { Animated, Dimensions, Easing, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useRef, useState } from 'react';
+import { Dimensions, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ONBOARDING_KEY } from '@core/onboarding/chave';
+import { MiniaturaOrientacao, MiniaturaTudoEmUmLugar, MiniaturaUmaVez } from '@modules/onboarding/Miniaturas';
 import { Colors, LogoNero, Radius, Spacing, Typography } from '@ui/index';
 
 const { width } = Dimensions.get('window');
 
 const slides = [
-  { id: '1', titulo: 'Sua saúde,\nem um só lugar', texto: 'Pressão, glicemia, exames, hábitos e rastreamento de câncer — organizados para você e para o seu médico.' },
-  { id: '2', titulo: 'Cadastre uma vez,\nuse em tudo', texto: 'Idade, tabagismo, medicamentos e histórico alimentam todos os módulos automaticamente.' },
-  { id: '3', titulo: 'Orientação,\nnão diagnóstico', texto: 'O NERO organiza seus dados e avisa quando algo merece atenção. As decisões continuam com o seu médico.' },
+  { id: '1', titulo: 'Sua saúde,\nem um só lugar', texto: 'Pressão, glicemia, exames, hábitos e rastreamento de câncer, organizados para você e para o seu médico.', Miniatura: MiniaturaTudoEmUmLugar },
+  { id: '2', titulo: 'Cadastre uma vez,\nuse em tudo', texto: 'O que você informa alimenta todos os módulos. Nada de repetir idade, tabagismo ou medicamentos em cada tela.', Miniatura: MiniaturaUmaVez },
+  { id: '3', titulo: 'Orientação,\nnão diagnóstico', texto: 'O NERO organiza seus dados e avisa quando algo merece atenção. As decisões continuam com o seu médico.', Miniatura: MiniaturaOrientacao },
 ];
 
 export default function Onboarding() {
@@ -21,20 +23,6 @@ export default function Onboarding() {
   const [atual, setAtual] = useState(0);
   const ultimo = atual === slides.length - 1;
 
-  // Um único movimento: o símbolo flutua devagar (herdado do Rastreando).
-  const flutua = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    const loop = Animated.loop(
-      Animated.sequence([
-        Animated.timing(flutua, { toValue: 1, duration: 2200, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
-        Animated.timing(flutua, { toValue: 0, duration: 2200, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
-      ]),
-    );
-    loop.start();
-    return () => loop.stop();
-  }, [flutua]);
-  const translateY = flutua.interpolate({ inputRange: [0, 1], outputRange: [0, -14] });
-
   const concluir = async () => {
     try { await AsyncStorage.setItem(ONBOARDING_KEY, 'true'); } catch {}
     router.replace('/(auth)/login');
@@ -42,14 +30,14 @@ export default function Onboarding() {
   const proxima = () => (ultimo ? concluir() : lista.current?.scrollToIndex({ index: atual + 1 }));
 
   return (
-    <View style={styles.fundo}>
+    <LinearGradient colors={[Colors.hero, Colors.heroBottom]} style={styles.fundo}>
       <StatusBar style="light" />
-      <View style={[styles.bolha, styles.bolha1]} />
-      <View style={[styles.bolha, styles.bolha2]} />
-      <View style={[styles.bolha, styles.bolha3]} />
-
       <SafeAreaView style={styles.tela}>
         <View style={styles.topo}>
+          <View style={styles.marca}>
+            <LogoNero variante="simbolo" width={30} />
+            <Text style={styles.marcaTexto}>NERO</Text>
+          </View>
           {!ultimo ? (
             <Pressable onPress={concluir} hitSlop={12} accessibilityRole="button">
               <Text style={styles.pular}>Pular</Text>
@@ -57,9 +45,9 @@ export default function Onboarding() {
           ) : null}
         </View>
 
-        <Animated.View style={[styles.simbolo, { transform: [{ translateY }] }]}>
-          <LogoNero variante="simbolo" width={150} />
-        </Animated.View>
+        <View style={styles.progresso}>
+          {slides.map((_, i) => <View key={i} style={[styles.segmento, i <= atual && styles.segmentoAtivo]} />)}
+        </View>
 
         <FlatList
           ref={lista}
@@ -71,42 +59,38 @@ export default function Onboarding() {
           onMomentumScrollEnd={(e) => setAtual(Math.round(e.nativeEvent.contentOffset.x / width))}
           renderItem={({ item }) => (
             <View style={styles.slide}>
+              <View style={styles.miniatura}><item.Miniatura /></View>
               <Text style={styles.titulo}>{item.titulo}</Text>
               <Text style={styles.texto}>{item.texto}</Text>
             </View>
           )}
         />
 
-        <View style={styles.cartao}>
-          <View style={styles.pontos}>
-            {slides.map((_, i) => <View key={i} style={[styles.ponto, i === atual && styles.pontoAtivo]} />)}
-          </View>
+        <View style={styles.rodape}>
           <Pressable onPress={proxima} style={({ pressed }) => [styles.botao, pressed && { opacity: 0.85 }]} accessibilityRole="button">
             <Text style={styles.botaoTexto}>{ultimo ? 'Começar' : 'Próxima'}</Text>
           </Pressable>
         </View>
       </SafeAreaView>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  fundo: { flex: 1, backgroundColor: Colors.hero },
+  fundo: { flex: 1 },
   tela: { flex: 1 },
-  bolha: { position: 'absolute', borderRadius: Radius.pill, backgroundColor: Colors.white, opacity: 0.05 },
-  bolha1: { width: 320, height: 320, top: -120, right: -100 },
-  bolha2: { width: 200, height: 200, top: 260, left: -90, opacity: 0.04 },
-  bolha3: { width: 140, height: 140, bottom: 220, right: -30, opacity: 0.06 },
-  topo: { height: 44, alignItems: 'flex-end', justifyContent: 'center', paddingHorizontal: Spacing.xxl },
+  topo: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: Spacing.xxl, paddingTop: Spacing.md, height: 56 },
+  marca: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm },
+  marcaTexto: { fontFamily: 'Poppins-ExtraBold', fontSize: 16, letterSpacing: 2, color: Colors.white },
   pular: { ...Typography.subheading, color: 'rgba(255,255,255,0.7)' },
-  simbolo: { alignItems: 'center', marginTop: Spacing.xl, marginBottom: Spacing.md },
-  slide: { width, paddingHorizontal: Spacing.xxxl, paddingTop: Spacing.xl },
-  titulo: { ...Typography.display, fontSize: 30, lineHeight: 36, color: Colors.white },
+  progresso: { flexDirection: 'row', gap: Spacing.sm, paddingHorizontal: Spacing.xxl, marginTop: Spacing.sm },
+  segmento: { flex: 1, height: 3, borderRadius: Radius.pill, backgroundColor: 'rgba(255,255,255,0.18)' },
+  segmentoAtivo: { backgroundColor: Colors.logoCiano },
+  slide: { width, paddingHorizontal: Spacing.xxl, paddingTop: Spacing.xxxl, flex: 1 },
+  miniatura: { minHeight: 240, justifyContent: 'center', marginBottom: Spacing.xxxl },
+  titulo: { fontFamily: 'Poppins-ExtraBold', fontSize: 32, lineHeight: 38, letterSpacing: -0.5, color: Colors.white },
   texto: { ...Typography.body, fontSize: 16, lineHeight: 25, color: 'rgba(255,255,255,0.72)', marginTop: Spacing.lg, maxWidth: 340 },
-  cartao: { margin: Spacing.xl, padding: Spacing.xl, backgroundColor: 'rgba(255,255,255,0.08)', borderRadius: Radius.bloco, gap: Spacing.lg },
-  pontos: { flexDirection: 'row', gap: Spacing.sm },
-  ponto: { width: 8, height: 8, borderRadius: Radius.pill, backgroundColor: 'rgba(255,255,255,0.25)' },
-  pontoAtivo: { width: 24, backgroundColor: '#6FD8E6' },
-  botao: { backgroundColor: Colors.white, borderRadius: Radius.pill, minHeight: 52, alignItems: 'center', justifyContent: 'center' },
+  rodape: { padding: Spacing.xxl },
+  botao: { backgroundColor: Colors.white, borderRadius: Radius.pill, minHeight: 54, alignItems: 'center', justifyContent: 'center' },
   botaoTexto: { ...Typography.subheading, fontSize: 16, color: Colors.hero },
 });

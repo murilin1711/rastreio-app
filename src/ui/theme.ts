@@ -9,7 +9,14 @@ export const Colors = {
   surface:       '#ffffff', // porcelana
   surfaceAlt:    '#E9EDF5', // cinza-azulado claro (itens desativados, fundos internos)
   border:        '#DCE2EE',
-  hero:          '#0a1f4e', // fundo escuro do onboarding e login (herdado do Rastreando)
+  hero:          '#0B1E44', // fundo escuro do onboarding e login
+  heroBottom:    '#14315F', // fim do gradiente do hero (mesmo movimento do gradiente do "N")
+  // Escala de azuis extraída da logo (k-means sobre logo-nero.png)
+  logoMarinho:   '#1D2E45',
+  logoArdosia:   '#335073',
+  logoAco:       '#4175A6',
+  logoCeu:       '#48A8CD',
+  logoCiano:     '#75D7E9', // único acento sobre fundo escuro
   textPrimary:   '#0f2d63',
   textSecondary: '#4A5C7A', // grafite-azul
   textMuted:     '#8A97AD',
