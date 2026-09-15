@@ -17,7 +17,7 @@ Relatório PDF de rastreamento (§40 — Fase 3) · notificações push remotas 
 
 ## 3. Princípios que governam esta fase
 
-1. **Aderência integral às diretrizes brasileiras** (princípio registrado em `02-DECISOES.md`): cada linha de `regras_clinicas` cita fonte, ano, versão e recomendação numerada quando houver.
+1. **Aderência integral às diretrizes brasileiras** (princípio registrado em `02-DECISOES.md`): cada linha de `regras_clinicas` cita fonte, ano, versão e recomendação numerada quando houver. **As referências vivem em `docs/nero/referencias/` (`REFERENCIAS.md`); antes de codificar cada handler, checar se há versão mais nova e usar sempre a mais recente.**
 2. **Hierarquia de segurança (§66)** aplicada antes de qualquer cálculo — já implementada em `src/core/regras/seguranca.ts`.
 3. **Dado ≠ alerta ≠ conduta (§25):** o app classifica e orienta; nunca escreve diagnóstico. Frases proibidas: "você tem câncer", "seu PSA indica câncer".
 4. **Resultado estruturado sempre que existir classificação** (BI-RADS, Lung-RADS, FIT, DNA-HPV, citologia Bethesda, achados de colonoscopia); texto livre é complemento.

@@ -1,0 +1,745 @@
+Urban LABD, et al.
+/ Especial
+Recomendações para o rastreamento do câncer de mama
+Artigo
+
+http://dx.doi.org/10.1590/0100-3984.2023.0064
+
+Recomendações do Colégio Brasileiro de Radiologia e
+Diagnóstico por Imagem, da Sociedade Brasileira de Mastologia
+e da Federação Brasileira das Associações de Ginecologia e
+Obstetrícia para o rastreamento do câncer de mama no Brasil
+Recommendations for breast cancer screening in Brazil, from the Brazilian College of Radiology and
+Diagnostic Imaging, the Brazilian Society of Mastology, and the Brazilian Federation of Gynecology
+and Obstetrics Associations
+Linei Augusta Brolini Delle Urban1,a, Luciano Fernandes Chala2, Ivie Braga de Paula1, Selma di Pace Bauab1,
+Marcela Brisighelli Schaefer1, Ana Lúcia Kefalás Oliveira1, Carlos Shimizu1, Tatiane Mendes Gonçalves de
+Oliveira1, Paula de Camargo Moraes1, Beatriz Medicis Maranhão Miranda1, Flávia Engel Aduan1, Salete de
+Jesus Fonseca Rego1, Ellyete de Oliveira Canella1, Henrique Lima Couto3, Gustavo Machado Badan3, José Luis
+Esteves Francisco4, Thaís Paiva Moraes4, Rosangela Requi Jakubiak1, João Emílio Peixoto1
+Trabalho realizado na Comissão Nacional de Mamografia (CNM) do Colégio Brasileiro de Radiologia e Diagnóstico por Imagem (CBR), São Paulo,
+SP, Brasil, em conjunto com a Sociedade Brasileira de Mastologia (SBM), Rio de Janeiro, RJ, Brasil, e a Federação Brasileira das Associações de
+Ginecologia e Obstetrícia (FEBRASGO), Rio de Janeiro, RJ, Brasil. Como é fruto de uma diretriz conjunta, será publicado nas respectivas revistas
+das três sociedades envolvidas.
+1. Membros da Comissão Nacional de Mamografia, Representantes do Colégio Brasileiro de Radiologia e Diagnóstico por Imagem (CBR), São
+Paulo, SP, Brasil. 2. Coordenador da Comissão Nacional de Mamografia, Colégio Brasileiro de Radiologia e Diagnóstico por Imagem (CBR), São
+Paulo, SP, Brasil. 3. Membros da Comissão Nacional de Mamografia, Representantes da Sociedade Brasileira de Mastologia (SBM), Rio de
+Janeiro, RJ, Brasil. 4. Membros da Comissão Nacional de Mamografia, Representantes da Federação Brasileira das Associações de Ginecologia
+e Obstetrícia (FEBRASGO), Rio de Janeiro, RJ, Brasil.
+Correspondência: Dra. Linei A. B. D. Urban. Colégio Brasileiro de Radiologia e Diagnóstico por Imagem. Avenida Paulista, 37, 7º andar, conjunto 71,
+Bela Vista. São Paulo, SP, Brasil, 01311-902. E-mail: lineiurban@hotmail.com.
+a. https://orcid.org/0000-0003-2017-9776.
+Submetido em 15/6/2023. Revisado em 7/7/2023. Aceito em 11/7/2023.
+Como citar este artigo:
+Urban LABD, Chala LF, Paula IB, Bauab SP, Schaefer MB, Oliveira ALK, Shimizu C, Oliveira TMG, Moraes PC, Miranda BMM, Aduan FE, Rego SJF,
+Canella EO, Couto HL, Badan GM, Francisco JLE, Moraes TP, Jakubiak RR, Peixoto JE. Recomendações do Colégio Brasileiro de Radiologia e
+Diagnóstico por Imagem, da Sociedade Brasileira de Mastologia e da Federação Brasileira das Associações de Ginecologia e Obstetrícia para o
+rastreamento do câncer de mama no Brasil. Radiol Bras. 2023 Jul/Ago;56(4):207–214.
+
+Resumo Objetivo: Apresentar a atualização das recomendações do Colégio Brasileiro de Radiologia e Diagnóstico por Imagem, da Sociedade
+Brasileira de Mastologia e da Federação Brasileira das Associações de Ginecologia e Obstetrícia para o rastreamento do câncer de
+mama no Brasil.
+Materiais e Métodos: Foram feitas buscas das evidências científicas publicadas nas bases Medline (PubMed), Excerpta Medica
+(Embase), Cochrane Library, Ebsco, Cinahl e Lilacs, entre janeiro de 2012 e julho de 2022. As recomendações foram baseadas
+nessas evidências, mediante consenso da comissão de especialistas das três entidades.
+Recomendações: O rastreamento mamográfico anual é recomendado para as mulheres de risco habitual entre 40 e 74 anos. Acima
+de 75 anos deve ser reservado para as que tenham expectativa de vida maior que sete anos. Mulheres com risco maior que o habitual, entre elas as com mamas densas, com história pessoal de hiperplasia lobular atípica, carcinoma lobular in situ clássico, hiperplasia ductal atípica, tratamento de câncer de mama ou de irradiação no tórax antes dos 30 anos, ou ainda portadoras de mutação
+genética ou com forte história familiar, se beneficiam do rastreamento complementar, sendo consideradas de forma individualizada.
+A tomossíntese é uma evolução da mamografia e deve ser considerada no rastreamento, sempre que acessível e disponível.
+Unitermos: Neoplasias da mama/diagnóstico por imagem; Detecção precoce de câncer; Mamografia; Ultrassonografia; Ressonância magnética; Guia de prática clínica.
+
+Abstract Objective: To present an update of the recommendations of the Brazilian College of Radiology and Diagnostic Imaging, the Brazilian
+Society of Mastology, and the Brazilian Federation of Gynecology and Obstetrics Associations for breast cancer screening in Brazil.
+Materials and Methods: Scientific evidence published between January 2012 and July 2022 was gathered from the following
+databases: Medline (PubMed); Excerpta Medica (Embase); Cochrane Library; Ebsco; Cumulative Index to Nursing and Allied Health
+Literature (Cinahl); and Latin-American and Caribbean Health Sciences Literature (Lilacs). Recommendations were based on that
+evidence and were arrived at by consensus of a joint committee of experts from the three entities.
+Recommendations: Annual mammographic screening is recommended for women between 40 and 74 years of age. For women at
+or above the age of 75, screening should be reserved for those with a life expectancy greater than seven years. Women at higher
+than average risk are considered by category: those with dense breasts; those with a personal history of atypical lobular hyperplasia,
+classical lobular carcinoma in situ, or atypical ductal hyperplasia; those previously treated for breast cancer; those having undergone
+
+Radiol Bras. 2023 Jul/Ago;56(4):207–214
+0100-3984 © Colégio Brasileiro de Radiologia e Diagnóstico por Imagem
+
+207
+
+Urban LABD, et al. / Recomendações para o rastreamento do câncer de mama
+
+thoracic radiotherapy before age 30; and those with a relevant genetic mutation or a strong family history. The benefits of complementary screening are also addressed according to the subcategories above. The use of tomosynthesis, which is an evolved form of
+mammography, should be considered in screening, whenever accessible and available.
+Keywords: Breast neoplasms/diagnostic imaging; Early detection of cancer; Mammography; Ultrasonography; Magnetic resonance
+imaging; Practice guideline.
+
+INTRODUÇÃO
+Em 2021, o câncer de mama se tornou o câncer mais
+frequentemente diagnosticado no mundo, sendo a principal causa de morte entre as mulheres(1). No Brasil, para
+o ano de 2023, foram estimados 73.610 novos casos de
+câncer de mama, o que representa uma taxa ajustada de
+incidência de 41,89 casos a cada 100.000 mulheres(1). O
+rastreamento é uma medida eficaz para detectar a doença
+no estágio inicial e reduzir sua mortalidade. Além disso, o
+diagnóstico precoce permite uma maior gama de opções
+terapêuticas e redução da morbidade do tratamento(2–4).
+Em 2012 e 2017, o Colégio Brasileiro de Radiologia
+e Diagnóstico por Imagem (CBR), a Sociedade Brasileira
+de Mastologia (SBM) e a Federação Brasileira das Associações de Ginecologia e Obstetrícia (FEBRASGO), por
+meio da Comissão Nacional de Mamografia (CNM), publicaram as recomendações para o rastreamento do câncer
+de mama(5,6). O objetivo da presente atualização é publicar
+as evidências disponíveis sobre o rastreamento e fornecer
+informações para a tomada de decisões em mulheres com
+diferentes riscos para o desenvolvimento da doença.
+METODOLOGIA DE TRABALHO
+Foram feitas buscas nas bases de dados Medline (via
+Pubmed), Embase, Cochrane Library, Ebsco, Cinahl e Lilacs (via Bireme), utilizando o máximo de palavras-chaves,
+descritores e termos MeSH, a fim de encontrar evidências científicas sobre o rastreamento do câncer de mama
+com mamografia (MG), ultrassonografia (US), ressonância magnética (RM) e tomossíntese (TMS), em mulheres
+de risco habitual, intermediário e alto para o câncer de
+mama, publicadas entre janeiro de 2012 e julho de 2022,
+nos idiomas português, inglês, francês e espanhol. Buscas complementares foram feitas em websites, ferramentas
+on-line e nas referências dos estudos analisados. Foram
+selecionadas para análise as evidências processadas mais
+recentes e de maior qualidade (revisões sistemáticas e metanálises) e que melhor respondiam às perguntas estruturadas. Na ausência destas, estudos primários (ensaios
+clínicos ou coortes) foram incluídos. O risco de viés dos
+estudos foi avaliado com as ferramentas ROBIS (Risk of
+Bias in Systematic Reviews), RoB 2.0 (Cochrane Risk of
+Bias Tools for Randomized Controlled Trials versão 2.0),
+QUADAS-C (Quality Assessment of Diagnostic Accuracy
+Studies – Comparative) e ROBINS-I (Risk of Bias in Nonrandomised Studies of Interventions). A qualidade global do
+conjunto das evidências para cada desfecho foi avaliada
+pelo GRADE (Grading of Recommendations Assessment,
+Development and Evaluation).
+208
+
+As recomendações foram baseadas nessas evidências,
+mediante consenso da comissão de especialistas das três
+entidades (CBR, SBM e FEBRASGO), definido como
+concordância de pelo menos 75% dos membros com a
+recomendação. Na ausência de concordância inicial, em
+uma segunda rodada de discussão e votação, maioria simples era necessária para definir consenso. As recomendações foram classificadas em cinco categorias:
+• Categoria A – Recomendação forte a favor, baseada
+em evidência de alta qualidade.
+• Categoria B – Recomendação forte a favor, baseada
+em evidência de moderada qualidade.
+• Categoria C – Recomendação fraca a favor, baseada
+em evidência de baixa qualidade.
+• Categoria D – Recomendação a favor, baseada somente
+em consenso de especialistas.
+• Categoria E – Recomendação contra, pois a evidência
+é insuficiente para apoiar seu uso.
+RECOMENDAÇÕES PARA O RASTREAMENTO
+Rastreamento das mulheres com risco populacional
+usual
+■ MAMOGRAFIA
+– Recomenda-se o rastreamento anual com MG para as
+mulheres entre 40 e 74 anos, preferencialmente com
+tecnologia digital (categoria A);
+– A partir dos 75 anos, recomenda-se continuar o rastreamento se não houver comorbidades que reduzam a
+expectativa de vida e que esta seja de pelo menos sete
+anos (categoria D).
+■ ULTRASSONOGRAFIA
+– Não se recomenda a US como rastreamento suplementar ou como método isolado para mulheres com risco
+habitual (categoria E).
+Nota: O uso da US é considerado em situações específicas
+de maior risco (vide sessão sobre mamas densas, risco intermediário e alto risco).
+■ RESSONÂNCIA MAGNÉTICA
+– Não se recomenda a RM como rastreamento suplementar ou como método isolado para mulheres com risco
+habitual (categoria E).
+Nota: O uso da RM é considerado em situações específicas
+de maior risco (vide sessão sobre mamas densas, risco intermediário e alto risco).
+■ TOMOSSÍNTESE
+– Recomenda-se que a TMS em combinação com a MG
+2D sintetizada (MGs) ou com a MG 2D padrão deve
+ser considerada no rastreamento, quando disponível
+(categoria B).
+Radiol Bras. 2023 Jul/Ago;56(4):207–214
+
+Urban LABD, et al. / Recomendações para o rastreamento do câncer de mama
+
+Rastreamento das mulheres com mamas densas
+■ MAMOGRAFIA
+– Recomenda-se o rastreamento anual com MG para as
+mulheres entre 40 e 74 anos, preferencialmente com
+tecnologia digital (categoria A);
+– A partir dos 75 anos, recomenda-se continuar o rastreamento se não houver comorbidades que reduzam a
+expectativa de vida e que esta seja de pelo menos sete
+anos (categoria D).
+■ ULTRASSONOGRAFIA
+– Recomenda-se que a US anual pode ser considerada
+como adjunta à MG nas mulheres com mamas densas,
+exceto quanto a RM for realizada (categoria B).
+■ RESSONÂNCIA MAGNÉTICA
+– Recomenda-se que a RM bienal pode ser considerada
+como adjunta à MG nas mamas extremamente densas
+(categoria C).
+■ TOMOSSÍNTESE
+– Recomenda-se que a TMS em combinação com a MG
+2D sintetizada (MGs) ou com a MG 2D padrão deve
+ser considerada no rastreamento, quando disponível
+(categoria B).
+Rastreamento das mulheres com história pessoal
+de biópsia com hiperplasia lobular atípica (HLA),
+carcinoma lobular in situ clássico (CLIS) e
+hiperplasia ductal atípica (HDA)
+■ NOTA INICIAL: É recomendado que as mulheres com
+HLA, CLIS ou HDA sejam avaliadas por modelos de cálculos de risco que incluam essas variáveis associadas a outros
+dados clínicos, incluindo antecedentes familiares e densidade mamária, para se estimar o risco de câncer de mama.
+■ MAMOGRAFIA
+– Mulheres com estimativa de risco < 20% ao longo da
+vida, recomenda-se MG anual a partir dos 40 anos (categoria A);
+– Mulheres com estimativa de risco ≥ 20% ao longo da
+vida, recomenda-se MG anual a partir do diagnóstico
+(não antes de 30 anos) (categoria B).
+■ ULTRASSONOGRAFIA
+– Mulheres com estimativa de risco de 15–20% ao longo
+da vida, a US pode ser considerada como adjunta à MG
+(categoria D);
+– Mulheres com estimativa de risco ≥ 20% ao longo da
+vida, a US é recomendada como método alternativo
+para as que não possam realizar a RM, por quaisquer
+motivos (categoria B).
+■ RESSONÂNCIA MAGNÉTICA
+– Mulheres com estimativa de risco ≥ 20% ao longo da
+vida, a RM anual deve ser considerada como adjunta
+à MG a partir do diagnóstico (não antes dos 25 anos)
+(categoria B).
+■ TOMOSSÍNTESE
+– Recomenda-se que a TMS em combinação com a MG
+2D sintetizada (MGs) ou com a MG 2D padrão deve
+Radiol Bras. 2023 Jul/Ago;56(4):207–214
+
+ser considerada no rastreamento, quando disponível
+(categoria B).
+Rastreamento das mulheres com história pessoal de
+tratamento de câncer de mama invasor ou carcinoma
+ductal in situ
+■ MAMOGRAFIA
+– Mulheres tratadas com cirurgia conservadora devem
+realizar MG anual (categoria A), com início no mínimo
+seis meses após o término da radioterapia;
+– Mulheres tratadas com mastectomia, devem realizar
+MG anual apenas da mama contralateral, com início
+um ano após o término do tratamento (categoria A);
+– Mulheres submetidas a adenomastectomia podem
+considerar realizar MG em até um ano para avaliação
+do tecido fibroglandular residual, a fim de determinar a
+necessidade da manutenção do rastreamento mamográfico (categoria D).
+■ ULTRASSONOGRAFIA
+– A US pode ser utilizada no rastreamento complementar
+à MG quando a RM for indicada, porém, por quaisquer
+motivos, não puder ser realizada (categoria C).
+■ RESSONÂNCIA MAGNÉTICA
+– Mulheres tratadas com cirurgia conservadora ou mastectomia (para avaliação da mama contralateral) que
+tiveram diagnóstico do câncer de mama antes dos 50
+anos ou com mamas densas devem realizar RM anual
+(categoria C), com início um ano após o término do tratamento.
+■ TOMOSSÍNTESE
+– Recomenda-se que a TMS em combinação com a MG
+2D sintetizada (MGs) ou com a MG 2D padrão deve
+ser considerada no rastreamento, quando disponível
+(categoria B).
+Rastreamento das mulheres com história pessoal
+de radioterapia torácica
+■ MAMOGRAFIA
+– Mulheres com história de irradiação no tórax antes dos
+30 anos de idade devem realizar MG anual a partir do
+8° ano após o tratamento radioterápico (não antes
+dos 30 anos) (categoria A).
+■ ULTRASSONOGRAFIA
+– A US deve ser utilizada no rastreamento apenas quando
+a RM, por quaisquer motivos, não puder ser realizada
+(categoria B).
+■ RESSONÂNCIA MAGNÉTICA
+– Mulheres com história de irradiação no tórax antes dos
+30 anos de idade devem realizar RM anual a partir do
+8° ano após o tratamento radioterápico (não antes
+dos 25 anos) (categoria A).
+■ TOMOSSÍNTESE
+– Recomenda-se que a TMS em combinação com a MG
+2D sintetizada (MGs) ou com a MG 2D padrão deve
+ser considerada no rastreamento, quando disponível
+(categoria B).
+209
+
+Urban LABD, et al. / Recomendações para o rastreamento do câncer de mama
+
+Rastreamento das mulheres portadoras de mutação
+genética ou com forte história familiar de câncer
+de mama (risco ≥ 20% ao longo da vida)
+■ MAMOGRAFIA
+– Mulheres com mutação patogênica do gene BRCA1 ou
+não testadas mas com parentes de primeiro grau portadoras, devem realizar MG anual a partir do diagnóstico
+da mutação (não antes dos 35 anos) (categoria A);
+– Mulheres com mutação patogênica do gene TP53 ou não
+testadas mas com parentes de primeiro grau portadoras,
+devem realizar MG anual a partir do diagnóstico da
+mutação (não antes dos 30 anos) (categoria A);
+– Mulheres com mutação patogênica BRCA2 ou outros genes de moderado ou alto risco para câncer de mama, além
+das não testadas mas com parentes de primeiro grau portadoras, devem realizar MG anual a partir do diagnóstico da mutação (não antes dos 30 anos) (categoria A);
+– Mulheres com risco ≥ 20% ao longo da vida, calculado
+por um dos modelos matemáticos baseados na história
+familiar, devem realizar MG anual iniciando 10 anos
+antes da idade do diagnóstico do parente mais jovem
+(não antes dos 30 anos) (categoria A).
+■ ULTRASSONOGRAFIA
+– A US deve ser utilizada no rastreamento apenas quando
+a RM, por quaisquer motivos, não puder ser realizada
+(categoria B).
+■ RESSONÂNCIA MAGNÉTICA
+– Mulheres com mutação patogênica do gene BRCA1 ou
+não testadas mas com parentes de primeiro grau portadoras, devem realizar RM anual a partir do diagnóstico
+da mutação (não antes dos 25 anos) (categoria A);
+– Mulheres com mutação patogênica do gene TP53 ou não
+testadas mas com parentes de primeiro grau portadoras,
+devem realizar RM anual a partir do diagnóstico da
+mutação (não antes dos 20 anos) (categoria A);
+– Mulheres com mutação patogênica BRCA2 ou outros genes de moderado ou alto risco para câncer de mama, além
+das não testadas mas com parentes de primeiro grau portadoras, devem realizar RM anual a partir do diagnóstico da mutação (não antes dos 30 anos) (categoria A);
+– Mulheres com risco ≥ 20% ao longo da vida, calculado
+por um dos modelos matemáticos baseados na história
+familiar, devem realizar RM anual iniciando 10 anos
+antes da idade do diagnóstico do parente mais jovem
+(não antes dos 30 anos) (categoria A).
+■ TOMOSSÍNTESE
+– Recomenda-se que a TMS em combinação com a MG
+2D sintetizada (MGs) ou com a MG 2D padrão deve
+ser considerada no rastreamento, quando disponível
+(categoria B).
+JUSTIFICATIVA
+Os benefícios do rastreamento mamográfico foram
+avaliados por estudos de coorte, revisões sistemáticas e
+ensaios clínicos randomizados, demonstrando redução da
+210
+
+mortalidade específica por câncer de mama de 22% a 30%,
+nas mulheres de 40 a 74 anos(2–4,7). Quando analisados
+outros desfechos importantes, observou-se também melhor
+qualidade de vida mensurada pelo QALY (quality-adjusted
+life-years), decorrente de tratamentos menos agressivos(2),
+além de maior taxa de tumores iniciais, com características
+prognósticas melhores e axila negativa(3) e 28% menos tumores avançados(4).
+Idade de início e periodicidade do rastreamento
+O início do rastreamento aos 40 anos reduz em 25% a
+mortalidade em 10 anos por câncer de mama, porém aumenta o falso-positivo (FP) de 4,8% para 7%(7). No Brasil
+também se observa que 41,1% das mulheres com diagnóstico de câncer da mama têm menos de 50 anos, de acordo
+com dados do estudo AMAZONA(8). Quanto ao intervalo
+de rastreamento, nota-se que o bienal está relacionado a
+maior risco de tumores avançados (RR = 1,28), maiores
+que 15 mm e com piores fatores prognósticos(7). Dessa
+forma, a CNM recomenda o rastreamento anual com MG
+a partir dos 40 anos.
+Considerações sobre as mulheres abaixo de 40 anos
+Não é recomendado o rastreamento nesse grupo etário, em razão da menor incidência do câncer de mama
+(cerca de 7% dos casos). Entretanto, o estudo AMAZONA
+III demonstrou que no Brasil esse número é de 17%,
+com tumores de maiores dimensões e pior prognóstico ao
+diagnóstico, comparativamente às mulheres acima de 40
+anos(9). Portanto, em concordância com outras sociedades internacionais(10,11), a CNM recomenda que o médico
+assistente realize uma avaliação da estimativa do risco de
+câncer de mama para todas as mulheres acima de 30 anos,
+por meio dos modelos matemáticos, para melhor estratificação das com risco aumentado que poderiam se beneficiar de rastreamento diferenciado.
+Quando interromper o rastreamento
+Os estudos prospectivos, controlados e randômicos
+não incluíram mulheres acima de 74 anos, não havendo
+dados diretos sobre o rastreamento nessa faixa etária. No
+entanto, a expectativa de vida das mulheres tem aumentado,
+com incidência crescente do câncer de mama na faixa etária acima dos 75 anos. Atualmente, 26% das mortes por
+câncer de mama ocorrem em mulheres com diagnóstico
+após os 74 anos(12,13). Considerando esses fatores, muitas
+organizações médicas recomendam a individualização da
+decisão, que deve ser discutida com a mulher.
+Efeitos adversos do rastreamento
+Alguns efeitos adversos são relatados, porém, a qualidade da evidência para análise deles é baixa. O sobrediagnóstico é um efeito discutido, mas sua estimativa é variável,
+em razão da dificuldade de determinar qual tumor levaria
+ou não a paciente a óbito(14). O risco de carcinoma induzido
+pela radiação empregada no rastreamento mamográfico é
+Radiol Bras. 2023 Jul/Ago;56(4):207–214
+
+Urban LABD, et al. / Recomendações para o rastreamento do câncer de mama
+
+baixo, porém é maior em mulheres com mamas volumosas, nas quais a dose de radiação é maior, assim como nas
+submetidas a incidências complementares(15). Também foi
+associado a aumento de 2,9% no risco de biópsias com desfecho benigno (FP), que podem gerar ansiedade(14). Entretanto, a redução da mortalidade do câncer detectado precocemente pelo rastreamento supera os riscos dos danos
+causados pela exposição à radiação.
+
+biópsias(31,33,35–38). Dessa forma, a CNM recomenda, para
+mulheres com mamas densas sem outros fatores de risco,
+o rastreamento com MG anual a partir dos 40 anos, com
+a opção do uso de métodos suplementares como a US ou
+a RM. Para mamas extremamente densas, há evidências
+científicas sugerindo a superioridade da RM.
+
+Considerações sobre a TMS mamária
+
+A HDA, a HLA e o CLIS são considerados lesões precursoras não obrigatórias para o carcinoma ductal in situ e
+carcinomas invasivos(40) e conferem aumento de risco relativo para desenvolvimento subsequente destes ao longo
+da vida, sendo de 2,6 a 5,0 vezes para HDA, de 3,2 a 4,8
+vezes para HLA e de 6 a 10 vezes para CLIS(41–49).
+Os trabalhos para avaliação do rastreamento neste
+grupo são poucos e baseados em séries retrospectivas que
+estimaram o risco para carcinomas in situ e invasivos subsequentes. A estratégia atual para se definir o rastreamento
+neste subgrupo baseia-se no cálculo de risco para câncer de
+mama ao longo da vida(11). Fatores como a idade ao diagnóstico e a densidade mamária impactam diretamente no
+risco de câncer, o qual pode ser estimado por ferramentas
+de cálculo de risco baseado em modelos matemáticos(47).
+Atualmente, poucos modelos contemplam esse grupo no
+cálculo de risco, entre eles o Breast Cancer Risk Assessment
+Tool (modelo de Gail) e o IBIS Breast Cancer Risk Evaluation Tool (modelo de Tyrer-Cuzizk), devendo ser estes preferencialmente utilizados(11,47).
+
+A TMS é uma evolução da MG digital. Numerosos estudos confirmam a eficácia dessa técnica no rastreamento
+do câncer de mama, que aumenta a taxa de detecção em
+até 50%(16–20) e reduz a taxa de reconvocação para imagens
+adicionais de 9–29%(19,20). Os tumores detectados têm
+características histológicas e imuno-histoquímicas semelhantes aos detectados pela MG(21–23), com os resultados
+se mantendo nas rodadas subsequentes(24). Dessa forma,
+a TMS é recomendada como método de rastreamento,
+quando acessível e disponível, pela CNM, assim como por
+várias sociedades médicas, entre elas o American College
+of Radiology (ACR)(10), American Cancer Society (ACS)(25),
+European Society of Breast Imaging (EUSOBI)(26), Société
+d’Imagerie de la Femme (SIFEM)(27), National Comprehensive Cancer Network (NCCN)(11) e European guidelines on breast cancer screening and diagnosis(28).
+A TMS deve ser usada em combinação com a MG 2D
+padrão ou com a MG 2D sintetizada (MGs), esta última
+com a vantagem de reduzir a dose de radiação(15,17,18).
+Como no Brasil a Agência Nacional de Vigilância Sanitária
+ainda não estabeleceu os níveis de referência e de tolerância da dose glandular para TMS, a recomendação é que
+cada serviço pode realizar um levantamento das doses glandulares médias, utilizando uma amostra de pacientes com
+mamas de diversas espessuras, estabelecendo níveis locais
+de referência e de tolerância(29,30).
+Considerações sobre o rastreamento das mulheres
+com mamas densas
+A mama densa é um fator de risco para câncer de mama
+e se associa a redução da sensibilidade mamográfica. Por
+essas razões, métodos suplementares têm sido propostos.
+Todas as modalidades suplementares melhoraram a sensibilidade em relação à MG isolada, permitindo a detecção de
+cânceres em estádios iniciais ocultos na MG(31–38).
+A RM é a técnica suplementar com maior taxa de detecção adicional de câncer(31). Isso aumenta a probabilidade de tratamentos menos invasivos e curativos. Dados
+sobre desfechos críticos, como a mortalidade, não estão
+disponíveis. Entretanto, ensaios randomizados mostraram que o uso suplementar da US na mama densa ou da
+RM na extremamente densa reduziram a taxa de câncer
+de intervalo, um importante desfecho substituto centrado
+na paciente(24,34,39). Em relação aos danos, o uso de modalidades suplementares se associa a aumento de FPs e
+Radiol Bras. 2023 Jul/Ago;56(4):207–214
+
+Considerações sobre o rastreamento das mulheres com
+história pessoal de diagnóstico de HLA, CLIS e HDA
+
+Considerações sobre o rastreamento das mulheres
+com história pessoal de tratamento por câncer
+de mama invasor e carcinoma ductal in situ
+Mulheres com história pessoal de câncer de mama
+apresentam risco sete vezes maior de desenvolver uma segunda neoplasia maligna da mama ipsilateral ou contralateral(48). Nas pacientes tratadas com cirurgia conservadora,
+a MG apresenta menor sensibilidade por causa das alterações cirúrgicas e maior incidência de carcinoma intervalar(49), justificando a necessidade de rastreamento suplementar.
+O rastreamento complementar com RM pode detectar
+de 8,2–18,1 cânceres adicionais à MG a cada 1.000 mulheres(50–55). O desempenho da RM neste cenário tem-se
+mostrado similar ao de pacientes com alto risco genético,
+considerando sensibilidade, taxa de detecção, FP e valor
+preditivo positivo (VPP) das biópsias(56–58). Entretanto, as
+evidências científicas para a RM nesta população são fracas, baseadas em estudos predominantemente retrospectivos(49,50,55–59). Dentre esse grupo heterogêneo, o benefício
+da RM é mais bem estabelecido em pacientes jovens (idade
+de diagnóstico < 50 anos) e com mamas densas(49–52).
+Poucos estudos avaliaram a acurácia da US, com
+taxa de detecção de cânceres adicionais à MG de 2,4 a
+4,3/1.000 mulheres, porém com aumento de FP e menor
+211
+
+Urban LABD, et al. / Recomendações para o rastreamento do câncer de mama
+
+VPP para biópsias. Quando realizada adicionalmente à
+RM, a US não resulta em melhora da sensibilidade(53,54),
+mas pode ser utilizada como rastreamento suplementar
+quando a RM não estiver disponível.
+Em pacientes com história pessoal de câncer de mama
+tratadas com mastectomia, o rastreamento por imagem da
+mama tratada, com ou sem reconstrução, não está indicado,
+em razão da baixa taxa de detecção de cânceres assintomáticos pela MG, US ou RM(59).
+Considerações sobre o rastreamento das mulheres
+com história de radioterapia torácica
+As mulheres tratadas com radioterapia torácica antes
+dos 30 anos têm um risco médio de desenvolver câncer de
+mama de 13,4 vezes maior do que a população em geral,
+semelhante às portadoras da mutação do gene BRCA1(60).
+O aumento da incidência ocorre cerca de 10 anos após o
+tratamento, persistindo 30 anos depois. A maior incidência ocorre quando o tratamento foi realizado entre os 10 e
+14 anos (RR = 22.0) e entre 15 e 19 anos (RR = 14.3)(61).
+Para esse grupo existem evidências da importância do rastreamento com MG e RM, iniciando a partir dos 25 anos
+ou oito anos após a radioterapia, em conformidade com
+as recomendações de outras entidades médicas, como o
+Children’s Oncology Group e o International Guideline
+Group(60).
+Rastreamento das mulheres portadoras de mutação
+genética ou com forte história familiar de câncer
+de mama (risco ≥ 20% ao longo da vida)
+As mutações em genes que causam predisposição ao
+câncer de mama são classificadas como de alto risco quando
+causam aumento de cinco vezes ou mais em relação às
+mulheres não portadoras (BRCA1, BRCA2, TP53, PTEN,
+entre outros) ou de risco intermediário quando causam
+aumento entre 1,5–5 vezes (ATM, CHEK 2, BARD1, entre outros)(62–64). No Brasil, um estudo demonstrou que os
+genes mais comumente mutados foram BRCA1 (27,4%),
+BRCA2 (20,3%), TP53 (10,5%), ATM (8,8%), CHEK2
+(6,2%) e PALB2 (5,1%)(64). A variante brasileira TP53
+R337H foi fortemente associada ao risco de câncer da
+mama (OR = 17,4)(64). No caso das mulheres com forte
+história familiar de câncer de mama, porém sem mutação
+conhecida, definiu-se como de alto risco aquelas com estimativa ≥ 20% de risco ao longo da vida calculado pelos
+modelos matemáticos(62). Essas mulheres apresentam o
+câncer em idade precoce, com picos de incidência entre
+20–35 anos para a mutação PT53, 30–39 anos para a mutação BRCA1, 30–49 anos para as mutações BRCA2, assim como entre 40–59 anos para o alto risco familiar(62–65).
+Para esse grupo de risco existem fortes evidências
+científicas da importância do rastreamento com RM, em
+virtude da redução de câncer de intervalo e da maior taxa
+de detecção de tumores em estágios precoces, o que pode
+reduzir a necessidade de quimioterapia e a mortalidade,
+212
+
+apesar do maior número de FPs(54,55,65–67). Quanto à MG,
+recentemente tem-se questionado seu papel nas pacientes
+com mutação BRCA1. Uma metanálise(68) demonstrou que
+a adição da MG à RM em pacientes com mutação BRCA1
+aumentou a sensibilidade de forma modesta (3,99%), com
+redução na especificidade (4%). Já na mutação BRCA 2, o
+aumento na sensibilidade foi maior (12,6%), com pequena
+redução da especificidade (5%). Dessa forma, a CNM recomenda o rastreamento com RM, associado a MG, porém
+não iniciando a MG antes dos 35 anos para BRCA1 e 30
+anos para os demais grupos. Exames adicionais de US não
+produzem detecção adicional de câncer, se a RM for realizada, devendo ser reservada para avaliação posterior ou servir de guia para a biópsia de achados identificados na RM.
+Quanto ao impacto na mortalidade, um estudo importante foi publicado por Bae et al.(54), que apesar de retrospectivo, demonstrou que as mulheres de alto risco que fizeram o rastreamento com MG e RM tiveram melhor sobrevida global e tumores diagnosticados em estágios de melhor
+prognóstico do que as pacientes do grupo apenas com MG.
+CONCLUSÃO
+Esta diretriz traz o consenso das recomendações embasadas em dados atuais para o rastreamento de câncer de
+mama no Brasil, subdivididas em sessões de acordo com o
+risco para o desenvolvimento do câncer de mama, desde a
+abordagem por mulheres de risco habitual, que representam aproximadamente 80% das pacientes diagnosticadas
+com câncer de mama, até as mulheres de risco aumentado.
+Agradecimentos
+Agradecimento especial a Luíza de Oliveira Rodrigues
+e a Mariana Ribeiro Fernandes, que conduziram a pesquisa
+e a análise crítica do conjunto da evidência científica para a
+elaboração desta publicação.
+REFERÊNCIAS
+1. Brasil. Ministério da Saúde. Instituto Nacional de Câncer [homepage on the Internet]. Estimativa 2023: incidência de câncer no Brasil. Rio de Janeiro, RJ: INCA; 2022. [cited 2023 Apr 9]. Available
+from: https://www.inca.gov.br/publicacoes/livros/estimativa-2023incidencia-de-cancer-no-brasil.
+2. Moshina N, Falk RS, Botteri E, et al. Quality of life among women
+with symptomatic, screen-detected, and interval breast cancer, and
+for women without breast cancer: a retrospective cross-sectional
+study from Norway. Qual Life Res. 2022;31:1057–68.
+3. Canelo-Aybar C, Ferreira DS, Ballesteros M, et al. Benefits and harms
+of breast cancer mammography screening for women at average risk
+of breast cancer: a systematic review for the European Commission
+Initiative on Breast Cancer. J Med Screen. 2021;28:389–404.
+4. Puliti D, Bucchi L, Mancini S, et al. Advanced breast cancer rates
+in the epoch of service screening: the 400,000 women cohort study
+from Italy. Eur J Cancer. 2017;75:109–16.
+5. Urban LABD, Schaefer MB, Duarte DL, et al. Recommendations
+of Colégio Brasileiro de Radiologia e Diagnóstico por Imagem, Sociedade Brasileira de Mastologia, and Federação Brasileira das Associações de Ginecologia e Obstetrícia for imaging screening for
+breast cancer. Radiol Bras. 2012;45:334–9.
+6. Urban LABD, Chala FC, Bauab SP, et al Breast cancer screening:
+
+Radiol Bras. 2023 Jul/Ago;56(4):207–214
+
+Urban LABD, et al. / Recomendações para o rastreamento do câncer de mama
+
+updated recommendations of the Brazilian College of Radiology and
+Diagnostic Imaging, Brazilian Breast Disease Society, and Brazilian
+Federation of Gynecological and Obstetrical Associations. Radiol
+Bras. 2017;50:244–9.
+7. Miglioretti DL, Zhu W, Kerlikowske K, et al.; Breast Cancer Surveillance Consortium. Breast tumor prognostic characteristics and biennial vs annual mammography, age, and menopausal status. JAMA
+Oncol. 2015;1:1069–77.
+8. Simon SD, Bines J, Werutsky G, et al. Characteristics and prognosis
+of stage I-III breast cancer subtypes in Brazil: the AMAZONA retrospective cohort study. Breast. 2019;44:113–9.
+9. Franzoi MA, Rosa DD, Zaffaroni F, et al. Advanced stage at diagnosis and worse clinicopathologic features in young women with
+breast cancer in Brazil: a subanalysis of the AMAZONA III study
+(GBECAM 0115). J Glob Oncol. 2019;5:1–10.
+10. Monticciolo DL, Newell MS, Moy L, et al. Breast cancer screening
+for women at higher-than-average risk: updated recommendations
+from the ACR. J Am Coll Radiol. 2023;S1546-1440(23)00334-4.
+11. National Comprehensive Cancer Network [homepage on the Internet]. Breast cancer screening and diagnosis. Version 1.2022 — June
+2, 2022. [cited 2023 Mar 7]. Available from: https://www.nccn.org.
+12. Walter LC, Schonberg MA. Screening mammography in older
+women: a review. JAMA. 2014;311:1336–47.
+13. Lee CS, Lewin A, Reig B, et al. Women 75 years old or older: to
+screen or not to screen? Radiographics. 2023;43:e220166.
+14. Hendrick RE, Helvie MA. United States Preventive Services Task
+Force screening mammography recommendations: science ignored.
+AJR Am J Roentgenol. 2011;196:W112–6.
+15. Miglioretti DL, Lange J, van den Broek JJ, et al. Radiation-induced
+breast cancer incidence and mortality from digital mammography
+screening: a modeling study. Ann Intern Med. 2016;164:205–14.
+16. Friedewald SM, Rafferty EA, Rose SL, et al. Breast cancer screening using tomosynthesis in combination with digital mammography.
+JAMA. 2014;311:2499–507.
+17. Heindel W, Weigel S, Gerß J, et al. Digital breast tomosynthesis
+plus synthesised mammography versus digital screening mammography for the detection of invasive breast cancer (TOSYMA):
+a multicentre, open-label, randomised, controlled, superiority trial.
+Lancet Oncol. 2022;23:601–11.
+18. Alabousi M, Wadera A, Kashif Al-Ghita MK, et al. Performance of
+digital breast tomosynthesis, synthetic mammography, and digital
+mammography in breast cancer screening: a systematic review and
+meta-analysis. J Natl Cancer Inst. 2021;113:680–90.
+19. Conant EF, Talley MM, Parghi CR, et al. Mammographic screening
+in routine practice: multisite study of digital breast tomosynthesis and
+digital mammography screenings. Radiology. 2023;307:e221571.
+20. Lowry KP, Coley RY, Miglioretti DL, et al. Screening performance
+of digital breast tomosynthesis vs digital mammography in community practice by patient age, screening round, and breast density.
+JAMA Netw Open. 2020;3:e2011792.
+21. Yun SJ, Ryu CW, Rhee SJ, et al. Benefit of adding digital breast
+tomosynthesis to digital mammography for breast cancer screening
+focused on cancer characteristics: a meta-analysis. Breast Cancer
+Res Treat. 2017;164:557–69.
+22. Hovda T, Holen ÅS, Lång K, et al. Interval and consecutive round
+breast cancer after digital breast tomosynthesis and synthetic 2D
+mammography versus standard 2D digital mammography in breast
+screen Norway. Radiology. 2020;294:256–64.
+23. Dang PA, Wang A, Senapati GM, et al. Comparing tumor characteristics and rates of breast cancers detected by screening digital
+breast tomosynthesis and full-field digital mammography. AJR Am J
+Roentgenol. 2020;214:701–6.
+24. Pattacini P, Nitrosi A, Rossi PG, et al.; RETomo Working Group. A
+randomized trial comparing breast cancer incidence and interval
+cancers after tomosynthesis plus mammography versus mammography alone. Radiology. 2022;303:256–66.
+
+Radiol Bras. 2023 Jul/Ago;56(4):207–214
+
+25. Oeffinger KC, Fontham ET, Etzioni R, et al.; American Cancer
+Society. Breast cancer screening for women at average risk: 2015
+guideline update from the American Cancer Society. JAMA. 2015;
+314:1599–614.
+26. Sardanelli F, Aase HS, Álvarez M, et al. Position paper on screening
+for breast cancer by the European Society of Breast Imaging (EUSOBI) and 30 national breast radiology bodies from Austria, Belgium, Bosnia and Herzegovina, Bulgaria, Croatia, Czech Republic,
+Denmark, Estonia, Finland, France, Germany, Greece, Hungary,
+Iceland, Ireland, Italy, Israel, Lithuania, Moldova, The Netherlands, Norway, Poland, Portugal, Romania, Serbia, Slovakia, Spain,
+Sweden, Switzerland and Turkey. Eur Radiol. 2017;27:2737–43.
+27. Société d’Imagerie de la Femme [homepage on the Internet]. Préconisation de la SIFEM sur l’utilisation de la tomosynthèse en
+France. [cited 2023 Mar 17]. Available from: https://www.imageriedelafemme.org/preconisation-de-la-sifem-sur-lutilisation-de-la-tomosynthese-en-france/.
+28. European Commission [homepage on the Internet]. Tomosynthesis vs. digital mammography. [cited 2023 Mar 17]. Available from:
+https://healthcare-quality.jrc.ec.europa.eu/european-breast-cancerguidelines/screening-tests/DBT-or-DM.
+29. Brasil. Ministério da Saúde. Agência Nacional de Vigilância Sanitária [homepage on the Internet]. Instrução Normativa - IN N°
+92, de 27 de maio de 2021. [cited 2023 May 10]. Available from:
+https://bvsms.saude.gov.br/bvs/saudelegis/anvisa/2020/in092_27_
+05_2021.pdf.
+30. Damilakis J, Frija G, Brkljacic B, et al.; European Society of Radiology. How to establish and use local diagnostic reference levels: an ESR EuroSafe Imaging expert statement. Insights Imaging.
+2023;14:27.
+31. Hadadi I, Rae W, Clarke J, et al. Diagnostic performance of adjunctive imaging modalities compared to mammography alone in
+women with non-dense and dense breasts: a systematic review and
+meta-analysis. Clin Breast Cancer. 2021;21:278–91.
+32. Phi XA, Tagliafico A, Houssami N, et al. Digital breast tomosynthesis for breast cancer screening and diagnosis in women with dense
+breasts – a systematic review and meta-analysis. BMC Cancer.
+2018;18:380.
+33. Ohuchi N, Suzuki A, Sobue T, et al. Sensitivity and specificity of
+mammography and adjunctive ultrasonography to screen for breast
+cancer in the Japan Strategic Anti-cancer Randomized Trial (JSTART): a randomised controlled trial. Lancet. 2016;387:341–8.
+34. Harada-Shoji N, Suzuki A, Ishida T, et al. Evaluation of adjunctive
+ultrasonography for breast cancer detection among women aged
+40-49 years with varying breast density undergoing screening mammography: a secondary analysis of a randomized clinical trial. JAMA
+Netw Open. 2021;4:e2121505.
+35. Brem RF, Tabár L, Duffy SW, et al. Assessing improvement in detection of breast cancer with three-dimensional automated breast
+US in women with dense breast tissue: the SomoInsight Study. Radiology. 2015;274:663–73.
+36. Wu T, Warren LJ. The added value of supplemental breast ultrasound screening for women with dense breasts: a single center Canadian experience. Can Assoc Radiol J. 2022;73:101–6.
+37. Rebolj M, Assi V, Brentnall A, et al. Addition of ultrasound to mammography in the case of dense breast tissue: systematic review and
+meta-analysis. Br J Cancer. 2018;118:1559–70.
+38. Weigert J, Steenbergen S. The connecticut experiments second
+year: ultrasound in the screening of women with dense breasts.
+Breast J. 2015;21:175–80.
+39. Bakker MF, de Lange SV, Pijnappel RM, et al.; DENSE Trial Study
+Group. Supplemental MRI screening for women with extremely
+dense breast tissue. N Engl J Med. 2019;381:2091–102.
+40. Lopez-Garcia MA, Geyer FC, Lacroix-Triki M, et al. Breast cancer
+precursors revisited: molecular features and progression pathways.
+Histopathology. 2010;57:171–92.
+
+213
+
+Urban LABD, et al. / Recomendações para o rastreamento do câncer de mama
+
+41. Hartmann LC, Radisky DC, Frost MH, et al. Understanding the
+premalignant potential of atypical hyperplasia through its natural history: a longitudinal cohort study. Cancer Prev Res (Phila).
+2014;7:211–7.
+42. Worsham MJ, Abrams J, Raju U, et al. Breast cancer incidence in
+a cohort of women with benign breast disease from a multiethnic,
+primary health care population. Breast J. 2007;13:115–21.
+43. London SJ, Connolly JL, Schnitt SJ, et al. A prospective study of
+benign breast disease and the risk of breast cancer. JAMA. 1992;
+267:941–4.
+44. Collins LC, Baer HJ, Tamimi RM, et al. The influence of family
+history on breast cancer risk in women with biopsy-confirmed benign breast disease: results from the Nurses’ Health Study. Cancer.
+2006;107:1240–7.
+45. Menes TS, Kerlikowske K, Lange J, et al. Subsequent breast cancer
+risk following diagnosis of atypical ductal hyperplasia on needle biopsy. JAMA Oncol. 2017;3:36–41.
+46. Page DL, Kidd TE Jr, Dupont WD, et al. Lobular neoplasia of the
+breast: higher risk for subsequent invasive cancer predicted by
+more extensive disease. Hum Pathol. 1991;22:1232–9.
+47. Brentnall AR, Cuzick J. Risk models for breast cancer and their
+validation. Stat Sci. 2020;35:14–30.
+48. National Cancer Institute [homepage on the Internet]. SEER Cancer Statistics Review (CSR) 1975–2018. Published April 2021.
+[cited 2021 Sep 3]. Available from: https://www.seer.cancer.gov/
+csr/1975_2018/.
+49. Houssami N, Abraham LA, Kerlikowske K, et al. Risk factors for
+second screen-detected or interval breast cancers in women with
+a personal history of breast cancer participating in mammography
+screening. Cancer Epidemiol Biomarkers Prev. 2013;22:946–61.
+50. Gweon HM, Cho N, Han W, et al. Breast MR imaging screening
+in women with a history of breast conservation therapy. Radiology.
+2014;272:366–73.
+51. Giess CS, Poole PS, Chikarmane SA, et al. Screening breast MRI
+in patients previously treated for breast cancer: diagnostic yield for
+cancer and abnormal interpretation rate. Acad Radiol. 2015;22:
+1331–7.
+52. Cho N, Han W, Han BK, et al. Breast cancer screening with mammography plus ultrasonography or magnetic resonance imaging in
+women 50 years or younger at diagnosis and treated with breast
+conservation therapy. JAMA Oncol. 2017;3:1495–502.
+53. Berg WA, Zhang Z, Lehrer D, et al.; ACRIN 6666 Investigators.
+Detection of breast cancer with addition of annual screening ultrasound or a single screening MRI to mammography in women with
+elevated breast cancer risk. JAMA. 2012;307:1394–404.
+54. Bae MS, Sung JS, Bernard-Davila B, et al. Survival outcomes of
+screening with breast MRI in women at elevated risk of breast cancer. J Breast Imaging. 2020;2:29–35.
+55. Sippo DA, Burk KS, Mercaldo SF, et al. Performance of screening
+breast MRI across women with different elevated breast cancer risk
+indications. Radiology. 2019;292:51–9.
+
+214
+
+56. Lehman CD, Lee JM, DeMartini WB, et al. Screening MRI in
+women with a personal history of breast cancer. J Natl Cancer Inst.
+2016;108:djv349.
+57. Weinstock C, Campassi C, Goloubeva O, et al. Breast magnetic
+resonance imaging (MRI) surveillance in breast cancer survivors.
+Springerplus. 2015;4:459.
+58. Wernli KJ, Ichikawa L, Kerlikowske K, et al. Surveillance breast
+MRI and mammography: comparison in women with a personal
+history of breast cancer. Radiology. 2019;292:311–8.
+59. Smith D, Sepehr S, Karakatsanis A, et al. Yield of surveillance imaging after mastectomy with or without reconstruction for patients
+with prior breast cancer: a systematic review and meta-analysis.
+JAMA Netw Open. 2022;5:e2244212.
+60. Mulder RL, Kremer LCM, Hudson MM, et al.; International Late
+Effects of Childhood Cancer Guideline Harmonization Group.
+Recommendations for breast cancer surveillance for female survivors of childhood, adolescent, and young adult cancer given chest
+radiation: a report from the International Late Effects of Childhood Cancer Guideline Harmonization Group. Lancet Oncol.
+2013;14:e621–9.
+61. Swerdlow AJ, Cooke R, Bates A, et al. Breast cancer risk after supradiaphragmatic radiotherapy for Hodgkin’s lymphoma in England and
+Wales: a National Cohort Study. J Clin Oncol. 2012;30:2745–52.
+62. Rijnsburger AJ, Obdeijn IM, Kaas R, et al. BRCA1-associated breast
+cancers present differently from BRCA2-associated and familial
+cases: long-term follow-up of the Dutch MRISC Screening Study. J
+Clin Oncol. 2010;28:5265–73.
+63. National Comprehensive Cancer Network [homepage on the Internet]. Genetic/familial high-risk assessment: breast, ovarian, and
+pancreatic. Version 3.2023 – February 13, 2023. [cited 2023 Mar 7].
+Available from: https://www.nccn.org/guidelines/guidelines-detail?
+category=2&id=1503.
+64. Guindalini RSC, Viana DV, Kitajima JPFW, et al. Detection of
+germline variants in Brazilian breast cancer patients using multigene panel testing. Sci Rep. 2022;12:4190.
+65. Frebourg T, Lagercrantz SB, Oliveira C, et al.; European Reference Network GENTURIS. Guidelines for the Li-Fraumeni and
+heritable TP53-related cancer syndromes. Eur J Hum Genet. 2020;
+28:1379–86.
+66. Chiarelli AM, Blackmore KM, Muradali D, et al. Performance measures of magnetic resonance imaging plus mammography in the
+High Risk Ontario Breast Screening Program. J Natl Cancer Inst.
+2020;112:136–44.
+67. Saadatmand S, Geuzinge HA, Rutgers EJT, et al.; FaMRIsc study
+group. MRI versus mammography for breast cancer screening in
+women with familial risk (FaMRIsc): a multicentre, randomised,
+controlled trial. Lancet Oncol. 2019;20:1136–47.
+68. Phi XA, Saadatmand S, De Bock GH, et al. Contribution of mammography to MRI screening in BRCA mutation carriers by BRCA
+status and age: individual patient data meta-analysis. Br J Cancer.
+2016;114:631–7.
+
+Radiol Bras. 2023 Jul/Ago;56(4):207–214
+
+

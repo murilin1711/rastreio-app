@@ -1,0 +1,2626 @@
+Brasília, DF | Março de 2026
+
+
+Relatório de Recomendação
+PROTOCOLOS & DIRETRIZES
+
+
+
+
+             Diretrizes Brasileiras
+ do Rastreamento do câncer de cólon e reto (CCR)
+2026 Ministério da Saúde.
+
+É permitida a reprodução parcial ou total desta obra, desde que citada a
+fonte e que não seja para venda ou qualquer fim comercial.
+A responsabilidade pelos direitos autorais de textos e imagens desta obra
+é da Conitec.
+
+
+Elaboração, distribuição e informações
+MINISTÉRIO DA SAÚDE
+Secretaria de Ciência, Tecnologia e Inovação em Saúde – SCTIE/MS
+Departamento de Gestão e Incorporação de Tecnologias em Saúde - DGITS
+Coordenação-Geral de Gestão de Protocolos Clínicos e Diretrizes Terapêuticas –
+CGPCDT
+Esplanada dos Ministérios, Bloco G, Edifício Sede, 8º andar
+CEP: 70.058-900 – Brasília/DF
+Tel.: (61) 3315-2848
+Site: https://www.gov.br/conitec/pt-br
+E-mail: conitec@saude.gov.br
+
+
+Elaboração
+DIVISÃO DE AVALIAÇÃO DE TECNOLOGIAS EM SAÚDE (DATS)/COORDENAÇÃO
+DE PREVENÇÃO E VIGILÂNCIA / INSTITUTO NACIONAL DE CÂNCER
+DIVISÃO DE DETECÇÃO PRECOCE E APOIO À ORGANIZAÇÃO DE REDE
+(DIDEPRE)/COORDENAÇÃO DE PREVENÇÃO E VIGILÂNCIA / INSTITUTO
+NACIONAL DE CÂNCER
+
+
+
+
+                                                                                               2
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+Marco Legal
+
+        Em 28 de abril de 2011, foi publicada a Lei n° 12.401, que alterou a Lei nº 8.080
+de 1990, dispondo sobre a assistência terapêutica e a incorporação de tecnologias
+em saúde no âmbito do Sistema Único de Saúde (SUS). Esta lei define que o
+Ministério da Saúde, assessorado pela Comissão Nacional de Incorporação de
+Tecnologias no Sistema Único de Saúde – Conitec, tem como atribuições a
+incorporação, exclusão ou alteração de novos medicamentos, produtos e
+procedimentos, bem como a constituição ou alteração de protocolo clínico ou de
+diretriz terapêutica.
+        As diretrizes clínicas são documentos baseados em evidências científicas,
+que visam a garantir as melhores práticas para o diagnóstico, tratamento e
+monitoramento dos pacientes no âmbito do SUS, tais como protocolo clínico e
+diretrizes terapêuticas, protocolo de uso e diretrizes brasileiras ou nacionais. Podem
+ser utilizadas como materiais educativos aos profissionais de saúde, auxílio
+administrativo aos gestores, regulamentação da conduta assistencial perante o
+Poder Judiciário e explicitação de direitos aos usuários do SUS.
+       As Diretrizes Clínicas devem incluir recomendações de condutas,
+medicamentos ou produtos para as diferentes fases evolutivas da doença ou do
+agravo à saúde de que se tratam, bem como aqueles indicados em casos de perda
+de eficácia e de surgimento de intolerância ou reação adversa relevante, provocadas
+pelo medicamento, produto ou procedimento de primeira escolha. A lei reforçou a
+análise baseada em evidências científicas para a elaboração desses documentos,
+destacando os critérios de eficácia, segurança, efetividade e custo-efetividade para
+a formulação das recomendações sobre intervenções em saúde.
+        O Anexo XVI Portaria de Consolidação GM/MS n° 1, de 28 de setembro de
+2017, instituiu na Conitec uma Subcomissão Técnica de Avaliação de PCDT, com as
+competências de analisar os critérios para priorização da atualização de diretrizes
+clínicas vigentes, contribuir para o aprimoramento das diretrizes metodológicas que
+norteiam a elaboração de diretrizes clínicas do Ministério da Saúde, acompanhar, em
+conjunto com as áreas competentes do Ministério da Saúde, a elaboração de
+diretrizes clínicas, indicar especialistas para elaboração e revisão de diretrizes
+clínicas, dentre outras.
+        A Subcomissão Técnica de Avaliação de PCDT é composta por
+representantes de Secretarias do Ministério da Saúde interessadas na elaboração de
+diretrizes clínicas: Secretaria de Atenção Primária à Saúde, Secretaria de Atenção
+Especializada à Saúde, Secretaria de Vigilância em Saúde e Ambiente, Secretaria de
+Saúde Indígena e Secretaria de Ciência, Tecnologia e Inovação em Saúde.
+        Após concluídas as etapas de definição do tema e escopo das diretrizes
+clínicas, de busca, seleção e análise de evidências científicas e consequente
+definição das recomendações, a aprovação do texto é submetida à apreciação do
+Comitê de PCDT, com posterior disponibilização deste documento para contribuição
+                                                                                               0
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+de sociedade, por meio de consulta pública (CP) pelo prazo de 20 dias antes da
+deliberação final e publicação. Esse prazo pode ser reduzido a 10 dias em casos de
+urgência. A consulta pública é uma importante etapa de revisão externa das
+diretrizes clínicas.
+       O Comitê de PCDT é o fórum responsável pelas recomendações sobre a
+constituição ou alteração de diretrizes clínicas. É composto por quinze membros, um
+representante de cada Secretaria do Ministério da Saúde – sendo presidido pelo
+representante da Secretaria de Ciência, Tecnologia e Inovação em Saúde – SCTIE, e
+um representante de cada uma das seguintes instituições: Agência Nacional de
+Vigilância Sanitária - Anvisa, Agência Nacional de Saúde Suplementar - ANS,
+Conselho Nacional de Saúde - CNS, Conselho Nacional de Secretários de Saúde -
+CONASS, Conselho Nacional de Secretarias Municipais de Saúde – CONASEMS,
+Conselho Federal de Medicina – CFM, Associação Médica Brasileira – AMB e
+Núcleos de Avaliação de Tecnologias em Saúde – NATS, pertencente à Rede
+Brasileira de Avaliação de Tecnologias em Saúde- Rebrats. Cabe à Secretaria-
+Executiva, exercida pelo Departamento de Gestão e Incorporação de Tecnologias
+em Saúde (DGITS/SECTICS/MS), a gestão e a coordenação das atividades da
+Conitec.
+       Conforme o Decreto n° 7.646 de 2011, o Secretário de Ciência, Tecnologia,
+Inovação em Saúde deverá submeter as diretrizes clínicas à manifestação do titular
+da Secretaria responsável pelo programa ou ação a ele relacionado antes da sua
+publicação e disponibilização à sociedade.
+
+
+
+
+                                                                                               1
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+Apresentação
+
+        A proposta de elaboração das Diretrizes Brasileiras do Rastreamento do
+câncer de cólon e reto é uma demanda oriunda do Instituto Nacional de Câncer. Esta
+elaboração considera a Portaria GM/MS nº 1.929, de 23 de novembro de 2023, que
+instituiu o Grupo de Trabalho (GT) para fortalecer a prevenção, a detecção precoce
+e o tratamento do câncer de cólon e reto no âmbito do Ministério da Saúde.
+      O GT é composto pelo Instituto Nacional de Câncer da Secretaria de Atenção
+Especializada (INCA/SAES), pela Coordenação-Geral da Política Nacional de
+Prevenção e Controle do Câncer (CGCAN/SAES) e a Coordenação Geral de
+Prevenção às Condições Crônicas na Atenção Primária à Saúde do Departamento de
+Promoção da Saúde da Secretaria de Atenção Primária à Saúde
+(CGCOC/DEPROS/SAPS). O GT é coordenado pela Divisão de Detecção Precoce e
+Apoio à Organização de Rede da Coordenação de Prevenção e Vigilância
+(DIDEPRE/CONPREV/INCA).
+
+
+
+
+                                                                                               2
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+                                          ANEXO
+
+     DIRETRIZES BRASILEIRAS DO RASTREAMENTO DO
+            CÂNCER DE CÓLON E RETO (CCR)
+
+1.    INTRODUÇÃO
+
+       O câncer de cólon e reto (CCR) é o terceiro tipo de câncer mais comum em
+ambos os sexos no mundo, com estimativa de 1.140.000 casos novos entre homens
+e 929 mil casos novos entre mulheres, para o ano de 2025. Estima-se um aumento
+de 6,2% do número de casos novos entre o ano de 2022 e 2025 entre homens; e 8,4%
+entre as mulheres. Para o ano de 2022, as taxas de incidência foram de 21,9 casos
+por 100 mil homens e de 15,2 casos por 100 mil mulheres. A maioria dos casos
+concentra-se na Ásia, Europa e América do Norte, sendo que 90% ocorrem em
+países com alto ou muito alto Índice de Desenvolvimento Humano (IDH). Em relação
+à mortalidade, em 2022 ocorreram 904.019 óbitos em decorrência do CCR,
+representando a segunda maior causa de morte por câncer1.
+       Arnold e colaboradores identificaram três padrões temporais nos dados
+mundiais: países com incidência e mortalidade decrescente, como Austrália, França,
+Japão e Estados Unidos (EUA); países onde há aumento da incidência, mas
+diminuição da mortalidade, como Canadá e Reino Unido e países onde há aumento
+da incidência e mortalidade na década mais recente, como os Países Bálticos,
+Rússia, China e Brasil2.
+      As razões para a tendência de declínio na incidência nos países de alta renda
+na América do Norte, Oceania e Europa do Norte e Ocidental não são totalmente
+compreendidas, mas podem estar relacionadas à detecção e ressecção de lesões
+precursoras de CCR por meio de programas de rastreamento populacional3.
+       O aumento da incidência em países de baixa renda da Ásia, África e América
+Latina está relacionado ao aumento na prevalência de fatores de risco para a
+doença, como obesidade, padrões alimentares (consumo regular de carne vermelha
+ou derivados, baixo consumo de fibras alimentares e vitaminas antioxidantes) e
+outros fatores de estilo de vida (sedentarismo, tabagismo e consumo de álcool).
+       Os declínios da mortalidade observados nos países de alta renda refletem a
+redução na incidência, assim como o desenvolvimento e a disponibilização de novas
+tecnologias direcionadas ao tratamento do CCR, determinando melhora do
+prognóstico e aumento real da sobrevida. A taxa de sobrevida média global em cinco
+anos de pacientes com CCR varia consideravelmente entre os países: 65% nos países
+de alta renda e menos de 50% nos países de baixa renda. O estadiamento no
+diagnóstico continua sendo o fator prognóstico mais importante3.
+
+
+
+                                                                                                0
+     Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+       No Brasil estimam-se, para o ano de 2025, 21.970 casos de CCR entre os
+homens e 23.660 casos entre as mulheres, correspondendo a um risco estimado de
+20,78 casos novos a cada 100 mil homens e de 21,41 a cada 100 mil mulheres4.
+        Sem considerar os tumores de pele não melanoma, o câncer de cólon e reto
+ocupa a terceira posição entre os tipos de câncer mais frequentes na população
+brasileira. Também ocupa a segunda posição quando homens e mulheres são
+avaliados separadamente. O risco é maior nos estados das Regiões Sudeste e Sul,
+onde as taxas ultrapassam 25 casos por 100 mil em homens e mulheres5.
+      Em termos de mortalidade no Brasil, em 2023, ocorreram 23.953 óbitos por
+câncer de cólon e reto (11,31 por 100 mil). Entre os homens, houve 12.094 óbitos,
+correspondendo a 11,71 mortes por 100 mil homens. Entre as mulheres, foram 11.859
+mortes, correspondendo a 10,94 óbitos por 100 mil mulheres5.
+        O CCR é uma doença heterogênea e se desenvolve predominantemente a
+partir de pólipos, lesões benignas da mucosa do intestino grosso. Cerca de 75% dos
+CCR origina-se a partir de pólipos adenomatosos, pela denominada "via do adenoma
+ao carcinoma”, com evolução estimada entre 20 e 25 anos. Outros 12% a 15% formam-
+se pela denominada “via serrilhada”, desenvolvida a partir de pólipos serrilhados. A
+maioria dos pólipos adenomatosos e serrilhados não evoluirá para o câncer, no
+entanto, estão associados a um risco aumentado de CCR, principalmente quando
+classificados como “avançados”, ou seja, com 10 ou mais milímetros de diâmetro,
+componente viloso e displasia de alto-grau6,7.
+       Por suas características, o CCR apresenta alto potencial para o
+desenvolvimento de ações de controle por meio da prevenção primária (promoção
+à saúde, estimulando hábitos de vida saudáveis) e secundária (detecção precoce
+que inclui o rastreamento e o diagnóstico precoce). Devido à existência de lesões
+pré-malignas, esse câncer é passível de ações de rastreamento, com a identificação
+e tratamento de lesões precursoras antes de se tornarem malignas. No processo de
+desenvolvimento, os pólipos podem sofrer erosões e apresentar pequenos
+sangramentos, passíveis de serem identificados nas fezes por meio de exames
+laboratoriais ou endoscópicos. As formas de diagnóstico serão detalhadas a seguir:
+      Testes laboratoriais
+      Teste de sangue oculto nas fezes baseado em guaiaco (g-FOBT)
+        Trata-se de um dos primeiros testes a serem utilizados para rastreamento de
+CCR e identifica a presença de hemoglobina nas fezes. Os resultados baseados em
+g-FOBT foram muito promissores, mostrando uma redução na incidência e
+mortalidade de CCR. No entanto, o g-FOBT apresenta como desvantagens: a
+necessidade de repetição da coleta de amostras em três dias consecutivos; a
+incapacidade em distinguir a fonte de sangramento (trato gastrintestinal superior ou
+inferior) e a necessidade de restrições alimentares como preparo para a realização
+do teste. O desempenho diagnóstico do g-FOBT é inferior ao do teste imunoquímico
+fecal (FIT) e muitos especialistas sugerem a substituição do g-FOBT pelo FIT.
+Contudo, foi demonstrado que o g-FOBT reduz a mortalidade por CCR, sendo uma
+alternativa razoável quando testes imunoquímicos não estão disponíveis8,9.
+                                                                                               1
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+       Teste imunoquímico fecal (FIT)
+       O FIT avalia a presença de sangue oculto nas fezes usando um anticorpo
+contra a porção globina do heme. Não requer restrições alimentares e uma única
+amostra é suficiente. Outro benefício é que o FIT pode identificar se o sangramento
+é proveniente do trato gastrointestinal inferior, sem necessidade de limitação da
+dieta nos dias anteriores ao teste. Comparado ao g-FOBT, o FIT apresenta maior
+sensibilidade para detectar lesões pré-cancerosas (20-50% versus 11-20%,
+respectivamente) e CCR (79% versus 20-50%, respectivamente). O teste pode ser
+tanto qualitativo como quantitativo e parece demonstrar maior adesão dos
+pacientes, sendo recomendado como opção preferida para detectar sangue oculto
+nas fezes no rastreamento de CCR em vários países europeus, do Pacífico Ocidental,
+da Ásia Oriental e da América, onde há programas organizados de rastreamento8–10.
+
+
+       Exames endoscópicos
+       Retossigmoidoscopia
+        É um exame endoscópico de imagem realizado por meio da observação
+direta do interior do canal anal, reto e cólon sigmoide. O retossigmoidoscópio pode
+ser rígido ou flexível (atingindo o segmento do cólon). A retossigmoidoscopia flexível
+permite avaliar o exame da área onde ocorrem 55% a 60% dos CCR e adenomas
+avançados, no entanto, é importante destacar que este exame não permite a
+visualização de todo o cólon. Quando são detectadas anormalidades, uma amostra
+de tecido (biópsia) pode ser coletada para exame histopatológico. É necessário
+preparo e sedação pode ser utilizada ou não11.
+
+
+       Colonoscopia
+       É o exame endoscópico que permite examinar todo o cólon (intestino grosso).
+O colonoscópio é semelhante a um retossigmoidoscópio flexível, porém é muito
+mais longo, propiciando o exame de todo o comprimento do intestino grosso, a
+realização de biópsias e a remoção da maioria dos adenomas e alguns cânceres
+durante o exame. É necessário realizar um preparo intestinal adequado e sedação11
+11
+  .
+       O rastreamento do câncer de cólon e reto tem sido realizado em estudos com
+o uso do exame de sangue oculto de fezes (FOBT) como um primeiro teste de
+triagem, seguido, nos casos positivos, de exame complementar para confirmação
+diagnóstica. Inicialmente, a tecnologia utilizada era g-FOBT, mas a revisão
+sistemática (RS) de Bénard e colaboradores12 apontou que a maioria das diretrizes
+adotadas internacionalmente recomenda o uso bienal de FOBT (principalmente FIT)
+                                                                                               2
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+seguido de colonoscopia para os casos com resultados positivos 12. Ao longo dos
+anos, outras opções de teste de rastreamento também foram avaliadas, como a
+possibilidade de iniciar o rastreamento diretamente com exames endoscópicos, tais
+como retossigmoidoscopia ou colonoscopia, além de outras tecnologias como
+colonoscopia virtual e pesquisa de DNA fecal13.
+       Para estabelecer uma política de rastreamento, deve- se observar o impacto
+na mortalidade, sobrevida e especialmente o balanço entre os riscos e benefícios
+dessa prática, atendendo aos princípios bioéticos de beneficência e não
+maleficência, ou seja, os benefícios devem superar eventuais danos. Além disso, o
+benefício do rastreamento pode ser negativamente impactado por baixas taxas de
+adesão e qualidade subótima dos métodos endoscópicos14,15.
+        Neste contexto, as Diretrizes Brasileiras do Rastreamento do câncer de cólon
+e reto (CCR) refletem as evidências científicas, de modo a atender às necessidades
+de diversos segmentos da sociedade, e ser aplicada às unidades de atenção à saúde
+do SUS.
+       As diretrizes são voltadas para pacientes, profissionais de saúde, equipes
+multidisciplinares e gestores de saúde. Os locais de implementação do
+rastreamento incluem, essencialmente, unidades de atenção primária à saúde e
+seguimento na atenção especializada, a partir da viabilidade para a realização dos
+exames endoscópicos (com foco no diagnóstico precoce) e encaminhamento para
+o tratamento, quando necessário.
+       Espera-se que estas diretrizes fomentem a otimização dos recursos
+disponíveis para a organização da rede de atenção à saúde, de modo a, diminuir
+o número de casos avançados, e de mortalidade por CCR e melhoria da qualidade
+de vida dos pacientes.
+        A Atenção Primária à Saúde (APS), como porta de entrada preferencial e
+ordenadora do cuidado na rede de atenção à saúde, exerce papel fundamental na
+promoção da saúde, na prevenção de doenças, na identificação de fatores de risco
+e na detecção precoce, oportunizando, desta forma, a promoção de intervenções
+oportunas e o encaminhamento adequado para o nível especializado de atenção à
+saúde quando necessário. O vínculo contínuo com os usuários e a atuação direta no
+território, princípios e diretrizes basilares da APS, possibilitam uma abordagem
+longitudinal e integral, favorecendo, por conseguinte, melhores desfechos
+terapêuticos e o prognóstico dos casos, além de fortalecer a coordenação do
+cuidado ao longo do tempo.
+         .
+
+2.      RECOMENDAÇÕES DO RASTREAMENTO
+
+1.1.         Pressupostos preliminares
+
+
+                                                                                                  3
+       Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+       Como o rastreamento é uma atividade relacionada à detecção precoce de
+casos iniciais de câncer de cólon e reto e suas lesões precursoras, todos
+assintomáticos, as recomendações destas Diretrizes não se aplicam a casos
+sintomáticos, que podem estar relacionados ao câncer avançado. Entre os sintomas
+comumente relatados e associados ao câncer de cólon e reto encontram-se: dor
+abdominal localizada ou generalizada, alteração do hábito intestinal, perda de peso
+sem outra causa conhecida, hematoquezia, enterorragia, anemia ferropriva e
+suboclusão intestinal. Entre os sintomas específicos do câncer retal encontram-se:
+dor em região do reto (normalmente neuropática), tenesmo, sangramento retal,
+hematoquezia e massa em região retal.
+       Assim, pessoas sintomáticas devem ser avaliadas para excluir a possibilidade
+de câncer avançado e, em caso de suspeita, devem ser encaminhadas ao serviço
+especializado no diagnóstico dessa doença, independentemente do intervalo desde
+o último exame de rastreamento, conforme as recomendações do Protocolo Clínico
+e Diretrizes Terapêuticas do Adenocarcinoma de Cólon e Reto16.
+       Para a população-alvo da presente diretriz, consideram-se indivíduos adultos
+assintomáticos, de ambos os sexos, com risco padrão de câncer de cólon e reto.
+Esse risco padrão é definido como o grupo de indivíduos sem diagnóstico prévio de
+câncer de cólon e reto, pólipos adenomatosos ou doença inflamatória intestinal; sem
+diagnóstico pessoal ou histórico familiar de distúrbios genéticos conhecidos que os
+predisponham a um alto risco ao longo da vida de câncer de cólon e reto, como a
+síndrome de Lynch ou polipose adenomatosa familiar17.
+
+
+
+1.2.    Recomendações para indivíduos adultos, de
+        ambos os sexos, assintomáticos e com risco
+        padrão
+
+      O rastreamento de adultos, de ambos os sexos, assintomáticos e com risco
+padrão deve seguir o fluxo descrito na Figura 1.
+
+
+
+
+                                                                                               4
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+  Figura 1 - Fluxograma-resumo de condutas do rastreamento do CCR.
+Legenda: CCR: câncer colorretal, FIT: Teste imunoquímico fecal
+Nota: 1 Se houver suspeita de adenocarcinoma de cólon e reto, seguir o cuidado
+preconizado no Protocolo Clínico e Diretrizes Terapêuticas do Adenocarcinoma de cólon e
+reto.
+
+
+
+
+        Recomendação 1. Recomenda-se o uso da pesquisa de sangue oculto nas
+fezes como método de rastreamento do câncer de cólon e reto (CCR) em
+indivíduos adultos, de ambos os sexos, assintomáticos e com risco padrão
+(Recomendação forte, baseada em evidência de certeza moderada, aceitabilidade e
+viabilidade).
+       Embora nenhum ensaio clínico randomizado tenha demonstrado redução da
+mortalidade geral, em comparação com a ausência de rastreamento, há evidência
+de redução da mortalidade específica por câncer de cólon e reto com o uso de
+testes fecais.
+       É importante ressaltar que a mortalidade geral não se trata do desfecho mais
+adequado para avaliar o rastreamento oncológico porque o CCR representa uma
+proporção pequena do total de causas de mortes. Sendo assim, o desfecho mais
+apropriado para o rastreamento é a mortalidade específica por câncer rastreado,
+como reconhecido pela US Preventive Services Task Force (USPSTF), WHO e Agência
+para Pesquisa e Qualidade em Saúde (AHRQ)10. Quatro ensaios clínicos
+                                                                                               5
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+randomizados (ECRs) forneceram dados para o desfecho de redução da mortalidade
+específica por câncer colorretal com rastreamento com pesquisa de sangue oculto
+nas fezes18.
+       Para a redução da mortalidade por CCR através do rastreamento com
+colonoscopia, não foram identificados ECR. Portanto, as evidências para o
+rastreamento com colonoscopia foram indiretas, a partir dos resultados dos ECRs
+que utilizaram rastreamento com retossigmoidoscopia18 e também em análise per-
+protocol do estudo NordICC conduzido na Polônia, Noruega e Suécia que utilizou
+colonoscopia, e cujo comparador foi ausência de rastreamento. Como resultado, foi
+estimada a redução de 31% na incidência de CCR e de 50% da mortalidade por CCR19.
+      Os estudos encontrados que comparam diretamente os testes laboratoriais
+com os endoscópicos apresentaram os seguintes resultados:
+     Comparação 1 – FIT anual X colonoscopia (uma vez): Recomenda-se FIT
+quando comparado com colonoscopia para iniciar o rastreamento
+       Para esta comparação foram selecionadas duas publicações referentes a um
+ensaio clínico randomizado. O estudo TARGET-C conduzido por Xu e
+colaboradores20 foi realizado na China com 19.373 participantes com idade entre 50
+até 74 anos que foram aleatoriamente designados para um grupo de colonoscopia,
+um grupo FIT ou um grupo de rastreamento baseado em risco (após esta avaliação
+de risco, o grupo classificado como de alto risco realizou colonoscopia, já o grupo
+de baixo risco realizou um teste FIT) na proporção de 1:2:2. Neste estudo, a adesão
+ao programa de rastreamento foi de 99,3% para aqueles que realizaram FIT e 42,3%
+para o grupo designado para colonoscopia. Neste mesmo estudo, foi observada uma
+maior eficácia (detecção de CCR) para colonoscopia quando comparada com FIT
+anual (OR 1,30 IC95% 1,01–1,65)20
+       A certeza da evidência foi considerada alta para o desfecho adesão e para
+eficácia (detecção de CCR) foi considerada moderada devido à imprecisão e por não
+ter considerado o desfecho de mortalidade por câncer colorretal.
+       Em relação ao balanço de efeitos desejáveis e indesejáveis, o teste FIT é
+simples e a opção com menor custo, além de não ser invasivo, não exigir preparo e
+não requerer sedação. Porém, não remove o pólipo para a análise e precisa de
+exame endoscópico para confirmação diagnóstica. Já a colonoscopia permite
+detecção e remoção do pólipo durante o próprio exame. A colonoscopia é
+considerada padrão-ouro para o diagnóstico do CCR. No entanto, este exame requer
+preparo intestinal, sedação, equipamentos (colonoscópio) e médico para conduzi-lo,
+além de suporte clínico em caso de complicações, ou seja, necessita de maior
+infraestrutura nos serviços de saúde para sua realização. Quando usada como
+método de rastreamento, há exigência de maior infraestrutura do que quando usada
+apenas como método de confirmação diagnóstica, além de expor um número maior
+de indivíduos assintomáticos a riscos associados.
+
+
+
+
+                                                                                               6
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+       Comparação 2 – FIT bienal X retossigmoidoscopia (uma vez): Recomenda-
+se FIT quando comparado com retossigmoidoscopia para iniciar o rastreamento
+       Para esta comparação foram selecionados dois ECR. Botteri e colaboradores21
+compararam a adesão entre participantes do grupo FIT bienal e do grupo
+retossigmoidoscopia na Noruega em 116.938 participantes. A adesão foi maior no
+grupo designado ao FIT bienal (58,5%) do que no grupo designado a
+retossigmoidoscopia (51,5%, sem IC95% disponível)21.
+       Com relação ao desfecho de eficácia (detecção de CCR), foi encontrada
+diferença estatisticamente significativa entre FIT bienal e retossigmoidoscopia,
+favorecendo a utilização do FIT bienal (OR 1,87; IC 95% 1,54-2,27)22.
+        Para eventos adversos, o estudo de Randel e colaboradores22 comparou a
+retossigmoidoscopia com FIT bienal. Neste caso, o grupo que realizou FIT
+inicialmente e teve resultado positivo foi encaminhado para realizar a colonoscopia
+para confirmação diagnóstica. O grupo que foi alocado para realizar o FIT e a
+colonoscopia para confirmação (em caso de FIT positivo) teve 0,1% de sangramento
+ou perfuração intestinal e os participantes alocados para realizar
+retossigmoidoscopia tiveram 0,3% de sangramento e perfuração22.
+       A certeza da evidência foi considerada alta para todos os desfechos (adesão,
+eficácia e eventos adversos).
+       Como efeitos desejáveis, o FIT é de menor custo, prático, seguro por não ser
+um exame invasivo, não requer mudança na dieta para sua realização, exige apenas
+uma amostra fecal e não requer equipamentos como sigmoidoscópio nem médico
+para a realização do exame. Além disso, as evidências apontam para maior adesão
+e eficácia. Como efeitos indesejáveis, o FIT não detecta pólipos (lesões pré-
+cancerosas) e os testes com resultado positivo necessitam de exame endoscópico
+para confirmação diagnóstica.
+
+
+
+       Recomendação 2. Recomenda-se o uso do teste imunoquímico (FIT) como
+método de pesquisa de sangue oculto nas fezes para rastreamento do CCR em
+indivíduos adultos, de ambos os sexos, assintomáticos e com risco padrão
+(Recomendação forte, baseada em evidência de certeza alta e aceitabilidade).
+        A revisão sistemática da Cochrane23 foi selecionada para responder à
+pergunta sobre a comparação entre teste imunoquímico (FIT) e o teste de sangue
+oculto nas fezes baseado no guaiaco (gFOBT). Foram calculados valores sumários
+de sensibilidade e especificidade para os desfechos de detecção de câncer de cólon
+e reto (CCR) e adenoma avançado. De acordo com a revisão sistemática (RS), para o
+desfecho de detecção de câncer de cólon e reto, foram incluídos estudos cujo
+padrão de referência de colonoscopia foi realizado somente quando o paciente
+apresentou o FIT ou o gFOBT positivo (Tabela 1). Para o desfecho do adenoma
+avançado, foram incluídos estudos cujo padrão de referência foi a realização de
+colonoscopia por todos os participantes, independentemente do resultado do teste
+de sangue oculto nas fezes (Tabela 2).
+                                                                                               7
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+        A sensibilidade para diagnosticar CCR com o teste gFOBT foi
+significativamente menor do que com o FIT (qualitativo ou quantitativo juntos) para
+ambos os desfechos (detecção de CCR e adenoma avançado). Não houve diferença
+estatística para a especificidade.
+
+
+       Tabela 1: Sensibilidade e especificidade para detecção de CCR dos testes
+FIT e gFOBT (padrão de referência colonoscopia para os testes positivos).
+
+                FIT (qualitativo ou quantitativo) comparado com gFOBT
+   Teste          N estudos        Sensibilidade (%)     Especificidade (%)
+               (participantes)
+     FIT**       10 (1.274.115)   89 (IC 95%: 85 – 92)    94 (IC 95%: 92 – 95)
+    gFOBT       12 (1.349.890)    59 (IC 95%: 55 – 64)    98 (IC 95%: 98 – 99)
+** Resultados FIT para ponto de corte de 10 µg de hemoglobina/g fezes
+
+
+
+        Tabela 2: Sensibilidade e especificidade para detecção de adenoma
+avançado com os testes FIT e gFOBT (padrão de referência colonoscopia para
+todos).
+
+                  FIT (qualitativo e quantitativo) comparado com gFOBT
+   Teste          N estudos           Sensibilidade (%)     Especificidade (%)
+                (participantes)
+    FIT**          16 (49.081)      33 (IC 95%: 27 – 40)   93 (IC 95%: 90 – 95)
+    gFOBT         11 (17.622)     15 (IC 95%: 12 – 20)   94 (IC 95%: 92 – 96)
+** Resultados FIT para ponto de corte de 10 µg de hemoglobina/g fezes
+
+        Entre os efeitos desejáveis do teste FIT comparado ao gFOBT pode-se
+destacar a especificidade por globulina humana, o que não exige modificações na
+dieta; a coleta simples, com uma única amostra fecal, proporcionando maior adesão.
+Além disso, o FIT é mais específico para sangramento do trato gastrointestinal
+inferior, uma vez que a globina é degradada por enzimas digestivas no trato
+gastrointestinal superior23.
+       Os resultados da meta-análise de sensibilidade e especificidade indicam que
+o teste FIT é mais acurado na detecção do CCR e de adenomas avançados,
+entretanto, como qualquer teste diagnóstico, pode haver falsos-negativos e falsos-
+positivos. Estima-se que, a cada 100 indivíduos com CCR, 24 não serão identificados
+no rastreamento com FIT, enquanto 61 não serão identificados no rastreamento com
+gFOBT23.
+        Apesar de dados discordantes na literatura, existem estudos que relatam
+uma possível interferência de medicamentos como anticoagulantes orais de ação
+direta, aspirina e anti-inflamatórios não esteroidais, devendo, por precaução, ser
+esses medicamentos interrompidos previamente ao teste, caso sua interrupção não
+represente risco ao paciente 23–27.
+
+
+                                                                                               8
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+        Em coorte de pacientes do programa de rastreamento de câncer colorretal
+na Itália, observou-se que o rastreamento bienal com FIT está associado a uma
+redução na incidência de CCR de 33% entre homens e 21% entre mulheres, e uma
+redução na mortalidade por CCR de 65% e 54%, respectivamente28.
+        O equilíbrio entre os efeitos desejáveis e indesejáveis favorece o exame FIT,
+por ter maior precisão na identificação de pacientes com CCR e adenoma avançado,
+ocasionando um menor número de falsos-negativos e falsos-positivos, ser mais
+simples com apenas uma coleta, e apresentar uma maior taxa de adesão em relação
+ao gFOBT23.
+      A qualidade de evidência dos estudos incluídos na RS da Cochrane23 foi
+baseada na ferramenta de risco de viés de estudos diagnósticos - QUADAS-2. A
+maior parte da avaliação do risco de viés foi baixa ou incerta, sendo classificada
+como risco de viés alto em menos de 20% dos estudos.
+      A avaliação de qualidade da evidência pelo sistema GRADE foi classificada
+como moderada, pelo grupo elaborador, devido ao não rebaixamento nas
+dimensões evidência indireta, inconsistência, imprecisão e viés de publicação. A
+única dimensão rebaixada foi a de risco de viés, devido à presença de poucos
+estudos com risco de viés alto.
+       Não foi realizada avaliação econômica para essa comparação, entretanto em
+uma revisão de avaliações econômicas elaborada para parecer técnico do INCA
+sobre o tema, observou-se que os estudos que avaliaram o FIT foram dominantes
+(ou seja, o FIT consistia em estratégia de rastreamento menos custosa e mais eficaz)
+em relação a outras estratégias avaliadas, como a ausência de rastreamento (35%),
+seguido dos estudos que analisaram o gFOBT (11%). Os resultados dos estudos
+mostraram que o FIT anual foi dominante quando comparados ao gFOBT anual. Na
+França, o FIT bienal aplicado como estratégia de rastreamento na população
+definida, apresentou dominância comparado com o gFOBT bienal29.
+       Sobre a viabilidade, observa-se uma maior quantidade de testes FIT
+registrados na Agência Nacional de Vigilância Sanitária (Anvisa) em comparação ao
+gFOBT.
+        Por sua praticidade no preparo e menor risco de erros de interpretação, com
+menor proporção de falsos-positivos e falsos-negativos, o FIT apresenta maior
+viabilidade e aceitabilidade em seu uso como método de rastreamento quando
+comparado ao gFOBT.
+
+
+      Recomendação 3. Recomenda-se o uso do teste imunoquímico (FIT)
+quantitativo ou qualitativo para rastreamento do CCR em indivíduos adultos, de
+ambos os sexos, assintomáticos e com risco padrão (Recomendação condicional,
+baseada em viabilidade).
+
+
+      A maioria (45) dos 58 registros de testes FIT identificados no site da Anvisa em
+25 de março de 2025 é qualitativo.
+                                                                                     9
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+       Os testes FIT detectam sangue humano nas fezes por meio dos anticorpos
+anti-globina. Assim, não há interferência com a dieta pela ausência de reação
+cruzada com hemoglobina de outros animais. Ademais, são mais específicos para
+sangramento do trato gastrointestinal inferior, uma vez que a globina é degradada
+por enzimas digestivas no trato gastrointestinal superior. Por não serem sensíveis a
+hemorragias do TGI superior, apresentam maior especificidade para neoplasias no
+cólon e reto30.
+       Os testes qualitativos necessitam interpretação manual dos resultados como
+positivos ou negativos. Geralmente, utilizam tecnologia imunocromatográfica e
+permitem uma análise simples de base de dados. Contudo, o desempenho dos
+testes pode diferir entre as marcas, pois fornecem resultados dicotômicos e com
+pontos de corte para um resultado positivo diferentes entre as marcas. Além disso,
+as variações interobservadores na interpretação dos resultados podem influenciar
+no seu desempenho23.
+       Os testes FITs quantitativos permitem quantificar o sangue encontrado nas
+fezes. Além disso, a grande vantagem é que o nível de corte (ou seja, a quantidade
+de hemoglobina acima da qual o teste é considerado positivo) pode ser ajustado de
+acordo com os recursos disponíveis para investigação posterior; em particular, a
+capacidade de oferta de colonoscopia. Os testes FITs quantitativos representam
+uma estratégia de alto rendimento, pois permitem uma análise automatizada,
+eliminando a variação interobservador na interpretação dos resultados, melhorando,
+assim, sua reprodutibilidade30.
+       Ademais, demonstrou-se que o FIT quantitativo parece ser mais sensível do
+que o FIT qualitativo na detecção de neoplasia colorretal avançada por
+rastreamento. Contudo, o tipo de dispositivo usado para a amostragem influencia
+esses resultados31. Além disso, a escolha do tipo de teste deve ser feita de acordo
+com a realidade de cada local.
+
+
+      Recomendação 4. Recomenda-se o uso do teste imunoquímico (FIT) com
+ponto de corte 50 ng/mL para rastreamento do CCR em indivíduos adultos, de
+ambos os sexos, assintomáticos e com risco padrão (Recomendação forte,
+baseada em evidência de certeza alta, aceitabilidade e viabilidade).
+       A revisão sistemática de Selby e colaboradores32 foi selecionada para
+responder à pergunta sobre a comparação entre diferentes pontos de corte para o
+teste FIT. Todos os estudos incluídos na meta-análise tiveram como referência
+padrão a colonoscopia. O estudo apresenta o valor sumário da meta-análise de
+sensibilidade e especificidade para os desfechos de detecção de CCR e adenoma
+avançado, Tabelas 3 e 4, respectivamente.
+        O ponto de corte de 50 ng/mL no teste FIT é equivalente a aproximadamente
+≤ 10 µg de hemoglobina por grama de fezes. Essa correspondência decorre do modo
+como o exame é realizado. A amostra de fezes coletada é diluída em solução tampão
+e a leitura é expressa em ng/mL. Ao considerar o volume de fezes efetivamente
+analisado, essa medida se converte para µg/g, unidade mais utilizada em programas
+                                                                                               10
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+de rastreamento populacional. A padronização nessa escala facilita a comparação
+entre diferentes estudos, kits diagnósticos e diretrizes internacionais, além de
+permitir uma interpretação mais direta da quantidade de hemoglobina presente no
+material fecal33,34.
+
+
+      Tabela 3: Sensibilidade e especificidade para o desfecho CCR em diferentes
+pontos de corte de positividade do teste FIT.
+
+  Limite de         Nº de       Nº de       Sensibilidade para        Especificidade para
+ positividade      estudo       casos      detecção de CCR, %         detecção de CCR, %
+   (µg/g)             s        de CCR            (IC 95%)                  (IC 95%)
+      ≤10            18          447           80 (76–83)                 91 (89–93)
+  >10 e ≤20          26          432           69 (63–75)                 94 (93–96)
+  >20 e ≤30          12          188            73 (62–81)                96 (95–97)
+     >30              8          188            66 (55–75)                96 (94–97)
+
+
+
+      Tabela 4: Sensibilidade e especificidade para o desfecho adenoma
+avançado em diferentes pontos de corte de positividade do teste FIT.
+
+ Limite de        Nº de       Nº de casos         Sensibilidade            Especificidade
+positividade     estudos      de adenoma         para adenoma              para adenoma
+  (µg/g)                       avançado          avançado, % (IC           avançado, % (IC
+                                                       95%)                     95%)
+     ≤10             18            2972             31 (27–35)                93 (91–95)
+  >10 e ≤20          26            4337             21 (18–25)               96 (95–97)
+  >20 e ≤30          12            2241             18 (13–23)               98 (97–98)
+     >30              8            1770             19 (14–25)               97 (96–98)
+
+
+        Um ponto de corte ≤ 10 µg/g (≤ 50 ng/mL) apresenta maior sensibilidade
+(80%), ou seja, maior capacidade de detectar casos de câncer de cólon e reto.
+mesmo ocorre para o desfecho de adenoma avançado, que apesar de apresentar
+menor sensibilidade (31%), indica que o ponto de corte ≤ 10 µg/g (≤ 50 ng/mL)
+apresentou o melhor resultado em comparação com os demais pontos de corte de
+positividade do FIT. Entre os efeitos desejáveis pode-se destacar:
+
+
+           - Maior número de casos detectados precocemente.
+           - Melhor prognóstico para os pacientes.
+           - Possivelmente maior redução de mortalidade por CCR.
+           - Potencial para menor custo a longo prazo (tratamento em estágios
+           iniciais é menos caro que em estágios avançados).
+
+
+                                                                                               11
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+        Entretanto, ao aumentar a sensibilidade (com ponto de corte ≤ 10 µg/g),
+ocorre uma ligeira redução da especificidade (91%) em comparação com os demais
+limites, levando a uma proporção ligeiramente maior de resultados falso-positivos.
+Embora o teste FIT seja seguro e não invasivo, ele pode gerar efeitos indesejáveis
+indiretos, destacando-se os principais:
+           - Falsos-positivos.
+           - Ansiedade e estresse para o paciente.
+           - Colonoscopia desnecessárias e, consequentemente, maiores riscos
+           associados à colonoscopia (sangramento, perfuração, entre outros).
+           - Sobrecarga de serviços especializados.
+           - Maior custo para o sistema de saúde com procedimentos que não
+           confirmam CCR.
+           - Falsos-negativos, apesar de serem menos frequentes, podem ocorrer
+           e resultar em pacientes com CCR que não terão o devido seguimento.
+
+
+        A qualidade de evidência dos estudos incluídos na revisão sistemática de
+Selby e colaboradores32 foi baseada na ferramenta de risco de viés de estudos
+diagnósticos - QUADAS-2. A revisão sistemática incluiu 37 artigos referentes a 46
+estudos que atenderam aos critérios de inclusão. A maior parte da avaliação do risco
+de viés foi baixa ou incerta; entretanto, seis dos 37 artigos incluídos foram
+classificados como alto risco de viés devido à utilização de amostras congeladas;
+também houve preocupações sobre a aplicabilidade para a seleção de pacientes,
+devido à inclusão de pacientes com histórico familiar de CCR em 10 artigos; e a
+inclusão de pacientes fora do critério de inclusão, menores que 40 anos ou maiores
+que 80 anos, em seis artigos. Além disso, todos os 12 artigos com acompanhamento
+registrado apresentaram alto risco de viés devido à falta de cegamento dos
+endoscopistas em relação aos resultados do FIT e ao acompanhamento diferencial
+dependendo dos resultados do FIT32.
+       A certeza da evidência, avaliada pelo grupo elaborador com o uso do sistema
+GRADE, foi classificada como moderada devido ao rebaixamento da dimensão de
+risco de viés, conforme as observações citadas anteriormente sobre a avaliação do
+QUADAS-232.
+      O equilíbrio entre os efeitos desejáveis e indesejáveis favorece o teste FIT
+com ponto de corte de 50 ng/mL (para testes qualitativos e quantitativos), por ter
+maior precisão na identificação de pacientes com CCR, produzindo uma menor
+proporção de falsos-negativos.
+      Após implementação do programa de rastreamento, o ponto de corte deve
+ser monitorado com base nos resultados na realidade nacional e poderá
+eventualmente ser reavaliado.
+
+
+      Recomendação 5. Recomenda-se o início do rastreamento do CCR aos 50
+anos em indivíduos, de ambos os sexos, assintomáticos e com risco padrão
+
+                                                                                               12
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+(Recomendação condicional, baseada em evidência de certeza moderada e
+viabilidade).
+        Todos os cinco ensaios clínicos randomizados selecionados na revisão
+sistemática realizada para elaboração desta diretriz avaliaram indivíduos na faixa
+etária de 50 a 74 anos20–22,35. Sendo assim, os resultados de eficácia e segurança
+encontrados têm uma representatividade maior para essa faixa etária. Contudo, não
+foram encontrados estudos que comparassem diretamente diferentes idades de
+início do rastreamento. Adicionalmente, os três ensaios clínicos com rastreamento
+com gFOBT, que incluíram também indivíduos com menos de 50 anos, não
+apresentaram análises estratificadas por esta faixa etária.
+       Segundo o Guia da Sociedade de Gastroenterologia Americana36 há uma
+recomendação forte, baseada em evidência moderada, para rastreamento em
+indivíduos de risco padrão na faixa etária de 50 a 75 anos. Para a faixa etária de 45 a
+49 anos, a recomendação é condicional e baseada em evidência de certeza muito
+baixa.
+      Já segundo as diretrizes da NCCN (National Comprehensive Cancer Network)37
+e da US Preventive Services Task Force (USPSTF) 17, o rastreamento é recomendado
+para indivíduos com faixa etária de 45 a 75 anos. Contudo, ressalta-se a
+recomendação a USPSTF é, em parte, baseada em modelagem feita para a
+população dos EUA.
+       Uma revisão sistemática com meta-análise, que avaliou a eficácia do
+rastreamento do CCR em adultos assintomáticos, encontrou que o efeito absoluto
+do rastreamento aumenta com a idade, tendo um Número Necessário a Rastrear
+(NNR) com pesquisa de sangue oculto de 2.655 em indivíduos de 45 anos a 59 anos
+e de 492, em indivíduos de 60 anos a 80 anos18.
+        Além disso, das 23 diretrizes internacionais identificadas, apenas 3
+preconizaram o início do rastreamento antes dos 50 anos de idade. Não foram
+identificadas evidências sobre diferença na aceitação pelas diferentes faixas etárias.
+        Com relação ao tamanho da população nessa faixa etária, estimativas do IBGE
+para o ano de 2025, apontam para uma população de 15.296.989 habitantes de
+ambos os sexos, entre 45 e 49 anos. O equilíbrio entre os efeitos desejáveis e
+indesejáveis favorece o início do rastreamento aos 50 anos, em virtude do maior
+efeito absoluto na redução da mortalidade por CCR, visto que os casos de CCR
+aumentam significativamente com a idade e a maioria das diretrizes preconiza o
+início do rastreamento nesta idade. Além disso, o aumento do custo de se rastrear
+indivíduos entre 45 anos e 49 anos e o custo de oportunidade precisam ser
+considerados, já que essa população não é o grupo onde o maior benefício foi
+demonstrado.
+       As evidências internacionais atuais mostram uma tendência para aumento na
+incidência da CCR na faixa etária abaixo de 50 anos38. Contudo, no Brasil, até 2025, a
+tendência é de estabilidade, de modo que esses dados precisam ser monitorados.
+
+
+
+                                                                                               13
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+        Recomendação 6. Recomenda-se o final do rastreamento do CCR em
+indivíduos adultos, de ambos os sexos, assintomáticos e com risco padrão aos 75
+anos (Recomendação condicional, baseada em evidência de certeza moderada e
+viabilidade).
+       Não foram encontrados ensaios clínicos randomizados que comparassem
+diretamente a idade do final do rastreamento ou que tenham realizado uma análise
+de faixa etária para avaliar o benefício do rastreamento especificamente neste
+subgrupo. Porém, a maioria dos ensaios clínicos encontrados que avaliaram eficácia
+e segurança do rastreamento incluiu indivíduos entre 50 anos e 74 anos.
+       Uma revisão sistemática com meta-análise, que avaliou a eficácia do
+rastreamento do CCR em adultos assintomáticos, encontrou que o efeito absoluto
+do rastreamento aumenta com a idade, tendo uma redução absoluta de risco na
+mortalidade por CCR de 0,0377% em indivíduos entre 45 anos e 59 anos e de 0,2032%
+em indivíduos entre 60 anos e 80 anos18.
+      Com aumento da expectativa de vida e envelhecimento da população, o
+aumento da faixa etária de rastreamento possibilita a detecção precoce de lesões e
+tratamento com melhor prognóstico.
+       Um estudo prospectivo de base populacional incluiu 1.355.692 pessoas com
+idades entre 70 anos e 79 anos e calculou o risco de incidência de CCR em 8 anos.
+Neste estudo, dados observacionais foram utilizados para emular um ensaio clínico
+com dois grupos: rastreamento por colonoscopia e sem rastreamento. O risco de
+CCR no grupo de 70 anos a 74 anos foi de 2,19% (IC 95%, 2,00-2,37) naqueles
+rastreados e de 2,62% (IC 95%, 2,56-2,67), naqueles não rastreados. O risco de CCR
+no grupo de 75 anos a 79 anos foi de 2,84% (IC 95% 2,54-3,13) naqueles rastreados e
+de 2,97% (IC 95% 2,92-3,03), naqueles não rastreados, sem diferenças significativas
+encontradas naqueles com mais de 75 anos. Assim, até os 75 anos, existe uma
+redução do risco de CCR associada ao rastreamento39.
+      Além disso, a maioria (18) das 23 diretrizes internacionais identificadas
+preconiza o rastreamento até 74 ou 75 anos e apenas em uma diretriz a
+recomendação de rastreamento vai até 69 anos.
+       Com relação aos efeitos indesejáveis de se finalizar o rastreamento aos 75
+anos, com o aumento da faixa etária, há um aumento da população rastreada, o que
+resulta em um custo maior. O Instituto Brasileiro de Geografia e Estatística (IBGE)
+estima, para o ano de 2025, 6.534.625 habitantes de ambos os sexos entre 70 anos e
+74 anos, um número bem menor do que a população entre 45 e 50 anos (15.296.989
+habitantes).
+       Outro ponto a ser considerado é o aumento dos eventos adversos que
+podem ocorrer com o aumento da idade, especialmente por conta da maior
+prevalência de comorbidades, como diabetes e hipertensão, em pessoas mais
+velhas. Estudos encontrados sobre o tema, avaliam esse aumento nos indivíduos
+acima de 75 anos.
+
+
+
+                                                                                               14
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+        Foi realizada uma meta-análise de estudos observacionais, comparando o
+risco de eventos adversos associados ao rastreamento com colonoscopia em
+indivíduos com mais de 75 anos com aqueles com menos de 75 anos. Os resultados
+demonstram um aumento do risco geral associado a colonoscopia em indivíduos
+com mais de 75 anos, em comparação com indivíduos mais jovens: necessidade de
+consulta no departamento de emergência (OR 2,01 [IC 95% 1,65-2,45, I2 0%, p < 0,05]),
+hospitalização (OR 3,08 IC95% 2,44-3,89, I2 78%, p < 0,05)], perfurações (OR 5,25 [IC
+95% 1,77-15,62, I2 89%, p < 0,05)] e sangramento (OR 2,07 {IC 95% 1,80-2,38, I2 87%, p <
+0,05)]40.
+        Um estudo de coorte retrospectiva, incluindo pacientes com 60 anos ou mais
+submetidos à colonoscopia, verificou as relações entre idade, multimorbidade e
+complicações da colonoscopia em idosos. Dos 207 pacientes com indicação
+apropriada para colonoscopia, de acordo com a Sociedade Americana de
+Endoscopia Gastrointestinal, 43 (20,77%) pacientes apresentaram alguma
+complicação na colonoscopia: 1 (0,48%) com a sedação (apneia), 4 (1,93%) com o
+procedimento (dor abdominal e bacteremia) e 38 (18,35%) com o preparo intestinal
+(insuficiência renal aguda, hipotensão). Os indivíduos com 80 anos ou mais
+apresentaram risco estatisticamente significativo maior de complicações (RR = 3,4
+IC95%1,2-10,1, P = 0,025)41.
+        O equilíbrio entre os efeitos desejáveis e indesejáveis favorece o final do
+rastreamento aos 75 anos de idade, quando comparado com os 70 anos, pois os
+custos relacionados ao rastreamento nessa faixa etária mais ampla precisam ser
+considerados, mas não são tão elevados, já que a população nesta faixa etária é
+menor. No entanto, o aumento significativo dos riscos de eventos adversos
+associados à colonoscopia, confirmação diagnóstica e acompanhamento faz com
+que os pacientes com mais de 75 anos não sejam incluídos no rastreamento, já que
+os estudos indicam que esses indivíduos têm um risco consideravelmente maior de
+complicações, como sangramento e perfuração. Por isso, a partir dessa idade, os
+riscos relacionados a continuar o rastreamento superam os potenciais benefício.
+      Entretanto, segundo diretrizes internacionais, a extensão do rastreamento
+pode ser considerada até os 85 anos em casos individualizados, especialmente em
+idosos com boa condição funcional, ausência de comorbidades significativas,
+expectativa de vida ≥ 10 anos e que não tenham sido rastreados previamente17,42,43 .
+
+
+       Recomendação 7. Recomenda-se o uso do FIT na periodicidade bienal
+para rastreamento do CCR em indivíduos adultos, de ambos os sexos,
+assintomáticos e com risco padrão (Recomendação condicional, baseada em
+evidência de certeza baixa, aceitabilidade e viabilidade).
+       Não foram identificados ensaios clínicos randomizados ou revisões
+sistemáticas que comparassem a realização do teste FIT anual com a bienal. Entre
+as diretrizes internacionais de rastreamento do CCR, a periodicidade varia entre
+anual e bienal para gFOBT e FIT.
+
+
+                                                                                               15
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+       Quatro ECR adotaram a periodicidade bienal no rastreamento com gFOBT,
+resultando em risco relativo (RR) de incidência de CCR de 1,01 (IC 95%, 0,91-1,12), 1,02
+(IC95%, 0,93-1,12), 0,97 (IC95%, 0,91-1,03) e 1,11 (IC95%, 1,01-1,23). Já o RR de
+mortalidade por CCR foi de 0,84 (IC95%, 0,71-0,99), 0,84 (IC95%, 0,73-0,96), 0,84
+(IC95%, 0,71-0,99) e 0,91 (IC95%, 0,84-0,98)10.
+        Um ECR que avaliou o gFOBT adotou uma periodicidade variável (de 1 a 9
+anos), resultando em razão de taxas de incidência de CCR de 0,96 (IC95%, 0,86-1,06)
+e razão de taxas de mortalidade por CCR de 0,78 (IC95%, 0,65-0,93)10.
+       Outro ECR que avaliou o gFOBT adotou tanto a periodicidade bienal quanto
+a anual. Neste ECR, a periodicidade bienal com rastreamento com gFOBT resultou
+num RR de 0,85 (IC95%, 0,74-0,960) de redução de incidência de CCR e 0,78 (IC95%,
+0,65-0,93) na redução de mortalidade por CCR, enquanto a periodicidade anual
+resultou num RR de redução de incidência de CCR de 0,81 (IC95%, 0,71-0,93) e RR na
+redução de mortalidade por CCR de 0,68 (IC95%, 0,56-0,82)10. Portanto, não houve
+resultados estatisticamente conclusivos que favorecessem o rastreamento com
+periodicidade anual.
+       Como relação ao rastreamento com FIT, os resultados de um estudo de
+coorte mostram RR de mortalidade por CCR de 0.90 (IC 95% 0.84-0.95) com
+rastreamento bienal10.
+       Como efeitos desejáveis, a literatura mostra que tanto o rastreamento com
+FIT anual quanto bienal apresentam benefícios, incluindo redução na mortalidade
+por CCR, detecção precoce e alta aceitabilidade. O rastreamento bienal é
+normalmente preferido em programas nacionais (por exemplo, Reino Unido) devido
+à sua melhor adesão e à relação custo-efetividade.
+      Em coorte de pacientes do programa de rastreamento CCR na Itália,
+observou-se que o rastreamento bienal com FIT está associado a uma redução de
+33% na incidência de CCR entre homens e 21%, entre mulheres, e a uma redução de
+65% e 54%, na mortalidade por CCR, respectivamente, entre homens e mulheres28.
+       O nível de evidência para esta recomendação foi considerado baixo, por meio
+da opinião de especialista e devido aos custos de cada periodicidade (anual e bienal).
+Como a estimativa de custo utilizou um valor de compra já realizado, obtido pelo
+Banco de Preços em Saúde, há incerteza quanto à informação, uma vez que pode o
+dado não representar a realidade futura, após a implantação do programa de
+rastreamento.
+        A periodicidade bienal foi considerada ideal por ser clinicamente eficaz na
+redução da incidência e mortalidade do CCR, ao mesmo tempo que garante a
+viabilidade econômica e a sustentabilidade do programa de rastreamento. Além
+disso, as principais evidências sobre eficácia do rastreamento com exame de sangue
+oculto nas fezes são oriundas de ECR que adotaram a periodicidade bienal e não
+existe evidência conclusiva de que a periodicidade anual seja mais eficaz.
+
+
+
+
+                                                                                               16
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+        Recomendação 8. Recomenda-se o uso de colonoscopia para avaliação
+diagnóstica após FIT de rastreamento com resultado positivo em indivíduos
+adultos, de ambos os sexos, assintomáticos e com risco padrão (Recomendação
+forte, baseada na aceitabilidade e viabilidade).
+        Não foram identificados estudos que compararam diretamente colonoscopia
+e retossigmoidoscopia para confirmação diagnóstica após o rastreamento. Um
+estudo realizado por Juul e colaboradores44 utilizou dados de quatro ECR para
+realizar uma análise agrupada e comparou as duas tecnologias por modelagem
+matemática. A colonoscopia proporcionou uma redução adicional de 6,9% na
+incidência e 7,6% na mortalidade em comparação com a retossigmoidoscopia44.
+Ainda, a colonoscopia é mais cara que a retossigmoidoscopia.
+        Além disso, todas as diretrizes internacionais que abordam um método de
+confirmação diagnóstica recomendam o uso de colonoscopia. Se a colonoscopia foi
+completa e de qualidade (visibilidade adequada, preparo, retirada de pólipos
+quando presente), recomenda-se repetir a colonoscopia apenas após 10 anos,
+desde que o indivíduo permaneça assintomático e não apresente novos fatores de
+risco, pois o risco residual de ocorrência de CCR é muito baixo nesse período.
+Durante esse intervalo, não há indicação de realizar rastreamento por meio do teste
+de sangue oculto nas fezes (FIT), uma vez que esse exame é destinado
+principalmente a indivíduos que ainda não foram submetidos à colonoscopia ou que
+participam de programas de rastreamento populacional baseados em métodos não
+invasivos (Figura 1)17,36,45
+       Sendo assim, apesar dos custos maiores, considerando as características de
+cada teste, a melhor opção para confirmação diagnóstica é a colonoscopia, que
+continua sendo o padrão ouro para avaliação diagnóstica após o rastreamento do
+CCR, em razão de sua alta sensibilidade e especificidade e da possibilidade de
+remoção imediata de pólipos.
+       Ressalta-se que exames endoscópicos, como a retossigmoidoscopia e a
+colonoscopia, são utilizados para o diagnóstico do CCR e para fins de ressecção de
+pólipos adenomatosos. Conforme Figura 1 se, durante o rastreamento na
+colonoscopia, houver detecção de pólipos adenomatosos, deve-se seguir a conduta
+específica de acordo com o tipo de lesão, o qual foge do escopo dessas Diretrizes.
+Caso a lesão identificada na colonoscopia seja suspeita de CCR, o diagnóstico
+deverá ser confirmado por meio do estudo anatomopatológico e o cuidado do
+paciente, incluindo estadiamento, tratamento e seguimento, deverá seguir as
+orientações do PCDT do Adenocarcinoma de cólon e reto16.
+
+
+
+
+1.3.    Recomendações      para                           implementação                        do
+        rastreamento organizado
+
+
+                                                                                               17
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+       O modelo de rastreamento oportunístico é aquele no qual o convite para
+realização do teste é realizado por ocasião de uma consulta por outros motivos de
+saúde ou por demanda de indivíduos assintomáticos. Nesse modelo, as melhores
+evidências sobre grupos etários e periodicidade do rastreamento muitas vezes não
+são consideradas. Em contraste, o modelo de rastreamento organizado pressupõe
+ações de base populacional para a convocação ativa da população na faixa etária e
+periodicidade recomendadas, além de vários outros aspectos como reconvocações,
+controle do seguimento, monitoramento da qualidade e integralidade do cuidado.
+       O modelo de rastreamento organizado é mais eficiente do que o
+oportunístico, além de maximizar a efetividade e minimizar riscos associados ao
+rastreamento. O rastreamento organizado reduz as iniquidades no acesso às ações
+de saúde, quando comparado com o modelo oportunístico, quando é comum o
+rastreamento excessivo de câncer em indivíduos de menor risco de desenvolver o
+câncer em questão e, por outro lado, desassistência dos indivíduos que mais se
+beneficiariam do rastreamento.
+       Para que um programa de rastreamento seja considerado organizado,
+existem condições mínimas que devem ser garantidas. O padrão das
+recomendações aqui apresentadas foi adaptada das Diretrizes Brasileiras do
+rastreamento do câncer de colo do útero publicadas em 202546, as quais foram
+baseadas em revisão sistemática da literatura47, consenso internacional de
+especialistas48 e adaptadas para a realidade nacional a partir de consenso do grupo
+elaborador49.
+       Com base nessas evidências, são definidas as seguintes condições mínimas
+necessárias para a implementação e manutenção de um programa organizado de
+rastreamento de CCR no SUS.
+
+
+      Estrutura de comunicação
+        É necessário haver um sistema de informação vinculado a um sistema para
+identificação de indivíduos da população-alvo47.
+        Recomendação. É necessário que a população-alvo seja identificada e
+convocada ativamente e individualmente a cada rodada de rastreamento, na
+periodicidade recomendada (recomendação condicional, evidência de certeza
+baixa).
+      Recomendação. É necessário que pessoas convidadas para o rastreamento,
+que não atendam à convocação inicial, sejam identificadas e reconvocadas
+(recomendação condicional, evidência de certeza baixa).
+        Recomendação. Pessoas com sangue oculto nas fezes detectado devem ser
+comunicadas e orientadas sobre as próximas etapas de investigação. Pessoas
+rastreadas com FIT, com resultado normal, também devem ser informadas e
+orientadas de que serão reconvocadas em 2 anos, se ainda estiverem dentro da faixa
+etária alvo do programa de rastreamento (recomendação condicional, evidência de
+certeza baixa).
+                                                                                18
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+        Recomendação. É necessário que o sistema de informação do rastreamento
+possibilite o seguimento das pessoas com sangue oculto nas fezes detectado, bem
+como identificar as que não completaram as etapas de investigação diagnóstica,
+auxiliando no processo de busca ativa (recomendação condicional, evidência de
+certeza baixa).
+       Recomendação. É recomendada a integração das informações relacionadas
+ao rastreamento com o sistema de Registro de Câncer, nos locais em que esteja
+disponível, para possibilitar auditoria dos casos de câncer e monitoramento de
+cânceres no intervalo entre as rodadas de rastreamento (recomendação
+condicional, evidência de certeza baixa).
+
+
+       Estrutura de governança
+        O rastreamento é uma ação de saúde complexa que exige uma governança
+articulada entre as três esferas da gestão (municipal, estadual e federal) que garanta
+a implementação e adesão das recomendações em vários níveis de atenção à saúde.
+       Recomendação. É necessária a publicação, pelos gestores de saúde, de
+documentos que definam a estrutura de responsabilidades, orçamento,
+financiamento, metas e objetivos do programa. É necessário definir quais serão as
+organizações ou equipes responsáveis pela coordenação da implementação do
+programa nos diversos níveis de gestão, suas atribuições e os responsáveis pelo
+treinamento, controle de qualidade e auditoria (recomendação condicional,
+evidência de certeza baixa).
+       Recomendação. É necessário o monitoramento por meio de indicadores
+pactuados previamente. Os indicadores devem medir o desempenho/resultados do
+programa, mas também a adesão às diretrizes, cobertura e qualidade dos exames
+de colonoscopia. Esses indicadores devem ser divulgados anualmente e analisados
+comparativamente a padrões de referência previamente definidos (recomendação
+condicional, evidência de certeza baixa).
+
+
+       Estrutura para garantia da integralidade do cuidado
+         Para que o rastreamento seja efetivo é necessário que a linha de cuidado dos
+casos positivos seja articulada e implementada pelas três esferas da gestão
+(municipal, estadual e federal), para garantir a integralidade das ações, visando a
+facilitar o acesso e a adesão dos profissionais de saúde e da população.
+       Recomendação. É necessário promover a adesão às recomendações de
+rastreamento, seguimento, confirmação diagnóstica e tratamento de lesões pré-
+malignas (recomendação condicional, evidência de certeza baixa).
+       Recomendação. É necessária a pactuação das referências e
+contrarreferências para cuidado dos casos, incluindo confirmação diagnóstica,
+ressecção de lesões pré-malignas e tratamento oncológico dos casos de câncer de
+cólon e reto confirmados (recomendação condicional, evidência de certeza baixa).
+                                                                               19
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+      Recomendação. É necessário documentar as estruturas de responsabilidade,
+orçamento e financiamento para a disponibilidade de infraestrutura, profissionais e
+insumos adequados, para garantir a quantidade necessária de procedimentos para
+atender às demandas de diagnóstico e tratamento de lesões pré-malignas
+(recomendação condicional, evidência de certeza baixa).
+
+
+
+3.    Referências
+
+1.   Ferlay J, Ervik M, Lam F, Laversanne M, Colombet M, Mery L, Piñeros M, Znaor A,
+     Soerjomataram I, Bray F (2024). Global Cancer Observatory: Cancer Today. Lyon,
+     France: International Agency for Research on Cancer. Available. n.d. Available
+     from: https://gco.iarc.who.int/today, accessed [13 junho 2025].
+
+2.   Arnold CL, Rademaker AW, Morris JD, et al. Follow-up approaches to a health
+     literacy intervention to increase colorectal cancer screening in rural community
+     clinics: A randomized controlled trial. Cancer 2019;125(20):3615–3622; doi:
+     10.1002/cncr.32398.
+
+3.   Gunter MJ, Alhomoud S, Arnold M, et al. Meeting report from the joint IARC–NCI
+     international cancer seminar series: a focus on colorectal cancer. Annals of
+     Oncology 2019;30(4):510–519; doi: 10.1093/annonc/mdz044.
+
+4.   INCA. Estimativa 2023: Incidência Do Câncer No Brasil. Available from:
+     https://www.gov.br/inca/pt-br/assuntos/cancer/numeros/estimativa [Last
+     accessed: 6/3/2025].
+
+5.   INCA.     Atlas    On-Line    de      Mortalidade..      Available                     from:
+     https://www.inca.gov.br/app/mortalidade [Last accessed: 6/3/2025].
+
+6. Bonnington SN. Surveillance of colonic polyps: Are we getting it right? WJG
+   2016;22(6):1925; doi: 10.3748/wjg.v22.i6.1925.
+
+7.   Burnett-Hartman AN, Lee JK, Demb J, et al. An Update on the Epidemiology,
+     Molecular Characterization, Diagnosis, and Screening Strategies for Early-Onset
+     Colorectal     Cancer.      Gastroenterology    2021;160(4):1041–1049;      doi:
+     10.1053/j.gastro.2020.12.068.
+
+8. Rabeneck L, Rumble RB, Thompson F, et al. Fecal Immunochemical Tests
+   Compared with Guaiac Fecal Occult Blood Tests for Population-Based
+   Colorectal Cancer Screening. Canadian Journal of Gastroenterology
+   2012;26(3):131–147; doi: 10.1155/2012/486328.
+
+9. Scholefield JH, Moss SM, Mangham CM, et al. Nottingham trial of faecal occult
+   blood testing for colorectal cancer: a 20-year follow-up. Gut 2012;61(7):1036–
+   1040; doi: 10.1136/gutjnl-2011-300774.
+
+10. Lin JS, Perdue LA, Henrikson NB, et al. Screening for Colorectal Cancer: An
+    Evidence Update for the U.S. Preventive Services Task Force. U.S. Preventive
+                                                                                                20
+     Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+   Services Task Force Evidence Syntheses, Formerly Systematic Evidence
+   Reviews. Agency for Healthcare Research and Quality (US): Rockville (MD); 2021.
+
+11. Bray, Bell, Ling, et al. Colorectal Cancer Screening. WMJ. 2017 Feb;116(1):27-33.
+    PMID: 29099566. VWJ 2017;27–33.
+
+12. Bénard F, Barkun AN, Martel M, et al. Systematic review of colorectal cancer
+    screening guidelines for average-risk adults: Summarizing the current global
+    recommendations. WJG 2018;24(1):124–138; doi: 10.3748/wjg.v24.i1.124.
+
+13. Imperiale TF. Colorectal cancer screening offering colonoscopy and FIT vs.
+    colonoscopy alone improved participation. Ann Intern Med 2021;174(7):Jc76; doi:
+    10.7326/acpj202107200-076.
+
+14. Khalid-de Bakker C, Jonkers D, Smits K, et al. Participation in colorectal cancer
+    screening trials after first-time invitation: a systematic review. Endoscopy
+    2011;43(12):1059–1086; doi: 10.1055/s-0031-1291430.
+
+15. Yoon JY, Cha JM, Jeen YT. Quality is the Key for Emerging Issues of Population-
+    based Colonoscopy Screening. kjg 2018;71(1):3–9; doi: 10.4166/kjg.2018.71.1.3.
+
+16. Brasil. PORTARIA CONJUNTA SAES/SCTIE No 25, 17 DE NOVEMBRO DE 2025.
+    Protocolo Clínico e Diretrizes Terapêuticas Do Adenocarcinoma de Cólon e Reto.
+
+17. US Preventive Services Task Force. Screening for Colorectal Cancer: US
+    Preventive Services Task Force Recommendation Statement. JAMA
+    2021;325(19):1965–1977; doi: 10.1001/jama.2021.6238.
+
+18. Fitzpatrick-Lewis D, Ali MU, Warren R, et al. Screening for Colorectal Cancer: A
+    Systematic Review and Meta-Analysis. Clinical Colorectal Cancer 2016;15(4):298–
+    313; doi: 10.1016/j.clcc.2016.03.003.
+
+19. Bretthauer M, Kaminski MF, Løberg M, et al. Population-Based Colonoscopy
+    Screening for Colorectal Cancer: A Randomized Clinical Trial. JAMA Intern Med
+    2016;176(7):894; doi: 10.1001/jamainternmed.2016.0960.
+
+20. Xu M, Yang J-Y, Meng T. Effectiveness of colonoscopy, immune fecal occult
+    blood testing, and risk-graded screening strategies in colorectal cancer
+    screening.   World     J  Gastrointest  Surg   2024;16(7):2270–2280; doi:
+    10.4240/wjgs.v16.i7.2270.
+
+21. Botteri E, Hoff G, Randel KR, et al. Characteristics of nonparticipants in a
+    randomised colorectal cancer screening trial comparing sigmoidoscopy and
+    faecal immunochemical testing. Intl Journal of Cancer 2022;151(3):361–371; doi:
+    10.1002/ijc.34025.
+
+22. Randel KR, Schult AL, Botteri E, et al. Colorectal Cancer Screening With Repeated
+    Fecal Immunochemical Test Versus Sigmoidoscopy: Baseline Results From a
+    Randomized       Trial.   Gastroenterology         2021;160(4):1085-1096.e5;  doi:
+    10.1053/j.gastro.2020.11.037.
+
+
+                                                                                               21
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+23. Grobbee EJ, Wisse PHA, Schreuders EH, et al. Guaiac-based faecal occult blood
+    tests versus faecal immunochemical tests for colorectal cancer screening in
+    average-risk individuals. Cochrane Database Syst Rev 2022;6(6):Cd009276; doi:
+    10.1002/14651858.CD009276.pub2.
+
+24. Randel KR, Botteri E, Romstad KMK, et al. Effects of Oral Anticoagulants and
+    Aspirin on Performance of Fecal Immunochemical Tests in Colorectal Cancer
+    Screening.         Gastroenterology       2019;156(6):1642-1649.e1;      doi:
+    10.1053/j.gastro.2019.01.040.
+
+25. Wu T, Kuo K, Wu Y, et al. Diagnostic accuracy of a single qualitative
+    immunochemical fecal occult blood test coupled with physical measurements.
+    Chin Med J (Engl) 2014;127(24):4164–4170.
+
+26. Hamada Y, Shigefuku A, Suzuki H, et al. Propensity Score-matched Analysis of
+    the Impact of Direct-acting Oral Anticoagulants on Fecal Immunochemical Test
+    Performance. J Anus Rectum Colon 2026;10(1):26–33; doi: 10.23922/jarc.2025-026.
+
+27. Ibuka T, Adachi S, Horibe Y, et al. Effects of antithrombotic drugs on the results
+    of fecal immunochemical test in colorectal neoplasms screening. Sci Rep
+    2021;11(1):4348; doi: 10.1038/s41598-021-83007-4.
+
+28. Baldacchini F, Bucchi L, Giuliani O, et al. Effects of Attendance to an Organized
+    Fecal Immunochemical Test Screening Program on the Risk of Colorectal
+    Cancer: An Observational Cohort Study. Clinical Gastroenterology and
+    Hepatology 2022;20(10):2373–2382; doi: 10.1016/j.cgh.2022.01.053.
+
+29. Ramos MC, Passone JA de L, Lopes AC de F, et al. Economic evaluations of
+    colorectal cancer screening: A systematic review and quality assessment. Clinics
+    (Sao Paulo) 2023;78:100203; doi: 10.1016/j.clinsp.2023.100203.
+
+30. Young PE, Womeldorph CM, Johnson EK, et al. Early detection of colorectal
+    cancer recurrence in patients undergoing surgery with curative intent: Current
+    status and challenges. Journal of Cancer 2014;5(4):262–271; doi: 10.7150/jca.7988.
+
+31. Huang Y, Li Q, Ge W, Hu Y, Cai S, Yuan Y, Zhang S, Zheng S. Optimizing sampling
+    device for the fecal immunochemical test increases colonoscopy yields in
+    colorectal cancer screening. Eur J Cancer Prev 2016;25(2):115–22; doi:
+    10.1097/CEJ.0000000000000154.
+
+32. Selby K, Levine EH, Doan C, et al. Effect of Sex, Age, and Positivity Threshold on
+    Fecal Immunochemical Test Accuracy: A Systematic Review and Meta-analysis.
+    Gastroenterology 2019;157(6):1494–1505; doi: 10.1053/j.gastro.2019.08.023.
+
+33. Anvisa.         Consulta           Produtos.      Available                            from:
+    https://consultas.anvisa.gov.br/#/saude/q/?nomesTecnicos=38217                         [Last
+    accessed: 9/16/2025].
+
+34. UpToDate. Tests for screening for colorectal cancer. 2023.
+
+
+
+                                                                                               22
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+35. Mehta SJ, Palat S, McDonald C, et al. A Randomized Trial of Choice Architecture
+    and Mailed Colorectal Cancer Screening Outreach in a Community Health
+    Setting. Clinical Gastroenterology and Hepatology 2024;22(10):2117-2124.e2; doi:
+    10.1016/j.cgh.2024.04.003.
+
+36. Shaukat A, Kahi CJ, Burke CA, et al. ACG Clinical Guidelines: Colorectal Cancer
+    Screening     2021.   Am     J    Gastroenterol     2021;116(3):458–479;    doi:
+    10.14309/ajg.0000000000001122.
+
+37. Ness RM, Llor X, Abbass MA, et al. NCCN Guidelines® Insights: Colorectal Cancer
+    Screening, Version 1.2024: Featured Updates to the NCCN Guidelines. Journal of
+    the National Comprehensive Cancer Network 2024;22(7):438–446; doi:
+    10.6004/jnccn.2024.0047.
+
+38. Vuik FE, Nieuwenburg SA, Bardou M, et al. Increasing incidence of colorectal
+    cancer in young adults in Europe over the last 25 years. Gut 2019;68(10):1820–
+    1826; doi: 10.1136/gutjnl-2018-317592.
+
+39. García-Albéniz X, Hsu J, Bretthauer M, et al. Effectiveness of Screening
+    Colonoscopy to Prevent Colorectal Cancer Among Medicare Beneficiaries Aged
+    70 to 79 Years: A Prospective Observational Study. Ann Intern Med 2017;166(1):18–
+    26; doi: 10.7326/M16-0758.
+
+40. Guittet L, Quipourt V, Aparicio T, et al. Should we screen for colorectal cancer in
+    people aged 75 and over? A systematic review - collaborative work of the French
+    geriatric oncology society (SOFOG) and the French federation of digestive
+    oncology (FFCD). BMC Cancer 2023;23(1):17; doi: 10.1186/s12885-022-10418-5.
+
+41. Stein FDC, Hojaij NHSDL, Silva JGND, et al. COLONOSCOPY COMPLICATIONS IN
+    THE ELDERLY: the impact of age and multimorbidity. Arq Gastroenterol
+    2013;50(4):251–256; doi: 10.1590/S0004-28032013000400003.
+
+42. Canadian Task Force on Preventive Health Care. Recommendations on
+    screening for colorectal cancer in primary care. CMAJ 2016;188(5):340–348; doi:
+    10.1503/cmaj.151125.
+
+43. Wolf AMD, Fontham ETH, Church TR, et al. Colorectal cancer screening for
+    average‐risk adults: 2018 guideline update from the American Cancer Society.
+    CA A Cancer J Clinicians 2018;68(4):250–281; doi: 10.3322/caac.21457.
+
+44. Juul FE, Cross AJ, Schoen RE, et al. Effectiveness of Colonoscopy Screening vs
+    Sigmoidoscopy Screening in Colorectal Cancer. JAMA Netw Open
+    2024;7(2):e240007; doi: 10.1001/jamanetworkopen.2024.0007.
+
+45. Hassan C, Antonelli G, Dumonceau J-M, et al. Post-polypectomy colonoscopy
+    surveillance: European Society of Gastrointestinal Endoscopy (ESGE) Guideline –
+    Update 2020. Endoscopy 2020;52(08):687–700; doi: 10.1055/a-1185-3109.
+
+46. Ministério da Saúde. Comissão Nacional de Incorporação de Tecnologias no
+    Sistema Único de Saúde. Diretrizes Brasileiras para o Rastreamento do Câncer
+    do Colo do Útero: Parte I - Rastreamento organizado utilizando testes
+
+                                                                                               23
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+   moleculares para detecção de DNA-HPV                        oncogênico.      Relatório      de
+   Recomendação No 977 Conitec, 2025.
+
+47. Zhang L, Carvalho AL, Mosquera I, et al. An international consensus on the
+    essential and desirable criteria for an ‘organized’ cancer screening programme.
+    BMC Med 2022;20(1):101; doi: 10.1186/s12916-022-02291-7.
+
+48. Zhang L, Mosquera I, Lucas E, et al. CanScreen5, a global repository for breast,
+    cervical and colorectal cancer screening programs. Nat Med 2023;29(5):1135–
+    1145; doi: 10.1038/s41591-023-02315-6.
+
+49. Brasil. Ministério da Saúde. Secretaria de Ciência, Tecnologia, Inovação e
+    Complexo da Saúde. Diretrizes metodológicas : elaboração de diretrizes clínicas.
+    Ministério da Saúde, 2023.
+
+
+
+
+                                                                                               24
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+APÊNDICE 1 - METODOLOGIA DE BUSCA E AVALIAÇÃO
+DA LITERATURA
+
+1.    Escopo e finalidade das Diretrizes
+
+       O presente apêndice consiste no documento de trabalho do grupo
+elaborador das Diretrizes Brasileiras do Rastreamento do câncer de cólon e reto
+(CCR), contendo a descrição da metodologia de busca de evidências científicas, as
+recomendações e seus julgamentos (fundamentos para a tomada de decisão). O
+objetivo é embasar o texto das diretrizes, aumentar a sua transparência e prover
+considerações adicionais para profissionais da saúde, gestores e demais potenciais
+interessados.
+      O grupo desenvolvedor desta diretriz foi composto por um comitê gestor,
+grupo elaborador e painel de especialistas sob coordenação da Divisão de Detecção
+Precoce e Apoio à Organização de Redes (DIDEPRE) e da Divisão de Avaliação de
+Tecnologias (DATS), ambas pertencentes a Coordenação de Prevenção e Vigilância
+(CONPREV)/ INCA).
+
+
+       Formação e composição dos grupos de trabalho
+      Para a formação dos grupos de trabalho, foram convidados especialistas que,
+à época, haviam sido indicados por suas instituições em razão de sua experiência
+com rastreamento do câncer colorretal bem como com o diagnóstico e tratamento
+do câncer em estágio inicial e de suas lesões precursoras.
+
+
+       Declaração de conflitos de interesse e Confidencialidade
+      Todos os participantes do processo de elaboração das diretrizes
+preencheram o formulário de Declaração de Conflitos de Interesse e o termo de
+Confidencialidade.
+
+
+       Reunião de Escopo
+       A proposta inicial de elaboração das Diretrizes Brasileiras do Rastreamento
+do câncer de cólon e reto (CCR) foi discutida durante a reunião de escopo, ocorrida
+em 09 de julho de 2024. A reunião teve a presença de metodologistas e especialistas
+do Grupo Elaborador, incluindo especialistas, representantes da Secretaria de
+Atenção Especializada à Saúde (SAES) e Secretaria de Atenção Primária à Saúde
+(SAPS). Foram elaboradas 10 perguntas PICO.
+
+
+                                                                                                0
+     Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+      Após levantamento das evidências pelo Grupo Elaborador, as 10 perguntas
+foram reavaliadas e se tornaram oito, pois algumas estavam relacionadas às
+recomendações de perguntas anteriores.
+
+
+       Painel de Especialistas
+      Após a condução da revisão sistemática, o Grupo Elaborador redigiu a
+fundamentação de cada recomendação. As oito recomendações preliminares foram
+apresentadas em reunião pré-painel, ocorrida em 15 de julho de 2025, com a
+presença de metodologistas e especialistas do Grupo Elaborador.
+        Após validação por esse grupo, as recomendações foram apresentadas no
+formulário disponibilizado previamente a todos os painelistas, para registro de
+concordância e sugestões de melhorias ou correções do texto proposto. Esse
+formulário esteve disponível entre 18 de julho de 2025 e 04 de agosto de 2025. As
+contribuições recebidas foram consolidadas em um novo documento para a reunião
+de painel de especialistas, ocorrida em 12 de agosto de 2025, com a presença de 34
+profissionais de 15 instituições representadas (universidades, hospitais, fundações,
+sociedades de especialistas e organizações da sociedade civil), incluindo indicações
+da SAPS e da SAES.
+       A reunião de painelistas foi iniciada com uma breve apresentação do contexto
+da diretriz e da formação do GT. Em seguida, o Grupo Elaborador apresentou as
+recomendações originais, os esclarecimentos solicitados e as sugestões de
+melhorias dos textos acolhidas. Aquelas contribuições que contrariavam a proposta
+original foram debatidas. Durante os debates, todos os participantes puderam
+defender uma nova proposta, enquanto outros, usualmente participantes do Grupo
+Elaborador puderam defender a proposta original ou se manifestaram pelo
+acolhimento das sugestões recebidas.
+
+
+
+2.    Avaliação da Subcomissão Técnica de Avaliação de
+      Protocolos Clínicos e Diretrizes Terapêuticas
+
+       A proposta de atualização das Diretrizes Brasileiras do Rastreamento do
+câncer de cólon e reto foi apresentada na 132ª Reunião da Subcomissão Técnica de
+Avaliação de Protocolos Clínicos e Diretrizes Terapêuticas, realizada em 13 de janeiro
+de 2026. A reunião teve a presença de representantes da Secretaria de Ciência,
+Tecnologia e Inovação em Saúde (SCTIE); Secretaria de Atenção Especializada em
+Saúde (SAES) e Secretaria de Saúde Índigena (SESAI) e Secretaria de Atenção
+Primária à Saúde (SAPS). O PCDT foi aprovado para avaliação da Conitec e a proposta
+foi apresentada aos membros do Comitê de PCDT da Conitec em sua 149ª Reunião
+Ordinária, os quais recomendaram favoravelmente ao texto.
+
+                                                                                                1
+     Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+3.     Busca da evidência e recomendações
+
+Processo de elaboração
+
+        Síntese de Evidências
+       O processo de desenvolvimento dessa diretriz clínica seguiu as
+recomendações das Diretrizes Metodológicas: Elaboração de Diretrizes Clínicas do
+Ministério da Saúde. Foram realizadas buscas nas bases de dados MEDLINE (via
+PubMed), Embase e Cochrane Library. As estratégias de busca foram desenvolvidas
+com base na combinação de palavras-chave, estruturadas a partir do acrônimo
+PICOS/PECOS, utilizando termos MeSH no PubMed (e seus entry Terms), Emtree na
+Embase (e seus sinônimos) e adaptando-os na Cochrane Library. A preferência foi
+para revisões sistemáticas (RS) e ensaios clínicos randomizados (ECR).
+      O risco de viés foi avaliado de acordo com cada tipo de desenho de estudo,
+sendo o Risk of Bias da Cochrane (RoB 2.0) para os estudos de ECR e Risk Of Bias In
+Systematic Reviews (ROBIS) para os estudos de RS.
+
+
+        Sistema GRADE
+        A certeza da evidência global foi avaliada com o sistema GRADE (Grading of
+Recommendations Assessment, Development and Evaluation), que classifica a
+qualidade da informação ou o grau de certeza dos resultados disponíveis na
+literatura em quatro categorias (Quadro A) 1.
+      O sistema GRADE permite a avaliação da qualidade do conjunto de
+evidências científicas relativas a uma tecnologia, propiciando a elaboração de
+recomendações sobre sua utilização. A certeza da evidência representa a confiança
+a respeito da estimativa de efeito gerada pelo conjunto de evidências para
+representar a verdade 2.
+
+
+        Quadro A. Níveis de evidências de acordo com o sistema GRADE
+
+Nível           Definição                          Implicações
+                Há forte confiança de que o        É improvável que trabalhos adicionais
+Alto            verdadeiro efeito esteja           irão modificar a confiança na estimativa
+                próximo daquele estimado           do efeito.
+                                                   Trabalhos futuros poderão modificar a
+                Há confiança moderada no           confiança na estimativa de efeito,
+Moderado
+                efeito estimado.                   podendo,    inclusive,  modificar   a
+                                                   estimativa.
+
+                                                                                                2
+     Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+                                                  Trabalhos futuros provavelmente terão
+               A confiança no efeito é
+Baixo                                             um impacto importante em nossa
+               limitada.
+                                                  confiança na estimativa de efeito.
+
+               A confiança na estimativa
+Muito          de efeito é muito limitada.
+                                                  Qualquer estimativa de efeito é incerta.
+baixo          Há um importante grau de
+               incerteza nos achados.
+        Fonte: Diretrizes metodológicas: Sistema GRADE – Manual de graduação da
+qualidade da evidência e força de recomendação para tomada de decisão em saúde /
+Ministério da Saúde, Secretaria de Ciência, Tecnologia e Insumos Estratégicos,
+Departamento de Ciência e Tecnologia. – Brasília: Ministério da Saúde, 2014 1
+
+
+
+       Após a síntese das evidências, uma reunião de recomendações foi realizada
+em 12 de agosto de 2025 com o painel de especialistas. Para a elaboração das
+recomendações, os riscos e os benefícios das condutas propostas foram avaliados
+conforme os seguintes fatores determinantes da força de recomendação:
+importância do problema, acurácia do teste, efeitos desejáveis, efeitos indesejáveis,
+certeza geral da evidência do teste de acurácia, valores e preferências, balanço dos
+efeitos desejáveis e indesejáveis, recursos necessários, certeza da evidência dos
+recursos necessários, custo-efetividade, equidade, aceitabilidade e viabilidade.
+       Dessa forma, a direção e a força da recomendação, assim como sua redação,
+foram definidas durante a reunião. A recomendação poderia ser a favor ou contra a
+intervenção proposta, e ainda ser uma recomendação forte (o grupo está bastante
+confiante que os benefícios superam os riscos) ou fraca (a recomendação ainda gera
+dúvidas quanto ao balanço entre benefício e risco). Colocações adicionais sobre as
+recomendações, como potenciais exceções às condutas propostas ou outros
+esclarecimentos, também foram documentadas ao longo da reunião e estão
+apresentadas nas justificativas de cada recomendação. Buscou-se consenso em
+relação às recomendações, quando a maioria não era possível.
+        Para cada recomendação, foram discutidas a direção do curso da ação
+(realizar ou não realizar a ação proposta) e a força da recomendação, definida como
+forte ou condicional, de acordo com o sistema GRADE (Quadro B).
+
+
+      Quadro B. Implicações da força da recomendação para profissionais,
+pacientes e gestores em saúde.
+
+ Público-
+                 Forte                                 Condicional
+ alvo
+                 A recomendação deve ser
+                                                       É necessário debate substancial e
+                 adotada como política de
+ Gestores                                              envolvimento      das     partes
+                 saúde    na maioria  das
+                                                       interessadas.
+                 situações
+
+
+                                                                                               3
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+                 A maioria dos indivíduos              Grande parte dos indivíduos
+                 desejaria que a intervenção           desejaria que a intervenção fosse
+ Pacientes       fosse indicada e apenas um            indicada; contudo considerável
+                 pequeno       número    não           número     não    aceitaria  essa
+                 aceitaria essa recomendação           recomendação.
+
+                                                       O profissional deve reconhecer
+                                                       que diferentes escolhas serão
+                 A maioria dos pacientes deve
+ Profissionai                                          apropriadas para cada paciente
+                 receber     a    intervenção
+ s da saúde                                            para    definir  uma     decisão
+                 recomendada.
+                                                       consistente com os seus valores e
+                                                       preferências.
+        Fonte: Diretrizes metodológicas: Sistema GRADE – Manual de graduação da
+qualidade da evidência e força de recomendação para tomada de decisão em saúde /
+Ministério da Saúde, Secretaria de Ciência, Tecnologia e Insumos Estratégicos,
+Departamento de Ciência e Tecnologia. – Brasília: , 2014 1
+
+
+
+      Questões respondidas e detalhamento da elaboração das recomendações
+      O Quadro C elenca a questão respondida, as recomendações elaboradas e
+aprovadas pelo painel de especialistas, o grau de recomendação, seu nível de
+evidência ou fatores determinantes, além do método de elaboração.
+
+
+
+
+                                                                                               4
+    Este documento é uma versão preliminar e poderá sofrer alteração após a consulta pública
+      Quadro C. Questão elencada, recomendações elaboradas, grau de recomendação, nível de evidência e método de elaboração
+   Questão                          Recomendação/grau/nível de evidência                                                Método
+Recomendações para indivíduos adultos, de ambos os sexos, assintomáticos e com risco padrão
+Recomendações relacionadas ao exame de rastreamento
+               1. Recomenda-se o uso pesquisa de sangue oculto nas fezes como método de                Construída/revisão da literatura
+               rastreamento do câncer colorretal (CCR em indivíduos adultos, de ambos os sexos,
+               assintomáticos e com risco padrão (Forte, baseada em evidência de certeza
+               moderada, aceitabilidade e viabilidade).
+               2. Recomenda-se o uso do teste imunoquímico (FIT) como método de pesquisa de            Construída/revisão da literatura
+               sangue oculto nas fezes para rastreamento do CCR em indivíduos adultos, de ambos
+               os sexos, assintomáticos e com risco padrão (Forte, baseada em evidência de
+               certeza alta e aceitabilidade).
+               3. Recomenda-se o uso do teste imunoquímico (FIT) quantitativo ou qualitativo para      Buscas por diretrizes e documentos
+               rastreamento do CCR em indivíduos adultos, de ambos os sexos, assintomáticos e          governamentais e de sociedades médicas
+               com risco padrão (Condicional, baseada em viabilidade).                                 nacionais e internacionais sobre o
+                                                                                                       rastreamento de CCR.
+                 4. Recomenda-se o uso do teste imunoquímico (FIT) com ponto de corte 50 ng/mL         Construída/revisão da literatura
+  1. Deve-se
+                 para rastreamento do CCR em indivíduos adultos, de ambos os sexos,
+ utilizar qual
+                 assintomáticos e com risco padrão
+método para o
+                 5. Recomenda-se o início do rastreamento do CCR aos 50 anos em indivíduos, de         Buscas por diretrizes e documentos
+rastreamento
+                 ambos os sexos, assintomáticos e com risco padrão (Condicional, baseada em            governamentais e de sociedades médicas
+   do CCR?
+                 evidência de certeza moderada e viabilidade).                                         nacionais e internacionais sobre o
+                                                                                                       rastreamento de CCR.
+                 6. Recomenda-se o final do rastreamento do CCR em indivíduos adultos, de ambos        Buscas por diretrizes e documentos
+                 os sexos, assintomáticos e com risco padrão aos 75 anos (Condicional, baseada em      governamentais e de sociedades médicas
+                 evidência de certeza moderada e viabilidade).                                         nacionais e internacionais sobre o
+                                                                                                       rastreamento de CCR.
+                 7. Recomenda-se o uso do FIT na periodicidade bienal para rastreamento do CCR         Buscas por diretrizes e documentos
+                 em indivíduos adultos, de ambos os sexos, assintomáticos e com risco padrão           governamentais e de sociedades médicas
+                 (Condicional, baseada em evidência de certeza baixa, aceitabilidade e viabilidade).   nacionais e internacionais sobre o
+                                                                                                       rastreamento de CCR.
+                 8. Recomenda-se o uso de colonoscopia para avaliação diagnóstica após FIT de          Construída/revisão da literatura
+                 rastreamento com resultado positivo em indivíduos adultos, de ambos os sexos,
+                 assintomáticos e com risco padrão (Forte, baseada na aceitabilidade e viabilidade).
+
+
+                                                                                                                                          5
+Evidências Científicas
+
+    Questões respondidas com evidências de ensaio clínico
+randomizados ou revisão sistemática de estudos de acurácia
+
+       Testes laboratoriais são acurados, aceitos, eficazes e seguros para iniciar o
+rastreamento do CCR em indivíduos adultos, de ambos os sexos, assintomáticos e com
+risco padrão, quando comparados aos exames endoscópicos?
+
+
+      A estrutura PICO para esta pergunta foi:
+
+ População       Indivíduos adultos, de ambos os sexos, assintomáticos e com risco padrão
+                 para o desenvolvimento de CCR
+ Intervenção     Testes laboratoriais
+ Comparador      Exames endoscópicos
+ Desfechos       Adesão; Acurácia diagnóstica (sensibilidade, especificidade, valor preditivo
+                 positivo, valor preditivo negativo); Eficácia (diminuição de incidência,
+                 mortalidade específica e por todas as causas) e Segurança (eventos adversos)
+ Desenho         Ensaios clínicos randomizados; estudos de acurácia diagnóstica.
+
+       Qual o teste laboratorial mais acurado, aceito, eficaz e seguro para o
+rastreamento do CCR em indivíduos adultos, de ambos os sexos, assintomáticos e com
+risco padrão (teste guaiaco [g-FOBT] ou teste imunoquímico [FIT])?
+
+
+      A estrutura PICO para esta pergunta foi:
+
+ População       Indivíduos adultos, de ambos os sexos, assintomáticos e com risco padrão
+                 para o desenvolvimento de CCR
+ Intervenção     Teste guaiaco (g-FOBT)
+ Comparador      Teste imunoquímico (FIT)
+ Desfecho        Adesão; Acurácia diagnóstica (sensibilidade, especificidade, valor preditivo
+                 positivo); Eficácia (diminuição de incidência, mortalidade específica e por
+                 todas as causas) e Segurança (eventos adversos)
+ Desenho         Revisão sistemática de ensaios clínicos randomizados ou os estudos originais;
+                 estudos de acurácia diagnóstica. Ensaios clínicos randomizados; estudos de
+                 acurácia diagnóstica.
+
+
+
+
+                                                                                       6
+       Considerando a utilização do teste imunoquímico (FIT) quantitativo para o
+rastreamento do CCR em indivíduos adultos, de ambos os sexos, assintomáticos e com
+risco padrão, qual deve ser o limiar aceitável para classificá-lo como um teste positivo?
+      A estrutura PICO para esta pergunta foi:
+
+ População      Indivíduos adultos com idade entre, de ambos os sexos, assintomáticos e com
+                risco padrão para o desenvolvimento de CCR
+ Intervenção    Valor de corte de 10 µg Hb/g fezes
+ Comparador     Outros pontos de corte
+ Desfecho       Acurácia diagnóstica (especificidade, sensibilidade, valor preditivo positivo)
+ Desenho        Estudos de acurácia diagnóstica
+
+
+      Métodos e resultados da busca:
+         Para responder as perguntas elencadas foram realizadas buscas por ensaios
+clínicos randomizados e por revisões sistemáticas de estudos de acurácia em agosto de
+2024 contemplando as bases de dados: MEDLINE (via Pubmed), SCOPUS, EMBASE e
+LILACS. As estratégias de busca foram desenvolvidas com base na combinação de
+palavras-chave, estruturadas a partir do acrônimo PICOS, utilizando termos MeSH no
+PubMed (e seus Entry Terms), Emtree na Embase (e seus sinônimos) e adaptando-os na
+Cochrane Library. Não foram utilizados limites de idioma. Além disso, foram utilizados
+filtros validados para os desenhos de estudos sempre que possível.
+       Dois avaliadores independentes realizaram a seleção e a extração dos dados.
+Eventuais discordâncias entre os metodologistas quanto à inclusão dos estudos foram
+resolvidas por consenso, ou quando necessário, mediante consulta a um terceiro revisor.
+Para otimizar o processo de seleção, foi utilizado o aplicativo Rayyan 3.
+
+
+      Foram considerados como critérios de elegibilidade:
+      (a) Tipos de participantes
+      Indivíduos adultos, de ambos os sexos, assintomáticos e com risco padrão para o
+desenvolvimento de CCR.
+      (b) Tipo de intervenção
+        Pesquisa de sangue oculto nas fezes (FIT e gFOBT) e exames endoscópicos
+(retossigmoidoscopia e colonoscopia).
+      (c) Tipos de estudos
+      Ensaios clínicos randomizados (para desfechos de eficácia, adesão e segurança) e
+RS de estudos de acurácia diagnóstica (para desfechos de acurácia).
+      (d) Desfechos
+
+
+                                                                                       7
+      Adesão; Eficácia (diminuição de incidência, mortalidade específica e por todas as
+causas); Segurança (eventos adversos) e Acurácia (sensibilidade e especificidade).
+      (e) Idioma
+      Sem filtro de idiomas.
+     A Figura A descreve o fluxograma de seleção dos ensaios clínicos randomizados
+enquanto a Figura B descreve o fluxograma de seleção dos estudos de acurácia.
+
+
+
+
+                                                                                     8
+      Figura A. Fluxograma de seleção dos ensaios clínicos randomizados
+
+
+
+
+      Figura B. Fluxograma de seleção de revisões sistemáticas de estudos de acurácia
+
+
+
+      Descrição dos estudos identificados e incluídos
+      1- Comparação entre testes laboratoriais e exames endoscópicos
+      Foram selecionados cinco ECR que compararam testes laboratoriais e exames
+endoscópicos.
+
+
+      Retossigmoidoscopia única e FIT bienal
+      O estudo conduzido por Botteri e colaboradores 4 realizado na Noruega, comparou
+a adesão ao rastreamento em 116.938 indivíduos com idade entre 50 anos e 74 anos
+                                                                                    9
+assintomáticos que foram aleatoriamente designados para a realização de
+retossigmoidoscopia uma vez ou realização de FIT bienal. Como resultado, a adesão do
+grupo designado para a retossigmoidoscopia foi 51,5% e a de FIT bienal, foi de 58,5%. Para
+esta comparação, a avaliação da certeza da evidência foi classificada como alta, pois não
+houve penalização em nenhum dos domínios4.
+       Em relação à eficácia, na Noruega, 154.743 indivíduos na faixa etária de 50 anos a
+74 anos foram randomizados. O objetivo do estudo foi comparar a efetividade e a
+segurança da retossigmoidoscopia realizada única vez com o FIT realizado a cada dois
+anos. A taxa de detecção de CCR foi significativamente maior no grupo que realizou FIT
+do que retossigmoidoscopia após o segundo round (OR: 1,38; IC95% 1,15 - 1,66) e no terceiro
+round (OR: 1,87; IC95% 1,54–2,27). Entre os 36.065 participantes que realizaram
+retossigmoidoscopia, foram registrados três perfurações e três episódios de
+sangramentos. Já entre os 10.242 que passaram por colonoscopia como exame de
+confirmação diagnóstica, ocorreram sete perfurações e 67 casos de sangramento5. A
+certeza da evidência foi considerada alta para ambos os estudos.
+
+
+       Colonoscopia e FIT anual
+        Na China, o estudo multicêntrico TARGET-C acompanhou cerca de 19 mil
+indivíduos da faixa etária de 50 anos a 74 anos por 3 anos. Os exames de rastreamento
+foram FIT anual, colonoscopia e exame de triagem, de acordo com classificação de risco
+(sendo FIT para aqueles classificados como baixo risco e colonoscopia para os de alto
+risco). Neste estudo, a adesão dos participantes designados para a colonoscopia foi de
+42,3% enquanto, para FIT anual, foi de 94%. A certeza das evidências foi classificada como
+alta. Para a detecção de câncer, não houve diferença estatística significativa entre
+colonoscopia e FIT anual (OR=2,27; IC95% 0,87-6,05). A certeza das evidências para este
+desfecho foi considerada moderada devido à imprecisão 6,7.
+        Um programa de rastreamento nos EUA incluiu 738 pacientes de um serviço
+comunitário para avaliar qual exame teria maior adesão. Dessa forma, os indivíduos foram
+aleatoriamente designados a: colonoscopia única vez, FIT única vez ou escolha ativa
+(colonoscopia ou FIT também única vez). Neste ECR, a adesão para colonoscopia foi de
+5,6%, a de FIT foi 11,3% e a de escolha ativa foi de 12,8% 8.
+
+
+       2- Comparação entre testes laboratoriais
+       Comparação entre FIT e gFOBT
+      Foram selecionadas duas RS de teste de acurácia 9,10. Como os resultados das RS
+eram semelhantes, para otimizar a apresentação dos resultados, priorizou-se o estudo
+com publicação mais recente, com estratégia de busca mais atualizada e com maior
+número de fontes de informação pesquisadas.
+       Desse modo, a RS da Cochrane 9 foi selecionada para responder à pergunta sobre
+a comparação entre FIT e gFOBT. O objetivo do estudo foi comparar a acurácia diagnóstica
+do teste de sangue oculto nas fezes à base de guaiaco (gFOBT) versus teste imunoquímico
+                                                                                      10
+fecal (FIT) na detecção de CCR e neoplasia avançada (NA) em indivíduos assintomáticos
+de risco médio com idade ≥ 40 anos.
+       Os autores realizaram buscas nas bases CENTRAL Cochrane, MEDLINE, Embase,
+BIOSIS, Science Citation Index, Google Scholar, listas de referência e artigos relacionados.
+Foram incluídos estudos primários prospectivos e retrospectivos com padrão de
+referência sendo a colonoscopia; e estudos caso-controle foram excluídos. A seleção foi
+realizada por dois pesquisadores independentes e em caso de discordância um terceiro
+pesquisador realizou a decisão final.
+        Foram incluídos 63 estudos (busca inicial em junho de 2019 e busca adicional em
+setembro de 2021), no qual 33 estudos foram classificados como "reference standard: all",
+o que significava que todos os participantes eram submetidos a colonoscopia após teste
+FIT ou gFOBT, independente do resultado. Outros 30 estudos foram classificados como
+"reference standard: positive ", o que significava que apenas participantes com resultados
+positivos de FIT e gFOBT eram submetidos a colonoscopia e os resultados negativos eram
+acompanhados por ≥ 1 ano. Todos os estudos tiveram seguimento de pelo menos um ano
+e máximo de quatro anos. Considerando ambas as classificações, foram analisados dados
+de 3,7 milhões de participantes. Os pontos de corte mais comuns nos estudos incluídos
+foram 10 µg de hemoglobina (Hb)/g fezes e 20 µg de Hb/g fezes 9.
+       A qualidade da evidência dos estudos incluídos na RS da Cochrane 9 foi baseada
+na ferramenta de risco de viés de estudos diagnósticos - QUADAS-2. Os autores relataram
+que a maior parte da avaliação do risco de viés foi baixa ou incerta, sendo classificada
+como risco de viés alto em menos de 20% dos estudos. A avaliação da certeza da
+evidência, realizada pelo grupo elaborador com o sistema GRADE, foi classificada como
+moderada devido ao rebaixamento na dimensão de risco de viés, por considerar que,
+mesmo sendo poucos, houve estudos classificados como risco de viés alto. Não houve
+rebaixamento para as demais dimensões9.
+
+
+       3- Comparação entre diferentes pontos de corte de positividade para o teste FIT
+      Foram selecionadas quatro RS de teste de acurácia 9,11,12. Como os resultados das
+RS eram semelhantes, para otimizar a apresentação dos resultados, priorizou-se o estudo
+com publicação mais recente, com estratégia de busca mais atualizada e com maior
+número de fontes de informação pesquisadas.
+       Deste modo, a RS de Selby e colaboradores12 foi selecionada para responder à
+pergunta sobre a comparação entre diferentes pontos de corte para o teste FIT. O objetivo
+do estudo foi avaliar como o limiar de positividade, o sexo e a idade influenciam a acurácia
+dos testes imunológicos fecais quantitativos (FIT) na detecção de CCR e adenomas
+avançados.
+       Foram incluídos na RS 37 artigos científicos de 46 estudos de acurácia diagnóstica
+com participantes adultos assintomáticos, com idade média ≥ 40 anos, que testaram FIT
+quantitativo apenas, e utilizaram como referência a colonoscopia para todos (34 estudos
+com 121.545 participantes) e somente para os resultados positivos, com acompanhamento
+
+                                                                                          11
+de até um ano para aqueles participantes com resultado negativo (12 estudos). Foram
+incluídos na RS 2.412.518 participantes e 6.478 CCR detectados.
+        A qualidade da evidência dos estudos incluídos na RS de Selby e colaboradores
+(2019) foi baseada na ferramenta de risco de viés de estudos diagnósticos - QUADAS-2.
+De acordo com a avaliação dos autores, a maior parte da avaliação do risco de viés foi
+baixa ou incerta, entretanto, houve classificação de alto risco e preocupações sobre a
+aplicabilidade para alguns dos artigos. Assim, a certeza da evidência pelo sistema GRADE
+foi classificada como moderada devido ao rebaixamento da dimensão de risco de viés 12.
+
+
+
+       Perfil de evidências:
+
+       Avaliação do risco de viés das revisões sistemáticas
+       Para a avaliação do risco de viés das revisões sistemáticas incluídas foi utilizada a
+ferramenta ROBIS – Risk of Bias in Systematic Reviews. A ROBIS avalia tanto o risco de viés
+da revisão quanto a relevância da pergunta de pesquisa a ser respondida. A ferramenta
+aborda especificamente: se os métodos utilizados na RS minimizaram o risco de viés das
+estimativas sumarizadas e das conclusões; e se a pergunta de pesquisa de cada revisão
+avaliada se assemelha à pergunta de pesquisa a ser respondida 13.
+       O Quadro D apresenta o resultado da avaliação das duas revisões sistemáticas
+selecionadas e priorizadas para embasar as recomendações.
+
+
+      Quadro D: Avaliação da qualidade metodológica da revisão sistemática pela
+ferramenta ROBIS.
+
+      Questão-alvo do estudo/                  RS a serem avaliadas (Autor, ano)
+      Problemas identificados                Grobbee, 2022 9            Selby, 2019 12
+ Fase 1 - Relevância (Opcional)
+ P: Indivíduos assintomáticos, com
+ risco padrão, submetidos a                          PS                      INCERTO
+ rastreio de CCR
+ I: Teste índice (FIT ou gFOBT)                       S
+                                                                                 S
+                                       (FIT qualitativo e quantitativo
+                                                                         (FIT quantitativo)
+                                                  e gFOBT)
+ C:    Padrão    de     referência
+                                                     S                           S
+ (colonoscopia)
+ O: Sensibilidade, especificidade,
+ valores preditivos positivo e
+ negativo,       razões        de                    S                           S
+ verossimilhança    positiva     e
+ negativa
+ A pergunta abordada pela revisão
+ corresponde à questão alvo?                         S                           S
+ (SIM/NÃO/INCERTO)
+
+                                                                                          12
+   Questão-alvo do estudo/                     RS a serem avaliadas (Autor, ano)
+   Problemas identificados                   Grobbee, 2022 9            Selby, 2019 12
+JUSTIFICATIVA                        A pergunta de pesquisa A             pergunta     de
+                                     coincide com todas as pesquisa coincide
+                                     categorias                      com       todas   as
+                                                                     categorias
+Fase 2 - Identificação dos potenciais riscos de viés durante o processo
+Domínio 1 – Critérios de elegibilidade dos estudos
+1.1 Os objetivos e critérios de
+elegibilidade foram definidos                       PS                          S
+previamente?
+1.2 Os critérios de elegibilidade
+eram apropriados à pergunta da                       S                          S
+revisão?
+1.3 Os critérios de elegibilidade
+foram bem especificados (sem                         S                          S
+ambiguidade)?
+1.4 Com relação aos critérios de
+elegibilidade,     as    restrições
+                                                     S                          S
+baseadas nas características dos
+estudos foram apropriadas?
+1.5 Com relação aos critérios de
+elegibilidade,     as    restrições
+                                                     S                          S
+baseadas       nas    fontes     de
+informações foram apropriadas?
+Gradação do potencial risco de
+viés nas especificações dos
+                                                  BAIXO                     BAIXO
+critérios      de     elegibilidade
+ do estudo (Baixo, alto ou incerto):
+Justificativa:                       Os critérios de elegibilidade Protocolo
+                                     foram        adequados       e publicado, pergunta
+                                     relacionados à questão de de pesquisa, PICOS
+                                     pesquisa (“Which FOBT is e            critérios   de
+                                     superior in population-based elegibilidade
+                                     CRC screening?”)                definidos          e
+                                                                     adequados
+Domínio 2 – Identificação e seleção dos estudos
+2.1 A busca incluiu uma variedade
+suficiente de bases de dados/
+fontes eletrônicas para pesquisar                    S                          S
+artigos     publicados     e    não
+publicados?
+2.2 Além da busca nas bases de
+dados foram utilizados métodos
+                                                     S                          S
+adicionais para a identificação de
+artigos relevantes?
+
+
+
+
+                                                                                      13
+     Questão-alvo do estudo/                  RS a serem avaliadas (Autor, ano)
+      Problemas identificados               Grobbee, 2022 9             Selby, 2019 12
+2.3 Os termos e a estrutura da
+estratégia de busca foram
+                                                    S                         S
+adequados para obter o maior
+número possível de artigos?
+2.4 As restrições baseadas na data,
+formato de publicação ou idioma                     S                         N
+foram adequadas?
+2.5 Foram realizadas tentativas
+para minimizar erros na seleção                     S                         S
+dos estudos?
+Gradação do potencial risco de
+viés em relação aos métodos
+utilizados                     para               BAIXO                     ALTO
+ identificar e/ou selecionar os
+estudos (Baixo, alto ou incerto):
+Justificativa:                       Variedade de bases de dados MEDLINE, EMBASE,
+                                     para    pesquisa     (Cochrane Database             of
+                                     Central Register of Controlled Abstracts of Reviews
+                                     Trials, MEDLINE, Embase, of Effects e buscas
+                                     BIOSIS, Science Citation Index manuais            em
+                                     Expanded         e      Google bibliografias, listas
+                                     Acadêmico em 25 de junho de de referências de
+                                     2019). Não foram impostas artigos elegíveis e
+                                     restrições quanto à data ou consulta                 a
+                                     idioma dos artigos revisados. especialistas        na
+                                     Uma          nova        busca área. Estratégias de
+                                     complementar em 14 de busca com filtros de
+                                     setembro de 2021 foi feita. idioma         e     data
+                                     Estratégias      de      busca (revisão      anterior)
+                                     disponíveis.      Além disso, foram um ponto
+                                     busca manual nas referências negativo            que
+                                     de todos os estudos incluídos rebaixou               a
+                                     para busca de ensaios qualidade                    da
+                                     adicionais. A seleção dos dimensão.              Dois
+                                     estudos foi realizada por dois revisores
+                                     pesquisadores                  independentes
+                                     independentes                  extraíram             e
+                                                                    avaliaram os dados.
+Domínio 3 – Coleta de dados e avaliação do estudo
+3.1 Foram realizadas tentativas
+para minimizar o erro na coleta de                  S                         S
+dados?
+3.2 As características disponíveis
+do estudo foram suficientes para
+que os autores da revisão e                        PS                        PS
+leitores    sejam    capazes      de
+interpretar os resultados?
+
+                                                                                        14
+     Questão-alvo do estudo/                   RS a serem avaliadas (Autor, ano)
+      Problemas identificados                Grobbee, 2022 9            Selby, 2019 12
+3.3 Todos os resultados relevantes
+foram coletados para uso na                        PS                         PS
+síntese?
+3.4. O risco de viés (ou qualidade
+metodológica) foi formalmente
+                                                    S                         S
+avaliado       usando      critérios
+apropriados?
+3.5. Foram realizadas tentativas
+para minimizar o erro na avaliação                  S                         S
+do risco de viés?
+Gradação do potencial risco de
+viés em relação aos métodos
+utilizados para coletar dados e                  BAIXO                      BAIXO
+avaliar estudos: (Baixo, alto ou
+incerto):
+Justificativa:                       Dois autores da revisão Dois               revisores
+                                     extraíram todos os dados de extraíram os dados
+                                     forma independente. Três descritivos               e
+                                     autores da revisão avaliaram quantitativos        de
+                                     de forma independente a cada estudo. Risco
+                                     qualidade de cada estudo de viés avaliado
+                                     usando as ferramentas de com a ferramenta
+                                     Avaliação da Qualidade de QUADAS-2 por dois
+                                     Estudos       de     Precisão pesquisadores
+                                     Diagnóstica     (QUADAS     e independentes.
+                                     QUADAS-2).
+Domínio 4 – Síntese dos Resultados
+4.1 A síntese de resultados incluiu
+todos os estudos que deveriam                       S                         PS
+ser incluídos?
+4.2 Todas as análises pré-definidas
+foram seguidas ou as perdas de                     PS                         S
+participantes foram explicadas?
+4.3 A síntese dos resultados foi
+apropriada dada a natureza e a
+similaridade das questões de
+                                                    S                         S
+pesquisa, dos delineamentos de
+estudos e desfechos dos estudos
+incluídos?
+4.4 A variação entre os estudos
+(heterogeneidade) foi baixa ou                      S                         S
+abordada na síntese?
+4.5 Os resultados foram robustos?
+Como demonstrado, por exemplo,
+                                                    S                         PS
+pelo funnel plot ou análise de
+sensibilidade.
+
+
+                                                                                      15
+    Questão-alvo do estudo/                    RS a serem avaliadas (Autor, ano)
+     Problemas identificados                 Grobbee, 2022 9             Selby, 2019 12
+4.6 Os vieses nos estudos
+primários foram mínimos ou                          PS                         PS
+abordados na síntese?
+Gradação do potencial risco de
+viés em relação à síntese e                        BAIXO                    BAIXO
+resultados (Baixo, alto ou incerto):
+Justificativa:                       Não        houve      diferença Protocolo publicado
+                                     significativa    nas     curvas no       PROSPERO.
+                                     HSROC entre os estudos que Houve
+                                     utilizaram um FIT quantitativo heterogeneidade
+                                     ou qualitativo para neoplasia entre os estudos e
+                                     avançada (p = 0,655) ou câncer foi     utilizado   o
+                                     colorretal (p = 1,000). Na método randômico.
+                                     análise     de    sensibilidade, Autores avaliaram
+                                     depois de excluir estudos risco de viés pelo
+                                     com alto risco de viés ou risco QUADAS             2,
+                                     de viés incerto, todas as apresentaram
+                                     análises para cada domínio motivos                 e
+                                     QUADAS-2             específico discussão.
+                                     mostraram que os FITs foram
+                                     significativamente superiores
+                                     na detecção de neoplasia
+                                     avançada e câncer colorretal
+                                     em comparação aos gFOBTs.
+Fase 3 - Avaliação do risco de viés geral
+1. Critérios de elegibilidade dos BAIXO (Os critérios de
+estudos                              elegibilidade             foram
+                                                                            BAIXO
+                                     adequados e relacionados a
+                                     pergunta de pesquisa)
+2. Identificação e seleção dos BAIXO (Variedade de bases de
+estudos                              dados para pesquisa). Não
+                                     houve restrição quanto à data
+                                     ou ao idioma. A busca foi
+                                     atualizada. As estratégias de
+                                     busca estão disponíveis. Além
+                                     disso, busca manual nas
+                                                                             ALTO
+                                     referências de todos os
+                                     estudos incluídos para busca
+                                     de ensaios adicionais. A
+                                     seleção dos estudos foi
+                                     realizada        por        dois
+                                     pesquisadores
+                                     independentes)
+
+
+
+
+                                                                                       16
+      Questão-alvo do estudo/                  RS a serem avaliadas (Autor, ano)
+      Problemas identificados               Grobbee, 2022 9              Selby, 2019 12
+ 3. Coleta de dados e avaliação do BAIXO (Dois autores da
+ estudo                              revisão extraíram todos os
+                                     dados          de        forma
+                                     independente. Três autores
+                                     da revisão avaliaram de forma           BAIXO
+                                     independente a qualidade de
+                                     cada estudo usando as
+                                     ferramentas      QUADAS        e
+                                     QUADAS-2)
+ 4. Síntese e resultados             BAIXO      (A    síntese     de BAIXO
+                                     evidências        foi      feita
+                                     adequadamente e análises de
+                                     sensibilidade         e      de
+                                     heterogeneidade          foram
+                                     realizadas)
+ Risco de viés na revisão
+ A. A interpretação dos achados
+ considerou todos os riscos                         S                           S
+ potenciais identificados na Fase 2?
+ B. A relevância dos estudos para a
+ pergunta de pesquisa da revisão                    S                           S
+ foi adequadamente considerada?
+ C. Os autores se preocuparam em
+ não enfatizar os resultados com
+                                                    S                           S
+ base apenas na sua significância
+ estatística?
+ Risco de viés da Revisão (Alto, INCERTO devido a presença INCERTO devido a
+ Baixo ou Incerto)                   de poucos estudos com risco presença de poucos
+                                     de viés alto pelo QUADAS-2, estudos com risco
+                                     em torno de 20%                  de viés alto
+       Legenda: S – Sim; PS – Provavelmente Sim; PN – Provavelmente Não; N – Não; SI – Sem
+informação.
+
+
+
+    Avaliação do risco de viés dos ensaios clínicos
+randomizados
+      Para a avaliação do risco de viés dos ensaios clínicos randomizados, foi utilizada a
+ferramenta RoB 2.0 (Risk of Bias in Randomized Trials).
+       De acordo com a ferramenta, o estudo de Botteri e colaboradores 4 e o estudo
+TARGET-C 5–7 foram considerados com “algumas preocupações” para o desfecho adesão
+devido à penalização do domínio 2 que é relacionada a viés devido a desvios das
+intervenções pretendidas, pois o fato do conhecimento da intervenção recebida poderia
+influenciar pelo conhecimento da intervenção recebida 4.
+       A Figura C apresenta a avaliação de risco de viés dos ECR.
+                                                                                       17
+      Figura C. Avaliação do risco de viés dos ensaios clínicos randomizados- RoB 2.0
+
+
+
+      GRADE para revisões sistemáticas:
+
+       Os Quadros E e F apresentam os resultados da avaliação da certeza da evidência
+(conforme sistema GRADE) para os desfechos de verdadeiros-positivos, falsos negativos,
+verdadeiros negativos e falsos positivos, para as comparações entre FIT e gFOBT; e entre
+os pontos de corte de positividade para o teste FIT.
+
+
+
+
+                                                                                        18
+       Quadro E. FIT comparada ao gFOBT para iniciar o rastreamento do CCR em indivíduos adultos, de ambos os sexos,
+assintomáticos e com risco padrão
+FIT                                               gFOBT
+
+Sensibilidade        0,89 (IC 95%: 0,85 a 0,92)   Sensibilidade        0,59 (IC 95%: 0,55 a 0,64)
+Especificidade       0,94 (IC 95%: 0,92 a 0,95)   Especificidade       0.98 (IC 95%: 0,98 a
+                                                                       0,99)
+
+
+                                         № dos estudos (№                                              Fatores que podem diminuir a certeza da evidência
+                                                                   Delineamento do                                                                                   Certeza da
+              Desfecho                                                                      Risco de     Evidência                                       Viés de
+                                            de pacientes)               estudo                                        Inconsistência Imprecisão                      evidência
+                                                                                              viés        indireta                                     publicação
+         Verdadeiros-positivos
+          (pacientes com CCR)
+                                                                       Transversal
+            Falsos-negativos                                                                                                                                          ⨁⨁⨁◯
+                                                                   (estudo de acurácia        gravea     não grave       não grave      não grave      nenhum
+       (pacientes incorretamente                                                                                                                                     Moderada
+                                            22 estudos                do tipo coorte)
+     classificados como não tendo
+                  CCR)                  2.624.005 pacientes
+         Verdadeiros-negativos
+          (pacientes sem CCR)                                       transversal
+                                                                                                                                                                      ⨁⨁⨁◯
+             Falsos-positivos                                  estudo de acurácia do          gravea     não grave       não grave      não grave      nenhum
+                                                                                                                                                                     Moderada
+          (Pacientes com CCR                                        tipo coorte)
+     incorretamente classificados)
+
+a-     Grobbee EJ, Wisse PHA, Schreuders EH, et al. Guaiac-based faecal occult blood tests versus faecal immunochemical tests for colorectal cancer screening in average-risk
+       individuals. Cochrane Database Syst Rev 2022;6(6):Cd009276; doi: 10.1002/14651858.CD009276.pub2.
+
+
+
+
+                                                                                                                                                                                19
+       Quadro F. FIT 10 µg Hb/g (50 ng/mL) para iniciar o rastreamento do CCR em indivíduos adultos, de ambos os sexos,
+assintomáticos e com risco padrão
+FIT
+
+Sensibilidade         0,80 (IC 95%: 0,76 a 0,83)
+Especificidade        0,91 (IC 95%: 0,89 a 0,93)
+
+
+                                                                                              Fatores que podem diminuir a certeza da evidência                       Acurácia do
+                                             № dos         Delineamento do                                                                                               teste
+               Desfecho                                                            Risco de      Evidência                        Imprecisã       Viés de
+                                            estudos             estudo                                          Inconsistência                                        Certeza da
+                                                                                     viés         indireta                            o          publicação
+                                                                                                                                                                       Evidência
+         Verdadeiros-positivos
+          (pacientes com CCR)                                 Transversal
+                                                                                                                                                                       ⨁⨁⨁◯
+             Falsos-negativos              18 estudos   (estudo de acurácia do      gravea       não grave        não grave       não grave        nenhum
+                                                                                                                                                                      Moderada
+      (pacientes incorretamente                               tipo coorte)
+  classificados como não tendo CCR)
+        Verdadeiros-negativos
+           (pacientes sem CCR)                               transversal
+                                                                                                                                                                       ⨁⨁⨁◯
+             Falsos-positivos              18 estudos   estudo de acurácia do       gravea       não grave        não grave       não grave        nenhum
+                                                                                                                                                                      Moderada
+ (Pacientes com CCR incorretamente                           tipo coorte)
+               classificados)
+
+a-    Selby K, Levine EH, Doan C, et al. Effect of Sex, Age, and Positivity Threshold on Fecal Immunochemical Test Accuracy: A Systematic Review and Meta-analysis.
+      Gastroenterology 2019;157(6):1494–1505; doi: 10.1053/j.gastro.2019.08.023.
+
+
+
+
+                                                                                                                                                                                 20
+       GRADE para ensaios clínicos randomizados:
+
+       Com o objetivo de avaliar a confiança no conjunto de evidências, foi utilizada
+a ferramenta GRADE 2. Foram incluídos nesta análise os desfechos adesão, detecção
+de CCR e segurança (perfuração intestinal e sangramentos).
+        Para a comparação de colonoscopia versus FIT anual, a certeza do conjunto
+de evidências foi considerada alta para adesão e para detecção de CCR foi
+considerada moderada devido à imprecisão (Quadro G). Enquanto a comparação
+entre retossigmoidoscopia e FIT bienal teve a certeza do conjunto de evidências
+classificada como alta para todos os desfechos analisados (Quadro H).
+
+
+
+
+                                                                                  21
+       Quadro G. Colonoscopia comparada ao FIT anual, para iniciar o rastreamento do CCR em indivíduos adultos, de ambos os
+sexos, assintomáticos e com risco padrão
+
+                    Fatores que podem diminuir a certeza da evidência                           № de pacientes                    Efeito
+                                                                                                                                                    Certeza da
+                                                    Evidênci                   Outras                                                                                Importância
+ № dos      Delineament      Risco    Inconsistê               Imprecisã                    Colonoscopi      FIT      Relativo        Absoluto      evidência
+                                                        a                   consideraçõe
+ estudos    o do estudo     de viés      ncia                      o                             a          anual     (IC 95%)        (IC 95% )
+                                                    indireta                      s
+
+Adesão
+
+    1          ensaios        Não      não grave      não      não grave       nenhum        1644/3883     7327/7     OR 2,02       29 mais por      ⨁⨁⨁⨁            IMPORTANTE
+               clínicos      grave                   grave                                     (42.3%)       793       (1,74            1.000         Alta
+            randomizado                                                                                    (94.0%)   para 2,34)      (de 25 mais
+                   s                                                                                                                para 33 mais)
+
+Eficácia- Detecção CCR
+
+    1          ensaios        não      não grave     grave       gravea        nenhum          9/3883      8/7793     OR 2,27        1 mais por      ⨁⨁⨁◯            IMPORTANTE
+               clínicos      grave                                                              (0.2%)      (0.1%)     (0,87           1.000        Moderadaa
+            randomizado                                                                                                para         (de 0 menos
+                   s                                                                                                   6,05)        para 5 mais)
+           IC 95%: intervalo de confiança; OR: Odds ratio
+           Explicação
+                 a.      IC95% amplo e perpassa linha de nulidade.
+                 b.      XU, H. et al. Targeting PI3K-gamma in myeloid driven tumour immune suppression: a systematic review and meta-analysis of the preclinical literature. Cancer
+                         Immunology, Immunotherapy, v. 73, n. 10, 2024.
+
+
+
+
+                                                                                                                                                                                22
+           Quadro H. Retossigmoidoscopia comparado ao FIT bienal, para iniciar o rastreamento do CCR em indivíduos adultos, de ambos
+    os sexos, assintomáticos e com risco padrão
+
+                         Fatores que podem diminuir a certeza da evidência                                Nº de pacientes                    Efeito
+                                                                                                                                                              Certeza da
+             Delineamento do    Risco    Inconsistência   Evidência   Imprecisão      Outras       Retossigmoidoscopia       FIT      Relativo    Absoluto                  Importância
+  Nº dos                                                                                                                                                      evidência
+                  estudo          de                       indireta                considerações                            bienal    (IC 95% )    (IC 95%)
+  estudos                        viés
+
+Adesão
+
+    1        ensaios clínicos    não       não grave         não      não grave      nenhum        24159/46919 (51.5%)      40931/    OR 0.88       31         ⨁⨁⨁⨁        IMPORTANTE
+              randomizados      grave                       grave                                                            70019                menos         Alta
+                                                                                                                            (58,5%)                por
+                                                                                                                                                  1.000
+
+
+Eficácia- detecção CCR
+
+    1        ensaios clínicos    não       não grave         não      não grave      nenhum         202/69195 (0.3%)        260/7     OR 1,38     1 mais       ⨁⨁⨁⨁        IMPORTANTE
+              randomizados      grave                       grave                                                           0096        (1,15       por         Alta
+                                                                                                                            (0,4%)     para       1.000
+                                                                                                                                       1,66)       (de 1
+                                                                                                                                                   mais
+                                                                                                                                                  para 2
+                                                                                                                                                   mais)
+
+Eventos adversos sérios (sangramento ou perfuração)
+
+    1        ensaios clínicos    não       não grave         não      não grave      nenhum          33/10242 (0.3%)        47/36     OR 3,0      3 mais       ⨁⨁⨁⨁          CRÍTICO
+              randomizados      grave                       grave                                                            065                    por         Alta
+                                                                                                                            (0,1%)                1.000
+
+             IC 95%: intervalo de confiança; OR: Odds ratio
+
+            a.Botteri, Edoardo et al. Characteristics of nonparticipants in a randomised colorectal cancer screening trial comparing sigmoidoscopy and faecal immunochemical testing.
+            International Journal of Cancer, v. 151, n. 3, p. 361–371, ago. 2022.
+
+
+
+
+                                                                                                                                                                                     23
+      Questões que utilizaram outras fontes de dados
+
+       O rastreamento do CCR em indivíduos adultos, de ambos os sexos,
+assintomáticos e com risco padrão deve-se iniciar aos 45 ou 50 anos?
+      A estrutura PICO para esta pergunta foi:
+
+ População      Indivíduos adultos, de ambos os sexos, assintomáticos e com
+                risco padrão para o desenvolvimento de CCR
+ Exposição      A partir de 45 anos
+ Comparador     A partir de 50 anos
+ Desfecho       Eficácia (diminuição de incidência, mortalidade específica e por
+                todas as causas); Segurança (eventos adversos)
+ Desenho        Revisão sistemática de ensaios clínicos randomizados ou os
+                estudos originais
+
+       O rastreamento do CCR em indivíduos adultos, de ambos os sexos,
+assintomáticos e com risco padrão deve-se finalizar aos 70 ou 75 anos?
+
+      A estrutura PICO para esta pergunta foi:
+
+ População       Indivíduos adultos, de ambos os sexos, assintomáticos e com
+                 risco padrão para o desenvolvimento de CCR
+ Exposição       Até 70 anos
+ Comparador      Até 75 anos
+ Desfecho        Eficácia (diminuição de incidência, mortalidade específica e por
+                 todas as causas); Segurança (eventos adversos)
+ Desenho         Revisão sistemática de ensaios clínicos randomizados ou os
+                 estudos originais
+
+       Considerando a utilização do teste imunoquímico (FIT) para o
+rastreamento do CCR em indivíduos adultos, de ambos os sexos, assintomáticos
+e com risco padrão, qual deve ser utilizado (qualitativo ou quantitativo)?
+
+      A estrutura PICO para esta pergunta foi:
+População        Indivíduos adultos com idade entre, de ambos os sexos,
+                 assintomáticos e com risco padrão para o desenvolvimento de
+                 CCR
+
+Intervenção      Teste imunoquímico (FIT) quantitativo
+
+Comparador       Teste imunoquímico (FIT) qualitativo
+
+Desfecho         Acurácia (especificidade, sensibilidade, valor preditivo positivo)
+
+Desenho          Estudos de acurácia diagnóstica
+
+
+
+
+                                                                                      24
+       Qual deve ser a periodicidade de realização do teste laboratorial mais
+acurado, eficaz, seguro e com maior adesão para o rastreamento do CCR em
+indivíduos adultos, de ambos os sexos, assintomáticos e com risco padrão (exame
+anual ou bienal)?
+
+       A estrutura PICO para esta pergunta foi:
+
+ População        Indivíduos adultos, de ambos os sexos, assintomáticos e com
+                  risco padrão para o desenvolvimento de CCR
+
+ Intervenção      Teste laboratorial anual
+
+ Comparador       Teste laboratorial bienal
+
+ Desfecho         Adesão; Acurácia diagnóstica (sensibilidade, especificidade, valor
+                  preditivo positivo); Eficácia (diminuição de incidência, mortalidade
+                  específica e por todas as causas) e Segurança (eventos adversos)
+
+ Desenho          Revisão sistemática de ensaios clínicos randomizados ou os
+                  estudos originais; estudos de acurácia diagnóstica
+
+
+
+       Métodos e resultados da busca:
+
+        Para as perguntas não respondidas diretamente pelas evidências dos ECR e
+RS, foram realizadas buscas por diretrizes, documentos governamentais e de
+sociedades médicas nacionais e internacionais sobre o rastreamento de CCR. Além
+disso, foram feitas buscas por informações sobre a população em cada faixa etária
+de interesse na base de dados do Censo brasileiro de 2022, consultado no Instituto
+Brasileiro de Geografia e Estatística (IBGE); e sobre os tipos de testes FIT registrados
+na Anvisa.
+
+
+
+       Descrição dos estudos identificados e incluídos
+
+       Comparação entre início do rastreamento aos 45 e 50 anos
+       A busca realizada por estudos de ECR e RS não identificou evidências sobre
+a comparação direta da idade de início do rastreamento. Entretanto, dos oito ECR
+selecionados que responderam outras recomendações, observou-se que cinco
+deles avaliaram intervenções em indivíduos na faixa etária de 50 a 74 anos 4. Deste
+modo, houve uma representatividade para a faixa de idade acima de 50 anos nos
+resultados obtidos.
+      Outras fontes de informação foram diretrizes de sociedades médicas e de
+outros países. Para embasar a recomendação, utilizou-se o guia de
+Gastroenterologia Americana 14, 2021), a diretriz da National Comprehensive Cancer
+Network (NCCN)15 e o documento da US Preventive Services Task Force
+                                                                                25
+Recommendation Statement16. Entre as 23 diretrizes internacionais identificadas,
+apenas três recomendaram o início de rastreamento antes dos 50 anos de idade.
+(Quadro I).
+
+
+       Comparação entre finalização do rastreamento aos 70 e 75 anos
+        A busca por estudos de ECR e RS não identificou evidências que
+comparassem diretamente diferentes idades de término do rastreamento. Contudo,
+a maioria dos ECR que avaliaram a eficácia e a segurança do rastreamento incluiu
+participantes entre 50 anos e 74 anos, o que sustenta a recomendação de manter o
+rastreamento até os 75 anos. Além disso, na análise de outras fontes, foram
+identificadas 23 diretrizes e documentos internacionais, entre os quais a maior parte
+recomenda o rastreamento até 74 anos ou 75 anos. Apenas uma diretriz restringe a
+idade final a 69 anos, enquanto algumas preveem a possibilidade de estender o
+rastreamento até os 85 anos em casos individualizados. (Quadro I).
+
+
+       Comparação entre FIT qualitativo e quantitativo
+        Não foram identificados estudos que comparam especificamente os testes
+FIT qualitativos e quantitativos. Em busca na Anvisa, observou-se que dos 58
+registros de testes FIT identificados, a maioria (n=45) são testes qualitativos.
+       Assim, apesar da maior presença de testes qualitativos no mercado brasileiro,
+não foi possível recomendar um tipo específico pela falta de evidência disponível,
+sendo recomendado ambos, com o de ponto de corte definido em recomendação
+anterior.
+
+
+      Comparação entre          Retossigmoidoscopia       e   Colonoscopia      para
+confirmação diagnóstica
+       Não foram identificados estudos que comparam diretamente colonoscopia e
+retossigmoidoscopia para confirmação diagnóstica após rastreamento. A
+recomendação se baseou nas diretrizes internacionais que mencionam como
+método de confirmação o uso de colonoscopia. (Quadro I).
+
+
+       Comparação entre periodicidade de rastreamento anual e bienal
+       Não foram identificados na RS de ensaios clínicos randomizados ou revisões
+sistemáticas a comparação do teste FIT na periodicidade anual com a bienal. Entre
+as diretrizes internacionais de rastreamento do câncer de cólon e reto, a
+periodicidade varia entre anual e bienal para gFOBT e FIT (Quadro I).
+
+
+
+
+                                                                                  26
+        Quadro I. Recomendações de rastreamento do CCR com teste laboratorial FIT entre as diretrizes internacionais.
+
+Diretriz / Documento
+                       Ano de                           Faixa etária Confirmação
+Governamentais                          Periodicidade                              Fonte
+                       Publicação                       (anos)       diagnóstica
+(País)
+                                                                                   https://publications.iarc.who.int/639
+                                                                                   https://www.argentina.gob.ar/sites/default/files/banco
+Argentina              2022 e 2024      Bienal          50 a 75     Colonoscopia   s/2023-09/2023-09-recomendaciones-para-el-
+                                                                                   tamizaje-organizado-cancer-colorrectal-poblacion-de-
+                                                                                   riesgo-promedio-argentina.pdf
+                                                                                   https://www.health.gov.au/our-work/national-bowel-
+Austrália              2018             Bienal          50 a 74     Colonoscopia   cancer-screening-program/about-the-national-bowel-
+                                                                                   cancer-screening-program
+
+Canadá/British                                                                     http://www.bccancer.bc.ca/screening/Documents/Scr
+                       2024             Bienal          50 a 74     Colonoscopia
+Columbia                                                                           eening-Guidelines.pdf
+
+                       2024
+                                                                                   https://www.ontario.ca/page/colon-cancer-testing-
+Canadá/Ontario         (informação do   Bienal          50 a 74     Colonoscopia
+                                                                                   and-prevention
+                       website)
+
+Canadá/Manitoba        -                Bienal          50 a 74     Colonoscopia   https://www.cancercare.mb.ca/screening/info/colon
+
+                                                                                   https://www.saludtarapaca.gob.cl/wp-
+Chile                  2019             Anual           ≥50         Colonoscopia   content/uploads/2023/10/Protocolo-Deteccion-
+                                                                                   Cancer-Colorrectal.pdf
+                                                                                   https://www.cancer.gov.co/recursos_user/files/libros/
+Colômbia               2015             Bienal          50 a 75     Colonoscopia
+                                                                                   archivos/Colon
+
+Cuba                   2024             Anual           ≥50         Colonoscopia   https://publications.iarc.who.int/639
+
+
+
+                                                                                                                                       27
+Equador             2024             Anual           50 a 75   Colonoscopia   https://publications.iarc.who.int/639
+
+
+Estados Unidos da                                                             https://www.uspreventiveservicestaskforce.org/uspstf/
+                    2021             Anual           45 a 74   Colonoscopia
+América                                                                       recommendation/colorectal-cancer-screening
+
+
+                    2024
+                                                                              https://www.gov.uk/guidance/bowel-cancer-
+Inglaterra          (informação do   Bienal          50 a 74   Colonoscopia
+                                                                              screening-programme-overview#target-population
+                    website)
+
+                                                               Não
+Jamaica             2024             Anual           45 a 74                  https://publications.iarc.who.int/639
+                                                               especificado
+                                                                              https://www.gob.mx/cms/uploads/attachment/file/97
+México              2025             Anual ou bienal 50 a 74   Colonoscopia   0247/Tamizaje_para_el_c_ncer_colorrectal_en_M_xico_
+                                                                              CENETEC_VF_01.pdf
+                                                                              https://info.health.nz/keeping-healthy/cancer-
+                    2025
+                                                                              screening/bowel-screening/bowel-screening-
+Nova Zelândia       informação do    Bienal          60 a 74   Colonoscopia
+                                                                              programme#about-the-national-bowel-screening-
+                    website)
+                                                                              programme-4120
+                                                               Não
+Panamá              2024             Anual           ≥55                      https://publications.iarc.who.int/639
+                                                               especificado
+
+                                                               Não
+Paraguai            2024             Bienal          50 a 75                  https://publications.iarc.who.int/639
+                                                               especificado
+                                                                              https://www.gob.pe/institucion/ins/informes-
+                                                                              publicaciones/5718684-guia-de-practica-clinica-n-02-
+Peru                2024             Anual ou bienal 45 a 75   Colonoscopia
+                                                                              2024-para-el-tamizaje-del-cancer-colorrectal-en-el-
+                                                                              primer-nivel-de-atencion
+
+
+
+
+                                                                                                                                     28
+                                                          https://www.gub.uy/ministerio-salud-
+                                                          publica/sites/ministerio-salud-
+                                                          publica/files/documentos/publicaciones/Gu%C3%ADa
+Uruguai   2018 e 2024   Bienal   50 a 74   Colonoscopia
+                                                          %20para%20el%20tamizaje%20del%20c%C3%A1ncer%20c
+                                                          olo-rectal_0.pdf
+                                                          https://publications.iarc.who.int/639
+
+
+
+
+                                                                                                         29
+    Questões reavaliadas e excluídas após busca por
+evidências
+
+       Qual o exame endoscópico mais acurado, aceito, eficaz e seguro para o
+rastreamento do CCR em indivíduos adultos, de ambos os sexos, assintomáticos
+e com risco padrão (colonoscopia ou retossigmoidoscopia)?
+
+
+      A estrutura PICO para esta pergunta foi:
+
+ População      Indivíduos adultos, de ambos os sexos, assintomáticos e com risco
+                padrão para o desenvolvimento de CCR
+ Intervenção    Retossigmoidoscopia para rastreamento
+ Comparador     Colonoscopia para rastreamento
+ Desfechos      Adesão; Acurácia diagnóstica (sensibilidade, especificidade, valor
+                preditivo positivo); Eficácia (diminuição de incidência, mortalidade
+                específica e por todas as causas) e Segurança (eventos adversos)
+ Desenho        Ensaios clínicos randomizados; estudos de acurácia diagnóstica.
+
+       Qual deve ser a periodicidade de realização do exame endoscópico mais
+aceito, acurado, eficaz e seguro para o rastreamento do CCR em indivíduos
+adultos, de ambos os sexos, assintomáticos e com risco padrão (a cada 5 ou 10
+anos)?
+
+
+      A estrutura PICO para esta pergunta foi:
+
+ População      Indivíduos adultos, de ambos os sexos, assintomáticos e com risco
+                padrão para o desenvolvimento de CCR
+ Intervenção    Exame endoscópico a cada 10 anos
+ Comparador     Exame endoscópico a cada 5 anos
+ Desfecho       Adesão; Acurácia diagnóstica (sensibilidade, especificidade, valor
+                preditivo positivo); Eficácia (diminuição de incidência, mortalidade
+                específica e por todas as causas) e Segurança (eventos adversos)
+ Desenho        Ensaios clínicos randomizados; estudos de acurácia diagnóstica.
+
+
+
+
+4. Equipe de elaboração
+
+       Esta informação será apresentada no Relatório Final após Consulta Pública e
+Deliberação Final da Conitec.
+
+
+
+                                                                                  30
+5.    Referências
+
+1.   Ministério da Saúde. Diretrizes metodológicas: sistema grade: manual de
+     graduação da qualidade da evidência e força de recomendação para tomada de
+     decisão em saúde. ECOS: Economia da Saúde para Gestão do SUS. Ms; 2014.
+
+2.   Schünemann HJ, Oxman AD, Brozek J, et al. Grading quality of evidence and
+     strength of recommendations for diagnostic tests and strategies. BMJ
+     2008;336(7653):1106–1110; doi: 10.1136/bmj.39500.677199.AE.
+
+3.   Ouzzani M, Hammady H, Fedorowicz Z, et al. Rayyan—a web and mobile app for
+     systematic reviews. Syst Rev 2016;5(1):210; doi: 10.1186/s13643-016-0384-4.
+
+4.   Botteri E, Hoff G, Randel KR, et al. Characteristics of nonparticipants in a
+     randomised colorectal cancer screening trial comparing sigmoidoscopy and
+     faecal immunochemical testing. International Journal of Cancer 2022;151(3):361–
+     371; doi: 10.1002/ijc.34025.
+
+5.   Randel KR, Schult AL, Botteri E, et al. Colorectal Cancer Screening With Repeated
+     Fecal Immunochemical Test Versus Sigmoidoscopy: Baseline Results From a
+     Randomized       Trial.   Gastroenterology         2021;160(4):1085-1096.e5;  doi:
+     10.1053/j.gastro.2020.11.037.
+
+6. Chen F, Li S, Guo R, et al. Meta-analysis of fecal viromes demonstrates high
+   diagnostic potential of the gut viral signatures for colorectal cancer and adenoma
+   risk assessment. J Adv Res 2023;49:103–114; doi: 10.1016/j.jare.2022.09.012.
+
+7.   Xu H, Russell SN, Steiner K, et al. Targeting PI3K-gamma in myeloid driven
+     tumour immune suppression: a systematic review and meta-analysis of the
+     preclinical literature. Cancer Immunol Immunother 2024;73(10); doi:
+     10.1007/s00262-024-03779-2.
+
+8. Mehta SJ, Palat S, McDonald C, et al. A Randomized Trial of Choice Architecture
+   and Mailed Colorectal Cancer Screening Outreach in a Community Health
+   Setting. Clin Gastroenterol Hepatol 2024; doi: 10.1016/j.cgh.2024.04.003.
+
+9. Grobbee EJ, Wisse PHA, Schreuders EH, et al. Guaiac-based faecal occult blood
+   tests versus faecal immunochemical tests for colorectal cancer screening in
+   average-risk individuals. Cochrane Database Syst Rev 2022;6(6):Cd009276; doi:
+   10.1002/14651858.CD009276.pub2.
+
+10. Meklin J, SyrjÄnen K, Eskelinen M. Fecal Occult Blood Tests in Colorectal Cancer
+    Screening: Systematic Review and Meta-analysis of Traditional and New-
+    generation Fecal Immunochemical Tests. Anticancer Res 2020;40(7):3591–3604;
+    doi: 10.21873/anticanres.14349.
+
+11. Imperiale TF. Colorectal cancer screening offering colonoscopy and FIT vs.
+    colonoscopy alone improved participation. Ann Intern Med 2021;174(7):Jc76; doi:
+    10.7326/acpj202107200-076.
+
+
+                                                                                    31
+12. Selby K, Levine EH, Doan C, et al. Effect of Sex, Age, and Positivity Threshold on
+    Fecal Immunochemical Test Accuracy: A Systematic Review and Meta-analysis.
+    Gastroenterology 2019;157(6):1494–1505; doi: 10.1053/j.gastro.2019.08.023.
+
+13. Brasil. Ministério da Saúde. Secretaria de Ciência, Tecnologia, Inovação e
+    Complexo da Saúde. Diretrizes metodológicas : elaboração de diretrizes clínicas.
+    Ministério da Saúde, 2023.
+
+14. Shaukat A, Kaalby L, Baatrup G, et al. Effects of Screening Compliance on Long-
+    term Reductions in All-Cause and Colorectal Cancer Mortality. Clin Gastroenterol
+    Hepatol 2021;19(5):967-975.e2; doi: 10.1016/j.cgh.2020.06.019.
+
+15. Ness RM, Llor X, Abbass MA, et al. NCCN Guidelines® Insights: Colorectal Cancer
+    Screening, Version 1.2024: Featured Updates to the NCCN Guidelines. Journal of
+    the National Comprehensive Cancer Network 2024;22(7):438–446; doi:
+    10.6004/jnccn.2024.0047.
+
+16. US Preventive Services Task Force. Screening for Colorectal Cancer: US
+    Preventive Services Task Force Recommendation Statement. JAMA
+    2021;325(19):1965–1977; doi: 10.1001/jama.2021.6238.
+
+
+
+
+                                                                                   32
+APÊNDICE 2 – HISTÓRICO DE ALTERAÇÕES DA DIRETRIZ
+
+   Número do                          Tecnologias avaliadas pela Conitec
+  Relatório da
+ diretriz clínica   Principais     Incorporação ou
+  (Conitec) ou      alterações                          Não incorporação ou
+                                 alteração do uso no
+   Portaria de                                          não alteração no SUS
+                                         SUS
+   Publicação
+                    Primeira
+                    versão da
+                    diretriz
+
+
+
+
+                                                                               33
+    APÊNDICE 2 - HISTÓRICO DE ALTERAÇÕES DA
+DIRETRIZ
+         Número                           Tecnologias avaliadas pela Conitec
+ do Relatório da
+                            Prin
+  diretriz clínica                      Incorporação ou               Não
+                        cipais
+   (Conitec) ou                    alteração do uso no    incorporação ou não
+                     alterações
+    Portaria de                            SUS              alteração no SUS
+    Publicação
+       Relatório
+                            Prim
+de
+                     eira versão
+Recomendação nº
+                     da diretriz
+xx
+
+
+
+
+                                                                          34
+

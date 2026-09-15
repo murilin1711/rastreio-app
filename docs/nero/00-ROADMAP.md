@@ -13,6 +13,7 @@
 2. Nada é marcado como concluído sem verificação (testes rodando / tela testada).
 3. Toda decisão relevante (técnica ou clínica) entra em `02-DECISOES.md` com data e motivo.
 4. Regras clínicas nunca ficam só no código: cada uma tem fonte, ano, versão e data de revisão (spec §53 e §65).
+5. **Toda referência usada é salva em `docs/nero/referencias/` (PDF + texto extraído) e indexada em `REFERENCIAS.md`. Antes de usar uma referência, verificar se há versão mais nova na URL oficial e substituir** (regra do Murilo, 15/09/2026).
 
 ---
 
