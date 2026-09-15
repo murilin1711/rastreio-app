@@ -1,0 +1,2986 @@
+458
+
+CLINICAL GUIDELINES
+
+ACG Clinical Guidelines: Colorectal Cancer
+Screening 2021
+Aasma Shaukat, MD, MPH, FACG1,2, Charles J. Kahi, MD, MSc, FACG3-7, Carol A. Burke, MD, FACG4,
+Linda Rabeneck, MD, MPH, MACG5, Bryan G. Sauer, MD, MSc, FACG (GRADE Methodologist)6 and Douglas K. Rex, MD, MACG3
+Downloaded from http://journals.lww.com/ajg by BhDMf5ePHKav1zEoum1tQfN4a+kJLhEZgbsIHo4XMi0hCywCX1AWnYQp/IlQrHD3i3D0OdRyi7TvSFl4Cf3VC4/OAVpDDa8K2+Ya6H515kE= on 04/12/2021
+
+Colorectal cancer (CRC) is the third most common cancer in men and women in the United States. CRC screening efforts are
+directed toward removal of adenomas and sessile serrated lesions and detection of early-stage CRC. The purpose of this
+article is to update the 2009 American College of Gastroenterology CRC screening guidelines. The guideline is framed
+around several key questions. We conducted a comprehensive literature search to include studies through October 2020.
+The inclusion criteria were studies of any design with men and women age 40 years and older. Detailed recommendations
+for CRC screening in average-risk individuals and those with a family history of CRC are discussed. We also provide
+recommendations on the role of aspirin for chemoprevention, quality indicators for colonoscopy, approaches to organized CRC
+screening and improving adherence to CRC screening. CRC screening must be optimized to allow effective and sustained
+reduction of CRC incidence and mortality. This can be accomplished by achieving high rates of adherence, quality monitoring
+and improvement, following evidence-based guidelines, and removing barriers through the spectrum of care from noninvasive
+screening tests to screening and diagnostic colonoscopy. The development of cost-effective, highly accurate, noninvasive
+modalities associated with improved overall adherence to the screening process is also a desirable goal.
+SUPPLEMENTARY MATERIAL accompanies this paper at http://links.lww.com/AJG/B890 and http://links.lww.com/AJG/B891
+Am J Gastroenterol 2021;116:458–479. https://doi.org/10.14309/ajg.0000000000001122
+
+INTRODUCTION
+In the United States, colorectal cancer (CRC) ranks second to lung
+cancer as a cause of cancer mortality and is the third most commonly occurring cancer in both men and women. A study estimated that in 2020 approximately 147,950 new CRC cases would
+have been diagnosed and 53,200 individuals would have died of the
+disease (1). Between 2011 and 2015, the average annual incidence
+rates per 100,000 population were 45.9 and 34.6 for men and
+women respectively (2). CRC incidence and mortality rates have
+shown a steady decline of approximately 1.7% and 3.2%, respectively per year. The decline began in the mid 1980s and has
+accelerated since the early 2000s. It is believed to be driven by
+changes in risk factors, early detection of cancer through CRC
+screening, and removal of precancerous polyps with colonoscopy,
+in addition to advances in surgical and treatment approaches.
+Most CRCs develop through the adenoma-carcinoma sequence, presenting opportunities to prevent cancer by removing its
+precursor lesions, in addition to identifying CRC in its earliest,
+curable stages (3). Approximately 70% of sporadic CRCs develop
+from adenomatous polyps and 25%–30% arise from sessile serrated
+lesions (SSLs) through the SSL-to-carcinoma pathway (4). CRC
+screening eﬀorts are directed toward removal of adenomas, SSLs
+and detection of early-stage CRC. Certain screening modalities
+such as colonoscopy, sigmoidoscopy, CT colonography and to a
+
+lesser extent stool-based testing, will detect advanced adenomatous
+polyps, whereas colonoscopy is optimal for the detection of SSLs.
+Endoscopic removal of polyps reduces CRC incidence and CRC
+mortality (5,6). Given new evidence regarding enhancing screening
+adherence, newer methods for CRC screening, and evidence to
+support the eﬃcacy of screening, the purpose of this article is to
+update the 2009 American College of Gastroenterology (ACG)
+CRC screening guideline (7).
+
+METHODS
+The guideline is framed around several key questions which are
+outlined below. The key questions were developed by the authors and vetted through the ACG leadership. We placed
+emphasis on having practical recommendations that would be
+helpful for practicing providers in the United States. We
+conducted a focused literature search and used existing
+guidelines and technical reviews on CRC screening by key
+organizations. We used a modiﬁed Grading of Recommendations, Assessment, Development and Evaluation methodology
+(8) to evaluate the quality of the evidence and strength of recommendation. We used “we recommend” for strong recommendations and “we suggest” for conditional recommendations.
+Two Grading of Recommendations, Assessment, Development
+
+1
+
+Division of Gastroenterology, Minneapolis Veterans Affairs Medical Center, University of Minnesota, Minneapolis, Minnesota, USA; 2Division of Gastroenterology,
+Department of Medicine, University of Minnesota, Minneapolis, Minnesota, USA; 3Division of Gastroenterology, Indiana University School of Medicine,
+Indianapolis, Indiana, USA; 4Division of Gastroenterology, Cleveland Clinic, Cleveland, Ohio, USA; 5Department of Medicine, University of Toronto, Toronto, Ontario,
+Canada; 6Department of Medicine, University of Virginia, Charlottesville, Virginia, USA; 7Department of Medicine, Richard L. Roudebush Veterans Affairs Medical
+Center, Indianapolis, Indiana, USA. Correspondence: Aasma Shaukat, MD, MPH, FACG. E-mail: shaukat@umn.edu.
+Received March 17, 2020; accepted December 2, 2020
+The American Journal of GASTROENTEROLOGY
+
+VOLUME 116 | MARCH 2021 www.amjgastro.com
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+ACG Clinical Guidelines
+
+and Evaluation–trained methodologists assisted in evidence
+synthesis and grading of the evidence.
+Literature search
+
+We conducted a comprehensive literature search with the help
+of a librarian from the University of Minnesota on the key
+questions using Ovid (MEDLINE), EMBASE, and the Cochrane
+databases from 1980 to October 2020. Emphasis was placed on
+studies from 2008 onward, since publication of the last guideline. The references for review articles were also searched. A
+detailed search strategy is provided in Supplementary Appendix
+1 (see Supplementary Digital Content 1, http://links.lww.com/
+AJG/B890). The inclusion criteria were observational studies
+and randomized controlled trials (RCTs) with men and women
+age 40 years and older. Exclusion criteria were patients/
+populations with familial cancer syndromes (hereditary nonpolyposis colorectal cancer and polyposis syndromes) and
+special populations such as patients with human immunodeﬁciency virus or previous transplant. Outcomes included were
+CRC incidence, CRC mortality, incidence of colorectal advanced neoplasia deﬁned as adenomas or SSL $10 mm, $3
+adenomas/SSL, any villous histology, high-grade dysplasia or
+submucosal cancer in a colonic polyp or a traditional serrated
+adenoma, and harms of screening (complications, anesthesiarelated complications, deaths, and overdiagnosis through additional testing).
+Key questions
+
+KQ1a. In average-risk individuals, what are the effectiveness and
+harms of CRC screening in reducing the incidence of advanced
+neoplasia and CRC, and CRC mortality?
+KQ1b. How does the effectiveness vary by modality, age, and race?
+KQ2. In average-risk individuals, how does the effectiveness of CRC
+screening vary by screening interval in reducing colorectal
+advanced neoplasia incidence, CRC incidence, and CRC mortality?
+KQ3. In individuals with a family history of CRC or adenomatous
+polyps, what is the effectiveness of CRC screening in reducing
+CRC incidence and CRC mortality?
+KQ4. In individuals with a family history of CRC or adenomatous
+polyps, how does the effectiveness of CRC screening vary by
+screening interval in reducing colorectal advanced neoplasia
+incidence, CRC incidence, and CRC mortality?
+KQ5. In individuals with a family history of CRC or adenomatous
+polyps, how does the effectiveness of CRC screening vary by
+screening modality in reducing colorectal advanced neoplasia
+incidence, CRC incidence, and CRC mortality?
+KQ6. What are the quality indicators for different modalities of CRC
+screening associated with diagnostic performance of the screening
+test and incidence of postcolonoscopy colorectal cancer?
+KQ7. What are the effectiveness and harms of aspirin
+chemoprevention for the endpoints of reduction in the incidence
+of CRC or mortality of CRC?
+KQ8. What interventions improve adherence to CRC screening and
+to each modality of screening?
+KQ9. What interventions improve adherence to follow-up of a
+positive CRC screening test, such as fecal immunochemical
+testing (FIT)?
+
+© 2021 by The American College of Gastroenterology
+
+RESULTS
+See Table 1 for summary and Supplementary Appendix 2 (see
+Supplementary Digital Content 2, http://links.lww.com/AJG/
+B891) for updates from the 2009 guideline. Results for individual
+questions are provided below.
+KQ1a. In average-risk individuals, what are the effectiveness and
+harms of CRC screening in reducing incidence of advanced
+neoplasia and CRC, and CRC mortality?
+KQ1b. How does the effectiveness vary by screening modality, age,
+and race?
+
+Recommendations
+1. We recommend CRC screening in average-risk individuals
+between ages 50 and 75 years to reduce incidence of advanced
+adenoma, CRC, and mortality from CRC.
+Strong recommendation; moderate-quality evidence
+2. We suggest CRC screening in average-risk individuals between
+ages 45 and 49 years to reduce incidence of advanced adenoma,
+CRC, and mortality from CRC.
+Conditional recommendation; very low-quality evidence
+3. We suggest that a decision to continue screening beyond age 75
+years be individualized.
+Conditional recommendation; very low-quality evidence
+4. We recommend colonoscopy and FIT as the primary screening
+modalities for CRC screening.
+Strong recommendation; low-quality evidence
+5. We suggest consideration of the following screening tests for
+individuals unable or unwilling to undergo colonoscopy or FIT:
+flexible sigmoidoscopy, multitarget stool DNA test, CT
+colonography or colon capsule.
+Conditional recommendation; very low-quality evidence
+6. We suggest against Septin 9 for CRC screening.
+Conditional recommendation, very low-quality of evidence
+
+DISCUSSION
+The “ideal” screening test should be noninvasive, have high sensitivity and speciﬁcity, be safe, readily available, convenient, and
+inexpensive. For CRC screening, there are multiple approved tests
+and strategies, each with its strengths and weaknesses. In some
+instances the “best” screening test can be considered the one that is
+acceptable to the patient and gets completed. One approach to CRC
+screening tests is to divide them as 1-step (direct) tests
+(i.e., colonoscopy, which is diagnostic and therapeutic) or 2-step
+tests that require colonoscopy if positive, to complete the screening
+process. All screening tests other than colonoscopy are 2-step tests.
+A major limitation of non–colonoscopy-based CRC screening tests
+(eg, stool-based, ﬂexible sigmoidoscopy, CT colonography [CTC],
+or colon capsule [CC]) is that a positive test requires a follow-up
+colonoscopy. This 2-step testing approach represents a continuum
+of screening, requires strong systems-based support to complete
+the screening cascade, and is more eﬀectively applied in organized
+screening (9). In the United States, there are few select health care
+systems with organized, programmatic screening, and most
+screening is accomplished with a 1-step opportunistic approach.
+Because the focus of the guideline is on providers practicing in the
+United States, the review highlights options for CRC screening
+currently in use, which mainly include colonoscopy, and in an
+The American Journal of GASTROENTEROLOGY
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+459
+
+460
+
+Shaukat et al.
+
+Table 1. Summary and strength of GRADE recommendations
+
+Summary
+
+Recommendation
+strength
+
+GRADE quality
+of evidence
+
+1
+
+We recommend colorectal cancer (CRC) screening in average-risk
+individuals between ages 50 and 75 yr to reduce incidence of advanced
+adenoma, CRC, and mortality from CRC
+
+Strong
+
+Moderate
+
+2
+
+We suggest CRC screening in average-risk individuals between ages 45
+and 49 yr to reduce incidence of advanced adenoma, CRC, and mortality
+from CRC
+
+Conditional
+
+Very low
+
+3
+
+We suggest that a decision to continue screening beyond age 75 yr be
+individualized
+
+Conditional
+
+Very low
+
+4
+
+We recommend colonoscopy and fecal immunochemical testing (FIT) as
+the primary screening modalities for CRC screening
+
+Strong
+
+Low
+
+5
+
+We suggest consideration of the following screening tests for individuals
+unable or unwilling to undergo a colonoscopy or FIT: flexible
+sigmoidoscopy, multitarget stool DNA test, CT colonography, or colon
+capsule
+
+Conditional
+
+Very low
+
+6
+
+We suggest against Septin 9 for CRC screening
+
+Conditional
+
+Very low
+
+7
+
+We recommend that the following intervals should be followed for
+screening modalities: FIT every 1 yr; colonoscopy every 10 yr
+
+Strong
+
+Low
+
+8
+
+We suggest that the following intervals should be followed for screening
+modalities: multitarget stool DNA test every 3 yr; flexible sigmoidoscopy
+every 5–10 yr; CT colonography every 5 yr; colon capsule every 5 yr
+
+Conditional
+
+Very low
+
+9
+
+We suggest initiating CRC screening with a colonoscopy at age 40 or 10 yr
+before the youngest affected relative, whichever is earlier, for individuals
+with CRC or advanced polyp in 1 first-degree relative (FDR) at age ,60 yr,
+or CRC or advanced polyp in $2 FDR at any age. We suggest interval
+colonoscopy every 5 yr
+
+Conditional
+
+Very low
+
+10
+
+We suggest consideration of genetic evaluation with higher familial CRC
+burden (higher number and/or younger age of affected relatives)
+
+Conditional
+
+Very low
+
+11
+
+We suggest initiating CRC screening at age 40 or 10 yr before the youngest
+affected relative and then resuming average-risk screening
+recommendations for individuals with CRC or advanced polyp in 1 FDR at
+age $60 yr.
+
+Conditional
+
+Very low
+
+12
+
+In individuals with 1 second-degree relative (SDR) with CRC or advanced
+polyp, we suggest following average-risk CRC screening recommendations
+
+Conditional
+
+Low
+
+13
+
+We recommend that all endoscopists performing screening colonoscopy
+should measure their individual cecal intubation rates (CIRs), adenoma
+detection rates (ADRs), and withdrawal times (WTs)
+
+Strong
+
+Moderate-quality evidence for
+ADR; low-quality evidence
+for WT, CIR
+
+14
+
+We suggest that colonoscopists with ADRs below
+the recommended minimum thresholds (,25%) should
+undertake remedial training
+
+Conditional
+
+Very low
+
+15
+
+We recommend that colonoscopists spend at least 6 min inspecting the
+mucosa during withdrawal
+
+Strong
+
+Low
+
+16
+
+We recommend that colonoscopists achieve a CIR of at least 95% in
+screening subjects
+
+Strong
+
+Low
+
+17
+
+We suggest low-dose aspirin in individuals between ages 50–69 yr with a
+cardiovascular disease risk of $10% over the next 10 yr, who are not at an
+increased risk for bleeding and willing to take aspirin for at least 10 yr to
+reduce the risk of CRC
+
+Conditional
+
+Low
+
+18
+
+We recommend against the use of aspirin as a substitute for CRC
+screening
+
+Strong
+
+Low
+
+The American Journal of GASTROENTEROLOGY
+
+VOLUME 116 | MARCH 2021 www.amjgastro.com
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+ACG Clinical Guidelines
+
+Table 1. (continued)
+Recommendation
+strength
+
+Summary
+
+GRADE quality
+of evidence
+
+19
+
+We recommend organized screening programs to improve adherence to
+CRC screening compared with opportunistic screening
+
+Strong
+
+Low
+
+20
+
+We suggest the following strategies to improve adherence to screening:
+patient navigation, patient reminders, clinician interventions, provider
+recommendations and clinical decision support tools
+
+Conditional
+
+Very low
+
+21
+
+We suggest the following strategies to improve adherence to follow-up of a
+positive screening test: mail and phone reminders, patient navigation, and
+provider interventions
+
+Conditional
+
+Very low
+
+organized setting, fecal immunochemical test (FIT). Other 2-step
+tests such as ﬂexible sigmoidoscopy, multitarget stool DNA test,
+CTC, and CC are reserved for individuals unwilling or unable to
+undergo colonoscopy or FIT, or those with incomplete colonoscopy
+(CTC or CC). Comparative eﬀectiveness studies are lacking. The
+options for screening are discussed below and summarized in Table 2.
+
+ONE-STEP SCREENING
+Colonoscopy
+
+Colonoscopy is the most commonly performed gastrointestinal
+procedure in the United States. It allows for not only the detection of
+early-stage cancers but also the detection and removal of polyps and
+confers a long-term protection from CRC incidence and mortality
+(5,10,11). A systematic review of 6 observational studies reported a
+pooled reduction of 69% (95% conﬁdence interval [CI] 13%–78%) in
+overall CRC incidence and reduction of 68% (95% CI 57%–77%) in
+CRC mortality associated with screening colonoscopy (12). In the
+Nurses’ Health Study and Health Professionals Follow-up Study,
+Nishihara et al. (13) reported a reduced mortality from CRC after
+screening colonoscopy (hazard ratio [HR] 0.32; 95% CI 0.24–0.45)
+overall, and a reduction in death from proximal colon cancer (HR
+0.47; 95% CI 0.29–0.76). In a case-control study among US veterans,
+Kahi and Pohl et al. (14) reported reduction in CRC mortality of 70%
+with screening colonoscopy (odds ratio [OR] 0.30; 95% CI
+0.24–0.38) including a 52% reduction in proximal CRC mortality
+(OR 0.48; 95% CI 0.35–0.66) in veterans exposed to screening
+colonoscopy. A nested case-control study of members of Kaiser
+Permanente reported a 67% reduction in the risk of death from CRC
+(OR 0.33; 95% CI 0.21–0.52), with a 65% reduction in proximal CRC
+(OR 0.35, 95% CI 0.18–0.65) (15). Brenner et al. (16) reported a
+reduction of 91% (95% CI 87%–93%) in CRC incidence, including a
+78% reduction in proximal CRC incidence (95% CI 67%–86%) in a
+German population-based study of screening colonoscopy. These
+and other select studies are summarized in Table 3 (17–20).
+
+TWO-STEP APPROACH SCREENING TESTS
+Stool-based tests
+
+Three large RCTs with 11–30 years of follow-up were conducted
+in Europe and the United States (21–23). These trials randomized
+average-risk individuals between ages 45 and 80 years to annual
+or biennial screening using guaiac fecal occult blood testing
+(gFOBT) compared with usual care. With biennial screening,
+after 13, 20, and 30 years of follow-up, there was a corresponding
+18% reduction in CRC mortality (21,24–30). With annual FOBT
+screening, there was a sustained 33% reduction in CRC mortality
+© 2021 by The American College of Gastroenterology
+
+over 30 years (23). The Minnesota FOBT trial also reported a
+reduction in CRC incidence of 20% after 18 years of followup (31).
+There have been many advances in stool-based tests for CRC
+screening. gFOBT has been largely replaced by FIT, which has higher
+sensitivity for CRC (32–34). The FIT sampling technique is easier as
+many tests require a single fecal sample and it has higher adherence
+than gFOBT because no dietary modiﬁcations or medication restrictions are required. Both quantitative and qualitative FITs are
+commercially available, with the option to set thresholds for the
+detection for quantitative tests based on population risk. However, in
+the United States, the Food and Drug Administration (FDA) requires that FIT be reported as positive or negative and does not allow
+reporting of the actual amount of hemoglobin per gram of stool.
+Studies have shown that FIT has greater sensitivity for detecting CRC
+and advanced adenomas than both standard and high sensitivity
+FOBT with comparable speciﬁcity (35,36). In a meta-analysis of 19
+studies of asymptomatic average-risk adults, the pooled sensitivity of
+a 1-time FIT was 79% (95% CI 0.69–0.86), and pooled speciﬁcity was
+94% (95% CI 0.92–0.95) for CRC at a cutoﬀ of 20 mg of hemoglobin/
+gm of stool, the most commonly used cutoﬀ in the United States (37).
+A more recent systematic review and meta-analysis including 19
+studies reported 91% sensitivity and 90% speciﬁcity for FIT for detection of CRC at a quantitative cutoﬀ of 10 mg/g (38). The sensitivity
+of a 1-time FIT for detection of advanced adenoma ranges from 6%
+to 56% (34) and between 5% and 16% for SSLs (39–41), based on the
+underlying population and FIT cutoﬀ used. Although there are no
+randomized clinical trials on long-term outcomes such as reduction
+in CRC mortality with FIT, the programmatic eﬀectiveness of annual
+FIT over multiple rounds of screening showed an overall CRC detection of 80% (42). In a cost-eﬀectiveness modeling study, Knudsen
+et al. (43) found that a comparable number of life-years was gained
+with a screening strategy of the annual fecal-based test (such as FIT)
+and colonoscopy every 10 years. It must be emphasized that a positive FIT requires a follow-up colonoscopy, and quality assurance
+programs to ensure that colonoscopy is performed. Rates of diagnostic colonoscopy for the evaluation of a positive stool test are
+suboptimal (44) and require improvement in both programmatic
+and particularly opportunistic screening (45) (See KQ8 and KQ9
+below). Implementation of an organized CRC screening program by
+Kaiser Permanente in Northern California based on primarily FIT
+outreach reported an increase in CRC screening rates from 38% to
+82% among members, with a corresponding decrease in CRC incidence of 25% and CRC mortality of 52% over the same period (46).
+Biennial FIT is a strategy comparable to annual FIT, with similar
+The American Journal of GASTROENTEROLOGY
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+461
+
+462
+
+Shaukat et al.
+
+Table 2. Summary of performance characteristics for CRC screening tests
+Performance characteristics
+
+Pros
+
+Cons
+
+Stool- and blood-based tests
+FITa
+
+79% sensitivity and 94% specificity for
+CRC
+
+mtsDNA stool test
+
+92% sensitivity and 87% specificity for CRC Noninvasive
+Long-term reduction in CRC incidence
+No risk of complications
+and mortality is unknown
+Can be done at home
+Better sensitivity for advanced
+adenomas and large serrated lesions
+than FIT alone
+
+Positive results require colonoscopy
+Repeat interval unknown but 3 years
+proposed
+More expensive than FIT alone
+Concern for overtesting and harms from a
+positive test and negative colonoscopy
+
+Septin 9
+
+48% sensitivity and 91% specificity for CRC Minimally invasive
+Long-term reduction in CRC incidence
+No risk of complications
+and mortality is unknown
+Can be added to routine blood draw
+
+Low sensitivity for CRC
+Repeat interval unknown
+Positive results require colonoscopy
+
+Colonoscopy
+
+100% detection rate for CRC. Reported
+Diagnostic and therapeutic
+incidence of PCCRC 3%–9%
+Can detect cancers and
+Long-term reduction in CRC incidence
+precursor polyps
+31%–71% and CRC mortality 65%–88% Infrequent repeat interval
+from observational studies
+(q10 years) possible
+
+Operator dependent
+Requires bowel preparation and sedation
+Risk of complications 4–8 in 10,000
+
+Flexible
+sigmoidoscopy
+
+90%–100% sensitivity for distal colon CRC Less invasive than colonoscopy
+Long-term reduction in CRC incidence
+Low risk of complications
+21%; reduction in CRC mortality 26%
+
+Positive results require colonoscopy
+Needs to be repeated every 5–10 years
+Requires enema preparation
+
+CT colonography
+
+90%–100% for CRC
+Variable sensitivity for polyps, poor
+sensitivity for flat lesions and sessile
+serrated lesions
+
+Less invasive than colonoscopy
+Does not require sedation
+Lower risk of complications than
+colonoscopy
+
+Positive results require colonoscopy
+Requires bowel preparation
+Followup may be required for extracolonic
+findings
+Limited availability of trained radiologists
+across the United States
+
+colon capsule
+
+81% sensitivity and 93% specificity
+for polyps $6 mm
+
+Minimally invasive
+Does not require sedation
+Newer generation tests can
+be done at home
+
+Requires bowel preparation
+Positive examinations require
+colonoscopy
+Repeat interval unknown
+
+Noninvasive
+No risk of complications
+Can be done at home
+Programmatic screening possible
+
+Positive results require colonoscopy
+Needs to be repeated annually
+Low sensitivity for advanced adenomas
+Does not detect serrated lesions
+
+Direct visualization tests
+
+CRC, colorectal cancer; FIT, fecal immunochemical test; RCT, randomized controlled trial.
+a
+At FIT cutoff of 20 mg/g of stool.
+
+yield of colorectal neoplasia (47) and lower burden of screening (48).
+Recent systematic reviews and meta-analyses have reported a relative
+reduction in CRC mortality of 12% over 15 years with biennial fecalbased testing (highly sensitive gFOBT or FIT) compared with no
+screening (49,50). In a recent guidance, the American College of
+Physicians also suggested biennial fecal-based stool testing as an
+option comparable to colonoscopy every 10 years (51). However,
+given the larger eﬀect estimate of annual FOBT in clinical trials, and
+the eﬀectiveness of annual FIT CRC screening programs, annual
+testing is the preferred interval.
+The multitarget stool DNA (mtsDNA) test is an FDA-approved
+stool test that comprises an assay for mutant KRAS, methylated
+BMP3, methylated NDRG4, and a FIT for hemoglobin (39). Cutoﬀ
+values are calculated by an analytic regression algorithm. In a study
+with 9,989 average-risk individuals undergoing colonoscopy comparing the diagnostic accuracy of the mtsDNA test with FIT alone,
+there was higher sensitivity for detection of CRC (92% vs 74%),
+The American Journal of GASTROENTEROLOGY
+
+advanced adenoma (42% vs 24%), and SSLs $10 mm (42% vs 5%)
+but lower speciﬁcity for detection of CRC or advanced lesions (87%
+vs 95%). The speciﬁcity of the mtsDNA test decreases with advancing patient age. In 2 recent modeling studies, annual FIT and
+colonoscopy every 10 years were found be more eﬀective and less
+costly than mtsDNA testing every 3 years (52,53). There is active
+interest from patients and providers in the optimal follow-up of
+individuals with a positive mtsDNA test and a negative colonoscopy.
+This is discussed in the section on special considerations below.
+Based on the current available data (54,55) we recommend that
+asymptomatic individuals with a positive mtsDNA test and a negative high-quality colonoscopy not undergo additional testing, such
+as upper endoscopy, CT of the abdomen, or repeat colonoscopy at an
+interval shorter than the recommended repeat screening interval
+(unless indicated by other symptoms or laboratory testing). If the
+mtsDNA test is negative, the interval for a repeat mtsDNA test or
+transition to another screening test is 3 years as per manufacturer
+VOLUME 116 | MARCH 2021 www.amjgastro.com
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+ACG Clinical Guidelines
+
+Table 3. Select studies summarizing effectiveness of screening colonoscopy in reducing CRC incidence and mortality
+
+Design
+N
+
+a
+
+US
+2009
+
+Canada
+2005
+
+Germany
+2014
+
+Switzerland
+2012
+
+US (NHS)
+2013
+
+US
+2013b
+
+US (VHA)
+2018
+
+US (Kaiser
+Permanente)
+2018
+
+Cohort
+
+Case control
+
+Case control
+
+Cohort
+
+Cohort
+
+Case control
+
+Case control
+
+Case Control
+
+a
+
+a
+
+a
+
+a
+
+715
+
+2,915
+
+6,332
+
+22,686
+
+88,902
+
+980
+
+24,820
+
+0.52
+(0.22–0.82)
+
+0.69
+(0.44–1.07)
+
+0.09
+(0.07–0.13)
+
+0.31
+(0.16–0.59)
+
+NR
+
+0.29
+(0.15–0.58)
+
+NR
+
+NR
+
+Relative risk reduction
+in CRC incidence
+
+48%
+
+31%
+
+91%
+
+69%
+
+NR
+
+71%
+
+NR
+
+NR
+
+Proximal CRC incidence
+
+NR
+
+1.02
+(0.72–1.45)
+
+0.22
+(0.14–0.33)
+
+NR
+
+NR
+
+0.36
+(0.16–0.80)
+
+NR
+
+NR
+
+Relative risk reduction in
+proximal CRC incidence
+
+NR
+
+2% increase
+
+78%
+
+NR
+
+NR
+
+64%
+
+NR
+
+NR
+
+0.35
+(0.0–1.06)
+
+NR
+
+NR
+
+0.12
+(0.01–0.93)
+
+0.32
+(0.24–0.45)
+
+NR
+
+0.30
+(0.24–0.38)
+
+0.33
+(0.21–0.52)
+
+Relative risk reduction
+in CRC mortality
+
+65%
+
+NR
+
+NR
+
+88%
+
+68%
+
+NR
+
+70%
+
+67%
+
+Proximal CRC mortality
+
+NR
+
+NR
+
+NR
+
+NR
+
+0.47
+(0.29– 0.76)
+
+NR
+
+0.48
+(0.35–0.66)
+
+0.35
+(0.18–0.65)
+
+Relative risk reduction in
+proximal CRC mortality
+
+NR
+
+NR
+
+NR
+
+NR
+
+53%
+
+NR
+
+52%
+
+65%
+
+CRC incidence
+
+CRC mortality
+
+5,207
+
+CRC, colorectal cancer; NHS, Nurses Health study; NR, not reported; VHA, Veterans Health Administration.
+a
+N is total for study and the screening colonoscopy cohort was a subgroup.
+b
+Included late stage cancers (stage IIB and higher only).
+
+recommendations. Longitudinal studies on outcomes after the
+mtsDNA test and optimal repeat interval are awaited.
+Flexible sigmoidoscopy
+
+Flexible sigmoidoscopy allows direct evaluation of the left side of the
+colon and if adenomas are found, referral for a colonoscopy is required. Four large randomized trials of ﬂexible sigmoidoscopy
+screening with comparable 10–13 years of follow-up have been
+published (56–59). Two trials, from the United Kingdom (Flexi Scope
+trial) and Italy (SCORE), oﬀered once-only ﬂexible sigmoidoscopy
+examination to participants age 55–64 years and reported a reduction
+in CRC incidence by 23% and 18% and CRC mortality by 31% and
+22%, respectively (56,57). The US trial (Prostate, Lung, Colorectal and
+Ovarian [PLCO]), which included participants age 55–74 years and
+oﬀered ﬂexible sigmoidoscopy screening every 3–5 years, reported
+that CRC incidence was reduced by 21% and CRC mortality by 26%
+(59). One trial from Norway compared once-only ﬂexible sigmoidoscopy plus FOBT or once-only ﬂexible sigmoidoscopy with no
+screening and found comparable reduction in CRC incidence and
+mortality with the 2 strategies (60). In this study, ﬂexible sigmoidoscopy screening reduced CRC incidence by 20% and CRC mortality
+by 27% after 11 years of follow-up (60). A systematic review reported
+that the largest reduction in CRC mortality from ﬂexible sigmoidoscopy screening was seen for distal CRC, of about 37% (61). A recent
+study of pooled ﬂexible sigmoidoscopy trials reported no reduction in
+CRC incidence or mortality in women 60 or older (58). In an updated
+follow-up of the Norwegian NORCCAP trial, authors also reported
+no reduction in CRC incidence or mortality with ﬂexible sigmoidoscopy screening in women (62). Rates of screening ﬂexible
+© 2021 by The American College of Gastroenterology
+
+sigmoidoscopy have declined in the United States for the following
+reasons: the infrastructure needed is similar to that of colonoscopy, it
+does not examine the entire colon it requires colonoscopy for those
+with adenoma ﬁndings and the lack of sedation makes the procedure
+uncomfortable. Given recent evidence of lower eﬀectiveness in
+women and practical issues with scheduling and availability, ﬂexible
+sigmoidoscopy should be considered a screening test for individuals
+unwilling to undergo colonoscopy or FIT.
+Alternate imaging tests for individuals who refuse colonoscopy or
+FIT or are not candidates for colonoscopy
+
+CTC and CC are 2 nonendoscopic screening tests in this category.
+The diagnostic accuracy of CTC in average-risk screenees has been
+assessed in multiple studies. The sensitivity ranges between 68% and
+98% for lesions $6 mm and 67%–94% for lesions $10 mm, whereas
+speciﬁcity ranges from 80% to 93% for lesions $6 mm and
+86%–98% for lesions $10 mm (63,64). However, the diagnostic
+accuracy of CTC for SSLs is signiﬁcantly lower than that of colonoscopy (3.1% vs 0.8% for colonoscopy and CTC, respectively) (65).
+There also remain concerns for detection of right-sided and ﬂat
+polyps and operator dependence (66). The CC is FDA approved for
+imaging the colon in patients with previously incomplete colonoscopy or in patients with lower gastrointestinal bleeding who are at
+too high risk to undergo a colonoscopy. The test characteristics of
+CC have been improving because of enhancements to software and
+hardware. In a prospective study of 884 average-risk individuals due
+for screening, 79% of CCs could be completed, and sensitivity to
+detect adenomas $6 mm was 81% and speciﬁcity was 93%. For
+polyps $10 mm, the sensitivity and speciﬁcity were 80% and 97%,
+The American Journal of GASTROENTEROLOGY
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+463
+
+464
+
+Shaukat et al.
+
+respectively (67). Another recent study with 253 participants who
+underwent back-to-back colonoscopy and CC reported a perpatient sensitivity for .9 mm polyps of 87% (68). A recent comparative eﬃcacy study of CTC and CC enrolled 321 individuals at 14
+medical centers and reported that the sensitivity of CTC and CC for
+polyps $6 mm was 32% and 84%, respectively, and that for polyps
+$10 mm was 53% and 84%, respectively (69). The reasons why CTC
+had low diagnostic yield are unknown, and further analyses are
+awaited. At this time, CTC and CC are options for individuals unable
+to undergo colonoscopy or FIT, provided that the tests are locally
+available and reimbursed for the indication of screening. It is important to note that both tests require a follow-up diagnostic colonoscopy if the result is positive.
+Blood-based tests
+
+A blood-based test assessing methylated Septin 9 is FDA approved for CRC screening in average-risk individuals age 50 years
+or older who refuse other CRC screening methods. A screening
+study reported a sensitivity of 48% for CRC detection and 11% for
+advanced adenoma detection (70). With enhancements in the test
+assay, a small case-control study reported a sensitivity of 90% and
+a speciﬁcity of 88% for CRC (71). A recent systematic review
+aggregated 39 eligible studies and reported a pooled sensitivity for
+CRC of 62% and speciﬁcity of 90% (72). Given the low sensitivity
+and the lack of longitudinal and comparative data on test performance, the test is not considered an optimal screening modality at this time.
+CRC screening in average-risk individuals starting at age
+45 years
+
+Recent studies have highlighted a rising incidence of CRC in individuals younger than 50 years in the United States. Although CRC
+incidence has continued to decline in those age 50 years and older,
+the incidence rates have doubled in 20- to 49-year-olds (73–75). In
+2018, the American Cancer Society published guidelines with a
+qualiﬁed recommendation to lower the starting age for CRC
+screening from 50 to 45 years of age in the average-risk adult
+population (76), even though current recommendations of the US
+Preventive Services Task Force (USPSTF) and the Multi-Specialty
+Task Force (MSTF) are to begin screening at age 50 years (77–79).
+These qualiﬁed recommendations were based on predictive modeling analyses and age-cohort epidemiological evidence of a relative
+increase of 51% in CRC incidence among individuals younger than
+50 years between 1974 and 2013 (75,80). Modeling studies using 2 of
+the 3 Cancer Intervention and Surveillance Network models found
+that initiating screening at age 45 years was on the eﬃciency spectrum (76) and that initiating screening at age 45 years instead of age
+50 years would result in approximately 25 more life-years gained per
+1,000 individuals screened.
+Recent epidemiological data show alarming trend reversals for
+CRC incidence in the United States. Notably, CRC incidence among
+individuals age 50–64 years, which had historically declined by
+2%–3% per year, has increased by 1% annually between 2011 and
+2016 (1, 81). A similar increase in the incidence rate is observed in
+individuals younger than 50 years and has been partly ascribed to a
+birth cohort eﬀect, in which increased CRC risk in individuals born
+after 1950 is carried forward as they age. It has been estimated that
+persons born around 1990 have twice the risk of colon cancer and 4
+times the risk of rectal cancer compared with those born around
+1950 (80). Although the reasons for these observations are complex
+and multifactorial, the fact that other developed countries are
+The American Journal of GASTROENTEROLOGY
+
+reporting similar increases in early-onset CRC and birth-cohort
+eﬀects suggests that the Western lifestyle (especially exempliﬁed by
+the obesity epidemic) is a signiﬁcant contributor (82).
+An advantage of initiating screening at age 45 years instead of
+50 years includes reduced CRC risk due to early detection of CRC
+in this age group. Over time, detection and removal of polyps in
+individuals age 45–49 years would reduce the incidence of CRC in
+those age 50 years and older. In addition, preventing young CRC
+is a desirable goal because the societal impact of CRC death at an
+early age is particularly devastating.
+The disadvantages of such an approach are the resources required
+to screen an additional 21 million individuals between ages 45 and 49
+years and detracting from eﬀorts to screen individuals age 50 years and
+older to reach the target goal of 80% set by the National Colorectal
+Cancer Roundtable. Given that current rates of screening uptake are
+close to 60% (57.9% ages 50–64 and 62.4% ages 50–75) (83), expanding
+the population to be screened may reduce these rates as emphasis shifts
+to screening 45- to 49-year-olds at the expense of eﬀorts to screen the
+unscreened 50- to 75-year-olds. A recent Markov analysis evaluated the
+population-level impact of lowering the screening age to 45 years and
+found that although it may be cost-eﬀective to begin younger, elevating
+the screening rate in persons 50–75 to the target of 80% would prevent
+3 times as many deaths attributed to CRC for approximately 66% less
+cost (84).
+There are few empirical data regarding the eﬀectiveness of
+screening in younger average-risk individuals, and the most appropriate screening modality in this age group is not known.
+CRC screening in elderly individuals
+
+With gains in life expectancy, and increases in the geriatric population, CRC screening in the elderly has substantial public health
+consequences. Because few detailed subgroup analyses of screening
+trials have been reported, few empirical data exist on when best to stop
+oﬀering screening (85). There are several reasons why the elderly may
+not derive the same beneﬁt or may even be harmed by screening. The
+ﬁrst reason is diminished life expectancy. The beneﬁts of polypectomy are delayed by 7–10 years after screening has occurred (86),
+and, thus, screening is of limited beneﬁt for those not expected to live
+for at least a further 7–10 years. Second, there is an increase in
+competing causes of death in the elderly. The value of screening
+decreases as the risk of dying of other causes increases; hence, for the
+elderly, the beneﬁt may become small enough to be negligible or even
+negatively impact their life expectancy. Third, elderly individuals may
+be more susceptible to risks associated with undergoing screening
+compared with their younger counterparts (87). These risks vary
+from anxiety, false-positive results, and unnecessary treatments to
+complications from procedures related to screening, such as dehydration, electrolyte disturbance, impact on renal function with the
+preparation, alteration of anticoagulation or antiplatelet agents, risk of
+perforation and hemorrhage during colonoscopy, and cardiovascular
+events periprocedure. In older patients, the beneﬁts of early detection
+and prevention of CRC may be oﬀset by higher risk of procedurerelated harm and diminished health and life expectancy. Several
+authors have addressed this issue using diﬀerent approaches (88). Lin
+et al. (89) reported that elderly individuals undergoing screening
+derive 15% or less beneﬁt from screening compared with their
+younger counterparts in terms of gains in life expectancy. In their
+analysis of elderly individuals age between 70 and 94 years, Ko et al.
+(90) found that the risk of screening-related complications was
+higher than the estimated beneﬁt from screening in some subgroups. A more recent simulation study found that the optimal age
+VOLUME 116 | MARCH 2021 www.amjgastro.com
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+ACG Clinical Guidelines
+
+to forego FIT-based screening varied considerably based on sex,
+comorbidity status, and screening history, ranging from 66 years old
+for individuals with poor health and adequate previous screening to
+90 years in case of individuals in good health and no previous
+screening (91). Therefore, the point where beneﬁts of screening
+become negligible or are outweighed by potential harm likely varies
+signiﬁcantly between individuals. The decision to continue or discontinue screening in the elderly should not be solely based on
+chronological age but should also take into account health status,
+screening history, beneﬁts and harms of screening, and values and
+preferences of the patient (92–94). The most recent guideline on
+CRC screening from the USPSTF concluded that in adults age
+76–85 years, the decision to screen for CRC should be an individualized, taking into account the patient’s overall health and
+screening history. The guideline speciﬁes that screening would be
+most appropriate for those not previously screened, those healthy
+enough to undergo treatment if CRC is detected, and those without
+substantially limited life expectancy. In adults age 86 years and
+above, screening is not recommended because of competing causes
+of mortality. The guideline identiﬁed when to stop screening as an
+important area of future research (85). Although further studies are
+awaited, providers should consider life expectancy, patient risk,
+values, and preferences and participate in shared decision making
+for screening individuals older than 75 years.
+Boosting CRC screening rates in African Americans
+
+African Americans have among the highest rates of CRC of any
+racial/ethnic group in the United States (1). Compared with whites,
+incidence rates are 24% higher in African American men and 19%
+higher in African American women (95). Stage-adjusted CRC
+mortality is also disproportionately higher in African Americans,
+with rates being 47% higher in African American men and 34%
+higher in African American women compared with whites (96). The
+reasons for these diﬀerences are not entirely clear but disparities in
+care, such as lower rates of screening, diagnostic follow-up, and
+treatment are postulated. One study estimates that 19% of the racial
+disparity in CRC mortality rates can be attributed to lower screening
+rates and 36% to lower stage-speciﬁc survival among African
+Americans (97). Health systems with equal access to the screeningdiagnosis-treatment care continuum do not show such disparities
+(98,99). Nationally, screening rates in blacks are lower than in whites,
+suggesting an unmet need for eﬀorts to improve screening in this
+group. Recent trends from Surveillance Epidemiology and End Results (SEER) show a decline in CRC incidence and mortality for black
+men and women (74). Based on recent SEER data, modeling studies
+(70) show similar beneﬁt of CRC screening in African Americans
+and whites starting at age 45 years. Special eﬀorts and outreach
+programs are needed to boost screening in African Americans to
+reduce the disparities in screening rates and reduce incidence rates.
+Harms of screening
+
+Harms of stool-based tests include anxiety about false-positive
+results and harms related to colonoscopy. The main harms of
+colonoscopy are bleeding (pooled event rate of 8 per 10,000) and
+perforation (pooled event rate of 4 in 10,000) (61). The risk of
+complications is greater with polypectomy and in older age
+groups (100). Other harms include the risk of electrolyte imbalance and nephropathy from bowel preparations or cardiopulmonary events from moderate or deep sedation and splenic injury
+(101,102). With colonoscopy, there is also concern for postcolonoscopy CRC (PCCRC), deﬁned as CRC diagnosed after a
+© 2021 by The American College of Gastroenterology
+
+colonoscopy which did not detect cancer (103). The rate of
+PCCRC is estimated at 1 per 3,174 colonoscopies (95% CI 1 per
+2,710 to 1 per 3,875) (103,104). A strong quality monitoring and
+improvement program is key to reducing PCCRC. This is discussed further in KQ6.
+The harms of CTC include concerns for radiation exposure
+and extracolonic ﬁndings. With improved protocols requiring less
+radiation (1–5 mSv), the risk of radiation exposure may not be an
+issue. Extracolonic ﬁndings are reported in 27%–69% of studies
+with a wide range of work-up (105). The downstream sequelae of
+these incidental ﬁndings have not been adequately quantiﬁed.
+The harms of CC come from the potential side eﬀects of the
+preparation required before the examination (e.g., electrolyte
+imbalances) and the possibility of capsule retention in the small
+bowel. However, in the trial evaluating screening CC, no serious
+harms were reported (67).
+KQ2. In average-risk individuals, how does the effectiveness of CRC
+screening vary by screening interval in reducing colorectal
+advanced neoplasia incidence, CRC incidence, and CRC mortality?
+
+Recommendations
+7. We recommend that the following intervals should be followed for
+screening modalities:
+FIT every 1 year
+Colonoscopy every 10 years
+Strong recommendation; low-quality evidence
+8. We suggest that the following intervals should be followed for
+screening modalities:
+Multitarget stool DNA test every 3 years
+Flexible sigmoidoscopy every 5–10 years
+CTC every 5 years
+CC every 5 years
+Conditional recommendation; very low-quality evidence
+
+DISCUSSION
+There are no RCTs comparing various screening intervals.
+The optimal interval to repeat FOBT/FIT is not known. In the
+long-term follow-up of the Minnesota FOBT trial, CRC
+mortality was reduced by 33% with annual screening and by
+18% with biennial screening (23). The European RCTs found
+biennial FOBT to be eﬀective in reducing CRC mortality. One
+modeling study (106) favored annual FIT. In a costeﬀectiveness analysis, annual FIT and colonoscopy performed every 10 years yielded similar life years gained. Ongoing RCTs that compare annual FIT and biennial FIT with
+colonoscopy for CRC incidence and mortality reduction will
+further address the question. For now, annual FIT screening is
+recommended. Several population-based studies have reported a low risk of CRC after a negative screening colonoscopy
+for at least 10 years and up to 20 years (107–109). Lee et al.
+reported a 46% and 88% reduced risk of CRC and CRC related
+deaths, respectively, up to 12 years after a negative colonoscopy (HR 0.54; 95% CI 0.31–0.94 and 0.12; 95% CI 0.02–0.82,
+respectively). Pilonis et al. reported the eﬀect of colonoscopy
+in the Polish population compared with the general population and found the standardized incidence and mortality
+ratios to be reduced 10 years or 15 years after a negative
+The American Journal of GASTROENTEROLOGY
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+465
+
+466
+
+Shaukat et al.
+
+colonoscopy, compared with the general population (standardized mortality ratio of 0.13; 95% CI 0.0–0.17 and 0.15;
+95% CI 0.06–0.31 for the 10- and 15-year interval, respectively). There are no longitudinal studies of repeat testing
+or interval on the mtsDNA test or Septin 9. Modeling studies
+performed by the Cancer Intervention and Surveillance Network have compared various screening strategies and found
+comparable life-years gained with the following intervals:
+annual FIT, colonoscopy every 10 years, ﬂexible sigmoidoscopy every 10 years with annual FIT, CTC every 5 years, and
+mtsDNA test every 3 years (61). In another modeling study,
+rescreening 10 years after a negative screening colonoscopy at
+age 50 years reduced CRC compared with no further screening, and using high sensitivity FOBT or FIT annually or
+CTC every 5 years was less costly than continued colonoscopy (110).
+KQ3. In individuals with a family history of CRC or adenomatous
+polyps, what is the effectiveness of CRC screening in reducing
+CRC incidence and CRC mortality?
+KQ4. In individuals with a family history of CRC or adenomatous
+polyps, how does the effectiveness of CRC screening vary by
+screening interval in reducing colorectal advanced neoplasia
+incidence, CRC incidence and CRC mortality?
+KQ5. In individuals with a family history of CRC or adenomatous
+polyps, how does the effectiveness of CRC screening vary by
+screening modality in reducing colorectal advanced neoplasia
+incidence, CRC incidence and CRC mortality?
+
+Recommendations
+9. We suggest initiating CRC screening with a colonoscopy at age 40
+or 10 years before the youngest affected relative, whichever is
+earlier, for individuals with CRC or advanced polyp in 1 firstdegree relative (FDR) at age ,60 years or CRC or advanced polyp
+in $2 FDR at any age. We suggest interval colonoscopy every 5
+years.
+Conditional recommendation; very low-quality evidence
+10. We suggest consideration of genetic evaluation with higher
+familial CRC burden (higher number and/or younger age of
+affected relatives).
+Conditional recommendation; very low-quality evidence
+11. We suggest initiating CRC screening at age 40 or 10 years before
+the youngest affected relative and then resuming average-risk
+screening recommendations for individuals with CRC or
+advanced polyp in 1 FDR at age $60 years.
+Conditional recommendation; very low-quality evidence
+12. In individuals with 1 second-degree relative (SDR) with CRC or
+advanced polyp, we suggest following average-risk CRC
+screening recommendations.
+Conditional recommendation; low-quality evidence
+
+diagnosis of the relative(s), degree of familial relation between the
+individual and relative(s), and number of aﬀected relative(s).
+Professional organizations (7,113) have published CRC screening
+recommendations, which primarily take into account the age and
+number of aﬀected relatives. In all situations, it is critical for
+clinicians to obtain a 3-generation family history and remain alert
+for features suggestive of an inherited CRC syndrome, such as
+clustering of cancer cases within one side of a family, younger age
+at diagnosis, or the presence of synchronous and metachronous
+cancers. Maintaining a high index of suspicion for an inherited
+CRC syndrome and using appropriate screening tools (114) is
+critical because a family history of CRC or advanced adenomas
+can guide clinicians to appropriately modify the starting age for
+screening and the interval of subsequent surveillance.
+Studies assessing CRC risk based on family history have varied
+considerably with regard to setting, patient population, degree of
+CRC risk, study design, and methodology. One important issue has
+been inconsistent distinction between the increased risk for the
+individual based on their family history vs risk to family members
+of an individual with cancer (115,116). The former scenario is the
+focus of the following sections because most patients present or are
+referred for screening because of concerns about their family history of CRC or advanced polyps.
+Age of the individual at risk
+
+Several studies and meta-analyses (115,117–119) have reported that the risk of CRC decreases with increasing age of the
+individual at risk. An analysis (119) of the Nurses’ Health
+Study and Health Professionals Follow-up Study reported that
+the relative risk of subjects with an FDR with CRC decreased
+from 5.37 at ages 30–44 years to nearly 1 after the age of 65
+years. A recent systematic review and meta-analysis (120)
+analyzed nearly 9.3 million subjects from 63 studies, and found
+that, overall, a family history of CRC in an FDR was associated
+with a higher risk of CRC (risk ratio [RR] 1.76; 95% CI
+1.57–1.97). The increased risk was more pronounced in
+younger individuals (RR 3.29 [95% CI 1.67–6.49] for ,40
+years vs 1.42 [95% CI 1.24–1.62] for $40 years). Compelling
+information can also be derived from a secondary analysis
+(121) of the PLCO randomized CRC screening trial, which
+included nearly 145,000 individuals. Overall, a family history
+of CRC was associated with modestly increased CRC incidence
+(HR 1.30; 95% CI 1.10–1.50) and CRC mortality (HR 1.31; 95%
+CI 1.02–1.69). The HR for incident CRC in subjects with only 1
+FDR with CRC was 1.23 (95% CI 1.07–1.42). The study supports the notion that the relevance of a family history of CRC
+wanes as the individual at risk ages (121,122). A costeﬀectiveness analysis by Naber et al. (123) estimated that the
+risk of developing CRC in a person with 1 aﬀected FDR decreased with age, from 5 fold for ages 30–44 years to no difference at $70 years.
+Age of the affected relative(s)
+
+DISCUSSION
+It is estimated that between 3% and 10% of US adults have
+an FDR with CRC, and higher proportions have either an FDR or
+SDR with CRC (111,112). On average, a family history of CRC is
+believed to be associated with a 2-fold increase in CRC risk, but
+the magnitude depends on the age of the individual at risk, age at
+The American Journal of GASTROENTEROLOGY
+
+The age of the aﬀected relative is inversely associated with an
+individual’s CRC risk. Guidelines have traditionally used a dichotomous categorization with age 60 years as the threshold to
+designate the risk category (based on a 2-fold CRC risk cutoﬀ),
+with more intensive surveillance recommended for those with an
+FDR ,60 years old at the time of their CRC diagnosis (7,113). The
+recommendation to start screening at age 40 years or 10 years
+VOLUME 116 | MARCH 2021 www.amjgastro.com
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+ACG Clinical Guidelines
+
+before the youngest aﬀected relative is based on the seminal study
+by Fuchs et al. (119), showing that cumulative incidence of CRC
+was similar between those age 40 years with a family history and
+those age 50 years without a family history. A population-based
+study from Utah (124) reported that the risk of colorectal neoplasia among FDRs of patients diagnosed with CRC was greater
+when the index case was diagnosed at age ,60 years (HR 2.11;
+95% CI 1.70–2.63 vs 1.77; 95% CI 1.58–1.99 for $60 years old).
+Another study from Utah (125) found that the risk of CRC was
+increased among FDRs of index cases with CRC regardless of the
+age of diagnosis but was highest when both index case and FDR
+were younger. The HR ranged from 1.6 to 7.0 for FDR ,50 years
+old (overall HR 2.28, 95% CI 1.86–2.80) and 1.7 to 2.3 for FDR
+$50 years old (overall HR 1.81, 95% CI 1.71–1.92). A systematic
+review and meta-analysis (117) estimated that the pooled risk of
+CRC was 3.55 (95% CI 1.84–6.83) with $1 FDR ,50 years old
+compared with 2.18 (95% CI 1.56–3.04) with $1 FDR $50 years
+old, although the diﬀerence did not reach statistical signiﬁcance.
+The meta-analysis by Taylor et al. (126) reported RRs of 3.31 (95%
+CI 2.79–3.89), 2.53 (95% CI 2.24–2.85), 2.22 (95% CI 2.04–2.40),
+and 1.97 (95% CI 1.83–2.12) with $1 FDR diagnosed at ,50
+years, between 50 and 59 years, between 60 and 69 years, and
+between 70 and 79 years, respectively. Conversely, the secondary
+analysis of the PLCO trial (121) reported that individuals (who
+were all at least 55 years old) with 1 FDR with CRC had a comparable risk of CRC regardless of age at diagnosis in the aﬀected
+FDR: The HRs were 1.27 (95% CI 0.97–1.63), 1.33 (95% CI
+1.06–1.62), and 1.14 (95% CI 0.93–1.45) if the FDR was ,60,
+60–70, and .70 years old, respectively (P trend 5 0.59) (121).
+Degree of familial relation
+
+The closer the familial relation between a person and an aﬀected
+relative with CRC, the higher the risk for that person. This is
+illustrated in an analysis of the Nordic Twin Study of Cancer
+(127), which showed that monozygotic twins of aﬀected cotwins
+had a 3-fold increased risk of CRC compared with the general
+population, whereas dizygotic twins had a 2-fold increased risk.
+In assessing diﬀerent CRC family history scenarios, the most
+common situation is that of 1 FDR with CRC (.90%) (126).
+Recent evidence suggests that the risk of CRC in an individual
+with an aﬀected FDR does not depend on the identity of the
+relative. In a large colonoscopy study involving 16 Asia-Paciﬁc
+regions (128), the risk of CRC (adjusted OR [AOR] 0.90, 95% CI
+0.34–2.35, P 5 0.830), advanced colorectal neoplasia (AOR 1.07,
+95% CI 0.75–1.52, P 5 0.714), and colorectal adenoma (AOR
+0.96, 95% CI 0.78–1.19, P 5 0.718) in subjects with either parent
+aﬀected was similar to that of subjects with aﬀected siblings.
+The Utah population-based study (124) found that all relatives
+of an index person with CRC were at increased risk, including
+FDR, SDRs, and ﬁrst cousins. However, the magnitude of the risk
+associated with an aﬀected SDR is generally more modest than
+observed for FDR. In an analysis by Taylor et al. (126), the RRs
+associated with SDR alone (without concomitant FDR) ranged
+from 1.05 (95% CI 0.99–1.11) to 1.48 (1.11–1.93) with increasing
+numbers of SDRs aﬀected, whereas the RRs associated with
+concomitant 1 FDR and at least 1 SDR ranged from 2.12 (95% CI
+1.90–2.35) to 3.37 (95% CI 2.20–4.93).
+Number of affected FDRs
+
+The literature consistently shows that the higher the number of
+aﬀected relatives with CRC, the greater the relative and absolute
+© 2021 by The American College of Gastroenterology
+
+risks for an individual to develop CRC (112,117,118,126). The
+cost-eﬀectiveness analysis by Naber et al. (123) used the Microsimulation Screening Analysis (MISCAN) model to estimate
+costs and eﬀects of colonoscopy screening strategies with diﬀerent age ranges and intervals, based on lifetime CRC risk estimate
+inputs derived from the studies by Taylor et al (126) and Fuchs
+et al (119). It is important to note that the study did not take into
+account the age of the aﬀected relative with CRC, and that high
+numbers of FDRs or FDRs and SDRs ($2) with CRC or Lynch
+syndrome-related cancers should trigger suspicion and workup
+for an underlying inherited CRC syndrome. Nevertheless, the
+ﬁndings show that increasing numbers of FDRs are associated
+with increased lifetime CRC risk in all age groups. In the secondary analysis of the PLCO trial by Schoen et al. (121), subjects
+with $2 FDRs had signiﬁcantly higher adjusted HR for CRC
+incidence than those with 1 FDR (2.04; 95% CI 1.44–2.86 vs 1.23;
+95% CI 1.07–1.42).
+Family history of polyps
+
+Many of the limitations observed in studies assessing familial
+CRC risk apply to those assessing the eﬀect of the family history of
+adenomas. In fact, most studies assessed the risk of adenomas in
+persons with an FDR with CRC, rather than CRC risk in persons
+with a FDR with adenoma (129). In a prospective study from
+Hong-Kong, Ng et al. (130) reported that the prevalence of advanced adenomas was 11.5% among siblings of patients with
+advanced adenomas, compared with 2.5% among siblings of individuals without advanced adenomas (OR 6.05; 95% CI
+2.74–13.36). In addition, the prevalence of all colorectal adenomas was signiﬁcantly higher (39.0% vs 19.0%; OR 3.29; 95% CI
+2.16–5.03). A recent study from the same group of investigators
+shows that a family history of nonadvanced adenomas is less
+relevant than that of advanced adenomas: the prevalence of advanced adenomas was 3.9% among FDR of individuals with
+nonadvanced adenomas, compared with 2.4% among FDR of
+individuals with normal colonoscopies (OR 1.67; 95% CI 0.72 to
+3.91). A multicenter multinational prospective study (128) of
+nearly 12,000 asymptomatic subjects in the Asia-Paciﬁc region
+found that subjects with at least 1 FDR aﬀected with CRC were
+signiﬁcantly more likely to have CRC (AOR range 2.02–7.89),
+advanced colorectal neoplasia (AOR range 1.55–2.06), and colorectal adenoma (AOR range 1.31–1.92) than those without a
+family history.
+Although conventional adenomas have historically been the
+major relevant CRC precursor lesion, accumulating evidence has
+shown that the serrated pathway is a major contributor to CRC.
+Although there is a paucity of data regarding familial risk associated with serrated polyps (outside the serrated polyposis syndrome), it is logical to include advanced serrated polyps (SSL
+$10 mm, SSL with dysplasia and traditional serrated adenoma)
+under the broader category of “advanced polyps,” which also
+encompasses advanced adenomas, until more data are available.
+Alternatives to colonoscopy in patients with a family history
+of CRC
+
+There are no RCTs comparing the yield and eﬀectiveness of
+colonoscopy compared with other CRC screening modalities
+speciﬁcally for individuals with a family history of CRC, except
+for FIT. In 1 RCT (131), investigators randomized nearly 1,900
+FDRs of patients with CRC to a single colonoscopy examination
+or 3 consecutive annual FITs. Advanced neoplasia was detected in
+The American Journal of GASTROENTEROLOGY
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+467
+
+468
+
+Shaukat et al.
+
+4.2% and 5.6% FDRs in the FIT and colonoscopy groups, respectively (OR 1.41; 95% CI 0.88–2.26), and no CRCs were missed
+with the FIT strategy. A recent meta-analysis (132) assessed the
+performance characteristics of FIT in patients at increased CRC
+risk due to a personal or family history of CRC. Subgroup analysis
+for patients with a family history of CRC revealed FIT sensitivity
+of 86% (95% CI 31%–99%) and speciﬁcity of 91% (95% CI
+89%–93%) for CRC; for advanced neoplasia, sensitivity was 46%
+(95% CI 37%–56%) and speciﬁcity was 93% (95% CI 90%–95%).
+KQ6. What are the quality indicators for different modalities of CRC
+screening associated with diagnostic performance of the
+screening test and incidence of postcolonoscopy colorectal
+cancers?
+
+Recommendations
+13. We recommend that all endoscopists performing screening
+colonoscopy should measure their individual cecal intubation
+rates (CIRs), adenoma detection rates (ADRs), and withdrawal
+times (WTs).
+Strong recommendation, moderate-quality evidence for ADR, lowquality of evidence for WT, and CIR.
+14. We suggest that colonoscopists with ADRs below the
+recommended minimum thresholds (,25%) should undertake
+remedial training.
+Conditional recommendation, very low-quality evidence
+15. We recommend that colonoscopists spend at least 6 minutes
+inspecting the mucosa during withdrawal.
+Strong recommendation, low-quality evidence
+16. We recommend that colonoscopists achieve CIRs of at least
+95% in screening subjects.
+Strong recommendation, low-quality evidence
+
+DISCUSSION
+For optimal performance of a diagnostic test, it is imperative that
+quality control programs and monitoring be in place. For stooland blood-based tests, this responsibility falls on the laboratory
+clinic directors or the manufacturer. The discussion in this section is limited to quality assurance in colonoscopy because it is a
+highly operator-dependent test. Although the National Polyp
+Study suggested that colonoscopy may reduce the incidence of
+CRC by 76%–90% (6), subsequent studies reported that the reduction in incidence and mortality is lower at about 60% and is
+more pronounced in the distal colon (133). PCCRCs which are
+cancers that appear after a colonoscopy in which no cancer is
+diagnosed and classiﬁed as interval and noninterval, are partly
+explained by missed lesions during the index colonoscopy
+(134–137). PCCRCs account for about 3%–9% of CRC (137–140)
+and have a predilection for the proximal colon. A comprehensive
+review on the terminology and recommended reporting for
+PCCRCs (103) outlines the importance of having a robust quality
+colonoscopy program in place that includes tracking and
+reporting of these cancers.
+Although it is proposed that some PCCRCs may arise from
+neoplastic lesions that harbor genetic features that are associated with a more rapid progression to cancer, as well as lesions
+that are not visualized or may have been incompletely resected,
+The American Journal of GASTROENTEROLOGY
+
+multiple studies have reported the association between quality
+of the colonoscopy and the rate of PCCRC (135,136,141–143).
+The ADR, which is the proportion of average-risk patients
+undergoing screening colonoscopy in whom an adenoma is
+found, is regarded as a robust measure of colonoscopy performance quality that correlates with subsequent cancer risk
+(144–146). Over the past 2 decades, assessments of detection
+performance have repeatedly and consistently demonstrated
+that colonoscopy is highly operator dependent with regard to
+detection (146–152). Adenoma detection typically varies between colonoscopists in the same group by $3-fold on a per
+patient basis and up to 10-fold on a per adenoma basis
+(146–152). In response to evidence of variable detection, recommendations were made in 2002 by the US Multi-Society Task
+Force on Colorectal Cancer for quality measurements related to
+detection at colonoscopy (153). The MSTF proposed ADR to be
+the fraction of persons age $50 years who have one or more
+adenomas detected and removed and that the minimum acceptable minimal thresholds be 25% in men and 15% in women
+(153). Subsequently, revisions to the US recommendations on
+ADR measurement have been made by a joint quality task force
+of the ACG and American Society for Gastrointestinal Endoscopy. In 2006, the joint task force recommended that ADR
+measurement be conﬁned to ﬁrst-time screening colonoscopies
+(154). In 2015, the speciﬁed minimum recommended minimal
+thresholds for detection were increased to 25% overall, 30% in
+males and 20% in females (155), for any screening colonoscopy,
+not limited to ﬁrst time screening. Furthermore, in 2015, the
+task force speciﬁed that adenomas counted toward the ADR be
+only conventional adenomas so that SSL were excluded from the
+deﬁnition (155).
+ADR has been validated as a predictor of cancer occurring
+after colonoscopy in 3 landmark studies (146,152,156). In a
+provocative study by Kaminski et al. (146), in which 45,026 patients involved in a Polish nationwide colorectal cancer screening
+program were followed over time, endoscopists with ADRs less
+than 20% (categorized as less than 11.0%, 11.0%–14.9%,
+15.0%–19.9%, and 20.0% or more) had a more than 10-fold
+higher rate of PCCRC than those with higher ADRs. Another
+more recent study reported a decreased risk of PCCRC for physicians with ADR .33.5% compared with those with ADR of
+,19.06%. In this study, each 1% increase in ADR was associated
+with a 3% reduction in the incidence of CRC and a 5% reduction
+in fatal CRC (152). Further, endoscopists have been shown to
+increase their ADRs with training, and such improvements in
+ADR have been linked to subsequent reductions in CRC in the
+patients of colonoscopists who achieve higher ADRs (157). Thus,
+ADR has been shown to be highly variable between endoscopists,
+strongly linked to the risk of PCCRC, subject to improvement
+with training, and associated with improved cancer outcomes
+when that improvement is achieved. ADR measurement requires
+resource investment primarily because many endoscopy and
+pathology databases are not yet linked, necessitating manual
+entry of pathology data. The use of endoscopy software programs,
+natural language processing, and national registries such as
+GiQUiC may be used to automate ADR reports. Nevertheless, the
+powerful association of ADR with cancer outcomes is generally
+considered to constitute an essential mandate to make the measurements. Recent screening recommendations from the MSTF
+encourage patients to ask colonoscopists for their ADR (158). For
+reporting purposes, ADR from screening colonoscopy of averageVOLUME 116 | MARCH 2021 www.amjgastro.com
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+ACG Clinical Guidelines
+
+risk individuals age 50 years and older should be reported.
+Practices may consider breakdown by patient sex and ﬁrst time vs
+repeat screening colonoscopy, but this is often logistically
+diﬃcult.
+Recent data suggest that the recommended thresholds of
+ADR of 30% for men and 20% for women should be considered
+minimum targets and that colonoscopists with ADRs above the
+thresholds should strive for aspirational ADRs in the range of
+45–50% for a mixed-gender patient population (156). Thus, in
+the largest PCCRC the highest quintile of ADR was above 33.5%
+(152). Furthermore, in a large practice in Minnesota, evidence of
+improving cancer protection was found as ADR approached
+50% (156). Gains in ADR can be achieved by education regarding the spectrum of endoscopic appearances of precancerous lesions and optimal withdrawal technique (159).
+Split-dose bowel preparations improved ADR in retrospective
+trials (160) and RCTs (161). Technical measures that have been
+associated with increased detection include rotating the patient
+during withdrawal (162,163) so that the segment under examination is nondependent and better distended (162) and by
+examination of the colon twice (164). Double examination has
+frequently been focused on the cecum and ascending colon
+(165) because several studies indicate that colonoscopy is less
+eﬀective in preventing right-sided compared with left-sided
+CRC (11,13,16,133). Double examination is often considered by
+colonoscopists to refer to a ﬁrst examination in the forward
+view, followed by reintubation of the cecum and a second examination in retroﬂexion (165). However, 2 randomized trials
+found that a second forward-viewing examination of the entire
+right colon is equally eﬀective (166,167). All of the abovementioned measures have the advantage of not requiring special
+colonoscope equipment. However, in addition to the above
+measures, several specialized devices in the colonoscope or attached to the colonoscope facilitate detection. These include
+certain mucosal exposure devices added to the colonoscope tip
+(168–170), highlighting technologies including high deﬁnition
+colonoscopes (171), chromoendoscopy (172–174), and newer
+and brighter forms of electronic chromoendoscopy including
+narrow band imaging (175) and linked color imaging (176).
+Finally, artiﬁcial intelligence and emerging computer-aided
+detection technology are additional tools to improve ADR in the
+near future (177,178). Thus, an array of options is available to
+colonoscopists to improve ADR.
+Several aspects of detection quality measurement remain
+under investigation and may lead to future changes in recommendations regarding measurement. For example, it is clear
+that measuring adenomas per colonoscopy or a similar measure
+such as adenomas per positive colonoscopy provides greater
+separation between the highest and lowest detectors in a group
+of colonoscopists and logically better reﬂects the quality of
+examination over the entire colon (179). Although these measures could reasonably replace ADR, obstacles to immediate
+implementation include some uncertainty regarding optimal
+minimum acceptable and aspirational thresholds, lack of validation in PCCRC studies, and concerns that APC use might
+incentivize resected lesions from the same colon segment to be
+submitted to pathology separately (155). The latter practice
+would seem to unnecessarily increase costs. A second issue is
+whether ADR measurement should be conﬁned to ﬁrst-time
+screening colonoscopies or should include patients undergoing
+surveillance and diagnostic examinations (180) and second
+© 2021 by The American College of Gastroenterology
+
+screening examinations 10 or more years after a ﬁrst examination (181). Surveillance colonoscopy ADRs run 7%–10%
+above screening ADRs, and diagnostic colonoscopy ADRs run
+below screening ADRs (180). This results in the mean ADR for
+colonoscopies performed for all 3 groups of indications often
+being similar to the screening ADR. Although a formal change
+awaits results of additional studies, it may be reasonable to
+incorporate other indications when the numbers of available
+screening colonoscopies for a given colonoscopist is low.
+Colonoscopies for an indication of a positive FIT should be
+excluded from the ADR calculation because this indication is
+associated with considerably higher ADR relative to screening
+(34). For centers that rely heavily on primary FIT screening, it is
+possible to measure ADR for colonoscopy in the FIT-positive
+population alone (34). The MSTF recommends minimum acceptable thresholds for ADR in FIT-positive populations of
+45% for men and 35% for women (34). Aspirational thresholds
+for ADR in the FIT population may reach $75% in males. By
+extension, it is appropriate to exclude positive mtsDNA colonoscopies from the routine ADR calculation because the test
+includes a FIT (182). A third issue that remains under investigation is whether to create a separate target for detection of
+SSLs. SSLs are precursors of 25–30% of CRCs (183). This
+pathway is characterized by mutations in the BRAF oncogene,
+gene promoter hypermethylation (i.e., CpG island methylator
+phenotype), and a presumed more rapid progression to CRC;
+these lesions are also more prevalent in the proximal colon, a
+location where we recognize colonoscopy to be less protective
+for CRC compared with the distal colon (150,184,185). Detection and complete resection of SSLs is undeniably important
+for cancer prevention, and serrated detection seems to vary
+more among endoscopists than detection of conventional adenomas (150,186). However, the risk of cancer in SSLs is substantially lower compared with conventional adenomas of
+comparable size (187). This ﬁnding raised concerns that the
+risk of cancer arising from individual SSLs that are missed at
+colonoscopy has been overestimated. There are also no studies
+on the association of the detection rate of SSLs and PCCRC. The
+obstacles to incorporation of serrated lesions into a detection
+target are ﬁrst the large interobserver variation between pathologists in diﬀerentiation of SSLs from hyperplastic polyps
+(155). Thus, development of a separate target for SSLs could
+easily become a measure of pathologist performance as much as
+endoscopist performance. Targets that include a summation of
+SSLs and hyperplastic polyps generally have excluded the rectosigmoid to avoid incentivizing the resection of diminutive
+hyperplastic rectosigmoid polyps, which are generally considered harmless. However, the unreliability of endoscopic
+markers of the sigmoid-descending colon junction would
+complicate implementation of a summated serrated target.
+Fortunately, recent studies have reported that detection rates of
+adenoma, SSL, and advanced adenoma are tightly correlated
+such that a high detector of one type of polyp is likely to be a
+high detector of the other 2 (150,188). Currently, there are no
+indicators that can assess the completeness of polyp resection,
+and this remains an area of future need.
+Withdrawal time, the time measured from when the colonoscope reaches the cecum to the time the scope is withdrawn
+from the anus in the absence of polyp removal, has also been
+studied as a quality metric in colonoscopy. Withdrawal time has
+been recommended as a surrogate detection target also since
+The American Journal of GASTROENTEROLOGY
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+469
+
+470
+
+Shaukat et al.
+
+2002 (153). The initial recommendation for withdrawal time to
+average at least 6–10 minutes in normal colonoscopies without
+biopsy or polypectomy was modiﬁed in 2006 to a recommendation that normal colonoscopies average at least 6 minutes
+(154). This modiﬁcation followed from a study showing that $6
+minutes of withdrawal time produced excellent separation of
+colonoscopists with relatively high from low ADR (147).
+Studies have demonstrated that a withdrawal time of $6 minutes (excluding the time to perform polypectomy or other
+maneuvers) increased the detection of neoplastic lesions during
+colonoscopy in patients with intact colons (134) and reduces
+the risk of PCCRC (156). Furthermore, this study and another
+that focused on serrated lesions (189) suggested that very highlevel detection is associated with minimum average withdrawal
+times in normal colonoscopies of 9 minutes rather than 6 minutes. These ﬁndings may be expected to alter recommendations for minimum average withdrawal time in future quality
+recommendations.
+It is important to note that the withdrawal time should be spent
+washing and suctioning, looking behind folds and performing
+segmental inspection. However, similar to the limitations of ADR
+measurement, withdrawal time measurement can be gamed, in that
+an endoscopist may spend the entire withdrawal time in 1 segment.
+Because an eﬀective technique requires time for application, an
+increasingly eﬀective technique is strongly associated with longer
+average withdrawal times, at least up to 9 minutes (156,189). Stated
+diﬀerently, adequate withdrawal times are a consequence of effective technique, and longer times that are not spent applying
+eﬀective technique do not increase detection (190). Recent evidence indicates that mucosal exposure devices on the colonoscope
+tip can signiﬁcantly reduce withdrawal time without loss of or with
+actual increases in detection (191,192), but this ﬁnding warrants
+additional study. Successful ADR improvement programs focus
+primarily on lesion recognition skills and the withdrawal technique
+(159). We recommend that the withdrawal time be recorded in the
+endoscopic record of every examination by noting the time the
+cecum is intubated. However, the main value of the measurement is
+to investigate low ADR performance because low ADR accompanied by low withdrawal time can be reasonably assumed to reﬂect
+an inadequate withdrawal technique, indicating the need for immediate remediation of the technique.
+Another important measure of colonoscopy quality that aﬀects
+the risk of PCCRC is the cecal intubation rate (CIR). CIR is deﬁned
+as passage of the colonoscope tip into the cecal caput, permitting
+full evaluation of the mucosa between the ileocecal valve and
+appendiceal oriﬁce and should be accompanied by photography of
+the appendiceal oriﬁce, the ileocecal valve, and the terminal ileum if
+intubated (134). This quality indicator has been proposed because
+of the well-known ﬁndings that large portions of colorectal neoplasms are located in the proximal colon, including the cecum
+(134). In a Canadian study, low CIR was associated with increased
+rates of PCCRC (137). Current US recommendations are that CIR
+should be $90% overall and $95% in screening patients (155).
+Measuring success by notation of landmarks and by inclusion of
+photography is often instructive (155).
+Extensive recommendations addressing an array of colonoscopy quality indicators are available (155). In 2015, the joint task
+force recommended priority quality indicators consisting of the
+ADR, the CIR, and the use of appropriate screening and surveillance intervals. Achieving the priority indicator targets established
+by the joint quality task force ensures colonoscopy that is complete
+The American Journal of GASTROENTEROLOGY
+
+to the cecum, provides eﬀective detection and cancer prevention,
+and is cost-eﬀective through avoidance of overuse.
+KQ7. What are the effectiveness and harms of aspirin
+chemoprevention for the endpoints of reduction in incidence of
+CRC or mortality of CRC?
+
+Recommendations
+17. We suggest low-dose aspirin in individuals between the ages of
+50–69 years with a cardiovascular disease risk of $10% over the
+next 10 years, who are not an increased risk for bleeding and
+willing to take aspirin for at least 10 years to reduce the risk of
+CRC.
+Conditional recommendation; low-quality evidence
+18. We recommend against the use of aspirin as a substitute for CRC
+screening.
+Strong recommendation, low-quality evidence
+
+DISCUSSION
+Multiple, long-term studies demonstrate the beneﬁt of aspirin in
+reducing both CRC incidence and mortality. In 2016, the USPSTF
+performed a systematic review and analysis of primary and secondary prevention trials of cardiovascular disease to evaluate the
+eﬀect of aspirin on CRC incidence and mortality (193). They found
+no eﬀect on CRC risk within 10 years of aspirin therapy in 69,535
+subjects (RR 0.99, 0.85–1.15) although analyses in 47,464 subjects
+after 10–19 years of initiating aspirin demonstrated a 40% reduced
+risk for CRC (RR 0.60, 0.47–0.76). However, it is important to note
+that the included studies generally did not report or break down
+results by the CRC screening history of the included individuals.
+Although we have strong evidence that CRC screening reduces CRC
+incidence and mortality, it is not clear whether long-term aspirin use
+provides further incremental beneﬁt and whether the beneﬁt is
+outweighed by harms. Although most of the large chemoprevention
+trials included in the review were conducted before screening was
+widespread, Women’s Health study reported screening rates of
+nearly 50% and a reduction in CRC incidence with aspirin use. This
+study randomized 39,876 women in the United States to aspirin 100
+mg every other day or placebo (194). The mean age of participants
+was 55 years. After follow-up of an average of 10.1 years, no eﬀect of
+aspirin was observed on CRC incidence (RR 0.97, 0.77–1.24).
+During the 18-year follow-up of this cohort (195), a reduced incidence of CRC was observed in the aspirin group (HR 0.80,
+0.67–0.97), driven particularly by a decrease in proximal colon
+cancer (HR 0.73, 0.55–0.95). When the analysis was restricted to the
+posttrial events, the delayed eﬀect of aspirin was magniﬁed (HR
+0.58, 0.42–0.80). Therefore, it is reasonable to assume that aspirin is
+beneﬁcial in reducing the risk of colon cancer in the screened and
+unscreened. Another caveat to consider is that the real-world beneﬁt
+of aspirin and screening depends on adherence, and individuals
+adherent to screening may also be the ones who likely take aspirin
+for at least 10 years or longer.
+Other studies of the role of aspirin in reducing CRC incidence
+have shown mixed results. In the Physicians Health Study, 22,071
+healthy male physicians age 40–84 years were randomized to aspirin
+325 mg every other day vs placebo for 5 years (196). The study found
+no association between aspirin and CRC (RR 1.15, 0.80–1.65).
+VOLUME 116 | MARCH 2021 www.amjgastro.com
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+ACG Clinical Guidelines
+
+The Iowa Women’s Health Study is a prospective cohort study of
+41,836 postmenopausal women age 55–69 years at study entry (197).
+Compared with those who never used aspirin, ever use of aspirin was
+associated with a lower risk of colon cancer in women reporting the
+use of aspirin 2–5 times (HR 0.79, 0.59–1.04) and .6 times per week
+(HR 0.76, 0.58–1.00), respectively. The eﬀect was driven by a decrease in proximal colon cancer (HR 0.67, 0.51–0.87) in those who
+reported use of aspirin .2 per week vs nonusers. No association was
+found between distal colon or rectal cancer and aspirin.
+A 32-year follow-up of the Nurses’ Health Study and Health
+Professionals Follow-up Study included 135,965 health care professionals (88,084 women and 47,881 men, respectively) who reported
+on aspirin use biennially (198). Compared with nonregular use,
+regular aspirin use (deﬁned as reported aspirin use at least 2 times per
+week, including standard and low-dose aspirin) was associated with a
+lower risk for CRC (RR 0.81, 0.75–0.88), including in women (RR
+0.84, 0.76–0.93) and men (RR 0.77, 0.68–0.87). The minimum duration of regular use associated with a lower risk was 6 years, and the
+strength of the association increased with the duration of use RR 0.86
+(0.78–0.94) for 6–10 years and RR 0.76 (0.69–0.84) for .16 years.
+The 20-year follow-up of 5 randomized cardiovascular disease
+prevention trials conﬁrmed that aspirin was associated with a
+decrease in CRC mortality (HR 0.61, 0.43–0.87) (199). The risk of
+CRC decreased with longer, scheduled use of aspirin from $2.5
+years (HR 0.54, 0.36–0.80) to $5 years (HR 0.48, 0.30–0.77).
+Similar beneﬁt was seen in aspirin doses greater than 75 mg daily.
+The risk of CRC death was increased in subjects allocated to 30 vs
+283 mg daily in the Dutch TIA trial (OR 2.02, 0.70–6.05) (200).
+In a case-control study from the United Kingdom, aspirin
+users had a lower risk of fatal CRC (RR 0.68,0.56–0.82), which was
+associated with a less-advanced CRC cancer stage at the time of
+diagnosis: Dukes B (RR 0.54, 0.42–0.68), Dukes C (RR
+0.71,0.56–0.91), and Dukes D (RR 0.60, 0.48–0.74) (201).
+Any beneﬁt of aspirin use must be weighed carefully against the
+risk of aspirin use. The USPSTF systematic review of bleeding events
+from 10 cardiovascular disease primary prevention trials in adults
+(mean age, 53.2–70.1 years) addressed the risk of major GI or intracranial bleeding (202). Major GI bleeding included cases leading to
+death, those requiring hospitalization, transfusion, or those described
+by the trial investigator as serious. Intracranial bleeding included
+hemorrhagic stroke and intracerebral, subdural, and subarachnoid
+hemorrhage. An increased risk for major GI bleeding (0.29 more cases
+per 1,000 person-years) and hemorrhagic stroke or other intracranial
+bleeding (0.11 more cases per 1,000 person-years) were observed.
+KQ8. What interventions improve adherence to CRC screening and
+to each modality of screening?
+
+Recommendations
+19. We recommend organized screening programs to improve
+adherence to CRC screening compared with opportunistic
+screening.
+Strong recommendation; low-quality evidence
+20. We suggest the following strategies to improve adherence to
+screening: patient navigation, patient reminders, clinician interventions,
+provider recommendations, and clinical decision support tools.
+Conditional recommendation; very low-quality evidence
+
+© 2021 by The American College of Gastroenterology
+
+DISCUSSION
+Organized CRC screening
+
+CRC screening is a process that occurs in a multilevel health care
+environment. The International Agency for Research on Cancer
+deﬁnes an organized screening program as one that has the
+following features: (i) an explicit policy with speciﬁed age categories, method, and interval for screening; (ii) a deﬁned target
+population; (iii) a management team responsible for implementation; (iv) a health care team for decisions and care; (v) a
+quality assurance structure; and (vi) a method for identifying
+cancer occurrence in the population (203,204). In contrast,
+opportunistic screening is done outside an organized screening
+program, often delivered through fee-for-service reimbursement of physicians. Compared with opportunistic
+screening, organized screening focuses much greater attention
+on the quality of the screening process, including follow-up of
+participants. In the United States, screening is mainly opportunistic, and among those up to date on screening in the 2010
+National Health Interview Survey data, colonoscopy was the
+most commonly reported test (54.6%), followed by ﬂexible
+sigmoidoscopy and FOBT (8.8%) (205). Insurance status is the
+most important determinant of CRC screening (206). In the
+National Health Interview Survey study 2000–2005, Trivers
+et al. (207) found that among adults age 50–64 years, the
+reported rate (proportion [95% CI]) for FOBT or endoscopy in
+the past years was 41.5% (39.3%–43.7%) among patients with
+private insurance, 31.2% (24.2%–39.1%) among people with
+public insurance, and 16.1% (11.9%–21.4%) among people with
+no insurance. Higher screening rates are reported with organized screening compared with opportunistic screening. In the
+PASSI study in Italy, Carrozzi et al. (208) found that of the total
+38% of people reported screening, 31% of people were in the
+organized screening program compared with 7% with opportunistic screening. A winning example of organized CRC
+screening in the United States is the Kaiser Permanente
+Northern California integrated health system (46). In that system, which serves approximately 4 million members, before
+2006, CRC screening was opportunistic, predominantly using
+sigmoidoscopy and gFOBT. Starting in 2007, screening transitioned to mailed FIT outreach in individuals who were not up
+to date. Screening outreach included mail, secure e-mail, and
+phone reminders. In addition, reminders for providers were
+added to the electronic medical record. A recent study reported
+that the CRC screening rate rose from 38.9% in 2000 to 82.7%
+in 2015. Another successful example of organized CRC
+screening in the United States with screening rates approximately 80% is the Veterans health care system, with novel use
+of provider alerts and other electronic health care reminders
+and processes to follow through on inviting individuals due for
+screening (209).
+Interventions to boost screening adherence
+
+At the screening organization level, small media interventions to
+raise awareness (e.g., brochures) and invitations/reminders are
+associated with increased participation, as is support for
+scheduling and appointments (210). A recent systematic review
+and meta-analysis of interventions intended to increase CRC
+screening by any recommended modality in the United States
+reported that FOBT/FIT outreach (i.e., active distribution of
+fecal blood tests), patient navigation, patient reminders,
+The American Journal of GASTROENTEROLOGY
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+471
+
+472
+
+Shaukat et al.
+
+clinician interventions of academic detailing, and clinician reminders were associated with increased CRC screening rates
+(211). Combinations of interventions were associated with
+greater increases than single components. In a randomized trial
+in Scotland, Libby et al. (212) compared the rate of FOBT uptake
+in 3 groups: invitation letter alone, invitation letter plus a prenotiﬁcation letter, and the last two plus a booklet of information
+on CRC and screening. FOBT uptake was highest in the group
+that received all 3 mailings (uptake rate: prenotiﬁcation letter 1
+invitation: 59%, prenotiﬁcation letter 1 booklet 1 invitation:
+58.5%, and only-invitation group: 53.9%, P , 0.001). Furthermore, adding a FIT in the mailing kit compared with letters or
+invitation alone increases the screening rate but leads to an
+increase in cost (213).
+At the provider level, the involvement of the primary care
+provider or general practitioner (GP) is associated with increased
+participation in both organized and opportunistic screening settings. A recommendation to be screened from a primary care
+provider—who is known and trusted by the person—is clearly
+eﬀective in raising participation. A cluster RCT conducted in
+France within the context of organized screening showed that
+providing GPs with a list of their patients who were not up to date
+with CRC screening resulted in a small increase in FIT screening
+at 1 year. The between-group diﬀerence was 4.2% (95% CI
+2.3%–6.2%) for the patient-speciﬁc reminder group compared with
+the usual care group (214). A cluster RCT conducted at federally
+qualiﬁed health centers in the United States showed that clinics
+with electronic health record-embedded tools (introductory letter,
+mailed FIT, reminder letter) had higher screening participation
+(18.3% vs 14.5%, diﬀerence 3.8% points, 95% CI 0.6%–7.0%)
+compared with usual care (215).
+Recommendations to undergo CRC screening via a mailed
+letter from physicians consistently are associated with increased
+adherence to CRC screening (216–219). A systematic review
+reported that in organized programs, letters of invitation—
+especially if signed by the GP—and reminder letters to nonparticipants increased uptake (9). In addition, patient-physician
+communication also inﬂuences the screening uptake rate. In an
+RCT, Boguradzka et al. (220) found a higher participation rate
+for patients who received primary care physician’s counseling
+on CRC screening than people who received an information
+leaﬂet (47% vs 13.7%). In an observational study in Kaiser
+Permanente Northwest, Mosen et al. (221) found that more
+comprehensive discussion of CRC screening was associated
+with increased screening (OR 1.51, 95% CI 1.03–2.21). In a
+cross-sectional telephone survey among Latino patients,
+Nápoles et al. (222) found that physician explanations (OR 1.27;
+95% CI 1.03–1.58) and greater physician encouragement (OR
+6.74; 95% CI 3.57–12.72) were associated with taking endoscopy. In this study, they also found that patients reporting quite
+a bit/a lot of physician encouragement had 6 times higher odds
+of obtaining the FOBT as those reporting none/a little encouragement (OR 6.54; 95% CI 2.76–15.48).
+Patient navigator and reducing structural barriers also enhance screening uptake. Muliira et al. (223) reviewed 15 studies
+and found that a patient navigator will improve uptake of CRC
+screening with rates ranging from 11% to 91%. Patient navigators
+were most eﬀective in patients who belong to minority groups.
+However, in a randomized trial, Lairson et al. (224) found that the
+navigator comes at an increased cost (patient navigator intervention: $289 vs standard intervention: $167). Reducing
+The American Journal of GASTROENTEROLOGY
+
+structural barriers such as oﬀering extended or nonstandard
+clinic hours (225) and direct mailing FOBT kits (216) have also
+been demonstrated to be eﬀective strategies. For colonoscopy
+uptake, peer coaching (encouragement from a volunteer patient
+who had previously undergone colonoscopy) was associated with
+increased uptake compared with a mailed brochure in a US
+study (226).
+Finally, clinician and patient reminder systems also inﬂuence uptake of CRC screening. In an RCT, Hirst et al. (227)
+found a higher uptake of gFOBT among patients who received
+text reminders than patients receiving usual care. In an RCT with
+8 primary care clinics in Florida, Roetzheim et al. (228) reported
+an increased odds of completing gFOBT (OR 2.5; 95% 1.65–4)
+with the intervention of screening and ﬂagging medical charts due
+for screening and having an oﬃce responsible for arranging
+screening tests for patients.
+KQ9. What interventions improve adherence to follow-up
+colonoscopy after a positive noncolonoscopy CRC screening
+test?
+
+Recommendations
+21. We suggest the following strategies to improve adherence to
+follow-up of a positive screening test: Mail and phone reminders,
+patient navigation, and provider interventions.
+Conditional recommendation; very low-quality evidence
+
+DISCUSSION
+In a retrospective cross-sectional study, May et al. (229) found
+that among the 347 veterans (37.9%) who did not undergo followup colonoscopy, the reasons were patient related (49.3%), provider related (16.4%), system related (12.1%), or multifactorial
+(22.2%). Interventions including health education leaﬂets, patient
+reminders, holding seminars, and helplines have been found to
+increase the completion rate for patients with a positive screening
+result. In the Bureau of Health Promotion project in Taiwan,
+Chang et al. (230) found that after making health education
+leaﬂets, sending return visit reminder to patients, holding seminars, and opening a consultation helpline, the completion rate for
+colonoscopy for evaluation of positive screening patients increased from 53.63% to 66.08%. Mail or telephone reminders
+have been shown to increase the follow-up of screen-positive
+patients (231). In the Promoting Adherence to Referral for
+Colonoscopy study, Zorzi et al. (232) reported that the participation rate after an initial invitation by mail and by phone was
+similar (86.0% vs 84.0%, RR: 1.02; 95% CI 0.97–1.08); among
+nonresponders to the initial invitation, the compliance rate with a
+recall by appointment with a specialist practitioner was 50.4%,
+signiﬁcantly higher than with a mail recall (38.1%; RR:1.33; 95%
+CI 1.01–1.76) or with face-to-face counseling with the GP (30.8%;
+RR:1.45; 95% CI 1.14–1.87).
+SPECIAL CONSIDERATIONS
+False-positive stool test
+
+A common dilemma faced by endoscopists is the scenario in which
+a stool test is positive but the subsequent colonoscopy is negative.
+VOLUME 116 | MARCH 2021 www.amjgastro.com
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+ACG Clinical Guidelines
+
+In this situation, there is a tendency for overtesting or early repeat
+screening. This is a bigger concern from patients and providers for
+the mtsDNA test, which has a FIT plus methylated DNA markers.
+Evidence from 2 studies are reassuring in this regard. In a follow-up
+study with 1,050 participants with a positive mtsDNA test, only 8
+aerodigestive cancers were detected at 4 years of follow-up, and the
+incidence rate was not diﬀerent from that of the general population
+or the mtsDNA-negative group (233). In a second prospective
+study, Cooper et al. (234) invited 30 individuals with a false-positive
+mtsDNA test for repeat testing and upper endoscopy and colonoscopy. Over a follow-up of up to 29 months, of 12 patients who
+were restudied, 7 had a negative second mtsDNA test and normal
+upper and lower endoscopy. Of the 5 with persistent positive test, 3
+had positive ﬁndings including advanced adenoma. No cancers or
+deaths were detected in a chart review of the 30 subjects. In an
+updated retrospective review of 1,216 individuals who underwent
+an mtsDNA test followed by colonoscopy, the incidence of aerodigestive cancers in the group with negative mtsDNA and negative
+colonoscopy was not diﬀerent from the rate in the mtsDNApositive and colonoscopy-negative group (RR 2.2; 95% CI 0.8–6.2)
+or the rate in the general population based on SEER (RR 0.8; 95% CI
+0.3–1.9) (54). In the presence of high-quality colonoscopy, deﬁned
+as complete, with adequate preparation and performed by an
+endoscopist with adequate ADR, routine follow-up screening intervals should be followed for repeat screening.
+Tailoring screening based on the risk score for advanced
+adenoma and CRC
+
+There are important diﬀerences in the incidence and mortality
+rates for CRC among men and women. Women reach comparable cumulative incidence rates at higher ages than men. Brenner
+et al. (235) used age- and sex-speciﬁc data from SEER registry data
+for years 2000–2003 to calculate 10-year cumulative CRC incidence rates for men and women at every year of age between 50
+and 70 years. They found that women achieve comparable 10year cumulative incidence rates 4–6 years later compared with
+men at ages 50, 55, and 60 years. This is believed to be due to the
+protective eﬀect of estrogen and healthier lifestyle in women.
+However, women have longer life expectancies than men; thus,
+the lifetime risk of developing CRC for women is comparable to
+that of men. In an update of the Minnesota FOBT trial (23), the
+authors reported that men beneﬁtted more than women (RR of
+CRC deaths 0.62 (95% CI 0.50–0.78) in men vs 0.83 (95% CI
+0.67–1.04) in women in the combined screening groups vs unscreened groups. Furthermore, tailoring screening to individualized risk scores, which incorporates not only age and sex
+but also race, body mass index, use of aspirin, smoking history,
+and other dietary and lifestyle risk factors, would be highly desirable to stratify individuals into risk of harboring advanced
+neoplasia and tailor screening recommendations. Although many
+such models have been developed and validated (236–240), largescale trials testing the strategies and validating the risk scores
+across diﬀerent populations are needed. Peng et al. (241) compared the performance of 17 risk models for predicting the
+presence of advanced neoplasm in CRC screening and concluded
+that the models yielded modest discriminatory power, and further validation in diverse populations was needed. Imperiale et al.
+(242) reported a 13-variable predictive model for advanced
+neoplasia with good discrimination. Guo et al. (243) developed a
+polygenic risk score for CRC based on 90 single-nucleotide
+polymorphisms that could be used to lengthen the repeat
+© 2021 by The American College of Gastroenterology
+
+colonoscopy interval beyond 10 years for individuals with low or
+intermediate scores. External validation of these models and
+development of other models speciﬁc to the US population are
+awaited.
+Future studies on CRC screening
+
+To provide evidence for comparative eﬀectiveness of CRC screening
+tests, there are several ongoing RCTs. The Colonoscopy vs Fecal
+Immunochemical Test in Reducing Mortality from Colorectal
+Cancer trial (244) (ClinicalTrials.gov number NCT01239082) is a
+randomized comparison of 1-time colonoscopy with annual FIT
+plus colonoscopy as follow-up to a positive test, to examine CRC
+incidence and mortality over 10 years. A randomized trial comparing colonoscopy with biennial FIT is being conducted in Spain
+(ClinicalTrials.gov number, NCT00906997). Two additional European studies are comparing screening colonoscopy with no
+screening (the Nordic-European Initiative on Colorectal Cancer)
+trial (ClinicalTrials.gov number NCT00883792) or with FIT or no
+screening (Screening of Swedish Colons, NCT02078804) with respect to mortality from CRC.
+Further studies are needed to develop validated risk stratiﬁcation tools particularly in those 45–49 years. Development of
+one or more highly accurate blood-based CRC screening tests is
+an important research priority. Interventions to improve CRC
+screening should focus on underlying racial ethnic and socioeconomic disparities. Studies are needed to evaluate the utility of
+colonoscopy at 5-year intervals in individuals with 1 FDR with
+CRC ,50 and whose own colonoscopy is negative every 5 years
+for up to age 65 years.
+
+CONCLUSIONS
+Despite the availability of multiple screening modalities and
+various public health initiatives to boost CRC screening, nearly
+one-third of the eligible US population is unscreened. CRC
+screening rates must be optimized to reach the aspirational target
+of .80%. Substantial reductions can be made by achieving high
+rates of adherence and providing fail safe systems to decrease
+barriers through the spectrum of care from a positive noncolonoscopy test to colonoscopy to complete the screening process. Acknowledging the available screening tools for use in the
+correct settings of each population will increase the compliance of
+diﬀerent populations. Consistent with this goal, adoption of costeﬀective, highly accurate, noninvasive methodologies associated
+with reduced complications and barriers than more invasive
+methods may improve overall acceptance of the screening process. FIT is a widely accepted and cost-eﬀective noninvasive 2step CRC test and is optimal for programmatic screening and
+when systems are in place to navigate patients into colonoscopy.
+Colonoscopy is a 1-step CRC screening test, the ﬁnal common
+pathway for a positive noncolonoscopy screening test, and most
+appropriate screening test for individuals with a family history of
+CRC. The quality of provision of CRC screening, by any method,
+must be monitored and improved to achieve the reductions in
+CRC incidence and mortality.
+ACKNOWLEDGMENTS
+This guideline was produced in collaboration with the Practice
+Parameters Committee of the American College of Gastroenterology.
+The committee expresses special thanks to Douglas J. Robertson,
+MD, MPH, who served as guideline monitor for this document, and
+The American Journal of GASTROENTEROLOGY
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+473
+
+474
+
+Shaukat et al.
+
+Millie Long MD, MPH, FACG, who assisted with the GRADE
+methodologic process.
+
+19.
+
+CONFLICTS OF INTEREST
+
+Guarantor of the article: Aasma Shaukat, MD, MPH, FACG.
+Speciﬁc author contributions: All authors contributed to
+researching, writing, and editing this article.
+Financial support: None to report.
+Potential competing interests: A. Shaukat: scientiﬁc consultant for
+Iterative Scopes and Freenome. C.A. Burke: research
+support—Ferring, Janssen, and Cancer Prevention Pharmaceuticals;
+consultant—Freenome and SLA pharmaceuticals. D.K. Rex:
+consultant—Olympus Corporation, Boston Scientiﬁc, Medtronic,
+Aries Pharmaceutical, Braintree Laboratories, Lumendi, Norgine,
+Endokey, GI Supply, and Covidian/Medtronic; research support—
+EndoAid, Olympus Corporation, Medivators, and Erbe USA;
+ownership—Satisfai Health. C. Kahi, L. Rabeneck, and B.G. Sauer:
+none to report.
+
+REFERENCES
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+10.
+11.
+12.
+
+13.
+14.
+15.
+16.
+17.
+18.
+
+Siegel RL, Miller KD, Goding Sauer A, et al. Colorectal cancer statistics,
+2020. CA Cancer J Clin 2020;70:145–64.
+Siegel RL, Miller KD, Jemal A. Cancer statistics, 2016. CA Cancer J Clin
+2016;66:7–30.
+Cotton S, Sharp L, Little J. The adenoma-carcinoma sequence and
+prospects for the prevention of colorectal neoplasia. Crit Rev
+Oncogenesis 1996;7:293–342.
+Crockett SD, Nagtegaal I. Terminology, molecular features,
+epidemiology, and management of serrated colorectal neoplasia.
+Gastroenterology 2019;157:949–66.e4.
+Zauber AG, Winawer SJ, O’Brien MJ, et al. Colonoscopic polypectomy
+and long-term prevention of colorectal-cancer deaths. N Engl J Med
+2012;366:687–96.
+Winawer SJ, Zauber AG, Ho MN, et al. Prevention of colorectal cancer
+by colonoscopic polypectomy. The National Polyp Study Workgroup.
+N Engl J Med 1993;329:1977–81.
+Rex DK, Johnson DA, Anderson JC, et al. American College of
+Gastroenterology guidelines for colorectal cancer screening 2009
+[corrected]. Am J Gastroenterol 2009;104:739–50.
+Guyatt GH, Oxman AD, Vist GE, et al. GRADE: An emerging consensus
+on rating quality of evidence and strength of recommendations. BMJ
+2008;336:924–6.
+Senore C, Inadomi J, Segnan N, et al. Optimising colorectal cancer
+screening acceptance: A review. Gut 2015;64:1158–77.
+Brenner H, Chang-Claude J, Seiler CM, et al. Protection from colorectal
+cancer after colonoscopy: A population-based, case-control study. Ann
+Intern Med 2011;154:22–30.
+Brenner H, Hoﬀmeister M, Arndt V, et al. Protection from right- and
+left-sided colorectal neoplasms after colonoscopy: Population-based
+study. J Natl Cancer Inst 2010;102:89–95.
+Brenner H, Stock C, Hoﬀmeister M. Eﬀect of screening sigmoidoscopy
+and screening colonoscopy on colorectal cancer incidence and mortality:
+Systematic review and meta-analysis of randomised controlled trials and
+observational studies. BMJ 2014;348:g2467.
+Nishihara R, Wu K, Lochhead P, et al. Long-term colorectal-cancer incidence
+and mortality after lower endoscopy. N Engl J Med 2013;369:1095–105.
+Kahi CJ, Pohl H, Myers LJ, et al. Colonoscopy and colorectal cancer
+mortality in the veterans aﬀairs health care system: A case-control study.
+Ann Intern Med 2018;168:481–8.
+Doubeni CA, Corley DA, Quinn VP, et al. Eﬀectiveness of screening
+colonoscopy in reducing the risk of death from right and left colon
+cancer: A large community-based study. Gut 2018;67:291–8.
+Brenner H, Chang-Claude J, Jansen L, et al. Reduced risk of colorectal
+cancer up to 10 years after screening, surveillance, or diagnostic
+colonoscopy. Gastroenterology 2014;146:709–17.
+Kahi CJ, Imperiale TF, Juliar BE, et al. Eﬀect of screening colonoscopy on
+colorectal cancer incidence and mortality. Clin Gastroenterol Hepatol
+2009;7:770–5; quiz 711.
+Doubeni CA, Weinmann S, Adams K, et al. Screening colonoscopy
+and risk for incident late-stage colorectal cancer diagnosis in
+
+The American Journal of GASTROENTEROLOGY
+
+20.
+
+21.
+22.
+23.
+24.
+25.
+26.
+27.
+28.
+29.
+30.
+31.
+32.
+33.
+34.
+
+35.
+36.
+
+37.
+38.
+39.
+40.
+41.
+
+42.
+
+average-risk adults: A nested case-control study. Ann Intern Med
+2013;158:312–20.
+Cotterchio M, Manno M, Klar N, et al. Colorectal screening is associated
+with reduced colorectal cancer risk: A case-control study within the
+population-based Ontario Familial Colorectal Cancer Registry. Cancer
+Causes Control 2005;16:865–75.
+Manser CN, Bachmann LM, Brunner J, et al. Colonoscopy screening
+markedly reduces the occurrence of colon carcinomas and carcinomarelated death: A closed cohort study. Gastrointest Endosc 2012;76:
+110–7.
+Kronborg O, Fenger C, Olsen J, et al. Randomised study of screening for
+colorectal cancer with faecal-occult-blood test [see comment]. Lancet
+1996;348:1467–71.
+Scholeﬁeld JH, Moss SM, Mangham CM, et al. Nottingham trial of faecal
+occult blood testing for colorectal cancer: A 20-year follow-up. Gut 2012;
+61:1036–40.
+Shaukat A, Mongin SJ, Geisser MS, et al. Long-term mortality after
+screening for colorectal cancer. N Engl J Med 2013;369:1106–14.
+Hardcastle J Randomized control trial of faecal occult blood screening
+for colorectal cancer: Results for the ﬁrst 144,103 patients. Eur J Cancer
+Prev 1991;1(Suppl 2):21.
+Hardcastle JD, Chamberlain JO, Robinson MH, et al. Randomised
+controlled trial of faecal-occult-blood screening for colorectal cancer
+[see comment]. Lancet 1996;348:1472–7.
+Scholeﬁeld JH, Moss S, Suﬁ F, et al. Eﬀect of faecal occult blood screening
+on mortality from colorectal cancer: Results from a randomised
+controlled trial. Gut 2002;50:840–4.
+Kronborg O. Screening for colorectal neoplasia [comment]. Ital J
+Gastroenterol Hepatol 1999;31:127–9.
+Kronborg O. Screening for early colorectal cancer. World J Surg 2000;24:
+1069–74.
+Kronborg O. Faecal occult blood testing in the secondary prevention of
+colorectal cancer. Eur J Cancer Prev 2001;10:167–8.
+Kronborg O, Jorgensen OD, Fenger C, et al. Randomized study of
+biennial screening with a faecal occult blood test: Results after nine
+screening rounds. Scand J Gastroenterol 2004;39:846–51.
+Mandel JS, Church TR, Bond JH, et al. The eﬀect of fecal occult-blood
+screening on the incidence of colorectal cancer [see comment]
+[comment]. N Engl J Med 2000;343:1603–7.
+Allison JE, Sakoda LC, Levin TR, et al. Screening for colorectal
+neoplasms with new fecal occult blood tests: Update on performance
+characteristics. J Natl Cancer Inst 2007;99:1462–70.
+Allison JE, Tekawa IS, Ransom LJ, et al. A comparison of fecal occultblood tests for colorectal-cancer screening. N Engl J Med 1996;334:
+155–9.
+Robertson DJ, Lee JK, Boland CR, et al. Recommendations on fecal
+immunochemical testing to screen for colorectal neoplasia: A consensus
+statement by the US Multi-Society Task Force on Colorectal Cancer.
+Gastroenterology 2017;152:1217–37.e3.
+Shapiro JA, Bobo JK, Church TR, et al. A comparison of fecal
+immunochemical and high-sensitivity guaiac tests for colorectal cancer
+screening. Am J Gastroenterol 2017;112:1728–35.
+Imperiale TF, Gruber RN, Stump TE, et al. Performance characteristics
+of fecal immunochemical tests for colorectal cancer and advanced
+adenomatous polyps: A systematic review and meta-analysis. Ann
+Intern Med 2019;170:319–29.
+Lee JK, Liles EG, Bent S, et al. Accuracy of fecal immunochemical tests
+for colorectal cancer: Systematic review and meta-analysis. Ann Intern
+Med 2014;160:171.
+Imperiale TF. Quantitative immunochemical fecal occult blood tests: Is
+it time to go back to the future? Ann Intern Med 2007;146:309–11.
+Imperiale TF, Ransohoﬀ DF, Itzkowitz SH, et al. Fecal DNA versus fecal
+occult blood for colorectal-cancer screening in an average-risk
+population. N Engl J Med 2004;351:2704–14.
+Chang LC, Shun CT, Hsu WF, et al. Fecal immunochemical test detects
+sessile serrated adenomas and polyps with a low level of sensitivity. Clin
+Gastroenterol Hepatol 2017;15:872–9.e1.
+Cock C, Anwar S, Byrne SE, et al. Low sensitivity of fecal
+immunochemical tests and blood-based markers of DNA
+hypermethylation for detection of sessile serrated adenomas/polyps. Dig
+Dis Sci 2019;64:2555–62.
+Jensen CD, Corley DA, Quinn VP, et al. Fecal immunochemical test
+program performance over 4 rounds of annual screening: A
+retrospective cohort study. Ann Intern Med 2016;164:456–63.
+VOLUME 116 | MARCH 2021 www.amjgastro.com
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+ACG Clinical Guidelines
+
+43. Knudsen AB, Zauber AG, Rutter CM, et al. Estimation of beneﬁts, burden,
+and harms of colorectal cancer screening strategies: Modeling study for the
+US Preventive Services Task Force. JAMA 2016;315:2595–609.
+44. Doubeni CA, Corley DA, Levin TR. Time to diagnostic testing after a
+positive colorectal cancer screening test. JAMA 2017;318:483.
+45. Corley DA, Jensen CD, Quinn VP, et al. Association between time to
+colonoscopy after a positive fecal test result and risk of colorectal cancer
+and cancer stage at diagnosis. JAMA 2017;317:1631–41.
+46. Levin TR, Corley DA, Jensen CD, et al. Eﬀects of organized colorectal
+cancer screening on cancer incidence and mortality in a large
+community-based population. Gastroenterology 2018;155:1383–91.e5.
+47. van Roon AH, Goede SL, van Ballegooijen M, et al. Random comparison
+of repeated faecal immunochemical testing at diﬀerent intervals for
+population-based colorectal cancer screening. Gut 2013;62:409–15.
+48. Kapidzic A, Grobbee EJ, Hol L, et al. Attendance and yield over three
+rounds of population-based fecal immunochemical test screening. Am J
+Gastroenterol 2014;109:1257–64.
+49. Jodal HC, Helsingen LM, Anderson JC, et al. Colorectal cancer screening
+with faecal testing, sigmoidoscopy or colonoscopy: A systematic review
+and network meta-analysis. BMJ Open 2019;9:e032773.
+50. Buskermolen M, Cenin DR, Helsingen LM, et al. Colorectal cancer
+screening with faecal immunochemical testing, sigmoidoscopy or
+colonoscopy: A microsimulation modelling study. BMJ 2019;367:l5383.
+51. Qaseem A, Crandall CJ, Mustafa RA, et al. Screening for colorectal
+cancer in asymptomatic average-risk adults: A guidance statement from
+the American College of Physicians. Ann Intern Med 2019;171:643–54.
+52. Naber SK, Knudsen AB, Zauber AG, et al. Cost-eﬀectiveness of a
+multitarget stool DNA test for colorectal cancer screening of Medicare
+beneﬁciaries. PLoS One 2019;14:e0220234.
+53. Ladabaum U, Mannalithara A. Comparative eﬀectiveness and cost
+eﬀectiveness of a multitarget stool DNA test to screen for colorectal
+neoplasia. Gastroenterology 2016;151:427–39.e6.
+54. Berger BM, Kisiel JB, Imperiale TF, et al. Low incidence of aerodigestive
+cancers in patients with negative results from colonoscopies, regardless
+of ﬁndings from multitarget stool DNA tests. Clin Gastroenterol
+Hepatol 2020;18:864–71.
+55. Cooper GS, Markowitz SD, Chen Z, et al. Performance of multitarget
+stool DNA testing in African American patients. Cancer 2018;124:
+3876–80.
+56. Atkin WS, Edwards R, Kralj-Hans I, et al. Once-only ﬂexible
+sigmoidoscopy screening in prevention of colorectal cancer: A
+multicentre randomised controlled trial. Lancet 2010;375:1624–33.
+57. Segnan N, Armaroli P, Bonelli L, et al. Once-only sigmoidoscopy in
+colorectal cancer screening: Follow-up ﬁndings of the Italian randomized
+controlled trial—SCORE. J Natl Cancer Inst 2011;103:1310–22.
+58. Holme O, Schoen RE, Senore C, et al. Eﬀectiveness of ﬂexible
+sigmoidoscopy screening in men and women and diﬀerent age groups:
+Pooled analysis of randomised trials. BMJ 2017;356:i6673.
+59. Schoen RE, Pinsky PF, Weissfeld JL, et al. Colorectal-cancer incidence
+and mortality with screening ﬂexible sigmoidoscopy. N Engl J Med 2012;
+366:2345–57.
+60. Holme O, Loberg M, Kalager M, et al. Eﬀect of ﬂexible sigmoidoscopy
+screening on colorectal cancer incidence and mortality: A randomized
+clinical trial. JAMA 2014;312:606–15.
+61. Lin JS, Piper MA, Perdue LA, et al. Screening for colorectal cancer:
+Updated evidence report and systematic review for the US Preventive
+Services Task Force. JAMA 2016;315:2576–94.
+62. Holme O, Loberg M, Kalager M, et al. Long-term eﬀectiveness of
+sigmoidoscopy screening on colorectal cancer incidence and mortality
+in women and men: A randomized trial. Ann Intern Med 2018;168:
+775–82.
+63. Pickhardt PJ, Hassan C, Halligan S, et al. Colorectal cancer: CT
+colonography and colonoscopy for detection—Systematic review and
+meta-analysis. Radiology 2011;259:393–405.
+64. Halligan S, Altman DG, Taylor SA, et al. CT colonography in the
+detection of colorectal polyps and cancer: Systematic review, metaanalysis, and proposed minimum data set for study level reporting.
+Radiology 2005;237:893–904.
+65. JE IJ, Tutein Nolthenius CJ, Kuipers EJ, et al. CT-colonography vs.
+Colonoscopy for detection of high-risk sessile serrated polyps. Am J
+Gastroenterol 2016;111:516–22.
+66. Obaro AE, Burling DN, Plumb AA. Colon cancer screening with CT
+colonography: Logistics, cost-eﬀectiveness, eﬃciency and progress. Br J
+Radiol 2018;91:20180307.
+© 2021 by The American College of Gastroenterology
+
+67. Rex DK, Adler SN, Aisenberg J, et al. Accuracy of capsule colonoscopy in
+detecting colorectal polyps in a screening population. Gastroenterology
+2015;148:948–57.e2.
+68. Kobaek-Larsen M, Kroijer R, Dyrvig AK, et al. Back-to-back colon
+capsule endoscopy and optical colonoscopy in colorectal cancer
+screening individuals. Colorectal Dis 2018;20:479–85.
+69. Cash BD, Fleisher MR, Fern S, et al. 479 A multicenter, prospective,
+randomized study comparing the diagnostic yield of colon capsule
+endoscopy versus computed tomographic colonography in a screening
+population. Results of the TOPAZ study. Gastrointest Endosc 2019;89:
+AB87–8.
+70. Church TR, Wandell M, Lofton-Day C, et al. Prospective evaluation of
+methylated SEPT9 in plasma for detection of asymptomatic colorectal
+cancer. Gut 2014;63:317–25.
+71. Warren JD, Xiong W, Bunker AM, et al. Septin 9 methylated DNA is a
+sensitive and speciﬁc blood test for colorectal cancer. BMC Med 2011;9:133.
+72. Jin P, Kang Q, Wang X, et al. Performance of a second-generation
+methylated SEPT9 test in detecting colorectal neoplasm. J Gastroenterol
+Hepatol 2015;30:830–3.
+73. Siegel RL, Jemal A. Percentage of colorectal cancer diagnosed in adults
+aged younger than 50 years. Cancer 2016;122:1462–3.
+74. Meester RGS, Peterse EFP, Knudsen AB, et al. Optimizing colorectal
+cancer screening by race and sex: Microsimulation analysis II to inform
+the American Cancer Society colorectal cancer screening guideline.
+Cancer 2018;124:2974–85.
+75. Peterse EFP, Meester RGS, Siegel RL, et al. The impact of the rising
+colorectal cancer incidence in young adults on the optimal age to start
+screening: Microsimulation analysis I to inform the American Cancer
+Society colorectal cancer screening guideline. Cancer 2018;124:2964–73.
+76. Wolf AMD, Fontham ETH, Church TR, et al. Colorectal cancer
+screening for average-risk adults: 2018 guideline update from the
+American Cancer Society. CA Cancer J Clin 2018;68:250–81.
+77. Liang PS, Allison J, Ladabaum U, et al. Potential intended and
+unintended consequences of recommending initiation of colorectal
+cancer screening at age 45 years. Gastroenterology 2018;155:950–4.
+78. Mannucci A, Zuppardo RA, Rosati R, et al. Colorectal cancer screening
+from 45 years of age: Thesis, antithesis and synthesis. World J
+Gastroenterol 2019;25:2565–80.
+79. Imperiale TF, Kahi CJ, Rex DK. Lowering the starting age for colorectal
+cancer screening to 45 years: Who will come… and should they? Clin
+Gastroenterol Hepatol 2018;16:1541–4.
+80. Siegel RL, Fedewa SA, Anderson WF, et al. Colorectal cancer incidence
+patterns in the United States, 1974–2013. J Natl Cancer Inst 2017;109:
+djw322.
+81. Siegel RL, Miller KD, Fedewa SA, et al. Colorectal cancer statistics, 2017.
+CA Cancer J Clin 2017;67:177–93.
+82. Stoﬀel EM, Murphy CC. Epidemiology and mechanisms of the
+increasing incidence of colon and rectal cancers in young adults.
+Gastroenterology 2020;158:341–53.
+83. Sabatino SA, White MC, Thompson TD, et al. Cancer screening test
+use—United States, 2013. MMWR Morb Mortal Wkly Rep 2015;64:464–8.
+84. Ladabaum U, Mannalithara A, Meester RGS, et al. Cost-eﬀectiveness
+and national eﬀects of initiating colorectal cancer screening for averagerisk persons at age 45 years instead of 50 years. Gastroenterology 2019;
+157:137–48.
+85. U.S. Preventive Services Task Force. Screening for colorectal cancer:
+Recommendations and rationale. Ann Intern Med 2002;137:
+129–31.
+86. Lee SJ, Boscardin WJ, Stijacic-Cenzer I, et al. Time lag to beneﬁt after
+screening for breast and colorectal cancer: meta-analysis of survival data
+from the United States, Sweden, United Kingdom, and Denmark. BMJ
+2013;346:e8441.
+87. Rabeneck L, Davila JA, Thompson M, et al. Outcomes in elderly patients
+following surgery for colorectal cancer in the veterans aﬀairs health care
+system. Aliment Pharmacol Ther 2004;20:1115–24.
+88. Walter LC, Lindquist K, Nugent S, et al. Impact of age and comorbidity
+on colorectal cancer screening among older veterans. Ann Intern Med
+2009;150:465–73.
+89. Lin OS, Kozarek RA, Schembre DB, et al. Screening colonoscopy in very
+elderly patients: Prevalence of neoplasia and estimated impact on life
+expectancy [see comment]. JAMA 2006;295:2357–65.
+90. Ko CW, Sonnenberg A. Comparing risks and beneﬁts of colorectal
+cancer screening in elderly patients [comment]. Gastroenterology 2005;
+129:1163–70.
+The American Journal of GASTROENTEROLOGY
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+475
+
+476
+
+Shaukat et al.
+
+91. Cenin DR, Tinmouth J, Naber SK, et al. Calculation of stop ages for
+colorectal cancer screening based on comorbidities and screening
+history. Clin Gastroenterol Hepatol 2020 (doi: 10.1016/
+j.cgh.2020.05.038).
+92. Walter LC, Lewis CL, Barton MB. Screening for colorectal, breast, and
+cervical cancer in the elderly: A review of the evidence. Am J Med 2005;
+118:1078–86.
+93. van Hees F, Saini SD, Lansdorp-Vogelaar I, et al. Personalizing
+colonoscopy screening for elderly individuals based on screening
+history, cancer risk, and comorbidity status could increase cost
+eﬀectiveness. Gastroenterology 2015;149:1425–37.
+94. Cenin DR, Naber SK, de Weerdt AC, et al. Cost-eﬀectiveness of
+personalized screening for colorectal cancer based on polygenic risk and
+family history. Cancer Epidemiol Biomarkers Prev 2020;29:10–21.
+95. American Cancer Society. Cancer Facts and Figures for African Americans
+2019–2021. Vol. 2019. American Cancer Society: Atlanta, GA, 2019.
+(https://www.cancer.org/content/dam/cancer-org/research/cancer-factsand-statistics/cancer-facts-and-ﬁgures-for-african-americans/cancerfacts-and-ﬁgures-for-african-americans-2019-2021.pdf). Accessed
+October 15, 2020.
+96. Centers for Disease Control and Prevention (CDC). Vital signs:
+Colorectal cancer screening, incidence, and mortality—United States,
+2002–2010. MMWR Morb Mortal Wkly Rep 2011;60:884–9.
+97. Lansdorp-Vogelaar I, Kuntz KM, Knudsen AB, et al. Contribution of
+screening and survival diﬀerences to racial disparities in colorectal
+cancer rates. Cancer Epidemiol Biomarkers Prev 2012;21:728–36.
+98. Brawley OW. Colorectal cancer control: Providing adequate care to
+those who need it. J Natl Cancer Inst 2014;106:dju075.
+99. Dignam JJ, Colangelo L, Tian W, et al. Outcomes among AfricanAmericans and Caucasians in colon cancer adjuvant therapy trials:
+Findings from the national surgical adjuvant breast and bowel project.
+J Natl Cancer Inst 1999;91:1933–40.
+100. Dominitz JA, Eisen GM, Baron TH, et al. Complications of colonoscopy.
+Gastrointest Endosc 2003;57:441–5.
+101. Reumkens A, Rondagh EJ, Bakker CM, et al. Post-colonoscopy
+complications: A systematic review, time trends, and meta-analysis of
+population-based studies. Am J Gastroenterol 2016;111:1092–101.
+102. Ullah W, Rashid MU, Mehmood A, et al. Splenic injuries secondary to
+colonoscopy: Rare but serious complication. World J Gastrointest Surg
+2020;12:55–67.
+103. Rutter MD, Beintaris I, Valori R, et al. World endoscopy organization
+consensus statements on post-colonoscopy and post-imaging colorectal
+cancer. Gastroenterology 2018;155:909–25.e3.
+104. Ertem FU, Ladabaum U, Mehrotra A, et al. Incidence of interval
+colorectal cancer attributable to an endoscopist in clinical practice.
+Gastrointest Endosc 2018;88:705–11.e1.
+105. Pooler BD, Kim DH, Pickhardt PJ. Extracolonic ﬁndings at screening CT
+colonography: Prevalence, beneﬁts, challenges, and opportunities. AJR
+Am J Roentgenol 2017;209:94–102.
+106. Goede SL, van Roon AH, Reijerink JC, et al. Cost-eﬀectiveness of one
+versus two sample faecal immunochemical testing for colorectal cancer
+screening. Gut 2013;62:727–34.
+107. Pilonis ND, Bugajski M, Wieszczy P, et al. Long-term colorectal cancer
+incidence and mortality after a single negative screening colonoscopy.
+Ann Intern Med 2020;173:81–91.
+108. Heisser T, Guo F, Niedermaier T, et al. Low risk of advanced neoplasms
+for up to 20 years after negative colonoscopy: Potential for personalized
+follow-up screening intervals. Gastroenterology 2020;159:2235–37.e4.
+109. Lee JK, Jensen CD, Levin TR, et al. Long-term risk of colorectal cancer
+and related deaths after a colonoscopy with normal ﬁndings. JAMA
+Intern Med 2019;179:153–60.
+110. Knudsen AB, Hur C, Gazelle GS, et al. Rescreening of persons with a
+negative colonoscopy result: Results from a microsimulation model.
+Ann Intern Med 2012;157:611–20.
+111. Henrikson NB, Webber EM, Goddard KA, et al. Family history and the
+natural history of colorectal cancer: Systematic review. Genet Med 2015;
+17:702–12.
+112. Lowery JT, Ahnen DJ, Schroy PC III, et al. Understanding the
+contribution of family history to colorectal cancer risk and its clinical
+implications: A state-of-the-science review. Cancer 2016;122:2633–45.
+113. Rex DK, Boland CR, Dominitz JA, et al. Colorectal cancer screening:
+Recommendations for physicians and patients from the U.S. MultiSociety Task Force on Colorectal Cancer. Am J Gastroenterol 2017;112:
+1016–30.
+The American Journal of GASTROENTEROLOGY
+
+114. Umar A, Boland CR, Terdiman JP, et al. Revised Bethesda Guidelines for
+hereditary nonpolyposis colorectal cancer (Lynch syndrome) and
+microsatellite instability. J Natl Cancer Inst 2004;96:261–8.
+115. Baglietto L, Jenkins MA, Severi G, et al. Measures of familial aggregation
+depend on deﬁnition of family history: Meta-analysis for colorectal
+cancer. J Clin Epidemiol 2006;59:114–24.
+116. Susser E, Susser M. Familial aggregation studies. A note on their
+epidemiologic properties. Am J Epidemiol 1989;129:23–30.
+117. Butterworth AS, Higgins JP, Pharoah P. Relative and absolute risk of
+colorectal cancer for individuals with a family history: A meta-analysis.
+Eur J Cancer 2006;42:216–27.
+118. Johns LE, Houlston RS. A systematic review and meta-analysis of
+familial colorectal cancer risk. Am J Gastroenterol 2001;96:2992–3003.
+119. Fuchs CS, Giovannucci EL, Colditz GA, et al. A prospective study of family
+history and the risk of colorectal cancer. N Engl J Med 1994;331:1669–74.
+120. Wong MCS, Chan CH, Lin J, et al. Lower relative contribution of positive
+family history to colorectal cancer risk with increasing age: A systematic
+review and meta-analysis of 9.28 million individuals. Am J Gastroenterol
+2018;113:1819–27.
+121. Schoen RE, Razzak A, Yu KJ, et al. Incidence and mortality of colorectal
+cancer in individuals with a family history of colorectal cancer.
+Gastroenterology 2015;149:1438–45.e1.
+122. Doubeni CA, Fletcher RH. Family history of colorectal cancer: It is time to
+rethink screening recommendations. Gastroenterology 2015;149:1321–2.
+123. Naber SK, Kuntz KM, Henrikson NB, et al. Cost eﬀectiveness of agespeciﬁc screening intervals for people with family histories of colorectal
+cancer. Gastroenterology 2018;154:105–16.e20.
+124. Samadder NJ, Curtin K, Tuohy TM, et al. Increased risk of colorectal
+neoplasia among family members of patients with colorectal cancer: A
+population-based study in Utah. Gastroenterology 2014;147:814–21.e5;
+quiz e15–6.
+125. Samadder NJ, Smith KR, Hanson H, et al. Increased risk of colorectal
+cancer among family members of all ages, regardless of age of index case
+at diagnosis. Clin Gastroenterol Hepatol 2015;13:2305–11.e1–2.
+126. Taylor DP, Burt RW, Williams MS, et al. Population-based family
+history-speciﬁc risks for colorectal cancer: A constellation approach.
+Gastroenterology 2010;138:877–85.
+127. Graﬀ RE, Moller S, Passarelli MN, et al. Familial risk and heritability of
+colorectal cancer in the Nordic Twin Study of Cancer. Clin
+Gastroenterol Hepatol 2017;15:1256–64.
+128. Wong MC, Ching JY, Chiu HM, et al. Risk of colorectal neoplasia in
+individuals with self-reported family history: A prospective colonoscopy
+study from 16 Asia-Paciﬁc regions. Am J Gastroenterol 2016;111:1621–9.
+129. Imperiale TF, Ransohoﬀ DF. Risk for colorectal cancer in persons with a
+family history of adenomatous polyps: A systematic review. Ann Intern
+Med 2012;156:703–9.
+130. Ng SC, Lau JY, Chan FK, et al. Risk of advanced adenomas in siblings of
+individuals with advanced adenomas: A cross-sectional study.
+Gastroenterology 2016;150:608–16; quiz e16–7.
+131. Quintero E, Carrillo M, Gimeno-Garcia AZ, et al. Equivalency of fecal
+immunochemical tests and colonoscopy in familial colorectal cancer
+screening. Gastroenterology 2014;147:1021–30.e1; quiz e16–7.
+132. Katsoula A, Paschos P, Haidich AB, et al. Diagnostic accuracy of fecal
+immunochemical test in patients at increased risk for colorectal cancer:
+A meta-analysis. JAMA Intern Med 2017;177:1110–8.
+133. Baxter NN, Warren JL, Barrett MJ, et al. Association between
+colonoscopy and colorectal cancer mortality in a US cohort according to
+site of cancer and colonoscopist specialty. J Clin Oncol 2012;30:2664–9.
+134. Rex DK, Petrini JL, Baron TH, et al. Quality indicators for colonoscopy.
+Gastrointest Endosc 2006;63:S16–28.
+135. Patel SG, Ahnen DJ. Prevention of interval colorectal cancers: What
+every clinician needs to know. Clin Gastroenterol Hepatol 2014;12:7–15.
+136. Leung K, Pinsky P, Laiyemo AO, et al. Ongoing colorectal cancer risk
+despite surveillance colonoscopy: The polyp prevention trial continued
+follow-up study. Gastrointest Endosc 2010;71:111–7.
+137. Baxter NN, Sutradhar R, Forbes SS, et al. Analysis of administrative data
+ﬁnds endoscopist quality measures associated with postcolonoscopy
+colorectal cancer. Gastroenterology 2011;140:65–72.
+138. Singh H, Nugent Z, Demers AA, et al. Rate and predictors of early/
+missed colorectal cancers after colonoscopy in Manitoba: A populationbased study. Am J Gastroenterol 2010;105:2588–96.
+139. Cooper GS, Xu F, Barnholtz Sloan JS, et al. Prevalence and predictors of
+interval colorectal cancers in Medicare beneﬁciaries. Cancer 2012;118:
+3044–52.
+VOLUME 116 | MARCH 2021 www.amjgastro.com
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+ACG Clinical Guidelines
+
+140. Govindarajan A, Rabeneck L, Yun L, et al. Population-based assessment
+of the outcomes in patients with postcolonoscopy colorectal cancers. Gut
+2016;65:971–6.
+141. Sawhney MS, Farrar WD, Gudiseva S, et al. Microsatellite instability in
+interval colon cancers. Gastroenterology 2006;131:1700–5.
+142. Pohl H, Robertson DJ. Colorectal cancers detected after colonoscopy
+frequently result from missed lesions. Clin Gastroenterol Hepatol 2010;
+8:858–64.
+143. Farrar WD, Sawhney MS, Nelson DB, et al. Colorectal cancers found after
+a complete colonoscopy. Clin Gastroenterol Hepatol 2006;4:1259–64.
+144. Church J. Adenoma detection rate and the quality of colonoscopy: The
+sword has two edges. Dis Colon Rectum 2008;51:520–3.
+145. Corley DA, Jensen CD, Marks AR. Can we improve adenoma detection
+rates? A systematic review of intervention studies. Gastrointest Endosc
+2011;74:656–65.
+146. Kaminski MF, Regula J, Kraszewska E, et al. Quality indicators for
+colonoscopy and the risk of interval cancer. N Engl J Med 2010;362:1795–803.
+147. Barclay RL, Vicari JJ, Doughty AS, et al. Colonoscopic withdrawal times
+and adenoma detection during screening colonoscopy. N Engl J Med
+2006;355:2533–41.
+148. Chen SC, Rex DK. Endoscopist can be more powerful than age and male
+gender in predicting adenoma detection at colonoscopy. Am J
+Gastroenterol 2007;102:856–61.
+149. Sanchez W, Harewood GC, Petersen BT. Evaluation of polyp detection
+in relation to procedure time of screening or surveillance colonoscopy.
+Am J Gastroenterol 2004;99:1941–5.
+150. Kahi CJ, Hewett DG, Norton DL, et al. Prevalence and variable detection
+of proximal colon serrated polyps during screening colonoscopy. Clin
+Gastroenterol Hepatol 2011;9:42–6.
+151. Shaukat A, Oancea C, Bond JH, et al. Variation in detection of adenomas
+and polyps by colonoscopy and change over time with a performance
+improvement program. Clin Gastroenterol Hepatol 2009;7:1335–40.
+152. Corley DA, Jensen CD, Marks AR, et al. Adenoma detection rate and risk
+of colorectal cancer and death. N Engl J Med 2014;370:1298–306.
+153. Rex DK, Bond JH, Winawer S, et al. Quality in the technical performance
+of colonoscopy and the continuous quality improvement process for
+colonoscopy: Recommendations of the U.S. Multi-Society Task Force on
+Colorectal Cancer. Am J Gastroenterol 2002;97:1296–308.
+154. Rex DK, Petrini JL, Baron TH, et al. Quality indicators for colonoscopy.
+Am J Gastroenterol 2006;101:873–85.
+155. Rex DK, Schoenfeld PS, Cohen J, et al. Quality indicators for
+colonoscopy. Gastrointest Endosc 2015;81:31–53.
+156. Shaukat A, Rector TS, Church TR, et al. Longer withdrawal time is
+associated with a reduced incidence of interval cancer after screening
+colonoscopy. Gastroenterology 2015;149:952–7.
+157. Kaminski MF, Wieszczy P, Rupinski M, et al. Increased rate of adenoma
+detection associates with reduced risk of colorectal cancer and death.
+Gastroenterology 2017;153:98–105.
+158. Rex DK, Boland CR, Dominitz JA, et al. Colorectal cancer screening:
+Recommendations for physicians and patients from the U.S. Multi-Society
+Task Force on Colorectal Cancer. Gastrointest Endosc 2017;86:18–33.
+159. Coe SG, Crook JE, Diehl NN, et al. An endoscopic quality improvement
+program improves detection of colorectal adenomas. Am J
+Gastroenterol 2013;108:219–26; quiz 227.
+160. Gurudu SR, Ramirez FC, Harrison ME, et al. Increased adenoma
+detection rate with system-wide implementation of a split-dose
+preparation for colonoscopy. Gastrointest Endosc 2012;76:603–8.
+161. Radaelli F, Paggi S, Hassan C, et al. Split-dose preparation for
+colonoscopy increases adenoma detection rate: A randomised controlled
+trial in an organised screening programme. Gut 2017;66:270–7.
+162. East JE, Bassett P, Arebi N, et al. Dynamic patient position changes
+during colonoscope withdrawal increase adenoma detection: A
+randomized, crossover trial. Gastrointest Endosc 2011;73:456–63.
+163. East JE, Suzuki N, Arebi N, et al. Position changes improve visibility
+during colonoscope withdrawal: A randomized, blinded, crossover trial.
+Gastrointest Endosc 2007;65:263–9.
+164. Rex DK, Cutler CS, Lemmel GT, et al. Colonoscopic miss rates of
+adenomas determined by back-to-back colonoscopies. Gastroenterology
+1997;112:24–8.
+165. Hewett DG, Rex DK. Miss rate of right-sided colon examination during
+colonoscopy deﬁned by retroﬂexion: An observational study.
+Gastrointest Endosc 2011;74:246–52.
+166. Harrison M, Singh N, Rex DK. Impact of proximal colon retroﬂexion on
+adenoma miss rates. Am J Gastroenterol 2004;99:519–22.
+© 2021 by The American College of Gastroenterology
+
+167. Kushnir VM, Oh YS, Hollander T, et al. Impact of retroﬂexion vs. second
+forward view examination of the right colon on adenoma detection: A
+comparison study. Am J Gastroenterol 2015;110:415–22.
+168. Williet N, Tournier Q, Vernet C, et al. Eﬀect of Endocuﬀ-assisted
+colonoscopy on adenoma detection rate: meta-analysis of randomized
+controlled trials. Endoscopy 2018;50:846–60.
+169. Dik VK, Gralnek IM, Segol O, et al. Multicenter, randomized, tandem
+evaluation of EndoRings colonoscopy–results of the CLEVER study.
+Endoscopy 2015;47:1151–8.
+170. Rex DK, Repici A, Gross SA, et al. High-deﬁnition colonoscopy versus
+Endocuﬀ versus EndoRings versus full-spectrum endoscopy for
+adenoma detection at colonoscopy: A multicenter randomized trial.
+Gastrointest Endosc 2018;88:335–44.e2.
+171. Subramanian V, Mannath J, Hawkey CJ, et al. High deﬁnition
+colonoscopy vs. standard video endoscopy for the detection of colonic
+polyps: A meta-analysis. Endoscopy 2011;43:499–505.
+172. Repici A, Wallace MB, East JE, et al. Eﬃcacy of per-oral methylene blue
+formulation for screening colonoscopy. Gastroenterology 2019;156:
+2198–207.e1.
+173. Pohl J, Schneider A, Vogell H, et al. Pancolonic chromoendoscopy with
+indigo carmine versus standard colonoscopy for detection of neoplastic
+lesions: A randomised two-centre trial. Gut 2011;60:485–90.
+174. Kahi CJ, Anderson JC, Waxman I, et al. High-deﬁnition
+chromocolonoscopy vs. high-deﬁnition white light colonoscopy for
+average-risk colorectal cancer screening. Am J Gastroenterol 2010;105:
+1301–7.
+175. Leung WK, Lo OS, Liu KS, et al. Detection of colorectal adenoma by
+narrow band imaging (HQ190) vs. high-deﬁnition white light
+colonoscopy: A randomized controlled trial. Am J Gastroenterol 2014;
+109:855–63.
+176. Shinozaki S, Kobayashi Y, Hayashi Y, et al. Colon polyp detection using
+linked color imaging compared to white light imaging: Systematic review
+and meta-analysis. Dig Endosc 2020;32:874–81.
+177. Hassan C, Spadaccini M, Iannone A, et al. Performance of artiﬁcial
+intelligence in colonoscopy for adenoma and polyp detection: A systematic
+review and meta-analysis. Gastrointest Endosc 2021;93:77–85.e6.
+178. Hassan C, Wallace MB, Sharma P, et al. New artiﬁcial intelligence
+system: First validation study versus experienced endoscopists for
+colorectal polyp detection. Gut 2020;69:799–800.
+179. Abdelfatah MM, Elhanaﬁ S, Zuckerman MJ, et al. Correlation between
+adenoma detection rate and novel quality indicators for screening
+colonoscopy. A proposal for quality measures tool kit. Scand J
+Gastroenterol 2017;52:1148–57.
+180. Rex DK, Ponugoti PL. Calculating the adenoma detection rate in
+screening colonoscopies only: Is it necessary? Can it be gamed?
+Endoscopy 2017;49:1069–74.
+181. Rex DK, Ponugoti PL, Johnson CS, et al. Neoplasia at 10-year follow-up
+screening colonoscopy in a private U.S. Practice: Comparison of yield to
+ﬁrst-time examinations. Gastrointest Endosc 2018;87:254–9.
+182. Imperiale TF, Ransohoﬀ DF, Itzkowitz SH, et al. Multitarget stool DNA
+testing for colorectal-cancer screening. N Engl J Med 2014;370:1287–97.
+183. Rex DK, Ahnen DJ, Baron JA, et al. Serrated lesions of the colorectum:
+Review and recommendations from an expert panel. Am J Gastroenterol
+2012;107:1315–29; quiz 1314, 1330.
+184. Leggett B, Whitehall V. Role of the serrated pathway in colorectal cancer
+pathogenesis. Gastroenterology 2010;138:2088–100.
+185. Kambara T, Simms LA, Whitehall VL, et al. BRAF mutation is associated
+with DNA methylation in serrated polyps and cancers of the colorectum.
+Gut 2004;53:1137–44.
+186. Hetzel J, Huang CS, Coukos JA, et al. Variation in the detection of
+serrated polyps in an average risk colorectal cancer screening cohort. Am
+J Gastroenterol 2010;105:2656–64.
+187. Ponugoti P, Rastogi A, Kaltenbach T, et al. Disagreement between high
+conﬁdence endoscopic adenoma prediction and histopathological
+diagnosis in colonic lesions #3 mm in size. Endoscopy 2019;51:221–6.
+188. Anderson JC, Butterly LF, Weiss JE, et al. Providing data for serrated
+polyp detection rate benchmarks: An analysis of the New Hampshire
+colonoscopy registry. Gastrointest Endosc 2017;85:1188–94.
+189. Butterly L, Robinson CM, Anderson JC, et al. Serrated and adenomatous
+polyp detection increases with longer withdrawal time: Results from the New
+Hampshire Colonoscopy Registry. Am J Gastroenterol 2014;109:417–26.
+190. Sawhney MS, Cury MS, Neeman N, et al. Eﬀect of institution-wide policy
+of colonoscopy withdrawal time . or 5 7 minutes on polyp detection.
+Gastroenterology 2008;135:1892–8.
+The American Journal of GASTROENTEROLOGY
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+477
+
+478
+
+Shaukat et al.
+
+191. Rex DK, Slaven JE, Garcia J, et al. Endocuﬀ vision reduces inspection
+time without decreasing lesion detection in a randomized colonoscopy
+trial. Clin Gastroenterol Hepatol 2019;18:158–62.e1.
+192. Thygesen JC, Ponugoti P, Tippins WW, et al. Faster colonoscope
+withdrawal time without impaired detection using EndoRings. Endosc
+Int Open 2018;6:E957–60.
+193. Chubak J, Whitlock EP, Williams SB, et al. Aspirin for the prevention of
+cancer incidence and mortality: Systematic evidence reviews for the U.S.
+Preventive Services Task Force. Ann Intern Med 2016;164:814–25.
+194. Cook NR, Lee IM, Gaziano JM, et al. Low-dose aspirin in the primary
+prevention of cancer: The Women’s Health Study: A randomized
+controlled trial. JAMA 2005;294:47–55.
+195. Cook NR, Lee IM, Zhang SM, et al. Alternate-day, low-dose aspirin and
+cancer risk: Long-term observational follow-up of a randomized trial.
+Ann Intern Med 2013;159:77–85.
+196. Sturmer T, Glynn RJ, Lee IM, et al. Aspirin use and colorectal cancer:
+Post-trial follow-up data from the Physicians’ Health Study. Ann Intern
+Med 1998;128:713–20.
+197. Mahipal A, Anderson KE, Limburg PJ, et al. Nonsteroidal anti-inﬂammatory
+drugs and subsite-speciﬁc colorectal cancer incidence in the Iowa women’s
+health study. Cancer Epidemiol Biomarkers Prev 2006;15:1785–90.
+198. Cao Y, Nishihara R, Wu K, et al. Population-wide impact of long-term
+use of aspirin and the risk for cancer. JAMA Oncol 2016;2:762–9.
+199. Rothwell PM, Wilson M, Elwin CE, et al. Long-term eﬀect of aspirin on
+colorectal cancer incidence and mortality: 20-year follow-up of ﬁve
+randomised trials. Lancet 2010;376:1741–50.
+200. Thrombosis prevention trial: Randomised trial of low-intensity oral
+anticoagulation with warfarin and low-dose aspirin in the primary prevention
+of ischaemic heart disease in men at increased risk. The Medical Research
+Council’s general practice research framework. Lancet 1998;351:233–41.
+201. Rodriguez-Miguel A, Garcia-Rodriguez LA, Gil M, et al. Clopidogrel and
+low-dose aspirin, alone or together, reduce risk of colorectal cancer. Clin
+Gastroenterol Hepatol 2019;17:2024–33.e2.
+202. Whitlock EP, Williams SB, Burda BU, et al. Aspirin Use in Adults:
+Cancer, All-Cause Mortality, and Harms: A Systematic Evidence Review
+for the U.S. Preventive Services Task Force. Agency for Healthcare
+Research and Quality (US): Rockville, MD, 2015.
+203. Franceschi S. The IARC commitment to cancer prevention: The example
+of papillomavirus and cervical cancer. Recent Results Cancer Res 2005;
+166:277–97.
+204. Needleman H, Huﬀ J. The international agency for research on cancer
+and obligate transparency. Lancet Oncol 2005;6:920–1.
+205. Shapiro JA, Klabunde CN, Thompson TD, et al. Patterns of colorectal
+cancer test use, including CT colonography, in the 2010 National Health
+Interview Survey. Cancer Epidemiol Biomarkers Prev 2012;21:895–904.
+206. Gellad ZF, Provenzale D. Colorectal cancer: National and international
+perspective on the burden of disease and public health impact.
+Gastroenterology 2010;138:2177–90.
+207. Trivers KF, Shaw KM, Sabatino SA, et al. Trends in colorectal cancer
+screening disparities in people aged 50–64 years, 2000–2005. Am J Prev
+Med 2008;35:185–93.
+208. Carrozzi G, Sampaolo L, Bolognesi L, et al. Cancer screening uptake:
+Association with individual characteristics, geographic distribution, and
+time trends in Italy. Epidemiol Prev 2015;39(3 Suppl 1):9–18.
+209. Long MD, Lance T, Robertson D, et al. Colorectal cancer testing in the
+national Veterans Health Administration. Dig Dis Sci 2012;57:288–93.
+210. IARC. Colorectal cancer screening. International Agency for Research
+on Cancer: Lyon, France, 2019, p 17.
+211. Dougherty MK, Brenner AT, Crockett SD, et al. Evaluation of
+interventions intended to increase colorectal cancer screening rates in
+the United States: A systematic review and meta-analysis. JAMA Intern
+Med 2018;178:1645–58.
+212. Libby G, Bray J, Champion J, et al. Pre-notiﬁcation increases uptake of
+colorectal cancer screening in all demographic groups: A randomized
+controlled trial. J Med Screen 2011;18:24–9.
+213. Segnan N, Senore C, Andreoni B, et al. Randomized trial of diﬀerent
+screening strategies for colorectal cancer: Patient response and detection
+rates. J Natl Cancer Inst 2005;97:347–57.
+214. Rat C, Pogu C, Le Donne D, et al. Eﬀect of physician notiﬁcation
+regarding nonadherence to colorectal cancer screening on patient
+participation in fecal immunochemical test cancer screening: A
+randomized clinical trial. JAMA 2017;318:816–24.
+215. Coronado GD, Petrik AF, Vollmer WM, et al. Eﬀectiveness of a mailed
+colorectal cancer screening outreach program in community health
+The American Journal of GASTROENTEROLOGY
+
+clinics: The STOP CRC cluster randomized clinical trial. JAMA Intern
+Med 2018;178:1174–81.
+216. Steinwachs D, Allen JD, Barlow WE, et al. National Institutes of
+Health state-of-the-science conference statement: Enhancing use
+and quality of colorectal cancer screening. Ann Intern Med 2010;152:
+663–7.
+217. Peterson EB, Ostroﬀ JS, DuHamel KN, et al. Impact of provider-patient
+communication on cancer screening adherence: A systematic review.
+Prev Med 2016;93:96–105.
+218. Barthe J, Perrodeau E, Gilberg S, et al. Impact of a doctor’s invitation on
+participation in colorectal cancer screening: A cluster randomized trial.
+Am J Med 2015;128:1024.e1–7.
+219. Rat C, Latour C, Rousseau R, et al. Interventions to increase uptake of
+faecal tests for colorectal cancer screening: A systematic review. Eur J
+Cancer Rev 2018;27:227–36.
+220. Boguradzka A, Wiszniewski M, Kaminski MF, et al. The eﬀect of primary
+care physician counseling on participation rate and use of sedation in
+colonoscopy-based colorectal cancer screening program—A
+randomized controlled study. Scand J Gastroenterol 2014;49:878–84.
+221. Mosen DM, Feldstein AC, Perrin NA, et al. More comprehensive
+discussion of CRC screening associated with higher screening. Am J
+Manag Care 2013;19:265–71.
+222. Nápoles AM, Santoyo-Olsson J, Stewart AL, et al. Physician counseling
+on colorectal cancer screening and receipt of screening among Latino
+patients. J Gen Intern Med 2015;30:483–9.
+223. Muliira JK, D’Souza MS. Eﬀectiveness of patient navigator interventions
+on uptake of colorectal cancer screening in primary care settings. Jpn J
+Nurs Sci 2016;13:205–19.
+224. Lairson D, DiCarlo M, Deshmuk AA, et al. Cost-eﬀectiveness of
+standard vs. a navigated intervention on colorectal cancer screening use
+in primary care. Cancer 2014;120:1042–9.
+225. US Preventive Services Task Force, Bibbins-Domingo K, Grossman DC,
+et al. Screening for colorectal cancer: US Preventive Services Task Force
+recommendation statement. JAMA 2016;178:1174–81.
+226. Turner BJ, Weiner M, Berry SD, et al. Overcoming poor attendance to
+ﬁrst scheduled colonoscopy: A randomized trial of peer coach or
+brochure support. J Gen Intern Med 2008;23:58–63.
+227. Hirst Y, Kerrison R, Kobayashi LC, et al. Text Reminders in Colorectal
+Cancer Screening (TRICCS): Protocol for a randomised controlled trial.
+BMC Public Health 2016;16:74.
+228. Roetzheim RG, Christman LK, Jacobsen PB, et al. A randomized
+controlled trial to increase cancer screening among attendees of
+community health centers. Ann Fam Med 2004;2:294–300.
+229. May FP, Yano EM, Provenzale D, et al. Barriers to follow-up
+colonoscopies for patients with positive results from fecal
+immunochemical tests during colorectal cancer screening. Clin
+Gastroenterol Hepatol 2019;17:469–76.
+230. Chang PH, Chen TT, Chiang MF. A project to improve the follow-up
+completion rate of colorectal cancer screening-positive patients [in
+Chinese]. Hu Li Za Zhi 2013;178:1174–81.
+231. Bastani R, Yabroﬀ KR, Myers RE, et al. Interventions to improve followup of abnormal ﬁndings in cancer screening. Cancer 2004;101(5 Suppl):
+1188–200.
+232. Zorzi M, Rossi PG, Cogo C, et al. A comparison of diﬀerent strategies
+used to invite subjects with a positive faecal occult blood test to a
+colonoscopy assessment. A randomised controlled trial in populationbased screening programmes. Prev Med 2014;65:70–6.
+233. Cotter TG, Burger KN, Devens ME, et al. Long-term follow-up of
+patients having false-positive multitarget stool DNA tests after negative
+screening colonoscopy: The LONG-HAUL cohort study. Cancer
+Epidemiol Biomarkers Prev 2017;26:614–21.
+234. Cooper GS, Markowitz SD, Chen Z, et al. Evaluation of patients with an
+apparent false positive stool DNA test: The role of repeat stool DNA
+testing. Dig Dis Sci 2018;63:1449–53.
+235. Brenner H, Hoﬀmeister M, Arndt V, et al. Gender diﬀerences in
+colorectal cancer: Implications for age at initiation of screening. Br J
+Cancer 2007;96:828–31.
+236. Park CH, Kim NH, Park JH, et al. Individualized colorectal cancer
+screening based on the clinical risk factors: Beyond family history of
+colorectal cancer. Gastrointest Endosc 2018;88:128–35.
+237. Tariq H, Kamal MU, Patel H, et al. Predicting the presence of
+adenomatous polyps during colonoscopy with National Cancer Institute
+Colorectal Cancer Risk-Assessment Tool. World J Gastroenterol 2018;
+24:3919–26.
+VOLUME 116 | MARCH 2021 www.amjgastro.com
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+ACG Clinical Guidelines
+
+238. Weigl K, Thomsen H, Balavarca Y, et al. Genetic risk score is associated
+with prevalence of advanced neoplasms in a colorectal cancer screening
+population. Gastroenterology 2018;155:88–98.e10.
+239. Shaukat A, Church TR, Shanley R, et al. Development and
+validation of a clinical score for predicting risk of adenoma at
+screening colonoscopy. Cancer Epidemiol Biomarkers Prev 2015;
+24:913–20.
+240. Imperiale TF, Wagner DR, Lin CY, et al. Using risk for advanced
+proximal colonic neoplasia to tailor endoscopic screening for colorectal
+cancer. Ann Intern Med 2003;139:959–65.
+241. Peng L, Balavarca Y, Weigl K, et al. Head-to-head comparison of the
+performance of 17 risk models for predicting presence of advanced
+
+© 2021 by The American College of Gastroenterology
+
+neoplasms in colorectal cancer screening. Am J Gastroenterol 2019;114:
+1520–30.
+242. Imperiale TF, Monahan PO, Stump TE, et al. Derivation and validation
+of a predictive model for advanced colorectal neoplasia in asymptomatic
+adults. Gut 2020 (doi: 10.1016/j.cgh.2020.05.038).
+243. Guo F, Weigl K, Carr PR, et al. Use of polygenic risk scores to select
+screening intervals after negative ﬁndings from colonoscopy. Clin
+Gastroenterol Hepatol 2020;18:2742–51.e7.
+244. Dominitz JA, Robertson DJ, Ahnen DJ, et al. Colonoscopy vs. Fecal
+Immunochemical Test in Reducing Mortality From Colorectal Cancer
+(CONFIRM): Rationale for study design. Am J Gastroenterol 2017;112:
+1736–46.
+
+The American Journal of GASTROENTEROLOGY
+
+Copyright © 2021 by The American College of Gastroenterology. Unauthorized reproduction of this article is prohibited.
+
+479
+
+
