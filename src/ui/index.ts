@@ -9,3 +9,7 @@ export { ProgressBar } from './components/ProgressBar';
 export { EmBreveBadge } from './components/EmBreveBadge';
 export { NeroImage } from './components/NeroImage';
 export type { NeroVariant } from './components/NeroImage';
+export { Opcoes } from './components/Opcoes';
+export type { Opcao } from './components/Opcoes';
+export { CampoData } from './components/CampoData';
+export { Select } from './components/Select';
