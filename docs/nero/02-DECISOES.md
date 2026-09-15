@@ -53,11 +53,13 @@
 ## Decisões clínicas (protocolos adotados)
 
 > Preencher na Fase 1/2. Cada linha precisa de fonte, ano e data de revisão. O documento diz "intervalo definido pelo protocolo vigente" em vários pontos — estas são as lacunas a fechar.
+>
+> **Princípio (Murilo, 15/09/2026):** os parâmetros seguem **integralmente a diretriz brasileira vigente e as referências listadas na especificação** (§27: sociedades brasileiras → MS/INCA/CONITEC → internacionais só onde as nacionais não detalham). Sem simplificações de implementação. Antes de escrever cada regra, o texto-fonte é consultado; o Murilo só é acionado quando a diretriz deixa margem ou quando fontes brasileiras divergem.
 
 | ID | Tema | Decisão | Fonte | Ano | Revisado em |
 |----|------|---------|-------|-----|-------------|
 | C-001 | Mamografia risco habitual: idade início / fim / intervalo | **Anual, 40 a 74 anos** (além de 74 se expectativa de vida > 7 anos). Texto educativo menciona que o SUS/INCA segue 50–69 bienal. | Urban LA et al., CBR/SBM/FEBRASGO, *Radiol Bras* 2023;56(4):207-14 | 2023 | 15/09/2026 |
-| C-002 | Colo do útero: DNA-HPV — faixa etária e intervalo | — | INCA 2025 / Portaria SAES 13/2025 | — | — |
+| C-002 | Colo do útero: DNA-HPV — faixa etária e intervalo | **25 a 64 anos; negativo → repetir em 5 anos.** HPV 16/18 → colposcopia (pendência, sem rotina). Outros oncogênicos → citologia reflexa decide. Encerramento após 64 com dois testes negativos consecutivos. **65+ sem rastreamento prévio adequado registrado → status "acompanhamento médico"** (fazer o teste). Demais detalhes conforme o texto da diretriz. | INCA, *Diretrizes Brasileiras para o Rastreamento do Câncer do Colo do Útero*, 3. ed., 2025; Portaria Conjunta SAES/SECTICS nº 13/2025 | 2025 | 15/09/2026 |
 | C-003 | Colo do útero: citologia — faixa e intervalo (transição) | — | INCA | — | — |
 | C-004 | Colorretal: FIT — faixa (50–75) e intervalo (bienal) | — | CONITEC 2026 | — | — |
 | C-005 | Colorretal: regra de história familiar (X anos antes do caso índice) | — | ACG 2021 | — | — |
