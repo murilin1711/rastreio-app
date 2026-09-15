@@ -12,7 +12,8 @@
     "lint": "expo lint",
     "db:types": "supabase gen types typescript --local > src/core/supabase/database.types.ts",
     "db:test": "supabase test db",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "rotas": "pkill -f \"expo start\"; sleep 2; (CI=1 nohup npx expo start > /tmp/nero-expo.log 2>&1 &); sleep 25; grep -c \"\" .expo/types/router.d.ts"
   },
   "jest": {
     "preset": "jest-expo"
