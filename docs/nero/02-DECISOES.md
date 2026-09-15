@@ -60,13 +60,13 @@
 |----|------|---------|-------|-----|-------------|
 | C-001 | Mamografia risco habitual: idade início / fim / intervalo | **Anual, 40 a 74 anos** (além de 74 se expectativa de vida > 7 anos). Texto educativo menciona que o SUS/INCA segue 50–69 bienal. | Urban LA et al., CBR/SBM/FEBRASGO, *Radiol Bras* 2023;56(4):207-14 | 2023 | 15/09/2026 |
 | C-002 | Colo do útero: DNA-HPV — faixa etária e intervalo | **25 a 64 anos; negativo → repetir em 5 anos.** HPV 16/18 → colposcopia (pendência, sem rotina). Outros oncogênicos → citologia reflexa decide. Encerramento após 64 com dois testes negativos consecutivos. **65+ sem rastreamento prévio adequado registrado → status "acompanhamento médico"** (fazer o teste). Demais detalhes conforme o texto da diretriz. | INCA, *Diretrizes Brasileiras para o Rastreamento do Câncer do Colo do Útero*, 3. ed., 2025; Portaria Conjunta SAES/SECTICS nº 13/2025 | 2025 | 15/09/2026 |
-| C-003 | Colo do útero: citologia — faixa e intervalo (transição) | — | INCA | — | — |
-| C-004 | Colorretal: FIT — faixa (50–75) e intervalo (bienal) | — | CONITEC 2026 | — | — |
-| C-005 | Colorretal: regra de história familiar (X anos antes do caso índice) | — | ACG 2021 | — | — |
-| C-006 | Pulmão: critérios TCBD (idade, maços-ano, anos desde cessação) | — | USPSTF 2021 / SBPT | — | — |
-| C-007 | Lung-RADS: intervalo por categoria | — | ACR Lung-RADS v2022 | — | — |
-| C-008 | Próstata: idade para iniciar decisão compartilhada (habitual / alto risco) | — | SBU / INCA 2023 | — | — |
-| C-009 | BI-RADS 3: intervalo padrão quando laudo não especifica | — | ACR BI-RADS | — | — |
+| C-003 | Colo do útero: citologia — faixa e intervalo (transição) | 25–64 anos; anual; após 2 exames anuais negativos consecutivos → a cada 3 anos. *(aprovado 15/09; a validar no texto-fonte)* | INCA, Diretrizes para o rastreamento do câncer do colo do útero (citologia) | 2016 | 15/09/2026 |
+| C-004 | Colorretal: FIT — faixa e intervalo | 50–75 anos, bienal; FIT positivo → colonoscopia (pendência). *(aprovado 15/09; a validar no relatório CONITEC)* | CONITEC, Diretrizes Brasileiras do Rastreamento do Câncer de Cólon e Reto (relatório preliminar) | 2026 | 15/09/2026 |
+| C-005 | Colorretal: história familiar | 1 parente de 1º grau < 60 anos ou ≥ 2 de 1º grau em qualquer idade → iniciar aos 40 ou 10 anos antes do caso mais jovem (o que vier primeiro); status "avaliação individualizada" + orientar gastro/coloprocto. *(aprovado 15/09; a validar)* | ACG Clinical Guidelines: CRC screening (Shaukat et al.) — usado porque a diretriz nacional não detalha | 2021 | 15/09/2026 |
+| C-006 | Pulmão: critérios TCBD | 50–80 anos, ≥ 20 maços-ano, fumante atual ou cessação ≤ 15 anos; TCBD anual. *(aprovado 15/09; a validar)* | USPSTF 2021 (endossado pela SBPT) | 2021 | 15/09/2026 |
+| C-007 | Lung-RADS: intervalo por categoria | 1 e 2 → 12 meses (verde) · 3 → 6 meses (amarelo, controle) · 4A → 3 meses (laranja, investigação curta) · 4B/4X → avaliação especializada prioritária (vermelho) · 0 → complementação (cinza). *(aprovado 15/09; a validar)* | ACR Lung-RADS v2022 | 2022 | 15/09/2026 |
+| C-008 | Próstata: decisão compartilhada | Convite à conversa com o médico a partir de **50 anos**; **45 anos** se negro ou parente de 1º grau com câncer de próstata. Texto educativo apresenta a posição do INCA (não rastreamento populacional). Sem ponto de corte único de PSA. *(aprovado 15/09; a validar)* | SBU (Novembro Azul 2025) · INCA/MS Nota Técnica 2023 | 2025 / 2023 | 15/09/2026 |
+| C-009 | BI-RADS 3: intervalo padrão quando o laudo não especifica | 6 meses (controle, amarelo). *(aprovado 15/09; a validar)* | ACR BI-RADS | — | 15/09/2026 |
 | C-010 | PA: limiares para "medidas repetidamente elevadas" e "valor muito elevado" | — | DBHA 2020 / Medidas PA 2023 | — | — |
 | C-011 | MRPA: nº de dias do protocolo e critérios de validade | — | 4ª Diretriz MRPA 2018 / 2023 | — | — |
 | C-012 | Glicemia: metas padrão (quando médico não definiu) e limiares de hipo/hiper com sintomas | — | SBD 2026 | — | — |
