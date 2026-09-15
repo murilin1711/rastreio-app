@@ -56,7 +56,7 @@
 
 | ID | Tema | Decisão | Fonte | Ano | Revisado em |
 |----|------|---------|-------|-----|-------------|
-| C-001 | Mamografia risco habitual: idade início / fim / intervalo | — | CBR/SBM/FEBRASGO 2023 vs INCA 2025 | — | — |
+| C-001 | Mamografia risco habitual: idade início / fim / intervalo | **Anual, 40 a 74 anos** (além de 74 se expectativa de vida > 7 anos). Texto educativo menciona que o SUS/INCA segue 50–69 bienal. | Urban LA et al., CBR/SBM/FEBRASGO, *Radiol Bras* 2023;56(4):207-14 | 2023 | 15/09/2026 |
 | C-002 | Colo do útero: DNA-HPV — faixa etária e intervalo | — | INCA 2025 / Portaria SAES 13/2025 | — | — |
 | C-003 | Colo do útero: citologia — faixa e intervalo (transição) | — | INCA | — | — |
 | C-004 | Colorretal: FIT — faixa (50–75) e intervalo (bienal) | — | CONITEC 2026 | — | — |
