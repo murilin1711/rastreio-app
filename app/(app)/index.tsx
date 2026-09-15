@@ -1,11 +1,12 @@
 import { useRouter, type Href } from 'expo-router';
-import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useMedicacoes } from '@core/medicacoes/useMedicacoes';
 import { usePerfil } from '@core/perfil/usePerfil';
 import { CardModulo } from '@modules/home/CardModulo';
 import { ItemHoje } from '@modules/home/ItemHoje';
-import { montarItensHoje } from '@modules/home/montarItensHoje';
+import { montarItensHoje, type ItemHoje as Item } from '@modules/home/montarItensHoje';
+import { traduzirErro } from '@core/supabase/erros';
 import { Colors, LogoNero, Radius, Spacing, Typography } from '@ui/index';
 
 function saudacao(nome?: string | null) {
@@ -18,13 +19,25 @@ function saudacao(nome?: string | null) {
 /** Home do NERO (§55, §56, §89): pendências e galeria de módulos. */
 export default function Home() {
   const router = useRouter();
-  const { perfil, antecedentes, carregando, recarregar } = usePerfil();
+  const { perfil, antecedentes, carregando, recarregar, salvar } = usePerfil();
   const { ativas, recarregar: recarregarMed } = useMedicacoes();
   const itens = montarItensHoje({ perfil, antecedentesQtd: antecedentes.length, medicacoesAtivasQtd: ativas.length });
   const pendentes = itens.filter((i) => i.nivel !== 'verde').length;
   const inicial = perfil?.nome?.trim().charAt(0).toUpperCase() ?? '';
 
   const atualizar = () => { recarregar(); recarregarMed(); };
+
+  const declararNegativa = (item: Item) => {
+    const acao = item.acaoSecundaria;
+    if (!acao) return;
+    const explicacao = acao.campo === 'semMedicacoes'
+      ? 'Vamos registrar que você não usa medicamentos. Se começar a usar algum, adicione em Minha Saúde › Meus medicamentos.'
+      : 'Vamos registrar que não há casos de câncer ou infarto precoce na família. Se souber de algum depois, adicione em Minha Saúde › Antecedentes familiares.';
+    Alert.alert(acao.rotulo, explicacao, [
+      { text: 'Cancelar', style: 'cancel' },
+      { text: 'Confirmar', onPress: () => salvar({ [acao.campo]: true }).catch((e) => Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario)) },
+    ]);
+  };
 
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
@@ -48,7 +61,7 @@ export default function Home() {
           {pendentes > 0 ? <View style={styles.contador}><Text style={styles.contadorTexto}>{pendentes}</Text></View> : null}
         </View>
         <View style={{ gap: Spacing.sm }}>
-          {itens.map((i) => <ItemHoje key={i.id} item={i} onPress={() => router.push(i.rota as Href)} />)}
+          {itens.map((i) => <ItemHoje key={i.id} item={i} onPress={() => router.push(i.rota as Href)} onAcaoSecundaria={declararNegativa} />)}
         </View>
 
         <Text style={[styles.secao, { marginTop: Spacing.xxxl, marginBottom: Spacing.md }]}>Módulos</Text>

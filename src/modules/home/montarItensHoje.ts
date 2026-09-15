@@ -7,6 +7,8 @@ export interface ItemHoje {
   titulo: string;
   descricao: string;
   rota: string;
+  /** Declaração negativa que resolve a pendência sem cadastrar nada (grava no perfil). */
+  acaoSecundaria?: { rotulo: string; campo: 'semMedicacoes' | 'semAntecedentesFamiliares' };
 }
 
 const PESO: Record<NivelAlertaUI, number> = { vermelho: 0, laranja: 1, amarelo: 2, cinza: 3, verde: 4 };
@@ -37,22 +39,24 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd }
       rota: '/(app)/minha-saude/perfil',
     });
   }
-  if (antecedentesQtd === 0) {
+  if (antecedentesQtd === 0 && !perfil.semAntecedentesFamiliares) {
     itens.push({
       id: 'antecedentes',
       nivel: 'cinza',
       titulo: 'Registrar antecedentes familiares',
-      descricao: 'Eles ajudam a definir quando começar cada rastreamento.',
+      descricao: 'Casos de câncer ou infarto precoce na família ajudam a definir seus rastreamentos.',
       rota: '/(app)/minha-saude/antecedentes',
+      acaoSecundaria: { rotulo: 'Não há casos na família', campo: 'semAntecedentesFamiliares' },
     });
   }
-  if (medicacoesAtivasQtd === 0) {
+  if (medicacoesAtivasQtd === 0 && !perfil.semMedicacoes) {
     itens.push({
       id: 'medicacoes',
       nivel: 'cinza',
       titulo: 'Cadastrar meus medicamentos',
-      descricao: 'Se não usa nenhum, ignore este item.',
+      descricao: 'Entram nos relatórios para o seu médico.',
       rota: '/(app)/minha-saude/medicamentos',
+      acaoSecundaria: { rotulo: 'Não uso medicamentos', campo: 'semMedicacoes' },
     });
   }
   if (!itens.length) {

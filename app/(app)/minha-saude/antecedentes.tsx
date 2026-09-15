@@ -14,7 +14,7 @@ type Form = Partial<AntecedenteFamiliar>;
 
 export default function Antecedentes() {
   const { online } = useSessao();
-  const { antecedentes, salvarAntecedente, excluirAntecedente } = usePerfil();
+  const { perfil, antecedentes, salvarAntecedente, excluirAntecedente, salvar: salvarPerfil } = usePerfil();
   const [editando, setEditando] = useState<Form | null>(null);
   const [salvando, setSalvando] = useState(false);
 
@@ -33,6 +33,7 @@ export default function Antecedentes() {
         idadeDiagnostico: editando.idadeDiagnostico ?? null,
         observacao: editando.observacao?.trim() || null,
       });
+      if (perfil?.semAntecedentesFamiliares) await salvarPerfil({ semAntecedentesFamiliares: false });
       setEditando(null);
     } catch (e) {
       Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario);
@@ -56,7 +57,14 @@ export default function Antecedentes() {
         </Text>
 
         {antecedentes.length === 0 && !editando ? (
-          <Text style={styles.vazio}>Nenhum antecedente registrado. Se não houver casos na família, pode deixar assim.</Text>
+          perfil?.semAntecedentesFamiliares ? (
+            <View style={styles.aviso}>
+              <Ionicons name="checkmark-circle-outline" size={20} color={Colors.success} />
+              <Text style={styles.avisoTexto}>Você informou que não há casos na família. Se souber de algum depois, adicione aqui.</Text>
+            </View>
+          ) : (
+            <Text style={styles.vazio}>Nenhum antecedente registrado. Se não houver casos na família, pode marcar isso na tela inicial.</Text>
+          )
         ) : null}
 
         <View style={{ gap: Spacing.sm, marginBottom: Spacing.xxl }}>
@@ -101,6 +109,8 @@ const styles = StyleSheet.create({
   conteudo: { paddingHorizontal: Spacing.xxl, paddingBottom: Spacing.xxxl },
   ajuda: { ...Typography.body, color: Colors.textSecondary, marginBottom: Spacing.xl },
   vazio: { ...Typography.body, color: Colors.textSecondary, marginBottom: Spacing.xl, fontStyle: 'italic' },
+  aviso: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, backgroundColor: Colors.surface, borderRadius: 12, padding: Spacing.lg, borderWidth: 1, borderColor: Colors.border, marginBottom: Spacing.xl },
+  avisoTexto: { ...Typography.caption, color: Colors.textSecondary, flex: 1 },
   card: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md, padding: Spacing.lg },
   cardTitulo: { ...Typography.subheading, color: Colors.textPrimary },
   cardSub: { ...Typography.caption, color: Colors.textSecondary, marginTop: 2 },

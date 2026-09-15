@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { formatarHorarios, parsearHorarios } from '@core/medicacoes/horarios';
 import type { Medicacao } from '@core/medicacoes/tipos';
 import { useMedicacoes } from '@core/medicacoes/useMedicacoes';
+import { usePerfil } from '@core/perfil/usePerfil';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro } from '@core/supabase/erros';
 import { Secao } from '@modules/minha-saude/Secao';
@@ -17,6 +18,7 @@ const dataBr = (iso: string) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.sl
 export default function Medicamentos() {
   const { online } = useSessao();
   const { medicacoes, salvar, alternarAtiva } = useMedicacoes();
+  const { perfil, salvar: salvarPerfil } = usePerfil();
   const [editando, setEditando] = useState<Form | null>(null);
   const [salvando, setSalvando] = useState(false);
 
@@ -46,6 +48,7 @@ export default function Medicamentos() {
         ativa: editando?.ativa ?? true,
         observacao: editando?.observacao?.trim() || null,
       });
+      if (perfil?.semMedicacoes) await salvarPerfil({ semMedicacoes: false });
       setEditando(null);
     } catch (e) {
       Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario);
@@ -69,7 +72,14 @@ export default function Medicamentos() {
         </Text>
 
         {medicacoes.length === 0 && !editando ? (
-          <Text style={styles.vazio}>Nenhum medicamento registrado. Se não usa nenhum, tudo bem.</Text>
+          perfil?.semMedicacoes ? (
+            <View style={styles.aviso}>
+              <Ionicons name="checkmark-circle-outline" size={20} color={Colors.success} />
+              <Text style={styles.avisoTexto}>Você informou que não usa medicamentos. Se começar a usar algum, adicione aqui.</Text>
+            </View>
+          ) : (
+            <Text style={styles.vazio}>Nenhum medicamento registrado. Se não usa nenhum, pode marcar isso na tela inicial.</Text>
+          )
         ) : null}
 
         <View style={{ gap: Spacing.sm }}>
@@ -133,6 +143,8 @@ const styles = StyleSheet.create({
   conteudo: { paddingHorizontal: Spacing.xxl, paddingBottom: Spacing.xxxl },
   ajuda: { ...Typography.body, color: Colors.textSecondary, marginBottom: Spacing.xl },
   vazio: { ...Typography.body, color: Colors.textSecondary, fontStyle: 'italic' },
+  aviso: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, backgroundColor: Colors.surface, borderRadius: 12, padding: Spacing.lg, borderWidth: 1, borderColor: Colors.border },
+  avisoTexto: { ...Typography.caption, color: Colors.textSecondary, flex: 1 },
   subtitulo: { ...Typography.heading, color: Colors.textPrimary, marginTop: Spacing.xxl, marginBottom: Spacing.sm },
   card: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md, padding: Spacing.lg },
   cardTitulo: { ...Typography.subheading, color: Colors.textPrimary },

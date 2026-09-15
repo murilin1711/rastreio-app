@@ -385,6 +385,8 @@ export type Database = {
           perfil_inicial_completo: boolean
           possui_colo_utero: boolean | null
           radioterapia_toracica: boolean | null
+          sem_antecedentes_familiares: boolean
+          sem_medicacoes: boolean
           sexo_nascimento: string | null
           tabagismo_status: string | null
           tem_diabetes: boolean | null
@@ -412,6 +414,8 @@ export type Database = {
           perfil_inicial_completo?: boolean
           possui_colo_utero?: boolean | null
           radioterapia_toracica?: boolean | null
+          sem_antecedentes_familiares?: boolean
+          sem_medicacoes?: boolean
           sexo_nascimento?: string | null
           tabagismo_status?: string | null
           tem_diabetes?: boolean | null
@@ -439,6 +443,8 @@ export type Database = {
           perfil_inicial_completo?: boolean
           possui_colo_utero?: boolean | null
           radioterapia_toracica?: boolean | null
+          sem_antecedentes_familiares?: boolean
+          sem_medicacoes?: boolean
           sexo_nascimento?: string | null
           tabagismo_status?: string | null
           tem_diabetes?: boolean | null

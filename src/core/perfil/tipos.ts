@@ -24,6 +24,9 @@ export interface PerfilSaude {
   lesoesPrecursoras: { tipo: string; ano?: number }[];
   doencasGeneticas: { nome: string }[];
   radioterapiaToracica: boolean | null;
+  /** Declarações negativas — são dado clínico, não ausência de dado. */
+  semMedicacoes: boolean;
+  semAntecedentesFamiliares: boolean;
   perfilInicialCompleto: boolean;
 }
 

@@ -26,6 +26,8 @@ const colunas: Record<CampoDominio, keyof Update> = {
   lesoesPrecursoras: 'lesoes_precursoras',
   doencasGeneticas: 'doencas_geneticas',
   radioterapiaToracica: 'radioterapia_toracica',
+  semMedicacoes: 'sem_medicacoes',
+  semAntecedentesFamiliares: 'sem_antecedentes_familiares',
   perfilInicialCompleto: 'perfil_inicial_completo',
 };
 
@@ -52,6 +54,8 @@ export function paraDominio(r: Row): PerfilSaude {
     lesoesPrecursoras: (r.lesoes_precursoras as PerfilSaude['lesoesPrecursoras']) ?? [],
     doencasGeneticas: (r.doencas_geneticas as PerfilSaude['doencasGeneticas']) ?? [],
     radioterapiaToracica: r.radioterapia_toracica,
+    semMedicacoes: r.sem_medicacoes,
+    semAntecedentesFamiliares: r.sem_antecedentes_familiares,
     perfilInicialCompleto: r.perfil_inicial_completo,
   };
 }
