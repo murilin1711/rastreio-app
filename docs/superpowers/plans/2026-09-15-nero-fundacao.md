@@ -23,6 +23,7 @@
 - Commits pequenos, em português, com rodapé:
   `Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>` e `Claude-Session: https://claude.ai/code/session_017fpxyXrMg4YipMK24dgtDY`.
 - Branch de trabalho: `nero-fundacao` (criada a partir de `desenvolvimento-2`).
+- **Antes de escrever qualquer tela ou componente visual (Tasks 2, 4, 8, 9, 10, 11), invocar a skill `frontend-design`** — pedido do Murilo.
 
 ## Mapa de arquivos
 
