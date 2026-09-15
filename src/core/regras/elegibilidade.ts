@@ -81,6 +81,15 @@ export function avaliarElegibilidade(
       : { ...ref, status: 'nao_indicado_no_momento', mensagem: MSG.jovem };
   }
 
+  // CONITEC (texto da Rec. 8): colonoscopia completa e de qualidade → repetir só em 10 anos, sem FIT nesse intervalo.
+  if (programa === 'colorretal' && contexto.colonoscopiaAdequadaEm) {
+    const proximaData = somarMeses(contexto.colonoscopiaAdequadaEm, 120);
+    const dias = diasAte(proximaData, hoje);
+    if (dias < 0) return { ...ref, status: 'exame_atrasado', mensagem: MSG.atrasado, proximaData };
+    if (dias <= DIAS_PARA_EXAME_PROXIMO) return { ...ref, status: 'exame_proximo', mensagem: MSG.proximoExame, proximaData };
+    return { ...ref, status: 'em_dia', mensagem: 'Colonoscopia recente e adequada: não é necessário FIT até a próxima colonoscopia.', proximaData };
+  }
+
   const ultimoValido = contexto.historicoExames
     .filter((e) => e.programa === programa && (e.classificacao === 'normal' || e.classificacao === 'controle'))
     .sort((a, b) => b.dataRealizacao.localeCompare(a.dataRealizacao))[0];
