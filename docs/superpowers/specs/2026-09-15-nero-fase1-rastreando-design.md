@@ -1,7 +1,7 @@
 # NERO — Fase 1: Rastreando v2 — Spec Técnica
 
 **Data:** 15/09/2026 · **Status:** em revisão pelo Murilo
-**Base:** `docs/nero/01-ESPECIFICACAO-NERO.md` §27–§53, §58 · Decisões clínicas C-001–C-009 em `docs/nero/02-DECISOES.md` (6 validadas no texto-fonte, C-005 e C-009 a validar durante a implementação) · Fundação: `2026-09-14-nero-fundacao-design.md`
+**Base:** `docs/nero/01-ESPECIFICACAO-NERO.md` §27–§53, §58 · Decisões clínicas C-001–C-009 em `docs/nero/02-DECISOES.md` (C-001, 002, 003, 004, 006, 007, 008 validadas no texto-fonte; C-005 e C-009 a validar durante a implementação) · Fundação: `2026-09-14-nero-fundacao-design.md`
 
 ---
 
@@ -45,14 +45,14 @@ Peso já vive em `medidas` (IMC calculado para SBU/obesidade).
 
 | tipo | `resultado` (jsonb) |
 |---|---|
-| mamografia | `{ "birads": 0..6, "intervalo_laudo_meses"?: number }` |
+| mamografia | `{ "birads": 0..6, "densidade"?: "a" \| "b" \| "c" \| "d", "intervalo_laudo_meses"?: number }` |
 | dna_hpv | `{ "hpv": "negativo" \| "16_18" \| "outros_oncogenicos", "citologia_reflexa"?: Citologia }` |
 | citologia | `{ "citologia": Citologia }` com `Citologia = "negativa" \| "insatisfatoria" \| "asc_us" \| "asc_h" \| "lsil" \| "hsil" \| "agc" \| "ais" \| "suspeita_malignidade"` |
 | colposcopia | `{ "achado": "normal" \| "nic1" \| "nic2" \| "nic3" \| "ais" \| "carcinoma" \| "inconclusiva" }` |
 | fit | `{ "fit": "negativo" \| "positivo" }` |
 | colonoscopia | `{ "achado": "normal" \| "polipos" \| "massa_suspeita" \| "incompleta", "polipos"?: { "quantidade": number, "maior_mm": number, "removidos": boolean, "histopatologico"?: "aguardando" \| "hiperplasico" \| "adenoma" \| "adenoma_avancado" \| "carcinoma" }, "qualidade_adequada"?: boolean }` |
 | tcbd | `{ "lungrads": "0" \| "1" \| "2" \| "3" \| "4A" \| "4B" \| "4X", "modificador_s"?: boolean }` |
-| psa | `{ "psa_total": number, "psa_livre"?: number, "referencia_max"?: number }` |
+| psa | `{ "psa_total": number, "psa_livre"?: number, "referencia_max"?: number, "repetir_em"?: "AAAA-MM-DD" }` (data definida pelo médico) |
 
 `resolve_exame_id` liga o exame à pendência anterior (§51). Trigger novo `exames_fecha_pendencia`: ao inserir exame com `resolve_exame_id`, marca `pendencias.status='resolvida'`, `exame_resolucao_id`, `resolvida_em` para a pendência aberta daquele exame de origem.
 
@@ -66,11 +66,11 @@ Uma linha por combinação exame × resultado, mais linhas de elegibilidade (`ex
 
 - **`aplicavel(perfil)`** — mama: feminino (homens só via história familiar → educativo); colo: `possuiColoUtero && jaTeveAtividadeSexual` (Rec. 34/36); prostata: masculino; colorretal e pulmão: todos.
 - **`fatoresModificadores(perfil)`** — devolve mensagem de "avaliação individualizada" quando:
-  - mama: história pessoal de câncer de mama; mutação (BRCA1/2, TP53, PALB2…); radioterapia torácica antes dos 30; 1º grau com mama < 50, ovário, mama masculina; ≥ 2 parentes com mama (§32);
+  - mama (CBR/SBM/FEBRASGO 2023, C-001 validado): história pessoal de câncer de mama tratado → `acompanhamento_especializado`; mutação patogênica (BRCA1 → MG ≥ 35; TP53 → ≥ 30; BRCA2/outros → ≥ 30) ou 1º grau portadora sem teste; radioterapia torácica antes dos 30 → MG anual a partir do 8º ano após o tratamento (≥ 30); HLA/CLIS/HDA → estimar risco com o médico; forte história familiar (1º grau com mama, ovário, mama masculina, ≥ 2 parentes) → orientar estimativa de risco por modelo com o médico — se ≥ 20%, MG/RM 10 anos antes do parente mais jovem, não antes de 30. A mensagem cita a regra e a idade calculada quando possível;
   - colo: histerectomia por lesão/câncer (Rec. 35 — coleta vaginal 25 anos); NIC 2/3/AIS tratada (Rec. 14) — *nota: HIV/imunossupressão **não** é modificador; muda intervalo (Rec. 39) e conduta (Rec. 40) dentro do fluxo normal*;
   - colorretal: CCR ou adenoma prévio, DII, Lynch/PAF (CONITEC "risco padrão"); 1º grau < 60 ou ≥ 2 de 1º grau → ACG: início 40 ou (idade do caso mais jovem − 10), a cada 5 anos → mensagem calcula a idade sugerida (§34.1); 1 parente de 1º grau ≥ 60 → início aos 40, intervalo habitual (a validar C-005);
   - pulmão: não usa modificador — elegibilidade é o critério USPSTF (`macosAno ≥ 20 && (status==='atual' || anosDesdeCessacao ≤ 15)`, 50–80); fora disso `nao_indicado_no_momento` com texto explicando os critérios;
-  - próstata: 45 se `racaCor==='preta'` ou parente de 1º grau com próstata ou IMC ≥ 30; senão 50 → status `indicado` significa "converse com seu médico" (decisão compartilhada, §36).
+  - próstata (SBU, C-008 validado): 45 se `racaCor==='preta'` ou parente de 1º grau com próstata ou IMC ≥ 30; senão 50; > 75 → `acompanhamento_medico` (só com expectativa de vida > 10 anos). Status `indicado` significa "converse com seu médico" (decisão compartilhada). **Sem intervalo automático de PSA**: a SBU não fixa periodicidade; ao registrar PSA o app pergunta a data que o médico definiu para repetir (`data_proxima_acao` manual) e o status passa a `acompanhamento_medico`.
 - **`selecionarRegra(exame, regras, perfil, contexto)`** — casa `regra.condicao` com `exame.resultado`; regras dependentes de perfil usam chaves extras na condição (`{"hpv":"negativo","imunossuprimida":true}`) e o handler injeta `imunossuprimida` a partir do perfil antes do casamento. Colo: `dna_hpv` com `outros_oncogenicos` sem `citologia_reflexa` → `pendente` (§45.3); com reflexa → regra da citologia decide. Colonoscopia: `polipos` com `histopatologico='aguardando'` → `pendente` ("aguardar histopatológico", §47); `adenoma`/`adenoma_avancado` → `controle` com intervalo do laudo (campo `intervalo_laudo_meses`) ou `avaliacao_individualizada`; `normal` + `qualidade_adequada` → `normal` com 120 meses e **marca `contexto` para suprimir FIT** (nova regra CONITEC).
 
 ### 5.1 Alterações no núcleo genérico
@@ -102,7 +102,8 @@ Tudo em uma função RPC? Não — Fase 1 faz no cliente em sequência com trata
 
 | programa | exame/resultado | classificação | alerta | intervalo | fonte |
 |---|---|---|---|---|---|
-| mama | elegibilidade 40–74 | — | — | 12 | CBR/SBM/FEBRASGO 2023 |
+| mama | elegibilidade 40–74 (≥ 75 → acompanhamento médico) | — | — | 12 | CBR/SBM/FEBRASGO 2023 |
+| mama | mamas densas (campo `densidade` c/d no laudo) | mensagem educativa: US anual adjunta pode ser considerada | — | — | idem |
 | mama | birads 0 | pendente (complementação) | cinza | — | ACR BI-RADS |
 | mama | birads 1, 2 | normal | verde | 12 | idem |
 | mama | birads 3 | controle | amarelo | 6 (ou `intervalo_laudo_meses`) | idem (C-009) |
@@ -136,7 +137,7 @@ Tudo em uma função RPC? Não — Fase 1 faz no cliente em sequência com trata
 | pulmão | lungrads 4A | investigacao | laranja | 3 | idem |
 | pulmão | lungrads 4B, 4X | especializado | vermelho | — | idem |
 | próstata | elegibilidade 50 (45 alto risco) | — | — | — | SBU 2025 |
-| próstata | psa dentro da referência | normal (acompanhamento) | verde | 12 (ou data do urologista) | §49 |
+| próstata | psa dentro da referência | normal (acompanhamento) | verde | **sem automático** — data informada pelo paciente conforme o médico | SBU 2018/2020 ("avaliações periódicas") · §49 |
 | próstata | psa acima da referência | investigacao ("avaliação médica recomendada") | laranja | — | §49 |
 
 Linhas marcadas "a confirmar" são validadas na diretriz INCA 2025 (PDF já baixado) durante a Task de semente; qualquer divergência do documento vai para o Murilo antes de codificar.
