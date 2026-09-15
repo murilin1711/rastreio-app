@@ -30,6 +30,7 @@
 
 | Decisão | Documento | URL | Situação |
 |---|---|---|---|
+| C-003 | INCA — Diretrizes brasileiras para o rastreamento do câncer do colo do útero, 2. ed. (2016) — condutas da **citologia** isolada (ASC-US, LSIL: repetição em 6/12 meses por idade) | https://www.inca.gov.br/publicacoes/livros/diretrizes-brasileiras-para-o-rastreamento-do-cancer-do-colo-do-utero | as 4 linhas de citologia ASC-US/LSIL/insatisfatória na semente estão marcadas "validar no texto de 2016" |
 | C-009 | ACR BI-RADS® Atlas 5. ed. (categoria 3 — seguimento de curto intervalo) | https://www.acr.org/Clinical-Resources/Clinical-Tools-and-Reference/Reporting-and-Data-Systems/BI-RADS | atlas é pago; usar a página oficial e o artigo CBR 2023 como respaldo do intervalo de 6 meses |
 | C-001 (complemento) | Ato normativo do MS (set/2025) que ampliou a mamografia no SUS para 50–74 bienal e 40–49 sob decisão compartilhada | a localizar (gov.br/saude) | substitui a notícia da FEBRASGO como fonte primária |
 | C-008 (complemento) | INCA/MS — Nota técnica: recomendação pelo não rastreamento populacional do câncer de próstata (2023) | https://www.inca.gov.br/publicacoes/notas-tecnicas/nota-tecnica-recomendacao-pelo-nao-rastreamento-populacional-do-cancer-de | para o texto educativo |
