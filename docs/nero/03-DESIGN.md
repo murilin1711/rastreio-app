@@ -3,14 +3,17 @@
 > Tokens em `src/ui/theme.ts`. Este documento explica as escolhas; o código é a fonte da verdade dos valores.
 
 ## Brief
-App de saúde para pacientes brasileiros adultos (grande parte entre 40 e 70 anos). Tom educativo e sereno: **orienta, não assusta** (§25). Mascote **Nero** (render 3D: branco perolado, listras azul-aço, olhos cobalto) sobre fundo areia.
+App de saúde para pacientes brasileiros adultos (grande parte entre 40 e 70 anos). Tom educativo e sereno: **orienta, não assusta** (§25). Mascote **Nero** (render 3D: branco perolado, listras azul-aço, olhos cobalto). Logo: "N" em gradiente azul/ciano com cruz + palavra "Nero" em marinho (`assets/images/nero/logo-nero.png`, `simbolo-nero.png`).
+
+> **Revisão 15/09/2026 (feedback do Murilo no aparelho):** o onboarding claro perdeu personalidade — voltamos ao estilo escuro do Rastreando (marinho, bolhas, um único movimento de flutuação). O fundo areia não combinou — telas internas em branco frio. O arquivo do mascote ainda não foi enviado; o símbolo da logo ocupa o lugar dele até então.
 
 ## Cor
 | Nome | Hex | Uso |
 |---|---|---|
 | Marinho | `#0f2d63` | texto principal, ação primária (herdado do Rastreando) |
 | Aço | `#5B8DB8` | acento — as listras do Nero; links, marca |
-| Areia | `#F3F0EA` | fundo de tela — o chão da imagem do Nero |
+| Branco frio | `#F5F7FB` | fundo das telas internas (**revisão 15/09**: o bege/areia não combinou no aparelho; voltamos ao azul + branco do Rastreando) |
+| Marinho profundo | `#0a1f4e` | fundo do onboarding e login — herdado do Rastreando, o Murilo preferiu manter o estilo escuro |
 | Porcelana | `#FFFFFF` | superfícies (campos, blocos de módulo) |
 | Grafite-azul | `#4A5C7A` | texto secundário (legível sobre areia) |
 | Alertas §43 | verde `#16a34a` · amarelo `#d97706` · laranja `#ea580c` · vermelho `#dc2626` · cinza `#6b7280` | níveis clínicos, sempre com fundo pastel correspondente |

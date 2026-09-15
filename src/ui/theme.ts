@@ -5,10 +5,11 @@ export const Colors = {
   primary:       '#0f2d63', // marinho
   primaryLight:  '#1a3a7a',
   accent:        '#5B8DB8', // aço — listras do Nero
-  background:    '#F3F0EA', // areia
+  background:    '#F5F7FB', // branco frio (o bege da arte do Nero não combinou nas telas)
   surface:       '#ffffff', // porcelana
-  surfaceAlt:    '#EAE6DE', // areia mais funda (itens desativados, fundos internos)
-  border:        '#DED8CE',
+  surfaceAlt:    '#E9EDF5', // cinza-azulado claro (itens desativados, fundos internos)
+  border:        '#DCE2EE',
+  hero:          '#0a1f4e', // fundo escuro do onboarding e login (herdado do Rastreando)
   textPrimary:   '#0f2d63',
   textSecondary: '#4A5C7A', // grafite-azul
   textMuted:     '#8A97AD',

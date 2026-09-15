@@ -4,7 +4,7 @@ import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, Vi
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
-import { Button, Colors, Input, NeroImage, Spacing, Typography } from '@ui/index';
+import { Button, Colors, Input, LogoNero, Spacing, Typography } from '@ui/index';
 
 export default function Login() {
   const router = useRouter();
@@ -31,8 +31,8 @@ export default function Login() {
     <SafeAreaView style={styles.tela}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-          <NeroImage size={150} style={{ alignSelf: 'center' }} />
-          <Text style={styles.titulo}>Bem-vindo ao NERO</Text>
+          <LogoNero variante="completa" width={170} style={{ alignSelf: 'center' }} />
+          <Text style={styles.titulo}>Bem-vindo</Text>
           <Text style={styles.sub}>Entre para continuar seu acompanhamento.</Text>
 
           <View style={styles.form}>

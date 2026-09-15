@@ -13,3 +13,4 @@ export { Opcoes } from './components/Opcoes';
 export type { Opcao } from './components/Opcoes';
 export { CampoData } from './components/CampoData';
 export { Select } from './components/Select';
+export { LogoNero } from './components/LogoNero';

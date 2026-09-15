@@ -3,13 +3,14 @@ import { Image, type ImageStyle, type StyleProp } from 'react-native';
 
 export type NeroVariant = 'base' | 'rastreando' | 'cardio' | 'bem_estar' | 'minha_saude';
 
-// Até existirem as variantes por módulo, todas apontam para a imagem base.
+// Provisório: até o PNG transparente do mascote chegar, usamos o símbolo da logo em todas as variantes.
+const simbolo = require('../../../assets/images/nero/simbolo-nero.png');
 const fontes: Record<NeroVariant, number> = {
-  base:        require('../../../assets/images/nero/nero-base.png'),
-  rastreando:  require('../../../assets/images/nero/nero-base.png'),
-  cardio:      require('../../../assets/images/nero/nero-base.png'),
-  bem_estar:   require('../../../assets/images/nero/nero-base.png'),
-  minha_saude: require('../../../assets/images/nero/nero-base.png'),
+  base: simbolo,
+  rastreando: simbolo,
+  cardio: simbolo,
+  bem_estar: simbolo,
+  minha_saude: simbolo,
 };
 
 interface Props { variant?: NeroVariant; size?: number; style?: StyleProp<ImageStyle>; }
