@@ -97,6 +97,7 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 |------|------|-----------------|
 | 14/09/2026 | — | Documento NERO importado e estruturado em `docs/nero/`. Roadmap e registro de decisões criados. Início da discussão de arquitetura. |
 | 14/09/2026 | 0 | D-001 decidida: evoluir o código atual — Rastreando vira módulo, construímos a camada anterior (Home com módulos + perfil único). |
+| 15/09/2026 | 0 | Onboarding v3 aprovado no aparelho pelo Murilo (gradiente marinho + miniaturas do produto). Fundo interno branco frio. **Merge de `nero-fundacao` em `desenvolvimento-2`** (`b9de3c1`). Teste pgTAP corrigido para não depender do estado do banco. |
 | 15/09/2026 | 0 | Tasks 1–11 do plano implementadas na branch `nero-fundacao`: Expo 57, Supabase local, auth, motor de regras, perfil, Minha Saúde, medicamentos, Home. 59 testes Jest + 4 pgTAP verdes. Falta: checklist manual e projeto Supabase remoto. |
 | 15/09/2026 | 0 | Spec da Fundação aprovada pelo Murilo. Plano de implementação escrito: `docs/superpowers/plans/2026-09-15-nero-fundacao.md` (12 tarefas). |
 | 14/09/2026 | 0 | D-006 decidida: mascote Nero (PNG por módulo agora; GLB 3D como spike futuro). Todas as decisões técnicas iniciais fechadas. |
