@@ -17,6 +17,9 @@ const regras = [
   regra('1618', { hpv: '16_18' }, { classificacao: 'investigacao', nivelAlerta: 'laranja', intervaloMeses: null }),
   regra('outros-imuno', { hpv: 'outros_oncogenicos', imunossuprimida: true }, { classificacao: 'investigacao', nivelAlerta: 'laranja', intervaloMeses: null }),
   regra('outros-reflexa-neg', { hpv: 'outros_oncogenicos', citologia_reflexa: 'negativa', imunossuprimida: false }, { classificacao: 'controle', nivelAlerta: 'amarelo', intervaloMeses: 12 }),
+  regra('outros-reflexa-insat', { hpv: 'outros_oncogenicos', citologia_reflexa: 'insatisfatoria', imunossuprimida: false }, { classificacao: 'investigacao', nivelAlerta: 'laranja', intervaloMeses: null }),
+  regra('invalido', { hpv: 'invalido' }, { classificacao: 'pendente', nivelAlerta: 'cinza', intervaloMeses: null }),
+  regra('persistente', { hpv: 'persistente_24m' }, { classificacao: 'investigacao', nivelAlerta: 'laranja', intervaloMeses: null }),
   regra('outros-reflexa-hsil', { hpv: 'outros_oncogenicos', citologia_reflexa: 'hsil', imunossuprimida: false }, { classificacao: 'especializado', nivelAlerta: 'vermelho', intervaloMeses: null }),
 ];
 
@@ -62,5 +65,27 @@ describe('colo — seleção de regra (Rec. 18, 39, 40; §45)', () => {
   });
   it('outros oncogênicos + reflexa HSIL → especializado', () => {
     expect(colo.selecionarRegra(hpv({ hpv: 'outros_oncogenicos', citologia_reflexa: 'hsil' }), regras, base, ctx)?.id).toBe('outros-reflexa-hsil');
+  });
+  it('reflexa insatisfatória → colposcopia (Rec. 20)', () => {
+    expect(colo.selecionarRegra(hpv({ hpv: 'outros_oncogenicos', citologia_reflexa: 'insatisfatoria' }), regras, base, ctx)?.id).toBe('outros-reflexa-insat');
+  });
+  it('teste inválido → nova coleta (Rec. 21)', () => {
+    expect(colo.selecionarRegra(hpv({ hpv: 'invalido' }), regras, base, ctx)?.id).toBe('invalido');
+  });
+  it('Rec. 25: 2º HPV-outros com reflexa negativa → ainda 12 meses', () => {
+    const c: ContextoAvaliacao = { ...ctx, historicoExames: [
+      { id: 'e0', tipo: 'dna_hpv', programa: 'colo_utero', dataRealizacao: '2025-09-01', resultado: { hpv: 'outros_oncogenicos', citologia_reflexa: 'negativa' }, classificacao: 'controle' }] };
+    expect(colo.selecionarRegra(hpv({ hpv: 'outros_oncogenicos', citologia_reflexa: 'negativa' }), regras, base, c)?.id).toBe('outros-reflexa-neg');
+  });
+  it('Rec. 25: 3º teste positivo (24 meses) → colposcopia independentemente da reflexa', () => {
+    const c: ContextoAvaliacao = { ...ctx, historicoExames: [
+      { id: 'e0', tipo: 'dna_hpv', programa: 'colo_utero', dataRealizacao: '2024-09-01', resultado: { hpv: 'outros_oncogenicos', citologia_reflexa: 'negativa' }, classificacao: 'controle' },
+      { id: 'e1', tipo: 'dna_hpv', programa: 'colo_utero', dataRealizacao: '2025-09-01', resultado: { hpv: 'outros_oncogenicos', citologia_reflexa: 'negativa' }, classificacao: 'controle' }] };
+    expect(colo.selecionarRegra(hpv({ hpv: 'outros_oncogenicos', citologia_reflexa: 'negativa' }), regras, base, c)?.id).toBe('persistente');
+  });
+  it('Rec. 23: HPV negativo após controle → volta a 5 anos', () => {
+    const c: ContextoAvaliacao = { ...ctx, historicoExames: [
+      { id: 'e0', tipo: 'dna_hpv', programa: 'colo_utero', dataRealizacao: '2025-09-01', resultado: { hpv: 'outros_oncogenicos', citologia_reflexa: 'negativa' }, classificacao: 'controle' }] };
+    expect(colo.selecionarRegra(hpv({ hpv: 'negativo' }), regras, base, c)?.id).toBe('neg');
   });
 });

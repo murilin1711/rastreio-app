@@ -30,7 +30,7 @@ export const colo: ProgramaHandler = {
     return null;
   },
 
-  selecionarRegra(exame, regras, perfil) {
+  selecionarRegra(exame, regras, perfil, contexto) {
     const extras = { imunossuprimida: imunossuprimida(perfil) };
     if (exame.tipo === 'dna_hpv' && exame.resultado.hpv === 'outros_oncogenicos') {
       // Rec. 40: em imunossupressão, qualquer HPV positivo vai à colposcopia, independentemente da citologia.
@@ -39,6 +39,13 @@ export const colo: ProgramaHandler = {
       }
       // §45.3: sem citologia reflexa não há conduta → null (classificarExame devolve "pendente").
       if (exame.resultado.citologia_reflexa == null) return null;
+      // Rec. 25: se já houve dois testes HPV-outros com reflexa negativa (24 meses) e o vírus persiste, colposcopia.
+      const anterioresPersistentes = contexto.historicoExames.filter(
+        (e) => e.tipo === 'dna_hpv' && e.resultado.hpv === 'outros_oncogenicos' && e.resultado.citologia_reflexa === 'negativa' && e.dataRealizacao < exame.dataRealizacao,
+      ).length;
+      if (exame.resultado.citologia_reflexa === 'negativa' && anterioresPersistentes >= 2) {
+        return regras.find((r) => casaCondicao(r, { ...exame, resultado: { hpv: 'persistente_24m' } })) ?? null;
+      }
     }
     return regras.find((r) => casaCondicao(r, exame, extras)) ?? null;
   },
