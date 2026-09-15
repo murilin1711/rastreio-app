@@ -1,9 +1,9 @@
 import { classificarExame, regraCasa } from '../classificar';
 import type { ContextoAvaliacao, ExameEntrada, PerfilRegras, RegraParametros } from '../tipos';
 
-const vazio: ContextoAvaliacao = { sintomasAlarme: [], pendenciasAbertas: [], emAcompanhamentoEspecializado: [], historicoExames: [] };
+const vazio: ContextoAvaliacao = { sintomasAlarme: [], pendenciasAbertas: [], emAcompanhamentoEspecializado: [], historicoExames: [], colonoscopiaAdequadaEm: null };
 const perfil: PerfilRegras = {
-  idade: 52, sexoNascimento: 'feminino', possuiColoUtero: true,
+  idade: 52, sexoNascimento: 'feminino', possuiColoUtero: true, jaTeveAtividadeSexual: true, histerectomia: false, racaCor: null, imc: null,
   tabagismo: { status: 'nunca', macosAno: null, anosDesdeCessacao: null },
   condicoes: {}, historicoCancerPessoal: [], lesoesPrecursoras: [], doencasGeneticas: [], radioterapiaToracica: false, antecedentes: [],
 };
