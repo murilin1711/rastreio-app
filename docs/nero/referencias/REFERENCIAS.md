@@ -35,6 +35,26 @@
 | C-001 (complemento) | Ato normativo do MS (set/2025) que ampliou a mamografia no SUS para 50–74 bienal e 40–49 sob decisão compartilhada | a localizar (gov.br/saude) | substitui a notícia da FEBRASGO como fonte primária |
 | C-008 (complemento) | INCA/MS — Nota técnica: recomendação pelo não rastreamento populacional do câncer de próstata (2023) | https://www.inca.gov.br/publicacoes/notas-tecnicas/nota-tecnica-recomendacao-pelo-nao-rastreamento-populacional-do-cancer-de | para o texto educativo |
 
-## Fases futuras (Coração & Metabolismo, Bem-estar)
+## Referências da Fase 2 — Coração & Metabolismo (C-010–C-014)
 
-As referências listadas ao final de `01-ESPECIFICACAO-NERO.md` (DBHA 2020, Medidas de PA 2023, MRPA 2018, SBD 2026, Dislipidemias 2025, PREVENT 2023/2024, ABESO, OMS, AASM…) entram neste acervo quando a fase correspondente começar, seguindo a mesma regra: baixar a versão mais nova, registrar aqui, citar em `regras_clinicas`.
+> Verificação de versões em 16/09/2026: a spec de produto cita a **DBHA 2020** e a **4ª Diretriz de MRPA (2018)**; ambas foram **substituídas** — a DBHA 2025 (SBC/SBH/SBN) e as Diretrizes de Medidas da PA 2023 (publicadas em 2024, com protocolo atualizado de MRPA). O acervo usa apenas as versões vigentes.
+
+| Arquivo | Documento | Emissor | Versão / ano | URL oficial | Acesso | Usado em | Última verificação |
+|---|---|---|---|---|---|---|---|
+| `pdf/2025-SBC-SBH-SBN-diretriz-hipertensao-arterial.pdf` | Diretriz Brasileira de Hipertensão Arterial – 2025. *Arq Bras Cardiol* 2025;122(9):e20250624 — **substitui a DBHA 2020** (Quadro 3.2: classificação; Quadro 3.4: HA por MRPA ≥ 130/80; cap. 11: crise hipertensiva PAS ≥ 180 e/ou PAD ≥ 110 com LOA) | SBC / SBH / SBN | 2025 | https://abccardiol.org/article/diretriz-brasileira-de-hipertensao-arterial-2025/ · DOI 10.36660/abc.20250624 | 16/09/2026 | C-010 (limiares de PA), textos educativos | 16/09/2026 ✔ (mais recente) |
+| `pdf/2023-SBC-medidas-pressao-arterial-dentro-fora-consultorio.pdf` | Feitosa ADM et al. Diretrizes Brasileiras de Medidas da Pressão Arterial Dentro e Fora do Consultório – 2023. *Arq Bras Cardiol* 2024;121(4):e20240113 — **substitui a 4ª Diretriz de MRPA (2018)** (Parte 4: protocolo de MRPA — 4 a 6 dias, 3 medidas manhã + 3 noite, dia 0 excluído, critérios de exclusão e de validade, anormal ≥ 130/80; Quadro 19: instruções ao paciente) | SBC (Dep. de Hipertensão) | 2023 (publ. fev/2024) | https://abccardiol.org/article/diretrizes-brasileiras-de-medidas-da-pressao-arterial-dentro-e-fora-do-consultorio-2023/ · DOI 10.36660/abc.20240113 | 16/09/2026 | C-011 (protocolo MRPA), C-010 | 16/09/2026 ✔ (mais recente) |
+| `pdf/2025-SBC-diretriz-dislipidemias-prevencao-aterosclerose.pdf` | Rached FH et al. Diretriz Brasileira de Dislipidemias e Prevenção da Aterosclerose – 2025. *Arq Bras Cardiol* 2025;122(9):e20250640 | SBC | 2025 | https://abccardiol.org/article/diretriz-brasileira-de-dislipidemias-e-prevencao-da-aterosclerose-2025/ · DOI 10.36660/abc.20250640 | 16/09/2026 | C-013 (PREVENT como escore preferencial 30–79 anos; agravantes; CAC), metas de LDL para textos | 16/09/2026 ✔ |
+| `texto/2026-SBD-metas-controle-glicemico.md` | Metas de controle glicêmico — Diretriz da SBD, ed. 2026 (R1–R8; Tabela 1 de metas por população; hipoglicemia níveis 1–3) | Sociedade Brasileira de Diabetes | 2026 · DOI 10.29327/5881296.2026-1 | https://diretriz.diabetes.org.br/metas-de-controle-glicemico/ | 16/09/2026 | C-012 (metas padrão e limiares de hipo/hiper) | 16/09/2026 ✔ |
+| `texto/2026-SBD-monitorizacao-glicemia.md` | Monitorização da glicemia capilar, da glicose intersticial (CGM) e cetonemia capilar — Diretriz da SBD, ed. 2026 (R5, R8–R10: frequência da AMG por tipo/tratamento) | Sociedade Brasileira de Diabetes | 2026 | https://diretriz.diabetes.org.br/monitorizacao-da-glicemia-capilar-da-glicose-intersticial-cgme-cetonemia-capilar-em-pessoas-com-diabetes-mellitus/ | 16/09/2026 | C-012 (plano de monitorização §7 — modelos sugeridos) | 16/09/2026 ✔ |
+
+### A obter (Fase 2)
+
+| Decisão | Documento | URL | Situação |
+|---|---|---|---|
+| C-013 | Khan SS et al. Development and Validation of the AHA PREVENT Equations. *Circulation* 2024;149:430-49 + **material suplementar (coeficientes)** | https://www.ahajournals.org/doi/10.1161/CIRCULATIONAHA.123.067626 · PMC10910659 | AHA e PMC bloqueiam download automatizado; **baixar pelo navegador** (artigo + suplemento) e salvar em `pdf/2024-AHA-PREVENT-development-validation-Khan-Circulation.pdf` e `pdf/2024-AHA-PREVENT-supplement.pdf` |
+| C-013 | Khan SS et al. Novel Prediction Equations for Absolute Risk Assessment of Total CVD Incorporating CKM Health — AHA Scientific Statement. *Circulation* 2023;148:1982-2004 | https://www.ahajournals.org/doi/10.1161/CIR.0000000000001191 | idem; salvar em `pdf/2023-AHA-PREVENT-scientific-statement-Khan.pdf` |
+| C-010 (complemento) | PCDT Hipertensão Arterial Sistêmica (MS/CONITEC, 2025) | https://www.gov.br/conitec/pt-br/assuntos/avaliacao-de-tecnologias-em-saude/protocolos-clinicos-e-diretrizes-terapeuticas/pcdt | para o texto "No SUS"; localizar PDF |
+
+## Fases futuras (Bem-estar)
+
+As referências listadas ao final de `01-ESPECIFICACAO-NERO.md` (ABESO, OMS, Rubino 2025, AASM…) entram neste acervo quando a fase correspondente começar, seguindo a mesma regra: baixar a versão mais nova, registrar aqui, citar em `regras_clinicas`.
