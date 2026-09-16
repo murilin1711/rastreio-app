@@ -23,6 +23,10 @@ export interface PerfilRegras {
   idade: number;
   sexoNascimento: 'feminino' | 'masculino';
   possuiColoUtero: boolean | null;
+  jaTeveAtividadeSexual: boolean | null;
+  histerectomia: boolean | null;
+  racaCor: 'branca' | 'preta' | 'parda' | 'amarela' | 'indigena' | 'nao_informar' | null;
+  imc: number | null;
   tabagismo: { status: 'nunca' | 'ex' | 'atual'; macosAno: number | null; anosDesdeCessacao: number | null };
   condicoes: { diabetes?: boolean; dii?: boolean; imunossupressao?: boolean; hiv?: boolean; doencaRenal?: boolean };
   historicoCancerPessoal: string[];
@@ -44,6 +48,8 @@ export interface ContextoAvaliacao {
   pendenciasAbertas: { programa: Programa; exameOrigemId: string }[];
   emAcompanhamentoEspecializado: Programa[];
   historicoExames: (ExameEntrada & { id: string; classificacao: Classificacao })[];
+  /** Data da última colonoscopia completa e de qualidade — CONITEC: 10 anos sem FIT. */
+  colonoscopiaAdequadaEm: string | null;
 }
 
 /** Uma linha de `regras_clinicas` (§65). */
@@ -80,6 +86,8 @@ export interface ResultadoElegibilidade {
   regraId: string | null;
   regraVersao: string | null;
   proximaData: string | null;
+  /** Regra citada (ex.: "ACG 2021, Rec. 9"). */
+  detalhes?: string;
 }
 
 export interface BloqueioSeguranca {
@@ -96,5 +104,13 @@ export interface ProgramaHandler {
   fatoresModificadores(perfil: PerfilRegras): string | null;
   /** Seleciona a regra que casa com o resultado do exame, ou null. */
   selecionarRegra(exame: ExameEntrada, regras: RegraParametros[], perfil: PerfilRegras, contexto: ContextoAvaliacao): RegraParametros | null;
+  /**
+   * Faixa etária de rastreamento para este perfil. `max: null` = sem limite superior.
+   * Devolver `null` quando o perfil não atende aos critérios de entrada (ex.: pulmão sem carga tabágica).
+   * Se ausente, a faixa vem da regra de elegibilidade (`condicao.idade_min/idade_max`).
+   */
+  faixaEtaria?(perfil: PerfilRegras): { min: number; max: number | null } | null;
+  /** Mensagem quando `faixaEtaria` devolve null (explica os critérios ao paciente). */
+  mensagemNaoElegivel?(perfil: PerfilRegras): string;
 }
 export type ProgramaHandlers = Partial<Record<Programa, ProgramaHandler>>;

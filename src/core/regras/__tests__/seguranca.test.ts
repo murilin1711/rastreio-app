@@ -1,7 +1,7 @@
 import { aplicarHierarquiaSeguranca } from '../seguranca';
 import type { ContextoAvaliacao } from '../tipos';
 
-const vazio: ContextoAvaliacao = { sintomasAlarme: [], pendenciasAbertas: [], emAcompanhamentoEspecializado: [], historicoExames: [] };
+const vazio: ContextoAvaliacao = { sintomasAlarme: [], pendenciasAbertas: [], emAcompanhamentoEspecializado: [], historicoExames: [], colonoscopiaAdequadaEm: null };
 
 describe('hierarquia de segurança (§66)', () => {
   it('nada bloqueia → null', () => {

@@ -380,10 +380,13 @@ export type Database = {
           doencas_geneticas: Json
           histerectomia: boolean | null
           historico_cancer_pessoal: Json
+          ja_teve_atividade_sexual: boolean | null
           lesoes_precursoras: Json
+          menopausa: boolean | null
           nome: string
           perfil_inicial_completo: boolean
           possui_colo_utero: boolean | null
+          raca_cor: string | null
           radioterapia_toracica: boolean | null
           sem_antecedentes_familiares: boolean
           sem_medicacoes: boolean
@@ -409,10 +412,13 @@ export type Database = {
           doencas_geneticas?: Json
           histerectomia?: boolean | null
           historico_cancer_pessoal?: Json
+          ja_teve_atividade_sexual?: boolean | null
           lesoes_precursoras?: Json
+          menopausa?: boolean | null
           nome: string
           perfil_inicial_completo?: boolean
           possui_colo_utero?: boolean | null
+          raca_cor?: string | null
           radioterapia_toracica?: boolean | null
           sem_antecedentes_familiares?: boolean
           sem_medicacoes?: boolean
@@ -438,10 +444,13 @@ export type Database = {
           doencas_geneticas?: Json
           histerectomia?: boolean | null
           historico_cancer_pessoal?: Json
+          ja_teve_atividade_sexual?: boolean | null
           lesoes_precursoras?: Json
+          menopausa?: boolean | null
           nome?: string
           perfil_inicial_completo?: boolean
           possui_colo_utero?: boolean | null
+          raca_cor?: string | null
           radioterapia_toracica?: boolean | null
           sem_antecedentes_familiares?: boolean
           sem_medicacoes?: boolean
@@ -516,6 +525,36 @@ export type Database = {
           proxima_acao?: string | null
           revisada_em?: string
           versao?: string
+        }
+        Relationships: []
+      }
+      sintomas_alarme: {
+        Row: {
+          id: string
+          observacao: string | null
+          programa: string
+          registrado_em: string
+          resolvido_em: string | null
+          sintoma: string
+          user_id: string
+        }
+        Insert: {
+          id?: string
+          observacao?: string | null
+          programa: string
+          registrado_em?: string
+          resolvido_em?: string | null
+          sintoma: string
+          user_id: string
+        }
+        Update: {
+          id?: string
+          observacao?: string | null
+          programa?: string
+          registrado_em?: string
+          resolvido_em?: string | null
+          sintoma?: string
+          user_id?: string
         }
         Relationships: []
       }

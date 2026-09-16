@@ -5,7 +5,7 @@ const row = {
   altura_cm: 165, tabagismo_status: 'ex', cigarros_dia: 10, anos_fumando: 12, data_cessacao: '2020-01-01',
   tem_diabetes: false, tem_hipertensao: null, tem_doenca_renal: null, tem_imunossupressao: null, tem_hiv: null, tem_dii: null,
   historico_cancer_pessoal: [], lesoes_precursoras: [], doencas_geneticas: [{ nome: 'BRCA1' }], radioterapia_toracica: null,
-  tipo_usuario: 'paciente', sem_medicacoes: false, sem_antecedentes_familiares: false, perfil_inicial_completo: true, created_at: '', updated_at: '',
+  tipo_usuario: 'paciente', ja_teve_atividade_sexual: null, raca_cor: null, menopausa: null, sem_medicacoes: false, sem_antecedentes_familiares: false, perfil_inicial_completo: true, created_at: '', updated_at: '',
 };
 
 test('paraDominio converte snake_case → camelCase', () => {

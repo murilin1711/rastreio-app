@@ -58,12 +58,21 @@ export function avaliarElegibilidade(
   const modificador = handler?.fatoresModificadores(perfil) ?? null;
   if (modificador) return { ...base, status: 'avaliacao_individualizada', mensagem: modificador };
 
-  const regra = regras.find((r) => typeof r.condicao.idade_min === 'number');
-  if (!regra) return { ...base, status: 'avaliacao_individualizada', mensagem: MSG.semRegra };
+  const regra = regras.find((r) => typeof r.condicao.idade_min === 'number') ?? null;
+  const ref = regra ? { ...base, regraId: regra.id, regraVersao: regra.versao } : base;
 
-  const ref = { ...base, regraId: regra.id, regraVersao: regra.versao };
-  const min = regra.condicao.idade_min as number;
-  const max = typeof regra.condicao.idade_max === 'number' ? regra.condicao.idade_max : Infinity;
+  // Faixa etária: o handler tem prioridade (critérios do perfil); senão vem da regra de elegibilidade.
+  const faixa = handler?.faixaEtaria
+    ? handler.faixaEtaria(perfil)
+    : regra
+      ? { min: regra.condicao.idade_min as number, max: typeof regra.condicao.idade_max === 'number' ? regra.condicao.idade_max : null }
+      : undefined;
+
+  if (faixa === undefined) return { ...base, status: 'avaliacao_individualizada', mensagem: MSG.semRegra };
+  if (faixa === null) return { ...ref, status: 'nao_indicado_no_momento', mensagem: handler?.mensagemNaoElegivel?.(perfil) ?? MSG.jovem };
+
+  const min = faixa.min;
+  const max = faixa.max ?? Infinity;
 
   if (perfil.idade > max) return { ...ref, status: 'acompanhamento_medico', mensagem: MSG.acima };
   if (perfil.idade < min) {
@@ -72,11 +81,20 @@ export function avaliarElegibilidade(
       : { ...ref, status: 'nao_indicado_no_momento', mensagem: MSG.jovem };
   }
 
+  // CONITEC (texto da Rec. 8): colonoscopia completa e de qualidade → repetir só em 10 anos, sem FIT nesse intervalo.
+  if (programa === 'colorretal' && contexto.colonoscopiaAdequadaEm) {
+    const proximaData = somarMeses(contexto.colonoscopiaAdequadaEm, 120);
+    const dias = diasAte(proximaData, hoje);
+    if (dias < 0) return { ...ref, status: 'exame_atrasado', mensagem: MSG.atrasado, proximaData };
+    if (dias <= DIAS_PARA_EXAME_PROXIMO) return { ...ref, status: 'exame_proximo', mensagem: MSG.proximoExame, proximaData };
+    return { ...ref, status: 'em_dia', mensagem: 'Colonoscopia recente e adequada: não é necessário FIT até a próxima colonoscopia.', proximaData };
+  }
+
   const ultimoValido = contexto.historicoExames
     .filter((e) => e.programa === programa && (e.classificacao === 'normal' || e.classificacao === 'controle'))
     .sort((a, b) => b.dataRealizacao.localeCompare(a.dataRealizacao))[0];
 
-  if (!ultimoValido || regra.intervaloMeses == null) return { ...ref, status: 'indicado', mensagem: regra.mensagemPaciente };
+  if (!ultimoValido || regra?.intervaloMeses == null) return { ...ref, status: 'indicado', mensagem: regra?.mensagemPaciente ?? 'Rastreamento indicado para o seu perfil. Converse com seu médico.' };
 
   const proximaData = somarMeses(ultimoValido.dataRealizacao, regra.intervaloMeses);
   const dias = diasAte(proximaData, hoje);

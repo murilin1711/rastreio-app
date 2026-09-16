@@ -1,4 +1,9 @@
 import type { ProgramaHandlers } from '../tipos';
+import { colo } from './colo';
+import { colorretal } from './colorretal';
+import { mama } from './mama';
+import { prostata } from './prostata';
+import { pulmao } from './pulmao';
 
-/** A Fase 1 registra aqui os handlers de mama, colo_utero, colorretal, pulmao e prostata. */
-export const handlers: ProgramaHandlers = {};
+/** Handlers por programa — árvores de decisão do Rastreando (Fase 1). */
+export const handlers: ProgramaHandlers = { mama, colo_utero: colo, colorretal, pulmao, prostata };

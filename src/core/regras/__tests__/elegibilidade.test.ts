@@ -2,11 +2,11 @@ import { avaliarElegibilidade, somarMeses } from '../elegibilidade';
 import type { ContextoAvaliacao, PerfilRegras, RegraParametros } from '../tipos';
 
 const hoje = new Date('2026-09-15T12:00:00Z');
-const vazio: ContextoAvaliacao = { sintomasAlarme: [], pendenciasAbertas: [], emAcompanhamentoEspecializado: [], historicoExames: [] };
+const vazio: ContextoAvaliacao = { sintomasAlarme: [], pendenciasAbertas: [], emAcompanhamentoEspecializado: [], historicoExames: [], colonoscopiaAdequadaEm: null };
 const perfilBase: PerfilRegras = {
   idade: 45,
   sexoNascimento: 'feminino',
-  possuiColoUtero: true,
+  possuiColoUtero: true, jaTeveAtividadeSexual: true, histerectomia: false, racaCor: null, imc: null,
   tabagismo: { status: 'nunca', macosAno: null, anosDesdeCessacao: null },
   condicoes: {},
   historicoCancerPessoal: [],
@@ -87,5 +87,24 @@ describe('avaliarElegibilidade (§28)', () => {
     const r = avaliarElegibilidade(perfilBase, 'mama', [regraFaixa], vazio, hoje, handlers);
     expect(r.status).toBe('avaliacao_individualizada');
     expect(r.mensagem).toMatch(/BRCA/);
+  });
+
+  it('usa faixaEtaria do handler quando existir (ex.: 45 para alto risco)', () => {
+    const handlers = { prostata: { aplicavel: () => true, fatoresModificadores: () => null, selecionarRegra: () => null, faixaEtaria: () => ({ min: 45, max: 75 }) } };
+    const perfilM = { ...perfilBase, sexoNascimento: 'masculino' as const, idade: 46 };
+    const r = avaliarElegibilidade(perfilM, 'prostata', [{ ...regraFaixa, id: 'r-prost', condicao: { idade_min: 50, idade_max: 75 } }], vazio, hoje, handlers);
+    expect(r.status).toBe('indicado');
+  });
+
+  it('faixaEtaria null → não indicado no momento com mensagem do handler', () => {
+    const handlers = { pulmao: { aplicavel: () => true, fatoresModificadores: () => null, selecionarRegra: () => null, faixaEtaria: () => null, mensagemNaoElegivel: () => 'Critérios de tabagismo não atendidos.' } };
+    const r = avaliarElegibilidade(perfilBase, 'pulmao', [regraFaixa], vazio, hoje, handlers);
+    expect(r.status).toBe('nao_indicado_no_momento');
+    expect(r.mensagem).toMatch(/tabagismo/);
+  });
+
+  it('max null → nunca "acima da faixa"', () => {
+    const handlers = { colo_utero: { aplicavel: () => true, fatoresModificadores: () => null, selecionarRegra: () => null, faixaEtaria: () => ({ min: 25, max: null }) } };
+    expect(avaliarElegibilidade({ ...perfilBase, idade: 70 }, 'colo_utero', [regraFaixa], vazio, hoje, handlers).status).toBe('indicado');
   });
 });

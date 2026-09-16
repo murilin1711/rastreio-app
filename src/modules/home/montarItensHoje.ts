@@ -15,19 +15,44 @@ const PESO: Record<NivelAlertaUI, number> = { vermelho: 0, laranja: 1, amarelo: 
 
 const ESSENCIAIS: (keyof PerfilSaude)[] = ['dataNascimento', 'sexoNascimento', 'alturaCm', 'tabagismoStatus', 'temDiabetes', 'temHipertensao'];
 
+export interface RastreandoResumo {
+  pendencias: { programa: string; descricao: string; nivelAlerta: string }[];
+  sintomas: { programa: string }[];
+  avaliacoes: Partial<Record<string, { status: string; proximaData: string | null }>>;
+}
+
 interface Entrada {
   perfil: PerfilSaude | null;
   antecedentesQtd: number;
   medicacoesAtivasQtd: number;
+  rastreando?: RastreandoResumo;
 }
+
+const NOME_PROGRAMA: Record<string, string> = { mama: 'mama', colo_utero: 'colo do útero', colorretal: 'intestino', pulmao: 'pulmão', prostata: 'próstata' };
+const NIVEL: Record<string, NivelAlertaUI> = { verde: 'verde', amarelo: 'amarelo', laranja: 'laranja', vermelho: 'vermelho', cinza: 'cinza' };
 
 /**
  * Bloco "Hoje" da Home (§56): o que precisa de atenção, do mais grave ao mais leve.
  * Fase 0: só completude do perfil. A Fase 1 acrescenta pendências e exames do Rastreando.
  */
-export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd }: Entrada): ItemHoje[] {
+export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, rastreando }: Entrada): ItemHoje[] {
   if (!perfil) return [];
   const itens: ItemHoje[] = [];
+
+  // Rastreando (§56): hierarquia de segurança na ordem — sintoma > pendência > atrasado > próximo.
+  if (rastreando) {
+    for (const programa of [...new Set(rastreando.sintomas.map((s) => s.programa))]) {
+      itens.push({ id: `sintoma_${programa}`, nivel: 'vermelho', titulo: `Procurar avaliação: sinal de alerta (${NOME_PROGRAMA[programa] ?? programa})`, descricao: 'Não espere pela data do rastreamento.', rota: `/(app)/rastreando/${programa}/sinais` });
+    }
+    for (const p of rastreando.pendencias) {
+      itens.push({ id: `pendencia_${p.programa}`, nivel: NIVEL[p.nivelAlerta] ?? 'laranja', titulo: `Concluir pendência: ${p.descricao.toLowerCase()}`, descricao: `Rastreamento de ${NOME_PROGRAMA[p.programa] ?? p.programa}.`, rota: '/(app)/rastreando/pendencias' });
+    }
+    for (const [programa, av] of Object.entries(rastreando.avaliacoes)) {
+      if (!av) continue;
+      if (av.status === 'exame_atrasado') itens.push({ id: `atrasado_${programa}`, nivel: 'laranja', titulo: `Agendar exame atrasado (${NOME_PROGRAMA[programa] ?? programa})`, descricao: 'A data prevista já passou.', rota: `/(app)/rastreando/${programa}` });
+      else if (av.status === 'exame_proximo') itens.push({ id: `proximo_${programa}`, nivel: 'amarelo', titulo: `Agendar exame de ${NOME_PROGRAMA[programa] ?? programa}`, descricao: `Previsto para ${av.proximaData ? `${av.proximaData.slice(8, 10)}/${av.proximaData.slice(5, 7)}/${av.proximaData.slice(0, 4)}` : 'breve'}.`, rota: `/(app)/rastreando/${programa}` });
+    }
+  }
 
   const faltando = ESSENCIAIS.filter((k) => perfil[k] == null);
   if (faltando.length) {
@@ -64,7 +89,7 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd }
       id: 'tudo_em_dia',
       nivel: 'verde',
       titulo: 'Nada pendente',
-      descricao: 'Seu perfil está completo.',
+      descricao: rastreando ? 'Perfil completo e rastreamentos em ordem.' : 'Seu perfil está completo.',
       rota: '/(app)/minha-saude',
     });
   }

@@ -1,14 +1,14 @@
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert, Text, View } from 'react-native';
-import type { SexoNascimento, TabagismoStatus } from '@core/perfil/tipos';
+import type { RacaCor, SexoNascimento, TabagismoStatus } from '@core/perfil/tipos';
 import { usePerfil } from '@core/perfil/usePerfil';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
 import { PassoPerfil } from '@modules/minha-saude/PassoPerfil';
-import { CHAVES_CONDICAO, OPCOES_CONDICOES, OPCOES_SEXO, OPCOES_TABAGISMO, type CondicaoChave } from '@modules/minha-saude/opcoes';
-import { CampoData, Colors, Input, Opcoes, Spacing, Typography } from '@ui/index';
+import { CHAVES_CONDICAO, OPCOES_CONDICOES, OPCOES_RACA_COR, OPCOES_SEXO, OPCOES_TABAGISMO, type CondicaoChave } from '@modules/minha-saude/opcoes';
+import { CampoData, Colors, Input, Opcoes, Select, Spacing, Typography } from '@ui/index';
 
 const numero = (v: string) => (v.trim() ? Number(v.replace(',', '.')) : null);
 
@@ -25,6 +25,7 @@ export default function PerfilInicial() {
 
   const [dataNascimento, setDataNascimento] = useState<string | null>(null);
   const [sexo, setSexo] = useState<SexoNascimento | null>(null);
+  const [racaCor, setRacaCor] = useState<RacaCor | null>(null);
   const [possuiColo, setPossuiColo] = useState<'sim' | 'nao' | null>(null);
   const [altura, setAltura] = useState('');
   const [peso, setPeso] = useState('');
@@ -58,6 +59,7 @@ export default function PerfilInicial() {
       await salvar({
         dataNascimento,
         sexoNascimento: sexo,
+        racaCor,
         possuiColoUtero: feminino ? possuiColo === 'sim' : false,
         histerectomia: feminino ? possuiColo === 'nao' : null,
         alturaCm: numero(altura),
@@ -106,7 +108,11 @@ export default function PerfilInicial() {
     case 2:
       return (
         <PassoPerfil {...comum} titulo="Sexo atribuído ao nascimento" ajuda="Alguns rastreamentos dependem de órgãos presentes ao nascer. Essa informação não define sua identidade." podeAvancar={!!sexo}>
-          <Opcoes opcoes={OPCOES_SEXO} valor={sexo} onChange={setSexo} />
+          <View style={{ gap: Spacing.md }}>
+            <Opcoes opcoes={OPCOES_SEXO} valor={sexo} onChange={setSexo} />
+            <Text style={{ ...Typography.subheading, color: Colors.textPrimary, marginTop: Spacing.md }}>Raça/cor (autodeclarada, opcional)</Text>
+            <Select placeholder="Selecione" opcoes={OPCOES_RACA_COR} valor={racaCor} onChange={setRacaCor} />
+          </View>
         </PassoPerfil>
       );
     case 3:
