@@ -2,6 +2,7 @@ import { useRouter, type Href } from 'expo-router';
 import { Alert, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useMedicacoes } from '@core/medicacoes/useMedicacoes';
+import { useRastreando } from '@core/rastreando/useRastreando';
 import { usePerfil } from '@core/perfil/usePerfil';
 import { CardModulo } from '@modules/home/CardModulo';
 import { ItemHoje } from '@modules/home/ItemHoje';
@@ -21,11 +22,16 @@ export default function Home() {
   const router = useRouter();
   const { perfil, antecedentes, carregando, recarregar, salvar } = usePerfil();
   const { ativas, recarregar: recarregarMed } = useMedicacoes();
-  const itens = montarItensHoje({ perfil, antecedentesQtd: antecedentes.length, medicacoesAtivasQtd: ativas.length });
+  const rastreando = useRastreando();
+  const itens = montarItensHoje({
+    perfil, antecedentesQtd: antecedentes.length, medicacoesAtivasQtd: ativas.length,
+    rastreando: rastreando.avaliacoes ? { pendencias: rastreando.pendencias, sintomas: rastreando.sintomas, avaliacoes: rastreando.avaliacoes } : undefined,
+  });
+  const subtituloRastreando = rastreando.sintomas.length ? 'Sinal de alerta registrado' : rastreando.pendencias.length ? `${rastreando.pendencias.length} pendência${rastreando.pendencias.length > 1 ? 's' : ''}` : rastreando.avaliacoes ? 'Rastreamento de câncer pelo seu perfil' : 'Carregando…';
   const pendentes = itens.filter((i) => i.nivel !== 'verde').length;
   const inicial = perfil?.nome?.trim().charAt(0).toUpperCase() ?? '';
 
-  const atualizar = () => { recarregar(); recarregarMed(); };
+  const atualizar = () => { recarregar(); recarregarMed(); rastreando.recarregar(); };
 
   const declararNegativa = (item: Item) => {
     const acao = item.acaoSecundaria;
@@ -67,7 +73,7 @@ export default function Home() {
         <Text style={[styles.secao, { marginTop: Spacing.xxxl, marginBottom: Spacing.md }]}>Módulos</Text>
         <View style={styles.grade}>
           <View style={styles.linhaGrade}>
-            <CardModulo titulo="Rastreando" descricao="Rastreamento de câncer pelo seu perfil" icone="search-outline" capa={[Colors.logoAco, Colors.logoCiano]} onPress={() => router.push('/(app)/rastreando')} />
+            <CardModulo titulo="Rastreando" descricao={subtituloRastreando} icone="search-outline" capa={[Colors.logoAco, Colors.logoCiano]} onPress={() => router.push('/(app)/rastreando')} />
             <CardModulo titulo="Minha Saúde" descricao="Perfil, medicamentos e relatórios" icone="person-outline" capa={[Colors.logoMarinho, Colors.logoAco]} onPress={() => router.push('/(app)/minha-saude')} />
           </View>
           <View style={styles.linhaGrade}>

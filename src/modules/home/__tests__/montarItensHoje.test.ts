@@ -53,3 +53,25 @@ test('pendências de antecedentes e medicamentos oferecem ação secundária de 
   expect(itens.find((i) => i.id === 'medicacoes')?.acaoSecundaria).toEqual({ rotulo: 'Não uso medicamentos', campo: 'semMedicacoes' });
   expect(itens.find((i) => i.id === 'antecedentes')?.acaoSecundaria).toEqual({ rotulo: 'Não há casos na família', campo: 'semAntecedentesFamiliares' });
 });
+
+describe('itens do Rastreando na Home (§56, §66)', () => {
+  const base = { perfil: completo, antecedentesQtd: 1, medicacoesAtivasQtd: 1 };
+  test('sintoma de alarme → vermelho, no topo', () => {
+    const itens = montarItensHoje({ ...base, rastreando: { sintomas: [{ programa: 'mama' }], pendencias: [{ programa: 'colorretal', descricao: 'Colonoscopia', nivelAlerta: 'laranja' }], avaliacoes: {} } });
+    expect(itens[0]).toMatchObject({ id: 'sintoma_mama', nivel: 'vermelho' });
+  });
+  test('pendência → nível da pendência com verbo de ação', () => {
+    const itens = montarItensHoje({ ...base, rastreando: { sintomas: [], pendencias: [{ programa: 'colorretal', descricao: 'Colonoscopia', nivelAlerta: 'laranja' }], avaliacoes: {} } });
+    expect(itens.find((i) => i.id === 'pendencia_colorretal')).toMatchObject({ nivel: 'laranja', titulo: 'Concluir pendência: colonoscopia' });
+  });
+  test('exame atrasado → laranja; exame próximo → amarelo com data', () => {
+    const itens = montarItensHoje({ ...base, rastreando: { sintomas: [], pendencias: [], avaliacoes: { mama: { status: 'exame_atrasado', proximaData: '2026-01-01' }, colo_utero: { status: 'exame_proximo', proximaData: '2026-10-05' } } } });
+    expect(itens.find((i) => i.id === 'atrasado_mama')?.nivel).toBe('laranja');
+    expect(itens.find((i) => i.id === 'proximo_colo_utero')?.descricao).toContain('05/10/2026');
+  });
+  test('tudo em dia com rastreando → item verde único', () => {
+    const itens = montarItensHoje({ ...base, rastreando: { sintomas: [], pendencias: [], avaliacoes: { mama: { status: 'em_dia', proximaData: '2027-01-01' } } } });
+    expect(itens).toHaveLength(1);
+    expect(itens[0].nivel).toBe('verde');
+  });
+});
