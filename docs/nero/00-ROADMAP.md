@@ -54,15 +54,19 @@ O alicerce que todos os módulos usam. Nenhuma tela de módulo é construída an
 - [x] Meus medicamentos
 - [x] Checklist manual no celular — percorrido pelo Murilo em 15/09; ajustes derivados (onboarding v3, Home v2, declarações negativas) implementados
 
-### Fase 1 — Rastreando v2 (oncológico)
+### Fase 1 — Rastreando v2 (oncológico) — **concluída em 16/09/2026**
 Migrar o módulo que já existe para a nova base — valida o motor de regras com o domínio já conhecido.
-- [ ] Definição dos protocolos adotados por câncer (idade início/fim, intervalo, exame) — decisão clínica do Murilo, com fonte
-- [ ] Elegibilidade por perfil → "Seus rastreamentos" com os 8 status (§28)
-- [ ] Estrutura padrão por câncer: entenda / preciso rastrear? / fatores de risco / sinais de alerta / meus exames (§29)
-- [ ] Árvores de decisão: Mama (BI-RADS §44), Colo (HPV-DNA + citologia §45), Colorretal (FIT + colonoscopia §46–47), Pulmão (maços-ano + Lung-RADS §48), Próstata (PSA longitudinal §49)
-- [ ] Pendências + vínculo "este exame resolve uma pendência anterior?" (§50–51)
-- [ ] Alertas de sintomas com prioridade sobre calendário (§52)
-- [ ] Dashboard oncológico + linha do tempo (§37, §39)
+- [x] Protocolos por câncer decididos e validados nas fontes primárias (C-001–C-009; acervo em `referencias/`)
+- [x] Elegibilidade por perfil → "Seus rastreamentos" com os 8 status (§28)
+- [x] Estrutura padrão por câncer: entenda / preciso rastrear? / fatores de risco / sinais de alerta / meus exames / histórico (§29)
+- [x] Árvores de decisão: Mama (BI-RADS), Colo (DNA-HPV Rec. 18–25 + citologia + colposcopia), Colorretal (FIT + colonoscopia + 10 anos sem FIT), Pulmão (USPSTF + Lung-RADS), Próstata (PSA sem intervalo automático) — 62 regras em `regras_clinicas`
+- [x] Pendências + vínculo "este exame resolve uma pendência anterior?" (trigger no banco) (§50–51)
+- [x] Alertas de sintomas com prioridade sobre calendário (§52)
+- [x] Lembretes (no app + notificação local) (§38)
+- [x] Dashboard oncológico + linha do tempo + integração com a Home (§37, §39, §56)
+- [ ] Revisão clínica dos textos pelo Murilo — `docs/nero/revisao/2026-09-16-revisao-textos-rastreando.md` (correções aplicadas sob demanda)
+- [ ] Obter diretriz INCA 2016 (citologia) para validar 4 linhas da semente (ASC-US/LSIL/insatisfatória)
+- [ ] Substituir relatório preliminar da CONITEC pela versão final quando o MS publicar
 
 ### Fase 2 — Coração & Metabolismo
 - [ ] Minha Pressão (registro simples + médias/gráficos) (§1)
@@ -98,6 +102,7 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 |------|------|-----------------|
 | 14/09/2026 | — | Documento NERO importado e estruturado em `docs/nero/`. Roadmap e registro de decisões criados. Início da discussão de arquitetura. |
 | 14/09/2026 | 0 | D-001 decidida: evoluir o código atual — Rastreando vira módulo, construímos a camada anterior (Home com módulos + perfil único). |
+| 16/09/2026 | 1 | **Fase 1 implementada** (13 tarefas): 5 handlers, 62 regras semeadas, telas completas do Rastreando, Home integrada. 160 testes Jest + 12 pgTAP. Banco na nuvem migrado (0008, 0009) e semeado. Documento de revisão clínica gerado. **Merge em `desenvolvimento-2`.** |
 | 15/09/2026 | 1 | C-001, C-005 e C-008 validados em fontes primárias (CBR 2023 PDF, ACG 2021 PDF, notas SBU). Acervo `docs/nero/referencias/` criado. Plano da Fase 1 escrito: `docs/superpowers/plans/2026-09-15-nero-fase1-rastreando.md` (13 tarefas). |
 | 15/09/2026 | 1 | Decisões clínicas C-001–C-009 aprovadas; 6 validadas nos textos-fonte (INCA 2025 PDF, CONITEC 2026 PDF, USPSTF, ACR Lung-RADS, SBU). Spec da Fase 1 escrita: `docs/superpowers/specs/2026-09-15-nero-fase1-rastreando-design.md`. |
 | 15/09/2026 | 0 | **Fase 0 encerrada.** Push para `github.com/murilin1711/rastreio-app` (`origin`; remoto antigo `app-de-rastreio` não existia mais e foi removido). Próximo: Fase 1 — decisões clínicas C-001..C-009. |

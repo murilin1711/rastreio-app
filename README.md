@@ -7,6 +7,12 @@ Plataforma de prevenção, rastreamento e acompanhamento de saúde para paciente
 - Decisões (técnicas e clínicas): [`docs/nero/02-DECISOES.md`](docs/nero/02-DECISOES.md)
 - Sistema de design: [`docs/nero/03-DESIGN.md`](docs/nero/03-DESIGN.md)
 
+## Módulos
+
+- **Rastreando** (Fase 1, concluída): rastreamento oncológico de mama, colo do útero, colorretal, pulmão e próstata. Elegibilidade pelo perfil, registro de exames com resultado estruturado (BI-RADS, DNA-HPV, FIT, colonoscopia, Lung-RADS, PSA), pendências, sinais de alerta, lembretes e histórico. Regras em `regras_clinicas` (fonte/versão) + lógica em `src/core/regras/programas/`. Referências em `docs/nero/referencias/`.
+- **Minha Saúde** (Fase 0): perfil de saúde único, antecedentes familiares, medicamentos.
+- **Coração & Metabolismo** e **Saúde & Bem-estar**: próximas fases.
+
 ## Stack
 
 Expo SDK 57 · React Native · TypeScript · Expo Router · Supabase (Auth, Postgres com RLS, Storage) · Jest · pgTAP.
