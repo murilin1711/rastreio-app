@@ -9,8 +9,8 @@ import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro } from '@core/supabase/erros';
 import { ListaTexto } from '@modules/minha-saude/ListaTexto';
 import { Secao } from '@modules/minha-saude/Secao';
-import { CHAVES_CONDICAO, OPCOES_CONDICOES, OPCOES_SEXO, OPCOES_SIM_NAO, OPCOES_TABAGISMO, type CondicaoChave } from '@modules/minha-saude/opcoes';
-import { Button, CampoData, Colors, Input, InternalHeader, Opcoes, Spacing, Typography } from '@ui/index';
+import { CHAVES_CONDICAO, OPCOES_CONDICOES, OPCOES_RACA_COR, OPCOES_SEXO, OPCOES_SIM_NAO, OPCOES_TABAGISMO, type CondicaoChave } from '@modules/minha-saude/opcoes';
+import { Button, CampoData, Colors, Input, InternalHeader, Opcoes, Select, Spacing, Typography } from '@ui/index';
 
 type Form = Omit<PerfilSaude, 'userId' | 'perfilInicialCompleto'>;
 
@@ -86,7 +86,18 @@ export default function MeuPerfil() {
             </>
           ) : null}
           <Input placeholder="Altura em cm" keyboardType="decimal-pad" value={f.alturaCm?.toString() ?? ''} onChangeText={(v) => set('alturaCm', numero(v))} />
+          <Text style={styles.rotulo}>Raça/cor (autodeclarada)</Text>
+          <Select placeholder="Selecione" opcoes={OPCOES_RACA_COR} valor={f.racaCor} onChange={(v) => set('racaCor', v)} />
         </Secao>
+
+        {f.sexoNascimento === 'feminino' ? (
+          <Secao titulo="Saúde da mulher">
+            <Text style={styles.rotulo}>Já teve atividade sexual?</Text>
+            <Opcoes opcoes={OPCOES_SIM_NAO} valor={simNao(f.jaTeveAtividadeSexual)} onChange={(v) => set('jaTeveAtividadeSexual', v === 'sim')} />
+            <Text style={styles.rotulo}>Está na menopausa?</Text>
+            <Opcoes opcoes={OPCOES_SIM_NAO} valor={simNao(f.menopausa)} onChange={(v) => set('menopausa', v === 'sim')} />
+          </Secao>
+        ) : null}
 
         <Secao titulo={macos != null ? `Tabagismo (${macos} maços-ano)` : 'Tabagismo'}>
           <Opcoes opcoes={OPCOES_TABAGISMO} valor={f.tabagismoStatus} onChange={(v) => set('tabagismoStatus', v)} />

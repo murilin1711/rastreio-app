@@ -1,4 +1,4 @@
-import type { CondicaoFamiliar, GrauParentesco, Parentesco, SexoNascimento, TabagismoStatus } from '@core/perfil/tipos';
+import type { CondicaoFamiliar, GrauParentesco, Parentesco, RacaCor, SexoNascimento, TabagismoStatus } from '@core/perfil/tipos';
 import type { Opcao } from '@ui/components/Opcoes';
 
 export const OPCOES_SEXO: Opcao<SexoNascimento>[] = [
@@ -67,3 +67,13 @@ export const OPCOES_CONDICAO_FAMILIAR: Opcao<CondicaoFamiliar>[] = [
 export function rotuloDe<T extends string>(lista: Opcao<T>[], valor: T): string {
   return lista.find((o) => o.valor === valor)?.rotulo ?? valor;
 }
+
+/** Autodeclaração de raça/cor (categorias do IBGE). Usada pela SBU para o rastreamento de próstata. */
+export const OPCOES_RACA_COR: Opcao<RacaCor>[] = [
+  { valor: 'branca', rotulo: 'Branca' },
+  { valor: 'preta', rotulo: 'Preta' },
+  { valor: 'parda', rotulo: 'Parda' },
+  { valor: 'amarela', rotulo: 'Amarela' },
+  { valor: 'indigena', rotulo: 'Indígena' },
+  { valor: 'nao_informar', rotulo: 'Prefiro não informar' },
+];
