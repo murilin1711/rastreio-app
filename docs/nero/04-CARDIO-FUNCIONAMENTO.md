@@ -77,6 +77,41 @@ Camada 2 de C-010 (amarelo): "Suas medidas recentes estão acima do esperado. Co
 
 ---
 
-## 3. Minha Glicemia (§5–§8) — C-012 (em discussão)
+## 3. Minha Glicemia (§5–§8) — C-012, aprovado 17/09/2026
+
+### Fontes
+SBD 2026: Metas de controle glicêmico (R6, Tabela 1, níveis de hipoglicemia); Monitorização da glicemia capilar (R5, R8–R10); Diagnóstico de DM (R1–R2, Tabela 1); Manejo dos dias de doença no DM1 (Tabela 1); Cetoacidose diabética (sintomas).
+
+### Registro (§5–§6)
+Momento (lista do §5), valor em mg/dL, data/hora; opcionais: refeição, medicamento/insulina (dose, horário), atividade física, sintomas. Lista de sintomas ampliada: os de hipoglicemia do §6 (tremor, sudorese, tontura, fraqueza, confusão) **+** os de hiperglicemia/cetoacidose (sede intensa, náusea, vômito, dor abdominal, respiração rápida, sonolência).
+
+### Metas ("Meu plano de glicemia", §7)
+1. "Quem definiu suas metas?" — meu médico → digita jejum/pré-prandial, 2 h pós-refeição, ao deitar; opcionalmente escolhe o perfil que o médico indicou (adulto · idoso comprometido · idoso muito comprometido), que preenche a Tabela 1 da SBD.
+2. Sem definição → padrão **Adultos** (jejum/pré 80–130; 2 h pós < 180; ao deitar 90–150), rótulo "meta da diretriz SBD 2026 — confirme com seu médico".
+3. Sem diabetes no perfil → sem metas; o app não pinta "acima/abaixo da meta".
+
+### Plano de monitorização (§7)
+Se o médico prescreveu horários, o paciente marca. Se não, o app oferece modelos da diretriz (marcados "confirme com seu médico"): DM1 sem sensor → antes das refeições e ao deitar (≥ 5/dia); DM2 com insulina basal → jejum (+ noturna eventual); DM2 com insulina intensiva → antes das refeições e ao deitar; DM2 sem insulina → sem horários fixos. Lembretes só para os horários marcados (§22).
+
+### Interpretação ao salvar — camadas
+| Faixa | Cor | Mensagem (resumo) |
+|---|---|---|
+| Qualquer valor + confusão / precisou de ajuda (nível 3) | vermelho | Procure atendimento de emergência agora. |
+| > 250 + sintoma de cetoacidose | vermelho | Esses sintomas com glicemia alta precisam de avaliação urgente. |
+| < 54 (nível 2) | laranja | Valor muito baixo: siga agora a orientação do seu médico para hipoglicemia; se não melhorar, peça ajuda. |
+| > 250 | laranja | Valor muito alto: repita a medida; se tem DM1 ou usa bomba, verifique cetonas como seu médico orientou. |
+| 54–69 (nível 1) | amarelo | Abaixo de 70: siga a orientação do seu médico para hipoglicemia. |
+| Fora da meta (com diabetes) | educativa (§16) | "Acima/abaixo da sua meta" — sem alerta. |
+| Sem diabetes: jejum ≥ 126 ou casual ≥ 200 | convite, sem cor | Glicemia capilar não faz diagnóstico; converse com seu médico sobre um exame de laboratório. |
+| Sem diabetes: jejum 100–125 | contextualização | Faixa que a diretriz chama de pré-diabetes quando confirmada em laboratório. |
+
+O app nunca sugere dose de insulina nem "coma 15 g de carboidrato": conduta é do médico (§25).
+
+### Relatório (§8)
+Período (7/14/30/90/personalizado); médias geral, jejum, pré-prandial, 2 h pós; nº de registros; menor/maior; nº abaixo e acima da meta (só com metas); episódios < 70 e > 250 destacados; tabela e gráfico; medicações do período. Ressalva: organiza registros, não substitui a interpretação do médico.
+
+---
+
+## 4. Meu Risco Cardiovascular — PREVENT (§13–§18) — C-013 (em discussão)
 
 *(preencher após a decisão)*
