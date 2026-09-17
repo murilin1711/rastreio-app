@@ -112,6 +112,49 @@ Período (7/14/30/90/personalizado); médias geral, jejum, pré-prandial, 2 h p�
 
 ---
 
-## 4. Meu Risco Cardiovascular — PREVENT (§13–§18) — C-013 (em discussão)
+## 4. Meu Risco Cardiovascular — PREVENT (§13–§18) — C-013, aprovado 17/09/2026
+
+### Fontes
+Diretriz Brasileira de Dislipidemias 2025: rec. de estratificação (p. 19/51), §4.2 (escore), §4.3 e Tabela 4.3 (agravantes), Tabela 4.1 (categorias), Tabela 4.4 (CAC), §4.8–4.9 (idosos e jovens). Khan et al. 2023 (AHA Statement) e 2024 (Circulation + suplemento com coeficientes) — **a obter por download manual**.
+
+### Elegibilidade
+- 30–79 anos, sem evento aterosclerótico prévio nem revascularização (campo novo em `perfil_saude`). Fora disso o app mostra "o escore não foi desenvolvido para a sua situação; a avaliação de risco é feita pelo seu médico" e não calcula.
+
+### Entradas (§13) e de onde vêm
+| Variável | Origem | Regra de "dado recente" |
+|---|---|---|
+| Idade, sexo | perfil | — |
+| Colesterol total, HDL-c | `exames` laboratoriais | C-014 |
+| PA sistólica | média da MRPA válida mais recente; senão média das medidas casuais recentes | C-014 |
+| Anti-hipertensivo em uso, estatina em uso | `medicacoes` ativas (classe) + confirmação | — |
+| Diabetes | perfil (comorbidades) | — |
+| Tabagismo atual | perfil | C-014 |
+| IMC | peso (`medidas`) + altura (perfil) | C-014 |
+| TFG | valor de laboratório; senão CKD-EPI 2021 (sem raça) a partir da creatinina | C-014 |
+| HbA1c, RAC urinária (opcionais) | `exames` | C-014 |
+| SDI | **nunca** — índice de privação social por CEP dos EUA | — |
+
+Tela "Deseja utilizar seus dados mais recentes?" (§14) lista cada valor com a data; o que estiver fora da janela aparece marcado para redigitar/atualizar.
+
+### Cálculo
+- Modelo básico do PREVENT; se HbA1c e/ou RAC disponíveis, o conjunto de coeficientes correspondente (suplemento de Khan 2024). Implementação em `src/core/regras` (TypeScript puro), com testes que reproduzem casos da calculadora oficial da AHA.
+- Saída principal: **risco de evento aterosclerótico (ASCVD) em 10 anos**. Secundária: **ASCVD em 30 anos** só para 30–59 anos.
+
+### Resultado (§15–§16)
+- "Seu risco cardiovascular estimado em 10 anos: X %" + categoria pelo escore (Tabela 4.1): < 5 % baixo · 5 a < 20 % intermediário · ≥ 20 % alto — rótulo "categoria pelo escore; a estratificação final é do seu médico, que considera diabetes, LDL, exames de imagem e outros fatores".
+- 30 anos (quando houver): "estimativa em 30 anos: Y %" sem categoria, com o texto da diretriz sobre conscientização.
+- Frase obrigatória do §15 sobre estimativa/interpretação com o médico.
+- "O que está impactando meu risco" (§16): cores educativas por fator (tabagismo, PA vs. meta, LDL vs. meta individual se houver, diabetes, IMC, atividade física) — nunca diagnóstico.
+- Cada cálculo é salvo com data e todos os dados usados (para o relatório §26 e a linha do tempo §20).
+
+### Agravantes (§17)
+Checklist com os itens da Tabela 4.3 (lista no registro C-013). Qualquer item marcado → "Existem fatores adicionais que podem modificar a interpretação do seu risco calculado. Converse com seu médico." O app **não** reclassifica. Doença renal crônica e hipercolesterolemia familiar aparecem apenas no texto educativo como situações que o médico estratifica de outra forma.
+
+### Escore de cálcio (§18)
+Registro em `exames` (categoria cardiológica) com valor Agatston, percentil (opcional) e data. Se > 100 UA ou percentil > 75, ou > 300 UA → "A diretriz considera esse valor um estratificador de risco. Converse com seu médico." Aparece no histórico cardiovascular.
+
+---
+
+## 5. Janelas de "dado recente" para preenchimento automático (§14) — C-014 (em discussão)
 
 *(preencher após a decisão)*
