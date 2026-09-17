@@ -1,6 +1,6 @@
 # Coração & Metabolismo — como cada funcionalidade funciona e em que se baseia
 
-> Documento vivo da Fase 2. Uma seção por funcionalidade, escrita conforme cada decisão (C-010…) é aprovada. Cada regra cita a referência do acervo (`referencias/REFERENCIAS.md`) com seção/quadro. Serve de fonte para a spec técnica, para a semente de `regras_clinicas` e para revisão clínica futura.
+> Documento vivo da Fase 2 (índice dos módulos em `README.md`). Uma seção por funcionalidade, escrita conforme cada decisão (C-010…) é aprovada. Cada regra cita a referência do acervo (`../referencias/REFERENCIAS.md`) com seção/quadro. Serve de fonte para a spec técnica, para a semente de `regras_clinicas` e para revisão clínica futura.
 >
 > Regra de trabalho (Murilo, 17/09/2026): antes de propor um parâmetro, verificar o que a **diretriz mais recente** diz — inclusive o que ela *deixou de* recomendar. Nada de janelas ou contagens inventadas; onde a diretriz não fixa, o app convida ou pergunta, nunca alerta.
 
@@ -8,11 +8,11 @@
 
 | Sigla | Documento | Arquivo |
 |---|---|---|
-| DBHA 2025 | Diretriz Brasileira de Hipertensão Arterial – 2025 (SBC/SBH/SBN) | `referencias/pdf/2025-SBC-SBH-SBN-diretriz-hipertensao-arterial.pdf` |
-| Medidas 2023 | Diretrizes Brasileiras de Medidas da PA Dentro e Fora do Consultório – 2023 (SBC) | `referencias/pdf/2023-SBC-medidas-pressao-arterial-dentro-fora-consultorio.pdf` |
-| Dislipidemias 2025 | Diretriz Brasileira de Dislipidemias e Prevenção da Aterosclerose – 2025 (SBC) | `referencias/pdf/2025-SBC-diretriz-dislipidemias-prevencao-aterosclerose.pdf` |
-| SBD 2026 – Metas | Metas de controle glicêmico (SBD, ed. 2026) | `referencias/texto/2026-SBD-metas-controle-glicemico.md` |
-| SBD 2026 – Monitorização | Monitorização da glicemia capilar, CGM e cetonemia (SBD, ed. 2026) | `referencias/texto/2026-SBD-monitorizacao-glicemia.md` |
+| DBHA 2025 | Diretriz Brasileira de Hipertensão Arterial – 2025 (SBC/SBH/SBN) | `../referencias/pdf/2025-SBC-SBH-SBN-diretriz-hipertensao-arterial.pdf` |
+| Medidas 2023 | Diretrizes Brasileiras de Medidas da PA Dentro e Fora do Consultório – 2023 (SBC) | `../referencias/pdf/2023-SBC-medidas-pressao-arterial-dentro-fora-consultorio.pdf` |
+| Dislipidemias 2025 | Diretriz Brasileira de Dislipidemias e Prevenção da Aterosclerose – 2025 (SBC) | `../referencias/pdf/2025-SBC-diretriz-dislipidemias-prevencao-aterosclerose.pdf` |
+| SBD 2026 – Metas | Metas de controle glicêmico (SBD, ed. 2026) | `../referencias/texto/2026-SBD-metas-controle-glicemico.md` |
+| SBD 2026 – Monitorização | Monitorização da glicemia capilar, CGM e cetonemia (SBD, ed. 2026) | `../referencias/texto/2026-SBD-monitorizacao-glicemia.md` |
 | PREVENT 2023 / 2024 | Khan et al., AHA Scientific Statement 2023; Development and Validation 2024 + suplemento | **a obter** (download manual) |
 
 Versões substituídas e **não usadas**: DBHA 2020; 4ª Diretriz de MRPA 2018.

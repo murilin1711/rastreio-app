@@ -1,7 +1,7 @@
 # NERO — Fase 2: Coração & Metabolismo — Spec Técnica
 
 **Data:** 17/09/2026 · **Status:** em revisão pelo Murilo
-**Base:** `docs/nero/01-ESPECIFICACAO-NERO.md` §1–§26, §57 · Decisões clínicas **C-010 a C-014** em `docs/nero/02-DECISOES.md` (todas aprovadas em 17/09/2026) · Funcionamento por funcionalidade em `docs/nero/04-CARDIO-FUNCIONAMENTO.md` · Acervo em `docs/nero/referencias/REFERENCIAS.md` (seção "Fase 2") · Fundação: `2026-09-14-nero-fundacao-design.md` · Fase 1: `2026-09-15-nero-fase1-rastreando-design.md`.
+**Base:** `docs/nero/01-ESPECIFICACAO-NERO.md` §1–§26, §57 · Decisões clínicas **C-010 a C-014** em `docs/nero/02-DECISOES.md` (todas aprovadas em 17/09/2026) · Funcionamento por funcionalidade em `docs/nero/funcionamento/coracao-metabolismo.md` · Acervo em `docs/nero/referencias/REFERENCIAS.md` (seção "Fase 2") · Fundação: `2026-09-14-nero-fundacao-design.md` · Fase 1: `2026-09-15-nero-fase1-rastreando-design.md`.
 **Entrega:** uma spec, **dois planos** com checklist e merge separados — **2a** (pressão, MRPA, alertas, lembretes de medicação, dashboard inicial, Home) e **2b** (glicemia, exames, PREVENT, agravantes/CAC, check-up, linha do tempo).
 
 ---

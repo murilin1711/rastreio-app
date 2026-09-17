@@ -13,7 +13,8 @@
 2. Nada é marcado como concluído sem verificação (testes rodando / tela testada).
 3. Toda decisão relevante (técnica ou clínica) entra em `02-DECISOES.md` com data e motivo.
 4. Regras clínicas nunca ficam só no código: cada uma tem fonte, ano, versão e data de revisão (spec §53 e §65).
-5. **Toda referência usada é salva em `docs/nero/referencias/` (PDF + texto extraído) e indexada em `REFERENCIAS.md`. Antes de usar uma referência, verificar se há versão mais nova na URL oficial e substituir** (regra do Murilo, 15/09/2026).
+5. **Como cada funcionalidade funciona** (passo a passo + referência com recomendação/quadro) fica em `docs/nero/funcionamento/<módulo>.md` — um arquivo por módulo, índice em `funcionamento/README.md`; escrito junto com a decisão, nunca depois (regra do Murilo, 17/09/2026).
+6. **Toda referência usada é salva em `docs/nero/referencias/` (PDF + texto extraído) e indexada em `REFERENCIAS.md`. Antes de usar uma referência, verificar se há versão mais nova na URL oficial e substituir** (regra do Murilo, 15/09/2026).
 
 ---
 
@@ -70,7 +71,7 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 
 ### Fase 2 — Coração & Metabolismo — **em andamento desde 16/09/2026**
 - [x] Referências vigentes no acervo (`referencias/REFERENCIAS.md`, seção Fase 2)
-- [x] Decisões clínicas C-010–C-014 aprovadas e documentadas (`02-DECISOES.md`, `04-CARDIO-FUNCIONAMENTO.md`)
+- [x] Decisões clínicas C-010–C-014 aprovadas e documentadas (`02-DECISOES.md`, `funcionamento/coracao-metabolismo.md`)
 - [x] Spec técnica (`docs/superpowers/specs/2026-09-17-nero-fase2-cardio-design.md`) — em revisão
 - [ ] PDFs do PREVENT (Khan 2023/2024 + suplemento) baixados pelo Murilo
 - [ ] Minha Pressão (registro simples + médias/gráficos) (§1)
@@ -104,7 +105,7 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 
 | Data | Fase | O que foi feito |
 |------|------|-----------------|
-| 17/09/2026 | 2 | **Fase 2 iniciada.** Acervo verificado e baixado (DBHA 2025 substitui 2020; Medidas PA 2023 substitui MRPA 2018; Dislipidemias 2025; SBD 2026 × 5 capítulos). C-010–C-014 aprovadas pelo Murilo, cada uma validada no texto da diretriz vigente. Funcionamento por funcionalidade em `04-CARDIO-FUNCIONAMENTO.md`. Spec técnica escrita: `docs/superpowers/specs/2026-09-17-nero-fase2-cardio-design.md` (entrega em dois planos, 2a e 2b). Pendente: download manual dos PDFs do PREVENT (Khan 2023/2024 + suplemento). |
+| 17/09/2026 | 2 | **Fase 2 iniciada.** Acervo verificado e baixado (DBHA 2025 substitui 2020; Medidas PA 2023 substitui MRPA 2018; Dislipidemias 2025; SBD 2026 × 5 capítulos). C-010–C-014 aprovadas pelo Murilo, cada uma validada no texto da diretriz vigente. Funcionamento por funcionalidade em `funcionamento/coracao-metabolismo.md`. Spec técnica escrita: `docs/superpowers/specs/2026-09-17-nero-fase2-cardio-design.md` (entrega em dois planos, 2a e 2b). Pendente: download manual dos PDFs do PREVENT (Khan 2023/2024 + suplemento). |
 | 14/09/2026 | — | Documento NERO importado e estruturado em `docs/nero/`. Roadmap e registro de decisões criados. Início da discussão de arquitetura. |
 | 14/09/2026 | 0 | D-001 decidida: evoluir o código atual — Rastreando vira módulo, construímos a camada anterior (Home com módulos + perfil único). |
 | 16/09/2026 | 1 | **Fase 1 implementada** (13 tarefas): 5 handlers, 62 regras semeadas, telas completas do Rastreando, Home integrada. 160 testes Jest + 12 pgTAP. Banco na nuvem migrado (0008, 0009) e semeado. Documento de revisão clínica gerado. **Merge em `desenvolvimento-2`.** |
