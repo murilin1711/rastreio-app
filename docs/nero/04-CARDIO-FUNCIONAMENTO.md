@@ -155,6 +155,31 @@ Registro em `exames` (categoria cardiológica) com valor Agatston, percentil (op
 
 ---
 
-## 5. Janelas de "dado recente" para preenchimento automático (§14) — C-014 (em discussão)
+## 5. Janelas de "dado recente" — preenchimento automático (§14) e check-up (§24) — C-014, aprovado 17/09/2026
 
-*(preencher após a decisão)*
+### Base
+Decisão de produto (as diretrizes não fixam "validade" de dado para calculadora). Âncoras: perfil lipídico anual após meta (Dislipidemias 2025); reavaliação de FRCV/LOA pelo menos anual e PA normal repetida anualmente (DBHA 2025); medidas casuais são triagem (C-010).
+
+### Tabela de janelas
+| Dado | Usa direto | Pergunta "tem mais recente?" | Pede novo |
+|---|---|---|---|
+| PA sistólica | MRPA válida concluída ≤ 30 dias **ou** média de ≥ 3 medidas casuais nos últimos 7 dias | — | fora disso: medir agora (sentado, 5 min de repouso) ou iniciar MRPA |
+| Peso → IMC | ≤ 30 dias | 31–90 dias | > 90 dias |
+| Tabagismo | perfil, confirmação de um toque | — | — |
+| CT, HDL-c | ≤ 12 meses | > 12 meses; sem exame novo calcula com aviso "dados com mais de 1 ano" + pendência §24 | nunca bloqueia |
+| Creatinina / TFG | ≤ 12 meses | idem | nunca bloqueia |
+| HbA1c (opcional) | ≤ 6 meses | > 6 meses; sem novo, calcula sem HbA1c | — |
+| RAC urinária (opcional) | ≤ 12 meses | idem | — |
+| Anti-hipertensivo, estatina | `medicacoes` ativas | confirmação na tela | — |
+
+### Tela "Deseja utilizar seus dados mais recentes?" (§14)
+Lista cada variável com valor, data e estado (atual · antigo · faltando). "Antigo" abre a pergunta; "faltando" abre o campo. Cada cálculo salvo guarda os valores e datas usados.
+
+### Check-up "Como está minha prevenção?" (§24)
+Conta "informações atualizadas: n/8" com as janelas de "usa direto": PA · peso/IMC · tabagismo · glicemia/HbA1c (quando há diabetes) · perfil lipídico · função renal · atividade física (Fase 4; até lá conta como "não registrado") · risco calculado (12 meses). Cada item faltante vira uma frase do tipo "Falta atualizar seu perfil lipídico" — sem pedir exames além dos que o próprio módulo usa.
+
+---
+
+## 6. Meus Exames (§9–§11), Medicações (§21), Lembretes (§22), Sinais de alerta (§23), Dashboard e linha do tempo (§19–§20)
+
+Sem decisão clínica pendente: seguem a spec de produto e as estruturas já existentes (`exames`, `medicacoes`, `lembretes`). Detalhamento na spec técnica da Fase 2.
