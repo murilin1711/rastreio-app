@@ -84,7 +84,7 @@ Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limi
 
 ### D-011 · Fase 4: medidas corporais ficam em `medidas` (tipos novos), não em tabela própria — DECIDIDA (18/09/2026)
 **Contexto:** `medidas` já guarda `pa`, `glicemia` e `peso` (usado pelo PREVENT e pelo check-up) com `valores` em JSON.
-**Decisão:** opção A — tipos novos `cintura`, `quadril` e `composicao` na mesma tabela (`valores`: `{ cm }`, `{ cm }`, `{ gordura_pct, massa_magra_kg, massa_muscular_kg, agua_pct, gordura_visceral, tmb_kcal, metodo }`); `peso` ganha `metodo` opcional em `valores`. Refeições, atividades, sono, check-ins e metas têm tabelas próprias (`refeicoes`, `atividades`, `sono`, `checkins`, `metas`), porque não são "medidas" e têm campos distintos.
+**Decisão:** opção A — tipos novos `cintura`, `quadril` e `composicao` na mesma tabela (`valores`: `{ cm }`, `{ cm }`, `{ gordura_pct, massa_magra_kg, massa_muscular_kg, agua_pct, gordura_visceral, tmb_kcal, metodo }`); `peso` ganha `metodo` opcional em `valores`. `sono` também fica em `medidas` (o tipo já existia desde a Fase 0). Refeições, atividades, check-ins, metas e vínculos de glicemia têm tabelas próprias (`refeicoes`, `atividades`, `checkins`, `metas`, `vinculos_glicemia`), porque não são "medidas" e têm campos distintos.
 **Motivo:** mesmo padrão dos módulos anteriores, sem migração de dados nem duplicação do peso; PREVENT e check-up continuam lendo de onde leem.
 
 ---
