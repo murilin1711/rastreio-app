@@ -61,6 +61,22 @@
 **Decisão:** **(a)** — `documentos (id, user_id, exame_id opcional, tipo: laudo | receita | atestado | imagem | outro, nome, caminho, mime, tamanho, data_documento, observacao, created_at)`, RLS por dono. Anexo de exame = linha com `exame_id`; documento avulso = sem. Captura por câmera/galeria (`expo-image-picker`) e PDF (`expo-document-picker`); imagens comprimidas (máx. 2000 px, JPEG ~80 %); limite 10 MB. Leitura sempre por URL assinada de 1 h. `exames.anexos` fica sem uso (compatibilidade).
 **Motivo:** comporta documentos sem exame, permite listar/filtrar/apagar e mantém o dado clínico estruturado separado do arquivo.
 
+### D-009 · "Preparar minha consulta": conteúdo por especialidade (§62) — DECIDIDA (17/09/2026)
+**Contexto:** decisão de produto validada pelo Murilo (médico); a spec dá só os exemplos de cardiologia e mastologia.
+**Decisão:** bloco **sempre presente** (perfil: idade, sexo, comorbidades, tabagismo; medicamentos ativos com "desde quando"; documentos anexados no período; ressalva final) + prioridades por consulta:
+- **Cardiologia:** MRPA e PA (médias/gráfico), glicemia (resumo), LDL/HDL/CT/TG, creatinina/TFG, ECG/eco/teste ergométrico/Holter/MAPA/CAC, último PREVENT com dados usados, agravantes.
+- **Endocrinologia:** glicemia com metas e plano, HbA1c, perfil lipídico, TSH, peso/IMC, PA (resumo), PREVENT.
+- **Clínica médica:** check-up n/8, PA, glicemia/HbA1c, lipídios, função renal, rastreamentos aplicáveis com status e pendências, PREVENT.
+- **Ginecologia:** colo do útero (DNA-HPV/citologia/colposcopia, seguimento), mama (mamografias, BI-RADS), história familiar, menopausa, distúrbios gestacionais.
+- **Mastologia:** mamografias/BI-RADS e complementares, fatores modificadores (genética, RT torácica), história familiar.
+- **Urologia:** PSA (evolução e data definida pelo médico), história familiar de próstata, raça/cor.
+- **Gastro/coloproctologia:** FIT, colonoscopias e achados, DII, história familiar de CCR.
+- **Pneumologia:** carga tabágica (maços-ano, cessação), TCBD/Lung-RADS.
+- **Oncologia:** todos os programas com histórico completo, pendências, sintomas de alarme.
+- **Outra:** relatório geral.
+Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limite (últimos de cada tipo + histórico resumido).
+**Motivo:** o médico recebe primeiro o que decide a consulta; o restante fica no relatório geral.
+
 ---
 
 ## Decisões clínicas (protocolos adotados)
