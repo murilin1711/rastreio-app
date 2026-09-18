@@ -50,8 +50,11 @@ export function modeloPara(e: EntradasPrevent): ModeloPrevent {
 
 const MGDL_PARA_MMOL = 0.02586;
 
-/** Logit do PREVENT com as transformações de Khan 2024 (Methods). */
-export function logitPrevent(e: EntradasPrevent, c: Coeficientes): number {
+/** Só para testes de validação contra o suplemento (o app usa sempre 'ausente' — o SDI é um índice de CEP dos EUA). */
+export type SdiTeste = 'ausente' | '1-3' | '4-6' | '7-10';
+
+/** Logit do PREVENT com as transformações de Khan 2024 (Apêndice 4 do suplemento; centragens da Tabela S12). */
+export function logitPrevent(e: EntradasPrevent, c: Coeficientes, sdi: SdiTeste = 'ausente'): number {
   const idade = (e.idade - 55) / 10;
   const naoHdl = (e.colesterolTotal - e.hdl) * MGDL_PARA_MMOL - 3.5;
   const hdl = (e.hdl * MGDL_PARA_MMOL - 1.3) / 0.3;
@@ -63,22 +66,36 @@ export function logitPrevent(e: EntradasPrevent, c: Coeficientes): number {
   const fumo = e.tabagismoAtual ? 1 : 0;
   const ah = e.antiHipertensivo ? 1 : 0;
   const est = e.estatina ? 1 : 0;
-  let l = c.intercepto + c.idade * idade + c.naoHdl * naoHdl + c.hdl * hdl + c.pasBaixa * pasBaixa + c.pasAlta * pasAlta
-    + c.diabetes * dm + c.tabagismo * fumo + c.tfgBaixa * tfgBaixa + c.tfgAlta * tfgAlta + c.antiHipertensivo * ah + c.estatina * est
+  let l = c.intercepto + c.idade * idade + (c.idade2 ?? 0) * idade * idade
+    + c.naoHdl * naoHdl + c.hdl * hdl + c.pasBaixa * pasBaixa + c.pasAlta * pasAlta
+    + c.diabetes * dm + c.tabagismo * fumo + c.tfgBaixa * tfgBaixa + c.tfgAlta * tfgAlta
+    + c.antiHipertensivo * ah + c.estatina * est
     + c.antiHipertensivoXpasAlta * ah * pasAlta + c.estatinaXnaoHdl * est * naoHdl
     + c.idadeXnaoHdl * idade * naoHdl + c.idadeXhdl * idade * hdl + c.idadeXpasAlta * idade * pasAlta
     + c.idadeXdiabetes * idade * dm + c.idadeXtabagismo * idade * fumo + c.idadeXtfgBaixa * idade * tfgBaixa;
-  if (e.hba1c != null && c.hba1cComDiabetes != null && c.hba1cSemDiabetes != null) l += (e.diabetes ? c.hba1cComDiabetes : c.hba1cSemDiabetes) * (e.hba1c - 5.3);
-  if (e.rac != null && c.rac != null) l += c.rac * (Math.log(Math.max(e.rac, 0.1)) - Math.log(4.5)); // centragem conferida na Task 4
+  // Variáveis dos modelos ampliados (Tabelas S12B/C/E): HbA1c centrada em 5,3 por status de diabetes; ln(RAC) sem centragem.
+  if (c.hba1cComDiabetes != null && c.hba1cSemDiabetes != null) {
+    if (e.hba1c != null) l += (e.diabetes ? c.hba1cComDiabetes : c.hba1cSemDiabetes) * (e.hba1c - 5.3);
+    else l += c.hba1cAusente ?? 0;
+  }
+  if (c.lnRac != null) {
+    if (e.rac != null) l += c.lnRac * Math.log(Math.max(e.rac, 0.1));
+    else l += c.racAusente ?? 0;
+  }
+  if (c.sdiAusente != null) {
+    l += sdi === '4-6' ? (c.sdi4a6 ?? 0) : sdi === '7-10' ? (c.sdi7a10 ?? 0) : sdi === 'ausente' ? c.sdiAusente : 0;
+  }
   return l;
 }
 
-export function calcularPrevent(e: EntradasPrevent): ResultadoPrevent {
+const risco = (l: number) => Math.round((Math.exp(l) / (1 + Math.exp(l))) * 1000) / 10;
+
+export function calcularPrevent(e: EntradasPrevent, sdiTeste: SdiTeste = 'ausente'): ResultadoPrevent {
   if (!DISPONIVEL) throw new CoeficientesIndisponiveis();
   const modelo = modeloPara(e);
   const c10 = COEFICIENTES[modelo]?.[e.sexo]?.['10'];
   if (!c10) throw new CoeficientesIndisponiveis();
-  const risco = (c: Coeficientes) => Math.round((Math.exp(logitPrevent(e, c)) / (1 + Math.exp(logitPrevent(e, c)))) * 1000) / 10;
+  // 30 anos: o PREVENT estima para 30–59 anos (Khan 2024)
   const c30 = e.idade <= 59 ? COEFICIENTES[modelo]?.[e.sexo]?.['30'] : undefined;
-  return { ascvd10: risco(c10), ascvd30: c30 ? risco(c30) : null, modelo, versaoCoeficientes: VERSAO_COEFICIENTES };
+  return { ascvd10: risco(logitPrevent(e, c10, sdiTeste)), ascvd30: c30 ? risco(logitPrevent(e, c30, sdiTeste)) : null, modelo, versaoCoeficientes: VERSAO_COEFICIENTES };
 }
