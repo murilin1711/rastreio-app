@@ -77,7 +77,7 @@ export default function Home() {
             <CardModulo titulo="Minha Saúde" descricao="Perfil, medicamentos e relatórios" icone="person-outline" capa={[Colors.logoMarinho, Colors.logoAco]} onPress={() => router.push('/(app)/minha-saude')} />
           </View>
           <View style={styles.linhaGrade}>
-            <CardModulo titulo="Coração & Metabolismo" descricao="Pressão, glicemia e risco cardiovascular" icone="heart-outline" capa={['#B4321F', '#F2734A']} emBreve />
+            <CardModulo titulo="Coração & Metabolismo" descricao="Pressão, glicemia e risco cardiovascular" icone="heart-outline" capa={['#B4321F', '#F2734A']} onPress={() => router.push('/(app)/coracao')} />
             <CardModulo titulo="Saúde & Bem-estar" descricao="Peso, alimentação, atividade e sono" icone="leaf-outline" capa={['#15803D', '#5FCB8A']} emBreve />
           </View>
         </View>
