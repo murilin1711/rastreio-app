@@ -1,5 +1,5 @@
-import { SECOES_CARDIO, SECOES_ONCOLOGICO } from '../especialidades';
-import { montarCardio, montarConsulta, montarGeral, montarOncologico } from '../montar';
+import { SECOES_BEMESTAR, SECOES_CARDIO, SECOES_ONCOLOGICO } from '../especialidades';
+import { montarBemEstar, montarCardio, montarConsulta, montarGeral, montarOncologico } from '../montar';
 import { SEM_REGISTROS, type SecaoRelatorio } from '../tipos';
 import { PERIODO_TESTE, dadosNeroTeste } from './fixtures';
 
@@ -70,5 +70,38 @@ describe('montarConsulta (D-009)', () => {
   test('sem dados de PA → texto padrão', () => {
     const d = dadosNeroTeste(); d.medidasPA = [];
     expect(montarConsulta(d, 'cardiologia', PERIODO_TESTE).find((x) => x.chave === 'pa')!.blocos).toEqual([{ tipo: 'texto', texto: SEM_REGISTROS }]);
+  });
+});
+
+describe('montarBemEstar (§88) e integrações da Fase 4', () => {
+  const s = montarBemEstar(dadosNeroTeste(), PERIODO_TESTE);
+  test('seções na ordem + pendências', () => expect(chaves(s)).toEqual([...SECOES_BEMESTAR, 'pendencias']));
+  test('corpo: IMC com faixa, cintura com RCA, tendência e tabela', () => {
+    const t = textoDe([s.find((x) => x.chave === 'corpo')!]);
+    expect(t).toContain('Peso atual 82,0 kg');
+    expect(t).toContain('IMC 28,4 — Sobrepeso');
+    expect(t).toContain('relação cintura/altura 0,56 (acima de 0,5)');
+    expect(t).toContain('Tendência do peso: redução');
+  });
+  test('atividade: semana com minutos que contam e meta', () => {
+    const t = textoDe([s.find((x) => x.chave === 'atividade')!]);
+    expect(t).toContain('90 / 150');
+    expect(t).toContain('Musculação');
+  });
+  test('sono, alimentação e check-ins presentes; vazio quando não há dados', () => {
+    expect(textoDe([s.find((x) => x.chave === 'sono')!])).toContain('6h40');
+    expect(textoDe([s.find((x) => x.chave === 'alimentacao')!])).toContain('arroz, feijão e frango');
+    expect(textoDe([s.find((x) => x.chave === 'checkins')!])).toContain('semana corrida');
+    const d = dadosNeroTeste(); d.bemEstar!.sonos = [];
+    expect(montarBemEstar(d, PERIODO_TESTE).find((x) => x.chave === 'sono')!.blocos).toEqual([{ tipo: 'texto', texto: SEM_REGISTROS }]);
+  });
+  test('glicemia mostra a refeição vinculada (C-020)', () => {
+    const g = montarCardio(dadosNeroTeste(), PERIODO_TESTE).find((x) => x.chave === 'glicemia')!;
+    const tabela = g.blocos.find((b) => b.tipo === 'tabela');
+    expect(tabela && tabela.tipo === 'tabela' ? tabela.linhas.find((l) => l[1] === '168')?.[4] : null).toBe('almoço 12:30');
+  });
+  test('consulta de endocrinologia inclui corpo e atividade', () => {
+    const c = chaves(montarConsulta(dadosNeroTeste(), 'endocrinologia', PERIODO_TESTE));
+    expect(c).toContain('corpo'); expect(c).toContain('atividade');
   });
 });

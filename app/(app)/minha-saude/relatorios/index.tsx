@@ -16,6 +16,7 @@ type Dias = '30' | '90' | '180';
 const CARTOES: { tipo: TipoRelatorio; icone: keyof typeof Ionicons.glyphMap; titulo: string; descricao: string }[] = [
   { tipo: 'cardio', icone: 'heart-outline', titulo: 'Relatório cardiovascular', descricao: 'Pressão, MRPA, glicemia, exames, medicamentos e risco cardiovascular.' },
   { tipo: 'oncologico', icone: 'shield-checkmark-outline', titulo: 'Relatório de rastreamento oncológico', descricao: 'Programas aplicáveis, exames, resultados, pendências e próximos rastreamentos.' },
+  { tipo: 'bemestar', icone: 'leaf-outline', titulo: 'Relatório de Saúde & Hábitos', descricao: 'Evolução corporal, alimentação, atividade, sono e check-ins.' },
   { tipo: 'geral', icone: 'document-text-outline', titulo: 'Relatório geral NERO', descricao: 'Reúne todas as áreas.' },
 ];
 

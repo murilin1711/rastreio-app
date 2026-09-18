@@ -3,7 +3,7 @@ import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro, type ErroNero } from '@core/supabase/erros';
 import { carregarDadosNero, periodoDias } from './carregar';
 import { htmlRelatorio } from './html';
-import { montarCardio, montarConsulta, montarGeral, montarOncologico, tituloRelatorio } from './montar';
+import { montarBemEstar, montarCardio, montarConsulta, montarGeral, montarOncologico, tituloRelatorio } from './montar';
 import type { ChaveSecao, DadosNero, Especialidade, SecaoRelatorio, TipoRelatorio } from './tipos';
 
 export interface ParametrosRelatorio { tipo: TipoRelatorio; dias: 30 | 90 | 180; especialidade?: Especialidade; apenas?: ChaveSecao[] }
@@ -33,6 +33,7 @@ export function useRelatorio(p: ParametrosRelatorio) {
       case 'oncologico': return montarOncologico(dados, periodo);
       case 'geral': return montarGeral(dados, periodo);
       case 'consulta': return montarConsulta(dados, p.especialidade ?? 'outra', periodo);
+      case 'bemestar': return montarBemEstar(dados, periodo);
     }
   }, [dados, p.tipo, p.especialidade, apenasChave, periodo]);
 

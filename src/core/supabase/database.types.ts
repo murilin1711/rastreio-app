@@ -67,6 +67,93 @@ export type Database = {
         }
         Relationships: []
       }
+      atividades: {
+        Row: {
+          calorias: number | null
+          created_at: string
+          distancia_km: number | null
+          duracao_min: number
+          fc_media: number | null
+          id: string
+          inicio: string
+          intensidade: string
+          observacao: string | null
+          tipo: string
+          user_id: string
+        }
+        Insert: {
+          calorias?: number | null
+          created_at?: string
+          distancia_km?: number | null
+          duracao_min: number
+          fc_media?: number | null
+          id?: string
+          inicio: string
+          intensidade: string
+          observacao?: string | null
+          tipo: string
+          user_id: string
+        }
+        Update: {
+          calorias?: number | null
+          created_at?: string
+          distancia_km?: number | null
+          duracao_min?: number
+          fc_media?: number | null
+          id?: string
+          inicio?: string
+          intensidade?: string
+          observacao?: string | null
+          tipo?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      checkins: {
+        Row: {
+          alimentacao: number | null
+          atividade: number | null
+          bem_estar: number | null
+          created_at: string
+          disposicao: number | null
+          energia: number | null
+          estresse: number | null
+          id: string
+          observacao: string | null
+          semana: string
+          sono: number | null
+          user_id: string
+        }
+        Insert: {
+          alimentacao?: number | null
+          atividade?: number | null
+          bem_estar?: number | null
+          created_at?: string
+          disposicao?: number | null
+          energia?: number | null
+          estresse?: number | null
+          id?: string
+          observacao?: string | null
+          semana: string
+          sono?: number | null
+          user_id: string
+        }
+        Update: {
+          alimentacao?: number | null
+          atividade?: number | null
+          bem_estar?: number | null
+          created_at?: string
+          disposicao?: number | null
+          energia?: number | null
+          estresse?: number | null
+          id?: string
+          observacao?: string | null
+          semana?: string
+          sono?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       compartilhamentos: {
         Row: {
           caminho: string
@@ -404,6 +491,39 @@ export type Database = {
           },
         ]
       }
+      metas: {
+        Row: {
+          ativa: boolean
+          created_at: string
+          detalhe: string | null
+          id: string
+          origem: string
+          tipo: string
+          user_id: string
+          valor: number
+        }
+        Insert: {
+          ativa?: boolean
+          created_at?: string
+          detalhe?: string | null
+          id?: string
+          origem: string
+          tipo: string
+          user_id: string
+          valor: number
+        }
+        Update: {
+          ativa?: boolean
+          created_at?: string
+          detalhe?: string | null
+          id?: string
+          origem?: string
+          tipo?: string
+          user_id?: string
+          valor?: number
+        }
+        Relationships: []
+      }
       mrpa_sessoes: {
         Row: {
           concluida_em: string | null
@@ -519,8 +639,10 @@ export type Database = {
           menopausa: boolean | null
           metas_glicemia: Json | null
           nome: string
+          objetivo_peso: string | null
           perfil_inicial_completo: boolean
           perfil_meta_glicemica: string
+          peso_maximo_vida_kg: number | null
           plano_glicemia: Json | null
           possui_colo_utero: boolean | null
           preferencias_lembretes: Json
@@ -560,8 +682,10 @@ export type Database = {
           menopausa?: boolean | null
           metas_glicemia?: Json | null
           nome: string
+          objetivo_peso?: string | null
           perfil_inicial_completo?: boolean
           perfil_meta_glicemica?: string
+          peso_maximo_vida_kg?: number | null
           plano_glicemia?: Json | null
           possui_colo_utero?: boolean | null
           preferencias_lembretes?: Json
@@ -601,8 +725,10 @@ export type Database = {
           menopausa?: boolean | null
           metas_glicemia?: Json | null
           nome?: string
+          objetivo_peso?: string | null
           perfil_inicial_completo?: boolean
           perfil_meta_glicemica?: string
+          peso_maximo_vida_kg?: number | null
           plano_glicemia?: Json | null
           possui_colo_utero?: boolean | null
           preferencias_lembretes?: Json
@@ -625,6 +751,59 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      refeicoes: {
+        Row: {
+          created_at: string
+          descricao: string
+          documento_id: string | null
+          em: string
+          fome_antes: number | null
+          id: string
+          local: string | null
+          observacao: string | null
+          quantidade: string | null
+          saciedade: string | null
+          tipo: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          descricao: string
+          documento_id?: string | null
+          em: string
+          fome_antes?: number | null
+          id?: string
+          local?: string | null
+          observacao?: string | null
+          quantidade?: string | null
+          saciedade?: string | null
+          tipo: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          descricao?: string
+          documento_id?: string | null
+          em?: string
+          fome_antes?: number | null
+          id?: string
+          local?: string | null
+          observacao?: string | null
+          quantidade?: string | null
+          saciedade?: string | null
+          tipo?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "refeicoes_documento_id_fkey"
+            columns: ["documento_id"]
+            isOneToOne: false
+            referencedRelation: "documentos"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       regras_clinicas: {
         Row: {
@@ -757,6 +936,49 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      vinculos_glicemia: {
+        Row: {
+          atividade_id: string | null
+          created_at: string
+          glicemia_id: string
+          refeicao_id: string | null
+        }
+        Insert: {
+          atividade_id?: string | null
+          created_at?: string
+          glicemia_id: string
+          refeicao_id?: string | null
+        }
+        Update: {
+          atividade_id?: string | null
+          created_at?: string
+          glicemia_id?: string
+          refeicao_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vinculos_glicemia_atividade_id_fkey"
+            columns: ["atividade_id"]
+            isOneToOne: false
+            referencedRelation: "atividades"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vinculos_glicemia_glicemia_id_fkey"
+            columns: ["glicemia_id"]
+            isOneToOne: true
+            referencedRelation: "medidas"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "vinculos_glicemia_refeicao_id_fkey"
+            columns: ["refeicao_id"]
+            isOneToOne: false
+            referencedRelation: "refeicoes"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

@@ -8,7 +8,13 @@ import { ROTULO_EXAME, ROTULO_PROGRAMA, type TipoExameRastreamento } from '@core
 import { LISTA_AGRAVANTES } from '@core/regras/cardio/agravantes';
 import { resumoGlicemia } from '@core/regras/cardio/glicemia';
 import type { Programa } from '@core/regras/tipos';
-import { PRIORIDADES, SECOES_CARDIO, SECOES_GERAL, SECOES_ONCOLOGICO, SEMPRE_PRESENTE, rotuloEspecialidade } from './especialidades';
+import { ROTULO_REFEICAO, resumoAlimentacaoSemana } from '@core/regras/bemestar/alimentacao';
+import { ROTULO_ATIVIDADE, resumoSemana, semanaDe } from '@core/regras/bemestar/atividade';
+import { mediasMensais } from '@core/regras/bemestar/checkin';
+import { avaliarPMAV, classificarCintura, classificarRCA, faixaIMC, faixaIMCIdoso, rca, tendenciaPeso } from '@core/regras/bemestar/corpo';
+import { formatarHm, resumo7d } from '@core/regras/bemestar/sono';
+import type { ParametrosBemEstar } from '@core/regras/bemestar/tipos';
+import { PRIORIDADES, SECOES_BEMESTAR, SECOES_CARDIO, SECOES_GERAL, SECOES_ONCOLOGICO, SEMPRE_PRESENTE, rotuloEspecialidade } from './especialidades';
 import { SEM_REGISTROS, type Bloco, type ChaveSecao, type DadosNero, type Especialidade, type Periodo, type SecaoRelatorio } from './tipos';
 
 // ——— utilitários ———
@@ -64,7 +70,86 @@ function programa(d: DadosNero, chave: ChaveSecao, p: Programa, titulo: string):
   return { chave, titulo, blocos: blocos.length ? blocos : vazio() };
 }
 
+/** Texto do vínculo glicemia ↔ refeição/atividade (C-020) para a tabela de glicemia. */
+function vinculoDe(d: DadosNero, glicemiaId: string): string {
+  const v = d.bemEstar?.vinculos.find((x) => x.glicemiaId === glicemiaId);
+  if (!v) return '—';
+  const r = v.refeicaoId ? d.bemEstar!.refeicoes.find((x) => x.id === v.refeicaoId) : null;
+  const a = v.atividadeId ? d.bemEstar!.atividades.find((x) => x.id === v.atividadeId) : null;
+  return [r ? `${ROTULO_REFEICAO[r.tipo].toLowerCase()} ${dataHoraBr(r.em).slice(-5)}` : null, a ? `${ROTULO_ATIVIDADE[a.tipo].toLowerCase()} ${dataHoraBr(a.inicio).slice(-5)} (${a.duracaoMin} min)` : null].filter(Boolean).join(' · ') || '—';
+}
+
+const semanasDoPeriodo = (periodo: Periodo) => { const out: { inicio: string; fim: string }[] = []; let s = semanaDe(periodo.desde); while (s.inicio <= periodo.ate) { out.push(s); s = semanaDe(new Date(Date.parse(`${s.fim}T12:00:00`) + 86_400_000).toISOString().slice(0, 10)); } return out; };
+
 const CONSTRUTORES: Record<ChaveSecao, Construtor> = {
+  corpo: (d, periodo) => {
+    const be = d.bemEstar; const p: ParametrosBemEstar | undefined = be?.parametros;
+    if (!be || !p) return { chave: 'corpo', titulo: 'Evolução corporal', blocos: vazio() };
+    const pesos = be.corporais.filter((m) => m.tipo === 'peso' && m.valores.kg != null).sort((a, b) => b.medidoEm.localeCompare(a.medidoEm));
+    const cinturas = be.corporais.filter((m) => m.tipo === 'cintura' && m.valores.cm != null).sort((a, b) => b.medidoEm.localeCompare(a.medidoEm));
+    const comps = be.corporais.filter((m) => m.tipo === 'composicao').sort((a, b) => b.medidoEm.localeCompare(a.medidoEm));
+    if (!pesos.length && !cinturas.length && !comps.length) return { chave: 'corpo', titulo: 'Evolução corporal', blocos: vazio() };
+    const blocos: Bloco[] = [];
+    const ultimo = pesos[0]; const cintura = cinturas[0];
+    const imc = ultimo && be.alturaCm ? ultimo.valores.kg! / (be.alturaCm / 100) ** 2 : null;
+    const itens: string[] = [];
+    if (ultimo) itens.push(`Peso atual ${num(ultimo.valores.kg, 1)} kg (${dataBr(ultimo.medidoEm)})${imc != null ? ` · IMC ${num(imc, 1)} — ${faixaIMC(imc, p).rotulo}${faixaIMCIdoso(imc, be.idade, p) ? ` · ${faixaIMCIdoso(imc, be.idade, p)!.rotulo}` : ''}` : ''}`);
+    if (cintura) { const v = be.alturaCm ? rca(cintura.valores.cm!, be.alturaCm) : null; itens.push(`Circunferência abdominal ${num(cintura.valores.cm, 0)} cm (${dataBr(cintura.medidoEm)})${be.sexo ? ` — ${classificarCintura(cintura.valores.cm!, be.sexo, p).faixa.replace('_', ' ')}` : ''}${v != null ? ` · relação cintura/altura ${num(v, 2)} (${classificarRCA(v, p).acima ? 'acima' : 'abaixo'} de 0,5)` : ''}`); }
+    const tend = tendenciaPeso(pesos.map((m) => ({ medidoEm: m.medidoEm, kg: m.valores.kg! })), periodo.ate, p);
+    if (tend) itens.push(`Tendência do peso: ${tend === 'estavel' ? 'estável' : tend === 'aumento' ? 'aumento' : 'redução'} (médias de 14 dias)`);
+    if (d.perfil.pesoMaximoVidaKg != null && ultimo && imc != null) { const r = avaliarPMAV(ultimo.valores.kg!, d.perfil.pesoMaximoVidaKg, imc, p); itens.push(`Peso máximo da vida ${num(d.perfil.pesoMaximoVidaKg, 1)} kg · ${num(r.perdaPct, 1)} % abaixo${r.faixa && r.faixa !== 'nenhuma' ? ` · faixa de obesidade ${r.faixa} (ABESO 2026)` : ''}`); }
+    if (d.perfil.objetivoPeso) itens.push(`Objetivo de peso escolhido: ${{ reducao: 'redução', manutencao: 'manutenção', aumento: 'aumento', sem_meta: 'sem meta' }[d.perfil.objetivoPeso]}`);
+    for (const m of be.metas.filter((x) => x.tipo === 'peso' || x.tipo === 'cintura')) itens.push(`Meta de ${m.tipo}: ${num(m.valor, 1)} ${m.tipo === 'peso' ? 'kg' : 'cm'} (${m.origem === 'profissional' ? 'definida com profissional' : 'do paciente'})`);
+    blocos.push({ tipo: 'lista', itens });
+    const linhas = pesos.slice(0, 12).map((m) => [dataBr(m.medidoEm), num(m.valores.kg, 1), be.alturaCm ? num(m.valores.kg! / (be.alturaCm / 100) ** 2, 1) : '—', (() => { const c = cinturas.find((x) => x.medidoEm.slice(0, 10) === m.medidoEm.slice(0, 10)); return c ? num(c.valores.cm, 0) : '—'; })()]);
+    if (linhas.length) blocos.push({ tipo: 'tabela', colunas: ['Data', 'Peso (kg)', 'IMC', 'Cintura (cm)'], linhas });
+    if (comps.length) blocos.push({ tipo: 'tabela', colunas: ['Data', 'Método', 'Gordura %', 'Massa muscular (kg)', 'Massa magra (kg)'], linhas: comps.slice(0, 6).map((c) => [dataBr(c.medidoEm), c.valores.metodo ?? '—', num(c.valores.gordura_pct, 1), num(c.valores.massa_muscular_kg, 1), num(c.valores.massa_magra_kg, 1)]) });
+    return { chave: 'corpo', titulo: 'Evolução corporal', blocos };
+  },
+  alimentacao: (d, periodo) => {
+    const be = d.bemEstar;
+    if (!be || !be.refeicoes.length) return { chave: 'alimentacao', titulo: 'Alimentação', blocos: vazio() };
+    const semanas = semanasDoPeriodo(periodo);
+    const linhasSemana = semanas.map((s) => { const r = resumoAlimentacaoSemana(be.refeicoes, s); return [dataBr(s.inicio), `${r.diasComRegistro} de 7`, r.horarioMedio.cafe ?? '—', r.horarioMedio.almoco ?? '—', r.horarioMedio.jantar ?? '—', r.padrao === 'semelhantes' ? 'horários semelhantes' : r.padrao === 'variaram' ? 'horários variaram' : '—']; }).filter((l) => l[1] !== '0 de 7');
+    const refs = [...be.refeicoes].sort((a, b) => a.em.localeCompare(b.em)).slice(-60);
+    return { chave: 'alimentacao', titulo: 'Alimentação', blocos: [
+      texto(`${be.refeicoes.length} refeições registradas no período. O diário não conta calorias nem classifica alimentos.`),
+      { tipo: 'tabela', colunas: ['Semana de', 'Dias registrados', 'Café', 'Almoço', 'Jantar', 'Padrão'], linhas: linhasSemana },
+      { tipo: 'tabela', colunas: ['Data e hora', 'Refeição', 'O que comeu', 'Quantidade', 'Observação'], linhas: refs.map((r) => [dataHoraBr(r.em), ROTULO_REFEICAO[r.tipo], r.descricao, r.quantidade ?? '—', r.observacao ?? '—']) },
+    ] };
+  },
+  atividade: (d, periodo) => {
+    const be = d.bemEstar; const p: ParametrosBemEstar | undefined = be?.parametros;
+    if (!be || !p || !be.atividades.length) return { chave: 'atividade', titulo: 'Atividade física', blocos: vazio() };
+    const meta = be.metas.find((m) => m.tipo === 'atividade_min') ?? null;
+    const semanas = semanasDoPeriodo(periodo).map((s) => ({ s, r: resumoSemana(be.atividades, s, p, be.idade, meta) })).filter((x) => x.r.totalMin > 0);
+    return { chave: 'atividade', titulo: 'Atividade física', blocos: [
+      texto(`Meta em uso: ${semanas[0]?.r.metaMin ?? p.atividade.moderadaMin} min/semana de atividade moderada ou equivalente (${meta ? (meta.origem === 'app' ? 'sugerida OMS/MS' : meta.origem === 'profissional' ? 'definida com profissional' : 'do paciente') : 'referência OMS/MS'}) + fortalecimento em ${p.atividade.fortalecimentoDias} dias.`),
+      { tipo: 'tabela', colunas: ['Semana de', 'Minutos que contam', 'Total', 'Dias ativos', 'Fortalecimento (dias)'], linhas: semanas.map(({ s, r }) => [dataBr(s.inicio), `${r.minutosQueContam} / ${r.metaMin}`, `${r.totalMin} min`, String(r.diasAtivos), String(r.diasFortalecimento)]) },
+      { tipo: 'barras', itens: semanas.slice(-12).map(({ s, r }) => ({ rotulo: dataBr(s.inicio).slice(0, 5), valor: r.minutosQueContam, max: Math.max(r.metaMin, ...semanas.map((x) => x.r.minutosQueContam)), texto: `${r.minutosQueContam} min` })) },
+      { tipo: 'tabela', colunas: ['Data e hora', 'Atividade', 'Duração', 'Intensidade', 'Distância / FC'], linhas: [...be.atividades].sort((a, b) => a.inicio.localeCompare(b.inicio)).slice(-60).map((a) => [dataHoraBr(a.inicio), ROTULO_ATIVIDADE[a.tipo], `${a.duracaoMin} min`, a.intensidade === 'vigorosa' ? 'intensa' : a.intensidade, [a.distanciaKm != null ? `${num(a.distanciaKm, 1)} km` : null, a.fcMedia != null ? `FC ${a.fcMedia}` : null].filter(Boolean).join(' · ') || '—']) },
+    ] };
+  },
+  sono: (d, periodo) => {
+    const be = d.bemEstar; const p: ParametrosBemEstar | undefined = be?.parametros;
+    if (!be || !p || !be.sonos.length) return { chave: 'sono', titulo: 'Sono', blocos: vazio() };
+    const semanas = semanasDoPeriodo(periodo).map((s) => ({ s, r: resumo7d(be.sonos, s.fim, p) })).filter((x) => x.r.noites > 0);
+    return { chave: 'sono', titulo: 'Sono', blocos: [
+      texto(`Referência para adultos: ${formatarHm(p.sono.minimoMin)} ou mais por noite (AASM/SRS 2015). Registros manuais; sem avaliação de insônia ou apneia.`),
+      { tipo: 'tabela', colunas: ['Semana até', 'Noites', 'Média', 'Dormir', 'Acordar'], linhas: semanas.map(({ s, r }) => [dataBr(s.fim), String(r.noites), r.mediaMin != null ? formatarHm(r.mediaMin) : '—', r.horarioDormir ?? '—', r.horarioAcordar ?? '—']) },
+      { tipo: 'tabela', colunas: ['Noite (acordou)', 'Dormiu', 'Acordou', 'Duração', 'Qualidade'], linhas: [...be.sonos].sort((a, b) => a.acordouEm.localeCompare(b.acordouEm)).slice(-60).map((n) => [dataBr(n.acordouEm), dataHoraBr(n.dormiuEm).slice(-5), dataHoraBr(n.acordouEm).slice(-5), formatarHm(n.minutos), n.qualidade != null ? `${n.qualidade}/5` : '—']) },
+    ] };
+  },
+  checkins: (d) => {
+    const be = d.bemEstar;
+    if (!be || !be.checkins.length) return { chave: 'checkins', titulo: 'Check-ins semanais', blocos: vazio() };
+    const v = (x: number | null) => (x == null ? '—' : String(x));
+    return { chave: 'checkins', titulo: 'Check-ins semanais', blocos: [
+      texto('Respostas de 0 a 10 dadas pelo paciente sobre a semana. Não é instrumento diagnóstico.'),
+      { tipo: 'tabela', colunas: ['Semana de', 'Disposição', 'Alimentação', 'Atividade', 'Sono', 'Estresse', 'Energia', 'Bem-estar', 'Observação'], linhas: [...be.checkins].sort((a, b) => a.semana.localeCompare(b.semana)).map((c) => [dataBr(c.semana), v(c.disposicao), v(c.alimentacao), v(c.atividade), v(c.sono), v(c.estresse), v(c.energia), v(c.bemEstar), c.observacao ?? '—']) },
+      { tipo: 'tabela', colunas: ['Mês', 'Energia', 'Estresse', 'Bem-estar', 'Check-ins'], linhas: mediasMensais(be.checkins).map((m) => [m.mes, v(m.energia), v(m.estresse), v(m.bemEstar), String(m.n)]) },
+    ] };
+  },
   perfil: (d) => {
     const p = d.perfil;
     const idade = p.dataNascimento ? `${calcularIdade(p.dataNascimento)} anos` : 'idade não informada';
@@ -120,7 +205,7 @@ const CONSTRUTORES: Record<ChaveSecao, Construtor> = {
         m ? `Metas em uso (${m.origem === 'diretriz' ? 'SBD 2026 pelo perfil' : 'definidas pelo médico'}): jejum ${m.jejumMin}–${m.jejumMax}${m.posMax ? ` · pós-prandial até ${m.posMax}` : ''} · ao deitar ${m.deitarMin}–${m.deitarMax} mg/dL · ${r.abaixoDaMeta} abaixo e ${r.acimaDaMeta} acima da meta` : 'Sem metas definidas no perfil',
         `Episódios registrados: ${r.episodiosBaixos} baixos · ${r.episodiosAltos} altos`,
       ] },
-      { tipo: 'tabela', colunas: ['Data e hora', 'mg/dL', 'Momento', 'Sintomas'], linhas: [...d.glicemias].sort((a, b) => a.medidoEm.localeCompare(b.medidoEm)).map((g) => [dataHoraBr(g.medidoEm), String(g.mgdl), ROTULO_MOMENTO[g.momento] ?? g.momento, g.contexto.sintomas?.filter((s) => s !== 'nenhum').join(', ') || '—']) },
+      { tipo: 'tabela', colunas: ['Data e hora', 'mg/dL', 'Momento', 'Sintomas', 'Refeição / atividade vinculada'], linhas: [...d.glicemias].sort((a, b) => a.medidoEm.localeCompare(b.medidoEm)).map((g) => [dataHoraBr(g.medidoEm), String(g.mgdl), ROTULO_MOMENTO[g.momento] ?? g.momento, g.contexto.sintomas?.filter((s) => s !== 'nenhum').join(', ') || '—', vinculoDe(d, g.id)]) },
     ];
     return { chave: 'glicemia', titulo: 'Glicemia capilar', blocos };
   },
@@ -190,6 +275,9 @@ export function montarCardio(d: DadosNero, periodo: Periodo, o: OpcoesMontagem =
 export function montarOncologico(d: DadosNero, periodo: Periodo): SecaoRelatorio[] {
   return montarPor(SECOES_ONCOLOGICO, d, periodo);
 }
+export function montarBemEstar(d: DadosNero, periodo: Periodo): SecaoRelatorio[] {
+  return montarPor(SECOES_BEMESTAR, d, periodo);
+}
 export function montarGeral(d: DadosNero, periodo: Periodo): SecaoRelatorio[] {
   return montarPor(SECOES_GERAL, d, periodo);
 }
@@ -199,11 +287,12 @@ export function montarConsulta(d: DadosNero, especialidade: Especialidade, perio
   return montarPor([...SEMPRE_PRESENTE, ...PRIORIDADES[especialidade]], d, periodo);
 }
 
-export function tituloRelatorio(tipo: 'cardio' | 'oncologico' | 'geral' | 'consulta', especialidade?: Especialidade): string {
+export function tituloRelatorio(tipo: 'cardio' | 'oncologico' | 'geral' | 'consulta' | 'bemestar', especialidade?: Especialidade): string {
   switch (tipo) {
     case 'cardio': return 'Relatório cardiovascular e metabólico';
     case 'oncologico': return 'Relatório de rastreamento oncológico';
     case 'geral': return 'Relatório geral de acompanhamento';
+    case 'bemestar': return 'Relatório de Saúde & Hábitos';
     case 'consulta': return `Preparação para consulta — ${especialidade ? rotuloEspecialidade(especialidade) : ''}`.trim();
   }
 }

@@ -1,5 +1,5 @@
-import { RESSALVA_CARDIO, RESSALVA_ONCOLOGICO, htmlRelatorio } from '../html';
-import { montarCardio, montarConsulta, montarOncologico } from '../montar';
+import { RESSALVA_CARDIO, RESSALVA_HABITOS, RESSALVA_ONCOLOGICO, htmlRelatorio } from '../html';
+import { montarBemEstar, montarCardio, montarConsulta, montarOncologico } from '../montar';
 import { PERIODO_TESTE, dadosNeroTeste } from './fixtures';
 
 const base = { paciente: { nome: 'Ana Souza', nascimento: '1975-04-10' }, periodo: PERIODO_TESTE, geradoEm: '2026-09-18T10:30:00' };
@@ -32,4 +32,10 @@ test('com qrSvg inclui o svg e a validade; escapa HTML nos textos', () => {
 });
 test('snapshot do cardio', () => {
   expect(htmlRelatorio({ ...base, tipo: 'cardio', titulo: 'Relatório cardiovascular e metabólico', secoes: montarCardio(dadosNeroTeste(), PERIODO_TESTE) })).toMatchSnapshot();
+});
+test('relatório de Saúde & Hábitos traz as três ressalvas', () => {
+  const h = htmlRelatorio({ ...base, tipo: 'bemestar', titulo: 'Relatório de Saúde & Hábitos', secoes: montarBemEstar(dadosNeroTeste(), PERIODO_TESTE) });
+  expect(h).toContain(RESSALVA_CARDIO); expect(h).toContain(RESSALVA_ONCOLOGICO); expect(h).toContain(RESSALVA_HABITOS);
+  expect(h.toLowerCase()).not.toContain('você tem');
+  expect(h).toMatchSnapshot();
 });

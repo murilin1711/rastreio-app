@@ -23,8 +23,8 @@ export const SEMPRE_PRESENTE: ChaveSecao[] = ['perfil', 'medicamentos', 'documen
 /** Ordem das seções priorizadas por especialidade (D-009). 'outra' = relatório geral. */
 export const PRIORIDADES: Record<Especialidade, ChaveSecao[]> = {
   cardiologia: ['mrpa', 'pa', 'glicemia', 'lipidios', 'renal', 'exames_cardio', 'prevent', 'agravantes'],
-  endocrinologia: ['glicemia', 'hba1c', 'lipidios', 'tsh', 'peso', 'pa', 'prevent'],
-  clinica_medica: ['checkup', 'pa', 'glicemia', 'hba1c', 'lipidios', 'renal', 'rastreamentos_status', 'prevent'],
+  endocrinologia: ['glicemia', 'hba1c', 'lipidios', 'tsh', 'corpo', 'atividade', 'pa', 'prevent'],
+  clinica_medica: ['checkup', 'pa', 'glicemia', 'hba1c', 'lipidios', 'renal', 'rastreamentos_status', 'prevent', 'corpo', 'atividade'],
   ginecologia: ['colo', 'mama', 'hist_familiar'],
   mastologia: ['mama', 'hist_familiar'],
   urologia: ['prostata', 'hist_familiar'],
@@ -40,5 +40,8 @@ export const SECOES_CARDIO: ChaveSecao[] = ['perfil', 'medicamentos', 'pa', 'mrp
 /** Ordem do relatório de rastreamento oncológico (§40, §61). */
 export const SECOES_ONCOLOGICO: ChaveSecao[] = ['perfil', 'hist_familiar', 'tabagismo', 'rastreamentos_status', 'mama', 'colo', 'colorretal', 'pulmao', 'prostata', 'sintomas', 'documentos'];
 
+/** Relatório de Saúde & Hábitos (§88). */
+export const SECOES_BEMESTAR: ChaveSecao[] = ['perfil', 'corpo', 'alimentacao', 'atividade', 'sono', 'checkins', 'documentos'];
+
 /** Relatório geral = união, sem repetir (§61). */
-export const SECOES_GERAL: ChaveSecao[] = Array.from(new Set<ChaveSecao>([...SECOES_CARDIO, ...SECOES_ONCOLOGICO, 'consultas']));
+export const SECOES_GERAL: ChaveSecao[] = Array.from(new Set<ChaveSecao>([...SECOES_CARDIO, ...SECOES_ONCOLOGICO, 'corpo', 'alimentacao', 'atividade', 'sono', 'checkins', 'consultas']));

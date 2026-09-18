@@ -47,11 +47,12 @@ export function useGlicemia() {
   const avaliar = (m: { mgdl: number; momento: MedidaGlicemia['momento']; sintomas?: MedidaGlicemia['contexto']['sintomas'] }): AvaliacaoGlicemia | null =>
     perfilGli && parametros ? avaliarGlicemia(m, perfilGli, metas, parametros) : null;
 
-  const registrar = async (e: EntradaGlicemia): Promise<AvaliacaoGlicemia> => {
+  /** Devolve o id da medida (para o vínculo com refeição/atividade, C-020) e a avaliação pelas regras. */
+  const registrar = async (e: EntradaGlicemia): Promise<{ id: string; avaliacao: AvaliacaoGlicemia }> => {
     if (!userId || !parametros || !perfilGli) throw new Error('Sessão ou regras indisponíveis');
-    await repo.inserirGlicemia(userId, e);
+    const id = await repo.inserirGlicemia(userId, e);
     await recarregar();
-    return avaliarGlicemia({ mgdl: e.mgdl, momento: e.momento, sintomas: e.contexto.sintomas }, perfilGli, metas, parametros);
+    return { id, avaliacao: avaliarGlicemia({ mgdl: e.mgdl, momento: e.momento, sintomas: e.contexto.sintomas }, perfilGli, metas, parametros) };
   };
 
   return { medidas, parametros, perfil, perfilGli, metas, resumo7, carregando, erro, avaliar, registrar, recarregar: async () => { await Promise.all([recarregar(), recarregarPerfil()]); } };

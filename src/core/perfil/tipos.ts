@@ -13,6 +13,8 @@ export type AgravanteCV = 'hist_familiar_dcv_prematura' | 'sindrome_metabolica' 
 /** Preferências de notificação (D-010): desligar só cancela avisos do celular; itens do app permanecem. */
 export interface PreferenciasLembretes { exame: boolean; mrpa: boolean; glicemia: boolean; medicacao: boolean; consulta: boolean; atualizacao: boolean }
 export const PREFERENCIAS_PADRAO: PreferenciasLembretes = { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true };
+/** Objetivo de peso (§82): escolhido pelo usuário, nunca imposto pelo app. */
+export type ObjetivoPeso = 'reducao' | 'manutencao' | 'aumento' | 'sem_meta';
 export type RacaCor = 'branca' | 'preta' | 'parda' | 'amarela' | 'indigena' | 'nao_informar';
 
 /** Perfil de Saúde único (§64) — tipo de domínio em camelCase; o mapeamento para o banco fica em mapeamento.ts. */
@@ -52,6 +54,9 @@ export interface PerfilSaude {
   agravantesCv: { itens: AgravanteCV[]; atualizadoEm: string | null };
   atividadeFisicaRegular: boolean | null;
   preferenciasLembretes: PreferenciasLembretes;
+  /** Fase 4 — Saúde & Bem-estar (C-019, D-011). */
+  pesoMaximoVidaKg: number | null;
+  objetivoPeso: ObjetivoPeso | null;
   /** Declarações negativas — são dado clínico, não ausência de dado. */
   semMedicacoes: boolean;
   semAntecedentesFamiliares: boolean;

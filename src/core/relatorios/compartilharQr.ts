@@ -8,8 +8,8 @@ export const VALIDADE_QR_SEGUNDOS = 7 * 24 * 3600;
 
 export interface Compartilhamento { id: string; tipo: TipoRelatorio; especialidade: Especialidade | null; caminho: string; url: string | null; expiraEm: string; criadoEm: string }
 
-const TIPO_BANCO: Record<TipoRelatorio, string> = { cardio: 'cardiovascular', oncologico: 'oncologico', geral: 'geral', consulta: 'consulta' };
-const TIPO_DOMINIO: Record<string, TipoRelatorio> = { cardiovascular: 'cardio', oncologico: 'oncologico', geral: 'geral', consulta: 'consulta' };
+const TIPO_BANCO: Record<TipoRelatorio, string> = { cardio: 'cardiovascular', oncologico: 'oncologico', geral: 'geral', consulta: 'consulta', bemestar: 'bemestar' };
+const TIPO_DOMINIO: Record<string, TipoRelatorio> = { cardiovascular: 'cardio', oncologico: 'oncologico', geral: 'geral', consulta: 'consulta', bemestar: 'bemestar' };
 
 async function subirPdf(caminho: string, uriLocal: string, upsert: boolean): Promise<void> {
   const blob = await (await fetch(uriLocal)).blob();
