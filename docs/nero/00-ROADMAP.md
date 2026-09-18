@@ -86,11 +86,12 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 ### Fase 3 — Minha Saúde (transversal) + Relatórios — **em andamento desde 17/09/2026**
 - [x] Decisões D-007 (PDF no aparelho + QR com URL assinada), D-008 (documentos), D-009 (consulta por especialidade), D-010 (central de lembretes)
 - [x] Spec técnica: `docs/superpowers/specs/2026-09-17-nero-fase3-minha-saude-relatorios-design.md` — em revisão
-- [ ] Meu Perfil / Histórico / Exames (central única com filtros) / Medicamentos / Documentos (§59)
-- [ ] Linha do tempo geral (§60)
-- [ ] Central de relatórios em PDF: cardiovascular, oncológico, geral (§26, §40, §61)
-- [ ] "Preparar minha consulta" por especialidade (§62)
-- [ ] Central de lembretes / notificações (§63)
+- [x] Meu Perfil / Histórico / Exames (central única com filtros) / Medicamentos / Documentos (§59)
+- [x] Linha do tempo geral (§60)
+- [x] Central de relatórios em PDF: cardiovascular, oncológico, geral (§26, §40, §61)
+- [x] "Preparar minha consulta" por especialidade (§62)
+- [x] Central de lembretes / notificações (§63)
+- [ ] Nuvem (`db push` 0011), checklist `checklists/fase-3.md` e revisão de textos pelo Murilo, merge em `desenvolvimento-2`
 
 ### Fase 4 — Saúde & Bem-estar
 - [ ] Meu Corpo: peso, altura, IMC, cintura, cintura/altura, composição corporal (§70–73, §83–84)
@@ -107,6 +108,7 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 
 | Data | Fase | O que foi feito |
 |------|------|-----------------|
+| 18/09/2026 | 3 | **Plano da Fase 3 implementado** (branch `nero-fase3-minha-saude`, Tasks 1–8 exceto nuvem/merge): migração 0011, Meus Documentos (câmera/galeria/PDF, anexos nos exames), núcleo puro de relatórios (26 seções, D-009, HTML com ressalvas literais, QR), PDF no aparelho + QR com URL assinada de 7 dias, Preparar minha consulta, central de lembretes + preferências + consultas + Home, central de exames, linha do tempo geral, índice reorganizado. 304 Jest. Docs: `funcionamento/minha-saude.md` §3–§8, `revisao/2026-09-18-*`, `checklists/fase-3.md`. **Pendente:** `supabase db push` (senha), checklist e revisão pelo Murilo, teste do `qrcode`/`expo-print` no aparelho, merge. Projeto saiu do iCloud (estava lento) e voltou a `~/Desktop`. |
 | 17/09/2026 | 3 | **Fase 3 iniciada.** D-007–D-010 aprovadas (sem decisão clínica nova: fase de integração e documentos). Spec técnica escrita. |
 | 17/09/2026 | 2 | **Merge da Fase 2 em `desenvolvimento-2`** (`nero-fase2b-glicemia-risco`, que contém a 2a). 270 Jest + 19 pgTAP. Nuvem migrada (0010) e semeada (pressão 7, glicemia 9, risco 4). Pendências: checklists 2a/2b e revisão de textos pelo Murilo; correções sob demanda. |
 | 17/09/2026 | 2b | **Task 4 concluída:** Murilo baixou artigo, statement e material suplementar do PREVENT; coeficientes gerados por script da planilha oficial (Tabelas S12); equação com idade² (30 anos), HbA1c (5,3), ln(RAC) e SDI ausente; 5 exemplos oficiais reproduzidos nos testes. Cálculo de risco ativo no app. |

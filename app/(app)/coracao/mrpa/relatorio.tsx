@@ -12,7 +12,7 @@ import { dataCurtaBr, dataLongaBr, horaLocal } from '@modules/coracao/componente
 import { GraficoBarras } from '@modules/coracao/componentes/GraficoBarras';
 import { LeituraPA } from '@modules/coracao/componentes/LeituraPA';
 import { ressalvaDiretriz, ressalvaRelatorio, ROTULO_INVALIDEZ, ROTULO_MOTIVO_EXCLUSAO, SINTOMAS_PA } from '@modules/coracao/conteudo/pressao';
-import { Alerta, Button, Card, Colors, EmBreveBadge, InternalHeader, Radius, Spacing, StatusBadge, Typography } from '@ui/index';
+import { Alerta, Button, Card, Colors, InternalHeader, Radius, Spacing, StatusBadge, Typography } from '@ui/index';
 
 /** Relatório da MRPA (§3, C-011): período, qualidade, médias, resultado, medicações, sintomas, tabela e ressalvas literais. */
 export default function RelatorioMrpaTela() {
@@ -123,8 +123,7 @@ export default function RelatorioMrpaTela() {
         <Text style={styles.ressalva}>{ressalvaRelatorio}</Text>
 
         <View style={styles.compartilhar}>
-          <Button label="Compartilhar em PDF" variant="outline" disabled onPress={() => {}} />
-          <EmBreveBadge />
+          <Button label="Compartilhar em PDF" variant="outline" onPress={() => router.push({ pathname: '/(app)/minha-saude/relatorios/previa', params: { tipo: 'cardio', dias: '180', apenas: 'mrpa' } })} />
         </View>
       </ScrollView>
     </SafeAreaView>

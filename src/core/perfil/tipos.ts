@@ -10,6 +10,9 @@ export interface MetasGlicemia { definidasPor: 'medico' | 'outro_profissional' |
 export interface PlanoGlicemia { definidoPor: 'medico' | 'outro_profissional' | 'nenhum'; modelo: 'dm1_sem_sensor' | 'dm2_basal' | 'dm2_intensiva' | 'dm2_sem_insulina' | null; horarios: { momento: MomentoGlicemia; hora: string }[] }
 /** Fatores agravantes — Diretriz de Dislipidemias 2025, Tabela 4.3 (C-013). */
 export type AgravanteCV = 'hist_familiar_dcv_prematura' | 'sindrome_metabolica' | 'esteatose_hepatica' | 'artrite_reumatoide' | 'psoriase' | 'lupus' | 'dii' | 'hiv' | 'transplante' | 'menarca_precoce_ou_tardia' | 'disturbio_gestacional' | 'parto_prematuro' | 'rciu' | 'abortos_repeticao' | 'menopausa_precoce' | 'lpa_elevada' | 'pcr_us_elevada';
+/** Preferências de notificação (D-010): desligar só cancela avisos do celular; itens do app permanecem. */
+export interface PreferenciasLembretes { exame: boolean; mrpa: boolean; glicemia: boolean; medicacao: boolean; consulta: boolean; atualizacao: boolean }
+export const PREFERENCIAS_PADRAO: PreferenciasLembretes = { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true };
 export type RacaCor = 'branca' | 'preta' | 'parda' | 'amarela' | 'indigena' | 'nao_informar';
 
 /** Perfil de Saúde único (§64) — tipo de domínio em camelCase; o mapeamento para o banco fica em mapeamento.ts. */
@@ -48,6 +51,7 @@ export interface PerfilSaude {
   planoGlicemia: PlanoGlicemia | null;
   agravantesCv: { itens: AgravanteCV[]; atualizadoEm: string | null };
   atividadeFisicaRegular: boolean | null;
+  preferenciasLembretes: PreferenciasLembretes;
   /** Declarações negativas — são dado clínico, não ausência de dado. */
   semMedicacoes: boolean;
   semAntecedentesFamiliares: boolean;

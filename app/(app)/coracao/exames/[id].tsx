@@ -10,6 +10,7 @@ import { useExamesCardio } from '@core/cardio/useExamesCardio';
 import { extrairParametrosRisco } from '@core/regras/cardio/parametrosRisco';
 import type { ParametrosRisco } from '@core/regras/cardio/tiposRisco';
 import { useSessao } from '@core/sessao/SessaoProvider';
+import { BlocoDocumentos } from '@modules/minha-saude/componentes/BlocoDocumentos';
 import { dataCurtaBr, dataLongaBr } from '@modules/coracao/componentes/formato';
 import { GraficoBarras } from '@modules/coracao/componentes/GraficoBarras';
 import { fmtNum, resumoResultadoExame } from '@modules/coracao/componentes/LinhaExame';
@@ -64,6 +65,8 @@ export default function DetalheExame() {
             {historico.map((e) => <View key={e.id} style={styles.linhaHist}><Text style={styles.meta}>{dataLongaBr(e.dataRealizacao)}</Text><Text style={styles.texto}>{resumoResultadoExame(e)}</Text></View>)}
           </View>
         ) : null}
+
+        <BlocoDocumentos exameId={exame.id} />
       </ScrollView>
     </SafeAreaView>
   );

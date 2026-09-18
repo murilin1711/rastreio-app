@@ -11,7 +11,7 @@ import { dataCurtaBr, horaLocal } from '@modules/coracao/componentes/formato';
 import { GraficoPontos } from '@modules/coracao/componentes/GraficoPontos';
 import { LeituraGlicemia } from '@modules/coracao/componentes/LeituraGlicemia';
 import { ressalvaRelatorioGlicemia, rotuloMomento } from '@modules/coracao/conteudo/glicemia';
-import { Button, Card, Colors, EmBreveBadge, InternalHeader, Opcoes, Spacing, Typography } from '@ui/index';
+import { Button, Card, Colors, InternalHeader, Opcoes, Spacing, Typography } from '@ui/index';
 
 type Periodo = '7' | '14' | '30' | '90';
 
@@ -78,7 +78,7 @@ export default function RelatorioGlicemia() {
         </View>
 
         <Text style={styles.ressalva}>{ressalvaRelatorioGlicemia}</Text>
-        <View style={styles.compartilhar}><Button label="Compartilhar em PDF" variant="outline" disabled onPress={() => {}} /><EmBreveBadge /></View>
+        <View style={styles.compartilhar}><Button label="Compartilhar em PDF" variant="outline" onPress={() => router.push({ pathname: '/(app)/minha-saude/relatorios/previa', params: { tipo: 'cardio', dias: '90', apenas: 'glicemia,hba1c' } })} /></View>
       </ScrollView>
     </SafeAreaView>
   );

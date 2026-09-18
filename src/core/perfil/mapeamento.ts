@@ -1,5 +1,5 @@
 import type { Database } from '@core/supabase/database.types';
-import type { PerfilSaude } from './tipos';
+import { PREFERENCIAS_PADRAO, type PerfilSaude } from './tipos';
 
 type Row = Database['public']['Tables']['perfil_saude']['Row'];
 type Update = Database['public']['Tables']['perfil_saude']['Update'];
@@ -40,6 +40,7 @@ const colunas: Record<CampoDominio, keyof Update> = {
   planoGlicemia: 'plano_glicemia',
   agravantesCv: 'agravantes_cv',
   atividadeFisicaRegular: 'atividade_fisica_regular',
+  preferenciasLembretes: 'preferencias_lembretes',
 };
 
 export function paraDominio(r: Row): PerfilSaude {
@@ -76,6 +77,7 @@ export function paraDominio(r: Row): PerfilSaude {
     planoGlicemia: (r.plano_glicemia as PerfilSaude['planoGlicemia']) ?? null,
     agravantesCv: { itens: [], atualizadoEm: null, ...((r.agravantes_cv as Partial<PerfilSaude['agravantesCv']>) ?? {}) },
     atividadeFisicaRegular: r.atividade_fisica_regular,
+    preferenciasLembretes: { ...PREFERENCIAS_PADRAO, ...((r.preferencias_lembretes as Partial<PerfilSaude['preferenciasLembretes']>) ?? {}) },
     semMedicacoes: r.sem_medicacoes,
     semAntecedentesFamiliares: r.sem_antecedentes_familiares,
     perfilInicialCompleto: r.perfil_inicial_completo,

@@ -6,7 +6,7 @@ const completo: PerfilSaude = {
   tabagismoStatus: 'nunca', cigarrosDia: null, anosFumando: null, dataCessacao: null,
   temDiabetes: false, temHipertensao: false, temDoencaRenal: false, temImunossupressao: false, temHiv: false, temDii: false,
   historicoCancerPessoal: [], lesoesPrecursoras: [], doencasGeneticas: [], radioterapiaToracica: false, jaTeveAtividadeSexual: null, racaCor: null, menopausa: null, semMedicacoes: false, semAntecedentesFamiliares: false, perfilInicialCompleto: true,
-  tipoDiabetes: null, usaInsulina: null, eventoCvPrevio: null, perfilMetaGlicemica: 'adulto', metasGlicemia: null, planoGlicemia: null, agravantesCv: { itens: [], atualizadoEm: null }, atividadeFisicaRegular: null,
+  tipoDiabetes: null, usaInsulina: null, eventoCvPrevio: null, perfilMetaGlicemica: 'adulto', metasGlicemia: null, planoGlicemia: null, agravantesCv: { itens: [], atualizadoEm: null }, atividadeFisicaRegular: null, preferenciasLembretes: { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true },
 };
 
 test('perfil com campo essencial nulo → "Completar meu perfil" (amarelo)', () => {
@@ -120,5 +120,23 @@ describe('itens do Coração & Metabolismo (Fase 2b)', () => {
   });
   test('check-up completo não vira item', () => {
     expect(montarItensHoje({ ...base, cardio: { ...vazio, checkup: { atualizados: 8, total: 8, faltante: null } } }).some((i) => i.id === 'checkup')).toBe(false);
+  });
+});
+
+describe('consultas (D-010)', () => {
+  const agora = new Date(2026, 8, 18, 10, 0, 0);
+  const base = { perfil: completo, antecedentesQtd: 1, medicacoesAtivasQtd: 1, agora };
+  test('consulta hoje → item amarelo com hora e atalho para preparar', () => {
+    const itens = montarItensHoje({ ...base, consultas: { proxima: { id: 'c1', especialidade: 'cardiologia', rotuloEspecialidade: 'Cardiologia', dataHora: new Date(2026, 8, 18, 14, 0).toISOString() } } });
+    const i = itens.find((x) => x.id === 'consulta_hoje')!;
+    expect(i.nivel).toBe('amarelo');
+    expect(i.titulo).toBe('Hoje: consulta de cardiologia às 14:00 — preparar');
+    expect(i.rota).toContain('especialidade=cardiologia');
+  });
+  test('consulta amanhã → item amanhã; depois de amanhã → nada', () => {
+    const amanha = montarItensHoje({ ...base, consultas: { proxima: { id: 'c1', especialidade: 'urologia', rotuloEspecialidade: 'Urologia', dataHora: new Date(2026, 8, 19, 9, 30).toISOString() } } });
+    expect(amanha.some((x) => x.id === 'consulta_amanha')).toBe(true);
+    const depois = montarItensHoje({ ...base, consultas: { proxima: { id: 'c1', especialidade: 'urologia', rotuloEspecialidade: 'Urologia', dataHora: new Date(2026, 8, 20, 9, 30).toISOString() } } });
+    expect(depois.some((x) => x.id.startsWith('consulta_'))).toBe(false);
   });
 });

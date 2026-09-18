@@ -1,17 +1,17 @@
 import * as Notifications from 'expo-notifications';
 import { planejarLembretesMrpa } from '@core/regras/cardio/lembretesMrpa';
 import type { SessaoMrpa } from '@core/regras/cardio/tipos';
-import { pedirPermissaoNotificacoes } from '@core/rastreando/lembretes';
+import { notificacoesPermitidas } from '@core/lembretes/permissao';
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
 
 /** Mesmo esquema de `rastreando/lembretes.ts`: notificação local + linha em `lembretes` com `notif:<id>` na mensagem. */
-async function agendar(userId: string, origemTipo: 'medida' | 'medicacao', origemId: string | null, titulo: string, texto: string, quando: Date, temPermissao: boolean): Promise<void> {
+export async function agendar(userId: string, origemTipo: 'medida' | 'medicacao' | 'consulta', origemId: string | null, titulo: string, texto: string, quando: Date, temPermissao: boolean): Promise<void> {
   if (quando.getTime() < Date.now()) return;
   let notifId: string | null = null;
   if (temPermissao) {
     notifId = await Notifications.scheduleNotificationAsync({
-      content: { title: 'NERO — Coração & Metabolismo', body: texto },
+      content: { title: origemTipo === 'consulta' ? 'NERO — Minha Saúde' : 'NERO — Coração & Metabolismo', body: texto },
       trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: quando },
     }).catch(() => null);
   }
@@ -21,7 +21,7 @@ async function agendar(userId: string, origemTipo: 'medida' | 'medicacao', orige
     origem_id: origemId,
     agendado_para: quando.toISOString(),
     titulo,
-    mensagem: `${texto}${notifId ? ` notif:${notifId}` : ''}`,
+    mensagem: `${texto}${notifId ? ` notif:${notifId}` : ''}${temPermissao ? '' : ' silenciado'}`,
   });
   if (error) throw traduzirErro(error);
 }
@@ -40,14 +40,14 @@ export async function cancelarLembretes(userId: string, prefixoTitulo: string): 
 
 export async function agendarLembretesMrpa(userId: string, sessao: SessaoMrpa): Promise<void> {
   await cancelarLembretes(userId, `mrpa:${sessao.id}:`);
-  const temPermissao = await pedirPermissaoNotificacoes();
+  const temPermissao = await notificacoesPermitidas(userId, 'mrpa');
   for (const l of planejarLembretesMrpa(sessao)) await agendar(userId, 'medida', sessao.id, l.titulo, l.texto, l.quando, temPermissao);
 }
 
 /** §21: um lembrete por horário para os próximos 7 dias; `sincronizar` reagenda ao abrir o app. */
 export async function agendarLembretesMedicacao(userId: string, m: { id: string; nome: string; horarios: string[] }): Promise<void> {
   await cancelarLembretes(userId, `medicacao:${m.id}:`);
-  const temPermissao = await pedirPermissaoNotificacoes();
+  const temPermissao = await notificacoesPermitidas(userId, 'medicacao');
   const hoje = new Date();
   for (let d = 0; d < 7; d++) {
     for (const h of m.horarios) {
@@ -68,7 +68,7 @@ const ROTULO_MOMENTO: Record<string, string> = { jejum: 'em jejum', antes_cafe: 
 export async function agendarLembretesGlicemia(userId: string, horarios: { momento: string; hora: string }[]): Promise<void> {
   await cancelarLembretes(userId, 'glicemia:');
   if (!horarios.length) return;
-  const temPermissao = await pedirPermissaoNotificacoes();
+  const temPermissao = await notificacoesPermitidas(userId, 'glicemia');
   const hoje = new Date();
   for (let d = 0; d < 7; d++) {
     for (const h of horarios) {
