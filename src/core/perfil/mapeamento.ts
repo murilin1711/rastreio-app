@@ -41,6 +41,8 @@ const colunas: Record<CampoDominio, keyof Update> = {
   agravantesCv: 'agravantes_cv',
   atividadeFisicaRegular: 'atividade_fisica_regular',
   preferenciasLembretes: 'preferencias_lembretes',
+  pesoMaximoVidaKg: 'peso_maximo_vida_kg',
+  objetivoPeso: 'objetivo_peso',
 };
 
 export function paraDominio(r: Row): PerfilSaude {
@@ -78,6 +80,8 @@ export function paraDominio(r: Row): PerfilSaude {
     agravantesCv: { itens: [], atualizadoEm: null, ...((r.agravantes_cv as Partial<PerfilSaude['agravantesCv']>) ?? {}) },
     atividadeFisicaRegular: r.atividade_fisica_regular,
     preferenciasLembretes: { ...PREFERENCIAS_PADRAO, ...((r.preferencias_lembretes as Partial<PerfilSaude['preferenciasLembretes']>) ?? {}) },
+    pesoMaximoVidaKg: r.peso_maximo_vida_kg == null ? null : Number(r.peso_maximo_vida_kg),
+    objetivoPeso: (r.objetivo_peso as PerfilSaude['objetivoPeso']) ?? null,
     semMedicacoes: r.sem_medicacoes,
     semAntecedentesFamiliares: r.sem_antecedentes_familiares,
     perfilInicialCompleto: r.perfil_inicial_completo,

@@ -7,7 +7,7 @@ const row = {
   historico_cancer_pessoal: [], lesoes_precursoras: [], doencas_geneticas: [{ nome: 'BRCA1' }], radioterapia_toracica: null,
   tipo_usuario: 'paciente', ja_teve_atividade_sexual: null, raca_cor: null, menopausa: null, sem_medicacoes: false, sem_antecedentes_familiares: false, perfil_inicial_completo: true, created_at: '', updated_at: '',
   // Fase 2 (migração 0010) — mapeados no plano 2b
-  tipo_diabetes: null, usa_insulina: null, evento_cv_previo: null, perfil_meta_glicemica: 'adulto', metas_glicemia: null, plano_glicemia: null, agravantes_cv: { itens: [] }, atividade_fisica_regular: null, preferencias_lembretes: { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true },
+  tipo_diabetes: null, usa_insulina: null, evento_cv_previo: null, perfil_meta_glicemica: 'adulto', metas_glicemia: null, plano_glicemia: null, agravantes_cv: { itens: [] }, atividade_fisica_regular: null, preferencias_lembretes: { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true }, peso_maximo_vida_kg: null, objetivo_peso: null,
 };
 
 test('paraDominio converte snake_case → camelCase', () => {
@@ -40,4 +40,12 @@ test('campos da Fase 2: jsonb em camelCase, agravantes com padrão', () => {
   expect(p.agravantesCv).toEqual({ itens: ['hiv'], atualizadoEm: '2026-09-17' });
   expect(paraDominio(row).agravantesCv).toEqual({ itens: [], atualizadoEm: null });
   expect(paraBanco({ eventoCvPrevio: false, planoGlicemia: { definidoPor: 'nenhum', modelo: null, horarios: [] } })).toEqual({ evento_cv_previo: false, plano_glicemia: { definidoPor: 'nenhum', modelo: null, horarios: [] } });
+});
+
+test('campos da Fase 4: peso máximo da vida (numeric → number) e objetivo de peso', () => {
+  const p = paraDominio({ ...row, peso_maximo_vida_kg: 95.5, objetivo_peso: 'reducao' });
+  expect(p.pesoMaximoVidaKg).toBe(95.5);
+  expect(p.objetivoPeso).toBe('reducao');
+  expect(paraDominio(row).pesoMaximoVidaKg).toBeNull();
+  expect(paraBanco({ pesoMaximoVidaKg: 90, objetivoPeso: 'sem_meta' })).toEqual({ peso_maximo_vida_kg: 90, objetivo_peso: 'sem_meta' });
 });

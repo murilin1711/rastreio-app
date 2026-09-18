@@ -11,7 +11,7 @@ const perfil: PerfilSaude = {
   semMedicacoes: false, semAntecedentesFamiliares: false, perfilInicialCompleto: true,
   tipoDiabetes: 'dm2', usaInsulina: 'nao', eventoCvPrevio: false, perfilMetaGlicemica: 'adulto', metasGlicemia: null, planoGlicemia: null,
   agravantesCv: { itens: ['sindrome_metabolica'], atualizadoEm: '2026-09-01' }, atividadeFisicaRegular: false,
-  preferenciasLembretes: { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true },
+  preferenciasLembretes: { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true }, pesoMaximoVidaKg: null, objetivoPeso: null,
 };
 
 const pa = (i: number, pas: number, pad: number) => ({ id: `pa${i}`, medidoEm: `2026-09-0${i}T08:00:00.000Z`, pas, pad, fc: 70, sessaoId: null, contexto: {} });
