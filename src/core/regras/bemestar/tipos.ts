@@ -17,6 +17,11 @@ export interface Atividade { id: string; inicio: string; tipo: TipoAtividade; du
 
 export interface Sono { id: string; dormiuEm: string; acordouEm: string; minutos: number; qualidade: 1 | 2 | 3 | 4 | 5 | null; contexto: { acordouNoite?: boolean; cochilou?: boolean; dificuldadeAdormecer?: boolean; acordouDescansado?: boolean } }
 
+export type TipoRefeicao = 'cafe' | 'lanche' | 'almoco' | 'lanche_tarde' | 'jantar' | 'ceia' | 'outra';
+export interface Refeicao { id: string; em: string; tipo: TipoRefeicao; descricao: string; quantidade: 'pequena' | 'habitual' | 'grande' | null; fomeAntes: number | null; saciedade: 'com_fome' | 'satisfeito' | 'muito_cheio' | null; local: 'casa' | 'trabalho' | 'restaurante' | 'outro' | null; observacao: string | null }
+
+export interface Checkin { id: string; semana: string; disposicao: number | null; alimentacao: number | null; atividade: number | null; sono: number | null; estresse: number | null; energia: number | null; bemEstar: number | null; observacao: string | null }
+
 export type TipoMeta = 'peso' | 'cintura' | 'atividade_min' | 'atividade_dias' | 'fortalecimento_dias' | 'sono_min' | 'pressao';
 export interface Meta { id: string; tipo: TipoMeta; valor: number; origem: 'app' | 'usuario' | 'profissional'; detalhe: string | null; ativa: boolean }
 
