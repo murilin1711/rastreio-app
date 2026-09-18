@@ -16,7 +16,8 @@
     "rotas": "pkill -f \"expo start\"; sleep 2; (CI=1 nohup npx expo start > /tmp/nero-expo.log 2>&1 &); sleep 25; grep -c \"\" .expo/types/router.d.ts"
   },
   "jest": {
-    "preset": "jest-expo"
+    "preset": "jest-expo",
+    "testPathIgnorePatterns": ["/node_modules/", "/__tests__/fixtures[^/]*\\.ts$"]
   },
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.4.1",
