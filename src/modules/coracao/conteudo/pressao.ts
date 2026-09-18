@@ -35,3 +35,27 @@ export const ROTULO_MOTIVO_EXCLUSAO: Record<import('@core/regras/cardio/tipos').
   pp_menor_20: 'diferença entre sistólica e diastólica menor que 20',
   pp_maior_100: 'diferença entre sistólica e diastólica maior que 100',
 };
+
+/** Abertura da MRPA — texto literal da spec §2. */
+export const aberturaMrpa =
+  'Você iniciará um protocolo de monitorização residencial da pressão arterial. Procure realizar todas as medidas nas mesmas condições.';
+
+/** Regras do protocolo — Diretrizes de Medidas da PA 2023, Parte 4 §3 e Quadro 19 (C-011). */
+export const regrasProtocoloMrpa = [
+  '3 medidas de manhã e 3 à noite, com 1 minuto entre elas.',
+  'Antes do café da manhã e antes do jantar. Se já comeu, espere 2 horas.',
+  'Antes de tomar o remédio de pressão, se você usa.',
+  'Depois de 5 minutos de repouso, sentado, com a bexiga vazia.',
+  'Não meça a pressão de outras pessoas com o aparelho durante o protocolo.',
+  'Não mude seus remédios por causa das medidas. Valores altos ou baixos isolados não devem preocupar.',
+];
+
+/** Ressalvas literais do relatório (Medidas 2023, Parte 4 §5; spec §3). */
+export const ressalvaDiretriz = 'A MRPA, como os demais exames complementares em medicina, deve ser avaliada segundo critérios do médico assistente.';
+export const ressalvaRelatorio = 'Este relatório organiza suas aferições domiciliares e não substitui a interpretação realizada pelo seu médico.';
+
+export const ROTULO_INVALIDEZ = {
+  poucas_medidas: 'Faltaram medidas para o mínimo da diretriz.',
+  dia_sem_periodo: 'Um ou mais dias ficaram sem medidas de manhã ou de noite.',
+  sem_medidas: 'Nenhuma medida registrada.',
+} as const;
