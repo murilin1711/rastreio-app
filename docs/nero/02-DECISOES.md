@@ -55,6 +55,12 @@
 **Motivo:** dados de saúde não saem do aparelho para gerar o documento (LGPD); zero infraestrutura; compatível com offline futuro; QR resolvido com URL assinada expirável e revogável.
 **Consequências:** dependências `expo-print`, `expo-sharing`, `react-native-qrcode-svg` (ou geração de QR em SVG puro); migração com bucket `relatorios` (políticas por pasta do usuário, como `laudos`) e tabela `compartilhamentos` (id, user_id, tipo_relatorio, caminho, expira_em, revogado_em) para listar/revogar. Layout: cabeçalho NERO (nome, nascimento, período), seções na ordem da spec, tabelas, gráficos simples em HTML, rodapé com as ressalvas literais do §26/§40.
 
+### D-008 · Meus Documentos: anexos de laudos e imagens (§9–§10, §59) — DECIDIDA (17/09/2026)
+**Contexto:** bucket privado `laudos` e coluna `exames.anexos` existem desde a Fase 0 sem uso; a spec pede anexar laudo/imagem ao exame e uma área "Meus Documentos" que inclua documentos avulsos (receita, alta, vacinação).
+**Opções:** (a) tabela `documentos` própria; (b) só `exames.anexos` (jsonb).
+**Decisão:** **(a)** — `documentos (id, user_id, exame_id opcional, tipo: laudo | receita | atestado | imagem | outro, nome, caminho, mime, tamanho, data_documento, observacao, created_at)`, RLS por dono. Anexo de exame = linha com `exame_id`; documento avulso = sem. Captura por câmera/galeria (`expo-image-picker`) e PDF (`expo-document-picker`); imagens comprimidas (máx. 2000 px, JPEG ~80 %); limite 10 MB. Leitura sempre por URL assinada de 1 h. `exames.anexos` fica sem uso (compatibilidade).
+**Motivo:** comporta documentos sem exame, permite listar/filtrar/apagar e mantém o dado clínico estruturado separado do arquivo.
+
 ---
 
 ## Decisões clínicas (protocolos adotados)
