@@ -97,7 +97,8 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 ### Fase 4 — Saúde & Bem-estar — **iniciada em 18/09/2026**
 - [x] Decisões clínicas C-015–C-020 aprovadas (18/09/2026)
 - [x] D-011 (medidas corporais em `medidas`) · Spec técnica: `docs/superpowers/specs/2026-09-18-nero-fase4-bem-estar-design.md` — em revisão
-- [x] Plano 4a: `docs/superpowers/plans/2026-09-18-nero-fase4a-corpo-atividade-sono.md` (7 tasks)
+- [x] Plano 4a implementado (branch `nero-fase4a-corpo-atividade-sono`, 18/09/2026): Meu Corpo, atividade, sono, Meus hábitos parcial, Home
+- [ ] Checklist `checklists/fase-4a.md` e revisão `revisao/2026-09-18-revisao-textos-bem-estar-4a.md` pelo Murilo
 - [ ] Plano 4b (alimentação, conexão, metas, check-in, relatório, merge)
 - [ ] Meu Corpo: peso, altura, IMC, cintura, cintura/altura, composição corporal (§70–73, §83–84)
 - [ ] Minha Alimentação: diário simples + resumo de hábitos (§74–76)
@@ -113,6 +114,7 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 
 | Data | Fase | O que foi feito |
 |------|------|-----------------|
+| 18/09/2026 | 4a | **Plano 4a implementado** (7 tasks): migração 0012 + 12 regras `bem_estar` (30 pgTAP), núcleo puro de corpo/atividade/sono/hábitos (27 testes novos), Meu Corpo (4 telas), Minhas Atividades (2), Meu Sono (2), dashboard do módulo, Home com card ativo e itens cinza. 334 Jest. Docs §1–§4, revisão e checklist 4a. Pendente: `db push` 0012 + semente na nuvem, checklist pelo Murilo, plano 4b. |
 | 18/09/2026 | 4 | D-011 decidida (opção A). **Spec técnica da Fase 4 escrita** (dois planos: 4a corpo/atividade/sono; 4b alimentação/conexão/metas/check-in/relatório). |
 | 18/09/2026 | 4 | **C-015–C-020 aprovadas** uma a uma. C-016 corrigida para o corte sul-americano de cintura (≥ 90/≥ 80) com base no material da professora do Murilo (IDF 2009) = ABESO 2016 Tabela 5. Verificado: nenhuma sociedade brasileira adotou a Lancet 2025 com cortes próprios; diretriz conjunta 2025 (ABC) no acervo. Próximo: spec técnica da Fase 4. |
 | 18/09/2026 | 4 | **Fase 4 iniciada.** Acervo verificado e baixado: ABESO 2016 (4ª ed., diagnóstico), ABESO 2026 (farmacológica, 5ª ed. — não substitui as tabelas de 2016), e-book Obesidade Controlada 2023, OMS cintura 2011, OMS atividade física 2020, Guia MS 2021 (gestores + suplementar; completo pendente de download manual), AASM/SRS 2015 (sono). Propostas C-015–C-020 registradas em `02-DECISOES.md`, em aberto. |
