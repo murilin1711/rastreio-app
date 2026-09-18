@@ -47,19 +47,19 @@ export interface Refeicao { id: string; em: string; tipo: TipoRefeicao; descrica
 export const ROTULO_REFEICAO: Record<TipoRefeicao, string>;
 export function resumoAlimentacaoSemana(refeicoes: Refeicao[], semana: { inicio: string; fim: string }): { diasComRegistro: number; totalRefeicoes: number; horarioMedio: Partial<Record<'cafe'|'almoco'|'jantar', string>>; variacaoMin: Partial<Record<'cafe'|'almoco'|'jantar', number>>; padrao: 'semelhantes'|'variaram'|null; porDia: { dia: string; refeicoes: number }[] }
 ```
-- [ ] `git checkout nero-fase4a-corpo-atividade-sono && git checkout -b nero-fase4b-alimentacao-relatorio`.
-- [ ] Migração 0013: `alter table public.compartilhamentos drop constraint if exists compartilhamentos_tipo_relatorio_check; add constraint … check (tipo_relatorio in ('cardiovascular','oncologico','geral','consulta','bemestar'))`. `supabase db reset && supabase test db` (30).
-- [ ] Testes: semana 14–20/09 com café 07:30/07:50/07:45, almoço 12:30/13:00/13:30/12:50, jantar 20:00/21:30 em 6 dias → `diasComRegistro` 6, `totalRefeicoes` 9, `horarioMedio.cafe` '07:42', `horarioMedio.almoco` '12:57', `variacaoMin.jantar` 45 (desvio-padrão populacional em minutos, arredondado), `padrao`: 'semelhantes' se **todos** os desvios das três refeições principais presentes ≤ 45 min; 'variaram' se algum > 90; senão null; `porDia` com 7 posições; sem refeições → zeros, `padrao` null. Horários usam média circular (`mediaCircularHora` de `sono.ts`).
-- [ ] Implementar; commit `feat(bem-estar): núcleo de alimentação — resumo da semana com horários médios (§76) + migração 0013`.
+- [x] `git checkout nero-fase4a-corpo-atividade-sono && git checkout -b nero-fase4b-alimentacao-relatorio`.
+- [x] Migração 0013: `alter table public.compartilhamentos drop constraint if exists compartilhamentos_tipo_relatorio_check; add constraint … check (tipo_relatorio in ('cardiovascular','oncologico','geral','consulta','bemestar'))`. `supabase db reset && supabase test db` (30).
+- [x] Testes: semana 14–20/09 com café 07:30/07:50/07:45, almoço 12:30/13:00/13:30/12:50, jantar 20:00/21:30 em 6 dias → `diasComRegistro` 6, `totalRefeicoes` 9, `horarioMedio.cafe` '07:42', `horarioMedio.almoco` '12:57', `variacaoMin.jantar` 45 (desvio-padrão populacional em minutos, arredondado), `padrao`: 'semelhantes' se **todos** os desvios das três refeições principais presentes ≤ 45 min; 'variaram' se algum > 90; senão null; `porDia` com 7 posições; sem refeições → zeros, `padrao` null. Horários usam média circular (`mediaCircularHora` de `sono.ts`).
+- [x] Implementar; commit `feat(bem-estar): núcleo de alimentação — resumo da semana com horários médios (§76) + migração 0013`.
 
 ## Task 2: Diário alimentar — serviço, hook e telas (§74–§76)
 
 **Files:** Create `src/core/bemestar/refeicoes.ts`, `useAlimentacao.ts`, `src/modules/bem-estar/conteudo/alimentacao.ts`, `app/(app)/bem-estar/alimentacao/{index,registrar}.tsx`.
 
-- [ ] `refeicoes.ts`: `listarRefeicoes(userId, { desde })`, `inserirRefeicao(userId, Omit<Refeicao,'id'>)`, `excluirRefeicao`. `useAlimentacao()` → `{ refeicoes (90 dias), semana: resumoAlimentacaoSemana(...semanaDe(hoje)), porDia (últimos 7 dias agrupados), inserir, excluir, recarregar }`.
-- [ ] `alimentacao/index.tsx`: "Sua semana" (§76): "Você registrou refeições em 6 de 7 dias", horário médio de café/almoço/jantar, frase neutra do padrão ("Você costuma realizar suas refeições principais em horários semelhantes." / "Nos últimos sete dias, seus horários de refeição variaram bastante."), lista dos últimos 7 dias com as refeições (tipo, hora, descrição truncada, quantidade); botão "Registrar refeição"; texto fixo: "O NERO não conta calorias nem classifica alimentos. O diário serve para você e seu médico enxergarem padrões."
-- [ ] `alimentacao/registrar.tsx` (§74–§75): data + hora (padrão agora), tipo (`Opcoes` 7), "O que você comeu?" (`Input multiline`, obrigatório), opcionais: quantidade (pequena/habitual/grande), fome antes (0–10, `Opcoes` compacta de 0..10 ou `Input` numérico), como ficou (com fome/satisfeito/muito cheio), onde (casa/trabalho/restaurante/outro), observação.
-- [ ] `npm run rotas`, checks, commit `feat(bem-estar): Minha Alimentação — diário simples e resumo da semana (§74–§76)`.
+- [x] `refeicoes.ts`: `listarRefeicoes(userId, { desde })`, `inserirRefeicao(userId, Omit<Refeicao,'id'>)`, `excluirRefeicao`. `useAlimentacao()` → `{ refeicoes (90 dias), semana: resumoAlimentacaoSemana(...semanaDe(hoje)), porDia (últimos 7 dias agrupados), inserir, excluir, recarregar }`.
+- [x] `alimentacao/index.tsx`: "Sua semana" (§76): "Você registrou refeições em 6 de 7 dias", horário médio de café/almoço/jantar, frase neutra do padrão ("Você costuma realizar suas refeições principais em horários semelhantes." / "Nos últimos sete dias, seus horários de refeição variaram bastante."), lista dos últimos 7 dias com as refeições (tipo, hora, descrição truncada, quantidade); botão "Registrar refeição"; texto fixo: "O NERO não conta calorias nem classifica alimentos. O diário serve para você e seu médico enxergarem padrões."
+- [x] `alimentacao/registrar.tsx` (§74–§75): data + hora (padrão agora), tipo (`Opcoes` 7), "O que você comeu?" (`Input multiline`, obrigatório), opcionais: quantidade (pequena/habitual/grande), fome antes (0–10, `Opcoes` compacta de 0..10 ou `Input` numérico), como ficou (com fome/satisfeito/muito cheio), onde (casa/trabalho/restaurante/outro), observação.
+- [x] `npm run rotas`, checks, commit `feat(bem-estar): Minha Alimentação — diário simples e resumo da semana (§74–§76)`.
 
 ## Task 3: Conexão glicemia ↔ refeição ↔ atividade (C-020)
 
@@ -73,9 +73,9 @@ export interface Vinculo { glicemiaId: string; refeicaoId: string | null; ativid
 export async function salvarVinculo(v: Vinculo): Promise<void>   // upsert por glicemia_id
 export async function listarVinculos(userId: string, desde?: string): Promise<Vinculo[]>
 ```
-- [ ] Testes: almoço 12:30 + glicemia 14:35 → refeição = almoço; refeição às 09:00 → null (5 h); duas refeições (12:30 e 13:10) → a de 13:10; atividade 18:00–18:40 + glicemia 19:30 → atividade; atividade 15:00–15:30 + glicemia 19:30 → null (fim há 4 h); atividade 14:40–15:20 + glicemia 14:35 → null (começou depois).
-- [ ] `useGlicemia.registrar` passa a devolver `{ id, avaliacao }` (ajustar o único uso em `registrar.tsx`). Na tela pós-registro (bloco `saida`), antes do botão "Concluir": carregar refeições e atividades das últimas `horas` (serviços do 4a/4b) → `candidatosVinculo` → cartões "Esta glicemia está relacionada ao almoço das 12:30?" e "Foi medida após a caminhada das 18:00?" com **Sim / Não**; Sim → `salvarVinculo`. Sem candidatos → nada aparece.
-- [ ] Commit `feat(bem-estar): vínculo glicemia ↔ refeição ↔ atividade com confirmação do usuário (C-020, §81)`.
+- [x] Testes: almoço 12:30 + glicemia 14:35 → refeição = almoço; refeição às 09:00 → null (5 h); duas refeições (12:30 e 13:10) → a de 13:10; atividade 18:00–18:40 + glicemia 19:30 → atividade; atividade 15:00–15:30 + glicemia 19:30 → null (fim há 4 h); atividade 14:40–15:20 + glicemia 14:35 → null (começou depois).
+- [x] `useGlicemia.registrar` passa a devolver `{ id, avaliacao }` (ajustar o único uso em `registrar.tsx`). Na tela pós-registro (bloco `saida`), antes do botão "Concluir": carregar refeições e atividades das últimas `horas` (serviços do 4a/4b) → `candidatosVinculo` → cartões "Esta glicemia está relacionada ao almoço das 12:30?" e "Foi medida após a caminhada das 18:00?" com **Sim / Não**; Sim → `salvarVinculo`. Sem candidatos → nada aparece.
+- [x] Commit `feat(bem-estar): vínculo glicemia ↔ refeição ↔ atividade com confirmação do usuário (C-020, §81)`.
 
 ## Task 4: Minhas Metas (§82) e check-in semanal (§86–§87)
 
@@ -88,19 +88,19 @@ export function semanaDoCheckin(hoje: string): string          // segunda-feira 
 export function checkinPendente(checkins: Checkin[], hoje: string): boolean   // sem registro para a semana **anterior** e hoje é dom/seg/ter (janela de resposta)
 export function mediasMensais(checkins: Checkin[]): { mes: string; energia: number|null; estresse: number|null; bemEstar: number|null; n: number }[]   // 'AAAA-MM', 1 casa, mais recente primeiro
 ```
-- [ ] Testes: `checkinPendente` verdadeiro na segunda 14/09 sem check-in da semana de 07/09; falso na quarta; falso se já respondido; `mediasMensais` com 4 check-ins em set e 2 em ago → duas linhas com médias corretas e `n`.
-- [ ] `checkins.ts`: `listarCheckins(userId)`, `salvarCheckin(userId, Omit<Checkin,'id'>)` (upsert por `user_id, semana`). `useCheckin()` → `{ checkins, pendente, mediasMensais, salvar }`.
-- [ ] `metas/index.tsx` (§82): lista das metas ativas por tipo (peso com objetivo do perfil, cintura, atividade min, sono min) com "meta X · atual Y · distância"; formulário: tipo (`Select`), valor, origem ("Definida com profissional" / "Minha"); peso só aparece se `objetivoPeso ∈ {reducao, aumento}` (manutenção/sem meta não tem valor-alvo) — usa `useMetas` do 4a e `useCorpo`/`useSono`/`useAtividades` para o "atual"; "Encerrar meta" → `desativar`.
-- [ ] `checkin/index.tsx` (§86–§87): "Como foi sua semana?" para a semana anterior (ou a atual se domingo): 7 escalas 0–10 (`Opcoes` horizontal compacta ou 11 botões) — disposição, alimentação, atividade física, sono, estresse, energia, bem-estar geral; "Existe algo que gostaria de registrar sobre esta semana?"; salvar (upsert). Abaixo, "Seus meses": tabela mês × energia/estresse/bem-estar (`mediasMensais`). Texto fixo: "Isso cria um histórico do que você sentiu ao lado dos números. O NERO não faz diagnóstico com essas respostas."
-- [ ] `npm run rotas`, checks, commit `feat(bem-estar): Minhas Metas e check-in semanal com bem-estar e estresse (§82, §86–§87)`.
+- [x] Testes: `checkinPendente` verdadeiro na segunda 14/09 sem check-in da semana de 07/09; falso na quarta; falso se já respondido; `mediasMensais` com 4 check-ins em set e 2 em ago → duas linhas com médias corretas e `n`.
+- [x] `checkins.ts`: `listarCheckins(userId)`, `salvarCheckin(userId, Omit<Checkin,'id'>)` (upsert por `user_id, semana`). `useCheckin()` → `{ checkins, pendente, mediasMensais, salvar }`.
+- [x] `metas/index.tsx` (§82): lista das metas ativas por tipo (peso com objetivo do perfil, cintura, atividade min, sono min) com "meta X · atual Y · distância"; formulário: tipo (`Select`), valor, origem ("Definida com profissional" / "Minha"); peso só aparece se `objetivoPeso ∈ {reducao, aumento}` (manutenção/sem meta não tem valor-alvo) — usa `useMetas` do 4a e `useCorpo`/`useSono`/`useAtividades` para o "atual"; "Encerrar meta" → `desativar`.
+- [x] `checkin/index.tsx` (§86–§87): "Como foi sua semana?" para a semana anterior (ou a atual se domingo): 7 escalas 0–10 (`Opcoes` horizontal compacta ou 11 botões) — disposição, alimentação, atividade física, sono, estresse, energia, bem-estar geral; "Existe algo que gostaria de registrar sobre esta semana?"; salvar (upsert). Abaixo, "Seus meses": tabela mês × energia/estresse/bem-estar (`mediasMensais`). Texto fixo: "Isso cria um histórico do que você sentiu ao lado dos números. O NERO não faz diagnóstico com essas respostas."
+- [x] `npm run rotas`, checks, commit `feat(bem-estar): Minhas Metas e check-in semanal com bem-estar e estresse (§82, §86–§87)`.
 
 ## Task 5: "Meus hábitos" completo e Home
 
 **Files:** Modify `src/core/regras/bemestar/habitos.ts` (+ teste), `src/core/bemestar/useHabitos.ts`, `app/(app)/bem-estar/index.tsx`, `src/modules/home/montarItensHoje.ts` (+ teste), `app/(app)/index.tsx`.
 
-- [ ] `useHabitos` carrega também refeições (7 dias) e check-ins; `habitos7d` recebe `refeicoes` (contagem) e `checkinPendente`. Dashboard: card "Alimentação" com "17 refeições registradas" e atalho; card de check-in pendente ("Como foi sua semana? Responder leva 1 minuto") no topo quando `checkinPendente`; "Em breve" some; atalhos Alimentação, Metas, Check-in.
-- [ ] Home: `BemEstarResumo` ganha `checkinPendente: boolean` → item cinza `checkin_semana` "Fazer o check-in da semana" (rota `/(app)/bem-estar/checkin`) — teste.
-- [ ] Checks, commit `feat(bem-estar): Meus hábitos completo e check-in na Home (§85)`.
+- [x] `useHabitos` carrega também refeições (7 dias) e check-ins; `habitos7d` recebe `refeicoes` (contagem) e `checkinPendente`. Dashboard: card "Alimentação" com "17 refeições registradas" e atalho; card de check-in pendente ("Como foi sua semana? Responder leva 1 minuto") no topo quando `checkinPendente`; "Em breve" some; atalhos Alimentação, Metas, Check-in.
+- [x] Home: `BemEstarResumo` ganha `checkinPendente: boolean` → item cinza `checkin_semana` "Fazer o check-in da semana" (rota `/(app)/bem-estar/checkin`) — teste.
+- [x] Checks, commit `feat(bem-estar): Meus hábitos completo e check-in na Home (§85)`.
 
 ## Task 6: Relatório de Saúde & Hábitos (§88) e linha do tempo geral
 
@@ -112,13 +112,13 @@ export function mediasMensais(checkins: Checkin[]): { mes: string; energia: numb
 - `atividade`: semana a semana no período (minutos que contam, dias ativos, fortalecimento), tabela das atividades.
 - `sono`: média e horários por semana; tabela das noites (data, dormiu, acordou, duração, qualidade).
 - `checkins`: tabela semana × 7 escalas + observação; médias mensais.
-- [ ] Testes: `montarBemEstar` traz as 5 seções na ordem (perfil, corpo, alimentacao, atividade, sono, checkins, documentos) + pendências abertas; `montarConsulta('endocrinologia')` inclui `corpo` e `atividade`; HTML do `bemestar` contém as duas ressalvas + "autorrelatados"; seção glicemia mostra "almoço 12:30" quando há vínculo; snapshot.
-- [ ] Linha do tempo geral: pesos/cinturas individuais, composição, sono agregado por semana ("Sono — média 7h03"), atividades agregadas por semana ("Atividade — 130 min que contam"), check-ins ("Check-in — bem-estar 7/10"); cor do módulo verde. Teste do agrupamento semanal.
-- [ ] Commit `feat(relatorios): Relatório de Saúde & Hábitos (§88), seções de bem-estar na consulta e linha do tempo geral`.
+- [x] Testes: `montarBemEstar` traz as 5 seções na ordem (perfil, corpo, alimentacao, atividade, sono, checkins, documentos) + pendências abertas; `montarConsulta('endocrinologia')` inclui `corpo` e `atividade`; HTML do `bemestar` contém as duas ressalvas + "autorrelatados"; seção glicemia mostra "almoço 12:30" quando há vínculo; snapshot.
+- [x] Linha do tempo geral: pesos/cinturas individuais, composição, sono agregado por semana ("Sono — média 7h03"), atividades agregadas por semana ("Atividade — 130 min que contam"), check-ins ("Check-in — bem-estar 7/10"); cor do módulo verde. Teste do agrupamento semanal.
+- [x] Commit `feat(relatorios): Relatório de Saúde & Hábitos (§88), seções de bem-estar na consulta e linha do tempo geral`.
 
 ## Task 7: Docs, revisão, checklist 4b, nuvem e merge
 
-- [ ] `docs/nero/funcionamento/saude-bem-estar.md` §5–§8; `docs/nero/revisao/2026-09-XX-revisao-textos-bem-estar-4b.md`; `docs/nero/checklists/fase-4b.md` (critério de pronto da spec §1); roadmap.
+- [x] `docs/nero/funcionamento/saude-bem-estar.md` §5–§8; `docs/nero/revisao/2026-09-XX-revisao-textos-bem-estar-4b.md`; `docs/nero/checklists/fase-4b.md` (critério de pronto da spec §1); roadmap.
 - [ ] Nuvem: `supabase db push` (0012 + 0013) e semente das 12 regras `bem_estar` (`psql`/SQL Editor com o bloco da semente), senha na hora.
 - [ ] `npx tsc --noEmit && npx jest --ci` · `supabase test db` · merge `--no-ff` de `nero-fase4b-alimentacao-relatorio` em `desenvolvimento-2` (leva o 4a junto) · push · roadmap "Fase 4 mesclada".
 

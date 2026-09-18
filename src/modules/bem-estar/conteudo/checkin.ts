@@ -1,7 +1,7 @@
 /** Textos fixos do check-in semanal (§86–§87). Não é instrumento diagnóstico. */
 export const TEXTO_CHECKIN = {
   titulo: 'Como foi sua semana?',
-  subtitulo: 'Cinco perguntas rápidas, de 0 a 10. Isso cria um histórico do que você sentiu ao lado dos números. O NERO não faz diagnóstico com essas respostas.',
+  subtitulo: 'Sete perguntas rápidas, de 0 a 10. Isso cria um histórico do que você sentiu ao lado dos números. O NERO não faz diagnóstico com essas respostas.',
   observacao: 'Existe algo que gostaria de registrar sobre esta semana?',
   salvo: 'Check-in da semana salvo. Você pode ajustar as respostas até a próxima semana.',
   pendenteHome: 'Fazer o check-in da semana',

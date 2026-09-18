@@ -48,5 +48,24 @@ Todas as regras deste módulo estão em `regras_clinicas` (programa `bem_estar`,
 - **Home:** card do módulo ativo com subtítulo ("90 de 150 min esta semana · sono 7h03"); item cinza `perda_peso` (C-019); item cinza `atividade_semana` **só aos domingos** quando abaixo da meta (para não virar cobrança diária).
 - Arquivos: `src/core/regras/bemestar/habitos.ts`, `src/core/bemestar/useHabitos.ts`, `app/(app)/bem-estar/index.tsx`, `src/modules/home/montarItensHoje.ts`.
 
-## 5–8. Minha Alimentação · Conexão com glicemia · Metas e check-in · Relatório de Saúde & Hábitos — Fase 4b
-*(a escrever com o plano 4b)*
+## 5. Minha Alimentação (§74–§76) — Fase 4b
+- **Dados:** tabela `refeicoes` (data/hora, tipo, descrição livre; opcionais: quantidade, fome antes 0–10, saciedade, local, observação; `documento_id` reservado para foto).
+- **Resumo (§76):** `resumoAlimentacaoSemana` — dias com registro na semana, horário médio (média circular) de café/almoço/jantar, variação (desvio-padrão em minutos) e um padrão em linguagem neutra: "horários semelhantes" (todas as principais ≤ 45 min) ou "variaram bastante" (alguma > 90 min); fora disso, sem frase. Nenhuma classificação de alimento (§76).
+- Arquivos: `src/core/regras/bemestar/alimentacao.ts`, `src/core/bemestar/{refeicoes,useAlimentacao}.ts`, `app/(app)/bem-estar/alimentacao/{index,registrar}.tsx`.
+
+## 6. Conexão alimentação ↔ glicemia ↔ atividade (§81, C-020) — Fase 4b
+- Ao salvar uma glicemia, a tela pós-registro do Coração chama `candidatosVinculo` (`src/core/regras/bemestar/vinculos.ts`): a refeição mais recente nas últimas **3 h** (regra `glicemia_vinculo/janela`) e a atividade mais recente **encerrada** nas últimas 3 h. Cada candidato vira uma pergunta Sim/Não; só "Sim" grava em `vinculos_glicemia` (um por glicemia, upsert). Nada é vinculado sozinho.
+- No relatório, a tabela de glicemia ganha a coluna "Refeição / atividade vinculada" ("almoço 12:30"). Sem interpretação automática.
+- Arquivos: `src/core/bemestar/vinculos.ts`, `src/modules/bem-estar/componentes/VinculoGlicemia.tsx`, `src/core/cardio/useGlicemia.ts` (`registrar` devolve `{ id, avaliacao }`).
+
+## 7. Minhas Metas (§82) e check-in semanal (§86–§87) — Fase 4b
+- **Metas:** tabela `metas`, uma ativa por tipo (peso, cintura, atividade min, dias ativos, fortalecimento, sono). Origem "eu" ou "profissional". Peso-alvo só quando o objetivo de peso é redução ou aumento (manutenção/sem meta não têm alvo). A tela mostra "atual" e "distância"; nunca sugere valor.
+- **Check-in:** tabela `checkins` (uma linha por semana; upsert). Sete escalas 0–10 (disposição, alimentação, atividade, sono, estresse, energia, bem-estar) + texto livre. `semanaDoCheckin`: avalia a semana anterior, exceto no domingo (a atual). `checkinPendente`: sem resposta e hoje é domingo, segunda ou terça → card no módulo e item cinza na Home. `mediasMensais` para "Seus meses" (§87). Sem pontuação de corte, sem diagnóstico.
+- Arquivos: `src/core/regras/bemestar/checkin.ts`, `src/core/bemestar/{checkins,useCheckin,metas,useMetas}.ts`, `app/(app)/bem-estar/{metas,checkin}/index.tsx`, `src/modules/bem-estar/componentes/Escala010.tsx`.
+
+## 8. Relatório de Saúde & Hábitos (§88) e linha do tempo — Fase 4b
+- Tipo `bemestar` na central da Fase 3 (`SECOES_BEMESTAR`: perfil, evolução corporal, alimentação, atividade, sono, check-ins, documentos; pendências ao final). `carregarDadosNero` preenche `DadosNero.bemEstar` (medidas, atividades, sonos, refeições, check-ins, metas, vínculos, parâmetros, altura/sexo/idade).
+- Seções: **corpo** (peso/IMC + faixa, cintura + RCA, tendência, PMAV, objetivo, metas; tabela das últimas 12 medidas; composição), **alimentação** (por semana: dias, horários médios, padrão; tabela de refeições), **atividade** (por semana: minutos que contam vs. meta, dias ativos, fortalecimento; barras; tabela), **sono** (por semana: média e horários; tabela de noites), **check-ins** (tabela semanal + médias mensais).
+- Ressalvas do PDF: §26 + §40 + "Registros de hábitos, alimentação e sono são autorrelatados." Endocrinologia e clínica médica ganham `corpo` e `atividade` em "Preparar minha consulta"; o relatório geral inclui as cinco seções.
+- **Linha do tempo geral:** cintura e composição individuais; sono e atividade agregados por semana; check-ins — cor verde do módulo (`itensBemEstar`, puro e testado). Peso já vinha da linha do tempo cardio.
+- Migração 0013: `compartilhamentos.tipo_relatorio` aceita `bemestar`.

@@ -125,7 +125,7 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, 
       itens.push({ id: 'perda_peso', nivel: 'cinza', titulo: `Conversar com o médico: seu peso caiu ${String(bemEstar.perdaNaoIntencional.pct).replace('.', ',')} % sem meta de redução`, descricao: 'Perda de peso sem intenção merece uma avaliação.', rota: '/(app)/bem-estar/corpo' });
     }
     if (bemEstar.checkinPendente) {
-      itens.push({ id: 'checkin_semana', nivel: 'cinza', titulo: 'Fazer o check-in da semana', descricao: 'Cinco perguntas rápidas sobre como foi sua semana.', rota: '/(app)/bem-estar/checkin' });
+      itens.push({ id: 'checkin_semana', nivel: 'cinza', titulo: 'Fazer o check-in da semana', descricao: 'Sete perguntas rápidas sobre como foi sua semana.', rota: '/(app)/bem-estar/checkin' });
     }
     if (agora.getDay() === 0 && bemEstar.movimentoMin < bemEstar.metaMin) {
       itens.push({ id: 'atividade_semana', nivel: 'cinza', titulo: `Movimentar-se: ${bemEstar.movimentoMin} de ${bemEstar.metaMin} minutos esta semana`, descricao: 'Qualquer atividade é melhor do que nenhuma.', rota: '/(app)/bem-estar/atividade' });
