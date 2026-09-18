@@ -6,6 +6,8 @@ import { useMedicacoes } from '@core/medicacoes/useMedicacoes';
 import { useRastreando } from '@core/rastreando/useRastreando';
 import { sincronizarLembretesMedicacao } from '@core/cardio/lembretesCardio';
 import { useResumoCardio } from '@core/cardio/useResumoCardio';
+import { useConsultas } from '@core/lembretes/useConsultas';
+import { rotuloEspecialidade } from '@core/relatorios/especialidades';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { usePerfil } from '@core/perfil/usePerfil';
 import { CardModulo } from '@modules/home/CardModulo';
@@ -28,9 +30,11 @@ export default function Home() {
   const { ativas, recarregar: recarregarMed } = useMedicacoes();
   const rastreando = useRastreando();
   const cardio = useResumoCardio();
+  const consultas = useConsultas();
   const { sessao } = useSessao();
   const itens = montarItensHoje({
     perfil, antecedentesQtd: antecedentes.length, medicacoesAtivasQtd: ativas.length,
+    consultas: { proxima: consultas.proxima ? { id: consultas.proxima.id, especialidade: consultas.proxima.especialidade, rotuloEspecialidade: rotuloEspecialidade(consultas.proxima.especialidade), dataHora: consultas.proxima.dataHora } : null },
     rastreando: rastreando.avaliacoes ? { pendencias: rastreando.pendencias, sintomas: rastreando.sintomas, avaliacoes: rastreando.avaliacoes } : undefined,
     cardio: cardio.resumo,
   });
@@ -51,7 +55,7 @@ export default function Home() {
   const pendentes = itens.filter((i) => i.nivel !== 'verde').length;
   const inicial = perfil?.nome?.trim().charAt(0).toUpperCase() ?? '';
 
-  const atualizar = () => { recarregar(); recarregarMed(); rastreando.recarregar(); cardio.recarregar(); };
+  const atualizar = () => { recarregar(); recarregarMed(); rastreando.recarregar(); cardio.recarregar(); consultas.recarregar(); };
 
   const declararNegativa = (item: Item) => {
     const acao = item.acaoSecundaria;
@@ -94,7 +98,7 @@ export default function Home() {
         <View style={styles.grade}>
           <View style={styles.linhaGrade}>
             <CardModulo titulo="Rastreando" descricao={subtituloRastreando} icone="search-outline" capa={[Colors.logoAco, Colors.logoCiano]} onPress={() => router.push('/(app)/rastreando')} />
-            <CardModulo titulo="Minha Saúde" descricao="Perfil, medicamentos e relatórios" icone="person-outline" capa={[Colors.logoMarinho, Colors.logoAco]} onPress={() => router.push('/(app)/minha-saude')} />
+            <CardModulo titulo="Minha Saúde" descricao={consultas.proxima ? `Próxima consulta: ${rotuloEspecialidade(consultas.proxima.especialidade)}` : 'Perfil, exames, documentos e relatórios'} icone="person-outline" capa={[Colors.logoMarinho, Colors.logoAco]} onPress={() => router.push('/(app)/minha-saude')} />
           </View>
           <View style={styles.linhaGrade}>
             <CardModulo titulo="Coração & Metabolismo" descricao={subtituloCardio} icone="heart-outline" capa={['#B4321F', '#F2734A']} onPress={() => router.push('/(app)/coracao')} />

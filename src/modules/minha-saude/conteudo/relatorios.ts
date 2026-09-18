@@ -8,3 +8,8 @@ export const TEXTO_QR = {
 export const TEXTO_CONSULTA = {
   introducao: 'O NERO seleciona o que mais importa para esta consulta; o restante fica no relatório geral.',
 } as const;
+
+export const TEXTO_PREFERENCIAS = {
+  introducao: 'Escolha quais avisos o celular deve mostrar. Desligar um tipo cancela só as notificações; as pendências continuam aparecendo na Home e nas telas do NERO.',
+  nota: 'Para silenciar tudo em horários fixos, use o "Não perturbe" do próprio celular.',
+} as const;

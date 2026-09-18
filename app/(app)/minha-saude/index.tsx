@@ -28,6 +28,7 @@ export default function MinhaSaude() {
           <ListItem icon="folder-open-outline" title="Meus documentos" subtitle="Laudos, receitas e imagens de exames" onPress={() => router.push('/(app)/minha-saude/documentos')} />
           <ListItem icon="document-text-outline" title="Relatórios" subtitle="PDF para o médico: cardiovascular, oncológico ou geral" onPress={() => router.push('/(app)/minha-saude/relatorios')} />
           <ListItem icon="calendar-outline" title="Preparar minha consulta" subtitle="Relatório focado na especialidade" onPress={() => router.push('/(app)/minha-saude/consulta')} />
+          <ListItem icon="notifications-outline" title="Meus lembretes" subtitle="Próximos 30 dias, preferências e consultas" onPress={() => router.push('/(app)/minha-saude/lembretes')} />
         </View>
 
         <Text style={styles.secao}>Em breve</Text>

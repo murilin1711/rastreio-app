@@ -1,20 +1,12 @@
 import * as Notifications from 'expo-notifications';
+import { notificacoesPermitidas, pedirPermissaoNotificacoes } from '@core/lembretes/permissao';
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
 
+export { pedirPermissaoNotificacoes };
+
 /** §38: 60, 30 e 7 dias antes; no dia; e 7 dias depois, caso o exame ainda não tenha sido registrado. */
 const DIAS_ANTES = [60, 30, 7, 0, -7];
-
-export async function pedirPermissaoNotificacoes(): Promise<boolean> {
-  try {
-    const atual = await Notifications.getPermissionsAsync();
-    if (atual.status === 'granted') return true;
-    const r = await Notifications.requestPermissionsAsync();
-    return r.status === 'granted';
-  } catch {
-    return false;
-  }
-}
 
 /** Cancela lembretes pendentes de um programa (um novo exame substitui o calendário anterior). */
 export async function cancelarLembretesDoPrograma(userId: string, programa: string): Promise<void> {
@@ -48,7 +40,7 @@ function textoLembrete(dias: number, rotuloExame: string): string {
 
 export async function agendarLembretes(userId: string, exameId: string, programa: string, dataProxima: string, rotuloExame: string): Promise<void> {
   await cancelarLembretesDoPrograma(userId, programa);
-  const temPermissao = await pedirPermissaoNotificacoes();
+  const temPermissao = await notificacoesPermitidas(userId, 'exame');
   const [a, m, d] = dataProxima.split('-').map(Number);
 
   for (const dias of DIAS_ANTES) {
@@ -68,7 +60,7 @@ export async function agendarLembretes(userId: string, exameId: string, programa
       origem_id: exameId,
       agendado_para: quando.toISOString(),
       titulo: `${programa}:${rotuloExame}`,
-      mensagem: `${texto}${notifId ? ` notif:${notifId}` : ''}`,
+      mensagem: `${texto}${notifId ? ` notif:${notifId}` : ''}${temPermissao ? '' : ' silenciado'}`,
     });
     if (error) throw traduzirErro(error);
   }

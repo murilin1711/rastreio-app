@@ -32,13 +32,21 @@ export interface ResumoCardio {
   checkup?: { atualizados: number; total: number; faltante: string | null } | null;
 }
 
+/** Próxima consulta marcada (D-010). `agora` permite testar. */
+export interface ConsultasResumo { proxima: { id: string; especialidade: string; rotuloEspecialidade: string; dataHora: string } | null }
+
 interface Entrada {
   perfil: PerfilSaude | null;
   antecedentesQtd: number;
   medicacoesAtivasQtd: number;
   rastreando?: RastreandoResumo;
   cardio?: ResumoCardio;
+  consultas?: ConsultasResumo;
+  agora?: Date;
 }
+
+const mesmoDia = (a: Date, b: Date) => a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+const horaDe = (d: Date) => `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
 
 const NOME_PROGRAMA: Record<string, string> = { mama: 'mama', colo_utero: 'colo do útero', colorretal: 'intestino', pulmao: 'pulmão', prostata: 'próstata' };
 const NIVEL: Record<string, NivelAlertaUI> = { verde: 'verde', amarelo: 'amarelo', laranja: 'laranja', vermelho: 'vermelho', cinza: 'cinza' };
@@ -47,9 +55,19 @@ const NIVEL: Record<string, NivelAlertaUI> = { verde: 'verde', amarelo: 'amarelo
  * Bloco "Hoje" da Home (§56): o que precisa de atenção, do mais grave ao mais leve.
  * Fase 0: só completude do perfil. A Fase 1 acrescenta pendências e exames do Rastreando.
  */
-export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, rastreando, cardio }: Entrada): ItemHoje[] {
+export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, rastreando, cardio, consultas, agora = new Date() }: Entrada): ItemHoje[] {
   if (!perfil) return [];
   const itens: ItemHoje[] = [];
+
+  // Consulta marcada (D-010): hoje ou amanhã → preparar o relatório.
+  if (consultas?.proxima) {
+    const c = consultas.proxima;
+    const dt = new Date(c.dataHora);
+    const amanha = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate() + 1);
+    const rota = `/(app)/minha-saude/consulta?especialidade=${c.especialidade}&consultaId=${c.id}`;
+    if (mesmoDia(dt, agora)) itens.push({ id: 'consulta_hoje', nivel: 'amarelo', titulo: `Hoje: consulta de ${c.rotuloEspecialidade.toLowerCase()} às ${horaDe(dt)} — preparar`, descricao: 'Abra o relatório para levar ao médico.', rota });
+    else if (mesmoDia(dt, amanha)) itens.push({ id: 'consulta_amanha', nivel: 'amarelo', titulo: `Amanhã: consulta de ${c.rotuloEspecialidade.toLowerCase()} às ${horaDe(dt)}`, descricao: 'Quer preparar o relatório?', rota });
+  }
 
   // Rastreando (§56): hierarquia de segurança na ordem — sintoma > pendência > atrasado > próximo.
   if (rastreando) {
