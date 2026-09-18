@@ -99,7 +99,8 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 - [x] D-011 (medidas corporais em `medidas`) · Spec técnica: `docs/superpowers/specs/2026-09-18-nero-fase4-bem-estar-design.md` — em revisão
 - [x] Plano 4a implementado (branch `nero-fase4a-corpo-atividade-sono`, 18/09/2026): Meu Corpo, atividade, sono, Meus hábitos parcial, Home
 - [ ] Checklist `checklists/fase-4a.md` e revisão `revisao/2026-09-18-revisao-textos-bem-estar-4a.md` pelo Murilo
-- [ ] Plano 4b (alimentação, conexão, metas, check-in, relatório, merge)
+- [x] Plano 4b escrito: `docs/superpowers/plans/2026-09-18-nero-fase4b-alimentacao-conexao-metas-relatorio.md` (7 tasks)
+- [ ] Plano 4b implementado · nuvem (0012+0013+semente) · merge da Fase 4
 - [ ] Meu Corpo: peso, altura, IMC, cintura, cintura/altura, composição corporal (§70–73, §83–84)
 - [ ] Minha Alimentação: diário simples + resumo de hábitos (§74–76)
 - [ ] Minha Atividade + metas (§77–79)
