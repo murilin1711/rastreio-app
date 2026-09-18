@@ -69,7 +69,7 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 - [ ] Obter diretriz INCA 2016 (citologia) para validar 4 linhas da semente (ASC-US/LSIL/insatisfatória)
 - [ ] Substituir relatório preliminar da CONITEC pela versão final quando o MS publicar
 
-### Fase 2 — Coração & Metabolismo — **em andamento desde 16/09/2026**
+### Fase 2 — Coração & Metabolismo — **concluída em código e mesclada em 17/09/2026** (checklists manuais 2a/2b e revisão de textos pendentes)
 - [x] Referências vigentes no acervo (`referencias/REFERENCIAS.md`, seção Fase 2)
 - [x] Decisões clínicas C-010–C-014 aprovadas e documentadas (`02-DECISOES.md`, `funcionamento/coracao-metabolismo.md`)
 - [x] Spec técnica (`docs/superpowers/specs/2026-09-17-nero-fase2-cardio-design.md`) — em revisão
@@ -105,6 +105,7 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 
 | Data | Fase | O que foi feito |
 |------|------|-----------------|
+| 17/09/2026 | 2 | **Merge da Fase 2 em `desenvolvimento-2`** (`nero-fase2b-glicemia-risco`, que contém a 2a). 270 Jest + 19 pgTAP. Nuvem migrada (0010) e semeada (pressão 7, glicemia 9, risco 4). Pendências: checklists 2a/2b e revisão de textos pelo Murilo; correções sob demanda. |
 | 17/09/2026 | 2b | **Task 4 concluída:** Murilo baixou artigo, statement e material suplementar do PREVENT; coeficientes gerados por script da planilha oficial (Tabelas S12); equação com idade² (30 anos), HbA1c (5,3), ln(RAC) e SDI ausente; 5 exemplos oficiais reproduzidos nos testes. Cálculo de risco ativo no app. |
 | 17/09/2026 | 2b | **Plano 2b implementado** (branch `nero-fase2b-glicemia-risco`, Tasks 1–3 e 5–9): 13 regras novas semeadas (glicemia 9, risco 4), motor de glicemia, dado recente, check-up, agravantes, CKD-EPI, estrutura do PREVENT (Task 4 — coeficientes — pendente dos PDFs), serviços, telas de glicemia (4), exames (3), risco (4), check-up, linha do tempo, dashboard completo e Home. 262 Jest + 19 pgTAP. Pendente: semente na nuvem, checklists 2a e 2b do Murilo, merge. |
 | 17/09/2026 | 2a | **Plano 2a implementado** (branch `nero-fase2a-pressao`, 9 tasks): migração 0010, 7 regras de pressão, motor `regras/cardio` (pressão, MRPA, lembretes), serviços, telas de Minha Pressão, MRPA guiada e relatório, dashboard, sinais de alerta, Home e lembretes de medicação. 201 Jest + 17 pgTAP. Pendente: checklist do Murilo, `db push` e merge. |
