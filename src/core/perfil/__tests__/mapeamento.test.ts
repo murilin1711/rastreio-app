@@ -7,7 +7,7 @@ const row = {
   historico_cancer_pessoal: [], lesoes_precursoras: [], doencas_geneticas: [{ nome: 'BRCA1' }], radioterapia_toracica: null,
   tipo_usuario: 'paciente', ja_teve_atividade_sexual: null, raca_cor: null, menopausa: null, sem_medicacoes: false, sem_antecedentes_familiares: false, perfil_inicial_completo: true, created_at: '', updated_at: '',
   // Fase 2 (migração 0010) — mapeados no plano 2b
-  tipo_diabetes: null, usa_insulina: null, evento_cv_previo: null, perfil_meta_glicemica: 'adulto', metas_glicemia: null, plano_glicemia: null, agravantes_cv: { itens: [] }, atividade_fisica_regular: null,
+  tipo_diabetes: null, usa_insulina: null, evento_cv_previo: null, perfil_meta_glicemica: 'adulto', metas_glicemia: null, plano_glicemia: null, agravantes_cv: { itens: [] }, atividade_fisica_regular: null, preferencias_lembretes: { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true },
 };
 
 test('paraDominio converte snake_case → camelCase', () => {

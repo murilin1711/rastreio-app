@@ -67,6 +67,122 @@ export type Database = {
         }
         Relationships: []
       }
+      compartilhamentos: {
+        Row: {
+          caminho: string
+          created_at: string
+          especialidade: string | null
+          expira_em: string
+          id: string
+          revogado_em: string | null
+          tipo_relatorio: string
+          user_id: string
+        }
+        Insert: {
+          caminho: string
+          created_at?: string
+          especialidade?: string | null
+          expira_em: string
+          id?: string
+          revogado_em?: string | null
+          tipo_relatorio: string
+          user_id: string
+        }
+        Update: {
+          caminho?: string
+          created_at?: string
+          especialidade?: string | null
+          expira_em?: string
+          id?: string
+          revogado_em?: string | null
+          tipo_relatorio?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      consultas: {
+        Row: {
+          created_at: string
+          data_hora: string
+          especialidade: string
+          id: string
+          local: string | null
+          observacao: string | null
+          profissional: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          data_hora: string
+          especialidade: string
+          id?: string
+          local?: string | null
+          observacao?: string | null
+          profissional?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          data_hora?: string
+          especialidade?: string
+          id?: string
+          local?: string | null
+          observacao?: string | null
+          profissional?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      documentos: {
+        Row: {
+          caminho: string
+          created_at: string
+          data_documento: string | null
+          exame_id: string | null
+          id: string
+          mime: string
+          nome: string
+          observacao: string | null
+          tamanho: number
+          tipo: string
+          user_id: string
+        }
+        Insert: {
+          caminho: string
+          created_at?: string
+          data_documento?: string | null
+          exame_id?: string | null
+          id?: string
+          mime: string
+          nome: string
+          observacao?: string | null
+          tamanho: number
+          tipo: string
+          user_id: string
+        }
+        Update: {
+          caminho?: string
+          created_at?: string
+          data_documento?: string | null
+          exame_id?: string | null
+          id?: string
+          mime?: string
+          nome?: string
+          observacao?: string | null
+          tamanho?: number
+          tipo?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "documentos_exame_id_fkey"
+            columns: ["exame_id"]
+            isOneToOne: false
+            referencedRelation: "exames"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       exames: {
         Row: {
           abre_pendencia: boolean
@@ -407,6 +523,7 @@ export type Database = {
           perfil_meta_glicemica: string
           plano_glicemia: Json | null
           possui_colo_utero: boolean | null
+          preferencias_lembretes: Json
           raca_cor: string | null
           radioterapia_toracica: boolean | null
           sem_antecedentes_familiares: boolean
@@ -447,6 +564,7 @@ export type Database = {
           perfil_meta_glicemica?: string
           plano_glicemia?: Json | null
           possui_colo_utero?: boolean | null
+          preferencias_lembretes?: Json
           raca_cor?: string | null
           radioterapia_toracica?: boolean | null
           sem_antecedentes_familiares?: boolean
@@ -487,6 +605,7 @@ export type Database = {
           perfil_meta_glicemica?: string
           plano_glicemia?: Json | null
           possui_colo_utero?: boolean | null
+          preferencias_lembretes?: Json
           raca_cor?: string | null
           radioterapia_toracica?: boolean | null
           sem_antecedentes_familiares?: boolean
