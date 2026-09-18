@@ -9,6 +9,8 @@
 
 ## Fila do Murilo (atualizada em 18/09/2026)
 
+> **Nova sessão do Claude Code?** Comece por [`handoffs/2026-09-18-preparar-publicacao.md`](handoffs/2026-09-18-preparar-publicacao.md).
+
 As quatro fases estão implementadas, mescladas e na nuvem. O que depende de você, na ordem sugerida:
 
 **Testes no aparelho** (`docs/nero/checklists/`) — marque as caixas e anote o que quebrou; eu corrijo sob demanda.
