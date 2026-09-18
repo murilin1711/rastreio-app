@@ -48,6 +48,13 @@
 - **Spike futuro (não bloqueia nada):** GLB rigado exportado do Meshy com 3–4 animações embutidas; protótipo com `expo-gl` + `three.js` para medir peso/desempenho no celular. Se rodar bem, 3D entra só em momentos-herói (onboarding, login, cabeçalho da Home); o restante fica em PNG/Lottie.
 **Motivo:** identidade própria já criada; 3D em RN é viável mas pesado — decide-se com medição, não com suposição. Animações expressivas são geradas no Meshy/Mixamo e orquestradas em código; procedural só para gestos simples (olhar, inclinar, respirar).
 
+### D-007 · Como gerar e compartilhar os relatórios em PDF (§26, §40, §61, §62) — DECIDIDA (17/09/2026)
+**Contexto:** três relatórios (cardiovascular, oncológico, geral) e "Preparar minha consulta" por especialidade; o paciente leva ou envia ao médico. O Murilo pediu também um QR code que o médico escaneie.
+**Opções:** (a) gerar no aparelho com `expo-print` (HTML → PDF) e compartilhar pelo menu do sistema (`expo-sharing`); (b) Edge Function gera no servidor; (c) híbrido.
+**Decisão:** **(a)**, com QR code: o PDF é gerado no aparelho; se o paciente pedir o QR, o app envia o PDF ao bucket privado `relatorios/<user_id>/…` e cria uma **URL assinada com validade de 7 dias** (recurso do Storage, sem código de servidor). O QR (na tela e no rodapé do PDF) contém essa URL; o médico abre o PDF no navegador. O paciente pode "Encerrar compartilhamento" (apaga o arquivo → link morre). Quem só compartilha por WhatsApp/e-mail não envia nada ao servidor. Tela web navegável para o médico fica para fase futura.
+**Motivo:** dados de saúde não saem do aparelho para gerar o documento (LGPD); zero infraestrutura; compatível com offline futuro; QR resolvido com URL assinada expirável e revogável.
+**Consequências:** dependências `expo-print`, `expo-sharing`, `react-native-qrcode-svg` (ou geração de QR em SVG puro); migração com bucket `relatorios` (políticas por pasta do usuário, como `laudos`) e tabela `compartilhamentos` (id, user_id, tipo_relatorio, caminho, expira_em, revogado_em) para listar/revogar. Layout: cabeçalho NERO (nome, nascimento, período), seções na ordem da spec, tabelas, gráficos simples em HTML, rodapé com as ressalvas literais do §26/§40.
+
 ---
 
 ## Decisões clínicas (protocolos adotados)
