@@ -21,6 +21,8 @@ Versões substituídas e **não usadas**: DBHA 2020; 4ª Diretriz de MRPA 2018.
 
 ## 1. Minha Pressão — registro simples (§1) e alertas em camadas (§4) — C-010, aprovado 17/09/2026
 
+> **Implementado em 17/09/2026 (plano 2a).** Regras: `src/core/regras/cardio/pressao.ts` (testes em `__tests__/pressao.test.ts`, um por camada); parâmetros lidos de `regras_clinicas` (programa `pressao`, semente `supabase/seed.sql` bloco Fase 2) por `parametros.ts`; serviços `src/core/cardio/{medidas,usePressao}.ts`; telas `app/(app)/coracao/pressao/{index,registrar}.tsx`; textos `src/modules/coracao/conteudo/pressao.ts`. O convite para MRPA fica registrado em `lembretes` (`origem_tipo='sistema'`, `titulo='convite_mrpa'`) para respeitar os 30 dias.
+
 ### Conceito que orienta tudo
 Uma medida feita em casa fora de protocolo é **automedida (AMPA)**. A DBHA 2025 (§3.7.1) afirma que não há valores de normalidade nem protocolo (número de medidas, horários, dias) validados para AMPA, e que ela serve **apenas como triagem** para solicitar MRPA ou MAPA. A Medidas 2023 (§3.1) retira o critério antigo de "7 medidas em 16–72 h". Só **MRPA e MAPA** têm limiar: **≥ 130 e/ou ≥ 80 mmHg** (DBHA 2025 Quadro 3.4; Medidas 2023 Quadro 9 e Parte 4 §4).
 
@@ -46,6 +48,8 @@ Disparada **somente** por uma sessão de MRPA concluída e válida (regras em C-
 ---
 
 ## 2. MRPA — protocolo guiado, tela diária e relatório (§2–§3) — C-011, aprovado 17/09/2026
+
+> **Implementado em 17/09/2026 (plano 2a).** Regras: `src/core/regras/cardio/mrpa.ts` (validade 14/15/18, exclusões, médias, diferença consultório) e `lembretesMrpa.ts`; serviços `src/core/cardio/{sessoesMrpa,lembretesCardio,useMrpa}.ts`; telas `app/(app)/coracao/mrpa/{iniciar,[sessao],medir,relatorio}.tsx`. Detalhes de execução que refinam o texto abaixo: início só hoje ou amanhã; "período" (manhã/noite) é escolhido pelo paciente ao medir, não pelo relógio; lembretes locais um por período por dia (`titulo` = `mrpa:<sessão>:<dia>:<período>`); o relatório é gravado em `mrpa_sessoes.resultado` ao concluir e, quando acima da referência, gera item na Home até ser aberto (`lembretes` `mrpa_lida:<sessão>`). Lembretes de medicação (§21): coluna `medicacoes.lembrar`, agendados para 7 dias e reagendados ao abrir a Home.
 
 ### Fonte
 Diretrizes de Medidas da PA 2023, Parte 4 (GR I, NE C): §3 protocolo, §4 valores de anormalidade, §5 laudo; Quadro 19 (instruções ao paciente); Figura 8 (diário). A spec de produto §2 descrevia o protocolo de 2018 (2 medidas por ocasião, 7 dias) — **substituído**.

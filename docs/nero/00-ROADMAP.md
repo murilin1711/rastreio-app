@@ -74,9 +74,9 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 - [x] Decisões clínicas C-010–C-014 aprovadas e documentadas (`02-DECISOES.md`, `funcionamento/coracao-metabolismo.md`)
 - [x] Spec técnica (`docs/superpowers/specs/2026-09-17-nero-fase2-cardio-design.md`) — em revisão
 - [ ] PDFs do PREVENT (Khan 2023/2024 + suplemento) baixados pelo Murilo
-- [ ] Minha Pressão (registro simples + médias/gráficos) (§1)
-- [ ] MRPA: protocolo guiado, tela diária, relatório automático (§2–3)
-- [ ] Alertas de pressão em camadas (§4)
+- [x] Minha Pressão (registro simples + médias/gráficos) (§1) — plano 2a
+- [x] MRPA: protocolo guiado, tela diária, relatório em tela (§2–3) — plano 2a (PDF na Fase 3)
+- [x] Alertas de pressão em camadas (§4) — plano 2a
 - [ ] Glicemia: registro com momento + contexto, plano de monitorização, relatório (§5–8)
 - [ ] Meus Exames: laboratoriais e cardiológicos com valor estruturado + anexo (§9–11)
 - [ ] Risco cardiovascular PREVENT com preenchimento automático e regras de "dado recente" (§13–18)
@@ -105,6 +105,7 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 
 | Data | Fase | O que foi feito |
 |------|------|-----------------|
+| 17/09/2026 | 2a | **Plano 2a implementado** (branch `nero-fase2a-pressao`, 9 tasks): migração 0010, 7 regras de pressão, motor `regras/cardio` (pressão, MRPA, lembretes), serviços, telas de Minha Pressão, MRPA guiada e relatório, dashboard, sinais de alerta, Home e lembretes de medicação. 201 Jest + 17 pgTAP. Pendente: checklist do Murilo, `db push` e merge. |
 | 17/09/2026 | 2 | **Fase 2 iniciada.** Acervo verificado e baixado (DBHA 2025 substitui 2020; Medidas PA 2023 substitui MRPA 2018; Dislipidemias 2025; SBD 2026 × 5 capítulos). C-010–C-014 aprovadas pelo Murilo, cada uma validada no texto da diretriz vigente. Funcionamento por funcionalidade em `funcionamento/coracao-metabolismo.md`. Spec técnica escrita: `docs/superpowers/specs/2026-09-17-nero-fase2-cardio-design.md` (entrega em dois planos, 2a e 2b). Pendente: download manual dos PDFs do PREVENT (Khan 2023/2024 + suplemento). |
 | 14/09/2026 | — | Documento NERO importado e estruturado em `docs/nero/`. Roadmap e registro de decisões criados. Início da discussão de arquitetura. |
 | 14/09/2026 | 0 | D-001 decidida: evoluir o código atual — Rastreando vira módulo, construímos a camada anterior (Home com módulos + perfil único). |
