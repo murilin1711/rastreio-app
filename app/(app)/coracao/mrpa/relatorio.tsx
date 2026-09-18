@@ -1,10 +1,13 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useEffect } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useMedicacoes } from '@core/medicacoes/useMedicacoes';
 import { formatarHorarios } from '@core/medicacoes/horarios';
 import { dataDoDia } from '@core/regras/cardio/mrpa';
+import { marcarRelatorioLido } from '@core/cardio/resumoHome';
 import { useMrpa } from '@core/cardio/useMrpa';
+import { useSessao } from '@core/sessao/SessaoProvider';
 import { dataCurtaBr, dataLongaBr, horaLocal } from '@modules/coracao/componentes/formato';
 import { GraficoBarras } from '@modules/coracao/componentes/GraficoBarras';
 import { LeituraPA } from '@modules/coracao/componentes/LeituraPA';
@@ -17,6 +20,11 @@ export default function RelatorioMrpaTela() {
   const { sessao: sessaoId } = useLocalSearchParams<{ sessao: string }>();
   const { sessao, medidas, parametros, relatorioParcial, carregando } = useMrpa(sessaoId);
   const { ativas } = useMedicacoes();
+  const { sessao: auth } = useSessao();
+
+  useEffect(() => {
+    if (auth?.user.id && sessao?.status === 'concluida') marcarRelatorioLido(auth.user.id, sessao.id).catch(() => {});
+  }, [auth?.user.id, sessao?.id, sessao?.status]);
 
   if (!sessao || !parametros) {
     return <SafeAreaView style={styles.tela} edges={['top']}><View style={styles.conteudo}><InternalHeader sectionLabel="MRPA" title="Relatório" /><Text style={styles.texto}>{carregando ? 'Carregando…' : 'Sessão não encontrada.'}</Text></View></SafeAreaView>;

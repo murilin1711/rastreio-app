@@ -21,11 +21,19 @@ export interface RastreandoResumo {
   avaliacoes: Partial<Record<string, { status: string; proximaData: string | null }>>;
 }
 
+/** Resumo do Coração & Metabolismo para a Home (Fase 2a). Montado em `src/core/cardio/resumoHome.ts`. */
+export interface ResumoCardio {
+  ultimaPA: { pas: number; pad: number; medidoEm: string; nivel: 'laranja' | 'vermelho' | null } | null;
+  mrpaAtiva: { id: string; dia: number; diasPrevistos: number; faltaHoje: ('manha' | 'noite')[] } | null;
+  mrpaAcimaSemLeitura: { id: string; concluidaEm: string } | null;
+}
+
 interface Entrada {
   perfil: PerfilSaude | null;
   antecedentesQtd: number;
   medicacoesAtivasQtd: number;
   rastreando?: RastreandoResumo;
+  cardio?: ResumoCardio;
 }
 
 const NOME_PROGRAMA: Record<string, string> = { mama: 'mama', colo_utero: 'colo do útero', colorretal: 'intestino', pulmao: 'pulmão', prostata: 'próstata' };
@@ -35,7 +43,7 @@ const NIVEL: Record<string, NivelAlertaUI> = { verde: 'verde', amarelo: 'amarelo
  * Bloco "Hoje" da Home (§56): o que precisa de atenção, do mais grave ao mais leve.
  * Fase 0: só completude do perfil. A Fase 1 acrescenta pendências e exames do Rastreando.
  */
-export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, rastreando }: Entrada): ItemHoje[] {
+export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, rastreando, cardio }: Entrada): ItemHoje[] {
   if (!perfil) return [];
   const itens: ItemHoje[] = [];
 
@@ -51,6 +59,27 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, 
       if (!av) continue;
       if (av.status === 'exame_atrasado') itens.push({ id: `atrasado_${programa}`, nivel: 'laranja', titulo: `Agendar exame atrasado (${NOME_PROGRAMA[programa] ?? programa})`, descricao: 'A data prevista já passou.', rota: `/(app)/rastreando/${programa}` });
       else if (av.status === 'exame_proximo') itens.push({ id: `proximo_${programa}`, nivel: 'amarelo', titulo: `Agendar exame de ${NOME_PROGRAMA[programa] ?? programa}`, descricao: `Previsto para ${av.proximaData ? `${av.proximaData.slice(8, 10)}/${av.proximaData.slice(5, 7)}/${av.proximaData.slice(0, 4)}` : 'breve'}.`, rota: `/(app)/rastreando/${programa}` });
+    }
+  }
+
+  // Coração & Metabolismo (C-010/C-011): PA muito elevada nas últimas 24 h > MRPA do dia > relatório a levar ao médico.
+  if (cardio) {
+    const { ultimaPA, mrpaAtiva, mrpaAcimaSemLeitura } = cardio;
+    if (ultimaPA?.nivel && Date.now() - Date.parse(ultimaPA.medidoEm) < 86_400_000) {
+      itens.push({
+        id: 'pa_elevada',
+        nivel: ultimaPA.nivel,
+        titulo: ultimaPA.nivel === 'vermelho' ? 'Procurar atendimento: pressão muito elevada com sintomas' : 'Repetir a medida: pressão muito elevada',
+        descricao: `Última medida ${ultimaPA.pas}/${ultimaPA.pad}. Descanse 5 minutos e meça de novo.`,
+        rota: '/(app)/coracao/pressao',
+      });
+    }
+    if (mrpaAtiva && mrpaAtiva.faltaHoje.length && mrpaAtiva.dia >= 1 && mrpaAtiva.dia <= mrpaAtiva.diasPrevistos) {
+      const periodo = mrpaAtiva.faltaHoje.includes('manha') ? 'manhã' : 'noite';
+      itens.push({ id: 'mrpa_hoje', nivel: 'amarelo', titulo: `Fazer as medidas da ${periodo} — MRPA, dia ${mrpaAtiva.dia} de ${mrpaAtiva.diasPrevistos}`, descricao: '3 medidas com 1 minuto de intervalo.', rota: `/(app)/coracao/mrpa/${mrpaAtiva.id}` });
+    }
+    if (mrpaAcimaSemLeitura) {
+      itens.push({ id: 'mrpa_levar', nivel: 'amarelo', titulo: 'Levar o relatório da MRPA ao médico', descricao: 'Suas medidas ficaram acima da referência. Converse com seu profissional de saúde.', rota: `/(app)/coracao/mrpa/relatorio?sessao=${mrpaAcimaSemLeitura.id}` });
     }
   }
 
@@ -89,7 +118,7 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, 
       id: 'tudo_em_dia',
       nivel: 'verde',
       titulo: 'Nada pendente',
-      descricao: rastreando ? 'Perfil completo e rastreamentos em ordem.' : 'Seu perfil está completo.',
+      descricao: rastreando && cardio ? 'Perfil completo, rastreamentos e pressão em ordem.' : rastreando ? 'Perfil completo e rastreamentos em ordem.' : 'Seu perfil está completo.',
       rota: '/(app)/minha-saude',
     });
   }

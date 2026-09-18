@@ -1,8 +1,12 @@
+import { useEffect, useRef } from 'react';
 import { useRouter, type Href } from 'expo-router';
 import { Alert, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useMedicacoes } from '@core/medicacoes/useMedicacoes';
 import { useRastreando } from '@core/rastreando/useRastreando';
+import { sincronizarLembretesMedicacao } from '@core/cardio/lembretesCardio';
+import { useResumoCardio } from '@core/cardio/useResumoCardio';
+import { useSessao } from '@core/sessao/SessaoProvider';
 import { usePerfil } from '@core/perfil/usePerfil';
 import { CardModulo } from '@modules/home/CardModulo';
 import { ItemHoje } from '@modules/home/ItemHoje';
@@ -23,15 +27,29 @@ export default function Home() {
   const { perfil, antecedentes, carregando, recarregar, salvar } = usePerfil();
   const { ativas, recarregar: recarregarMed } = useMedicacoes();
   const rastreando = useRastreando();
+  const cardio = useResumoCardio();
+  const { sessao } = useSessao();
   const itens = montarItensHoje({
     perfil, antecedentesQtd: antecedentes.length, medicacoesAtivasQtd: ativas.length,
     rastreando: rastreando.avaliacoes ? { pendencias: rastreando.pendencias, sintomas: rastreando.sintomas, avaliacoes: rastreando.avaliacoes } : undefined,
+    cardio: cardio.resumo,
   });
+  const subtituloCardio = cardio.resumo?.mrpaAtiva
+    ? `MRPA em andamento — dia ${Math.min(Math.max(cardio.resumo.mrpaAtiva.dia, 1), cardio.resumo.mrpaAtiva.diasPrevistos)} de ${cardio.resumo.mrpaAtiva.diasPrevistos}`
+    : cardio.resumo?.ultimaPA ? `Última pressão ${cardio.resumo.ultimaPA.pas}/${cardio.resumo.ultimaPA.pad}` : 'Pressão, glicemia e risco cardiovascular';
+
+  // §21: reagenda os lembretes de medicação (7 dias) uma vez por abertura do app
+  const sincronizou = useRef(false);
+  useEffect(() => {
+    if (sincronizou.current || !sessao?.user.id || !ativas.length) return;
+    sincronizou.current = true;
+    sincronizarLembretesMedicacao(sessao.user.id, ativas.filter((m) => m.lembrar && m.horarios.length)).catch(() => {});
+  }, [sessao?.user.id, ativas]);
   const subtituloRastreando = rastreando.sintomas.length ? 'Sinal de alerta registrado' : rastreando.pendencias.length ? `${rastreando.pendencias.length} pendência${rastreando.pendencias.length > 1 ? 's' : ''}` : rastreando.avaliacoes ? 'Rastreamento de câncer pelo seu perfil' : 'Carregando…';
   const pendentes = itens.filter((i) => i.nivel !== 'verde').length;
   const inicial = perfil?.nome?.trim().charAt(0).toUpperCase() ?? '';
 
-  const atualizar = () => { recarregar(); recarregarMed(); rastreando.recarregar(); };
+  const atualizar = () => { recarregar(); recarregarMed(); rastreando.recarregar(); cardio.recarregar(); };
 
   const declararNegativa = (item: Item) => {
     const acao = item.acaoSecundaria;
@@ -77,7 +95,7 @@ export default function Home() {
             <CardModulo titulo="Minha Saúde" descricao="Perfil, medicamentos e relatórios" icone="person-outline" capa={[Colors.logoMarinho, Colors.logoAco]} onPress={() => router.push('/(app)/minha-saude')} />
           </View>
           <View style={styles.linhaGrade}>
-            <CardModulo titulo="Coração & Metabolismo" descricao="Pressão, glicemia e risco cardiovascular" icone="heart-outline" capa={['#B4321F', '#F2734A']} onPress={() => router.push('/(app)/coracao')} />
+            <CardModulo titulo="Coração & Metabolismo" descricao={subtituloCardio} icone="heart-outline" capa={['#B4321F', '#F2734A']} onPress={() => router.push('/(app)/coracao')} />
             <CardModulo titulo="Saúde & Bem-estar" descricao="Peso, alimentação, atividade e sono" icone="leaf-outline" capa={['#15803D', '#5FCB8A']} emBreve />
           </View>
         </View>

@@ -75,3 +75,28 @@ describe('itens do Rastreando na Home (§56, §66)', () => {
     expect(itens[0].nivel).toBe('verde');
   });
 });
+
+describe('itens do Coração & Metabolismo (Fase 2a)', () => {
+  const base = { perfil: completo, antecedentesQtd: 1, medicacoesAtivasQtd: 1 };
+  const vazio = { ultimaPA: null, mrpaAtiva: null, mrpaAcimaSemLeitura: null };
+
+  test('PA muito elevada nas últimas 24 h vira item laranja/vermelho', () => {
+    const itens = montarItensHoje({ ...base, cardio: { ...vazio, ultimaPA: { pas: 185, pad: 95, medidoEm: new Date().toISOString(), nivel: 'laranja' } } });
+    expect(itens[0]).toMatchObject({ id: 'pa_elevada', nivel: 'laranja', rota: '/(app)/coracao/pressao' });
+  });
+  test('PA muito elevada de 2 dias atrás não vira item', () => {
+    const itens = montarItensHoje({ ...base, cardio: { ...vazio, ultimaPA: { pas: 185, pad: 95, medidoEm: new Date(Date.now() - 2 * 86_400_000).toISOString(), nivel: 'laranja' } } });
+    expect(itens.some((i) => i.id === 'pa_elevada')).toBe(false);
+  });
+  test('MRPA em andamento com período faltando hoje vira item amarelo com o dia', () => {
+    const itens = montarItensHoje({ ...base, cardio: { ...vazio, mrpaAtiva: { id: 's1', dia: 3, diasPrevistos: 6, faltaHoje: ['noite'] } } });
+    expect(itens[0]).toMatchObject({ id: 'mrpa_hoje', nivel: 'amarelo', titulo: 'Fazer as medidas da noite — MRPA, dia 3 de 6', rota: '/(app)/coracao/mrpa/s1' });
+  });
+  test('MRPA concluída acima da referência vira item amarelo para levar ao médico', () => {
+    const itens = montarItensHoje({ ...base, cardio: { ...vazio, mrpaAcimaSemLeitura: { id: 's2', concluidaEm: '2026-09-12T10:00:00Z' } } });
+    expect(itens.find((i) => i.id === 'mrpa_levar')).toMatchObject({ nivel: 'amarelo', rota: '/(app)/coracao/mrpa/relatorio?sessao=s2' });
+  });
+  test('sem cardio nada muda', () => {
+    expect(montarItensHoje(base).some((i) => i.id.startsWith('pa_') || i.id.startsWith('mrpa_'))).toBe(false);
+  });
+});

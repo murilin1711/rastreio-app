@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { formatarHorarios, parsearHorarios } from '@core/medicacoes/horarios';
@@ -102,6 +102,13 @@ export default function Medicamentos() {
               <Input placeholder="Nome, por exemplo Losartana" value={editando.nome ?? ''} onChangeText={(v) => setEditando({ ...editando, nome: v })} />
               <Input placeholder="Dose, por exemplo 50 mg" value={editando.dose ?? ''} onChangeText={(v) => setEditando({ ...editando, dose: v })} />
               <Input placeholder="Horários, por exemplo 08:00, 20:00" value={editando.horariosTexto ?? ''} onChangeText={(v) => setEditando({ ...editando, horariosTexto: v })} />
+              <View style={styles.toggle}>
+                <View style={{ flex: 1 }}>
+                  <Text style={styles.toggleTitulo}>Lembrar nos horários</Text>
+                  <Text style={styles.toggleSub}>Notificação no celular em cada horário informado.</Text>
+                </View>
+                <Switch value={editando.lembrar ?? false} onValueChange={(v) => setEditando({ ...editando, lembrar: v })} trackColor={{ true: Colors.accent }} />
+              </View>
               <CampoData rotulo="Desde quando?" valor={editando.desde ?? null} onChange={(v) => setEditando({ ...editando, desde: v })} />
               <Input placeholder="Quem prescreveu (opcional)" value={editando.prescritor ?? ''} onChangeText={(v) => setEditando({ ...editando, prescritor: v })} />
               <Input placeholder="Observação (opcional)" value={editando.observacao ?? ''} onChangeText={(v) => setEditando({ ...editando, observacao: v })} />
@@ -140,6 +147,9 @@ function CardMed({ m, onEditar, onAlternar }: { m: Medicacao; onEditar: () => vo
 }
 
 const styles = StyleSheet.create({
+  toggle: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md, paddingVertical: Spacing.xs },
+  toggleTitulo: { ...Typography.subheading, color: Colors.textPrimary },
+  toggleSub: { ...Typography.caption, color: Colors.textSecondary },
   tela: { flex: 1, backgroundColor: Colors.background },
   conteudo: { paddingHorizontal: Spacing.xxl, paddingBottom: Spacing.xxxl },
   ajuda: { ...Typography.body, color: Colors.textSecondary, marginBottom: Spacing.xl },
