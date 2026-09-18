@@ -7,5 +7,7 @@ export interface Medicacao {
   ate: string | null;
   prescritor: string | null;
   ativa: boolean;
+  /** Lembrete local nos horários (§21). */
+  lembrar: boolean;
   observacao: string | null;
 }

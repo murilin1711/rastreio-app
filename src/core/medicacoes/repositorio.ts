@@ -19,6 +19,7 @@ export async function listarMedicacoes(userId: string): Promise<Medicacao[]> {
     ate: m.ate,
     prescritor: m.prescritor,
     ativa: m.ativa,
+    lembrar: m.lembrar,
     observacao: m.observacao,
   }));
 }
@@ -33,6 +34,7 @@ export async function salvarMedicacao(userId: string, m: Omit<Medicacao, 'id'> &
     ate: m.ate,
     prescritor: m.prescritor,
     ativa: m.ativa,
+    lembrar: m.lembrar,
     observacao: m.observacao,
   };
   const { error } = m.id

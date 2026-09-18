@@ -46,6 +46,7 @@ export default function Medicamentos() {
         ate: editando?.ate ?? null,
         prescritor: editando?.prescritor?.trim() || null,
         ativa: editando?.ativa ?? true,
+        lembrar: (editando?.lembrar ?? false) && horarios.length > 0,
         observacao: editando?.observacao?.trim() || null,
       });
       if (perfil?.semMedicacoes) await salvarPerfil({ semMedicacoes: false });
