@@ -82,6 +82,11 @@ Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limi
 **Decisão:** (1) tela "Meus lembretes" em Minha Saúde — próximos 30 dias de todos os módulos, agrupados por dia, com origem e atalho; histórico dos últimos 30 dias. (2) `perfil_saude.preferencias_lembretes` (jsonb) com um interruptor por tipo — exame próximo/vencido · MRPA · glicemia · medicamento · consulta · atualização clínica; desligar cancela só as **notificações do celular** daquele tipo; itens da Home e das telas nunca desligam. (3) Tipo novo **consulta**: tabela `consultas (id, user_id, especialidade, data_hora, local, observacao)`; lembrete 1 dia antes e, no dia, sugestão de "Preparar minha consulta" com a especialidade. (4) Sem horário de silêncio próprio (o sistema já tem "Não perturbe").
 **Motivo:** unifica o que já existe sem reescrever os agendadores; respeita a exigência da spec de manter alertas clínicos visíveis.
 
+### D-011 · Fase 4: medidas corporais ficam em `medidas` (tipos novos), não em tabela própria — DECIDIDA (18/09/2026)
+**Contexto:** `medidas` já guarda `pa`, `glicemia` e `peso` (usado pelo PREVENT e pelo check-up) com `valores` em JSON.
+**Decisão:** opção A — tipos novos `cintura`, `quadril` e `composicao` na mesma tabela (`valores`: `{ cm }`, `{ cm }`, `{ gordura_pct, massa_magra_kg, massa_muscular_kg, agua_pct, gordura_visceral, tmb_kcal, metodo }`); `peso` ganha `metodo` opcional em `valores`. Refeições, atividades, sono, check-ins e metas têm tabelas próprias (`refeicoes`, `atividades`, `sono`, `checkins`, `metas`), porque não são "medidas" e têm campos distintos.
+**Motivo:** mesmo padrão dos módulos anteriores, sem migração de dados nem duplicação do peso; PREVENT e check-up continuam lendo de onde leem.
+
 ---
 
 ## Decisões clínicas (protocolos adotados)
