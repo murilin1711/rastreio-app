@@ -99,9 +99,9 @@
 
 ## Task 8: Conteúdo, docs, nuvem e merge
 
-- [ ] `src/modules/minha-saude/conteudo/relatorios.ts` (ressalvas literais, rótulos, textos do QR e das preferências) → `docs/nero/revisao/2026-09-XX-revisao-textos-minha-saude.md`.
-- [ ] `docs/nero/funcionamento/minha-saude.md` §3–§7 preenchidos (arquivos, fluxo do QR em duas passagens, preferências).
-- [ ] `docs/nero/checklists/fase-3.md` com o critério de pronto da spec.
+- [x] `src/modules/minha-saude/conteudo/relatorios.ts` (ressalvas literais, rótulos, textos do QR e das preferências) → `docs/nero/revisao/2026-09-XX-revisao-textos-minha-saude.md`.
+- [x] `docs/nero/funcionamento/minha-saude.md` §3–§7 preenchidos (arquivos, fluxo do QR em duas passagens, preferências).
+- [x] `docs/nero/checklists/fase-3.md` com o critério de pronto da spec.
 - [ ] Nuvem: `supabase db push` (0011 cria bucket e políticas) — senha na hora.
 - [ ] Checklist do Murilo → correções → merge `--no-ff` em `desenvolvimento-2` → push → roadmap.
 
