@@ -97,7 +97,8 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 ### Fase 4 — Saúde & Bem-estar — **iniciada em 18/09/2026**
 - [x] Decisões clínicas C-015–C-020 aprovadas (18/09/2026)
 - [x] D-011 (medidas corporais em `medidas`) · Spec técnica: `docs/superpowers/specs/2026-09-18-nero-fase4-bem-estar-design.md` — em revisão
-- [ ] Planos 4a e 4b
+- [x] Plano 4a: `docs/superpowers/plans/2026-09-18-nero-fase4a-corpo-atividade-sono.md` (7 tasks)
+- [ ] Plano 4b (alimentação, conexão, metas, check-in, relatório, merge)
 - [ ] Meu Corpo: peso, altura, IMC, cintura, cintura/altura, composição corporal (§70–73, §83–84)
 - [ ] Minha Alimentação: diário simples + resumo de hábitos (§74–76)
 - [ ] Minha Atividade + metas (§77–79)
