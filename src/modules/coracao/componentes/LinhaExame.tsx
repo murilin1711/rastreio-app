@@ -1,18 +1,12 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import type { ExameCardio } from '@core/cardio/mapeamento';
+import { fmtNum, resumoResultadoExame } from '@core/cardio/formato';
 import { rotuloExame } from '@core/cardio/tiposExames';
 import { Colors, Spacing, Typography } from '@ui/theme';
 import { dataLongaBr } from './formato';
 
-export const fmtNum = (n: number) => String(n).replace('.', ',');
-
-export function resumoResultadoExame(e: ExameCardio): string {
-  const r = e.resultado;
-  if (r.valor != null) return `${fmtNum(r.valor)} ${r.unidade ?? ''}`.trim();
-  if (r.agatston != null) return `${r.agatston} Agatston${r.percentil != null ? ` · percentil ${r.percentil}` : ''}`;
-  return r.conclusao ? r.conclusao : '—';
-}
+export { fmtNum, resumoResultadoExame };
 
 /** Linha plana de exame: rótulo, resultado, data e instituição. Laboratório nunca recebe cor (interpretação é do médico). */
 export function LinhaExame({ exame, onPress }: { exame: ExameCardio; onPress: () => void }) {
