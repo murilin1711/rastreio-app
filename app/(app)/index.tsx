@@ -37,7 +37,7 @@ export default function Home() {
   const { sessao } = useSessao();
   const itens = montarItensHoje({
     perfil, antecedentesQtd: antecedentes.length, medicacoesAtivasQtd: ativas.length,
-    bemEstar: bemEstar.habitos ? { movimentoMin: bemEstar.habitos.movimentoMin, metaMin: bemEstar.habitos.metaMin, perdaNaoIntencional: bemEstar.perdaNaoIntencional } : undefined,
+    bemEstar: bemEstar.habitos ? { movimentoMin: bemEstar.habitos.movimentoMin, metaMin: bemEstar.habitos.metaMin, perdaNaoIntencional: bemEstar.perdaNaoIntencional, checkinPendente: bemEstar.habitos.checkinPendente } : undefined,
     consultas: { proxima: consultas.proxima ? { id: consultas.proxima.id, especialidade: consultas.proxima.especialidade, rotuloEspecialidade: rotuloEspecialidade(consultas.proxima.especialidade), dataHora: consultas.proxima.dataHora } : null },
     rastreando: rastreando.avaliacoes ? { pendencias: rastreando.pendencias, sintomas: rastreando.sintomas, avaliacoes: rastreando.avaliacoes } : undefined,
     cardio: cardio.resumo,

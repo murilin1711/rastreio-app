@@ -150,6 +150,10 @@ describe('Saúde & Bem-estar (Fase 4a)', () => {
     expect(i.titulo).toBe('Conversar com o médico: seu peso caiu 5,6 % sem meta de redução');
     expect(i.rota).toBe('/(app)/bem-estar/corpo');
   });
+  test('check-in pendente → item cinza', () => {
+    const itens = montarItensHoje({ ...base, agora: new Date(2026, 8, 14), bemEstar: { movimentoMin: 0, metaMin: 150, perdaNaoIntencional: null, checkinPendente: true } });
+    expect(itens.find((x) => x.id === 'checkin_semana')?.rota).toBe('/(app)/bem-estar/checkin');
+  });
   test('movimento abaixo da meta só aparece no domingo', () => {
     const domingo = montarItensHoje({ ...base, agora: new Date(2026, 8, 20), bemEstar: { movimentoMin: 90, metaMin: 150, perdaNaoIntencional: null } });
     expect(domingo.find((x) => x.id === 'atividade_semana')?.titulo).toBe('Movimentar-se: 90 de 150 minutos esta semana');
