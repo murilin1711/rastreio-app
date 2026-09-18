@@ -101,7 +101,9 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 - [ ] Checklist `checklists/fase-4a.md` e revisão `revisao/2026-09-18-revisao-textos-bem-estar-4a.md` pelo Murilo
 - [x] Plano 4b escrito: `docs/superpowers/plans/2026-09-18-nero-fase4b-alimentacao-conexao-metas-relatorio.md` (7 tasks)
 - [x] Plano 4b implementado (branch `nero-fase4b-alimentacao-relatorio`, 18/09/2026)
-- [ ] Nuvem (0012 + 0013 + semente) · merge da Fase 4 em `desenvolvimento-2` · checklists 4a/4b e revisões pelo Murilo
+- [x] Merge da Fase 4 em `desenvolvimento-2` (`eef3067`, 18/09/2026)
+- [ ] Nuvem: `supabase db push` (0012 + 0013) + semente das 12 regras — a rede do fim do dia bloqueava as portas do Postgres; repetir em outra rede
+- [ ] Checklists 4a/4b e revisões de textos pelo Murilo
 - [ ] Meu Corpo: peso, altura, IMC, cintura, cintura/altura, composição corporal (§70–73, §83–84)
 - [ ] Minha Alimentação: diário simples + resumo de hábitos (§74–76)
 - [ ] Minha Atividade + metas (§77–79)
@@ -116,6 +118,7 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 
 | Data | Fase | O que foi feito |
 |------|------|-----------------|
+| 18/09/2026 | 4 | **Merge da Fase 4 em `desenvolvimento-2`** (`eef3067`, no GitHub). 350 Jest + 30 pgTAP. **Nuvem pendente:** a rede bloqueava 5432/6543 (API HTTPS respondia); `db push` 0012+0013 e semente ficam para outra rede. |
 | 18/09/2026 | 4b | **Plano 4b implementado** (7 tasks): migração 0013, Minha Alimentação (diário + resumo neutro), vínculo glicemia ↔ refeição ↔ atividade com confirmação (C-020), Minhas Metas, check-in semanal com médias mensais, Meus hábitos completo + Home, Relatório de Saúde & Hábitos com 3 ressalvas, seções de bem-estar na consulta (endocrino/clínica) e no geral, linha do tempo geral. 350 Jest. Docs §5–§8, revisão 4b, checklist 4b. Pendente: nuvem (internet caiu no fim do dia) e merge. |
 | 18/09/2026 | 4a | **Plano 4a implementado** (7 tasks): migração 0012 + 12 regras `bem_estar` (30 pgTAP), núcleo puro de corpo/atividade/sono/hábitos (27 testes novos), Meu Corpo (4 telas), Minhas Atividades (2), Meu Sono (2), dashboard do módulo, Home com card ativo e itens cinza. 334 Jest. Docs §1–§4, revisão e checklist 4a. Pendente: `db push` 0012 + semente na nuvem, checklist pelo Murilo, plano 4b. |
 | 18/09/2026 | 4 | D-011 decidida (opção A). **Spec técnica da Fase 4 escrita** (dois planos: 4a corpo/atividade/sono; 4b alimentação/conexão/metas/check-in/relatório). |
