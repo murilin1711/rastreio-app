@@ -1,0 +1,123 @@
+      C O N S E N S U S S TAT E M E N T
+
+
+                                                                      pii: jc-0X231-15
+                                                           http://dx.doi.org/10.5664/jcsm.4758
+
+
+             Recommended Amount of Sleep for a Healthy Adult: A Joint
+              Consensus Statement of the American Academy of Sleep
+                      Medicine and Sleep Research Society
+             Consensus Conference Panel: Nathaniel F. Watson, MD, MSc, Moderator1; M. Safwan Badr, MD2; Gregory Belenky, MD3;
+               Donald L. Bliwise, PhD4; Orfeu M. Buxton, PhD5; Daniel Buysse, MD6; David F. Dinges, PhD7; James Gangwisch, PhD8;
+             Michael A. Grandner, PhD, MSTR, CBSM7; Clete Kushida, MD, PhD9; Raman K. Malhotra, MD10; Jennifer L. Martin, PhD11;
+                                        Sanjay R. Patel, MD, MSc12; Stuart F. Quan, MD12; Esra Tasali, MD13
+                       Non-Participating Observers: Michael Twery, PhD14,*; Janet B. Croft, PhD15,*; Elise Maher, RPSGT16,*
+              American Academy of Sleep Medicine Staff: Jerome A. Barrett17; Sherene M. Thomas, PhD17; Jonathan L. Heald, MA17
+            1
+             University of Washington, Seattle, WA; 2Wayne State University, Detroit, MI; 3Washington State University, Spokane, WA;
+         4
+           Emory University, Atlanta, GA; 5Pennsylvania State University, University Park, PA; 6University of Pittsburgh, Pittsburgh, PA;
+         7
+          University of Pennsylvania, Philadelphia, PA; 8Columbia University, New York, NY; 9Stanford University, Stanford, CA; 10Saint
+           Louis University, St. Louis, MO; 11University of California, Los Angeles, Los Angeles, CA;12Harvard Medical School, Boston,
+        MA; 13The University of Chicago, Chicago, IL; 14National Heart, Lung, Blood Institute, NIH, Bethesda, MD; 15Centers for Disease
+        Control and Prevention, Atlanta, GA; 16Sleep Disorders Institute, New York, NY; 17American Academy of Sleep Medicine, Darien,
+        IL; *attendance by these individuals does not constitute endorsement of this statement by their afﬁliated institutions or organizations
+
+
+       Sleep is essential for optimal health. The American Academy              the Journal of Clinical Sleep Medicine.
+       of Sleep Medicine (AASM) and Sleep Research Society (SRS)                Citation: Watson NF, Badr MS, Belenky G, Bliwise DL,
+       developed a consensus recommendation for the amount                      Buxton OM, Buysse D, Dinges DF, Gangwisch J, Grandner
+       of sleep needed to promote optimal health in adults, using               MA, Kushida C, Malhotra RK, Martin JL, Patel SR, Quan SF,
+       a modified RAND Appropriateness Method process. The                      Tasali E. Recommended amount of sleep for a healthy adult:
+       recommendation is summarized here. A manuscript detailing                a joint consensus statement of the American Academy of
+       the conference proceedings and evidence supporting the final             Sleep Medicine and Sleep Research Society. J Clin Sleep
+       recommendation statement will be published in SLEEP and                  Med 2015;11(6):591–592.
+
+
+
+CONSENSUS STATEMENT                                                              METHODOLOGY
+• Adults should sleep 7 or more hours per night on a regular                       Healthy sleep requires adequate duration, good quality, ap-
+  basis to promote optimal health.                                              propriate timing and regularity, and the absence of sleep dis-
+  • Sleeping less than 7 hours per night on a regular basis                     turbances or disorders. Sleep duration is the most frequently
+     is associated with adverse health outcomes, including                      investigated sleep measure in relation to health. Furthermore,
+     weight gain and obesity, diabetes, hypertension, heart                     the US Department of Health and Human Services created a
+     disease and stroke, depression, and increased risk of                      Sleep Health Objective to “increase the proportion of adults
+     death. Sleeping less than 7 hours per night is also asso-                  who get sufficient sleep” in Healthy People 2020, a federal ini-
+     ciated with impaired immune function, increased pain,                      tiative to improve the nation’s health.1 Thus our recommenda-
+     impaired performance, increased errors, and greater                        tion focuses on this sleep parameter. A panel of 15 experts in
+     risk of accidents.                                                         sleep medicine and research used a modified RAND Appropri-
+  • Sleeping more than 9 hours per night on a regular                           ateness Method 2 to develop a recommendation regarding the
+     basis may be appropriate for young adults, individu-                       sleep duration, or sleep duration range, that promotes optimal
+     als recovering from sleep debt, and individuals with                       health in adults aged 18 to 60 years.
+     illnesses. For others, it is uncertain whether sleeping                       The expert panel reviewed published scientific evidence ad-
+     more than 9 hours per night is associated with health                      dressing the relationship between sleep duration and health,
+     risk.                                                                      using a broad set of National Library of Medicine Medi-
+  • People concerned they are sleeping too little or too                        cal Subject Headings (MeSH) terms and no date restrictions,
+     much should consult their healthcare provider.                             which resulted in a total of 5,314 scientific articles. The process
+
+
+
+
+                                                                          591                    Journal of Clinical Sleep Medicine, Vol. 11, No. 6, 2015
+NF Watson, MS Badr, G Belenky et al.
+
+was further guided by the Oxford grading system.3 The panel
+focused on nine health categories with the best available evi-
+                                                                          REFERENCES
+dence in relation to sleep duration: general health, cardiovas-            1. US Department of Health and Human Services. Sleep Health Objectives.
+cular health, metabolic health, mental health, immunologic                    March 6, 2015. Available from: https://www.healthypeople.gov/2020/topics-
+                                                                              objectives/topic/sleep-health/objectives.
+function, human performance, cancer, pain, and mortality.                  2. Fitch K, Bernstein SJ, Aguilar MD, et al. The RAND/UCLA Appropriateness
+Consistent with the RAND Appropriateness Method, multiple                     Method User’s Manual. Santa Monica, CA: RAND, 2001.
+rounds of evidence review, discussion, and voting were con-                3. OCEBM Levels of Evidence Working Group. The Oxford Levels of Evidence
+ducted to arrive at the final recommendation. The process to                  2. [cited February 9, 2015]. Available from: http://www.cebm.net/wp-content/
+                                                                              uploads/2014/06/CEBM-Levels-of-Evidence-2.1.pdf.
+develop this statement was conducted over a 12-month period                4. Watson NF, Badr MS, Belenky G, et al. Recommended amount of sleep for a
+and concluded with a consensus meeting held in February 2015                  healthy adult: a joint consensus statement of the American Academy of Sleep
+in Chicago, Illinois.                                                         Medicine and Sleep Research Society. Sleep 2015;38:843–4.
+
+
+ DISCUSSION & FUTURE DIRECTIONS                                           SUBMISSION & CORRESPONDENCE INFORMATION
+   Current evidence supports the general recommendation for               Submitted for publication April, 2015
+                                                                          Accepted for publication April, 2015
+obtaining 7 or more hours of sleep per night on a regular basis           Address correspondence to: Nathaniel F. Watson, MD, MSc; 2510 N. Frontage Road,
+to promote optimal health among adults aged 18 to 60 years.               Darien, IL 60561; Tel: (630) 737-9700; Fax: (630) 737-9790; Email: research@
+Individual variability in sleep need is influenced by genetic,            aasmnet.org.
+behavioral, medical, and environmental factors. A clearer un-
+derstanding of the precise biological mechanisms underlying               DISCLOSURE STATEMENT
+sleep need continues to require further scientific investigation.
+                                                                             Funding for this project was provided by the American Academy of Sleep Medi-
+   This recommendation creates a foundation to raise aware-               cine and Sleep Research Society, and supported by the cooperative agreement
+ness and improve understanding of sleep effects on health. The            number 1U50DP004930-01 from the Centers for Disease Control and Prevention
+recommendation provides a basis for:                                      (CDC). Its contents are solely the responsibility of the authors and do not necessar-
+  • Educating the public and healthcare providers on the im-              ily represent the official views of the CDC.
+                                                                             Disclosure statements for Consensus Conference Panel members: Dr. Belenky
+     portance of adequate sleep duration for health.                      has received research support from United Airlines, COPA Airlines, and FHWA,
+  • Encouraging individuals to obtain adequate sleep duration.            DOT. Dr. Bliwise has consulted for the New England Research Institute, Ferring
+  • Discussing the economic and social benefits of adequate               Pharmaceuticals, Georgia Institute of Technology, Vantia Therapeutics, Morehouse
+     sleep duration, thereby informing public policy.                     School of Medicine, and Merck. Dr. Buysse has consulted for Merck, Medscape,
+                                                                          Purdue Pharmaceuticals, Emmi Solutions, Eisai, CME Outfitters, and Otsuka and
+  • Promoting research on the role of sleep duration in health            has received research support from the NIH. Dr. Dinges has received research sup-
+     and well-being.                                                      port from NIH, NASA, ONR and FMCSA DOT, and has consulted for Mars, Inc. He
+   Research that directly examines the effects of sleep dura-             is Editor-In-Chief of SLEEP. Dr. Grandner has consulted for Bayer and Nexalin Tech-
+tion on health may lead to revisions of this recommendation               nologies and has received research support from Bentley Systems. Dr. Kushida has
+                                                                          received research support from ResMed, Jawbone, Cephalon, Aerial BioPharma,
+in the future.                                                            Impax Laboratories, Inc., Zephyr Sleep Technologies, Philips-Respironics, Morphy
+                                                                          Smart Bed, and Nokia. Dr. Malhotra has participated in speaking engagements for
+ NOTES                                                                    Teva Pharmaceuticals. Dr. Martin has received research support from Equinox Fit-
+                                                                          ness. Dr. Patel has received research support from the American Sleep Medicine
+                                                                          Foundation. He has received a stipend for Chairing the Young Investigator Research
+  This consensus statement was previously published in Vol-               Forum from the American Academy of Sleep Medicine and a stipend for authorship
+ume 38, Number 6 of the journal SLEEP.4 In the interest of the            from the American College of Physicians. Dr. Quan has consulted for Global Corpo-
+widest dissemination possible, the editors and publishers of the          rate Challenge. Dr. Watson has received research support from the NIH and NSF. He
+journals SLEEP and Journal of Clinical Sleep Medicine have                is President of the American Academy of Sleep Medicine and a member of the Board
+                                                                          of Directors of the American Sleep Medicine Foundation. The other Consensus Con-
+agreed to allow for its dual publication.                                 ference Panel members have indicated no financial conflicts of interest.
+
+
+
+
+Journal of Clinical Sleep Medicine, Vol. 11, No. 6, 2015            592
+
