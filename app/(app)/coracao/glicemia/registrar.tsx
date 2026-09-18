@@ -10,6 +10,7 @@ import { traduzirErro } from '@core/supabase/erros';
 import { horaLocal, paraISO } from '@modules/coracao/componentes/formato';
 import { LeituraGlicemia } from '@modules/coracao/componentes/LeituraGlicemia';
 import { MOMENTOS, rotuloMomento, SINTOMAS_GLICEMIA } from '@modules/coracao/conteudo/glicemia';
+import { VinculoGlicemia } from '@modules/bem-estar/componentes/VinculoGlicemia';
 import { Alerta, Button, CampoData, Colors, Input, InternalHeader, Opcoes, Radius, Select, Spacing, StatusBadge, Typography } from '@ui/index';
 
 type Refeicao = NonNullable<MedidaGlicemia['contexto']['refeicao']>;
@@ -30,7 +31,7 @@ export default function RegistrarGlicemia() {
   const [sintomas, setSintomas] = useState<SintomaGlicemia[]>([]);
   const [observacao, setObservacao] = useState('');
   const [salvando, setSalvando] = useState(false);
-  const [saida, setSaida] = useState<{ avaliacao: AvaliacaoGlicemia; mgdl: number } | null>(null);
+  const [saida, setSaida] = useState<{ id: string; avaliacao: AvaliacaoGlicemia; mgdl: number; medidoEm: string } | null>(null);
 
   const gravar = async () => {
     const mgdl = numero(valor);
@@ -40,8 +41,9 @@ export default function RegistrarGlicemia() {
     if (!data || !h) { Alert.alert('Faltou algo', 'Informe a data e a hora (ex.: 07:12).'); return; }
     setSalvando(true);
     try {
-      const avaliacao = await registrar({
-        medidoEm: paraISO(data, h),
+      const medidoEm = paraISO(data, h);
+      const { id, avaliacao } = await registrar({
+        medidoEm,
         mgdl,
         momento,
         contexto: {
@@ -52,7 +54,7 @@ export default function RegistrarGlicemia() {
         },
         observacao: observacao.trim() || undefined,
       });
-      setSaida({ avaliacao, mgdl });
+      setSaida({ id, avaliacao, mgdl, medidoEm });
     } catch (e) {
       Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario);
     } finally {
@@ -61,7 +63,7 @@ export default function RegistrarGlicemia() {
   };
 
   if (saida) {
-    const { avaliacao, mgdl } = saida;
+    const { id, avaliacao, mgdl, medidoEm } = saida;
     const nivel = avaliacao.nivel;
     const chip = nivel === 'vermelho' ? 'Procure atendimento agora' : nivel === 'laranja' ? (mgdl < 70 ? 'Glicemia muito baixa' : 'Glicemia muito alta') : nivel === 'amarelo' ? 'Glicemia baixa' : null;
     return (
@@ -78,6 +80,7 @@ export default function RegistrarGlicemia() {
               <Text style={[styles.mensagemTexto, nivel ? { color: Alerta[nivel].fg } : null]}>{avaliacao.mensagem}</Text>
             </View>
           ) : null}
+          <VinculoGlicemia glicemiaId={id} medidoEm={medidoEm} />
           <Button label="Concluir" onPress={() => router.back()} style={{ marginTop: Spacing.xxl }} />
         </ScrollView>
       </SafeAreaView>
