@@ -95,7 +95,7 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 - [ ] Checklist `checklists/fase-3.md` e revisão de textos pelo Murilo; correções sob demanda
 
 ### Fase 4 — Saúde & Bem-estar — **iniciada em 18/09/2026**
-- [ ] Decisões clínicas C-015–C-020 (propostas registradas; aprovação do Murilo uma a uma)
+- [x] Decisões clínicas C-015–C-020 aprovadas (18/09/2026)
 - [ ] Spec técnica e plano
 - [ ] Meu Corpo: peso, altura, IMC, cintura, cintura/altura, composição corporal (§70–73, §83–84)
 - [ ] Minha Alimentação: diário simples + resumo de hábitos (§74–76)
@@ -111,6 +111,7 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 
 | Data | Fase | O que foi feito |
 |------|------|-----------------|
+| 18/09/2026 | 4 | **C-015–C-020 aprovadas** uma a uma. C-016 corrigida para o corte sul-americano de cintura (≥ 90/≥ 80) com base no material da professora do Murilo (IDF 2009) = ABESO 2016 Tabela 5. Verificado: nenhuma sociedade brasileira adotou a Lancet 2025 com cortes próprios; diretriz conjunta 2025 (ABC) no acervo. Próximo: spec técnica da Fase 4. |
 | 18/09/2026 | 4 | **Fase 4 iniciada.** Acervo verificado e baixado: ABESO 2016 (4ª ed., diagnóstico), ABESO 2026 (farmacológica, 5ª ed. — não substitui as tabelas de 2016), e-book Obesidade Controlada 2023, OMS cintura 2011, OMS atividade física 2020, Guia MS 2021 (gestores + suplementar; completo pendente de download manual), AASM/SRS 2015 (sono). Propostas C-015–C-020 registradas em `02-DECISOES.md`, em aberto. |
 | 18/09/2026 | 3 | **Merge da Fase 3 em `desenvolvimento-2`** (`a736e7e`, no GitHub). Nuvem migrada (0011: documentos, compartilhamentos + bucket `relatorios`, consultas, preferências). Pendente: checklist e revisão de textos pelo Murilo; `supabase test db` local quando o Docker estiver ligado. |
 | 18/09/2026 | 3 | **Plano da Fase 3 implementado** (branch `nero-fase3-minha-saude`, Tasks 1–8 exceto nuvem/merge): migração 0011, Meus Documentos (câmera/galeria/PDF, anexos nos exames), núcleo puro de relatórios (26 seções, D-009, HTML com ressalvas literais, QR), PDF no aparelho + QR com URL assinada de 7 dias, Preparar minha consulta, central de lembretes + preferências + consultas + Home, central de exames, linha do tempo geral, índice reorganizado. 304 Jest. Docs: `funcionamento/minha-saude.md` §3–§8, `revisao/2026-09-18-*`, `checklists/fase-3.md`. **Pendente:** `supabase db push` (senha), checklist e revisão pelo Murilo, teste do `qrcode`/`expo-print` no aparelho, merge. Projeto saiu do iCloud (estava lento) e voltou a `~/Desktop`. |
