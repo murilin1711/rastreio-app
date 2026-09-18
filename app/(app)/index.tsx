@@ -5,7 +5,9 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useMedicacoes } from '@core/medicacoes/useMedicacoes';
 import { useRastreando } from '@core/rastreando/useRastreando';
 import { sincronizarLembretesMedicacao } from '@core/cardio/lembretesCardio';
+import { useHabitos } from '@core/bemestar/useHabitos';
 import { useResumoCardio } from '@core/cardio/useResumoCardio';
+import { formatarHm } from '@core/regras/bemestar/sono';
 import { useConsultas } from '@core/lembretes/useConsultas';
 import { rotuloEspecialidade } from '@core/relatorios/especialidades';
 import { useSessao } from '@core/sessao/SessaoProvider';
@@ -31,9 +33,11 @@ export default function Home() {
   const rastreando = useRastreando();
   const cardio = useResumoCardio();
   const consultas = useConsultas();
+  const bemEstar = useHabitos();
   const { sessao } = useSessao();
   const itens = montarItensHoje({
     perfil, antecedentesQtd: antecedentes.length, medicacoesAtivasQtd: ativas.length,
+    bemEstar: bemEstar.habitos ? { movimentoMin: bemEstar.habitos.movimentoMin, metaMin: bemEstar.habitos.metaMin, perdaNaoIntencional: bemEstar.perdaNaoIntencional } : undefined,
     consultas: { proxima: consultas.proxima ? { id: consultas.proxima.id, especialidade: consultas.proxima.especialidade, rotuloEspecialidade: rotuloEspecialidade(consultas.proxima.especialidade), dataHora: consultas.proxima.dataHora } : null },
     rastreando: rastreando.avaliacoes ? { pendencias: rastreando.pendencias, sintomas: rastreando.sintomas, avaliacoes: rastreando.avaliacoes } : undefined,
     cardio: cardio.resumo,
@@ -55,7 +59,7 @@ export default function Home() {
   const pendentes = itens.filter((i) => i.nivel !== 'verde').length;
   const inicial = perfil?.nome?.trim().charAt(0).toUpperCase() ?? '';
 
-  const atualizar = () => { recarregar(); recarregarMed(); rastreando.recarregar(); cardio.recarregar(); consultas.recarregar(); };
+  const atualizar = () => { recarregar(); recarregarMed(); rastreando.recarregar(); cardio.recarregar(); consultas.recarregar(); bemEstar.recarregar(); };
 
   const declararNegativa = (item: Item) => {
     const acao = item.acaoSecundaria;
@@ -102,7 +106,7 @@ export default function Home() {
           </View>
           <View style={styles.linhaGrade}>
             <CardModulo titulo="Coração & Metabolismo" descricao={subtituloCardio} icone="heart-outline" capa={['#B4321F', '#F2734A']} onPress={() => router.push('/(app)/coracao')} />
-            <CardModulo titulo="Saúde & Bem-estar" descricao="Peso, alimentação, atividade e sono" icone="leaf-outline" capa={['#15803D', '#5FCB8A']} emBreve />
+            <CardModulo titulo="Saúde & Bem-estar" descricao={bemEstar.habitos && (bemEstar.habitos.movimentoMin || bemEstar.habitos.sonoMediaMin != null) ? [`${bemEstar.habitos.movimentoMin} de ${bemEstar.habitos.metaMin} min esta semana`, bemEstar.habitos.sonoMediaMin != null ? `sono ${formatarHm(bemEstar.habitos.sonoMediaMin)}` : null].filter(Boolean).join(' · ') : 'Peso, atividade e sono'} icone="leaf-outline" capa={['#15803D', '#5FCB8A']} onPress={() => router.push('/(app)/bem-estar')} />
           </View>
         </View>
 

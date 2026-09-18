@@ -1,0 +1,71 @@
+import { useFocusEffect, useRouter } from 'expo-router';
+import { useCallback } from 'react';
+import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useHabitos } from '@core/bemestar/useHabitos';
+import { formatarHm } from '@core/regras/bemestar/sono';
+import { CardResumo } from '@modules/coracao/componentes/CardResumo';
+import { Colors, EmBreveBadge, InternalHeader, ListItem, NeroImage, Radius, Spacing, Typography } from '@ui/index';
+
+const fmt = (n: number) => String(n).replace('.', ',');
+
+/** Saúde & Bem-estar — "Meus hábitos" (§85): os últimos 7 dias em cinco números e os atalhos do módulo. */
+export default function BemEstar() {
+  const router = useRouter();
+  const { habitos: h, carregando, recarregar } = useHabitos();
+  useFocusEffect(useCallback(() => { recarregar(); }, [recarregar]));
+
+  return (
+    <SafeAreaView style={styles.tela} edges={['top']}>
+      <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
+        <InternalHeader sectionLabel="Módulo" title="Saúde & Bem-estar" onBack={() => router.replace('/(app)')} />
+        <View style={styles.cabecalho}>
+          <Text style={styles.sub}>Como seus hábitos e seu corpo estão evoluindo ao longo do tempo — sem contar calorias e sem julgar.</Text>
+          <NeroImage variant="bem_estar" size={72} />
+        </View>
+
+        <Text style={styles.secao}>Seus últimos 7 dias</Text>
+        <View style={styles.grade}>
+          <CardResumo titulo="Movimento" valor={h ? `${h.movimentoMin} de ${h.metaMin} min` : undefined} detalhe={h ? 'minutos que contam para a meta' : undefined} vazio="Registre uma atividade" onPress={() => router.push('/(app)/bem-estar/atividade')} />
+          <CardResumo titulo="Sono" valor={h?.sonoMediaMin != null ? `${formatarHm(h.sonoMediaMin)}` : undefined} detalhe={h?.sonoMediaMin != null ? 'média por noite' : undefined} vazio="Registre uma noite" onPress={() => router.push('/(app)/bem-estar/sono')} />
+          <CardResumo titulo="Peso" valor={h?.pesoKg != null ? `${fmt(h.pesoKg)} kg` : undefined} detalhe={h?.pesoVariacaoKg != null ? `${h.pesoVariacaoKg > 0 ? '+' : ''}${fmt(h.pesoVariacaoKg)} kg vs. média anterior` : h?.pesoKg != null ? 'última medida' : undefined} vazio="Registre o peso" onPress={() => router.push('/(app)/bem-estar/corpo')} />
+          <CardResumo titulo="Cintura" valor={h?.cinturaCm != null ? `${fmt(h.cinturaCm)} cm` : undefined} detalhe={h?.cinturaHaDias != null ? (h.cinturaHaDias === 0 ? 'hoje' : `último registro há ${h.cinturaHaDias} dias`) : undefined} vazio="Registre a cintura" onPress={() => router.push('/(app)/bem-estar/corpo')} />
+          <CardResumo titulo="Alimentação" vazio="Em breve" />
+        </View>
+
+        <Text style={styles.secao}>Ferramentas</Text>
+        <View style={{ gap: Spacing.sm }}>
+          <ListItem icon="body-outline" title="Meu Corpo" subtitle="Peso, IMC, cintura, composição corporal e evolução" onPress={() => router.push('/(app)/bem-estar/corpo')} />
+          <ListItem icon="walk-outline" title="Minhas Atividades" subtitle="Sua semana, últimos 30 dias e meta" onPress={() => router.push('/(app)/bem-estar/atividade')} />
+          <ListItem icon="moon-outline" title="Meu Sono" subtitle="Média de 7 dias e horários" onPress={() => router.push('/(app)/bem-estar/sono')} />
+        </View>
+        <Text style={styles.secaoPequena}>Em breve</Text>
+        <View style={{ gap: Spacing.sm }}>
+          <EmBreve titulo="Minha Alimentação" />
+          <EmBreve titulo="Minhas Metas" />
+          <EmBreve titulo="Check-in semanal" />
+        </View>
+      </ScrollView>
+    </SafeAreaView>
+  );
+}
+
+function EmBreve({ titulo }: { titulo: string }) {
+  return (
+    <View style={styles.emBreve}>
+      <Text style={[Typography.subheading, { color: Colors.textSecondary, flex: 1 }]}>{titulo}</Text>
+      <EmBreveBadge />
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  tela: { flex: 1, backgroundColor: Colors.background },
+  conteudo: { padding: Spacing.xxl, paddingBottom: Spacing.xxxl },
+  cabecalho: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md },
+  sub: { ...Typography.body, color: Colors.textSecondary, flex: 1 },
+  secao: { ...Typography.heading, color: Colors.textPrimary, marginTop: Spacing.xxl, marginBottom: Spacing.sm },
+  secaoPequena: { ...Typography.subheading, color: Colors.textSecondary, marginTop: Spacing.xl, marginBottom: Spacing.sm },
+  grade: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.md },
+  emBreve: { flexDirection: 'row', alignItems: 'center', borderRadius: Radius.linha, borderWidth: 1.5, borderColor: Colors.border, borderStyle: 'dashed', padding: Spacing.lg },
+});

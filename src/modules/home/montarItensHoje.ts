@@ -35,6 +35,9 @@ export interface ResumoCardio {
 /** Próxima consulta marcada (D-010). `agora` permite testar. */
 export interface ConsultasResumo { proxima: { id: string; especialidade: string; rotuloEspecialidade: string; dataHora: string } | null }
 
+/** Saúde & Bem-estar (Fase 4a): movimento da semana e perda de peso não intencional (C-019). */
+export interface BemEstarResumo { movimentoMin: number; metaMin: number; perdaNaoIntencional: { pct: number; desde: string } | null }
+
 interface Entrada {
   perfil: PerfilSaude | null;
   antecedentesQtd: number;
@@ -42,6 +45,7 @@ interface Entrada {
   rastreando?: RastreandoResumo;
   cardio?: ResumoCardio;
   consultas?: ConsultasResumo;
+  bemEstar?: BemEstarResumo;
   agora?: Date;
 }
 
@@ -55,7 +59,7 @@ const NIVEL: Record<string, NivelAlertaUI> = { verde: 'verde', amarelo: 'amarelo
  * Bloco "Hoje" da Home (§56): o que precisa de atenção, do mais grave ao mais leve.
  * Fase 0: só completude do perfil. A Fase 1 acrescenta pendências e exames do Rastreando.
  */
-export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, rastreando, cardio, consultas, agora = new Date() }: Entrada): ItemHoje[] {
+export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, rastreando, cardio, consultas, bemEstar, agora = new Date() }: Entrada): ItemHoje[] {
   if (!perfil) return [];
   const itens: ItemHoje[] = [];
 
@@ -112,6 +116,16 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, 
     }
     if (mrpaAcimaSemLeitura) {
       itens.push({ id: 'mrpa_levar', nivel: 'amarelo', titulo: 'Levar o relatório da MRPA ao médico', descricao: 'Suas medidas ficaram acima da referência. Converse com seu profissional de saúde.', rota: `/(app)/coracao/mrpa/relatorio?sessao=${mrpaAcimaSemLeitura.id}` });
+    }
+  }
+
+  // Saúde & Bem-estar: perda de peso sem meta de redução (cinza, C-019); movimento só aos domingos, para não virar cobrança diária.
+  if (bemEstar) {
+    if (bemEstar.perdaNaoIntencional) {
+      itens.push({ id: 'perda_peso', nivel: 'cinza', titulo: `Conversar com o médico: seu peso caiu ${String(bemEstar.perdaNaoIntencional.pct).replace('.', ',')} % sem meta de redução`, descricao: 'Perda de peso sem intenção merece uma avaliação.', rota: '/(app)/bem-estar/corpo' });
+    }
+    if (agora.getDay() === 0 && bemEstar.movimentoMin < bemEstar.metaMin) {
+      itens.push({ id: 'atividade_semana', nivel: 'cinza', titulo: `Movimentar-se: ${bemEstar.movimentoMin} de ${bemEstar.metaMin} minutos esta semana`, descricao: 'Qualquer atividade é melhor do que nenhuma.', rota: '/(app)/bem-estar/atividade' });
     }
   }
 

@@ -140,3 +140,22 @@ describe('consultas (D-010)', () => {
     expect(depois.some((x) => x.id.startsWith('consulta_'))).toBe(false);
   });
 });
+
+describe('Saúde & Bem-estar (Fase 4a)', () => {
+  const base = { perfil: completo, antecedentesQtd: 1, medicacoesAtivasQtd: 1 };
+  test('perda não intencional → item cinza com atalho para Meu Corpo', () => {
+    const itens = montarItensHoje({ ...base, agora: new Date(2026, 8, 16), bemEstar: { movimentoMin: 90, metaMin: 150, perdaNaoIntencional: { pct: 5.6, desde: '2026-04-10' } } });
+    const i = itens.find((x) => x.id === 'perda_peso')!;
+    expect(i.nivel).toBe('cinza');
+    expect(i.titulo).toBe('Conversar com o médico: seu peso caiu 5,6 % sem meta de redução');
+    expect(i.rota).toBe('/(app)/bem-estar/corpo');
+  });
+  test('movimento abaixo da meta só aparece no domingo', () => {
+    const domingo = montarItensHoje({ ...base, agora: new Date(2026, 8, 20), bemEstar: { movimentoMin: 90, metaMin: 150, perdaNaoIntencional: null } });
+    expect(domingo.find((x) => x.id === 'atividade_semana')?.titulo).toBe('Movimentar-se: 90 de 150 minutos esta semana');
+    const quarta = montarItensHoje({ ...base, agora: new Date(2026, 8, 16), bemEstar: { movimentoMin: 90, metaMin: 150, perdaNaoIntencional: null } });
+    expect(quarta.some((x) => x.id === 'atividade_semana')).toBe(false);
+    const domingoOk = montarItensHoje({ ...base, agora: new Date(2026, 8, 20), bemEstar: { movimentoMin: 160, metaMin: 150, perdaNaoIntencional: null } });
+    expect(domingoOk.some((x) => x.id === 'atividade_semana')).toBe(false);
+  });
+});
