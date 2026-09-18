@@ -89,7 +89,7 @@ export default function Medicamentos() {
 
         {interrompidas.length ? (
           <>
-            <Text style={styles.subtitulo}>Interrompidos</Text>
+            <Text style={styles.subtitulo}>Histórico</Text>
             <View style={{ gap: Spacing.sm }}>
               {interrompidas.map((m) => <CardMed key={m.id} m={m} onEditar={() => abrir(m)} onAlternar={() => alternar(m)} />)}
             </View>
