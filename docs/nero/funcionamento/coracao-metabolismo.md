@@ -21,6 +21,8 @@ Versões substituídas e **não usadas**: DBHA 2020; 4ª Diretriz de MRPA 2018.
 
 ## 1. Minha Pressão — registro simples (§1) e alertas em camadas (§4) — C-010, aprovado 17/09/2026
 
+> **Implementado em 17/09/2026 (plano 2a).** Regras: `src/core/regras/cardio/pressao.ts` (testes em `__tests__/pressao.test.ts`, um por camada); parâmetros lidos de `regras_clinicas` (programa `pressao`, semente `supabase/seed.sql` bloco Fase 2) por `parametros.ts`; serviços `src/core/cardio/{medidas,usePressao}.ts`; telas `app/(app)/coracao/pressao/{index,registrar}.tsx`; textos `src/modules/coracao/conteudo/pressao.ts`. O convite para MRPA fica registrado em `lembretes` (`origem_tipo='sistema'`, `titulo='convite_mrpa'`) para respeitar os 30 dias.
+
 ### Conceito que orienta tudo
 Uma medida feita em casa fora de protocolo é **automedida (AMPA)**. A DBHA 2025 (§3.7.1) afirma que não há valores de normalidade nem protocolo (número de medidas, horários, dias) validados para AMPA, e que ela serve **apenas como triagem** para solicitar MRPA ou MAPA. A Medidas 2023 (§3.1) retira o critério antigo de "7 medidas em 16–72 h". Só **MRPA e MAPA** têm limiar: **≥ 130 e/ou ≥ 80 mmHg** (DBHA 2025 Quadro 3.4; Medidas 2023 Quadro 9 e Parte 4 §4).
 
@@ -46,6 +48,8 @@ Disparada **somente** por uma sessão de MRPA concluída e válida (regras em C-
 ---
 
 ## 2. MRPA — protocolo guiado, tela diária e relatório (§2–§3) — C-011, aprovado 17/09/2026
+
+> **Implementado em 17/09/2026 (plano 2a).** Regras: `src/core/regras/cardio/mrpa.ts` (validade 14/15/18, exclusões, médias, diferença consultório) e `lembretesMrpa.ts`; serviços `src/core/cardio/{sessoesMrpa,lembretesCardio,useMrpa}.ts`; telas `app/(app)/coracao/mrpa/{iniciar,[sessao],medir,relatorio}.tsx`. Detalhes de execução que refinam o texto abaixo: início só hoje ou amanhã; "período" (manhã/noite) é escolhido pelo paciente ao medir, não pelo relógio; lembretes locais um por período por dia (`titulo` = `mrpa:<sessão>:<dia>:<período>`); o relatório é gravado em `mrpa_sessoes.resultado` ao concluir e, quando acima da referência, gera item na Home até ser aberto (`lembretes` `mrpa_lida:<sessão>`). Lembretes de medicação (§21): coluna `medicacoes.lembrar`, agendados para 7 dias e reagendados ao abrir a Home.
 
 ### Fonte
 Diretrizes de Medidas da PA 2023, Parte 4 (GR I, NE C): §3 protocolo, §4 valores de anormalidade, §5 laudo; Quadro 19 (instruções ao paciente); Figura 8 (diário). A spec de produto §2 descrevia o protocolo de 2018 (2 medidas por ocasião, 7 dias) — **substituído**.
@@ -78,6 +82,8 @@ Camada 2 de C-010 (amarelo): "Suas medidas recentes estão acima do esperado. Co
 ---
 
 ## 3. Minha Glicemia (§5–§8) — C-012, aprovado 17/09/2026
+
+> **Implementado em 17/09/2026 (plano 2b).** Regras: `src/core/regras/cardio/glicemia.ts` (+ `parametrosGlicemia.ts`, `tiposGlicemia.ts`; testes um por camada); parâmetros em `regras_clinicas` (programa `glicemia`, 9 linhas); serviços `src/core/cardio/{glicemia,useGlicemia}.ts`; telas `app/(app)/coracao/glicemia/{index,registrar,plano,relatorio}.tsx`; textos `src/modules/coracao/conteudo/glicemia.ts`. Metas e plano ficam em `perfil_saude.metas_glicemia` / `plano_glicemia`; lembretes do plano em `lembretes` (`glicemia:<momento>:<hora>`, 7 dias, reagendados ao salvar o plano). Momentos sem meta (1 h pós, aleatória, exercício, madrugada) não são comparados.
 
 ### Fontes
 SBD 2026: Metas de controle glicêmico (R6, Tabela 1, níveis de hipoglicemia); Monitorização da glicemia capilar (R5, R8–R10); Diagnóstico de DM (R1–R2, Tabela 1); Manejo dos dias de doença no DM1 (Tabela 1); Cetoacidose diabética (sintomas).
@@ -113,6 +119,8 @@ Período (7/14/30/90/personalizado); médias geral, jejum, pré-prandial, 2 h p�
 ---
 
 ## 4. Meu Risco Cardiovascular — PREVENT (§13–§18) — C-013, aprovado 17/09/2026
+
+> **Implementado em 17/09/2026 (plano 2b), com cálculo ativo.** Elegibilidade, categorias (Tabela 4.1), agravantes (Tabela 4.3), CAC (Tabela 4.4) em `src/core/regras/cardio/{prevent,agravantes,ckdEpi}.ts`. **Coeficientes:** `prevent.coeficientes.ts` é gerado por `scripts/gerar-coeficientes-prevent.py` diretamente da planilha oficial do suplemento de Khan 2024 (Tabelas S12A/B/C/E para 10 anos e S12F/G/H/J para 30 anos, desfecho ASCVD) — sem digitação manual. **Equação:** transformações do Apêndice 4 (idade centrada em 55; não-HDL e HDL em mmol/L; splines de PAS em 110 e TFG em 60; interações com idade); 30 anos acrescenta idade²; HbA1c entra como (HbA1c − 5,3) com coeficiente distinto com/sem diabetes; ln(RAC) sem centragem; o modelo completo (HbA1c + RAC) usa o coeficiente "SDI ausente" porque o índice de privação social é de CEP americano. **Validação:** testes reproduzem os cinco exemplos calculados na planilha do suplemento (base 10 e 30 anos, +HbA1c, +RAC, completo), com o log-odds exato. Telas `app/(app)/coracao/risco/{index,dados,resultado,agravantes}.tsx`; serviços `src/core/cardio/{riscoCv,useRiscoCv}.ts`; cada cálculo salvo em `riscos_cv` com as entradas (valor, origem, data). Anti-hipertensivo e estatina são **confirmados pelo paciente** (o app não classifica fármacos). `evento_cv_previo` é perguntado na primeira abertura.
 
 ### Fontes
 Diretriz Brasileira de Dislipidemias 2025: rec. de estratificação (p. 19/51), §4.2 (escore), §4.3 e Tabela 4.3 (agravantes), Tabela 4.1 (categorias), Tabela 4.4 (CAC), §4.8–4.9 (idosos e jovens). Khan et al. 2023 (AHA Statement) e 2024 (Circulation + suplemento com coeficientes) — **a obter por download manual**.
@@ -157,6 +165,8 @@ Registro em `exames` (categoria cardiológica) com valor Agatston, percentil (op
 
 ## 5. Janelas de "dado recente" — preenchimento automático (§14) e check-up (§24) — C-014, aprovado 17/09/2026
 
+> **Implementado em 17/09/2026 (plano 2b).** `src/core/regras/cardio/dadoRecente.ts` (estados atual/antigo/faltando; entradas do PREVENT com origem e data; IMC; TFG por CKD-EPI 2021 quando só há creatinina) e `checkup.ts` (n/8); parâmetros na regra `dado_recente` (programa `risco_cv`). Telas: `risco/dados.tsx` e `checkup.tsx`. Tabagismo no check-up conta como atualizado quando preenchido no perfil; no cálculo de risco é confirmado com um toque.
+
 ### Base
 Decisão de produto (as diretrizes não fixam "validade" de dado para calculadora). Âncoras: perfil lipídico anual após meta (Dislipidemias 2025); reavaliação de FRCV/LOA pelo menos anual e PA normal repetida anualmente (DBHA 2025); medidas casuais são triagem (C-010).
 
@@ -180,6 +190,12 @@ Conta "informações atualizadas: n/8" com as janelas de "usa direto": PA · pes
 
 ---
 
-## 6. Meus Exames (§9–§11), Medicações (§21), Lembretes (§22), Sinais de alerta (§23), Dashboard e linha do tempo (§19–§20)
+## 6. Meus Exames (§9–§11), Dashboard (§19), Linha do tempo (§20), Medicações (§21), Lembretes (§22), Sinais de alerta (§23)
 
-Sem decisão clínica pendente: seguem a spec de produto e as estruturas já existentes (`exames`, `medicacoes`, `lembretes`). Detalhamento na spec técnica da Fase 2.
+Sem decisão clínica própria: seguem a spec de produto e as estruturas existentes.
+
+- **Meus Exames** (implementado em 17/09/2026): tabela `exames` com `modulo='cardio'`, `categoria` laboratorial/cardiológico, lista fechada de tipos em `src/core/cardio/tiposExames.ts` (25 lab, 13 cardio), `resultado = {valor, unidade, referenciaMin?, referenciaMax?}` ou `{conclusao, agatston?, percentil?}`. Uma linha por analito; "salvar e adicionar outro da mesma data". Laboratório **nunca** recebe chip de cor — só texto "fora da referência informada pelo laboratório" + remessa ao médico; a única regra aplicada é a do CAC (Tabela 4.4). Detalhe mostra série histórica do mesmo tipo. Anexos (Storage) ficam para a Fase 3.
+- **Dashboard** (§19): cards Pressão · MRPA · Glicemia · HbA1c · LDL · Risco · Peso + atalhos para check-up, exames, linha do tempo e sinais de alerta. `app/(app)/coracao/index.tsx`.
+- **Linha do tempo** (§20): `src/core/cardio/linhaDoTempo.ts` agrega PA e glicemia por mês (média), e lista exames, MRPAs concluídas, cálculos de risco e pesos, agrupados por ano. Pontos neutros, sem cor de alerta.
+- **Medicações e lembretes** (§21–§22): coluna `medicacoes.lembrar`; lembretes locais por horário para 7 dias (medicação, MRPA, plano de glicemia), reagendados ao abrir a Home. `src/core/cardio/lembretesCardio.ts`.
+- **Sinais de alerta** (§23): `src/modules/coracao/conteudo/sinais.ts`; a Home e as telas de registro apontam para lá.

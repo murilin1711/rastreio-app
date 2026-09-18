@@ -205,6 +205,7 @@ export type Database = {
           dose: string | null
           horarios: Json
           id: string
+          lembrar: boolean
           nome: string
           observacao: string | null
           prescritor: string | null
@@ -219,6 +220,7 @@ export type Database = {
           dose?: string | null
           horarios?: Json
           id?: string
+          lembrar?: boolean
           nome: string
           observacao?: string | null
           prescritor?: string | null
@@ -233,6 +235,7 @@ export type Database = {
           dose?: string | null
           horarios?: Json
           id?: string
+          lembrar?: boolean
           nome?: string
           observacao?: string | null
           prescritor?: string | null
@@ -287,29 +290,41 @@ export type Database = {
       }
       mrpa_sessoes: {
         Row: {
+          concluida_em: string | null
           created_at: string
           dias_previstos: number
           fim: string | null
+          horarios: Json
           id: string
           inicio: string
+          pa_consultorio: Json | null
+          resultado: Json | null
           status: string
           user_id: string
         }
         Insert: {
+          concluida_em?: string | null
           created_at?: string
           dias_previstos?: number
           fim?: string | null
+          horarios?: Json
           id?: string
           inicio: string
+          pa_consultorio?: Json | null
+          resultado?: Json | null
           status?: string
           user_id: string
         }
         Update: {
+          concluida_em?: string | null
           created_at?: string
           dias_previstos?: number
           fim?: string | null
+          horarios?: Json
           id?: string
           inicio?: string
+          pa_consultorio?: Json | null
+          resultado?: Json | null
           status?: string
           user_id?: string
         }
@@ -371,20 +386,26 @@ export type Database = {
       }
       perfil_saude: {
         Row: {
+          agravantes_cv: Json
           altura_cm: number | null
           anos_fumando: number | null
+          atividade_fisica_regular: boolean | null
           cigarros_dia: number | null
           created_at: string
           data_cessacao: string | null
           data_nascimento: string | null
           doencas_geneticas: Json
+          evento_cv_previo: boolean | null
           histerectomia: boolean | null
           historico_cancer_pessoal: Json
           ja_teve_atividade_sexual: boolean | null
           lesoes_precursoras: Json
           menopausa: boolean | null
+          metas_glicemia: Json | null
           nome: string
           perfil_inicial_completo: boolean
+          perfil_meta_glicemica: string
+          plano_glicemia: Json | null
           possui_colo_utero: boolean | null
           raca_cor: string | null
           radioterapia_toracica: boolean | null
@@ -398,25 +419,33 @@ export type Database = {
           tem_hipertensao: boolean | null
           tem_hiv: boolean | null
           tem_imunossupressao: boolean | null
+          tipo_diabetes: string | null
           tipo_usuario: string
           updated_at: string
+          usa_insulina: string | null
           user_id: string
         }
         Insert: {
+          agravantes_cv?: Json
           altura_cm?: number | null
           anos_fumando?: number | null
+          atividade_fisica_regular?: boolean | null
           cigarros_dia?: number | null
           created_at?: string
           data_cessacao?: string | null
           data_nascimento?: string | null
           doencas_geneticas?: Json
+          evento_cv_previo?: boolean | null
           histerectomia?: boolean | null
           historico_cancer_pessoal?: Json
           ja_teve_atividade_sexual?: boolean | null
           lesoes_precursoras?: Json
           menopausa?: boolean | null
+          metas_glicemia?: Json | null
           nome: string
           perfil_inicial_completo?: boolean
+          perfil_meta_glicemica?: string
+          plano_glicemia?: Json | null
           possui_colo_utero?: boolean | null
           raca_cor?: string | null
           radioterapia_toracica?: boolean | null
@@ -430,25 +459,33 @@ export type Database = {
           tem_hipertensao?: boolean | null
           tem_hiv?: boolean | null
           tem_imunossupressao?: boolean | null
+          tipo_diabetes?: string | null
           tipo_usuario?: string
           updated_at?: string
+          usa_insulina?: string | null
           user_id: string
         }
         Update: {
+          agravantes_cv?: Json
           altura_cm?: number | null
           anos_fumando?: number | null
+          atividade_fisica_regular?: boolean | null
           cigarros_dia?: number | null
           created_at?: string
           data_cessacao?: string | null
           data_nascimento?: string | null
           doencas_geneticas?: Json
+          evento_cv_previo?: boolean | null
           histerectomia?: boolean | null
           historico_cancer_pessoal?: Json
           ja_teve_atividade_sexual?: boolean | null
           lesoes_precursoras?: Json
           menopausa?: boolean | null
+          metas_glicemia?: Json | null
           nome?: string
           perfil_inicial_completo?: boolean
+          perfil_meta_glicemica?: string
+          plano_glicemia?: Json | null
           possui_colo_utero?: boolean | null
           raca_cor?: string | null
           radioterapia_toracica?: boolean | null
@@ -462,8 +499,10 @@ export type Database = {
           tem_hipertensao?: boolean | null
           tem_hiv?: boolean | null
           tem_imunossupressao?: boolean | null
+          tipo_diabetes?: string | null
           tipo_usuario?: string
           updated_at?: string
+          usa_insulina?: string | null
           user_id?: string
         }
         Relationships: []
@@ -525,6 +564,48 @@ export type Database = {
           proxima_acao?: string | null
           revisada_em?: string
           versao?: string
+        }
+        Relationships: []
+      }
+      riscos_cv: {
+        Row: {
+          agravantes_presentes: string[]
+          ascvd_10: number
+          ascvd_30: number | null
+          calculado_em: string
+          categoria: string
+          created_at: string
+          entradas: Json
+          id: string
+          modelo: string
+          user_id: string
+          versao_coeficientes: string
+        }
+        Insert: {
+          agravantes_presentes?: string[]
+          ascvd_10: number
+          ascvd_30?: number | null
+          calculado_em?: string
+          categoria: string
+          created_at?: string
+          entradas: Json
+          id?: string
+          modelo: string
+          user_id: string
+          versao_coeficientes: string
+        }
+        Update: {
+          agravantes_presentes?: string[]
+          ascvd_10?: number
+          ascvd_30?: number | null
+          calculado_em?: string
+          categoria?: string
+          created_at?: string
+          entradas?: Json
+          id?: string
+          modelo?: string
+          user_id?: string
+          versao_coeficientes?: string
         }
         Relationships: []
       }

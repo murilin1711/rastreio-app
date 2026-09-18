@@ -7,6 +7,7 @@ const completo: PerfilSaude = {
   temDiabetes: false, temHipertensao: false, temDoencaRenal: false, temImunossupressao: false, temHiv: false, temDii: false,
   historicoCancerPessoal: [], lesoesPrecursoras: [], doencasGeneticas: [], radioterapiaToracica: false,
   jaTeveAtividadeSexual: true, racaCor: 'parda', menopausa: null, semMedicacoes: false, semAntecedentesFamiliares: true, perfilInicialCompleto: true,
+  tipoDiabetes: null, usaInsulina: null, eventoCvPrevio: null, perfilMetaGlicemica: 'adulto', metasGlicemia: null, planoGlicemia: null, agravantesCv: { itens: [], atualizadoEm: null }, atividadeFisicaRegular: null,
 };
 
 test('perfil completo → nada falta', () => {

@@ -1,0 +1,1110 @@
+                                                                                                                                                                             1
+
+
+Supplemental Material
+
+Table of Contents
+Supplemental Tables Excel File Titles .......................................................................................................................... 2
+Supplementary Appendix 1. Data analysis overview, analytic notes for individual cohorts, and further details on
+covariate and outcome definitions and ascertainment ................................................................................................... 3
+   1.1 Overview ............................................................................................................................................................. 3
+   1.2 Details of the analysis .......................................................................................................................................... 4
+   1.3 Notes for individual cohorts ................................................................................................................................ 4
+   1.4 Numbers of missing covariates, N (%) ................................................................................................................ 6
+   1.5 Covariate assessment ........................................................................................................................................... 8
+      1.5.1 Table S20. Race/Ethnicity ascertainment in each cohort .............................................................................. 8
+      1.5.2 Table S21. Other medical history variables ................................................................................................ 13
+   1.6 Outcome definitions and ascertainment ............................................................................................................. 14
+      1.6.1 Table S22. ICD codes used to define outcome if not specified .................................................................. 14
+      1.6.2 Table S23. Details of individual cohorts..................................................................................................... 14
+Supplementary Appendix 2. Acronyms or abbreviations for cohorts included in the current study and their key
+references linked to the Web references ...................................................................................................................... 17
+Supplementary Appendix 3. Acknowledgements and funding for collaborating cohorts............................................ 18
+Supplementary Appendix 4. Detailed example applying the simplified PREVENT models ...................................... 20
+   Table S24. 10 year Equations .................................................................................................................................. 20
+   Table S25. Example: 10 year total CVD risk of 50-year-old women, 200 mg/dL Total cholesterol, 45 mg/dL HDL
+   cholesterol, Treated SBP 160 mm Hg, Diabetes, No smoking, eGFR 90 ml/min/1.73m2 ....................................... 21
+Supplemental Figure S1. Sex-specific calibration plots in the derivation sample for the PREVENT base model for
+total CVD, ASCVD and HF. ....................................................................................................................................... 23
+CKD-PC investigators/collaborators ........................................................................................................................... 24
+                                                                                                                  2
+
+
+Supplemental Tables Excel File Titles
+Table S1. Baseline characteristics and event rates for each dataset in the derivation and validation samples
+Table S2A. Meta-analyzed sex-specific adjusted hazard ratios (95% confidence intervals) for the base model
+removing eGFR for total CVD and CVD subtypes in derivation samples
+Table S2B. Meta-analyzed sex-specific adjusted hazard ratios (95% confidence intervals) for the base model adding
+UACR for total CVD and CVD subtypes in derivation samples
+Table S3. Meta-analyzed sex-specific adjusted hazard ratios (95% confidence intervals) for the base model adding
+HbA1c for total CVD and CVD subtypes in derivation samples with available data
+Table S4. Meta-analyzed sex-specific adjusted hazard ratios (95% confidence intervals) for the base model adding
+social deprivation index (SDI) for total CVD and CVD subtypes in the derivation OLDW cohorts
+Table S5A. Meta-analyzed discrimination, calibration, and net reclassification parameters of model performance for
+prediction of total cardiovascular disease and cardiovascular disease subtypes in derivation samples
+Table S5B. Discrimination C-statistic by race-ethnicity for PCE and PREVENT equations
+Table S5C. Meta-analyzed discrimination, calibration, and net reclassification parameters of model performance for
+prediction of total cardiovascular disease and cardiovascular disease subtypes when removing eGFR from the base
+model
+Table S5D. Meta-analyzed calibration slope and interquartile interval for the base model with and without eGFR
+Table S6. Calibration slopes and interquartile interval for the base model and each model adding novel predictors
+individually and together for total CVD
+Table S7. Calibration slopes and interquartile interval for the base model and each model adding novel predictors
+individually and together for ASCVD
+Table S8. Calibration slopes and interquartile interval for the base model and each model adding novel predictors
+individually and together for HF
+Table S9. Meta-analyzed sex-specific adjusted hazard ratios (95% confidence intervals) for the base model for
+coronary heart disease and stroke outcomes in derivation samples
+Table S10. Meta-analyzed sex-specific adjusted hazard ratios (95% confidence intervals) for the base model adding
+all novel predictors for coronary heart disease and stroke outcomes in derivation samples
+Table S11. Meta-analyzed discrimination, calibration, and net reclassification parameters of model performance for
+prediction of coronary heart disease and stroke in validation samples
+Table S12.A-J Regression coefficients for 10 year (A-E) and 30 year (F-J) cardiovascular risks models - PREVENT
+base model (A,F); Enhanced for ACR (B,G); Enhanced for HbA1c (C,H); Enhanced for SDI (D,I); Enhanced for all
+novel variables (E,J)
+Table S13. Meta-analyzed discrimination and calibration parameters of PCE vs. base model performance for
+prediction of total cardiovascular disease and cardiovascular disease subtypes in derivation and validation samples
+Table S14. Calibration slopes and interquartile interval for the base model and each model adding novel predictors
+individually and together for Original PCE for ASCVD as the outcome
+Table S15. Pearson correlation coefficients of original PCE with PREVENT models in participating cohorts
+Table S16. Relative HR (p-value) from meta-regression of cohort type, EMR vs. research cohorts
+Table S17A. Relative HR (p-value) from meta-regression of median baseline year
+Table S17B. Baseline characteristics and number of outcomes across three epochs in the study population
+                                                                                                                           3
+
+
+Supplementary Appendix 1. Data analysis overview, analytic notes for individual cohorts,
+and further details on covariate and outcome definitions and ascertainment
+1.1 Overview:
+In order to determine the cohorts eligible for this paper, in February/March 2023 all United States-based cohorts in
+CKD-PC with cardiovascular outcome data available were contacted regarding their interest in this topic and to
+confirm availability of data. 48 cohorts were contacted, one was not able to participate due to a lack of all-cause
+mortality data and one was not able to send de-identified data in time for analyses, resulting in 46 cohorts in this
+analysis. Cohorts were required to have at least 5 years of follow-up for the 95th percentile of time to events [cases].
+As previously described,51 the collaborating cohorts were asked to compile a dataset with approximately 25
+variables (Required: main exposure [age, sex, race/ethnicity, history of CVD, smoking, diabetes, systolic blood
+pressure, antihypertensive medications, total cholesterol, HDL cholesterol, statin use, BMI, eGFR], outcome [fatal
+and non-fatal myocardial infarction, fatal and non-fatal ischemic and hemorrhagic stroke, fatal and non-fatal heart
+failure hospitalization, all-cause mortality]; In addition data were captured if available on: social deprivation index,
+albuminuria, and hemoglobin A1c). To be consistent across cohorts, the CKD-PC Data Coordinating Center sent
+definitions for those variables to participating cohorts. We instructed studies not to impute any variables.
+
+The CKD-PC data request and processing procedures are as follows. After obtaining opt-in preferences from cohorts
+for the topics for each phase, the Data Coordinating Center (DCC) requests de-identified data using a specific data
+request document describing the variables and preferred definitions needed for the current phase of the CKD-PC.
+Cohorts work with the DCC on any data use agreements, IRB approvals, and other logistic issues for de-identified
+data transfer. The DCC also advises on any differences in definitions or questions on data formatting. Cohorts then
+provide de-identified data (in whatever program format, e.g., Stata, SAS, csv) via a secure data transfer provided or
+their own secure transfer program/platform. Data is stored on a secure password protected network server that is
+only accessed by limited faculty and staff (<10). All those faculty and staff have completed HIPAA and CITI
+certification and have signed internal data use agreements to not use the data for any other than stated purposed and
+to not remove the data from that network drive. The CKD-PC does not share data with any external parties. Once
+data is received and stored in the network drive, the DCC programmer reviews the data and the data dictionary
+provided by the cohort to check for any missing information, outliers, and potentials issues with variable units,
+dates, etc. Any questions are sent to the cohort representatives for data checking and cleaning. Further data checking
+is done throughout the analysis process for each CKD-PC paper, including a review from a cohort representative of
+all tables and figures to confirm their cohort representation.
+
+For the 46 cohorts in this specific study, the DCC at Johns Hopkins University conducted the analysis. Then the
+DCC meta-analyzed the estimates across cohorts using Stata.
+
+As detailed in our previous reports,38 each cohort was instructed to standardize their serum creatinine and report its
+method when available. The reported creatinine standardization allows grouping studies into studies that reported
+using a standard IDMS traceable method or conducted some serum creatinine standardization to IDMS traceable
+methods (ARIC, CARDIA, CRIC, Geisinger, JHS, Rancho Bernardo, REGARDS) and studies where the creatinine
+standardization was not done (CHS, Framingham, MESA). For those cohorts without standardization, the creatinine
+levels were reduced by 5%, the calibration factor used to adjust non-standardized MDRD Study samples to IDMS.37,
+40
+  . We did not adjust creatinine levels in those studies with unknown standardization status (OLDW all cohorts).
+
+Table S18. eGFR calculated using the 2021 CKD-EPI creatinine39
+ Sex             Serum Creatinine (mg/dL)            Equation
+ CKD-EPI creatinine equation
+ Female          ≤0.7                                GFR= 142 x (Scr/0.7)-0.241 x 0.9938Age
+                 >0.7                                GFR= 142 x (Scr/0.7)-1.200 x 0.9938Age
+ Male            ≤0.9                                GFR= 142 x (Scr/0.9)-0.302 x 0.9938Age
+                 >0.9                                GFR= 142 x (Scr/0.9)-1.200 x 0.9938Age
+
+The selection of knots for eGFR and urine albumin-to-creatinine ratio was based on clinical thresholds.41
+                                                                                                                      4
+
+
+1.2 Details of the analysis:
+Survival analysis was conducted stratified by sex on the age scale allowing for left censoring at the age of entry and
+right censoring at the age of death or exit from follow-up. For each outcome (CVD, ASCVD, HF, CHD and for use
+in competing risks models death prior to each of these) we conducted a separate Cox regression.
+
+Meta analysis of hazard ratios from all development cohorts was conducted using univariate random effects models.
+The meta-analyzed hazard ratio was applied to all development models in a Cox model to obtain the adjusted
+baseline cumulative hazard (centered at age 55, non-HDLC 3.5, HDLC 1.3, SBP 130 and absence of other risk
+factors). This baseline log cumulative hazard was smoothed using a cubic spline with knots at 35, 55, 65, 75 and 85
+of age (the approximate 1, 25, 50, 75 and 99 percentiles). For each outcome, age specific log hazards were
+calculated and the median at each age and sex specific group were calculated. The overall result was then smoothed
+using a linear age.
+
+Details on the meta-analysis method are as follows: All analyses were performed separately in each cohort. Next,
+estimates were pooled using random-effects meta-analysis using the Stata “metan” command (Stata version 16,
+College Station, TX). This two-stage approach allows close evaluation of individual study results to ensure no
+errors. The random-effects meta-analysis allows for estimation of both within study random variation and between
+study systematic variation (heterogeneity; International Journal of Epidemiology 2010;39:1345–1359). Given the
+complexity and number of the competing risk models and the size of the datasets, we employ a univariate meta-
+analysis rather than a multivariate approach (e.g., “mvmeta”), which requires prohibitively long computing time. In
+similar analyses, “metan” and “mvmeta” had <2% difference in estimates. We routinely share statistical code upon
+request. The source data were released to us using specific data use agreements so we cannot share the data
+themselves but we reply to queries including running analyses to check on the results using the full datasets.
+
+Absolute risk of each CVD outcome was calculated using a competing risks model of the cause specific hazard of
+the CVD outcome and its paired mortality (free of this type of CVD). This model used the meta-analyzed hazard
+ratios and median baseline hazard.
+
+Discrimination was calculated using time-dependent Harrel’s C-statistic. Calibration was estimated by graphing the
+observed risk within each decile of predicted risk. The slope was calculated as a summary measure of calibration
+with a slope of 1.0 indicating good calibration (<1 indicating over-prediction and >1 indicating under-prediction).
+Deciles were combined if they had <5 events. Calibration was examined overall and within subgroups.
+Improvement in calibration between the base model and larger models were tested based on a Wilcoxon matched
+pair rank-sum test of the paired comparisons between the absolute value of the difference between the slope and 1.0
+in the two models being compared. NRI was calculated using the event rate method which uses the event rates as the
+cutoff to calculate sensitivity and specificity for each model and the difference in each is summed to obtain the
+NRI.62
+
+Calibration figures applied minimum criteria to focus on reliable data. Specifically, the follow-up period was
+shortened from 10 years to 8 or 5 years if the 95th percentile for events was 8-10 years or 5-8 years respectively. In
+addition, deciles were merged when there were fewer than 5 events in the decile. Cohorts with fewer than 10 events
+for the specific outcome, subgroup and follow-up time were not plotted.
+
+Regression approximations were calculated for a more rapid calculation of the competing risks models. For each
+model, the logit (log (risk/1-risk)) absolute risk was fit using linear regression on the same predictors as in the
+relative hazard model plus age. Approximations were considered adequate since their r-square was greater than 0.99
+and visual inspection of full model vs. approximate model absolute risk calculations indicated very tight agreement
+at risks below 10% and excellent agreement at higher risks.
+
+
+
+1.3 Notes for individual cohorts:
+
+ARIC: Visit 4 was used as baseline, which was conducted between 1996-98. Hemoglobin A1c was not available in
+this study.
+                                                                                                                      5
+
+
+CARDIA: Year 10 was used as baseline, which was conducted between 1995-96. Hemoglobin A1c was not
+available in this study.
+
+CHS: Visit 5 was used as baseline, which was conducted between 1995-98. This cohort had urine albumin-to-
+creatinine ratio measures at a different visit of HDL cholesterol, thus not included in the Base+albuminuria analysis.
+Hemoglobin A1c was not available in this study.
+
+CRIC: Visit 1 was used as baseline, which was conducted between 2003-07. Of the ACR data, 25% were estimated
+from PCR. Hemoglobin A1c was not available in this study.
+
+Framingham: Visit 1 was used as baseline, which was conducted between 1995-98. Hemoglobin A1c was not
+available in this study.
+
+Geisinger: Baseline was defined as first outpatient visit with both serum creatinine and systolic blood pressure
+measurements after 1/1/2009, as well as enrolled in the system for at least one year. Albumin to creatinine ratio was
+abstracted from the closest lab measurement within 3 years prior to the baseline. When albuminuria data were not
+available, the closest proteinuria (protein to creatinine ratio, PCR, or dipstick) within 3 years prior to the baseline
+were used to estimate ACR using a validated algorithm.42 Of the ACR data 4.3% were estimated from PCR and 53%
+from dipstick.
+
+JHS: Visit 1 was used as baseline, which was conducted between 2000-04. History of HF was not available in this
+study. JHS participants that were also in ARIC were excluded.
+
+MESA: Visit 1 was used as baseline, which was conducted between 2000-02. Hemoglobin A1c was not available at
+baseline in this study.
+
+OLDW: This study used de-identified electronic health record (EHR) data from the Optum Labs Data Warehouse
+(OLDW). The database contains longitudinal health information on enrollees and patients, representing a mixture of
+ages and geographical regions across the United States. The EHR-derived data includes a subset of EHR data that
+has been normalized and standardized into a single database.29 Cohort inclusion criteria was more than 50 events of
+ASCVD after excluding missing values of main exposure variables and more than 5-year of 95th percentile of
+follow-up in events. One OLDW cohort with >70% missing BMI data was excluded. Baseline was considered first
+serum creatinine after 2008 at a visit with a blood pressure measurement and in the health system for at least a year.
+Smoking status might be under measured in this study. We validated separately in each cohort in this study. No
+cause of death information available. ASCVD was defined by ICD codes from encounters.
+
+Social deprivation index (SDI) during 2015-2020 was linked to the zip code data at the individual participant level
+by OLDW staff. SDI was rounded to the nearest decile from 1 to 10. The year used for assigning the zip code for
+SDI was the closest year to the baseline for each participant and excluded if >5 years before or >3 years after the
+patient’s baseline year. SDI missing value indicator identified patients whose zip code of residence was missing.
+
+Albumin to creatinine ratio was abstracted from the closest lab measurement within 3 years prior to the baseline.
+When albuminuria data were not available, the closest proteinuria (protein to creatinine ratio, PCR, or dipstick)
+within 3 years prior to the baseline were used to estimate ACR using a validated algorithm.42 Of the ACR data
+0.81% were estimated from PCR and 79% from dipstick.
+
+Rancho Bernardo: Visit 1 was used as baseline, which was conducted between 1992-97. Hemoglobin A1c was not
+available in this study.
+
+REGARDS: The initial in-home visit was used as baseline, which was conducted between 2003-07. History of
+suspected HF was not used in the analyses.
+                                                                                                                            6
+
+
+
+
+1.4 Numbers of missing covariates, N (%)
+Our consortium includes both research cohorts and clinical databases. The main mechanisms of missingness seems
+somewhat different in these two cohort types. Specifically, in the former, a set of variables are evaluated based on a
+prespecified protocol, and the missingness is often due to lack of specimens, difficulty of measurement in specific
+participants, or lack of consent for specific tests. Thus, typically, individuals with missing data are less healthy than
+those without missing data. In the latter, data are collected according to clinical routine or indication. Thus, missing
+data may be seen in healthier populations. Nonetheless, we first extracted individuals with available data of
+variables required for analyses (i.e., age, sex, race/ethnicity, history of CVD, smoking, diabetes, systolic blood
+pressure, antihypertensive medications, total cholesterol, HDL cholesterol, statin use and body mass index) as well
+as eGFR given overall wide availability in our datasets. The display below summarizes the missing rate of race,
+albuminuria (either by urine albumin-to-creatinine ratio, urine protein-to-creatinine ratio, or urine dipstick), and
+hemoglobin A1c (HbA1c) used in this study by each cohort.
+
+Table S19. Percent missing
+ Development datasets       N                     Race/ethnicity        ACR                    HbA1c
+ ARIC                      8,838                  0%                    0.79%                  100%
+ CARDIA                    2,738                  0%                    10%                    100%
+ CHS                       2,543                  0%                    100%                   100%
+ Framingham                2,611                  0%                    0%                     100%
+ Geisinger                 166,219                0%                    47%                    72%
+ JHS                       2,399                  0%                    32%                    1.7%
+ MESA                      5,928                  0%                    <0.5%                  100%
+ OLDW 1                    151,346                0%                    53%                    65%
+ OLDW 3                    117,111                0%                    61%                    77%
+ OLDW 4                    50,694                 0%                    59%                    76%
+ OLDW 8                    640,772                0%                    54%                    72%
+ OLDW 10                   222,974                0%                    35%                    76%
+ OLDW 12                   53,835                 0%                    53%                    35%
+ OLDW 19                   172,519                0%                    51%                    76%
+ OLDW 20                   227,092                0%                    55%                    49%
+ OLDW 21                   443,351                0%                    54%                    71%
+ OLDW 22                   109,510                0%                    59%                    69%
+ OLDW 23                   288,625                0%                    72%                    78%
+ OLDW 25                   141,928                0%                    57%                    66%
+ OLDW 26                   54,292                 0%                    53%                    56%
+ OLDW 27                   85,044                 0%                    62%                    68%
+ OLDW 28                   57,631                 0%                    68%                    76%
+ OLDW 29                   62,785                 0%                    69%                    63%
+ OLDW 32                   101,430                0%                    51%                    63%
+ OLDW 33                   109,704                0%                    64%                    52%
+ Validation Datasets
+ CRIC                      1,948                  0%                    3.4%                   100%
+ OLDW 2                    10,356                 0%                    54%                    81%
+ OLDW 5                    70,669                 0%                    45%                    78%
+ OLDW 6                    33,214                 0%                    60%                    71%
+ OLDW 7                    132,583                0%                    21%                    55%
+ OLDW 9                    569,383                0%                    64%                    73%
+ OLDW 11                   332,600                0%                    46%                    74%
+ OLDW 13                   82,367                 0%                    28%                    66%
+ OLDW 14                   112,487                0%                    55%                    66%
+ OLDW 15                   285,469                0%                    61%                    76%
+ OLDW 16                   82,144                 0%                    55%                    73%
+                                                 7
+
+
+OLDW 17           229,733   0%    39%     38%
+OLDW 18           37,726    0%    46%     56%
+OLDW 24           114,453   0%    67%     63%
+OLDW 30           96,943    0%    59%     69%
+OLDW 31           70,521    0%    60%     42%
+OLDW 34           185,799   0%    67%     64%
+OLDW 35           101,997   0%    82%     57%
+Rancho Bernardo   1,053     14%   <0.5%   100%
+REGARDS           17,980    0%    3.6%    79%
+                                                                                                                                                                      8
+
+
+1.5 Covariate assessment
+1.5.1 Table S20. Race/Ethnicity ascertainment in each cohort
+Cohort         Race/ethnicity groups identified in Ascertainment and notes                                                 Reference
+               cohort
+ARIC         Question: “Now I would like to know       The ARIC Study collects data in four diverse communities. This      Household enumeration form:
+             the race or ethnic identification, sex,   design was chosen so that data could be obtained for groups which https://sites.cscc.unc.edu/aric/sites/d
+                                                                                                                           3TU
+
+
+
+
+             and marital status of each household      differ by geography, race, and socio-economic status. The ARIC      efault/files/public/forms/HEFA.pdf   U3T
+
+
+
+
+             member.”                                  study was not designed to select a random or representative sample
+                                                       of the entire U.S. population.
+             Variable: RACEGRP                         Race was self-reported in ARIC and includes more race groups
+             Asian                                     than Black and White, but there are very few of those other groups
+             Black                                     (34 self-reporting as Asian and 14 as American Indian or Alaskan
+             American Indian or Alaskan Indian         Indian). Race in ARIC is also confounded by field center as most
+             White                                     of the Black participants are from the Jackson, Mississippi center.
+
+             Eligibility form 6b. Hispanic
+             Yes
+             No
+CARDIA       Variable: A01RACE1                        Self-report on telephone interview for selection and monitoring.    https://www.cardia.dopm.uab.edu/i
+             Hispanic                                  CARDIA then recruited individuals self-reporting as White or        mages/more/pdf/D10001.PDF
+             Black, not Hispanic                       Black only.
+             White, not Hispanic
+             American Indian or Alaskan native
+             Asian or Pacific Islander
+             Don’t know
+             No answer
+CHS          Variable: RACE01                          Self-report on the CHS eligibility form.                            CHS eligibility form: https://chs-
+                                                                                                                                                     3T
+
+
+
+
+             White                                                                                                         nhlbi.org/forms/r1p1 3T
+
+
+
+
+             Black
+             American/Indian/Alaskan Native
+             Asian/Pacific Islander
+             Other (specify ROTHER01)
+
+             Variable: HISP01
+             Do you consider yourself of Hispanic
+             origin?
+             Yes
+             No
+                                                                                                                                                 9
+
+
+Cohort   Race/ethnicity groups identified in       Ascertainment and notes                                    Reference
+         cohort
+CRIC     Q: Using the categories below, what       Race was Self-Identified in Demographic Information Form   Case Form:
+         do you consider to be your racial                                                                    https://repository.niddk.nih.gov/med
+                                                                                                              3T
+
+
+
+
+         background? (check yes/no)                                                                           ia/studies/cric/forms/demographic_i
+         American Indian/Alaskan Native                                                                       nformation.pdf3T
+
+
+
+
+         Asian/Asian American
+         Black/African American
+         Native Hawaiian/Other Pacific
+         Islander
+         White/Caucasian
+
+         Q: If Asian/Asian American, do you
+         consider yourself to be (check all that
+         apply)
+         Chinese
+         East Indian/South Asian
+         Japanese
+         Filipino
+         Korean Southeast Asian
+         Other
+         Don’t know
+
+         Q: If Black or African American, do
+         you consider yourself to be (check all
+         that apply)
+         American
+         African
+         Haitian
+         Jamaican
+         Cuban
+         Puerto Rican
+         Dominican
+         Other Caribbean Island
+         Central/South American
+         Other
+         Don’t know
+                                                                                                                                                            10
+
+
+Cohort       Race/ethnicity groups identified in    Ascertainment and notes                                                Reference
+             cohort
+           If you checked Hispanic/Latino, do
+           you consider yourself to be (check all
+           that apply)
+           Mexican American/Mexican
+           Central American
+           South American
+           Puerto Rican
+           Cuban
+           Dominican
+           Spaniard or Portuguese
+           Other
+           Don’t Know
+Framingham Not systematically collected until later The population is considered to be predominantly White.                https://www.bu.edu/fhs/share/annoat
+           Framingham Offspring exams                                                                                      ed_forms/vr_raceall_2011_a_1257s
+                                                                                                                           _annotated_form.pdf
+
+
+
+Geisinger    Race:                                  As reported in the electronic health record.
+             American Indian Or Alaska Native
+             Asian
+             Black Or African American
+             Native Hawaiian Or Other Pacific
+             Islander
+             Other
+             Unknown
+             White
+             Ethnicity:
+             Hispanic or Latino
+             Not Hispanic or Latino
+             Unknown
+JHS          All participants are B                 Recruited African American participants in the Jackson,
+             lack                                   Mississippi Metropolitan Statistical Area. Individuals approached
+                                                    included ARIC participants at the Jackson site (excluded from this
+                                                    analysis so there is no overlap), a random sample, volunteers, and a
+                                                    family study including participants in any of the prior 3 groups
+                                                    with a family size meeting eligibility requirement (Ethn Dis
+                                                    . 2005 Autumn;15(4 Suppl 6):S6-18-29).
+                                                                                                                                                 11
+
+
+Cohort     Race/ethnicity groups identified in    Ascertainment and notes                                             Reference
+           cohort
+MESA       Q: Are you Spanish/Hispanic/Latino? As part of the study design, approximately 38% of the recruited        Screening/Recruitment form:
+           If yes:                             participants are white, 28% African-American, 22% Hispanic, and        https://www.mesa-
+                                                                                                                      3T
+
+
+
+
+           Mexican, Chicano, Mexican-American 12% Asian, predominantly of Chinese descent.                            nhlbi.org/PublicDocs/010101-
+           Dominican                                                                                                  011231/MESABaselineExamForms/
+           Puerto Rican                        Race was identified as self-report on the Screening/Recruitment        screener.pdf. Accessed 2021
+                                                                                                                                            3T
+
+
+
+
+           Cuban                               form. Separate questions for Hispanic other groups, and if
+                                               respondent names a Spanish/Hispanic/Latino group instead of the
+           Q: Which of the following best      race classification question, wording for interviewers to state that
+           describes you?                      “Some Hispanics also identify themselves with one of these other
+           African-American or Black           groups”
+           Asian
+                    Chinese
+                    Filipino
+                    Japanese
+                    Korean
+                    Vietnamese
+                    Asian Indian
+           Caucasian or White
+           Native Hawaiian or other Pacific
+           Islander
+                    Guamanian or Chamorro
+                    Samoan
+                    Micronesia
+                    Tahitian
+           American Indian or Alaska Native
+           Did not identify
+OLDW       Race: Africa American, Asian,          As reported in the electronic health record.
+cohorts    Caucasian, Other/Unknown
+           Ethnicity: Hispanic, Not Hispanic,
+           Unknown
+
+
+Rancho     Collected upon entry into the study.   Self-report. Because 99.4% of the population are White and not
+Bernardo   Asked as White: Yes/No                 Hispanic, race was denoted as “white: yes/no”.
+                                                                                                                                                     12
+
+
+Cohort    Race/ethnicity groups identified in   Ascertainment and notes                                              Reference
+          cohort
+REGARDS   From recruitment:                     Self-reported race/ethnicity as part of the recruitment.             Computer assisted telephone
+          White, non-Hispanic                   Interviewers ask QLatino – “Are you Hispanic or Latino?” And         interview codebook documentation:
+          Black, non-Hispanic                   those responding Yes are not eligible for the study. Note from       https://www.uab.edu/soph/regardsst
+                                                                                                                     3T
+
+
+
+
+                                                Baseline_CATI_Codebook_REGARDS08_17_05: “Beginning                   udy/images/documents/Baseline_CA
+                                                6/9/04, if respondent is Latino, return to QAges question and select TI_Codebook_REGARDS08_17_05
+                                                another potential respondent from household and proceed. If there .doc    3T
+
+
+
+
+                                                are no other age eligible respondents, thank and terminate.”
+
+                                                Self report question for baseline:
+
+                                                QRace:
+                                                “What is your race? Would you say White, Black or African
+                                                American, Asian, Native Hawaiian or Other Pacific Islander
+                                                American Indian, Alaska Native or some other race?”
+
+                                                Those that did not identify as Black or White are then directed to
+                                                Sorry2:
+                                                “Thank you for taking a few minutes to speak with me, but for the
+                                                purposes of this study we are trying to interview equal numbers of
+                                                different racial and ethnic groups and have already met our quota
+                                                in your area. Thank you again, and have a great day.”
+                                                                                                                                                           13
+
+
+1.5.2 Table S21. Other medical history variables
+To be consistent across cohorts, the CKD-PC Data Coordinating Center sent definitions for those medical history variables to participating cohorts (outlined
+below). We instructed studies not to impute any variables and let us know of any differences in definitions.
+Medical history variable                                Definition
+Total cholesterol                                       Total cholesterol (mmol/L)
+HDL-Cholesterol                                         HDL cholesterol (mmol/L)
+Systolic blood pressure                                 Systolic blood pressure (mmHg)
+Diabetes mellitus                                       Glycated hemoglobin A1c ≥6.5% or fasting glucose ≥7.0 mmol/L (≥126 mg/dL) or non-fasting glucose
+                                                        ≥11.1 mmol/L (≥200 mg/dL) or use of glucose lowering drugs (ADA 2010 criteria). Self-report of
+                                                        physician diagnosed diabetes can be included.
+                                                        Identification at any time during study period (from baseline to follow-up).
+Hemoglobin A1c (HbA1c)                                  HbA1C (glycated hemoglobin) (%) measured by a method certified by the National Glycohaemoglobin
+                                                        Standardisation Program (NGSP) and standardized to the Diabetes Control and Complications Trial
+                                                        (DCCT)
+Smoking                                                 Information on current-, former-, and never-smoker
+Height                                                  Height (m)
+Body weight                                             Body weight (kg)
+Medications for hypertension                            Taking any medications prescribed for lowering blood pressure. In administrative data we used ATC
+                                                        codes: C02, C03, C07, C08, C09
+Statin use                                              Statin use; In administrative data ATC code C10AA, C10B
+Urine albumin-to-creatinine ratio (ACR)                 Urinary albumin (mg) / Urinary creatinine (g)
+Urine protein-to-creatinine ratio (PCR)                 Urinary protein (mg) / Urinary creatinine (g)
+Dipstick proteinuria                                    Dipstick proteinuria
+Serum creatinine                                        Serum creatinine standardized to isotope dilution mass spectrometry (IDMS) (mg/dL) -- specify assay
+                                                        and standardization method
+                                                                                                                                                             14
+
+
+1.6 Outcome definitions and ascertainment
+1.6.1 Table S22. ICD codes used to define outcome if not specified
+Outcome                                 ICD-9 codes                                            ICD-10 codes
+Myocardial infarction (MI)              410                                                    I21, I22
+Hemorrhagic and Ischemic stroke         431, 432, 433.x1, 434.x1                               I61, I62, I63
+Heart failure                           428                                                    I50
+
+1.6.2 Table S23. Details of individual cohorts
+                                   Atherosclerotic cardiovascular disease            Heart Failure                      All-cause mortality ascertainment
+ Development datasets              ascertainment type
+                                  • CHD: fatal MI and non-fatal MI adjudicated       ICD codes from hospital            Active and linkage to a registry
+                                    by a physician panel                             discharge or death registry,
+ ARIC                             • Stroke: Ischemic and hemorrhagic stroke          adjudicated after 2005
+                                    adjudicated by a physician panel; fatal stroke
+                                    by death with an incident stroke
+                                  • CHD: fatal CHD and non-fatal MI adjudicated      Adjudicated by a physician panel   Linkage
+                                    by a physician panel
+ CARDIA
+                                  • Stroke: fatal, ischemic and hemorrhagic stroke
+                                    adjudicated by a physician panel
+                                  • Atherosclerotic CHD, cerebrovascular             Adjudicated by CHS Events          Active
+                                    disease, and other cardiovascular disease from   Subcommittee
+ CHS
+                                    cause of death adjudicated by a physician
+                                    panel
+                                  • CHD: fatal MI and non-fatal MI by medical        Not hospitalized, diagnosed on     Active (with medical chart review)
+                                    chart review                                     basis of on exam or MD notes or
+ Framingham                       • Stroke: fatal, ischemic and hemorrhagic stroke   hospitalized heart failure
+                                    by medical chart review
+
+                                  • CHD: MI by ICD codes from hospital               ICD codes from hospital            Linkage
+                                    discharge                                        discharge
+ Geisinger
+                                  • Stroke: ischemic and hemorrhagic stroke by
+                                    ICD codes from hospital discharge
+                                  • CHD: fatal CHD and MI adjudicated by a           ICD codes from hospital            Active (with medical chart review)
+                                    physician panel                                  discharge or death registry,
+ JHS
+                                  • Stroke: fatal, ischemic and hemorrhagic stroke   adjudicated after 2005
+                                    adjudicated by a physician panel
+                                                                                                                                                         15
+
+
+                          • CHD: fatal MI and non-fatal MI adjudicated        Reviewers classified CHF as            Active
+                            by a physician panel                              definite, probable, or absent.
+                          • Stroke: fatal, ischemic and hemorrhagic stroke    Definite or probable CHF
+                            defined as new onset of neurologic symptoms       required heart failure symptoms,
+                            last 24 hours or leading to death with a          such as shortness of breath or
+                            clinically relevant lesion on brain imaging not   edema, as asymptomatic disease
+                            caused by a nonvascular cause, adjudicated by     is not a MESA endpoint. In
+                            a physician panel                                 addition to symptoms, probable
+                                                                              CHF required CHF diagnosed by
+                                                                              a physician and patient receiving
+                                                                              medical treatment for CHF.
+                                                                              Definite CHF required one or
+MESA                                                                          more other criteria, such as
+                                                                              pulmonary edema/congestion by
+                                                                              chest X-ray; dilated ventricle or
+                                                                              poor LV function by
+                                                                              echocardiocardiography or
+                                                                              ventriculography; or evidence of
+                                                                              left ventricular diastolic
+                                                                              dysfunction. We considered
+                                                                              participants not meeting any
+                                                                              criteria, including just a physician
+                                                                              diagnosis of CHF without any
+                                                                              other evidence, as having no
+                                                                              CHF.
+                          • CHD: MI by ICD codes from hospital                ICD codes from hospital                Medicare/Medicaid claims has
+                            discharge                                         discharge                              linkage and commercial claims has
+OLDW derivation cohorts
+                          • Stroke: ischemic and hemorrhagic stroke by                                               hospital discharge
+                            ICD codes from hospital discharge
+Validation Datasets
+                          • CHD: fatal MI and MI adjudicated by a             Heart failure events were              Active and linkage to a registry
+                            physician panel                                   adjudicated by 2 independent
+CRIC                      • Stroke: fatal, ischemic and hemorrhagic stroke    physicians who reviewed
+                            adjudicated by a physician panel                  hospitalization records, and any
+                                                                              differences were resolved by
+                                                                              discussion.
+                          • CHD: MI by ICD codes from hospital                ICD codes from hospital                Medicare/Medicaid claims has
+OLDW validation cohorts     discharge                                         discharge                              linkage and commercial claims has
+                                                                                                                     hospital discharge
+                                                                                                                                      16
+
+
+                  • Stroke: ischemic and hemorrhagic stroke by
+                    ICD codes from hospital discharge
+                  • CHD: fatal MI by ICD codes from death            Self-report and fatal events using   Linkage to death registry
+                    registry; MI by self-report                      ICD codes
+Rancho Bernardo   • Stroke: fatal stroke by ICD codes from death
+                    registry; ischemic and hemorrhagic stroke by
+                    self-report
+                  • CHD: fatal MI and MI adjudicated by a            Heart failure events and heart       Active
+                    physician panel                                  failure deaths were adjudicated by
+                  • Stroke: fatal, ischemic and hemorrhagic stroke   2 independent clinical
+REGARDS             adjudicated by a physician panel                 investigators who reviewed
+                                                                     hospitalization records, and any
+                                                                     differences were resolved by
+                                                                     discussion.
+                                                                                      17
+
+
+Supplementary Appendix 2. Acronyms or abbreviations for cohorts included in the current
+study and their key references linked to the Web references
+ARIC                Atherosclerosis Risk in Communities Study22
+CARDIA              Coronary Artery Risk Development in Young Adults23
+CHS                 Cardiovascular Health Study24
+CRIC                Chronic Renal Insufficiency Cohort Study31
+Framingham          Framingham Heart Study25
+Geisinger           Geisinger Health System28
+JHS                 Jackson Heart Study26
+MESA                Multi-Ethnic Study of Atherosclerosis27
+OLDW                Optum Labs Data Warehouse29
+Rancho Bernardo     Rancho Bernardo Study32
+REGARDS             Reasons for Geographic And Racial Differences in Stroke Study30
+                                                                                                               18
+
+
+Supplementary Appendix 3. Acknowledgements and funding for collaborating cohorts
+ Study           List of sponsors
+                 The Atherosclerosis Risk in Communities study has been funded in whole or in part with
+                 Federal funds from the National Heart, Lung, and Blood Institute, National Institutes of
+                 Health, Department of Health and Human Services, under Contract nos.
+ ARIC
+                 (HHSN268201700001I, HHSN268201700002I, HHSN268201700003I,
+                 HHSN268201700004I, HHSN268201700005I). The authors thank the staff and
+                 participants of the ARIC study for their important contributions.
+                 The Coronary Artery Risk Development in Young Adults Study (CARDIA) is conducted
+                 and supported by the National Heart, Lung, and Blood Institute (NHLBI) in collaboration
+                 with the University of Alabama at Birmingham (HHSN268201800005I &
+ CARDIA          HHSN268201800007I), Northwestern University (HHSN268201800003I),
+                 University of Minnesota (HHSN268201800006I), and Kaiser Foundation Research
+                 Institute (HHSN268201800004I). This manuscript has been reviewed by CARDIA for
+                 scientific content.
+                 This research was supported by contracts HHSN268201200036C, HHSN268200800007C,
+                 HHSN268201800001C, N01HC55222, N01HC85079, N01HC85080, N01HC85081,
+                 N01HC85082, N01HC85083, N01HC85086, 7592021D00006, and grants U01HL080295
+                 and U01HL130114 from the National Heart, Lung, and Blood Institute (NHLBI), with
+ CHS
+                 additional contribution from the National Institute of Neurological Disorders and Stroke
+                 (NINDS). Additional support was provided by R01AG023629 from the National Institute
+                 on Aging (NIA). A full list of principal CHS investigators and institutions can be found at
+                 CHS-NHLBI.org.
+                 Funding for the CRIC Study was obtained under a cooperative agreement from National
+                 Institute of Diabetes and Digestive and Kidney Diseases (U01DK060990, U01DK060984,
+                 U01DK061022, U01DK061021, U01DK061028, U01DK060980, U01DK060963, and
+                 U01DK060902). In addition, this work was supported in part by: the Perelman School of
+                 Medicine at the University of Pennsylvania Clinical and Translational Science Award
+                 NIH/NCATS UL1TR000003, Johns Hopkins University UL1 TR-000424, University of
+ CRIC            Maryland GCRC M01 RR-16500, Clinical and Translational Science Collaborative of
+                 Cleveland, UL1TR000439 from the National Center for V 2018.10.30 Advancing
+                 Translational Sciences (NCATS) component of the National Institutes of Health and NIH
+                 roadmap for Medical Research, Michigan Institute for Clinical and Health Research
+                 (MICHR) UL1TR000433, University of Illinois at Chicago CTSA UL1RR029879, Tulane
+                 COBRE for Clinical and Translational Research in Cardiometabolic Diseases P20
+                 GM109036, Kaiser Permanente NIH/NCRR UCSF-CTSI UL1 RR-024131.
+ Framingham      NHLBI Framingham Heart Study (N01-HC-25195).
+ Geisinger       Geisinger Clinic; NIDDK R01DK100446
+                 The Jackson Heart Study (JHS) is supported and conducted in collaboration with Jackson
+                 State University (HHSN268201800013I), Tougaloo College (HHSN268201800014I), the
+                 Mississippi State Department of Health (HHSN268201800015I) and the University of
+ JHS             Mississippi Medical Center (HHSN268201800010I, HHSN268201800011I and
+                 HHSN268201800012I) contracts from the National Heart, Lung, and Blood Institute
+                 (NHLBI) and the National Institute for Minority Health and Health Disparities (NIMHD).
+                 The authors also wish to thank the staffs and participants of the JHS.
+                 This research was supported by contracts HHSN268201500003I, N01-HC-95159, N01-
+                 HC-95160, N01-HC-95161, N01-HC-95162, N01-HC-95163, N01-HC-95164, N01-HC-
+ MESA            95165, N01-HC-95166, N01-HC-95167, N01-HC-95168 and N01-HC-95169 from the
+                 National Heart, Lung, and Blood Institute and by grants UL1-TR-000040 and UL1-TR-
+                 001079 from NCRR. The authors thank the other investigators, the staff, and the
+                                                                                                              19
+
+
+                  participants of the MESA study for their valuable contributions. A full list of participating
+                  MESA investigators and institutions can be found at http://www.mesa-nhlbi.org.
+OLDW
+Rancho Bernardo   NIA AG07181 and AG028507 NIDDK DK31801
+                  This research project is supported by cooperative agreement U01 NS041588 co-funded by
+                  the National Institute of Neurological Disorders and Stroke (NINDS) and the National
+                  Institute on Aging (NIA), National Institutes of Health, Department of Health and Human
+                  Service. The content is solely the responsibility of the authors and does not necessarily
+                  represent the official views of the NINDS or the NIA. The authors thank the other
+                  investigators, the staff, and the participants of the REGARDS study for their valuable
+REGARDS           contributions. A full list of participating REGARDS investigators and institutions can be
+                  found at: https://www.uab.edu/soph/regardsstudy/
+
+                  Additional funding was provided by National Heart, Lung, and Blood Institute (NHLBI)
+                  grant R01 HL080477. Representatives from NHLBI did not have any role in the design and
+                  conduct of the study, the collection, management, analysis, and interpretation of the data,
+                  or the preparation or approval of the manuscript.
+                                                                                                                20
+
+
+Supplementary Appendix 4. Detailed example applying the simplified PREVENT models
+Table S12 provides the coefficients for all 10 year and 30 year CVD models. Below we display the equations.
+
+    Table S24. 10 year Equations
+                                              10 year Total CVD Risk
+                        log-Odds = -3.307728 + 0.7939329 × (age – 55) /10 + 0.0305239 × (Tc – HDL – 3.5) –
+                        0.1606857 × (HDL – 1.3) /0.3 – 0.2394003 × (min(SBP, 110) – 110) /20 + 0.360078 ×
+                        (max(SBP, 110) – 130) /20 + 0.8667604 × (if diabetes) + 0.5360739 × (if current smoker)
+                        + 0.6045917 × (min(eGFR, 60) – 60) / -15 + 0.0433769 × (max(eGFR, 60) – 90) / -15 +
+                        0.3151672 × (if using anti-hypertensive medication) – 0.1477655 × (if using statin) –
+                        0.0663612 × (if using anti-hypertensive medication) × (max(SBP, 110) – 130) /20 +
+Women
+                        0.1197879 × (if using statin) × (Tc – HDL – 3.5) – 0.0819715 × (age – 55) /10 × (Tc –
+                        HDL – 3.5) + 0.0306769 × (age – 55) /10 × (HDL – 1.3) /0.3 – 0.0946348 × (age – 55) /10
+                        × (max(SBP, 110) – 130) /20 – 0.27057 × (age – 55) /10 × (if diabetes) – 0.078715 × (age
+                        – 55) /10 × (if current smoker) – 0.1637806 × (age – 55) /10 × (min(eGFR, 60) – 60) / -15
+
+                        Risk = exp(log-Odds) / (1 + exp(log-Odds))
+                        log-Odds = -3.031168 + 0.7688528 × (age – 55) /10 + 0.0736174 × (Tc – HDL – 3.5) –
+                        0.0954431 × (HDL – 1.3) /0.3 – 0.4347345 × (min(SBP, 110) – 110) /20 + 0.3362658 ×
+                        (max(SBP, 110) – 130) /20 + 0.7692857 × (if diabetes) + 0.4386871 × (if current smoker)
+                        + 0.5378979 × (min(eGFR, 60) – 60) / -15 + 0.0164827 × (max(eGFR, 60) – 90) / -15 +
+                        0.288879 × (if using anti-hypertensive medication) – 0.1337349 × (if using statin) –
+                        0.0475924 × (if using anti-hypertensive medication) × (max(SBP, 110) – 130) /20 +
+Men                     0.150273 × (if using statin) × (Tc – HDL – 3.5) – 0.0517874 × (age – 55) /10 × (Tc – HDL
+                        – 3.5) + 0.0191169 × (age – 55) /10 × (HDL – 1.3) /0.3 – 0.1049477 × (age – 55) /10 ×
+                        (max(SBP, 110) – 130) /20 – 0.2251948 × (age – 55) /10 × (if diabetes) – 0.0895067 ×
+                        (age – 55) /10 × (if current smoker) – 0.1543702 × (age – 55) /10 × (min(eGFR, 60) – 60) /
+                        -15
+
+                        Risk = exp(log-Odds) / (1 + exp(log-Odds))
+                                               10 year ASCVD Risk
+                        log-Odds = -3.819975 + 0.719883 × (age – 55) /10 + 0.1176967 × (Tc – HDL – 3.5) –
+                        0.151185 × (HDL – 1.3) /0.3 – 0.0835358 × (min(SBP, 110) – 110) /20 + 0.3592852 ×
+                        (max(SBP, 110) – 130) /20 + 0.8348585 × (if diabetes) + 0.4831078 × (if current smoker)
+                        + 0.4864619 × (min(eGFR, 60) – 60) / -15 + 0.0397779 × (max(eGFR, 60) – 90) / -15 +
+                        0.2265309 × (if using anti-hypertensive medication) – 0.0592374 × (if using statin) –
+                        0.0395762 × (if using anti-hypertensive medication) × (max(SBP, 110) – 130) /20 +
+Women                   0.0844423 × (if using statin) × (Tc – HDL – 3.5) – 0.0567839 × (age – 55) /10 × (Tc –
+                        HDL – 3.5) + 0.0325692 × (age – 55) /10 × (HDL – 1.3) /0.3 – 0.1035985 × (age – 55) /10
+                        × (max(SBP, 110) – 130) /20 – 0.2417542 × (age – 55) /10 × (if diabetes) – 0.0791142 ×
+                        (age – 55) /10 × (if current smoker) – 0.1671492 × (age – 55) /10 × (min(eGFR, 60) – 60) /
+                        -15
+
+                        Risk = exp(log-Odds) / (1 + exp(log-Odds))
+                        log-Odds = - 3.500655 + 0.7099847 × (age – 55) /10 + 0.1658663 × (Tc – HDL – 3.5) –
+                        0.1144285 × (HDL – 1.3) /0.3 – 0.2837212 × (min(SBP, 110) – 110) /20 + 0.3239977 ×
+                        (max(SBP, 110) – 130) /20 + 0.7189597 × (if diabetes) + 0.3956973 × (if current smoker)
+                        + 0.3690075 × (min(eGFR, 60) – 60) / -15 + 0.0203619 × (max(eGFR, 60) – 90) / -15 +
+                        0.2036522 × (if using anti-hypertensive medication) – 0.0865581 × (if using statin) –
+Men
+                        0.0322916 × (if using anti-hypertensive medication) × (max(SBP, 110) – 130) /20 +
+                        0.114563 × (if using statin) × (Tc – HDL – 3.5) – 0.0300005 × (age – 55) /10 × (Tc – HDL
+                        – 3.5) + 0.0232747 × (age – 55) /10 × (HDL – 1.3) /0.3 – 0.0927024 × (age – 55) /10 ×
+                        (max(SBP, 110) – 130) /20 – 0.2018525 × (age – 55) /10 × (if diabetes) – 0.0970527 ×
+                        (age – 55) /10 × (if current smoker) – 0.1217081
+                                                                                                            21
+
+
+                     × (age – 55) /10 × (min(eGFR, 60) – 60) / -15
+
+                     Risk = exp(log-Odds) / (1 + exp(log-Odds))
+
+                                         10 year Heart Failure Risk
+                     log-Odds = - 4.310409 + 0.8998235 × (age – 55) /10 – 0.4559771 × (min(SBP, 110) –
+                     110) /20 + 0.3576505 × (max(SBP, 110) – 130) /20 + 1.038346 × (if diabetes) + 0.583916
+                     × (if current smoker) – 0.0072294 × (min(BMI, 30) – 25) /5 + 0.2997706 × (max(BMI, 30)
+                     – 30) /5 + 0.7451638 × (min(eGFR, 60) – 60) / -15 + 0.0557087 × (max(eGFR, 60) – 90) /
+                     -15 + 0.3534442 × (if using anti-hypertensive medication) – 0.0981511 × (if using anti-
+Women                hypertensive medication) × (max(SBP, 110) – 130) /20 – 0.0946663 × (age – 55) /10 ×
+                     (max(SBP, 110) – 130) /20 – 0.3581041 × (age – 55) /10 × (if diabetes) – 0.1159453 ×
+                     (age – 55) /10 × (if current smoker) – 0.003878 × (max(BMI, 30) – 30) /5 – 0.1884289 ×
+                     (age – 55) /10 × (min(eGFR, 60) – 60) / -15
+
+                     Risk = exp(log-Odds) / (1 + exp(log-Odds))
+                     log-Odds = - 3.946391 + 0.8972642 × (age – 55) /10 – 0.6811466 × (min(SBP, 110) –
+                     110) /20 + 0.3634461 × (max(SBP, 110) – 130) /20 + 0.923776 × (if diabetes) +
+                     0.5023736 × (if current smoker) – 0.0485841 × (min(BMI, 30) – 25) /5 + 0.3726929 ×
+                     (max(BMI, 30) – 30) /5 + 0.6926917 × (min(eGFR, 60) – 60) / -15 + 0.0251827 ×
+                     (max(eGFR, 60) – 90) / -15 + 0.2980922 × (if using anti-hypertensive medication) –
+Men                  0.0497731 × (if using anti-hypertensive medication) × (max(SBP, 110) – 130) /20 –
+                     0.1289201 × (age – 55) /10 × (max(SBP, 110) – 130) /20 – 0.3040924 × (age – 55) /10 ×
+                     (if diabetes) – 0.1401688 × (age – 55) /10 × (if current smoker) + 0.0068126 × (max(BMI,
+                     30) – 30) /5 – 0.1797778 × (age – 55) /10 × (min(eGFR, 60) – 60) / -15
+
+                     Risk = exp(log-Odds) / (1 + exp(log-Odds))
+
+
+   Table S25. Example: 10 year total CVD risk of 50-year-old women, 200 mg/dL Total cholesterol, 45
+   mg/dL HDL cholesterol, Treated SBP 160 mm Hg, Diabetes, No smoking, eGFR 90 ml/min/1.73m2
+Risk factors              Original       Predictor value after         Coefficient Product of
+                          input value    required transformation                    predictor
+                                                                                    value and
+                                                                                    coefficient
+Age, year                 50             (50 – 55) /10 = -0.5          0.7939329    -0.39697
+                                         used to calculate non-HDL
+Total cholesterol, mg/dL* 200
+                                         cholesterol
+                                         (200 – 45) × 0.02586 – 3.5 =
+non-HDL cholesterol       ---                                          0.0305239    0.015515
+                                         0.5083
+                                         (45 × 0.02586 – 1.3) /0.3 = -
+HDL cholesterol, mg/dL* 45                                             -0.16069     0.073005
+                                         0.45433
+Systolic BP, mmHg         160
+Systolic BP<110, mmHg     ---            (min(160,110) – 110) /20 = 0 -0.2394       0
+                                         (max(160,110) – 130) /20 =
+Systolic BP 110+, mmHg ---                                             0.360078     0.540117
+                                         1.5
+Diabetes mellitus         1              1                             0.86676      0.86676
+Current smoking           0              0                             0.536074     0
+                     2
+eGFR, ml/min/1.73m        90
+eGFR <60, ml              ---            (min(90,60) – 60) /-15 = 0    0.604592     0
+eGFR 60+, ml              ---            (max(90,60) – 90) /-15 = 0    0.043377     0
+HTN meds                  1              1                             0.315167     0.315167
+                                                                                                     22
+
+
+ Statin                       0               0                              -0.14777     0
+ Treated SBP 110+             spline          1.5                            -0.06636     -0.09954
+ Treated non-HDLC             spline          0                              0.119788     0
+ Age × non-HDL
+                              interaction     -0.5 × 0.5083 = -0.25415       -0.08197     0.020833
+ cholesterol
+ Age × HDL cholesterol        interaction     -0.5 × -0.45433 = 0.227167     0.030677     0.006969
+ Age × Systolic BP 110+       interaction     -0.5 × 1.5 = -0.75             -0.09463     0.070976
+ Age × Diabetes mellitus      interaction     -0.5 × 1 = -0.5                -0.27057     0.135285
+ Age × Current smoking        interaction     -0.5 × 0 = 0                   -0.07872     0
+ Age × eGFR <60               interaction     -0.5 × 0 = 0                   -0.16378     0
+ Constant                                                                    -3.30773     -3.30773
+ Sum                                                                                      -1.75961
+ Risk = exp(-1.75961) / (1 + exp(-1.75961)) = 0.146839 = 14.68%
+*The equations use cholesterol in mg/dL and apply unit conversion (1 mmol/L = 0.02586 mg/dL)
+                                                                                                                23
+
+
+Supplemental Figure S1. Sex-specific calibration plots in the derivation sample for the
+PREVENT base model for total CVD, ASCVD and HF.
+All cardiovascular disease, Women on the left, men on the right
+
+
+
+
+Atherosclerotic cardiovascular disease, Women on the left, men on the right
+
+
+
+
+Heart failure, Women on the left, men on the right
+
+
+
+
+Predicted vs. observed risk by decile within each derivation cohort. Line color key: ARIC red, CARDIA orange,
+CHS sand, Framingham green, Geisinger blue, JHS purple, MESA dark navy, OLDW cohorts gray
+                                                                                                                   24
+
+
+CKD-PC investigators/collaborators (cohort acronyms/abbreviations are listed in Supplementary
+
+Appendix 2):
+
+
+ARIC: Josef Coresh, Department of Epidemiology, Johns Hopkins Bloomberg School of Public Health, Baltimore,
+
+MD; Kunihiro Matsushita, Department of Epidemiology, Johns Hopkins Bloomberg School of Public Health,
+
+Baltimore, MD; Yingying Sang, Department of Epidemiology, Johns Hopkins Bloomberg School of Public Health,
+
+Baltimore, MD; CARDIA: Donald Lloyd-Jones, Department of Preventive Medicine, Northwestern University,
+
+Chicago, Illinois; Orlando M. Gutierrez, Departments of Epidemiology and Medicine, University of Alabama at
+
+Birmingham, Birmingham, AL; Sadiya S. Khan, Department of Medicine, Northwestern University Feinberg School
+
+of Medicine, Chicago, Illinois, USA; CHS: Michael G. Shlipak, Department of Medicine, Epidemiology, and
+
+Biostatistics, University of California, San Francisco, and San Francisco VA Medical Center, San Francisco; Nisha
+
+Bansal, University of Washington, Seattle, WA; CRIC: Alan S. Go, Division of Research, Kaiser Permanente
+
+Northern California, Oakland, California; Department of Health Systems Science, Kaiser Permanente Bernard J.
+
+Tyson School of Medicine, Pasadena, California; Departments of Epidemiology, Biostatistics and Medicine,
+
+University of California, San Francisco, California; Department of Medicine (Nephrology), Stanford University
+
+School of Medicine, Palo Alto, California; James P. Lash, University of Illinois at Chicago College of Medicine,
+
+Chicago, IL; Debbie L. Cohen, Perelman School of Medicine, University of Pennsylvania, Philadelphia,
+
+Pennsylvania, USA; Jonathan Taliercio, Department of Kidney Medicine, Cleveland Clinic, Cleveland, OH; Jordana
+
+Cohen, Department of Medicine, Renal-Electrolyte and Hypertension Division, and Department of Biostatistics,
+
+Epidemiology and Informatics, Perelman School of Medicine at the University of Pennsylvania PA Philadelphia
+
+USA; Framingham: Daniel Levy, National Heart, Lung, and Blood Institute, Framingham, Massachusetts; Shih-Jen
+
+Hwang, National Heart, Lung, and Blood Institute, Framingham, Massachusetts; Geisinger: Alexander R. Chang,
+
+Departments of Nephrology and Population Health Sciences, Geisinger Health, Danville, Pennsylvania;
+
+Gurmukteshwar Singh, Departments of Nephrology and Population Health Sciences, Geisinger Health, Danville,
+
+Pennsylvania; Jamie Green, Departments of Nephrology and Population Health Sciences, Geisinger Health,
+
+Danville, Pennsylvania; H. Lester Kirchner, Department of Population Health Sciences, Geisinger Health, Danville,
+
+Pennsylvania; JHS: April Carson, University of Mississippi Medical Center, Jackson; Adolfo Correa, Department
+
+of Medicine, University of Mississippi Medical Center, Jackson, MS; Casey M. Rebholz, Department of
+
+Epidemiology, Johns Hopkins Bloomberg School of Public Health, Baltimore, MD; Bessie Young, University of
+                                                                                                                  25
+
+
+Washington School of Medicine and VA Puget Sound Health Care System, Seattle, WA; L. Ebony Boulware, Wake
+
+Forest University School of Medicine, Winston-Salem, NC; MESA: Michael G. Shlipak, Department of Medicine,
+
+Epidemiology, and Biostatistics, University of California, San Francisco, and San Francisco VA Medical Center,
+
+San Francisco; Michael J. Blaha, Johns Hopkins Ciccarone Center for Prevention of Cardiovascular Disease,
+
+Baltimore, MD; OLDW: John Cuddeback, AMGA (American Medical Group Association), Alexandria, Virginia,
+
+USA; Elizabeth Ciemins, AMGA (American Medical Group Association), Alexandria, Virginia, USA; Rancho
+
+Bernardo: Simerjot K. Jassal, Division of General Internal Medicine, University of California, San Diego and VA
+
+San Diego Healthcare, San Diego, California; Jaclyn Bergstrom, University of California, San Diego, San Diego,
+
+California; Joachim Ix, University of California, San Diego and VA San Diego Healthcare, San Diego, California;
+
+RCAV: Csaba P. Kovesdy, Medicine-Nephrology, Memphis Veterans Affairs Medical Center and University of
+
+Tennessee Health Science Center, Memphis, Tennessee; Keiichi Sumida, Medicine-Nephrology, University of
+
+Tennessee Health Science Center, Memphis, Tennessee; Miklos Z. Molnar, Department of Internal Medicine,
+
+Division of Nephrology and Hypertension, University of Utah Spencer Fox Eccles School of Medicine, Salt Lake
+
+City, Utah; REGARDS: Orlando M. Gutierrez, Departments of Epidemiology and Medicine, University of
+
+Alabama at Birmingham, Birmingham, AL; Paul Muntner, Departments of Epidemiology and Medicine, University
+
+of Alabama at Birmingham, Birmingham, AL; David Warnock, Departments of Epidemiology and Medicine,
+
+University of Alabama at Birmingham, Birmingham, AL;
+
+
+
+
+AHA Risk Prediction Workgroup for the CKM Science Advisory Group: Sadiya S. Khan, Department of
+
+Medicine, Northwestern University Feinberg School of Medicine, Chicago, Illinois, USA; Josef Coresh, Department
+
+of Epidemiology, Johns Hopkins Bloomberg School of Public Health, Baltimore, MD; Latha P. Palaniappan, Center
+
+for Asian Health Research and Education and the Department of Medicine, Stanford University School of Medicine,
+
+Stanford, California, USA; Laurence Sperling, Department of Cardiology, Emory University, Atlanta, GA; Salim S.
+
+Virani, Department of Medicine, The Aga Khan University, Karachi, Pakistan; Texas Heart Institute and Baylor
+
+College of Medicine, Houston, Texas; Katherine Tuttle, Providence Medical Research Center, Providence Inland
+
+Northwest Health, Spokane, WA, USA; Kidney Research Institute and Institute of Translational Health Sciences,
+
+University of Washington, Seattle, WA, USA; Ian J. Neeland, UH Center for Cardiovascular Prevention,
+                                                                                                                26
+
+
+Translational Science Unit, Center for Integrated and Novel Approaches in Vascular-Metabolic Disease (CINEMA),
+
+Harrington Heart and Vascular Institute, University Hospitals Cleveland Medical Center, Case Western Reserve
+
+University School of Medicine, Cleveland, OH, USA; Sheryl L. Chow, Department of Pharmacy Practice and
+
+Administration, College of Pharmacy, Western University of Health Sciences, Pomona, CA; Janani Rangaswami,
+
+Washington DC VA Medical Center and George Washington University School of Medicine, Washington, DC;
+
+Michael J. Pencina, Department of Biostatistics, Duke University Medical Center, Durham, North Carolina; Chiadi
+
+Ndumele, Division of Cardiology, Johns Hopkins University School of Medicine, Baltimore, Maryland, USA
+
+
+
+
+CKD-PC Steering Committee: Josef Coresh (Chair), Department of Epidemiology, Johns Hopkins Bloomberg
+
+School of Public Health, Baltimore, MD; Shoshana H. Ballew, Department of Epidemiology, Johns Hopkins
+
+Bloomberg School of Public Health, Baltimore, MD; Juan-Jesus Carrero, Karolinska Institute, Stockholm, Sweden;
+
+Ron T. Gansevoort, University Medical Center Groningen, University of Groningen, Groningen, the Netherlands;
+
+Morgan E. Grams, New York University Grossman School of Medicine, Department of Medicine, Division of
+
+Precision Medicine, New York, New York, USA; Andrew S. Levey, Division of Nephrology, Tufts Medical Center,
+
+Boston, MA; Kunihiro Matsushita, Department of Epidemiology, Johns Hopkins Bloomberg School of Public
+
+Health, Baltimore, MD; Dorothea Nitsch, London School of Hygiene & Tropical Medicine, London, UK; Michael
+
+G. Shlipak, Department of Medicine, Epidemiology, and Biostatistics, University of California, San Francisco, and
+
+San Francisco VA Medical Center, San Francisco; Angela Yee-Moon Wang, Queen Mary Hospital, University of
+
+Hong Kong, Hong Kong SAR, China
+
+
+
+
+CKD-PC Data Coordinating Center: Shoshana H. Ballew (Director of Operations), Department of Epidemiology,
+
+Johns Hopkins Bloomberg School of Public Health, Baltimore, MD; Jingsha Chen (Programmer), Department of
+
+Epidemiology, Johns Hopkins Bloomberg School of Public Health, Baltimore, MD; Josef Coresh (Co-Principal
+
+Investigator), Department of Epidemiology, Johns Hopkins Bloomberg School of Public Health, Baltimore, MD;
+
+Morgan E. Grams (Co- Principal Investigator and Director of Nephrology Initiatives), New York University
+
+Grossman School of Medicine, Department of Medicine, Division of Precision Medicine, New York, New York,
+
+USA; Kunihiro Matsushita (Director of Cardiovascular Initiatives), Department of Epidemiology, Johns Hopkins
+                                                                                                          27
+
+
+Bloomberg School of Public Health, Baltimore, MD; Yingying Sang (Lead Programmer), Department of
+
+Epidemiology, Johns Hopkins Bloomberg School of Public Health, Baltimore, MD; Aditya Surapaneni
+
+(Programmer), New York University Grossman School of Medicine, Department of Medicine, Division of Precision
+
+Medicine, New York, New York, USA
+

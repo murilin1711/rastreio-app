@@ -73,13 +73,13 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 - [x] Referências vigentes no acervo (`referencias/REFERENCIAS.md`, seção Fase 2)
 - [x] Decisões clínicas C-010–C-014 aprovadas e documentadas (`02-DECISOES.md`, `funcionamento/coracao-metabolismo.md`)
 - [x] Spec técnica (`docs/superpowers/specs/2026-09-17-nero-fase2-cardio-design.md`) — em revisão
-- [ ] PDFs do PREVENT (Khan 2023/2024 + suplemento) baixados pelo Murilo
-- [ ] Minha Pressão (registro simples + médias/gráficos) (§1)
-- [ ] MRPA: protocolo guiado, tela diária, relatório automático (§2–3)
-- [ ] Alertas de pressão em camadas (§4)
-- [ ] Glicemia: registro com momento + contexto, plano de monitorização, relatório (§5–8)
-- [ ] Meus Exames: laboratoriais e cardiológicos com valor estruturado + anexo (§9–11)
-- [ ] Risco cardiovascular PREVENT com preenchimento automático e regras de "dado recente" (§13–18)
+- [x] PDFs e planilhas do PREVENT (Khan 2023/2024 + suplemento) no acervo (17/09/2026)
+- [x] Minha Pressão (registro simples + médias/gráficos) (§1) — plano 2a
+- [x] MRPA: protocolo guiado, tela diária, relatório em tela (§2–3) — plano 2a (PDF na Fase 3)
+- [x] Alertas de pressão em camadas (§4) — plano 2a
+- [x] Glicemia: registro com momento + contexto, plano de monitorização, relatório (§5–8) — plano 2b
+- [x] Meus Exames: laboratoriais e cardiológicos com valor estruturado (§9–11) — plano 2b (anexo na Fase 3)
+- [x] Risco cardiovascular PREVENT com preenchimento automático e regras de "dado recente" (§13–18) — plano 2b; coeficientes gerados da planilha oficial do suplemento de Khan 2024 e validados contra os exemplos da própria planilha
 - [ ] Medicações + lembretes (§21–22)
 - [ ] Dashboard cardiovascular, linha do tempo, check-up "como está minha prevenção?" (§19–20, §24)
 
@@ -105,6 +105,9 @@ Migrar o módulo que já existe para a nova base — valida o motor de regras co
 
 | Data | Fase | O que foi feito |
 |------|------|-----------------|
+| 17/09/2026 | 2b | **Task 4 concluída:** Murilo baixou artigo, statement e material suplementar do PREVENT; coeficientes gerados por script da planilha oficial (Tabelas S12); equação com idade² (30 anos), HbA1c (5,3), ln(RAC) e SDI ausente; 5 exemplos oficiais reproduzidos nos testes. Cálculo de risco ativo no app. |
+| 17/09/2026 | 2b | **Plano 2b implementado** (branch `nero-fase2b-glicemia-risco`, Tasks 1–3 e 5–9): 13 regras novas semeadas (glicemia 9, risco 4), motor de glicemia, dado recente, check-up, agravantes, CKD-EPI, estrutura do PREVENT (Task 4 — coeficientes — pendente dos PDFs), serviços, telas de glicemia (4), exames (3), risco (4), check-up, linha do tempo, dashboard completo e Home. 262 Jest + 19 pgTAP. Pendente: semente na nuvem, checklists 2a e 2b do Murilo, merge. |
+| 17/09/2026 | 2a | **Plano 2a implementado** (branch `nero-fase2a-pressao`, 9 tasks): migração 0010, 7 regras de pressão, motor `regras/cardio` (pressão, MRPA, lembretes), serviços, telas de Minha Pressão, MRPA guiada e relatório, dashboard, sinais de alerta, Home e lembretes de medicação. 201 Jest + 17 pgTAP. Pendente: checklist do Murilo, `db push` e merge. |
 | 17/09/2026 | 2 | **Fase 2 iniciada.** Acervo verificado e baixado (DBHA 2025 substitui 2020; Medidas PA 2023 substitui MRPA 2018; Dislipidemias 2025; SBD 2026 × 5 capítulos). C-010–C-014 aprovadas pelo Murilo, cada uma validada no texto da diretriz vigente. Funcionamento por funcionalidade em `funcionamento/coracao-metabolismo.md`. Spec técnica escrita: `docs/superpowers/specs/2026-09-17-nero-fase2-cardio-design.md` (entrega em dois planos, 2a e 2b). Pendente: download manual dos PDFs do PREVENT (Khan 2023/2024 + suplemento). |
 | 14/09/2026 | — | Documento NERO importado e estruturado em `docs/nero/`. Roadmap e registro de decisões criados. Início da discussão de arquitetura. |
 | 14/09/2026 | 0 | D-001 decidida: evoluir o código atual — Rastreando vira módulo, construímos a camada anterior (Home com módulos + perfil único). |

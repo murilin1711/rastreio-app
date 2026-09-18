@@ -6,6 +6,7 @@ const completo: PerfilSaude = {
   tabagismoStatus: 'nunca', cigarrosDia: null, anosFumando: null, dataCessacao: null,
   temDiabetes: false, temHipertensao: false, temDoencaRenal: false, temImunossupressao: false, temHiv: false, temDii: false,
   historicoCancerPessoal: [], lesoesPrecursoras: [], doencasGeneticas: [], radioterapiaToracica: false, jaTeveAtividadeSexual: null, racaCor: null, menopausa: null, semMedicacoes: false, semAntecedentesFamiliares: false, perfilInicialCompleto: true,
+  tipoDiabetes: null, usaInsulina: null, eventoCvPrevio: null, perfilMetaGlicemica: 'adulto', metasGlicemia: null, planoGlicemia: null, agravantesCv: { itens: [], atualizadoEm: null }, atividadeFisicaRegular: null,
 };
 
 test('perfil com campo essencial nulo → "Completar meu perfil" (amarelo)', () => {
@@ -73,5 +74,51 @@ describe('itens do Rastreando na Home (§56, §66)', () => {
     const itens = montarItensHoje({ ...base, rastreando: { sintomas: [], pendencias: [], avaliacoes: { mama: { status: 'em_dia', proximaData: '2027-01-01' } } } });
     expect(itens).toHaveLength(1);
     expect(itens[0].nivel).toBe('verde');
+  });
+});
+
+describe('itens do Coração & Metabolismo (Fase 2a)', () => {
+  const base = { perfil: completo, antecedentesQtd: 1, medicacoesAtivasQtd: 1 };
+  const vazio = { ultimaPA: null, mrpaAtiva: null, mrpaAcimaSemLeitura: null };
+
+  test('PA muito elevada nas últimas 24 h vira item laranja/vermelho', () => {
+    const itens = montarItensHoje({ ...base, cardio: { ...vazio, ultimaPA: { pas: 185, pad: 95, medidoEm: new Date().toISOString(), nivel: 'laranja' } } });
+    expect(itens[0]).toMatchObject({ id: 'pa_elevada', nivel: 'laranja', rota: '/(app)/coracao/pressao' });
+  });
+  test('PA muito elevada de 2 dias atrás não vira item', () => {
+    const itens = montarItensHoje({ ...base, cardio: { ...vazio, ultimaPA: { pas: 185, pad: 95, medidoEm: new Date(Date.now() - 2 * 86_400_000).toISOString(), nivel: 'laranja' } } });
+    expect(itens.some((i) => i.id === 'pa_elevada')).toBe(false);
+  });
+  test('MRPA em andamento com período faltando hoje vira item amarelo com o dia', () => {
+    const itens = montarItensHoje({ ...base, cardio: { ...vazio, mrpaAtiva: { id: 's1', dia: 3, diasPrevistos: 6, faltaHoje: ['noite'] } } });
+    expect(itens[0]).toMatchObject({ id: 'mrpa_hoje', nivel: 'amarelo', titulo: 'Fazer as medidas da noite — MRPA, dia 3 de 6', rota: '/(app)/coracao/mrpa/s1' });
+  });
+  test('MRPA concluída acima da referência vira item amarelo para levar ao médico', () => {
+    const itens = montarItensHoje({ ...base, cardio: { ...vazio, mrpaAcimaSemLeitura: { id: 's2', concluidaEm: '2026-09-12T10:00:00Z' } } });
+    expect(itens.find((i) => i.id === 'mrpa_levar')).toMatchObject({ nivel: 'amarelo', rota: '/(app)/coracao/mrpa/relatorio?sessao=s2' });
+  });
+  test('sem cardio nada muda', () => {
+    expect(montarItensHoje(base).some((i) => i.id.startsWith('pa_') || i.id.startsWith('mrpa_'))).toBe(false);
+  });
+});
+
+describe('itens do Coração & Metabolismo (Fase 2b)', () => {
+  const base = { perfil: completo, antecedentesQtd: 1, medicacoesAtivasQtd: 1 };
+  const vazio = { ultimaPA: null, mrpaAtiva: null, mrpaAcimaSemLeitura: null };
+
+  test('glicemia laranja/vermelha nas últimas 24 h vira item', () => {
+    const itens = montarItensHoje({ ...base, cardio: { ...vazio, glicemia: { mgdl: 48, medidoEm: new Date().toISOString(), nivel: 'laranja' } } });
+    expect(itens[0]).toMatchObject({ id: 'glicemia_alerta', nivel: 'laranja', rota: '/(app)/coracao/glicemia' });
+  });
+  test('horário do plano vencido sem medida vira item amarelo', () => {
+    const itens = montarItensHoje({ ...base, cardio: { ...vazio, planoVencidoHoje: { momento: 'antes_almoco', rotulo: 'antes do almoço', hora: '12:00' } } });
+    expect(itens[0]).toMatchObject({ id: 'glicemia_plano', nivel: 'amarelo', titulo: 'Medir glicemia — antes do almoço', rota: '/(app)/coracao/glicemia/registrar' });
+  });
+  test('check-up com item faltante vira item cinza com a frase', () => {
+    const itens = montarItensHoje({ ...base, cardio: { ...vazio, checkup: { atualizados: 5, total: 8, faltante: 'Falta atualizar seu perfil lipídico.' } } });
+    expect(itens.find((i) => i.id === 'checkup')).toMatchObject({ nivel: 'cinza', titulo: 'Atualizar minha prevenção: 5 de 8 em dia', descricao: 'Falta atualizar seu perfil lipídico.', rota: '/(app)/coracao/checkup' });
+  });
+  test('check-up completo não vira item', () => {
+    expect(montarItensHoje({ ...base, cardio: { ...vazio, checkup: { atualizados: 8, total: 8, faltante: null } } }).some((i) => i.id === 'checkup')).toBe(false);
   });
 });
