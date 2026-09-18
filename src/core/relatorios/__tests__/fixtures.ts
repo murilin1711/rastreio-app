@@ -1,4 +1,6 @@
 import type { PerfilSaude } from '@core/perfil/tipos';
+import { extrairParametrosBemEstar } from '@core/regras/bemestar/parametros';
+import { regrasBemEstarTeste } from '@core/regras/bemestar/__tests__/fixtures';
 import type { DadosNero, Periodo } from '../tipos';
 
 export const PERIODO_TESTE: Periodo = { desde: '2026-06-20', ate: '2026-09-18', rotulo: 'últimos 90 dias' };
@@ -59,5 +61,23 @@ export function dadosNeroTeste(): DadosNero {
     peso: { kg: 72.5, data: '2026-09-01' },
     documentos: [{ id: 'd1', exameId: 'x1', tipo: 'laudo', nome: 'Laudo mamografia', caminho: 'u/a.pdf', mime: 'application/pdf', tamanho: 2048, dataDocumento: '2026-05-10', observacao: null, criadoEm: '2026-05-11T00:00:00.000Z' }],
     consultas: [{ id: 'c1', especialidade: 'cardiologia', dataHora: '2026-09-25T14:00:00.000Z', local: 'Clínica Norte', profissional: null }],
+    bemEstar: {
+      corporais: [
+        { id: 'w1', tipo: 'peso', medidoEm: '2026-09-15T08:00:00', valores: { kg: 82 } }, { id: 'w2', tipo: 'peso', medidoEm: '2026-08-30T08:00:00', valores: { kg: 83 } }, { id: 'w3', tipo: 'peso', medidoEm: '2026-08-15T08:00:00', valores: { kg: 84 } },
+        { id: 'w4', tipo: 'cintura', medidoEm: '2026-09-15T08:00:00', valores: { cm: 96 } },
+        { id: 'w5', tipo: 'composicao', medidoEm: '2026-09-01T08:00:00', valores: { gordura_pct: 27, massa_muscular_kg: 30, metodo: 'bioimpedancia' } },
+      ],
+      atividades: [
+        { id: 'at1', inicio: '2026-09-14T07:00:00', tipo: 'caminhada', duracaoMin: 40, intensidade: 'moderada', distanciaKm: 3.2, fcMedia: null, calorias: null, observacao: null },
+        { id: 'at2', inicio: '2026-09-16T18:00:00', tipo: 'musculacao', duracaoMin: 50, intensidade: 'moderada', distanciaKm: null, fcMedia: null, calorias: null, observacao: null },
+      ],
+      sonos: [{ id: 's1', dormiuEm: '2026-09-15T23:40:00', acordouEm: '2026-09-16T06:20:00', minutos: 400, qualidade: 4, contexto: {} }],
+      refeicoes: [{ id: 'r1', em: '2026-09-01T12:30:00', tipo: 'almoco', descricao: 'arroz, feijão e frango', quantidade: 'habitual', fomeAntes: null, saciedade: null, local: 'casa', observacao: null }],
+      checkins: [{ id: 'ck1', semana: '2026-09-07', disposicao: 7, alimentacao: 6, atividade: 5, sono: 6, estresse: 4, energia: 7, bemEstar: 7, observacao: 'semana corrida' }],
+      metas: [{ id: 'm1', tipo: 'atividade_min', valor: 150, origem: 'app', detalhe: null, ativa: true }],
+      vinculos: [{ glicemiaId: 'g2', refeicaoId: 'r1', atividadeId: null }],
+      parametros: extrairParametrosBemEstar(regrasBemEstarTeste()),
+      alturaCm: 170, sexo: 'masculino', idade: 51,
+    },
   };
 }

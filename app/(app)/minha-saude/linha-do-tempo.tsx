@@ -8,7 +8,7 @@ import { useSessao } from '@core/sessao/SessaoProvider';
 import { dataCurtaBr } from '@modules/coracao/componentes/formato';
 import { Alerta, Colors, InternalHeader, Spacing, Typography } from '@ui/index';
 
-const COR_MODULO: Record<ModuloItem, string> = { cardio: '#c2410c', rastreando: Colors.logoCeu, medicacao: Colors.logoArdosia, consulta: Colors.accent, documento: Colors.textMuted };
+const COR_MODULO: Record<ModuloItem, string> = { cardio: '#c2410c', rastreando: Colors.logoCeu, medicacao: Colors.logoArdosia, consulta: Colors.accent, documento: Colors.textMuted, bem_estar: '#15803D' };
 
 /** Linha do tempo geral (§60): todos os módulos, por ano; o ponto tem a cor do módulo ou do nível clínico. */
 export default function LinhaDoTempoGeral() {

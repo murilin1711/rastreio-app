@@ -4,9 +4,12 @@ import type { Bloco, Periodo, SecaoRelatorio, TipoRelatorio } from './tipos';
 export const RESSALVA_CARDIO = 'Este relatório organiza suas aferições domiciliares e não substitui a interpretação realizada pelo seu médico.';
 export const RESSALVA_ONCOLOGICO = 'As informações apresentadas foram registradas pelo usuário e organizadas pelo NERO para facilitar o acompanhamento com seu profissional de saúde. O relatório não substitui avaliação médica.';
 
+export const RESSALVA_HABITOS = 'Registros de hábitos, alimentação e sono são autorrelatados.';
+
 export function ressalvasPara(tipo: TipoRelatorio): string[] {
   if (tipo === 'cardio') return [RESSALVA_CARDIO];
   if (tipo === 'oncologico') return [RESSALVA_ONCOLOGICO];
+  if (tipo === 'bemestar') return [RESSALVA_CARDIO, RESSALVA_ONCOLOGICO, RESSALVA_HABITOS];
   return [RESSALVA_CARDIO, RESSALVA_ONCOLOGICO];
 }
 

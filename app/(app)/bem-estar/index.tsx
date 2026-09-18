@@ -49,6 +49,7 @@ export default function BemEstar() {
           <ListItem icon="restaurant-outline" title="Minha Alimentação" subtitle="Diário simples e horários das refeições" onPress={() => router.push('/(app)/bem-estar/alimentacao')} />
           <ListItem icon="flag-outline" title="Minhas Metas" subtitle="Objetivos definidos por você ou com o profissional" onPress={() => router.push('/(app)/bem-estar/metas')} />
           <ListItem icon="chatbubble-ellipses-outline" title="Check-in semanal" subtitle="Como foi sua semana, de 0 a 10" onPress={() => router.push('/(app)/bem-estar/checkin')} />
+          <ListItem icon="document-text-outline" title="Relatório de Saúde & Hábitos" subtitle="PDF para clínico, endocrinologista, nutricionista ou educador físico" onPress={() => router.push({ pathname: '/(app)/minha-saude/relatorios/previa', params: { tipo: 'bemestar', dias: '90' } })} />
         </View>
       </ScrollView>
     </SafeAreaView>

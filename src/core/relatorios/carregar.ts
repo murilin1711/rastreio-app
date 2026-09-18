@@ -1,3 +1,11 @@
+import { listarAtividades } from '@core/bemestar/atividades';
+import { listarCheckins } from '@core/bemestar/checkins';
+import { listarCorporais } from '@core/bemestar/medidasCorporais';
+import { listarMetas } from '@core/bemestar/metas';
+import { listarRefeicoes } from '@core/bemestar/refeicoes';
+import { carregarRegrasBemEstar } from '@core/bemestar/regras';
+import { listarSono } from '@core/bemestar/sono';
+import { listarVinculos } from '@core/bemestar/vinculos';
 import { listarGlicemia } from '@core/cardio/glicemia';
 import { listarPA } from '@core/cardio/medidas';
 import { carregarRegrasCardio } from '@core/cardio/regras';
@@ -7,7 +15,9 @@ import { listarSessoes } from '@core/cardio/sessoesMrpa';
 import { listarExamesCardio } from '@core/cardio/examesCardio';
 import * as documentos from '@core/documentos/repositorio';
 import { listarMedicacoes } from '@core/medicacoes/repositorio';
+import { calcularIdade } from '@core/perfil/calculos';
 import { listarAntecedentes, obterPerfil } from '@core/perfil/repositorio';
+import { extrairParametrosBemEstar } from '@core/regras/bemestar/parametros';
 import { montarContexto } from '@core/rastreando/contexto';
 import { carregarRegras } from '@core/rastreando/regras';
 import { PROGRAMAS } from '@core/rastreando/tipos';
@@ -32,7 +42,7 @@ export function periodoDias(dias: 30 | 90 | 180, hoje = new Date()): Periodo {
 /** Único ponto que lê o banco para os relatórios: reúne todos os módulos num `DadosNero`. */
 export async function carregarDadosNero(userId: string, periodo: Periodo): Promise<DadosNero> {
   const desdeISO = `${periodo.desde}T00:00:00.000Z`;
-  const [perfil, antecedentes, medicacoes, medidasPA, sessoes, glicemias, examesCardio, risco, ctx, docs, consultas, regrasGli, regrasRisco] = await Promise.all([
+  const [perfil, antecedentes, medicacoes, medidasPA, sessoes, glicemias, examesCardio, risco, ctx, docs, consultas, regrasGli, regrasRisco, corporais, atividades, sonos, refeicoes, checkins, metas, vinculos, regrasBem] = await Promise.all([
     obterPerfil(userId),
     listarAntecedentes(userId),
     listarMedicacoes(userId),
@@ -46,6 +56,14 @@ export async function carregarDadosNero(userId: string, periodo: Periodo): Promi
     listarConsultasFuturas(userId),
     carregarRegrasCardio('glicemia'),
     carregarRegrasCardio('risco_cv'),
+    listarCorporais(userId),
+    listarAtividades(userId, { desde: desdeISO }),
+    listarSono(userId, { desde: desdeISO }),
+    listarRefeicoes(userId, { desde: desdeISO }),
+    listarCheckins(userId),
+    listarMetas(userId),
+    listarVinculos(userId, desdeISO),
+    carregarRegrasBemEstar(),
   ]);
 
   const avaliacoes: Partial<Record<Programa, ResultadoElegibilidade>> = {};
@@ -74,6 +92,12 @@ export async function carregarDadosNero(userId: string, periodo: Periodo): Promi
     peso,
     documentos: docs.filter((d) => (d.dataDocumento ?? d.criadoEm.slice(0, 10)) >= periodo.desde),
     consultas,
+    bemEstar: {
+      corporais, atividades, sonos, refeicoes, metas, vinculos,
+      checkins: checkins.filter((c) => c.semana >= periodo.desde.slice(0, 7) + '-01'),
+      parametros: extrairParametrosBemEstar(regrasBem),
+      alturaCm: perfil.alturaCm, sexo: perfil.sexoNascimento, idade: perfil.dataNascimento ? calcularIdade(perfil.dataNascimento) : null,
+    },
   };
 }
 
