@@ -33,3 +33,11 @@ test('ida e volta preserva os dados', () => {
   const volta = paraDominio({ ...row, ...paraBanco(resto) });
   expect(volta).toEqual(p);
 });
+
+test('campos da Fase 2: jsonb em camelCase, agravantes com padrão', () => {
+  const p = paraDominio({ ...row, metas_glicemia: { definidasPor: 'medico', jejumMin: 80, jejumMax: 130, posMax: 180, deitarMin: 90, deitarMax: 150 }, agravantes_cv: { itens: ['hiv'], atualizadoEm: '2026-09-17' } });
+  expect(p.metasGlicemia).toEqual({ definidasPor: 'medico', jejumMin: 80, jejumMax: 130, posMax: 180, deitarMin: 90, deitarMax: 150 });
+  expect(p.agravantesCv).toEqual({ itens: ['hiv'], atualizadoEm: '2026-09-17' });
+  expect(paraDominio(row).agravantesCv).toEqual({ itens: [], atualizadoEm: null });
+  expect(paraBanco({ eventoCvPrevio: false, planoGlicemia: { definidoPor: 'nenhum', modelo: null, horarios: [] } })).toEqual({ evento_cv_previo: false, plano_glicemia: { definidoPor: 'nenhum', modelo: null, horarios: [] } });
+});
