@@ -26,6 +26,10 @@ export interface ResumoCardio {
   ultimaPA: { pas: number; pad: number; medidoEm: string; nivel: 'laranja' | 'vermelho' | null } | null;
   mrpaAtiva: { id: string; dia: number; diasPrevistos: number; faltaHoje: ('manha' | 'noite')[] } | null;
   mrpaAcimaSemLeitura: { id: string; concluidaEm: string } | null;
+  /** Fase 2b */
+  glicemia?: { mgdl: number; medidoEm: string; nivel: 'laranja' | 'vermelho' | null } | null;
+  planoVencidoHoje?: { momento: string; rotulo: string; hora: string } | null;
+  checkup?: { atualizados: number; total: number; faltante: string | null } | null;
 }
 
 interface Entrada {

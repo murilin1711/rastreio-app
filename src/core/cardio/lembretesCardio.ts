@@ -61,3 +61,20 @@ export async function agendarLembretesMedicacao(userId: string, m: { id: string;
 export async function sincronizarLembretesMedicacao(userId: string, ativasComLembrete: { id: string; nome: string; horarios: string[] }[]): Promise<void> {
   for (const m of ativasComLembrete) await agendarLembretesMedicacao(userId, m);
 }
+
+const ROTULO_MOMENTO: Record<string, string> = { jejum: 'em jejum', antes_cafe: 'antes do café', pos_cafe_1h: '1 h após o café', pos_cafe_2h: '2 h após o café', antes_almoco: 'antes do almoço', pos_almoco_1h: '1 h após o almoço', pos_almoco_2h: '2 h após o almoço', antes_jantar: 'antes do jantar', pos_jantar_1h: '1 h após o jantar', pos_jantar_2h: '2 h após o jantar', antes_dormir: 'antes de dormir', madrugada: 'de madrugada' };
+
+/** §22: um lembrete por horário do plano de glicemia, para os próximos 7 dias. */
+export async function agendarLembretesGlicemia(userId: string, horarios: { momento: string; hora: string }[]): Promise<void> {
+  await cancelarLembretes(userId, 'glicemia:');
+  if (!horarios.length) return;
+  const temPermissao = await pedirPermissaoNotificacoes();
+  const hoje = new Date();
+  for (let d = 0; d < 7; d++) {
+    for (const h of horarios) {
+      const [hh, mm] = h.hora.split(':').map(Number);
+      const quando = new Date(hoje.getFullYear(), hoje.getMonth(), hoje.getDate() + d, hh, mm, 0);
+      await agendar(userId, 'medida', null, `glicemia:${h.momento}:${h.hora}`, `Glicemia — ${ROTULO_MOMENTO[h.momento] ?? h.momento}.`, quando, temPermissao);
+    }
+  }
+}
