@@ -26,13 +26,14 @@ export default function MinhaSaude() {
           <ListItem icon="people-outline" title="Antecedentes familiares" subtitle={antecedentes.length ? `${antecedentes.length} registrado${antecedentes.length > 1 ? 's' : ''}` : 'Nenhum registrado ainda'} onPress={() => router.push('/(app)/minha-saude/antecedentes')} />
           <ListItem icon="medkit-outline" title="Meus medicamentos" subtitle="Lista atual e histórico" onPress={() => router.push('/(app)/minha-saude/medicamentos')} />
           <ListItem icon="folder-open-outline" title="Meus documentos" subtitle="Laudos, receitas e imagens de exames" onPress={() => router.push('/(app)/minha-saude/documentos')} />
+          <ListItem icon="document-text-outline" title="Relatórios" subtitle="PDF para o médico: cardiovascular, oncológico ou geral" onPress={() => router.push('/(app)/minha-saude/relatorios')} />
+          <ListItem icon="calendar-outline" title="Preparar minha consulta" subtitle="Relatório focado na especialidade" onPress={() => router.push('/(app)/minha-saude/consulta')} />
         </View>
 
         <Text style={styles.secao}>Em breve</Text>
         <View style={{ gap: Spacing.sm }}>
           <EmBreve titulo="Meus exames" />
           <EmBreve titulo="Linha do tempo" />
-          <EmBreve titulo="Relatórios" />
         </View>
 
         <Button label="Sair da conta" variant="ghost" onPress={sair} style={{ marginTop: Spacing.xxxl }} />
