@@ -101,3 +101,24 @@ describe('itens do Coração & Metabolismo (Fase 2a)', () => {
     expect(montarItensHoje(base).some((i) => i.id.startsWith('pa_') || i.id.startsWith('mrpa_'))).toBe(false);
   });
 });
+
+describe('itens do Coração & Metabolismo (Fase 2b)', () => {
+  const base = { perfil: completo, antecedentesQtd: 1, medicacoesAtivasQtd: 1 };
+  const vazio = { ultimaPA: null, mrpaAtiva: null, mrpaAcimaSemLeitura: null };
+
+  test('glicemia laranja/vermelha nas últimas 24 h vira item', () => {
+    const itens = montarItensHoje({ ...base, cardio: { ...vazio, glicemia: { mgdl: 48, medidoEm: new Date().toISOString(), nivel: 'laranja' } } });
+    expect(itens[0]).toMatchObject({ id: 'glicemia_alerta', nivel: 'laranja', rota: '/(app)/coracao/glicemia' });
+  });
+  test('horário do plano vencido sem medida vira item amarelo', () => {
+    const itens = montarItensHoje({ ...base, cardio: { ...vazio, planoVencidoHoje: { momento: 'antes_almoco', rotulo: 'antes do almoço', hora: '12:00' } } });
+    expect(itens[0]).toMatchObject({ id: 'glicemia_plano', nivel: 'amarelo', titulo: 'Medir glicemia — antes do almoço', rota: '/(app)/coracao/glicemia/registrar' });
+  });
+  test('check-up com item faltante vira item cinza com a frase', () => {
+    const itens = montarItensHoje({ ...base, cardio: { ...vazio, checkup: { atualizados: 5, total: 8, faltante: 'Falta atualizar seu perfil lipídico.' } } });
+    expect(itens.find((i) => i.id === 'checkup')).toMatchObject({ nivel: 'cinza', titulo: 'Atualizar minha prevenção: 5 de 8 em dia', descricao: 'Falta atualizar seu perfil lipídico.', rota: '/(app)/coracao/checkup' });
+  });
+  test('check-up completo não vira item', () => {
+    expect(montarItensHoje({ ...base, cardio: { ...vazio, checkup: { atualizados: 8, total: 8, faltante: null } } }).some((i) => i.id === 'checkup')).toBe(false);
+  });
+});

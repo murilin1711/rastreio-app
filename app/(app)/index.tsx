@@ -36,7 +36,9 @@ export default function Home() {
   });
   const subtituloCardio = cardio.resumo?.mrpaAtiva
     ? `MRPA em andamento — dia ${Math.min(Math.max(cardio.resumo.mrpaAtiva.dia, 1), cardio.resumo.mrpaAtiva.diasPrevistos)} de ${cardio.resumo.mrpaAtiva.diasPrevistos}`
-    : cardio.resumo?.ultimaPA ? `Última pressão ${cardio.resumo.ultimaPA.pas}/${cardio.resumo.ultimaPA.pad}` : 'Pressão, glicemia e risco cardiovascular';
+    : cardio.resumo?.ultimaPA || cardio.resumo?.glicemia
+      ? [cardio.resumo.ultimaPA ? `Pressão ${cardio.resumo.ultimaPA.pas}/${cardio.resumo.ultimaPA.pad}` : null, cardio.resumo.glicemia ? `Glicemia ${cardio.resumo.glicemia.mgdl}` : null].filter(Boolean).join(' · ')
+      : 'Pressão, glicemia e risco cardiovascular';
 
   // §21: reagenda os lembretes de medicação (7 dias) uma vez por abertura do app
   const sincronizou = useRef(false);

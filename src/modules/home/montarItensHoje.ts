@@ -82,6 +82,16 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, 
       const periodo = mrpaAtiva.faltaHoje.includes('manha') ? 'manhã' : 'noite';
       itens.push({ id: 'mrpa_hoje', nivel: 'amarelo', titulo: `Fazer as medidas da ${periodo} — MRPA, dia ${mrpaAtiva.dia} de ${mrpaAtiva.diasPrevistos}`, descricao: '3 medidas com 1 minuto de intervalo.', rota: `/(app)/coracao/mrpa/${mrpaAtiva.id}` });
     }
+    const { glicemia, planoVencidoHoje, checkup } = cardio;
+    if (glicemia?.nivel && Date.now() - Date.parse(glicemia.medidoEm) < 86_400_000) {
+      itens.push({ id: 'glicemia_alerta', nivel: glicemia.nivel, titulo: glicemia.nivel === 'vermelho' ? 'Procurar atendimento: glicemia com sinais de alarme' : glicemia.mgdl < 70 ? 'Rever orientação: glicemia muito baixa' : 'Repetir a medida: glicemia muito alta', descricao: `Última medida ${glicemia.mgdl} mg/dL. Siga a orientação do seu médico.`, rota: '/(app)/coracao/glicemia' });
+    }
+    if (planoVencidoHoje) {
+      itens.push({ id: 'glicemia_plano', nivel: 'amarelo', titulo: `Medir glicemia — ${planoVencidoHoje.rotulo}`, descricao: `Horário do seu plano: ${planoVencidoHoje.hora}.`, rota: '/(app)/coracao/glicemia/registrar' });
+    }
+    if (checkup && checkup.faltante && checkup.atualizados < checkup.total) {
+      itens.push({ id: 'checkup', nivel: 'cinza', titulo: `Atualizar minha prevenção: ${checkup.atualizados} de ${checkup.total} em dia`, descricao: checkup.faltante, rota: '/(app)/coracao/checkup' });
+    }
     if (mrpaAcimaSemLeitura) {
       itens.push({ id: 'mrpa_levar', nivel: 'amarelo', titulo: 'Levar o relatório da MRPA ao médico', descricao: 'Suas medidas ficaram acima da referência. Converse com seu profissional de saúde.', rota: `/(app)/coracao/mrpa/relatorio?sessao=${mrpaAcimaSemLeitura.id}` });
     }
