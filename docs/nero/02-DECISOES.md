@@ -116,6 +116,13 @@ Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limi
 
 ---
 
+### D-015 · Mascote animado: clipes image-to-video → WebP animado via `expo-image` — DECIDIDA (19/09/2026)
+**Contexto:** o Murilo quer o Nero vivo (piscar, acenar, comemorar). Tem o modelo 3D rigado no Meshy, mas o caminho Meshy → Blender → PNGs foi considerado difícil demais; só animação por código (flutuar/escalar) ficaria estático.
+**Decisão:** gerar clipes curtos por IA a partir do PNG final, sobre o bege do app (sem transparência), converter para WebP animado e exibir com `expo-image`. Conjunto e prompts em `docs/nero/mascote/animacoes.md`. Componente `NeroAnimado` substitui `NeroImage` onde indicado.
+**Motivo:** zero passo manual em software 3D, resultado com o acabamento do render, arquivos leves, mesma reprodução em iOS e Android. Rig 3D em tempo real segue como spike futuro.
+
+---
+
 ## Decisões clínicas (protocolos adotados)
 
 > Preencher na Fase 1/2. Cada linha precisa de fonte, ano e data de revisão. O documento diz "intervalo definido pelo protocolo vigente" em vários pontos — estas são as lacunas a fechar.
