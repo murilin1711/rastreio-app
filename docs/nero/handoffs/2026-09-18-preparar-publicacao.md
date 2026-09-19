@@ -24,7 +24,7 @@ O app Rastreando virou a plataforma NERO (4 módulos: Rastreando, Coração & Me
 
 ## 4. Estado atual
 - Tudo commitado e no GitHub; `git status` limpo. Nada quebrado conhecido.
-- **Sessão 2 (18/09, tarde):** D-012 (app.json/eas.json/notificações/limpeza de deps/política rascunho) e D-013 (exclusão de conta: migração 0014 **só local**, ainda não em nuvem). 358 Jest, 39 pgTAP. Docs em `docs/nero/publicacao/`.
+- **Sessão 2 (18/09, tarde):** D-012 (app.json/eas.json/notificações/limpeza de deps/política rascunho) e D-013 (exclusão de conta: migração 0014 na nuvem), D-014 (nome "Nero Saúde"). 358 Jest, 39 pgTAP. Docs em `docs/nero/publicacao/`.
 - **Nunca testado no aparelho:** Fases 3 e 4 inteiras (PDF via `expo-print`, QR via `qrcode` no Hermes, upload no Storage, vínculo de glicemia, notificações de consulta). Checklists prontos.
 - O mascote Nero ainda é o símbolo da logo em todas as variantes (`src/ui/components/NeroImage.tsx`).
 - Supabase Auth com confirmação de e-mail **desativada** desde a Fase 0 (facilitar testes).

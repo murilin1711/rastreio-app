@@ -13,11 +13,11 @@
 
 ## Depende do Murilo (em ordem)
 1. [ ] Contas **Apple Developer** e **Google Play Console** (pessoa física recomendada).
-2. [ ] **Nome nas lojas** (recomendação: "Nero Saúde" — "Nero" sozinho conflita com a Nero AG, de software).
+2. [x] **Nome nas lojas:** "Nero Saúde" (D-014, 18/09).
 3. [ ] **Bundle id iOS / package Android** — permanente. Recomendação: domínio invertido que você controle (ex.: `br.com.<dominio>.nero`); sem domínio, `com.murilopovoa.nero`.
 4. [ ] Imagens (`imagens.md`): símbolo, logo, mascote.
 5. [ ] Política de privacidade: preencher `[[ ]]`, decidir hospedagem (recomendação: GitHub Pages do repositório) e idade mínima.
-6. [ ] `SUPABASE_DB_PASSWORD=… npx supabase db push` da migração 0014 (exclusão de conta) — pede a senha na hora.
+6. [x] Migração 0014 aplicada na nuvem em 18/09.
 7. [ ] Reativar confirmação de e-mail no Supabase Auth e testar cadastro.
 8. [ ] Revogar token antigo do CLI (`supabase.com/dashboard/account/tokens`).
 9. [ ] `eas init` (cria o projeto na conta Expo `murilorp1711`) → `eas build --profile preview` → TestFlight / teste interno.

@@ -110,6 +110,12 @@ Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limi
 
 ---
 
+### D-014 · Nome nas lojas: "Nero Saúde" — DECIDIDA (18/09/2026)
+**Decisão do Murilo.** "Nero" sozinho conflita com a Nero AG (software); "Nero Saúde" é o nome do app na App Store, no Play e sob o ícone (`expo.name`). A marca visual continua "Nero" (logo). Slug e scheme (`nero`) não mudam.
+**Pendente:** bundle id / package; verificar disponibilidade do nome na App Store Connect ao criar o registro do app.
+
+---
+
 ## Decisões clínicas (protocolos adotados)
 
 > Preencher na Fase 1/2. Cada linha precisa de fonte, ano e data de revisão. O documento diz "intervalo definido pelo protocolo vigente" em vários pontos — estas são as lacunas a fechar.
