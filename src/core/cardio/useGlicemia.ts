@@ -55,5 +55,8 @@ export function useGlicemia() {
     return { id, avaliacao: avaliarGlicemia({ mgdl: e.mgdl, momento: e.momento, sintomas: e.contexto.sintomas }, perfilGli, metas, parametros) };
   };
 
-  return { medidas, parametros, perfil, perfilGli, metas, resumo7, carregando, erro, avaliar, registrar, recarregar: async () => { await Promise.all([recarregar(), recarregarPerfil()]); } };
+  // Identidade estável: a tela do Cardio usa esta função como dependência de useFocusEffect; uma arrow nova por render causava loop de recarga.
+  const recarregarTudo = useCallback(async () => { await Promise.all([recarregar(), recarregarPerfil()]); }, [recarregar, recarregarPerfil]);
+
+  return { medidas, parametros, perfil, perfilGli, metas, resumo7, carregando, erro, avaliar, registrar, recarregar: recarregarTudo };
 }
