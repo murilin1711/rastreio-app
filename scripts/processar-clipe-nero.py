@@ -7,6 +7,10 @@ d_frames, saida, ini, fim, loop = sys.argv[1], sys.argv[2], int(sys.argv[3]), in
 fps = int(sys.argv[6]) if len(sys.argv) > 6 else 20; alt = int(sys.argv[7]) if len(sys.argv) > 7 else 360; q = sys.argv[8] if len(sys.argv) > 8 else '75'
 Y0, Y1, CX = 185, 1100, 343
 LIM_CORPO = float(os.environ.get('LIM_CORPO', '14'))   # distância mínima do bege para contar como corpo (fundo fica abaixo de ~10)   # enquadramento vertical e centro horizontal iguais ao repouso
+# Fechamento da silhueta. Partes do personagem chegam a ter a cor exata do fundo (a face inferior da mão
+# ao acenar: distância de cor 0), abrindo buracos que escapam pela fresta entre a mão e a cabeça e por isso
+# sobrevivem ao fill_holes. Fechar com 5 os elimina sem engordar o contorno; 2 mantém os clipes antigos.
+FECHAMENTO = int(os.environ.get('FECHAMENTO', '2'))
 fs = sorted(glob.glob(d_frames + '/*.png'))[ini:fim + 1]
 BG = np.array(Image.open(fs[0]).convert('RGB'))[10, 10].astype(float)
 def silhueta(f):
@@ -14,7 +18,10 @@ def silhueta(f):
     d = np.linalg.norm(a - BG, axis=2)
     lim = np.full(d.shape, LIM_CORPO); lim[960:] = 22.0; lim[1000:] = 34.0
     hard = d > lim; hard[1120:] = False
-    hard = ndi.binary_fill_holes(ndi.binary_closing(hard, iterations=2))
+    # fechamento forte só acima do chão: embaixo ele gruda a sombra na silhueta e estraga a medida das pernas
+    forte, base = ndi.binary_closing(hard, iterations=FECHAMENTO), ndi.binary_closing(hard, iterations=2)
+    hard = np.concatenate([forte[:940], base[940:]])
+    hard = ndi.binary_fill_holes(hard)
     lab, n = ndi.label(hard)
     if n > 1: hard = lab == (np.argmax(ndi.sum(hard, lab, range(1, n + 1))) + 1)
     fg = Image.fromarray(hard.astype(np.uint8) * 255, 'L').filter(ImageFilter.MinFilter(3)).filter(ImageFilter.GaussianBlur(1.2))

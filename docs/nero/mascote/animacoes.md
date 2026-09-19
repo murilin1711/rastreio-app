@@ -38,3 +38,20 @@ Componente `NeroAnimado` (`expo-image`, `autoplay`), em uso na Home (ao lado da 
 ## Clipe 2 — acenar (19/09/2026)
 Vídeo de 10 s; o aceno ocupa os frames 48–120 (3 s): mão sobe, dois acenos, mão desce. Cortado por folha de contato + medida de movimento entre frames. Mesmo enquadramento vertical (y 185–1100) e centro horizontal (x 343) do repouso, para o personagem ter o mesmo tamanho; largura maior (278 × 360) porque a mão sai do corpo. 61 frames, 20 fps, **643 KB**, sem loop (`-loop 1`).
 `NeroAnimado` ganhou `entrada`: toca o clipe uma vez e troca para o loop ao fim da duração (timer, `expo-image` não avisa o fim); largura fixa pela proporção do clipe mais largo para não mexer no layout. Home: `entrada="acenar"`. Pipeline reutilizável: `scripts/processar-clipe-nero.py <frames> <saida.webp> <ini> <fim> <loop 0|1>` (frames extraídos com `ffmpeg -i video.mp4 frames/f%03d.png`).
+
+## Correção do aceno — mão piscando branco (19/09/2026)
+Sintoma relatado pelo Murilo: ao acenar, a mão do Nero piscava branco.
+
+Causa raiz (medida, não suposta): quando a mão está levantada, a face inferior dela tem **a mesma cor do fundo bege do gerador** — a distância de cor cai a 0,0, com mediana 5–11 e metade dos pixels abaixo de 8, contra um limiar de 14. A máscara abria um buraco dentro da mão que escapava pela fresta entre a mão e a cabeça, e por isso sobrevivia ao `binary_fill_holes`; o bege claro da tela (`#F3F0EA`) aparecia através da mão. Nenhum ajuste de limiar resolve: as duas cores são idênticas. Verificado que o vídeo original está limpo e que a compressão WebP não tem culpa (erro estável de ~3 níveis por frame).
+
+Correção: `binary_closing` com 5 iterações em vez de 2 (`FECHAMENTO`, padrão 2 para reproduzir os clipes antigos). Fecha a fresta, o `fill_holes` recupera o interior da mão e a silhueta externa não engorda — com 9 o contorno já fica chapado e quadrado.
+
+Efeito colateral encontrado e corrigido no mesmo passo: abaixo da linha do chão o fechamento forte gruda a sombra na silhueta, a medida das pernas ia de `238..476` para `6..476` e o corte de sombra lateral parava de funcionar, alargando o recorte de 252 para 276 px. Por isso o fechamento forte vale só acima de `y = 940`; abaixo continua 2.
+
+Resultado: área opaca da mão passou de 1258–2321 px (oscilação de 45 %) para 2104–2361 px (11 %, que é o movimento real da mão). Enquadramento idêntico ao aprovado (252 × 360, recorte x 22–664, 61 frames, 591 KB), então `CLIPES` não muda. `repouso.webp` **não foi regerado**.
+
+Comando: `FECHAMENTO=5 python3 scripts/processar-clipe-nero.py <frames> assets/animacoes/nero/acenar.webp 48 120 0`
+
+Tentativa descartada: um verificador automático de buracos no WebP final (`binary_closing` + critério de cerco). Na resolução de entrega, 3,5× menor, o buraco encolhe para o tamanho das concavidades legítimas (fresta entre braço e corpo, vão entre as pernas) e as duas calibrações testadas não os separaram. A verificação que funciona é comparar os mapas de alpha da mão frame a frame, antes e depois.
+
+Observação para depois (não é o bug relatado): o corte de sombra lateral deixa uma quina reta clara à esquerda do pé em alguns frames.
