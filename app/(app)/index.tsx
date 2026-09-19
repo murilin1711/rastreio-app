@@ -92,7 +92,7 @@ export default function Home() {
             <Text style={styles.saudacao}>{saudacao(perfil?.nome)}</Text>
             <Text style={styles.pergunta}>Como está sua saúde hoje?</Text>
           </View>
-          <NeroAnimado size={104} />
+          <NeroAnimado entrada="acenar" size={104} />
         </View>
 
         <View style={styles.secaoTopo}>
