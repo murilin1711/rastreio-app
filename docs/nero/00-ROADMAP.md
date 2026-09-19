@@ -9,9 +9,15 @@
 
 ## Fila do Murilo (atualizada em 19/09/2026)
 
-> **Nova sessão do Claude Code?** Comece por [`handoffs/2026-09-19-publicacao-e-mascote.md`](handoffs/2026-09-19-publicacao-e-mascote.md).
+> **Nova sessão do Claude Code?** Comece por [`handoffs/2026-09-19-adesao-e-agua.md`](handoffs/2026-09-19-adesao-e-agua.md) (o anterior, [`2026-09-19-publicacao-e-mascote.md`](handoffs/2026-09-19-publicacao-e-mascote.md), continua valendo para mascote e publicação).
 
-As quatro fases estão implementadas, mescladas e na nuvem. O que depende de você, na ordem sugerida:
+As quatro fases estão implementadas, mescladas e na nuvem. Em 19/09 entrou também o **bloco de adesão** (D-016): marcos de meta, conquistas, sequência de dias e o módulo **Minha Água** com lembretes (C-021), além do pedido de permissão de notificações com contexto (D-017). **Nada disso foi testado no aparelho ainda.** O que depende de você, na ordem sugerida:
+
+**Ver funcionando** (feito hoje, sem validação)
+- [ ] Selo de dias seguidos na Home e comemorações (meta batida, conquistas)
+- [ ] Minha Água: registrar, bater a meta, ligar os lembretes
+- [ ] Modal "Posso te avisar na hora certa?" (resetar as permissões de notificação para vê-lo)
+
 
 **Testes no aparelho** (`docs/nero/checklists/`) — marque as caixas e anote o que quebrou; eu corrijo sob demanda.
 - [ ] [`fase-2a.md`](checklists/fase-2a.md) — pressão e MRPA
