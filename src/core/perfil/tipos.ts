@@ -33,6 +33,8 @@ export interface PerfilSaude {
   temDiabetes: boolean | null;
   temHipertensao: boolean | null;
   temDoencaRenal: boolean | null;
+  /** Junto com a doença renal, causa clássica de restrição hídrica (C-021). */
+  temInsuficienciaCardiaca: boolean | null;
   temImunossupressao: boolean | null;
   temHiv: boolean | null;
   temDii: boolean | null;
@@ -63,6 +65,8 @@ export interface PerfilSaude {
   perfilInicialCompleto: boolean;
   /** Maior marco de sequência de dias já comemorado (0, 3, 7, 30, 100). Nunca diminui. */
   marcoSequenciaComemorado: number;
+  /** Dia (AAAA-MM-DD) em que a meta de água foi comemorada pela última vez. */
+  aguaMetaComemoradaEm: string | null;
 }
 
 export type Parentesco = 'mae' | 'pai' | 'irma_o' | 'filha_o' | 'avo_a' | 'tia_o' | 'outro';

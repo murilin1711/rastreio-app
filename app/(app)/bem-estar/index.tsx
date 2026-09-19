@@ -49,6 +49,7 @@ export default function BemEstar() {
           <ListItem icon="body-outline" title="Meu Corpo" subtitle="Peso, IMC, cintura, composição corporal e evolução" onPress={() => router.push('/(app)/bem-estar/corpo')} />
           <ListItem icon="walk-outline" title="Minhas Atividades" subtitle="Sua semana, últimos 30 dias e meta" onPress={() => router.push('/(app)/bem-estar/atividade')} />
           <ListItem icon="moon-outline" title="Meu Sono" subtitle="Média de 7 dias e horários" onPress={() => router.push('/(app)/bem-estar/sono')} />
+          <ListItem icon="water-outline" title="Minha Água" subtitle="Quanto você bebeu hoje e sua meta do dia" onPress={() => router.push('/(app)/bem-estar/agua')} />
           <ListItem icon="restaurant-outline" title="Minha Alimentação" subtitle="Diário simples e horários das refeições" onPress={() => router.push('/(app)/bem-estar/alimentacao')} />
           <ListItem icon="flag-outline" title="Minhas Metas" subtitle="Objetivos definidos por você ou com o profissional" onPress={() => router.push('/(app)/bem-estar/metas')} />
           <ListItem icon="chatbubble-ellipses-outline" title="Check-in semanal" subtitle="Como foi sua semana, de 0 a 10" onPress={() => router.push('/(app)/bem-estar/checkin')} />

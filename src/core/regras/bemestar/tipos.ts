@@ -22,7 +22,7 @@ export interface Refeicao { id: string; em: string; tipo: TipoRefeicao; descrica
 
 export interface Checkin { id: string; semana: string; disposicao: number | null; alimentacao: number | null; atividade: number | null; sono: number | null; estresse: number | null; energia: number | null; bemEstar: number | null; observacao: string | null }
 
-export type TipoMeta = 'peso' | 'cintura' | 'atividade_min' | 'atividade_dias' | 'fortalecimento_dias' | 'sono_min' | 'pressao';
+export type TipoMeta = 'peso' | 'cintura' | 'atividade_min' | 'atividade_dias' | 'fortalecimento_dias' | 'sono_min' | 'pressao' | 'agua_ml';
 export interface Meta { id: string; tipo: TipoMeta; valor: number; origem: 'app' | 'usuario' | 'profissional'; detalhe: string | null; ativa: boolean;
   /** Valor medido no dia em que a meta foi criada; sem ele não há "metade do caminho" (D-016). */
   valorInicial: number | null;

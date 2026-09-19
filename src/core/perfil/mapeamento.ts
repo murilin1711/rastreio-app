@@ -33,6 +33,8 @@ const colunas: Record<CampoDominio, keyof Update> = {
   semAntecedentesFamiliares: 'sem_antecedentes_familiares',
   perfilInicialCompleto: 'perfil_inicial_completo',
   marcoSequenciaComemorado: 'marco_sequencia_comemorado',
+  temInsuficienciaCardiaca: 'tem_insuficiencia_cardiaca',
+  aguaMetaComemoradaEm: 'agua_meta_comemorada_em',
   tipoDiabetes: 'tipo_diabetes',
   usaInsulina: 'usa_insulina',
   eventoCvPrevio: 'evento_cv_previo',
@@ -87,6 +89,8 @@ export function paraDominio(r: Row): PerfilSaude {
     semAntecedentesFamiliares: r.sem_antecedentes_familiares,
     perfilInicialCompleto: r.perfil_inicial_completo,
     marcoSequenciaComemorado: r.marco_sequencia_comemorado,
+    temInsuficienciaCardiaca: r.tem_insuficiencia_cardiaca,
+    aguaMetaComemoradaEm: r.agua_meta_comemorada_em,
   };
 }
 

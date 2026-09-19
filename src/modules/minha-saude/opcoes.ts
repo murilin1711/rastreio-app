@@ -12,13 +12,15 @@ export const OPCOES_TABAGISMO: Opcao<TabagismoStatus>[] = [
   { valor: 'atual', rotulo: 'Fumo atualmente' },
 ];
 
-export type CondicaoChave = 'temDiabetes' | 'temHipertensao' | 'temDoencaRenal' | 'temImunossupressao' | 'temHiv' | 'temDii' | 'nenhuma';
-export const CHAVES_CONDICAO: Exclude<CondicaoChave, 'nenhuma'>[] = ['temDiabetes', 'temHipertensao', 'temDoencaRenal', 'temImunossupressao', 'temHiv', 'temDii'];
+export type CondicaoChave = 'temDiabetes' | 'temHipertensao' | 'temDoencaRenal' | 'temInsuficienciaCardiaca' | 'temImunossupressao' | 'temHiv' | 'temDii' | 'nenhuma';
+export const CHAVES_CONDICAO: Exclude<CondicaoChave, 'nenhuma'>[] = ['temDiabetes', 'temHipertensao', 'temDoencaRenal', 'temInsuficienciaCardiaca', 'temImunossupressao', 'temHiv', 'temDii'];
 
 export const OPCOES_CONDICOES: Opcao<CondicaoChave>[] = [
   { valor: 'temDiabetes', rotulo: 'Diabetes' },
   { valor: 'temHipertensao', rotulo: 'Pressão alta (hipertensão)' },
   { valor: 'temDoencaRenal', rotulo: 'Doença renal crônica' },
+  // C-021: junto com a doença renal, define quem não recebe meta de água calculada pelo app.
+  { valor: 'temInsuficienciaCardiaca', rotulo: 'Insuficiência cardíaca' },
   { valor: 'temImunossupressao', rotulo: 'Imunossupressão', descricao: 'Transplante, quimioterapia, corticoide prolongado' },
   { valor: 'temHiv', rotulo: 'HIV' },
   { valor: 'temDii', rotulo: 'Doença inflamatória intestinal', descricao: 'Crohn ou retocolite ulcerativa' },

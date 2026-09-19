@@ -13,7 +13,7 @@ import { ROTULO_OBJETIVO, TEXTO_MARCO } from '@modules/bem-estar/conteudo/corpo'
 import { Button, Card, Colors, Input, InternalHeader, ModalComemoracao, Opcoes, Select, Spacing, Typography } from '@ui/index';
 
 const fmt = (n: number) => String(Math.round(n * 10) / 10).replace('.', ',');
-const ROTULO_TIPO: Record<TipoMeta, string> = { peso: 'Peso (kg)', cintura: 'Circunferência abdominal (cm)', atividade_min: 'Atividade (minutos por semana)', atividade_dias: 'Dias ativos por semana', fortalecimento_dias: 'Fortalecimento (dias por semana)', sono_min: 'Sono (horas por noite)', pressao: 'Pressão (definida pelo médico)' };
+const ROTULO_TIPO: Record<TipoMeta, string> = { peso: 'Peso (kg)', cintura: 'Circunferência abdominal (cm)', atividade_min: 'Atividade (minutos por semana)', atividade_dias: 'Dias ativos por semana', fortalecimento_dias: 'Fortalecimento (dias por semana)', sono_min: 'Sono (horas por noite)', pressao: 'Pressão (definida pelo médico)', agua_ml: 'Água (ml por dia)' };
 const TIPOS_FORM: TipoMeta[] = ['peso', 'cintura', 'atividade_min', 'atividade_dias', 'fortalecimento_dias', 'sono_min'];
 type Origem = 'usuario' | 'profissional';
 

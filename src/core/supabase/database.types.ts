@@ -662,6 +662,7 @@ export type Database = {
       perfil_saude: {
         Row: {
           agravantes_cv: Json
+          agua_meta_comemorada_em: string | null
           altura_cm: number | null
           anos_fumando: number | null
           atividade_fisica_regular: boolean | null
@@ -698,6 +699,7 @@ export type Database = {
           tem_hipertensao: boolean | null
           tem_hiv: boolean | null
           tem_imunossupressao: boolean | null
+          tem_insuficiencia_cardiaca: boolean | null
           tipo_diabetes: string | null
           tipo_usuario: string
           updated_at: string
@@ -706,6 +708,7 @@ export type Database = {
         }
         Insert: {
           agravantes_cv?: Json
+          agua_meta_comemorada_em?: string | null
           altura_cm?: number | null
           anos_fumando?: number | null
           atividade_fisica_regular?: boolean | null
@@ -742,6 +745,7 @@ export type Database = {
           tem_hipertensao?: boolean | null
           tem_hiv?: boolean | null
           tem_imunossupressao?: boolean | null
+          tem_insuficiencia_cardiaca?: boolean | null
           tipo_diabetes?: string | null
           tipo_usuario?: string
           updated_at?: string
@@ -750,6 +754,7 @@ export type Database = {
         }
         Update: {
           agravantes_cv?: Json
+          agua_meta_comemorada_em?: string | null
           altura_cm?: number | null
           anos_fumando?: number | null
           atividade_fisica_regular?: boolean | null
@@ -786,6 +791,7 @@ export type Database = {
           tem_hipertensao?: boolean | null
           tem_hiv?: boolean | null
           tem_imunossupressao?: boolean | null
+          tem_insuficiencia_cardiaca?: boolean | null
           tipo_diabetes?: string | null
           tipo_usuario?: string
           updated_at?: string
