@@ -28,12 +28,12 @@ Publicar o NERO na App Store e no Play. Nesta sessão (18–19/09) fizemos tudo 
 
 ## 4. Estado atual
 - 363 Jest, 39 pgTAP, `tsc` limpo, `expo-doctor` 21/21. `git status` limpo.
-- **Aguardando veredito do Murilo** sobre a última versão dos clipes (`ada419c`): repouso com mãos inteiras (limiar 14) e aceno sem risco de sombra. Antes disso ele tinha aprovado a versão do commit `2deb722` do repouso (byte a byte igual ao `git show 2deb722:assets/animacoes/nero/repouso.webp`); se a nova piscar, voltar a essa e regerar só o aceno com `LIM_CORPO=22 MEDIANA_T=0`.
-- Home: mascote alinhado na linha da saudação (margem inferior movida de `pergunta` para o contêiner `boasVindas`). Murilo ainda não viu.
+- **Clipes aprovados pelo Murilo em 19/09** ("ficou perfeito"), depois da correção da mão piscando branco ao acenar (`70d27d6`, ver `../mascote/animacoes.md`). `repouso.webp` nunca foi regerado desde a versão aprovada.
+- Home: mascote alinhado pela base, colado à saudação (`086e092`) — aprovado em 19/09.
 - Checklists 2a/2b/3/4a/4b e `publicacao.md` continuam **não rodados** no aparelho. O bug do Cardio só apareceu porque ele abriu a tela pela primeira vez; esperar mais desse tipo ao rodar os checklists.
 
 ## 5. Próximos passos
-1. Murilo confirma repouso/aceno e o alinhamento na Home. Se ok, gerar **comemorar** e **pensando** (prompts em `docs/nero/mascote/animacoes.md`): `mkdir -p /tmp/x/frames && ffmpeg -i video.mp4 /tmp/x/frames/f%03d.png`, achar o trecho por folha de contato (`ffmpeg -vf "select='not(mod(n,12))',scale=120:-1,tile=10x2" -frames:v 1`), depois `python3 scripts/processar-clipe-nero.py /tmp/x/frames assets/animacoes/nero/<nome>.webp <ini> <fim> <loop 0|1>`; registrar em `CLIPES` do `NeroAnimado.tsx` (largura/altura/duração) e usar: comemorar em meta batida/check-in/exame em dia; pensando enquanto gera PDF.
+1. ~~Murilo confirma repouso/aceno e o alinhamento na Home.~~ Feito em 19/09. Gerar **comemorar** e **pensando** (prompts em `docs/nero/mascote/animacoes.md`): `mkdir -p /tmp/x/frames && ffmpeg -i video.mp4 /tmp/x/frames/f%03d.png`, achar o trecho por folha de contato (`ffmpeg -vf "select='not(mod(n,12))',scale=120:-1,tile=10x2" -frames:v 1`), depois `python3 scripts/processar-clipe-nero.py /tmp/x/frames assets/animacoes/nero/<nome>.webp <ini> <fim> <loop 0|1>`; registrar em `CLIPES` do `NeroAnimado.tsx` (largura/altura/duração) e usar: comemorar em meta batida/check-in/exame em dia; pensando enquanto gera PDF.
 2. Decidir onde o Nero acena no primeiro contato: recomendação **A** = tela de login (o onboarding tem miniaturas aprovadas na Fase 0; não mexer).
 3. Política de privacidade: Murilo preenche os `[[ ]]` (responsável/CPF/cidade, e-mail de contato, encarregado = ele, idade mínima 18, plano do Supabase para o prazo de backup, hospedagem = GitHub Pages recomendado). Depois: publicar a URL, referenciar em App Store Connect / Play Console.
 4. Contas Apple Developer (PF) e Google Play Console — Murilo abre; **bundle id** (recomendação `com.nerosaude.app`; permanente) → `ios.bundleIdentifier` e `android.package` no `app.json`.
@@ -43,7 +43,6 @@ Publicar o NERO na App Store e no Play. Nesta sessão (18–19/09) fizemos tudo 
 8. Capturas de tela e textos das fichas (tamanhos em `docs/nero/publicacao/imagens.md`).
 
 ## 6. Perguntas em aberto
-- Clipes atuais (limiar 14 + mediana) aprovados ou voltar ao `2deb722`?
 - Bundle id: tem domínio próprio? Senão, `com.nerosaude.app`.
 - Plano do Supabase (Free ou Pro) — define o texto de backup na política.
 - Nero na tela de login (A) ou no primeiro slide do onboarding (B)?

@@ -12,7 +12,7 @@
 - [x] **Exclusão de conta no app** (D-013): migração 0014, função `excluir_minha_conta()`, tela em Minha Saúde, 9 pgTAP + 4 Jest. Falta `db push` (senha) e teste no aparelho.
 
 ## Mascote (D-015, 19/09)
-- [x] Clipes repouso e acenar no app (`NeroAnimado`); aguardando veredito da última versão.
+- [x] Clipes repouso e acenar no app (`NeroAnimado`), **aprovados pelo Murilo em 19/09** (commit `70d27d6`, que corrigiu a mão piscando branco ao acenar). Alinhamento do mascote na Home também aprovado.
 - [ ] Clipes comemorar e pensando (prompts em `../mascote/animacoes.md`).
 - [ ] Onde acena no primeiro contato: login (recomendado) ou onboarding.
 
