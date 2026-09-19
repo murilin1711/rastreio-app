@@ -7,9 +7,9 @@
 
 ---
 
-## Fila do Murilo (atualizada em 18/09/2026)
+## Fila do Murilo (atualizada em 19/09/2026)
 
-> **Nova sessão do Claude Code?** Comece por [`handoffs/2026-09-18-preparar-publicacao.md`](handoffs/2026-09-18-preparar-publicacao.md).
+> **Nova sessão do Claude Code?** Comece por [`handoffs/2026-09-19-publicacao-e-mascote.md`](handoffs/2026-09-19-publicacao-e-mascote.md).
 
 As quatro fases estão implementadas, mescladas e na nuvem. O que depende de você, na ordem sugerida:
 

@@ -1,6 +1,6 @@
 # Publicação nas lojas — estado e pendências
 
-> Atualizado em 18/09/2026. Decisão técnica de base: D-012 em `../02-DECISOES.md`.
+> Atualizado em 19/09/2026. Decisão técnica de base: D-012 em `../02-DECISOES.md`.
 
 ## Feito (não dependia do Murilo)
 - [x] `app.json`: permissões em português (câmera, fotos, documentos, notificações), `ITSAppUsesNonExemptEncryption`, localização pt-BR, build 1.
@@ -10,6 +10,11 @@
 - [x] Rascunho da política de privacidade (`politica-de-privacidade.md`) com lacunas `[[ ]]`.
 - [x] Especificação das imagens a exportar (`imagens.md`).
 - [x] **Exclusão de conta no app** (D-013): migração 0014, função `excluir_minha_conta()`, tela em Minha Saúde, 9 pgTAP + 4 Jest. Falta `db push` (senha) e teste no aparelho.
+
+## Mascote (D-015, 19/09)
+- [x] Clipes repouso e acenar no app (`NeroAnimado`); aguardando veredito da última versão.
+- [ ] Clipes comemorar e pensando (prompts em `../mascote/animacoes.md`).
+- [ ] Onde acena no primeiro contato: login (recomendado) ou onboarding.
 
 ## Depende do Murilo (em ordem)
 1. [ ] Contas **Apple Developer** e **Google Play Console** (pessoa física recomendada).
