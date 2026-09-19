@@ -7,6 +7,7 @@ export { InternalHeader } from './components/InternalHeader';
 export { StatusBadge } from './components/StatusBadge';
 export { ProgressBar } from './components/ProgressBar';
 export { EmBreveBadge } from './components/EmBreveBadge';
+export { NeroAnimado } from './components/NeroAnimado';
 export { NeroImage } from './components/NeroImage';
 export type { NeroVariant } from './components/NeroImage';
 export { Opcoes } from './components/Opcoes';

@@ -30,3 +30,7 @@ The exact same 3D cartoon character from the reference image: small white body w
 
 ## Entrega
 MP4 nomeados `repouso.mp4`, `acenar.mp4`, `comemorar.mp4`, `pensando.mp4`. O Claude corta, fecha o loop, converte para WebP animado (`assets/animacoes/nero/`), cria `NeroAnimado` e substitui `NeroImage` nos pontos da tabela.
+
+## Clipe 1 — repouso (19/09/2026)
+Vídeo gerado pelo Murilo (720 × 1280, 24 fps, 10 s). Processamento: fundo saiu `#E9E2D5` com sombra de chão e marca d'água ✦ no rodapé → recorte por silhueta (distância de cor + `binary_fill_holes` + maior componente, scipy), corte do rodapé, loop fechado nos frames 0–105 (4,4 s) com fusão de 6 frames, 360 px de altura, 20 fps, WebP lossy q75 = **948 KB** (`assets/animacoes/nero/repouso.webp`, 220 × 360, 88 frames). Alternativas medidas: 9 s de loop ficava em 1,7–3,6 MB.
+Componente `NeroAnimado` (`expo-image`, `autoplay`), em uso na Home (ao lado da saudação, 104 pt), Minha Saúde (96 pt) e Bem-estar (88 pt). `NeroImage` (PNG parado) continua disponível.

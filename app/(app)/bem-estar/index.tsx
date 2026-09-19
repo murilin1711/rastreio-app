@@ -6,7 +6,7 @@ import { useHabitos } from '@core/bemestar/useHabitos';
 import { formatarHm } from '@core/regras/bemestar/sono';
 import { CardResumo } from '@modules/coracao/componentes/CardResumo';
 import { TEXTO_CHECKIN } from '@modules/bem-estar/conteudo/checkin';
-import { Button, Colors, InternalHeader, ListItem, NeroImage, Radius, Spacing, Typography } from '@ui/index';
+import { Button, Colors, InternalHeader, ListItem, NeroAnimado, Radius, Spacing, Typography } from '@ui/index';
 
 const fmt = (n: number) => String(n).replace('.', ',');
 
@@ -22,7 +22,7 @@ export default function BemEstar() {
         <InternalHeader sectionLabel="Módulo" title="Saúde & Bem-estar" onBack={() => router.replace('/(app)')} />
         <View style={styles.cabecalho}>
           <Text style={styles.sub}>Como seus hábitos e seu corpo estão evoluindo ao longo do tempo — sem contar calorias e sem julgar.</Text>
-          <NeroImage variant="bem_estar" size={72} />
+          <NeroAnimado size={88} />
         </View>
 
         {h?.checkinPendente ? (

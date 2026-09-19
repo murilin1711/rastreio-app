@@ -16,7 +16,7 @@ import { CardModulo } from '@modules/home/CardModulo';
 import { ItemHoje } from '@modules/home/ItemHoje';
 import { montarItensHoje, type ItemHoje as Item } from '@modules/home/montarItensHoje';
 import { traduzirErro } from '@core/supabase/erros';
-import { Colors, LogoNero, Radius, Spacing, Typography } from '@ui/index';
+import { Colors, LogoNero, NeroAnimado, Radius, Spacing, Typography } from '@ui/index';
 
 function saudacao(nome?: string | null) {
   const h = new Date().getHours();
@@ -87,8 +87,13 @@ export default function Home() {
           <View style={styles.avatar}><Text style={styles.avatarTexto}>{inicial}</Text></View>
         </View>
 
-        <Text style={styles.saudacao}>{saudacao(perfil?.nome)}</Text>
-        <Text style={styles.pergunta}>Como está sua saúde hoje?</Text>
+        <View style={styles.boasVindas}>
+          <View style={{ flex: 1 }}>
+            <Text style={styles.saudacao}>{saudacao(perfil?.nome)}</Text>
+            <Text style={styles.pergunta}>Como está sua saúde hoje?</Text>
+          </View>
+          <NeroAnimado size={104} />
+        </View>
 
         <View style={styles.secaoTopo}>
           <Text style={styles.secao}>Pendências</Text>
@@ -124,6 +129,7 @@ const styles = StyleSheet.create({
   marcaTexto: { fontFamily: 'Poppins-ExtraBold', fontSize: 15, letterSpacing: 2, color: Colors.primary },
   avatar: { width: 36, height: 36, borderRadius: 18, backgroundColor: Colors.primary, alignItems: 'center', justifyContent: 'center' },
   avatarTexto: { fontFamily: 'Poppins-Bold', fontSize: 15, color: Colors.white },
+  boasVindas: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md },
   saudacao: { ...Typography.display, fontSize: 28, lineHeight: 34, color: Colors.primary },
   pergunta: { ...Typography.body, color: Colors.textSecondary, marginTop: Spacing.xs, marginBottom: Spacing.xxl },
   secaoTopo: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, marginBottom: Spacing.md },

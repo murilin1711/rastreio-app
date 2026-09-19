@@ -12,7 +12,7 @@ import { montarContexto } from '@core/rastreando/contexto';
 import { rotuloEspecialidade } from '@core/relatorios/especialidades';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { dataHoraBr } from '@modules/coracao/componentes/formato';
-import { Button, Colors, ListItem, NeroImage, Spacing, Typography } from '@ui/index';
+import { Button, Colors, ListItem, NeroAnimado, Spacing, Typography } from '@ui/index';
 
 const plural = (n: number, s: string, p: string) => `${n} ${n === 1 ? s : p}`;
 
@@ -42,7 +42,7 @@ export default function MinhaSaude() {
             <Text style={styles.contexto}>Minha Saúde</Text>
             <Text style={styles.titulo}>{perfil?.nome || 'Seu perfil'}</Text>
           </View>
-          <NeroImage variant="minha_saude" size={80} />
+          <NeroAnimado size={96} />
         </View>
 
         <Text style={styles.secao}>Meus dados</Text>

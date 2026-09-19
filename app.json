@@ -12,7 +12,9 @@
       "buildNumber": "1",
       "infoPlist": {
         "CFBundleDevelopmentRegion": "pt-BR",
-        "CFBundleLocalizations": ["pt-BR"],
+        "CFBundleLocalizations": [
+          "pt-BR"
+        ],
         "ITSAppUsesNonExemptEncryption": false
       }
     },
@@ -62,7 +64,8 @@
           "color": "#0F2D63",
           "defaultChannel": "lembretes"
         }
-      ]
+      ],
+      "expo-image"
     ],
     "experiments": {
       "typedRoutes": true

@@ -13,6 +13,6 @@ interface Props {
 
 export function LogoNero({ variante = 'simbolo', width = 120, style }: Props) {
   const fonte = variante === 'completa' ? logo : simbolo;
-  const proporcao = variante === 'completa' ? 711 / 754 : 410 / 488;
+  const proporcao = variante === 'completa' ? 711 / 754 : 743 / 897;
   return <Image source={fonte} style={[{ width, height: width * proporcao, resizeMode: 'contain' }, style]} accessibilityLabel="NERO" />;
 }
