@@ -61,6 +61,8 @@ export interface PerfilSaude {
   semMedicacoes: boolean;
   semAntecedentesFamiliares: boolean;
   perfilInicialCompleto: boolean;
+  /** Maior marco de sequência de dias já comemorado (0, 3, 7, 30, 100). Nunca diminui. */
+  marcoSequenciaComemorado: number;
 }
 
 export type Parentesco = 'mae' | 'pai' | 'irma_o' | 'filha_o' | 'avo_a' | 'tia_o' | 'outro';

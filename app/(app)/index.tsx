@@ -12,11 +12,14 @@ import { useConsultas } from '@core/lembretes/useConsultas';
 import { rotuloEspecialidade } from '@core/relatorios/especialidades';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { usePerfil } from '@core/perfil/usePerfil';
+import { useSequencia } from '@core/bemestar/useSequencia';
 import { CardModulo } from '@modules/home/CardModulo';
+import { SeloSequencia } from '@modules/home/SeloSequencia';
 import { ItemHoje } from '@modules/home/ItemHoje';
 import { montarItensHoje, type ItemHoje as Item } from '@modules/home/montarItensHoje';
 import { traduzirErro } from '@core/supabase/erros';
-import { Colors, LogoNero, NeroAnimado, Radius, Spacing, Typography } from '@ui/index';
+import { TEXTO_SEQUENCIA } from '@modules/bem-estar/conteudo/sequencia';
+import { Colors, LogoNero, ModalComemoracao, NeroAnimado, Radius, Spacing, Typography } from '@ui/index';
 
 function saudacao(nome?: string | null) {
   const h = new Date().getHours();
@@ -29,6 +32,7 @@ function saudacao(nome?: string | null) {
 export default function Home() {
   const router = useRouter();
   const { perfil, antecedentes, carregando, recarregar, salvar } = usePerfil();
+  const sequencia = useSequencia();
   const { ativas, recarregar: recarregarMed } = useMedicacoes();
   const rastreando = useRastreando();
   const cardio = useResumoCardio();
@@ -92,6 +96,7 @@ export default function Home() {
           <View style={{ flexShrink: 1 }}>
             <Text style={styles.saudacao}>{saudacao(perfil?.nome)}</Text>
             <Text style={styles.pergunta}>Como está sua saúde hoje?</Text>
+            <SeloSequencia dias={sequencia.sequencia} />
           </View>
           <NeroAnimado entrada="acenar" size={96} style={{ marginBottom: -2 }} />
         </View>
@@ -118,6 +123,7 @@ export default function Home() {
 
         <Text style={styles.rodape}>O NERO organiza suas informações e não substitui a avaliação do seu médico.</Text>
       </ScrollView>
+      <ModalComemoracao conteudo={sequencia.marco ? TEXTO_SEQUENCIA[sequencia.marco] : null} aoFechar={sequencia.dispensarMarco} />
     </SafeAreaView>
   );
 }

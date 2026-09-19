@@ -10,7 +10,7 @@ const perfil: PerfilSaude = {
   tabagismoStatus: 'ex', cigarrosDia: 20, anosFumando: 20, dataCessacao: '2020-01-01',
   temDiabetes: true, temHipertensao: true, temDoencaRenal: false, temImunossupressao: false, temHiv: false, temDii: false,
   historicoCancerPessoal: [], lesoesPrecursoras: [], doencasGeneticas: [], radioterapiaToracica: false, jaTeveAtividadeSexual: true, racaCor: 'branca', menopausa: true,
-  semMedicacoes: false, semAntecedentesFamiliares: false, perfilInicialCompleto: true,
+  semMedicacoes: false, semAntecedentesFamiliares: false, perfilInicialCompleto: true, marcoSequenciaComemorado: 0,
   tipoDiabetes: 'dm2', usaInsulina: 'nao', eventoCvPrevio: false, perfilMetaGlicemica: 'adulto', metasGlicemia: null, planoGlicemia: null,
   agravantesCv: { itens: ['sindrome_metabolica'], atualizadoEm: '2026-09-01' }, atividadeFisicaRegular: false,
   preferenciasLembretes: { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true }, pesoMaximoVidaKg: null, objetivoPeso: null,

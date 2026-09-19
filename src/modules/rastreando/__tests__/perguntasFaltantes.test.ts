@@ -6,7 +6,7 @@ const completo: PerfilSaude = {
   tabagismoStatus: 'nunca', cigarrosDia: null, anosFumando: null, dataCessacao: null,
   temDiabetes: false, temHipertensao: false, temDoencaRenal: false, temImunossupressao: false, temHiv: false, temDii: false,
   historicoCancerPessoal: [], lesoesPrecursoras: [], doencasGeneticas: [], radioterapiaToracica: false,
-  jaTeveAtividadeSexual: true, racaCor: 'parda', menopausa: null, semMedicacoes: false, semAntecedentesFamiliares: true, perfilInicialCompleto: true,
+  jaTeveAtividadeSexual: true, racaCor: 'parda', menopausa: null, semMedicacoes: false, semAntecedentesFamiliares: true, perfilInicialCompleto: true, marcoSequenciaComemorado: 0,
   tipoDiabetes: null, usaInsulina: null, eventoCvPrevio: null, perfilMetaGlicemica: 'adulto', metasGlicemia: null, planoGlicemia: null, agravantesCv: { itens: [], atualizadoEm: null }, atividadeFisicaRegular: null, preferenciasLembretes: { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true }, pesoMaximoVidaKg: null, objetivoPeso: null,
 };
 

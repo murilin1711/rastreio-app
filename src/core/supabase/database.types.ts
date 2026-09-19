@@ -238,6 +238,21 @@ export type Database = {
         }
         Relationships: []
       }
+      dias_ativos: {
+        Row: {
+          dia: string
+          user_id: string
+        }
+        Insert: {
+          dia: string
+          user_id: string
+        }
+        Update: {
+          dia?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       documentos: {
         Row: {
           caminho: string
@@ -660,6 +675,7 @@ export type Database = {
           historico_cancer_pessoal: Json
           ja_teve_atividade_sexual: boolean | null
           lesoes_precursoras: Json
+          marco_sequencia_comemorado: number
           menopausa: boolean | null
           metas_glicemia: Json | null
           nome: string
@@ -703,6 +719,7 @@ export type Database = {
           historico_cancer_pessoal?: Json
           ja_teve_atividade_sexual?: boolean | null
           lesoes_precursoras?: Json
+          marco_sequencia_comemorado?: number
           menopausa?: boolean | null
           metas_glicemia?: Json | null
           nome: string
@@ -746,6 +763,7 @@ export type Database = {
           historico_cancer_pessoal?: Json
           ja_teve_atividade_sexual?: boolean | null
           lesoes_precursoras?: Json
+          marco_sequencia_comemorado?: number
           menopausa?: boolean | null
           metas_glicemia?: Json | null
           nome?: string
