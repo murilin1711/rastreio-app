@@ -121,6 +121,15 @@ Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limi
 **Decisão:** gerar clipes curtos por IA a partir do PNG final, sobre o bege do app (sem transparência), converter para WebP animado e exibir com `expo-image`. Conjunto e prompts em `docs/nero/mascote/animacoes.md`. Componente `NeroAnimado` substitui `NeroImage` onde indicado.
 **Motivo:** zero passo manual em software 3D, resultado com o acabamento do render, arquivos leves, mesma reprodução em iOS e Android. Rig 3D em tempo real segue como spike futuro.
 
+### D-016 — Onde o Nero comemora (e onde não comemora) — 19/09/2026
+
+**Contexto:** com o clipe "comemorar" pronto, era preciso decidir em quais momentos do app ele aparece.
+**Decisão:** o Nero comemora apenas em conquistas de **comportamento** — meta atingida (Bem-estar → Metas, quando a distância chega a zero) e sequência de hábitos (Meus hábitos) —, além de um ponto a definir em Minha Saúde. **Não** comemora em rastreamento, resultados de exame nem na conclusão da MRPA.
+**Motivo:** no Rastreando, "em dia" significa que o exame foi feito no prazo, não que o resultado veio normal; e o relatório da MRPA traz a classificação da pressão. Comemorar nesses pontos faria o usuário ler a festa como "deu tudo certo" — exatamente a confusão que o tom calmo do §66 e as ressalvas §25/§26 existem para evitar. Palavras do Murilo: "não pode confundir com nenhum resultado, por exemplo MRPA às vezes pode estar ruim e comemorar por terminar e achar que foi bom". Conquista de comportamento é o que a pessoa fez; resultado clínico é o que o corpo dela mostrou, e só o segundo pode ser mal interpretado.
+**Em aberto:** o que conta como "sequência" em Meus hábitos (a noção não existe hoje no app) e qual é o gatilho em Minha Saúde.
+
+---
+
 ---
 
 ## Decisões clínicas (protocolos adotados)

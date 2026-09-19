@@ -3,13 +3,14 @@ import { Image, type ImageStyle } from 'expo-image';
 import type { StyleProp } from 'react-native';
 
 /** Clipes do mascote (D-015): WebP animado com alpha, gerados de `docs/nero/mascote/animacoes.md`. */
-export type NeroClipe = 'repouso' | 'acenar';
+export type NeroClipe = 'repouso' | 'acenar' | 'comemorar';
 
 interface Clipe { fonte: number; largura: number; altura: number; loop: boolean; duracaoMs: number }
 
 export const CLIPES: Record<NeroClipe, Clipe> = {
   repouso: { fonte: require('../../../assets/animacoes/nero/repouso.webp'), largura: 218, altura: 360, loop: true, duracaoMs: 4400 },
   acenar: { fonte: require('../../../assets/animacoes/nero/acenar.webp'), largura: 252, altura: 360, loop: false, duracaoMs: 3050 },
+  comemorar: { fonte: require('../../../assets/animacoes/nero/comemorar.webp'), largura: 228, altura: 360, loop: false, duracaoMs: 2650 },
 };
 
 /** Largura fixa (a do clipe mais largo) para a troca de clipe não mexer no layout; `contain` centraliza. */

@@ -5,14 +5,24 @@ from PIL import Image, ImageFilter; import numpy as np
 from scipy import ndimage as ndi
 d_frames, saida, ini, fim, loop = sys.argv[1], sys.argv[2], int(sys.argv[3]), int(sys.argv[4]), int(sys.argv[5])
 fps = int(sys.argv[6]) if len(sys.argv) > 6 else 20; alt = int(sys.argv[7]) if len(sys.argv) > 7 else 360; q = sys.argv[8] if len(sys.argv) > 8 else '75'
-Y0, Y1, CX = 185, 1100, 343
+# Enquadramento: recorte vertical e centro horizontal. Os padrões são os dos clipes repouso/acenar;
+# cada vídeo gerado sai com o personagem em escala e posição próprias, então medir antes de processar.
+Y0, Y1, CX = int(os.environ.get('Y0', '185')), int(os.environ.get('Y1', '1100')), int(os.environ.get('CX', '343'))
 LIM_CORPO = float(os.environ.get('LIM_CORPO', '14'))   # distância mínima do bege para contar como corpo (fundo fica abaixo de ~10)   # enquadramento vertical e centro horizontal iguais ao repouso
 # Fechamento da silhueta. Partes do personagem chegam a ter a cor exata do fundo (a face inferior da mão
 # ao acenar: distância de cor 0), abrindo buracos que escapam pela fresta entre a mão e a cabeça e por isso
 # sobrevivem ao fill_holes. Fechar com 5 os elimina sem engordar o contorno; 2 mantém os clipes antigos.
 FECHAMENTO = int(os.environ.get('FECHAMENTO', '2'))
 fs = sorted(glob.glob(d_frames + '/*.png'))[ini:fim + 1]
-BG = np.array(Image.open(fs[0]).convert('RGB'))[10, 10].astype(float)
+# Cor do fundo. 'pixel' = um pixel do canto, como nos clipes repouso/acenar. 'linha' = uma cor por linha,
+# medida nas bordas ao longo do trecho: alguns vídeos saem com cenário (linha de horizonte separando parede
+# e chão) em vez do fundo plano que o prompt pede, e aí uma cor só deixa manchas do cenário no recorte.
+if os.environ.get('FUNDO', 'pixel') == 'linha':
+    bordas = [np.concatenate([a[:, :40], a[:, -40:]], axis=1)
+              for a in (np.array(Image.open(f).convert('RGB')).astype(float) for f in fs[::6])]
+    BG = np.median(np.concatenate(bordas, axis=1), axis=1)[:, None, :]
+else:
+    BG = np.array(Image.open(fs[0]).convert('RGB'))[10, 10].astype(float)
 def silhueta(f):
     a = np.array(Image.open(f).convert('RGB')).astype(float)
     d = np.linalg.norm(a - BG, axis=2)

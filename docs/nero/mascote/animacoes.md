@@ -55,3 +55,15 @@ Comando: `FECHAMENTO=5 python3 scripts/processar-clipe-nero.py <frames> assets/a
 Tentativa descartada: um verificador automático de buracos no WebP final (`binary_closing` + critério de cerco). Na resolução de entrega, 3,5× menor, o buraco encolhe para o tamanho das concavidades legítimas (fresta entre braço e corpo, vão entre as pernas) e as duas calibrações testadas não os separaram. A verificação que funciona é comparar os mapas de alpha da mão frame a frame, antes e depois.
 
 Observação para depois (não é o bug relatado): o corte de sombra lateral deixa uma quina reta clara à esquerda do pé em alguns frames.
+
+## Clipe 3 — comemorar (19/09/2026)
+Vídeo de 10 s; a comemoração ocupa os frames 88–150 (2,6 s): ergue os braços, pula, aterrissa e volta à pose calma. 53 frames, 20 fps, **404 KB**, sem loop (228 × 360 — mais estreito que o aceno, então `PROPORCAO_MAX` e o layout não mudam).
+
+Este vídeo saiu diferente dos dois primeiros e exigiu duas mudanças no pipeline:
+
+1. **Enquadramento próprio.** O personagem veio ~14 % menor e deslocado (topo da cabeça em y 332 contra 218 no aceno), e no ápice do pulo a cabeça sobe até y 170 — acima do `Y0 = 185` fixo, que cortaria a cabeça. `Y0`, `Y1` e `CX` viraram variáveis de ambiente (padrões = os dos clipes aprovados). Usado: `Y0=160 Y1=1105 CX=353`. Consequência aceita: no comemorar o Nero aparece um pouco menor que no repouso, o que não incomoda porque ele aparece sozinho, em contexto próprio — se algum dia trocar repouso → comemorar no mesmo lugar, haverá salto de tamanho.
+2. **Fundo por linha** (`FUNDO=linha`, padrão `pixel`). O gerador ignorou o "completely flat solid background" do prompt e produziu cenário com linha de horizonte: a cor do fundo varia de `[230,219,202]` a `[237,227,212]` conforme a altura — distância ~11, quase o limiar 14. Com uma cor só, sobravam manchas do cenário no recorte. Medindo uma cor por linha (mediana das 40 colunas de cada borda ao longo do trecho), a área capturada caiu de 212–257 mil px para 191–214 mil.
+
+Comando: `FUNDO=linha FECHAMENTO=5 Y0=160 Y1=1105 CX=353 python3 scripts/processar-clipe-nero.py <frames> assets/animacoes/nero/comemorar.webp 88 150 0`
+
+**Para o próximo clipe (pensando):** medir o enquadramento antes de processar, porque cada geração sai com escala e posição próprias, e conferir se o fundo é plano.
