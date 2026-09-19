@@ -4,7 +4,7 @@ import type { LembreteCentral } from '@core/lembretes/central';
 import type { TipoLembrete } from '@core/lembretes/origem';
 import { Colors, Radius, Spacing, Typography } from '@ui/theme';
 
-const ICONE: Record<TipoLembrete, keyof typeof Ionicons.glyphMap> = { exame: 'shield-checkmark-outline', mrpa: 'pulse-outline', glicemia: 'water-outline', medicacao: 'medkit-outline', consulta: 'calendar-outline', atualizacao: 'refresh-outline' };
+const ICONE: Record<TipoLembrete, keyof typeof Ionicons.glyphMap> = { exame: 'shield-checkmark-outline', mrpa: 'pulse-outline', glicemia: 'water-outline', medicacao: 'medkit-outline', consulta: 'calendar-outline', atualizacao: 'refresh-outline', agua: 'water-outline' };
 const hora = (iso: string) => { const d = new Date(iso); return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`; };
 
 /** Linha da central de lembretes: origem, hora, texto e atalho para a tela de origem. */

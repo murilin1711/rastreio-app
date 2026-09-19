@@ -1,3 +1,4 @@
+import { type ConfigLembretesAgua, CONFIG_AGUA_PADRAO } from '@core/regras/bemestar/lembretesAgua';
 import type { Database } from '@core/supabase/database.types';
 import { PREFERENCIAS_PADRAO, type PerfilSaude } from './tipos';
 
@@ -35,6 +36,7 @@ const colunas: Record<CampoDominio, keyof Update> = {
   marcoSequenciaComemorado: 'marco_sequencia_comemorado',
   temInsuficienciaCardiaca: 'tem_insuficiencia_cardiaca',
   aguaMetaComemoradaEm: 'agua_meta_comemorada_em',
+  lembretesAgua: 'lembretes_agua',
   tipoDiabetes: 'tipo_diabetes',
   usaInsulina: 'usa_insulina',
   eventoCvPrevio: 'evento_cv_previo',
@@ -91,6 +93,7 @@ export function paraDominio(r: Row): PerfilSaude {
     marcoSequenciaComemorado: r.marco_sequencia_comemorado,
     temInsuficienciaCardiaca: r.tem_insuficiencia_cardiaca,
     aguaMetaComemoradaEm: r.agua_meta_comemorada_em,
+    lembretesAgua: (r.lembretes_agua ?? CONFIG_AGUA_PADRAO) as ConfigLembretesAgua,
   };
 }
 

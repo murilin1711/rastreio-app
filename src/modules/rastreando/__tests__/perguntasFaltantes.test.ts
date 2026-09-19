@@ -6,8 +6,8 @@ const completo: PerfilSaude = {
   tabagismoStatus: 'nunca', cigarrosDia: null, anosFumando: null, dataCessacao: null,
   temDiabetes: false, temHipertensao: false, temDoencaRenal: false, temImunossupressao: false, temHiv: false, temDii: false,
   historicoCancerPessoal: [], lesoesPrecursoras: [], doencasGeneticas: [], radioterapiaToracica: false,
-  jaTeveAtividadeSexual: true, racaCor: 'parda', menopausa: null, semMedicacoes: false, semAntecedentesFamiliares: true, perfilInicialCompleto: true, marcoSequenciaComemorado: 0, temInsuficienciaCardiaca: null, aguaMetaComemoradaEm: null,
-  tipoDiabetes: null, usaInsulina: null, eventoCvPrevio: null, perfilMetaGlicemica: 'adulto', metasGlicemia: null, planoGlicemia: null, agravantesCv: { itens: [], atualizadoEm: null }, atividadeFisicaRegular: null, preferenciasLembretes: { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true }, pesoMaximoVidaKg: null, objetivoPeso: null,
+  jaTeveAtividadeSexual: true, racaCor: 'parda', menopausa: null, semMedicacoes: false, semAntecedentesFamiliares: true, perfilInicialCompleto: true, marcoSequenciaComemorado: 0, temInsuficienciaCardiaca: null, aguaMetaComemoradaEm: null, lembretesAgua: { ativo: false, inicio: '08:00', fim: '20:00', intervaloMin: 120 },
+  tipoDiabetes: null, usaInsulina: null, eventoCvPrevio: null, perfilMetaGlicemica: 'adulto', metasGlicemia: null, planoGlicemia: null, agravantesCv: { itens: [], atualizadoEm: null }, atividadeFisicaRegular: null, preferenciasLembretes: { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true, agua: false }, pesoMaximoVidaKg: null, objetivoPeso: null,
 };
 
 test('perfil completo → nada falta', () => {

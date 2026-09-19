@@ -1,6 +1,7 @@
 import * as Notifications from 'expo-notifications';
 import { agendarLembretesGlicemia, agendarLembretesMrpa, sincronizarLembretesMedicacao } from '@core/cardio/lembretesCardio';
 import { sessaoAtiva } from '@core/cardio/sessoesMrpa';
+import { agendarLembretesAgua } from '@core/bemestar/lembretesAgua';
 import { listarMedicacoes } from '@core/medicacoes/repositorio';
 import { obterPerfil, salvarPerfil } from '@core/perfil/repositorio';
 import type { PreferenciasLembretes } from '@core/perfil/tipos';
@@ -71,6 +72,12 @@ async function reagendarTipo(userId: string, tipo: TipoLembrete): Promise<void> 
         vistos.add(e.programa);
         await agendarLembretes(userId, e.id, e.programa, e.dataProximaAcao, ROTULO_EXAME[e.tipo as TipoExameRastreamento] ?? e.tipo);
       }
+      return;
+    }
+    case 'agua': {
+      const perfil = await obterPerfil(userId);
+      const temRestricao = perfil.temDoencaRenal === true || perfil.temInsuficienciaCardiaca === true;
+      await agendarLembretesAgua(userId, perfil.lembretesAgua, temRestricao);
       return;
     }
     case 'atualizacao':

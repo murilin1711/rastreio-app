@@ -10,6 +10,7 @@ export const ROTULO_TIPO_LEMBRETE: Record<TipoLembrete, string> = {
   medicacao: 'Medicamentos',
   consulta: 'Consultas',
   atualizacao: 'Atualização de dados clínicos',
+  agua: 'Água',
 };
 
 export const DESCRICAO_TIPO_LEMBRETE: Record<TipoLembrete, string> = {
@@ -19,10 +20,11 @@ export const DESCRICAO_TIPO_LEMBRETE: Record<TipoLembrete, string> = {
   medicacao: 'Horários dos medicamentos com lembrete ligado.',
   consulta: 'Um dia antes e no dia da consulta.',
   atualizacao: 'Quando algum dado do check-up ficar antigo.',
+  agua: 'Avisos para beber água na janela e no intervalo que você escolher, em Minha Água.',
 };
 
 /** Como cada módulo grava o título em `lembretes` — a origem é derivada daqui, sem coluna nova. */
-export const PREFIXO_DO_TIPO: Record<TipoLembrete, string> = { exame: '', mrpa: 'mrpa:', glicemia: 'glicemia:', medicacao: 'medicacao:', consulta: 'consulta:', atualizacao: 'atualizacao:' };
+export const PREFIXO_DO_TIPO: Record<TipoLembrete, string> = { exame: '', mrpa: 'mrpa:', glicemia: 'glicemia:', medicacao: 'medicacao:', consulta: 'consulta:', atualizacao: 'atualizacao:', agua: 'agua:' };
 
 export interface OrigemLembrete { tipo: TipoLembrete; rotulo: string; rota: string }
 
@@ -35,6 +37,7 @@ export function origemDe(l: { origemTipo: string; titulo: string; origemId: stri
   if (t.startsWith('glicemia:')) return { tipo: 'glicemia', rotulo: 'Glicemia', rota: '/(app)/coracao/glicemia/registrar' };
   if (t.startsWith('medicacao:')) return { tipo: 'medicacao', rotulo: 'Medicamento', rota: '/(app)/minha-saude/medicamentos' };
   if (t.startsWith('consulta:') || l.origemTipo === 'consulta') return { tipo: 'consulta', rotulo: 'Consulta', rota: '/(app)/minha-saude/lembretes/consultas' };
+  if (t.startsWith('agua:')) return { tipo: 'agua', rotulo: 'Água', rota: '/(app)/bem-estar/agua' };
   if (t.startsWith('atualizacao:')) return { tipo: 'atualizacao', rotulo: 'Atualização', rota: '/(app)/coracao/checkup' };
   if (l.origemTipo === 'exame') { const programa = t.split(':')[0]; return { tipo: 'exame', rotulo: 'Rastreamento', rota: programa ? ROTA_PROGRAMA(programa) : '/(app)/rastreando' }; }
   return { tipo: 'atualizacao', rotulo: 'NERO', rota: '/(app)/minha-saude/lembretes' };

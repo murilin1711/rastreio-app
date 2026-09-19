@@ -5,7 +5,7 @@ const row = {
   altura_cm: 165, tabagismo_status: 'ex', cigarros_dia: 10, anos_fumando: 12, data_cessacao: '2020-01-01',
   tem_diabetes: false, tem_hipertensao: null, tem_doenca_renal: null, tem_imunossupressao: null, tem_hiv: null, tem_dii: null,
   historico_cancer_pessoal: [], lesoes_precursoras: [], doencas_geneticas: [{ nome: 'BRCA1' }], radioterapia_toracica: null,
-  tipo_usuario: 'paciente', ja_teve_atividade_sexual: null, raca_cor: null, menopausa: null, sem_medicacoes: false, sem_antecedentes_familiares: false, perfil_inicial_completo: true, marco_sequencia_comemorado: 0, tem_insuficiencia_cardiaca: null, agua_meta_comemorada_em: null, created_at: '', updated_at: '',
+  tipo_usuario: 'paciente', ja_teve_atividade_sexual: null, raca_cor: null, menopausa: null, sem_medicacoes: false, sem_antecedentes_familiares: false, perfil_inicial_completo: true, marco_sequencia_comemorado: 0, tem_insuficiencia_cardiaca: null, agua_meta_comemorada_em: null, lembretes_agua: { ativo: false, inicio: '08:00', fim: '20:00', intervaloMin: 120 }, created_at: '', updated_at: '',
   // Fase 2 (migração 0010) — mapeados no plano 2b
   tipo_diabetes: null, usa_insulina: null, evento_cv_previo: null, perfil_meta_glicemica: 'adulto', metas_glicemia: null, plano_glicemia: null, agravantes_cv: { itens: [] }, atividade_fisica_regular: null, preferencias_lembretes: { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true }, peso_maximo_vida_kg: null, objetivo_peso: null,
 };

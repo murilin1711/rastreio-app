@@ -675,6 +675,7 @@ export type Database = {
           histerectomia: boolean | null
           historico_cancer_pessoal: Json
           ja_teve_atividade_sexual: boolean | null
+          lembretes_agua: Json
           lesoes_precursoras: Json
           marco_sequencia_comemorado: number
           menopausa: boolean | null
@@ -721,6 +722,7 @@ export type Database = {
           histerectomia?: boolean | null
           historico_cancer_pessoal?: Json
           ja_teve_atividade_sexual?: boolean | null
+          lembretes_agua?: Json
           lesoes_precursoras?: Json
           marco_sequencia_comemorado?: number
           menopausa?: boolean | null
@@ -767,6 +769,7 @@ export type Database = {
           histerectomia?: boolean | null
           historico_cancer_pessoal?: Json
           ja_teve_atividade_sexual?: boolean | null
+          lembretes_agua?: Json
           lesoes_precursoras?: Json
           marco_sequencia_comemorado?: number
           menopausa?: boolean | null

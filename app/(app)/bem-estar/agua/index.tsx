@@ -1,14 +1,15 @@
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { Alert, Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Alert, Pressable, RefreshControl, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAgua } from '@core/bemestar/useAgua';
 import { totalDoDiaMl } from '@core/regras/bemestar/agua';
 import { hojeLocalISO } from '@core/bemestar/useAtividades';
 import { traduzirErro } from '@core/supabase/erros';
-import { PORCOES_AGUA, TEXTO_AGUA } from '@modules/bem-estar/conteudo/agua';
+import { INTERVALOS_AGUA, PORCOES_AGUA, TEXTO_AGUA } from '@modules/bem-estar/conteudo/agua';
+import { horariosAgua, validarConfigAgua } from '@core/regras/bemestar/lembretesAgua';
 import { horaLocal } from '@modules/coracao/componentes/formato';
-import { Button, Card, Colors, Input, InternalHeader, ModalComemoracao, ProgressBar, Radius, Spacing, Typography } from '@ui/index';
+import { Button, Card, Colors, Input, InternalHeader, ModalComemoracao, Opcoes, ProgressBar, Radius, Spacing, Typography } from '@ui/index';
 
 const litros = (ml: number) => `${String(Math.round(ml / 100) / 10).replace('.', ',')} L`;
 
@@ -30,6 +31,12 @@ export default function MinhaAgua() {
     { text: 'Cancelar', style: 'cancel' },
     { text: 'Apagar', style: 'destructive', onPress: () => agua.excluir(id).catch((e) => Alert.alert('Não foi possível apagar', traduzirErro(e).mensagemUsuario)) },
   ]);
+
+  const salvarLembretes = (config: typeof agua.lembretes) => {
+    const erro = config.ativo ? validarConfigAgua(config) : null;
+    if (erro) { Alert.alert('Confira os horários', erro); return; }
+    agua.salvarLembretes(config).catch((e) => Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario));
+  };
 
   const hoje = hojeLocalISO();
   const doDia = agua.registros.filter((r) => r.medidoEm.slice(0, 10) === hoje);
@@ -70,6 +77,37 @@ export default function MinhaAgua() {
           {agua.temRestricao ? TEXTO_AGUA.restricao : agua.metaDefinida != null ? 'Meta definida por você ou pelo seu profissional.' : agua.metaMl ? TEXTO_AGUA.origemMeta : TEXTO_AGUA.semPeso}
         </Text>
         <Button label="Definir minha meta" variant="ghost" onPress={() => router.push('/(app)/bem-estar/metas')} />
+
+        <Text style={styles.secao}>Lembretes</Text>
+        {agua.temRestricao ? (
+          <Text style={styles.nota}>{TEXTO_AGUA.lembretesRestricao}</Text>
+        ) : (
+          <Card style={styles.lembretes}>
+            <View style={styles.linhaSwitch}>
+              <Text style={styles.linhaMl}>Quero ser lembrado de beber água</Text>
+              <Switch
+                value={agua.lembretes.ativo}
+                onValueChange={(v) => salvarLembretes({ ...agua.lembretes, ativo: v })}
+                trackColor={{ true: Colors.accent, false: Colors.border }}
+                thumbColor={Colors.white}
+                accessibilityLabel="Lembretes de água"
+              />
+            </View>
+            {agua.lembretes.ativo ? (
+              <>
+                <Text style={styles.rotulo}>Das</Text>
+                <View style={styles.horas}>
+                  <Input value={agua.lembretes.inicio} onChangeText={(t) => salvarLembretes({ ...agua.lembretes, inicio: t })} placeholder="08:00" style={{ flex: 1 }} />
+                  <Text style={styles.ate}>até</Text>
+                  <Input value={agua.lembretes.fim} onChangeText={(t) => salvarLembretes({ ...agua.lembretes, fim: t })} placeholder="20:00" style={{ flex: 1 }} />
+                </View>
+                <Text style={styles.rotulo}>A cada</Text>
+                <Opcoes opcoes={INTERVALOS_AGUA.map((i) => ({ valor: String(i.min), rotulo: i.rotulo }))} valor={String(agua.lembretes.intervaloMin)} onChange={(v) => salvarLembretes({ ...agua.lembretes, intervaloMin: Number(v) })} />
+                <Text style={styles.nota}>{TEXTO_AGUA.comoFunciona(horariosAgua(agua.lembretes.inicio, agua.lembretes.fim, agua.lembretes.intervaloMin).length)}</Text>
+              </>
+            ) : null}
+          </Card>
+        )}
 
         <Text style={styles.secao}>Hoje</Text>
         {doDia.length === 0 ? <Text style={styles.vazio}>Nada registrado ainda hoje.</Text> : null}
@@ -113,6 +151,11 @@ const styles = StyleSheet.create({
   porcaoRotulo: { ...Typography.caption, color: Colors.textSecondary },
   outro: { flexDirection: 'row', gap: Spacing.sm, alignItems: 'center', marginTop: Spacing.sm },
   nota: { ...Typography.caption, color: Colors.textSecondary, marginTop: Spacing.lg },
+  lembretes: { padding: Spacing.lg, gap: Spacing.sm },
+  linhaSwitch: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: Spacing.md },
+  rotulo: { ...Typography.subheading, color: Colors.textPrimary, marginTop: Spacing.sm },
+  horas: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm },
+  ate: { ...Typography.body, color: Colors.textSecondary },
   secao: { ...Typography.heading, color: Colors.textPrimary, marginTop: Spacing.xxl, marginBottom: Spacing.sm },
   vazio: { ...Typography.body, color: Colors.textSecondary },
   linha: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', padding: Spacing.lg },

@@ -1,5 +1,5 @@
 begin;
-select plan(5);
+select plan(7);
 
 insert into auth.users (id, email) values ('00000000-0000-0000-0000-0000000000f1', 'f1@teste.dev');
 
@@ -22,6 +22,11 @@ select is(
 
 select has_column('public', 'perfil_saude', 'tem_insuficiencia_cardiaca', 'perfil tem insuficiência cardíaca');
 select has_column('public', 'perfil_saude', 'agua_meta_comemorada_em', 'perfil guarda o dia da última comemoração da meta');
+
+select has_column('public', 'perfil_saude', 'lembretes_agua', 'perfil guarda a configuração dos lembretes de água');
+select is(
+  (select (lembretes_agua->>'ativo')::boolean from public.perfil_saude where user_id = '00000000-0000-0000-0000-0000000000f1'),
+  false, 'lembretes de água começam desligados');
 
 select * from finish();
 rollback;

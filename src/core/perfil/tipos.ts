@@ -11,8 +11,9 @@ export interface PlanoGlicemia { definidoPor: 'medico' | 'outro_profissional' | 
 /** Fatores agravantes — Diretriz de Dislipidemias 2025, Tabela 4.3 (C-013). */
 export type AgravanteCV = 'hist_familiar_dcv_prematura' | 'sindrome_metabolica' | 'esteatose_hepatica' | 'artrite_reumatoide' | 'psoriase' | 'lupus' | 'dii' | 'hiv' | 'transplante' | 'menarca_precoce_ou_tardia' | 'disturbio_gestacional' | 'parto_prematuro' | 'rciu' | 'abortos_repeticao' | 'menopausa_precoce' | 'lpa_elevada' | 'pcr_us_elevada';
 /** Preferências de notificação (D-010): desligar só cancela avisos do celular; itens do app permanecem. */
-export interface PreferenciasLembretes { exame: boolean; mrpa: boolean; glicemia: boolean; medicacao: boolean; consulta: boolean; atualizacao: boolean }
-export const PREFERENCIAS_PADRAO: PreferenciasLembretes = { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true };
+export interface PreferenciasLembretes { exame: boolean; mrpa: boolean; glicemia: boolean; medicacao: boolean; consulta: boolean; atualizacao: boolean; agua: boolean }
+/** Água começa desligada: exige a pessoa escolher janela e intervalo antes de receber notificação. */
+export const PREFERENCIAS_PADRAO: PreferenciasLembretes = { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true, agua: false };
 /** Objetivo de peso (§82): escolhido pelo usuário, nunca imposto pelo app. */
 export type ObjetivoPeso = 'reducao' | 'manutencao' | 'aumento' | 'sem_meta';
 export type RacaCor = 'branca' | 'preta' | 'parda' | 'amarela' | 'indigena' | 'nao_informar';
@@ -67,6 +68,8 @@ export interface PerfilSaude {
   marcoSequenciaComemorado: number;
   /** Dia (AAAA-MM-DD) em que a meta de água foi comemorada pela última vez. */
   aguaMetaComemoradaEm: string | null;
+  /** Janela e intervalo dos lembretes de água (C-021 parte D2). */
+  lembretesAgua: import('@core/regras/bemestar/lembretesAgua').ConfigLembretesAgua;
 }
 
 export type Parentesco = 'mae' | 'pai' | 'irma_o' | 'filha_o' | 'avo_a' | 'tia_o' | 'outro';

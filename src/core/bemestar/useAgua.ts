@@ -3,6 +3,8 @@ import { usePerfil } from '@core/perfil/usePerfil';
 import { deveComemorarMeta, metaSugeridaMl, totalDoDiaMl } from '@core/regras/bemestar/agua';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { excluirAgua, listarAgua, marcarMetaComemorada, registrarAgua, type RegistroAgua } from './agua';
+import { salvarLembretesAgua } from './lembretesAgua';
+import { CONFIG_AGUA_PADRAO, type ConfigLembretesAgua } from '@core/regras/bemestar/lembretesAgua';
 import { useCorpo } from './useCorpo';
 import { useMetas } from './useMetas';
 import { hojeLocalISO } from './useAtividades';
@@ -61,8 +63,16 @@ export function useAgua() {
     await recarregar();
   }, [userId, recarregar]);
 
+  /** Salva janela/intervalo e reagenda as notificações (C-021 parte D2). */
+  const salvarLembretes = useCallback(async (config: ConfigLembretesAgua) => {
+    if (!userId) throw new Error('Sessão indisponível');
+    await salvarLembretesAgua(userId, config);
+    await recarregarPerfil();
+  }, [userId, recarregarPerfil]);
+
   return {
     registros, totalHoje, metaMl, temRestricao, metaDefinida, carregando,
+    lembretes: perfil?.lembretesAgua ?? CONFIG_AGUA_PADRAO, salvarLembretes,
     comemorar, dispensarComemoracao: () => setComemorar(false),
     registrar, excluir, recarregar, definirMeta: metas.definir,
   };
