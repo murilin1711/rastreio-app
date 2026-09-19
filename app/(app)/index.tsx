@@ -87,12 +87,13 @@ export default function Home() {
           <View style={styles.avatar}><Text style={styles.avatarTexto}>{inicial}</Text></View>
         </View>
 
+        {/* Mascote colado ao texto (não na borda) e com os pés na linha de base de "Como está sua saúde hoje?" */}
         <View style={styles.boasVindas}>
-          <View style={{ flex: 1 }}>
+          <View style={{ flexShrink: 1 }}>
             <Text style={styles.saudacao}>{saudacao(perfil?.nome)}</Text>
             <Text style={styles.pergunta}>Como está sua saúde hoje?</Text>
           </View>
-          <NeroAnimado entrada="acenar" size={96} />
+          <NeroAnimado entrada="acenar" size={96} style={{ marginBottom: -2 }} />
         </View>
 
         <View style={styles.secaoTopo}>
@@ -129,7 +130,7 @@ const styles = StyleSheet.create({
   marcaTexto: { fontFamily: 'Poppins-ExtraBold', fontSize: 15, letterSpacing: 2, color: Colors.primary },
   avatar: { width: 36, height: 36, borderRadius: 18, backgroundColor: Colors.primary, alignItems: 'center', justifyContent: 'center' },
   avatarTexto: { fontFamily: 'Poppins-Bold', fontSize: 15, color: Colors.white },
-  boasVindas: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md, marginBottom: Spacing.xxl },
+  boasVindas: { flexDirection: 'row', alignItems: 'flex-end', gap: Spacing.sm, marginBottom: Spacing.xxl },
   saudacao: { ...Typography.display, fontSize: 28, lineHeight: 34, color: Colors.primary },
   pergunta: { ...Typography.body, color: Colors.textSecondary, marginTop: Spacing.xs },
   secaoTopo: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, marginBottom: Spacing.md },
