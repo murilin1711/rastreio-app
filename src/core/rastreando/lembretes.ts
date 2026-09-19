@@ -1,4 +1,5 @@
 import * as Notifications from 'expo-notifications';
+import { CANAL_LEMBRETES } from '@core/lembretes/configurar';
 import { notificacoesPermitidas, pedirPermissaoNotificacoes } from '@core/lembretes/permissao';
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
@@ -51,7 +52,7 @@ export async function agendarLembretes(userId: string, exameId: string, programa
     if (temPermissao) {
       notifId = await Notifications.scheduleNotificationAsync({
         content: { title: 'NERO — Rastreando', body: texto },
-        trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: quando },
+        trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: quando, channelId: CANAL_LEMBRETES },
       }).catch(() => null);
     }
     const { error } = await supabase.from('lembretes').insert({

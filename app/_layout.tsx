@@ -10,9 +10,11 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
+import { configurarNotificacoes } from '@core/lembretes/configurar';
 import { SessaoProvider } from '@core/sessao/SessaoProvider';
 
 SplashScreen.preventAutoHideAsync();
+configurarNotificacoes();
 
 export default function Layout() {
   const [fontesCarregadas] = useFonts({

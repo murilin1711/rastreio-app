@@ -30,3 +30,4 @@ supabase/.temp/
 supabase/.branches/
 .env.remoto
 .env.local-docker
+.gstack/

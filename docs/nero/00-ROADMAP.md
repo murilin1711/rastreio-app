@@ -19,6 +19,7 @@ As quatro fases estão implementadas, mescladas e na nuvem. O que depende de voc
 - [ ] [`fase-3.md`](checklists/fase-3.md) — documentos, relatórios, QR, consulta, lembretes
 - [ ] [`fase-4a.md`](checklists/fase-4a.md) — Meu Corpo, atividade, sono, Home
 - [ ] [`fase-4b.md`](checklists/fase-4b.md) — alimentação, vínculo com glicemia, metas, check-in, relatório de hábitos
+- [ ] [`publicacao.md`](checklists/publicacao.md) — canal de notificações, exclusão de conta, textos de permissão (após `db push` da 0014)
 
 **Revisão dos textos** (`docs/nero/revisao/`) — as mensagens clínicas e de tela, com a fonte de cada uma.
 - [ ] [`2026-09-16-revisao-textos-rastreando.md`](revisao/2026-09-16-revisao-textos-rastreando.md)
@@ -30,7 +31,7 @@ As quatro fases estão implementadas, mescladas e na nuvem. O que depende de voc
 
 **Arquivos que só você consegue baixar** (para o acervo `docs/nero/referencias/pdf/`): Guia de Atividade Física para a População Brasileira, versão completa (54 p.) — https://www.gov.br/saude/pt-br/assuntos/saude-brasil/eu-quero-me-exercitar/documentos/pdf/guia_atividade_fisica_populacao_brasileira.pdf
 
-**Antes das lojas** (pendências técnicas, eu executo quando você decidir): PNG transparente do mascote Nero · reativar confirmação de e-mail no Supabase Auth · revogar o token do CLI · ícone/splash e `app.json` (permissões em português) · build EAS + TestFlight/teste interno · política de privacidade e leitura de LGPD (dados de saúde, QR de 7 dias, bucket de laudos).
+**Antes das lojas** — estado e o que falta em [`publicacao/README.md`](publicacao/README.md). Já feito em 18/09 (D-012): `app.json` com permissões, `eas.json`, canal de notificações, rascunho da política de privacidade, limpeza de dependências. Ainda dependem de você: PNG transparente do mascote Nero · reativar confirmação de e-mail no Supabase Auth · revogar o token do CLI · ícone/splash e `app.json` (permissões em português) · build EAS + TestFlight/teste interno · política de privacidade e leitura de LGPD (dados de saúde, QR de 7 dias, bucket de laudos).
 
 **Como funciona cada módulo e a fonte de cada regra:** `docs/nero/funcionamento/` (rastreando, coracao-metabolismo, minha-saude, saude-bem-estar).
 

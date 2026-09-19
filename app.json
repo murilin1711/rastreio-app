@@ -8,13 +8,24 @@
     "scheme": "nero",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "buildNumber": "1",
+      "infoPlist": {
+        "CFBundleDevelopmentRegion": "pt-BR",
+        "CFBundleLocalizations": ["pt-BR"],
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#F3F0EA"
-      }
+      },
+      "blockedPermissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.READ_MEDIA_VIDEO"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -33,7 +44,23 @@
         }
       ],
       "expo-sharing",
-      "expo-web-browser"
+      "expo-web-browser",
+      [
+        "expo-image-picker",
+        {
+          "cameraPermission": "O NERO usa a câmera para fotografar laudos, receitas e exames que você quiser guardar em Meus Documentos.",
+          "photosPermission": "O NERO acessa suas fotos para anexar laudos, receitas e exames em Meus Documentos.",
+          "microphonePermission": false
+        }
+      ],
+      "expo-document-picker",
+      [
+        "expo-notifications",
+        {
+          "color": "#0F2D63",
+          "defaultChannel": "lembretes"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true

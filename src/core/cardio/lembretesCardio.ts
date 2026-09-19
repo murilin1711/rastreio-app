@@ -1,4 +1,5 @@
 import * as Notifications from 'expo-notifications';
+import { CANAL_LEMBRETES } from '@core/lembretes/configurar';
 import { planejarLembretesMrpa } from '@core/regras/cardio/lembretesMrpa';
 import type { SessaoMrpa } from '@core/regras/cardio/tipos';
 import { notificacoesPermitidas } from '@core/lembretes/permissao';
@@ -12,7 +13,7 @@ export async function agendar(userId: string, origemTipo: 'medida' | 'medicacao'
   if (temPermissao) {
     notifId = await Notifications.scheduleNotificationAsync({
       content: { title: origemTipo === 'consulta' ? 'NERO — Minha Saúde' : 'NERO — Coração & Metabolismo', body: texto },
-      trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: quando },
+      trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: quando, channelId: CANAL_LEMBRETES },
     }).catch(() => null);
   }
   const { error } = await supabase.from('lembretes').insert({

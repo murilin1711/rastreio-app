@@ -89,6 +89,27 @@ Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limi
 
 ---
 
+### D-012 · Preparação para as lojas: configuração nativa, build e limpeza de dependências — DECIDIDA (18/09/2026)
+**Contexto:** `app.json` era o esqueleto do Expo (ícone placeholder, sem textos de permissão, sem `eas.json`); `expo-sensors` e `lottie-react-native` estavam instalados sem nenhum import; não havia canal Android de notificações nem handler de primeiro plano.
+**Decisão (executada pelo Claude, sem dado externo):**
+- `app.json`: plugins `expo-image-picker` (câmera/fotos em português, microfone bloqueado), `expo-document-picker`, `expo-notifications` (cor `#0F2D63`, canal padrão `lembretes`); `ITSAppUsesNonExemptEncryption: false` (o app só usa HTTPS); `CFBundleLocalizations: pt-BR`; `buildNumber`/`versionCode` 1; `blockedPermissions` RECORD_AUDIO e READ_MEDIA_VIDEO.
+- `eas.json`: perfis `development`, `preview` (APK + iOS interno, para TestFlight/teste interno) e `production` (`autoIncrement`, submit Android na faixa `internal`). `appVersionSource: remote`.
+- `src/core/lembretes/configurar.ts`: `setNotificationHandler` + canal `lembretes`; chamado em `app/_layout.tsx`; agendadores passam `channelId`.
+- Removidos `expo-sensors` e `lottie-react-native`; patches do SDK 57 atualizados (`expo-doctor` 21/21).
+- Rascunho da política de privacidade em `docs/nero/publicacao/politica-de-privacidade.md`, escrito a partir das tabelas e buckets reais.
+**Pendente de decisão do Murilo:** bundle id / package (permanente), nome nas lojas, contas Apple/Google, hospedagem da política, exclusão de conta no app (D-013).
+**Motivo:** nada disso depende de dado externo e tudo é pré-requisito de qualquer `eas build`.
+
+---
+
+### D-013 · Exclusão de conta dentro do app — DECIDIDA (18/09/2026)
+**Contexto:** App Store (guideline 5.1.1(v)) e Play (política de exclusão de dados) exigem que o usuário consiga apagar a conta pelo próprio app. Não existia.
+**Decisão:** função SQL `public.excluir_minha_conta()` (`security definer`, só `authenticated`) que apaga a linha em `auth.users` do próprio `auth.uid()`; todas as tabelas caem por `on delete cascade`. O Storage bloqueia `delete` direto em `storage.objects` (trigger `protect_delete`), então o app esvazia `laudos` e `relatorios` pela Storage API antes (`src/core/sessao/excluirConta.ts`) e a função **recusa** (`P0001`) se ainda houver arquivo — nunca fica objeto órfão. Tela `Minha Saúde → Excluir minha conta` (`app/(app)/minha-saude/excluir-conta.tsx`): lista o que será apagado, sugere gerar o PDF geral antes, exige digitar EXCLUIR + confirmação nativa, faz logout local ao terminar. Migração `0014_excluir_conta.sql`; 9 testes pgTAP (`excluir_conta.test.sql`) + 4 Jest.
+**Alternativa descartada:** Edge Function com `service_role` — mais peça para manter e chave sensível fora do banco.
+**Pendente:** `db push` da 0014 para a nuvem (senha do Murilo); testar no aparelho (checklist de publicação).
+
+---
+
 ## Decisões clínicas (protocolos adotados)
 
 > Preencher na Fase 1/2. Cada linha precisa de fonte, ano e data de revisão. O documento diz "intervalo definido pelo protocolo vigente" em vários pontos — estas são as lacunas a fechar.

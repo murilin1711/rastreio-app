@@ -24,10 +24,11 @@ O app Rastreando virou a plataforma NERO (4 módulos: Rastreando, Coração & Me
 
 ## 4. Estado atual
 - Tudo commitado e no GitHub; `git status` limpo. Nada quebrado conhecido.
+- **Sessão 2 (18/09, tarde):** D-012 (app.json/eas.json/notificações/limpeza de deps/política rascunho) e D-013 (exclusão de conta: migração 0014 **só local**, ainda não em nuvem). 358 Jest, 39 pgTAP. Docs em `docs/nero/publicacao/`.
 - **Nunca testado no aparelho:** Fases 3 e 4 inteiras (PDF via `expo-print`, QR via `qrcode` no Hermes, upload no Storage, vínculo de glicemia, notificações de consulta). Checklists prontos.
 - O mascote Nero ainda é o símbolo da logo em todas as variantes (`src/ui/components/NeroImage.tsx`).
 - Supabase Auth com confirmação de e-mail **desativada** desde a Fase 0 (facilitar testes).
-- Supabase CLI v2.75 (há v2.117); token do CLI da Fase 0 ainda não revogado.
+- Supabase CLI atualizado para v2.117 em 18/09; token do CLI da Fase 0 ainda não revogado.
 
 ## 5. Próximos passos
 1. Murilo roda os checklists no aparelho (`docs/nero/checklists/fase-2a, 2b, 3, 4a, 4b.md`) e revisa os textos (PDFs em Downloads / `docs/nero/revisao/`). Correções sob demanda, uma por vez. Texto clínico muda em `supabase/seed.sql` (linha da regra) e na nuvem via `psql` com `update` explícito (a semente é `on conflict do nothing`, não atualiza mensagens existentes).

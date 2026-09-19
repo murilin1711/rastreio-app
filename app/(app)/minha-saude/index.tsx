@@ -67,6 +67,7 @@ export default function MinhaSaude() {
         </View>
 
         <Button label="Sair da conta" variant="ghost" onPress={sair} style={{ marginTop: Spacing.xxxl }} />
+        <Button label="Excluir minha conta" variant="ghost" onPress={() => router.push('/(app)/minha-saude/excluir-conta')} />
       </ScrollView>
     </SafeAreaView>
   );
