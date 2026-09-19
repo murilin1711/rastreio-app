@@ -32,7 +32,7 @@ test('resumo da semana com meta sugerida', () => {
   expect(r.porDia[0].dia).toBe('2026-09-14');
 });
 test('meta própria substitui a sugerida; idoso ganha equilíbrio', () => {
-  const meta: Meta = { id: 'm', tipo: 'atividade_min', valor: 200, origem: 'usuario', detalhe: null, ativa: true };
+  const meta: Meta = { id: 'm', tipo: 'atividade_min', valor: 200, origem: 'usuario', detalhe: null, ativa: true, valorInicial: null, marcoComemorado: 0 };
   const r = resumoSemana(lista, semana, p, 65, meta);
   expect(r.metaMin).toBe(200);
   expect(r.metaAtingidaPct).toBe(65);

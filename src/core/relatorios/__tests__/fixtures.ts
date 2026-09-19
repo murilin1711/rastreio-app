@@ -74,7 +74,7 @@ export function dadosNeroTeste(): DadosNero {
       sonos: [{ id: 's1', dormiuEm: '2026-09-15T23:40:00', acordouEm: '2026-09-16T06:20:00', minutos: 400, qualidade: 4, contexto: {} }],
       refeicoes: [{ id: 'r1', em: '2026-09-01T12:30:00', tipo: 'almoco', descricao: 'arroz, feijão e frango', quantidade: 'habitual', fomeAntes: null, saciedade: null, local: 'casa', observacao: null }],
       checkins: [{ id: 'ck1', semana: '2026-09-07', disposicao: 7, alimentacao: 6, atividade: 5, sono: 6, estresse: 4, energia: 7, bemEstar: 7, observacao: 'semana corrida' }],
-      metas: [{ id: 'm1', tipo: 'atividade_min', valor: 150, origem: 'app', detalhe: null, ativa: true }],
+      metas: [{ id: 'm1', tipo: 'atividade_min', valor: 150, origem: 'app', detalhe: null, ativa: true, valorInicial: null, marcoComemorado: 0 }],
       vinculos: [{ glicemiaId: 'g2', refeicaoId: 'r1', atividadeId: null }],
       parametros: extrairParametrosBemEstar(regrasBemEstarTeste()),
       alturaCm: 170, sexo: 'masculino', idade: 51,

@@ -497,30 +497,36 @@ export type Database = {
           created_at: string
           detalhe: string | null
           id: string
+          marco_comemorado: number
           origem: string
           tipo: string
           user_id: string
           valor: number
+          valor_inicial: number | null
         }
         Insert: {
           ativa?: boolean
           created_at?: string
           detalhe?: string | null
           id?: string
+          marco_comemorado?: number
           origem: string
           tipo: string
           user_id: string
           valor: number
+          valor_inicial?: number | null
         }
         Update: {
           ativa?: boolean
           created_at?: string
           detalhe?: string | null
           id?: string
+          marco_comemorado?: number
           origem?: string
           tipo?: string
           user_id?: string
           valor?: number
+          valor_inicial?: number | null
         }
         Relationships: []
       }

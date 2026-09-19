@@ -14,3 +14,12 @@ export const ROTULO_METODO = { balanca: 'Balança convencional', bioimpedancia: 
 export const ROTULO_FAIXA_CINTURA = { referencia: 'Dentro da referência', aumentado: 'Aumentada', muito_aumentado: 'Muito aumentada' } as const;
 export const ROTULO_TENDENCIA = { estavel: 'Estável', aumento: 'Tendência de aumento', reducao: 'Tendência de redução' } as const;
 export const ROTULO_PMAV = { nenhuma: 'Abaixo dos marcos da diretriz', reduzida: 'Faixa de obesidade reduzida', controlada: 'Faixa de obesidade controlada' } as const;
+
+/**
+ * Frases dos marcos de meta (D-016). Tom calmo do §66: reconhecem o esforço da pessoa,
+ * sem prometer resultado clínico nem sugerir que ela deva continuar reduzindo (§82).
+ */
+export const TEXTO_MARCO = {
+  peso: { 50: 'Você percorreu metade do caminho até a meta de peso que definiu.', 100: 'Você chegou à meta de peso que definiu.' },
+  cintura: { 50: 'Você percorreu metade do caminho até a meta de circunferência que definiu.', 100: 'Você chegou à meta de circunferência que definiu.' },
+} as const;

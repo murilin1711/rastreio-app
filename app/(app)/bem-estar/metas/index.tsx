@@ -1,15 +1,17 @@
 import { useFocusEffect, useRouter } from 'expo-router';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAtividades } from '@core/bemestar/useAtividades';
 import { useCorpo } from '@core/bemestar/useCorpo';
 import { useSono } from '@core/bemestar/useSono';
+import { type Marco, marcoNovo, progressoMeta } from '@core/regras/bemestar/metas';
 import { formatarHm } from '@core/regras/bemestar/sono';
 import type { Meta, TipoMeta } from '@core/regras/bemestar/tipos';
 import { traduzirErro } from '@core/supabase/erros';
-import { ROTULO_OBJETIVO } from '@modules/bem-estar/conteudo/corpo';
+import { ROTULO_OBJETIVO, TEXTO_MARCO } from '@modules/bem-estar/conteudo/corpo';
 import { Button, Card, Colors, Input, InternalHeader, Opcoes, Select, Spacing, Typography } from '@ui/index';
+import { NeroAnimado } from '@ui/components/NeroAnimado';
 
 const fmt = (n: number) => String(Math.round(n * 10) / 10).replace('.', ',');
 const ROTULO_TIPO: Record<TipoMeta, string> = { peso: 'Peso (kg)', cintura: 'Circunferência abdominal (cm)', atividade_min: 'Atividade (minutos por semana)', atividade_dias: 'Dias ativos por semana', fortalecimento_dias: 'Fortalecimento (dias por semana)', sono_min: 'Sono (horas por noite)', pressao: 'Pressão (definida pelo médico)' };
@@ -45,13 +47,41 @@ export default function Metas() {
     return null;
   };
 
+  /** Só peso e cintura têm "meio caminho": as outras metas são de período (semana, noite). */
+  const medidaAtual = (m: Meta): number | null =>
+    m.tipo === 'peso' ? ultimos.peso?.valores.kg ?? null : m.tipo === 'cintura' ? ultimos.cintura?.valores.cm ?? null : null;
+  const progressoDe = (m: Meta): number | null => {
+    const atual = medidaAtual(m);
+    return atual == null ? null : progressoMeta(m.valorInicial, m.valor, atual);
+  };
+
+  // Marco novo (D-016): comemora uma vez, grava e não repete. `tratados` evita que o recarregar
+  // disparado por `marcar` traga a mesma comemoração de volta.
+  const [festa, setFesta] = useState<{ tipo: 'peso' | 'cintura'; marco: Marco } | null>(null);
+  const tratados = useRef<Set<string>>(new Set());
+  useEffect(() => {
+    for (const m of metas.metas) {
+      if (m.tipo !== 'peso' && m.tipo !== 'cintura') continue;
+      const marco = marcoNovo(progressoDe(m), m.marcoComemorado);
+      if (!marco) continue;
+      const chave = `${m.id}:${marco}`;
+      if (tratados.current.has(chave)) continue;
+      tratados.current.add(chave);
+      setFesta({ tipo: m.tipo, marco });
+      metas.marcar(m.id, marco).catch(() => {});
+      return;
+    }
+  }, [metas.metas, ultimos.peso, ultimos.cintura]);
+
   const definir = async () => {
     if (!tipo) { Alert.alert('Faltou algo', 'Escolha o tipo da meta.'); return; }
     let v = Number(valor.replace(',', '.'));
     if (tipo === 'sono_min') v = Math.round(v * 60);
     if (!valor.trim() || Number.isNaN(v) || v <= 0) { Alert.alert('Confira o valor', 'Informe um número maior que zero.'); return; }
     if (tipo === 'peso' && (perfil?.objetivoPeso === 'manutencao' || perfil?.objetivoPeso === 'sem_meta')) { Alert.alert('Objetivo de peso', 'Você escolheu manutenção ou sem meta de peso. Para definir um peso-alvo, mude o objetivo em Meu Corpo.'); return; }
-    try { await metas.definir({ tipo, valor: v, origem }); setTipo(null); setValor(''); } catch (e) { Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario); }
+    // Ponto de partida do marco de 50% (D-016): a medida de hoje. Nulo se ela ainda não mediu.
+    const valorInicial = tipo === 'peso' ? ultimos.peso?.valores.kg ?? null : tipo === 'cintura' ? ultimos.cintura?.valores.cm ?? null : null;
+    try { await metas.definir({ tipo, valor: v, origem, valorInicial }); setTipo(null); setValor(''); } catch (e) { Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario); }
   };
 
   return (
@@ -59,6 +89,13 @@ export default function Metas() {
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
         <InternalHeader sectionLabel="Saúde & Bem-estar" title="Minhas Metas" onBack={() => router.back()} />
         <Text style={styles.sub}>Objetivos definidos por você ou junto com seu profissional. O NERO mostra a distância; não define metas de peso por conta própria.</Text>
+
+        {festa ? (
+          <Card style={styles.festa}>
+            <NeroAnimado clipe="comemorar" size={88} />
+            <Text style={styles.festaTexto}>{TEXTO_MARCO[festa.tipo][festa.marco]}</Text>
+          </Card>
+        ) : null}
 
         <Text style={styles.secao}>Objetivo de peso</Text>
         <Opcoes opcoes={(Object.keys(ROTULO_OBJETIVO) as (keyof typeof ROTULO_OBJETIVO)[]).map((o) => ({ valor: o, rotulo: ROTULO_OBJETIVO[o] }))} valor={perfil?.objetivoPeso ?? null} onChange={(o) => salvarObjetivo(o).catch(() => Alert.alert('Não foi possível salvar'))} />
@@ -72,6 +109,7 @@ export default function Metas() {
               <Text style={styles.valor}>Meta: {valorDe(m)}{m.origem === 'profissional' ? ' · definida com profissional' : m.origem === 'app' ? ' · sugerida' : ''}</Text>
               {atualDe(m) ? <Text style={styles.texto}>Atual: {atualDe(m)}</Text> : null}
               {distancia(m) ? <Text style={styles.nota}>{distancia(m)}</Text> : null}
+              {progressoDe(m) != null ? <Text style={styles.nota}>{Math.max(0, Math.round(progressoDe(m)! * 100))}% do caminho desde que você definiu a meta</Text> : null}
               <Button label="Encerrar meta" variant="ghost" onPress={() => metas.desativar(m.id).catch(() => {})} />
             </Card>
           ))}
@@ -95,6 +133,8 @@ const styles = StyleSheet.create({
   secao: { ...Typography.heading, color: Colors.textPrimary, marginTop: Spacing.xxl, marginBottom: Spacing.sm },
   rotulo: { ...Typography.subheading, color: Colors.textPrimary, marginTop: Spacing.lg, marginBottom: Spacing.sm },
   card: { padding: Spacing.lg, gap: Spacing.xs },
+  festa: { marginTop: Spacing.lg, padding: Spacing.lg, flexDirection: 'row', alignItems: 'center', gap: Spacing.md },
+  festaTexto: { ...Typography.subheading, color: Colors.textPrimary, flexShrink: 1 },
   titulo: { ...Typography.subheading, color: Colors.textPrimary },
   valor: { ...Typography.body, color: Colors.textPrimary },
   texto: { ...Typography.body, color: Colors.textSecondary },

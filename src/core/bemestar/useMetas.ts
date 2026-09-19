@@ -16,6 +16,7 @@ export function useMetas() {
   useEffect(() => { recarregar(); }, [recarregar]);
   const definir = async (m: Parameters<typeof repo.definirMeta>[1]) => { if (!userId) throw new Error('Sessão indisponível'); await repo.definirMeta(userId, m); await recarregar(); };
   const desativar = async (id: string) => { if (!userId) throw new Error('Sessão indisponível'); await repo.desativarMeta(userId, id); await recarregar(); };
+  const marcar = async (id: string, marco: number) => { if (!userId) return; await repo.registrarMarco(userId, id, marco); await recarregar(); };
   const porTipo = useCallback((tipo: Meta['tipo']) => metas.find((m) => m.tipo === tipo) ?? null, [metas]);
-  return { metas, porTipo, carregando, definir, desativar, recarregar };
+  return { metas, porTipo, carregando, definir, desativar, marcar, recarregar };
 }
