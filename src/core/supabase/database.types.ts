@@ -187,6 +187,24 @@ export type Database = {
         }
         Relationships: []
       }
+      conquistas: {
+        Row: {
+          chave: string
+          conquistada_em: string
+          user_id: string
+        }
+        Insert: {
+          chave: string
+          conquistada_em?: string
+          user_id: string
+        }
+        Update: {
+          chave?: string
+          conquistada_em?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       consultas: {
         Row: {
           created_at: string

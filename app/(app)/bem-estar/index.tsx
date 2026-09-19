@@ -2,11 +2,13 @@ import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useConquistas } from '@core/bemestar/useConquistas';
 import { useHabitos } from '@core/bemestar/useHabitos';
 import { formatarHm } from '@core/regras/bemestar/sono';
 import { CardResumo } from '@modules/coracao/componentes/CardResumo';
 import { TEXTO_CHECKIN } from '@modules/bem-estar/conteudo/checkin';
-import { Button, Colors, InternalHeader, ListItem, NeroAnimado, Radius, Spacing, Typography } from '@ui/index';
+import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
+import { Button, Colors, InternalHeader, ListItem, ModalComemoracao, NeroAnimado, Radius, Spacing, Typography } from '@ui/index';
 
 const fmt = (n: number) => String(n).replace('.', ',');
 
@@ -14,7 +16,8 @@ const fmt = (n: number) => String(n).replace('.', ',');
 export default function BemEstar() {
   const router = useRouter();
   const { habitos: h, carregando, recarregar } = useHabitos();
-  useFocusEffect(useCallback(() => { recarregar(); }, [recarregar]));
+  const conquistas = useConquistas();
+  useFocusEffect(useCallback(() => { recarregar(); conquistas.avaliar(); }, [recarregar, conquistas.avaliar]));
 
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
@@ -52,6 +55,7 @@ export default function BemEstar() {
           <ListItem icon="document-text-outline" title="Relatório de Saúde & Hábitos" subtitle="PDF para clínico, endocrinologista, nutricionista ou educador físico" onPress={() => router.push({ pathname: '/(app)/minha-saude/relatorios/previa', params: { tipo: 'bemestar', dias: '90' } })} />
         </View>
       </ScrollView>
+      <ModalComemoracao conteudo={conquistas.proxima ? TEXTO_CONQUISTA[conquistas.proxima] : null} aoFechar={conquistas.dispensar} />
     </SafeAreaView>
   );
 }

@@ -10,8 +10,7 @@ import { formatarHm } from '@core/regras/bemestar/sono';
 import type { Meta, TipoMeta } from '@core/regras/bemestar/tipos';
 import { traduzirErro } from '@core/supabase/erros';
 import { ROTULO_OBJETIVO, TEXTO_MARCO } from '@modules/bem-estar/conteudo/corpo';
-import { Button, Card, Colors, Input, InternalHeader, Opcoes, Select, Spacing, Typography } from '@ui/index';
-import { NeroAnimado } from '@ui/components/NeroAnimado';
+import { Button, Card, Colors, Input, InternalHeader, ModalComemoracao, Opcoes, Select, Spacing, Typography } from '@ui/index';
 
 const fmt = (n: number) => String(Math.round(n * 10) / 10).replace('.', ',');
 const ROTULO_TIPO: Record<TipoMeta, string> = { peso: 'Peso (kg)', cintura: 'Circunferência abdominal (cm)', atividade_min: 'Atividade (minutos por semana)', atividade_dias: 'Dias ativos por semana', fortalecimento_dias: 'Fortalecimento (dias por semana)', sono_min: 'Sono (horas por noite)', pressao: 'Pressão (definida pelo médico)' };
@@ -90,12 +89,6 @@ export default function Metas() {
         <InternalHeader sectionLabel="Saúde & Bem-estar" title="Minhas Metas" onBack={() => router.back()} />
         <Text style={styles.sub}>Objetivos definidos por você ou junto com seu profissional. O NERO mostra a distância; não define metas de peso por conta própria.</Text>
 
-        {festa ? (
-          <Card style={styles.festa}>
-            <NeroAnimado clipe="comemorar" size={88} />
-            <Text style={styles.festaTexto}>{TEXTO_MARCO[festa.tipo][festa.marco]}</Text>
-          </Card>
-        ) : null}
 
         <Text style={styles.secao}>Objetivo de peso</Text>
         <Opcoes opcoes={(Object.keys(ROTULO_OBJETIVO) as (keyof typeof ROTULO_OBJETIVO)[]).map((o) => ({ valor: o, rotulo: ROTULO_OBJETIVO[o] }))} valor={perfil?.objetivoPeso ?? null} onChange={(o) => salvarObjetivo(o).catch(() => Alert.alert('Não foi possível salvar'))} />
@@ -122,6 +115,7 @@ export default function Metas() {
         <Opcoes<Origem> opcoes={[{ valor: 'usuario', rotulo: 'Eu' }, { valor: 'profissional', rotulo: 'Meu médico ou outro profissional' }]} valor={origem} onChange={setOrigem} />
         <Button label="Salvar meta" onPress={definir} style={{ marginTop: Spacing.lg }} />
       </ScrollView>
+      <ModalComemoracao conteudo={festa ? TEXTO_MARCO[festa.tipo][festa.marco] : null} aoFechar={() => setFesta(null)} />
     </SafeAreaView>
   );
 }
@@ -133,8 +127,6 @@ const styles = StyleSheet.create({
   secao: { ...Typography.heading, color: Colors.textPrimary, marginTop: Spacing.xxl, marginBottom: Spacing.sm },
   rotulo: { ...Typography.subheading, color: Colors.textPrimary, marginTop: Spacing.lg, marginBottom: Spacing.sm },
   card: { padding: Spacing.lg, gap: Spacing.xs },
-  festa: { marginTop: Spacing.lg, padding: Spacing.lg, flexDirection: 'row', alignItems: 'center', gap: Spacing.md },
-  festaTexto: { ...Typography.subheading, color: Colors.textPrimary, flexShrink: 1 },
   titulo: { ...Typography.subheading, color: Colors.textPrimary },
   valor: { ...Typography.body, color: Colors.textPrimary },
   texto: { ...Typography.body, color: Colors.textSecondary },

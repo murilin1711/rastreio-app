@@ -20,6 +20,12 @@ export const ROTULO_PMAV = { nenhuma: 'Abaixo dos marcos da diretriz', reduzida:
  * sem prometer resultado clínico nem sugerir que ela deva continuar reduzindo (§82).
  */
 export const TEXTO_MARCO = {
-  peso: { 50: 'Você percorreu metade do caminho até a meta de peso que definiu.', 100: 'Você chegou à meta de peso que definiu.' },
-  cintura: { 50: 'Você percorreu metade do caminho até a meta de circunferência que definiu.', 100: 'Você chegou à meta de circunferência que definiu.' },
+  peso: {
+    50: { titulo: 'Você percorreu metade do caminho até a meta de peso que definiu.', incentivo: 'Continue registrando seu peso: é o acompanhamento ao longo do tempo que mostra o caminho, não uma medida isolada.' },
+    100: { titulo: 'Você chegou à meta de peso que definiu.', incentivo: 'Manter é tão importante quanto chegar. Continue acompanhando e converse com seu médico sobre qual é o próximo passo para você.' },
+  },
+  cintura: {
+    50: { titulo: 'Você percorreu metade do caminho até a meta de circunferência que definiu.', incentivo: 'Continue medindo sempre do mesmo jeito: a comparação só vale quando a técnica é a mesma.' },
+    100: { titulo: 'Você chegou à meta de circunferência que definiu.', incentivo: 'Manter é tão importante quanto chegar. Continue acompanhando e leve esse resultado para a sua próxima consulta.' },
+  },
 } as const;
