@@ -7,7 +7,12 @@ export type ChaveConquista = 'perfil_completo' | 'primeira_atividade' | 'primeir
 
 /** Contadores que decidem cada conquista. Vêm de contagens no banco, não da lista dos últimos 30 dias. */
 export interface EstadoConquistas {
-  perfilCompleto: boolean;
+  /** Cadastro obrigatório da entrada no app (`perfil_inicial_completo`). Todo usuário tem: sozinho não é conquista. */
+  cadastroInicial: boolean;
+  /** Medicações informadas ou marcadas como "não uso". */
+  medicacoesResolvidas: boolean;
+  /** Antecedentes familiares informados ou marcados como "não tenho". */
+  antecedentesResolvidos: boolean;
   totalAtividades: number;
   totalSono: number;
   totalCheckins: number;
@@ -15,7 +20,7 @@ export interface EstadoConquistas {
 
 /** Catálogo, na ordem em que as conquistas são mostradas quando saem várias juntas. */
 const CATALOGO: { chave: ChaveConquista; alcancada: (e: EstadoConquistas) => boolean }[] = [
-  { chave: 'perfil_completo', alcancada: (e) => e.perfilCompleto },
+  { chave: 'perfil_completo', alcancada: (e) => e.cadastroInicial && e.medicacoesResolvidas && e.antecedentesResolvidos },
   { chave: 'primeira_atividade', alcancada: (e) => e.totalAtividades >= 1 },
   { chave: 'primeira_noite_sono', alcancada: (e) => e.totalSono >= 1 },
   { chave: 'primeiro_checkin', alcancada: (e) => e.totalCheckins >= 1 },

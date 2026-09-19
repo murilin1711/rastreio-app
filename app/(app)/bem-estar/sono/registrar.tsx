@@ -5,10 +5,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useSono } from '@core/bemestar/useSono';
 import { formatarHm, minutosDeSono } from '@core/regras/bemestar/sono';
 import type { Sono } from '@core/regras/bemestar/tipos';
+import { useConquistas } from '@core/bemestar/useConquistas';
+import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
 import { traduzirErro } from '@core/supabase/erros';
 import { ROTULO_CONTEXTO_SONO, ROTULO_QUALIDADE } from '@modules/bem-estar/conteudo/sono';
 import { paraISO } from '@modules/coracao/componentes/formato';
-import { Button, CampoData, Colors, Input, InternalHeader, Opcoes, Radius, Spacing, Typography } from '@ui/index';
+import { Button, CampoData, Colors, Input, InternalHeader, ModalComemoracao, Opcoes, Radius, Spacing, Typography } from '@ui/index';
 
 const horaValida = (h: string) => /^([01]\d|2[0-3]):[0-5]\d$/.test(h);
 const ontemISO = () => new Date(Date.now() - 86_400_000).toISOString().slice(0, 10);
@@ -35,13 +37,15 @@ export default function RegistrarSono() {
   };
   const previa = calcular();
 
+  const conquistas = useConquistas({ auto: false });
   const gravar = async () => {
     if (!data) { Alert.alert('Faltou algo', 'Informe a data em que dormiu.'); return; }
     if (!previa) { Alert.alert('Confira os horários', 'Use o formato HH:MM. O tempo de sono precisa ficar entre 1 minuto e 20 horas.'); return; }
     setSalvando(true);
     try {
       await inserir({ dormiuEm: previa.dormiuEm, acordouEm: previa.acordouEm, qualidade: qualidade ? (Number(qualidade) as Sono['qualidade']) : null, contexto: ctx });
-      router.back();
+      // A comemoração aparece aqui, no momento do registro; a volta espera o modal fechar.
+      if ((await conquistas.avaliar()) === 0) router.back();
     } catch (e) { Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario); } finally { setSalvando(false); }
   };
 
@@ -68,6 +72,10 @@ export default function RegistrarSono() {
         ))}
         <Button label="Salvar noite" onPress={gravar} loading={salvando} style={{ marginTop: Spacing.xxl }} />
       </ScrollView>
+      <ModalComemoracao
+        conteudo={conquistas.proxima ? TEXTO_CONQUISTA[conquistas.proxima] : null}
+        aoFechar={() => { if (!conquistas.dispensar()) router.back(); }}
+      />
     </SafeAreaView>
   );
 }

@@ -7,8 +7,8 @@ import type { ChaveConquista } from '@core/regras/bemestar/conquistas';
  */
 export const TEXTO_CONQUISTA: Record<ChaveConquista, { titulo: string; incentivo: string }> = {
   perfil_completo: {
-    titulo: 'Seu perfil está completo.',
-    incentivo: 'Continue mantendo seus dados em dia: é a partir deles que o NERO monta seus rastreamentos e que seu médico consegue avaliar melhor o seu caso.',
+    titulo: 'Seu perfil de saúde está completo.',
+    incentivo: 'Você informou seus dados, suas medicações e seus antecedentes familiares. Continue mantendo tudo em dia: é a partir daí que o NERO monta seus rastreamentos e que seu médico consegue avaliar melhor o seu caso.',
   },
   primeira_atividade: {
     titulo: 'Seu primeiro registro de atividade física está guardado.',

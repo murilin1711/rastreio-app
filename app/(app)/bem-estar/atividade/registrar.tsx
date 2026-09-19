@@ -5,10 +5,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAtividades } from '@core/bemestar/useAtividades';
 import { ROTULO_ATIVIDADE } from '@core/regras/bemestar/atividade';
 import type { Intensidade, TipoAtividade } from '@core/regras/bemestar/tipos';
+import { useConquistas } from '@core/bemestar/useConquistas';
+import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
 import { traduzirErro } from '@core/supabase/erros';
 import { DESCRICAO_INTENSIDADE, ROTULO_INTENSIDADE } from '@modules/bem-estar/conteudo/atividade';
 import { paraISO } from '@modules/coracao/componentes/formato';
-import { Button, CampoData, Colors, Input, InternalHeader, Opcoes, Select, Spacing, Typography } from '@ui/index';
+import { Button, CampoData, Colors, Input, InternalHeader, ModalComemoracao, Opcoes, Select, Spacing, Typography } from '@ui/index';
 
 const numero = (t: string) => (t.trim() === '' ? null : Number(t.replace(',', '.')));
 const horaValida = (h: string) => /^([01]\d|2[0-3]):[0-5]\d$/.test(h);
@@ -29,6 +31,7 @@ export default function RegistrarAtividade() {
   const [observacao, setObservacao] = useState('');
   const [salvando, setSalvando] = useState(false);
 
+  const conquistas = useConquistas({ auto: false });
   const gravar = async () => {
     if (!tipo) { Alert.alert('Faltou algo', 'Escolha a atividade.'); return; }
     if (!data || !horaValida(hora)) { Alert.alert('Faltou algo', 'Informe a data e a hora (HH:MM).'); return; }
@@ -40,7 +43,8 @@ export default function RegistrarAtividade() {
     setSalvando(true);
     try {
       await inserir({ inicio: paraISO(data, hora), tipo, duracaoMin: min, intensidade, distanciaKm: numero(distancia), fcMedia, calorias: numero(calorias), observacao: observacao.trim() || null });
-      router.back();
+      // A comemoração aparece aqui, no momento do registro; a volta espera o modal fechar.
+      if ((await conquistas.avaliar()) === 0) router.back();
     } catch (e) { Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario); } finally { setSalvando(false); }
   };
 
@@ -66,6 +70,10 @@ export default function RegistrarAtividade() {
         <Input value={observacao} onChangeText={setObservacao} placeholder="Observação" multiline style={{ marginTop: Spacing.sm }} />
         <Button label="Salvar atividade" onPress={gravar} loading={salvando} style={{ marginTop: Spacing.xxl }} />
       </ScrollView>
+      <ModalComemoracao
+        conteudo={conquistas.proxima ? TEXTO_CONQUISTA[conquistas.proxima] : null}
+        aoFechar={() => { if (!conquistas.dispensar()) router.back(); }}
+      />
     </SafeAreaView>
   );
 }

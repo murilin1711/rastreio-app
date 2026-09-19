@@ -16,11 +16,14 @@ jest.mock('expo-router', () => ({
   useRouter: () => ({ push: jest.fn(), replace: jest.fn(), back: jest.fn() }),
 }));
 jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: { user: { id: 'u1' } }, carregando: false, online: true, sair: jest.fn() }) }));
-jest.mock('@core/perfil/usePerfil', () => ({ usePerfil: () => ({ perfil: { perfilInicialCompleto: true }, carregando: false }) }));
+jest.mock('@core/perfil/usePerfil', () => ({ usePerfil: () => ({ perfil: { perfilInicialCompleto: true, semMedicacoes: true, semAntecedentesFamiliares: true }, carregando: false }) }));
 jest.mock('@core/bemestar/useHabitos', () => ({ useHabitos: () => ({ habitos: null, perdaNaoIntencional: null, parametros: null, carregando: false, recarregar: jest.fn() }) }));
 jest.mock('@core/bemestar/conquistas', () => ({
   listarConquistas: async () => mockObtidas,
-  contarParaConquistas: async (_u: string, perfilCompleto: boolean) => { mockContagens++; return { perfilCompleto, totalAtividades: 1, totalSono: 0, totalCheckins: 0 }; },
+  contarParaConquistas: async (_u: string, p: { cadastroInicial: boolean; semMedicacoes: boolean; semAntecedentes: boolean }) => {
+    mockContagens++;
+    return { cadastroInicial: p.cadastroInicial, medicacoesResolvidas: p.semMedicacoes, antecedentesResolvidos: p.semAntecedentes, totalAtividades: 1, totalSono: 0, totalCheckins: 0 };
+  },
   gravarConquistas: async (_u: string, chaves: string[]) => { mockGravadas.push(chaves); mockObtidas = [...mockObtidas, ...chaves]; },
 }));
 

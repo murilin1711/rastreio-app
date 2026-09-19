@@ -20,7 +20,9 @@ export function ModalComemoracao({ conteudo, aoFechar }: Props) {
     <Modal visible={conteudo != null} transparent animationType="fade" onRequestClose={aoFechar}>
       <View style={styles.fundo}>
         <View style={styles.caixa}>
-          <NeroAnimado clipe="comemorar" size={140} />
+          {/* `entrada` toca o comemorar uma vez e cai no repouso: sem isso o clipe congela no
+              último quadro, com o Nero encolhido e de olhos fechados. */}
+          <NeroAnimado entrada="comemorar" clipe="repouso" size={140} />
           <Text style={styles.titulo}>{conteudo?.titulo}</Text>
           <Text style={styles.incentivo}>{conteudo?.incentivo}</Text>
           <Button label="Fechar" onPress={aoFechar} style={styles.botao} />

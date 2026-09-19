@@ -13,7 +13,10 @@ export async function listarConquistas(userId: string): Promise<ChaveConquista[]
  * 30 dias do `useHabitos`: quem tem uma atividade antiga não aparece nessa janela e ganharia de novo
  * uma "primeira vez" que não é a primeira.
  */
-export async function contarParaConquistas(userId: string, perfilCompleto: boolean): Promise<EstadoConquistas> {
+export async function contarParaConquistas(
+  userId: string,
+  perfil: { cadastroInicial: boolean; semMedicacoes: boolean; semAntecedentes: boolean },
+): Promise<EstadoConquistas> {
   const contar = async (tabela: 'atividades' | 'checkins') => {
     const { count, error } = await supabase.from(tabela).select('*', { count: 'exact', head: true }).eq('user_id', userId);
     if (error) throw traduzirErro(error);
@@ -25,8 +28,22 @@ export async function contarParaConquistas(userId: string, perfilCompleto: boole
     if (error) throw traduzirErro(error);
     return count ?? 0;
   };
-  const [totalAtividades, totalSono, totalCheckins] = await Promise.all([contar('atividades'), contarSono(), contar('checkins')]);
-  return { perfilCompleto, totalAtividades, totalSono, totalCheckins };
+  // Medicações e antecedentes ficam em tabelas próprias: "resolvido" é ter pelo menos um registro
+  // OU ter marcado no perfil que não tem nenhum.
+  const temLinha = async (tabela: 'medicacoes' | 'antecedentes_familiares') => {
+    const { count, error } = await supabase.from(tabela).select('*', { count: 'exact', head: true }).eq('user_id', userId);
+    if (error) throw traduzirErro(error);
+    return (count ?? 0) > 0;
+  };
+  const [totalAtividades, totalSono, totalCheckins, temMedicacoes, temAntecedentes] = await Promise.all([
+    contar('atividades'), contarSono(), contar('checkins'), temLinha('medicacoes'), temLinha('antecedentes_familiares'),
+  ]);
+  return {
+    cadastroInicial: perfil.cadastroInicial,
+    medicacoesResolvidas: temMedicacoes || perfil.semMedicacoes,
+    antecedentesResolvidos: temAntecedentes || perfil.semAntecedentes,
+    totalAtividades, totalSono, totalCheckins,
+  };
 }
 
 export async function gravarConquistas(userId: string, chaves: ChaveConquista[]): Promise<void> {

@@ -3,12 +3,14 @@ import { useEffect, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCheckin } from '@core/bemestar/useCheckin';
+import { useConquistas } from '@core/bemestar/useConquistas';
 import type { Checkin } from '@core/regras/bemestar/tipos';
 import { traduzirErro } from '@core/supabase/erros';
 import { Escala010 } from '@modules/bem-estar/componentes/Escala010';
 import { PERGUNTAS_CHECKIN, TEXTO_CHECKIN } from '@modules/bem-estar/conteudo/checkin';
+import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
 import { dataCurtaBr } from '@modules/coracao/componentes/formato';
-import { Button, Card, Colors, Input, InternalHeader, Spacing, Typography } from '@ui/index';
+import { Button, Card, Colors, Input, InternalHeader, ModalComemoracao, Spacing, Typography } from '@ui/index';
 
 type Chave = (typeof PERGUNTAS_CHECKIN)[number]['chave'];
 type Respostas = Pick<Checkin, Chave>;
@@ -26,10 +28,15 @@ export default function CheckinSemanal() {
   const [salvando, setSalvando] = useState(false);
   useEffect(() => { if (atual) { setR({ disposicao: atual.disposicao, alimentacao: atual.alimentacao, atividade: atual.atividade, sono: atual.sono, estresse: atual.estresse, energia: atual.energia, bemEstar: atual.bemEstar }); setObservacao(atual.observacao ?? ''); } }, [atual]);
 
+  const conquistas = useConquistas({ auto: false });
   const gravar = async () => {
     if (Object.values(r).every((v) => v == null)) { Alert.alert('Faltou algo', 'Responda pelo menos uma pergunta.'); return; }
     setSalvando(true);
-    try { await salvar({ ...r, observacao: observacao.trim() || null }); Alert.alert('Obrigado', TEXTO_CHECKIN.salvo, [{ text: 'OK', onPress: () => router.back() }]); } catch (e) { Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario); } finally { setSalvando(false); }
+    try {
+      await salvar({ ...r, observacao: observacao.trim() || null });
+      // Com conquista nova, o modal substitui o aviso: são duas caixas seguidas se mostrar as duas.
+      if ((await conquistas.avaliar()) === 0) Alert.alert('Obrigado', TEXTO_CHECKIN.salvo, [{ text: 'OK', onPress: () => router.back() }]);
+    } catch (e) { Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario); } finally { setSalvando(false); }
   };
 
   return (
@@ -61,6 +68,10 @@ export default function CheckinSemanal() {
           </>
         ) : null}
       </ScrollView>
+      <ModalComemoracao
+        conteudo={conquistas.proxima ? TEXTO_CONQUISTA[conquistas.proxima] : null}
+        aoFechar={() => { if (!conquistas.dispensar()) router.back(); }}
+      />
     </SafeAreaView>
   );
 }
