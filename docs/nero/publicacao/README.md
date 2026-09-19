@@ -15,7 +15,7 @@
 1. [ ] Contas **Apple Developer** e **Google Play Console** (pessoa física recomendada).
 2. [x] **Nome nas lojas:** "Nero Saúde" (D-014, 18/09).
 3. [ ] **Bundle id iOS / package Android** — permanente. Recomendação: domínio invertido que você controle (ex.: `br.com.<dominio>.nero`); sem domínio, `com.murilopovoa.nero`.
-4. [ ] Imagens (`imagens.md`): símbolo, logo, mascote.
+4. [x] Imagens: ícones, splash, favicon, Play e mascote gerados em 18/09 (`imagens.md`).
 5. [ ] Política de privacidade: preencher `[[ ]]`, decidir hospedagem (recomendação: GitHub Pages do repositório) e idade mínima.
 6. [x] Migração 0014 aplicada na nuvem em 18/09.
 7. [ ] Reativar confirmação de e-mail no Supabase Auth e testar cadastro.

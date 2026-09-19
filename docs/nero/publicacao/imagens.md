@@ -33,3 +33,6 @@ Regras: RGB 8 bits, sem CMYK, nunca JPEG, sem cantos arredondados nem margem.
 ## Decisão em aberto
 
 - Ícone só com o símbolo (recomendado) ou símbolo + "Nero".
+
+## Feito em 18/09/2026
+Murilo entregou símbolo (1254 px, PNG transparente), mascote (1254 px, PNG transparente) e logo completa em JPG (xadrez pintado — descartada; a `logo-nero.png` antiga continua na tela de login). Gerados por script (Pillow) a partir do símbolo recortado (897 × 743): `icon.png` (68 % sobre `#F3F0EA`), `adaptive-icon.png` (58 %, dentro da zona segura), `adaptive-icon-mono.png` (silhueta preta), `splash.png` (60 %, `imageWidth` 220), `favicon.png`, `loja/icone-play-512.png`. Mascote em `nero/mascote-nero.png` (718 × 1192), usado em `NeroImage` para todas as variantes. Decisão: splash só com o símbolo, sem a palavra. Ícone só com o símbolo.
