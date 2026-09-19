@@ -142,6 +142,16 @@ Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limi
 
 ---
 
+### D-017 — Pedir a permissão de notificações com contexto — 19/09/2026
+
+**Contexto:** a permissão do sistema era pedida dentro de `notificacoesPermitidas()`, chamada por todos os agendadores. Na prática a caixa do iOS aparecia no meio de outra ação — ao registrar o primeiro exame, ao abrir a Home com medicação cadastrada, ao salvar o plano de glicemia —, sem o app ter explicado o que ia avisar.
+**Motivo:** no iOS, negar é quase definitivo: o app não pode perguntar de novo e a pessoa precisa ir aos Ajustes do sistema. Quem nega sem entender perde os lembretes de rastreamento, que são o centro do produto.
+**Decisão:** separar consultar de pedir. `permissaoConcedida()` e `podePerguntar()` apenas consultam, e são o que os agendadores usam; `pedirPermissaoNotificacoes()` passou a ser chamado só por ação explícita — o botão "Tentar ativar" em Rastreando › Lembretes e o novo `ModalAtivarAvisos`.
+**O modal** explica os três avisos que importam (exame chegando na data, horário de medicamento, véspera de consulta), oferece "Ativar avisos" e "Agora não", e só aparece **quando já existe lembrete pendente** — perguntar na tela vazia do primeiro acesso seria o mesmo pedido sem contexto. "Agora não" adia 14 dias neste aparelho (AsyncStorage, porque a permissão é do aparelho e não da conta) e **não** consome a chance de perguntar.
+**Detalhe que faltava:** os lembretes criados enquanto não havia permissão foram gravados sem `notif:<id>` e nunca virariam aviso. Conceder a permissão agora dispara `reagendarTudo()`, que recria as notificações de todos os tipos ligados.
+
+---
+
 ---
 
 ## Decisões clínicas (protocolos adotados)

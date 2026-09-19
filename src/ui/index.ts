@@ -9,6 +9,7 @@ export { ProgressBar } from './components/ProgressBar';
 export { EmBreveBadge } from './components/EmBreveBadge';
 export { NeroAnimado } from './components/NeroAnimado';
 export { ModalComemoracao } from './components/ModalComemoracao';
+export { ModalAtivarAvisos } from './components/ModalAtivarAvisos';
 export { NeroImage } from './components/NeroImage';
 export type { NeroVariant } from './components/NeroImage';
 export { Opcoes } from './components/Opcoes';

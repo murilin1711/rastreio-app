@@ -12,7 +12,19 @@ import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
 import { agendarLembretesConsulta, listarConsultasFuturas } from './consultas';
 import { PREFIXO_DO_TIPO, tiposParaCancelar, tiposParaReligar, type TipoLembrete } from './origem';
+import { lerPreferencias as lerPrefs } from './permissao';
 export { lerPreferencias } from './permissao';
+
+/**
+ * Reagenda tudo que está ligado. Usado quando a permissão do sistema é concedida depois: as
+ * linhas já criadas foram gravadas sem `notif:<id>`, então sem isso elas nunca virariam aviso.
+ */
+export async function reagendarTudo(userId: string): Promise<void> {
+  const prefs = await lerPrefs(userId);
+  for (const tipo of Object.keys(prefs) as TipoLembrete[]) {
+    if (prefs[tipo]) await reagendarTipo(userId, tipo).catch(() => {});
+  }
+}
 
 /** Grava as preferências e aplica a diferença: desligar cancela só as notificações do celular; religar reagenda (D-010). */
 export async function salvarPreferencias(userId: string, depois: PreferenciasLembretes): Promise<void> {
@@ -42,7 +54,7 @@ async function silenciarTipo(userId: string, tipo: TipoLembrete): Promise<void> 
 }
 
 /** Religar: chama os agendadores existentes, que já cancelam e recriam as linhas do tipo. */
-async function reagendarTipo(userId: string, tipo: TipoLembrete): Promise<void> {
+export async function reagendarTipo(userId: string, tipo: TipoLembrete): Promise<void> {
   switch (tipo) {
     case 'medicacao': {
       const ativas = (await listarMedicacoes(userId)).filter((m) => m.ativa && m.lembrar && m.horarios.length);

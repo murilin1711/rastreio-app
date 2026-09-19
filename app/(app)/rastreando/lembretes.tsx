@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { pedirPermissaoNotificacoes } from '@core/rastreando/lembretes';
+import { permissaoConcedida } from '@core/lembretes/permissao';
+import { reagendarTudo } from '@core/lembretes/preferencias';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { supabase } from '@core/supabase/client';
 import { Button, Card, Colors, InternalHeader, Spacing, Typography } from '@ui/index';
@@ -21,7 +23,8 @@ export default function Lembretes() {
     supabase.from('lembretes').select('id, agendado_para, titulo, mensagem').eq('user_id', sessao.user.id).eq('status', 'pendente')
       .gte('agendado_para', new Date().toISOString()).lte('agendado_para', ate.toISOString()).order('agendado_para')
       .then(({ data }) => setLista((data ?? []) as Lembrete[]));
-    pedirPermissaoNotificacoes().then(setPermissao);
+    // Ao abrir, apenas consulta: quem pede é o botão abaixo, por ação explícita da pessoa.
+    permissaoConcedida().then(setPermissao);
   }, [sessao?.user.id]);
 
   const porMes = lista.reduce<Record<string, Lembrete[]>>((acc, l) => {
@@ -37,7 +40,7 @@ export default function Lembretes() {
           <Card style={{ gap: Spacing.sm, marginBottom: Spacing.xl }}>
             <Text style={styles.avisoTitulo}>Notificações desativadas</Text>
             <Text style={styles.ajuda}>Os lembretes ficam aqui no app. Para recebê-los também como notificação, ative nas configurações do celular.</Text>
-            <Button label="Tentar ativar" variant="outline" onPress={() => pedirPermissaoNotificacoes().then(setPermissao)} />
+            <Button label="Tentar ativar" variant="outline" onPress={() => pedirPermissaoNotificacoes().then(async (ok) => { setPermissao(ok); if (ok && sessao) await reagendarTudo(sessao.user.id).catch(() => {}); })} />
           </Card>
         ) : null}
         {lista.length === 0 ? <Text style={styles.ajuda}>Nenhum lembrete nos próximos 90 dias. Eles são criados automaticamente quando um exame tem próxima data prevista.</Text> : null}

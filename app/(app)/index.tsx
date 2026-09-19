@@ -13,13 +13,14 @@ import { rotuloEspecialidade } from '@core/relatorios/especialidades';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { usePerfil } from '@core/perfil/usePerfil';
 import { useSequencia } from '@core/bemestar/useSequencia';
+import { useAvisos } from '@core/lembretes/useAvisos';
 import { CardModulo } from '@modules/home/CardModulo';
 import { SeloSequencia } from '@modules/home/SeloSequencia';
 import { ItemHoje } from '@modules/home/ItemHoje';
 import { montarItensHoje, type ItemHoje as Item } from '@modules/home/montarItensHoje';
 import { traduzirErro } from '@core/supabase/erros';
 import { TEXTO_SEQUENCIA } from '@modules/bem-estar/conteudo/sequencia';
-import { Colors, LogoNero, ModalComemoracao, NeroAnimado, Radius, Spacing, Typography } from '@ui/index';
+import { Colors, LogoNero, ModalAtivarAvisos, ModalComemoracao, NeroAnimado, Radius, Spacing, Typography } from '@ui/index';
 
 function saudacao(nome?: string | null) {
   const h = new Date().getHours();
@@ -33,6 +34,7 @@ export default function Home() {
   const router = useRouter();
   const { perfil, antecedentes, carregando, recarregar, salvar } = usePerfil();
   const sequencia = useSequencia();
+  const avisos = useAvisos();
   const { ativas, recarregar: recarregarMed } = useMedicacoes();
   const rastreando = useRastreando();
   const cardio = useResumoCardio();
@@ -124,6 +126,7 @@ export default function Home() {
         <Text style={styles.rodape}>O NERO organiza suas informações e não substitui a avaliação do seu médico.</Text>
       </ScrollView>
       <ModalComemoracao conteudo={sequencia.marco ? TEXTO_SEQUENCIA[sequencia.marco] : null} aoFechar={sequencia.dispensarMarco} />
+      <ModalAtivarAvisos visivel={avisos.precisa && !sequencia.marco} aoAtivar={() => { avisos.ativar(); }} aoAdiar={() => { avisos.adiar(); }} />
     </SafeAreaView>
   );
 }
