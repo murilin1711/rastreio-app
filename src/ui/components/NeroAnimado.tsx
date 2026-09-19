@@ -8,8 +8,8 @@ export type NeroClipe = 'repouso' | 'acenar';
 interface Clipe { fonte: number; largura: number; altura: number; loop: boolean; duracaoMs: number }
 
 export const CLIPES: Record<NeroClipe, Clipe> = {
-  repouso: { fonte: require('../../../assets/animacoes/nero/repouso.webp'), largura: 220, altura: 360, loop: true, duracaoMs: 4400 },
-  acenar: { fonte: require('../../../assets/animacoes/nero/acenar.webp'), largura: 278, altura: 360, loop: false, duracaoMs: 3050 },
+  repouso: { fonte: require('../../../assets/animacoes/nero/repouso.webp'), largura: 218, altura: 360, loop: true, duracaoMs: 4400 },
+  acenar: { fonte: require('../../../assets/animacoes/nero/acenar.webp'), largura: 252, altura: 360, loop: false, duracaoMs: 3050 },
 };
 
 /** Largura fixa (a do clipe mais largo) para a troca de clipe não mexer no layout; `contain` centraliza. */

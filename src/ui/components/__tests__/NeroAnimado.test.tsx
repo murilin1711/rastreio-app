@@ -39,7 +39,7 @@ describe('NeroAnimado (D-015)', () => {
     const antes = largura();
     act(() => { jest.advanceTimersByTime(CLIPES.acenar.duracaoMs); });
     expect(largura()).toBe(antes);
-    expect(antes).toBeCloseTo(100 * (278 / 360));
+    expect(antes).toBeCloseTo(100 * Math.max(...Object.values(CLIPES).map((c) => c.largura / c.altura)));
   });
 
   it('todo clipe tem duração e proporção coerentes com o arquivo', () => {

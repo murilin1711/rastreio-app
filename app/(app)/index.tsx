@@ -92,7 +92,7 @@ export default function Home() {
             <Text style={styles.saudacao}>{saudacao(perfil?.nome)}</Text>
             <Text style={styles.pergunta}>Como está sua saúde hoje?</Text>
           </View>
-          <NeroAnimado entrada="acenar" size={104} />
+          <NeroAnimado entrada="acenar" size={96} />
         </View>
 
         <View style={styles.secaoTopo}>
@@ -129,9 +129,9 @@ const styles = StyleSheet.create({
   marcaTexto: { fontFamily: 'Poppins-ExtraBold', fontSize: 15, letterSpacing: 2, color: Colors.primary },
   avatar: { width: 36, height: 36, borderRadius: 18, backgroundColor: Colors.primary, alignItems: 'center', justifyContent: 'center' },
   avatarTexto: { fontFamily: 'Poppins-Bold', fontSize: 15, color: Colors.white },
-  boasVindas: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md },
+  boasVindas: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md, marginBottom: Spacing.xxl },
   saudacao: { ...Typography.display, fontSize: 28, lineHeight: 34, color: Colors.primary },
-  pergunta: { ...Typography.body, color: Colors.textSecondary, marginTop: Spacing.xs, marginBottom: Spacing.xxl },
+  pergunta: { ...Typography.body, color: Colors.textSecondary, marginTop: Spacing.xs },
   secaoTopo: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, marginBottom: Spacing.md },
   secao: { ...Typography.heading, color: Colors.textPrimary },
   contador: { minWidth: 22, height: 22, borderRadius: Radius.pill, paddingHorizontal: 6, backgroundColor: Colors.warning, alignItems: 'center', justifyContent: 'center' },
