@@ -31,7 +31,8 @@
 4. [x] Imagens: ícones, splash, favicon, Play e mascote gerados em 18/09 (`imagens.md`).
 5. [ ] Política de privacidade: preencher `[[ ]]`, hospedar em **https://nerosaude.com.br/privacidade** (domínio comprado em 22/09; melhor que GitHub Pages porque as lojas esperam a política no domínio do próprio app) e idade mínima (**18+ confirmado pelo Murilo em 22/09**, já aplicado). **Atualizada em 22/09** com água, sequência/conquistas, insuficiência cardíaca, lembretes de água, operador Resend e a nova regra de exclusão sem backup (D-018). Faltam só os dados pessoais do responsável, a idade mínima e a URL.
 6. [x] Migração 0014 aplicada na nuvem em 18/09.
-7. [ ] **Confirmação de e-mail por código de 6 dígitos via Resend (D-019).** Depende de você: criar conta no Resend, verificar um domínio remetente e colar a chave no painel da Supabase. O resto (template com `{{ .Token }}`, tela do código, `verifyOtp`) eu implemento.
+7. [x] **Confirmação de e-mail por código de 6 dígitos via Resend (D-019) — CONFIGURADA E TESTADA em 22/09.** Domínio verificado no Resend, SMTP e template aplicados via `scripts/configurar-auth.mjs`, confirmação exigida, envio validado (`status=delivered`). Pendências: apagar o usuário de teste `nerosaude+teste1@gmail.com` e **revogar o token da Supabase** criado para essa configuração.
+   - _Histórico:_ Depende de você: criar conta no Resend, verificar um domínio remetente e colar a chave no painel da Supabase. O resto (template com `{{ .Token }}`, tela do código, `verifyOtp`) eu implemento.
    - SMTP do Resend, em **Supabase › Authentication › SMTP Settings**: servidor `smtp.resend.com`, porta `465`, usuário `resend`, senha = a **chave de API do Resend**.
    - **App já implementado em 22/09** (tela do código, `verifyOtp`, reenvio, e o login levando quem não confirmou para a tela certa). Falta só o painel.
    - Texto do e-mail pronto para colar: [`email-confirmacao.md`](email-confirmacao.md).

@@ -210,6 +210,15 @@ Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limi
 - **Compatível com o estado atual:** enquanto a confirmação estiver desligada, `signUp` devolve sessão e nada muda.
 - Texto do e-mail pronto em `publicacao/email-confirmacao.md`, com o porquê de cada escolha (código em 40 px, sem jargão e **sem link nenhum** — e-mail de saúde com link treina o idoso a clicar em link de e-mail, hábito que golpistas exploram).
 - **Ordem obrigatória:** ligar "Confirm email" na Supabase é o **último** passo. Antes disso o cadastro seguiria para uma confirmação que não chega.
+**Configuração aplicada em 22/09/2026 e verificada no servidor** (`scripts/configurar-auth.mjs`, via Management API):
+- SMTP do Resend (`smtp.resend.com:465`, usuário `resend`), remetente `nao-responda@nerosaude.com.br`, nome "Nero Saúde". Domínio `nerosaude.com.br` **verified** no Resend, região `sa-east-1` (São Paulo) — coerente com o que a política declara.
+- Assunto e template com `{{ .Token }}`.
+- **`mailer_otp_length` estava em 8** — o padrão da Supabase. O app pede 6 (`TAMANHO_CODIGO`), então o cadastro travaria com o e-mail mandando oito números. Corrigido para 6. **Achado pelo modo de simulação do script, antes de gravar qualquer coisa.**
+- `mailer_otp_exp` 3600 (1 h) · `smtp_max_frequency` 60 s, casando com `ESPERA_REENVIO_S` da tela · `rate_limit_email_sent` de **2 para 100/hora** (2 era o limite do SMTP embutido).
+- `mailer_autoconfirm: false` — a confirmação passou a ser **exigida** em 22/09. Não afeta contas já existentes.
+- **Teste de ponta a ponta feito:** cadastro real pela API → log do Resend com `status=delivered`, assunto "Seu código do Nero Saúde", remetente do domínio próprio. Usuário de teste `nerosaude+teste1@gmail.com` (id `c8c75d7e-…`) **ficou no banco e deve ser apagado** em Authentication › Users.
+- O script tem modo de simulação por padrão e só grava com `--aplicar`; ligar a exigência é uma flag separada (`--ligar-confirmacao`), para nunca travar cadastro antes de o envio estar provado. Os segredos entram por variável de ambiente e não são gravados em disco.
+
 - **A confirmar no aparelho:** `type: 'signup'` é o que o template "Confirm signup" emite (`EmailOtpType` nos tipos instalados aceita também `'email'`). Se o código for recusado no teste real, é o primeiro lugar a olhar.
 
 ---
