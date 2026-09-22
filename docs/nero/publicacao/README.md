@@ -19,8 +19,9 @@
 ## Infraestrutura — backup (D-018, 22/09)
 - **Decidido: transferir o projeto NERO para a organização do Murilo que já assina o Supabase Pro.** Custo marginal **~US$ 10/mês** (a assinatura de US$ 25 e o crédito de computação são por organização e já estão consumidos; o NERO entra como projeto adicional). Organização confirmada como exclusivamente dele.
 - **Por quê:** o Free **não tem backup nenhum**. Montar backup próprio (GitHub Actions + armazenamento gratuito) sairia de graça, mas colocaria prontuários de pacientes sob guarda pessoal do Murilo — exposição maior que a mensalidade.
-- [ ] **Ação do Murilo (painel):** Settings › General › **Transfer project** → organização com Pro. Exige **nenhuma integração GitHub ativa**; não muda a região (segue São Paulo).
-- [ ] **Depois da transferência:** confirmar que **Database › Backups** mostra os backups diários, e abrir o app para ver se ainda conecta (URL e chaves não devem mudar).
+- [x] **Transferência concluída em 22/09.** A organização Pro estava em outro e-mail do Murilo: resolvido convidando a conta do NERO como **Owner** dela, e não migrando para projeto novo. Verificado que nada técnico mudou — mesmo ref, mesma URL, chaves funcionando (REST e Auth em HTTP 200).
+- [ ] **Última pendência:** confirmar em **Database › Backups** que os backups diários apareceram (primeiro ciclo pode levar horas).
+- [ ] Ligar **verificação em duas etapas nas duas contas** — ambas abrem o banco de prontuários agora.
 - **A política já está escrita supondo a transferência feita** (seção 8: cópias de 7 dias). **Não publicar a política antes de confirmar os backups no painel.**
 
 ## Depende do Murilo (em ordem)

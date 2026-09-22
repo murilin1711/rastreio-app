@@ -170,7 +170,13 @@ Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limi
 
 **Detalhes verificados:** exige ser dono da organização de origem e membro da de destino (ambas dele); **não muda a região** — continua São Paulo, como a política declara; exige **nenhuma integração GitHub ativa** no projeto; a indisponibilidade documentada é só no sentido pago → Free. Caminho: Settings › General › Transfer project.
 
-**Situação:** decidida em 22/09. **A transferência é ação de painel e cabe ao Murilo** — a documentação já está escrita como se ela tivesse ocorrido. **Antes de publicar a política, confirmar que Database › Backups mostra os backups diários.** Verificar também que o app segue conectando (URL e chaves não devem mudar, a documentação não afirma).
+**Obstáculo encontrado e resolvido:** a lista de destinos aparecia vazia porque a organização Pro está em **outro e-mail** do Murilo, e a transferência exige que a **mesma conta** seja dona da origem e membro do destino. Resolvido convidando a conta do NERO como **Owner** da organização Pro (Team › Invite member, convite válido por 24 h) — e **não** criando projeto novo com migração, caminho que foi considerado e descartado: projeto novo traria URL e chaves novas, exigiria migrar os usuários do Auth à mão (com risco de órfãos, já que o `user_id` carimba todos os registros) e reenviar um a um os arquivos dos buckets `laudos` e `relatorios`, que o dump não leva.
+
+**Situação: transferência concluída pelo Murilo em 22/09.** Verificado do lado do código que **nada técnico mudou**: mesmo ref `ycljqpwpeoonqisqdrws`, mesma URL, chave anônima atual funcionando (REST e Auth responderam HTTP 200). O app não precisou de alteração.
+
+**Pendência única:** confirmar em **Database › Backups** que os backups diários apareceram (o primeiro ciclo pode levar horas). **A política não deve ser publicada antes disso**, porque a seção 8 declara cópias de 7 dias.
+
+**Consequência de segurança:** duas contas passam a ter acesso ao banco de prontuários. Ambas são do Murilo, então não há problema de privacidade, mas **as duas precisam de verificação em duas etapas** — a mais fraca define a segurança do conjunto.
 
 **Limite do Free que deixa de valer após a transferência:** pausa após 7 dias de baixa atividade. O limite de **2 e-mails/hora** do Auth é do serviço embutido e continua contornado pelo Resend (D-019).
 
