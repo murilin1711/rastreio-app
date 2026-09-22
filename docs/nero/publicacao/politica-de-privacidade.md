@@ -23,7 +23,7 @@ Todos os dados abaixo são fornecidos por você, no app. Não coletamos dados de
 
 **Perfil de saúde** (dado pessoal sensível, art. 5º, II da LGPD)
 - Nome, data de nascimento, sexo ao nascer, altura.
-- Condições que mudam as recomendações: diabetes, hipertensão, doença renal, imunossupressão, HIV, doença inflamatória intestinal, tabagismo (situação, cigarros por dia, tempo), histórico pessoal de câncer, lesões precursoras, doenças genéticas, radioterapia torácica, histerectomia.
+- Condições que mudam as recomendações: diabetes, hipertensão, doença renal, insuficiência cardíaca, imunossupressão, HIV, doença inflamatória intestinal, tabagismo (situação, cigarros por dia, tempo), histórico pessoal de câncer, lesões precursoras, doenças genéticas, radioterapia torácica, histerectomia.
 - Antecedentes familiares de câncer e de doença cardiovascular (parentesco, idade ao diagnóstico) — sem identificação dos familiares.
 
 **Registros que você faz**
@@ -32,7 +32,11 @@ Todos os dados abaixo são fornecidos por você, no app. Não coletamos dados de
 - Exames laboratoriais e estimativa de risco cardiovascular calculada a partir deles.
 - Medicações e horários; sintomas de alarme assinalados.
 - Refeições, atividades físicas, check-ins de bem-estar, metas.
+- Ingestão de água (quantidade e horário de cada registro) e a meta diária, calculada a partir do seu peso.
 - Consultas (data, especialidade, anotações) e lembretes.
+
+**Uso do app**
+- Os dias em que você registrou alguma coisa (só a data, nunca o que foi registrado), para mostrar sua sequência de dias seguidos, e quais marcos de meta e conquistas de uso já foram comemorados. Esses dados servem apenas para o app não repetir a mesma comemoração; não são compartilhados nem entram nos relatórios.
 
 **Documentos** (dado sensível)
 - Imagens e PDFs de laudos, receitas e exames que você anexa por foto, galeria ou arquivo. Ficam em área de armazenamento privada, acessível só pela sua conta.
@@ -62,17 +66,18 @@ Não usamos seus dados para outra finalidade, não os vendemos e não os usamos 
 - **Ninguém recebe seus dados por padrão.** Só você acessa o que registrou; as regras de acesso do banco de dados impedem que uma conta leia dados de outra.
 - **Compartilhamento por QR Code:** quando você gera um relatório com QR, criamos um link assinado válido por **7 dias**; quem tiver o link (por exemplo, seu médico, ao escanear o QR) consegue abrir aquele PDF nesse período. Você pode revogar o link antes do prazo na tela do relatório. Depois de 7 dias o link deixa de funcionar.
 - **Operador de infraestrutura:** os dados ficam hospedados na Supabase (banco de dados, autenticação e armazenamento de arquivos), em servidores localizados em **São Paulo, Brasil**, com criptografia em trânsito (TLS) e em repouso. A Supabase atua como operadora, sob nossas instruções, e não usa os dados para fins próprios. Política da Supabase: https://supabase.com/privacy.
+- **Operador de envio de e-mail:** para enviar o código de confirmação de cadastro e a recuperação de senha, seu endereço de e-mail é transmitido ao serviço **Resend**, que atua como operador e o utiliza exclusivamente para entregar essas mensagens. Nenhum dado de saúde é enviado por e-mail.
 - Autoridades: apenas se houver obrigação legal ou ordem judicial.
 
 ## 7. Lembretes e notificações
 
-Os lembretes são notificações **locais**, agendadas no seu aparelho. Não usamos servidor de notificações push nem enviamos e-mails de marketing. Você controla cada tipo de lembrete nas preferências e pode desligar tudo nas configurações do sistema.
+Os lembretes são notificações **locais**, agendadas no seu aparelho — de medicações, consultas, exames pendentes e, se você ligar, de ingestão de água (nesse caso você escolhe a janela do dia e o intervalo entre os avisos; começa desligado). Não usamos servidor de notificações push nem enviamos e-mails de marketing. Os únicos e-mails que você recebe são os da sua própria conta — o código de confirmação do cadastro e a recuperação de senha. Você controla cada tipo de lembrete nas preferências e pode desligar tudo nas configurações do sistema.
 
 ## 8. Por quanto tempo guardamos — e como excluir
 
 - Guardamos seus dados enquanto sua conta existir.
 - **Excluir a conta:** em **Minha Saúde → Excluir minha conta** (D-013). A exclusão apaga a conta e **todos** os registros, documentos e relatórios vinculados a ela, de forma irreversível. Links de QR ainda ativos deixam de funcionar.
-- Cópias de segurança do operador são sobrescritas em até [[7]] dias após a exclusão.
+- **Não mantemos cópias de segurança.** A exclusão é imediata e definitiva: os dados são apagados do banco e não existe backup de onde eles possam ser recuperados, nem por nós.
 - Você também pode pedir a exclusão pelo e-mail da seção 1.
 
 ## 9. Seus direitos (art. 18 da LGPD)

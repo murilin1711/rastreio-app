@@ -152,6 +152,39 @@ Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limi
 
 ---
 
+### D-018 — Supabase no plano Free: sem backup, sem dump, exclusão imediata — 22/09/2026
+
+**Contexto:** a política de privacidade (rascunho de 18/09) dizia "cópias de segurança do operador são sobrescritas em até 7 dias após a exclusão" — texto escrito supondo o plano **Pro**. Na verificação de 22/09 a documentação da Supabase é explícita: **o plano Free não tem backup automático nem backup para download**; a recomendação deles é o próprio dono exportar com `supabase db dump`. Manter aquela frase seria declarar uma cópia que não existe.
+**Decisão do Murilo:** ficar no **Free por enquanto** e **sem dump periódico**. A política passa a dizer que a exclusão de conta é **imediata e definitiva, sem cópia de segurança retida**.
+**Motivo (o que sustenta a decisão):** hoje não existe paciente real no banco — não há o que perder, e a simplicidade vale mais. O Murilo levantou também a hipótese de que um dump declarado atrapalharia a aprovação nas lojas; **isso foi verificado e não procede** — nem Apple, nem Google, nem a LGPD proíbem backup declarado, e guardar cópia de dado de saúde é prática esperada. O que reprova é manter cópia sem declarar. A decisão se sustenta pelo primeiro motivo, não por esse.
+**Consequência assumida:** sem nenhuma via de recuperação. Perda ou corrupção do banco = perda total dos dados, sem volta.
+**Gatilho de revisão (explícito):** **quando entrar o primeiro usuário real que não seja o Murilo.** Nesse momento, rodar sem backup deixa de ser aceitável; o caminho natural é o plano **Pro** (backup diário de 7 dias pronto, sem arquivo para guardar), que já estava mapeado como pré-requisito de lançamento público.
+**Outros limites do Free, registrados para não serem redescobertos:** projeto **pausa após 7 dias de baixa atividade**; Auth embutido limitado a **2 e-mails/hora** (resolvido pela D-019); sem acesso a suporte.
+
+---
+
+### D-019 — Confirmação de e-mail por código de 6 dígitos, enviado pelo Resend — 22/09/2026
+
+**Contexto:** "reativar a confirmação de e-mail no Supabase Auth" já estava na fila de publicação. Com o Auth embutido no plano Free o limite é de **2 e-mails por hora**, o que inviabiliza cadastro real. O Murilo perguntou se a confirmação é mesmo necessária, já que **a maioria dos usuários será idosa** e é mais um passo.
+**Decisão:** manter a confirmação, usando **SMTP próprio via Resend** (camada gratuita, remove o limite de 2/hora, custo zero) e **código de 6 dígitos**, não link.
+**Por que confirmar, apesar do público idoso — o argumento se inverte:** a recuperação de senha só funciona por e-mail. Se a pessoa digita o e-mail errado no cadastro e ninguém confere, no dia em que esquecer a senha **perde o acesso permanente a todo o histórico de saúde** (exames, pressão, laudos), sem como provar que a conta é dela. Esquecer senha é o evento mais previsível nesse público. **O passo a mais no dia 1 é o que evita a perda total no dia 300.**
+**Por que código e não link (o código é o caminho mais fácil, não o mais difícil):** o link exige sair do app, abrir o e-mail, tocar, abrir o navegador e o navegador conseguir devolver a pessoa ao app — cinco etapas, e a última falha com frequência. Com o código, **o app fica parado na tela "digite o código"**: a pessoa lê seis números no e-mail, volta e digita, sem o app ter saído do lugar, com "reenviar" ali mesmo.
+**Como se implementa:** template de confirmação da Supabase usa `{{ .Token }}` no lugar de `{{ .ConfirmationURL }}`; validação com `verifyOtp({ email, token, type })`. Códigos: 1 pedido por 60 s, expiram em 1 h (configurável).
+**Exigência de tela (Murilo: "tem que ser simples"):** campo grande, teclado numérico, colagem automática do código, mensagem sem jargão, botão de reenviar visível.
+
+---
+
+### D-020 — Relatório de Saúde & Hábitos passa a incluir água; sequência fica de fora — 22/09/2026
+
+**Contexto:** pergunta deixada em aberto no handoff de 19/09. O relatório de hábitos não incluía nem a ingestão de água nem a sequência de dias.
+**Decisão do Murilo:** **água entra; sequência não.**
+**Motivo:** o relatório é o documento que vai para o médico, e nele entra **o que a pessoa registrou** — água é dado de saúde, comparável a sono e atividade, e útil na consulta. A sequência de dias seguidos é **métrica de adesão ao app**, não achado clínico: não diz nada sobre o paciente que o médico precise ler, e ainda arrisca ser lida como desempenho. Coerente com a D-016, que mantém comemoração e conteúdo clínico em trilhos separados.
+**Situação:** decidida, **não implementada**.
+
+---
+
+---
+
 ---
 
 ## Decisões clínicas (protocolos adotados)

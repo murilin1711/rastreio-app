@@ -1,6 +1,6 @@
 # Publicação nas lojas — estado e pendências
 
-> Atualizado em 19/09/2026. Decisão técnica de base: D-012 em `../02-DECISOES.md`.
+> Atualizado em 22/09/2026. Decisão técnica de base: D-012 em `../02-DECISOES.md`.
 
 ## Feito (não dependia do Murilo)
 - [x] `app.json`: permissões em português (câmera, fotos, documentos, notificações), `ITSAppUsesNonExemptEncryption`, localização pt-BR, build 1.
@@ -16,14 +16,19 @@
 - [ ] Clipes comemorar e pensando (prompts em `../mascote/animacoes.md`).
 - [ ] Onde acena no primeiro contato: login (recomendado) ou onboarding.
 
+## Infraestrutura (D-018, 22/09)
+- **Plano Supabase: Free por enquanto**, assumindo que **não há backup nenhum** e a exclusão de conta é imediata e definitiva (já escrito na política). **Sem dump periódico.**
+- **Revisar quando entrar o primeiro usuário real que não seja o Murilo** → migrar para **Pro** (backup diário de 7 dias) e atualizar a seção 8 da política.
+- Limites do Free a ter em mente: projeto **pausa após 7 dias de baixa atividade**; Auth embutido com **2 e-mails/hora** (contornado pelo Resend, D-019); sem suporte.
+
 ## Depende do Murilo (em ordem)
 1. [ ] Contas **Apple Developer** e **Google Play Console** (pessoa física recomendada).
 2. [x] **Nome nas lojas:** "Nero Saúde" (D-014, 18/09).
 3. [ ] **Bundle id iOS / package Android** — permanente. Recomendação: domínio invertido que você controle (ex.: `br.com.<dominio>.nero`); sem domínio, `com.murilopovoa.nero`.
 4. [x] Imagens: ícones, splash, favicon, Play e mascote gerados em 18/09 (`imagens.md`).
-5. [ ] Política de privacidade: preencher `[[ ]]`, decidir hospedagem (recomendação: GitHub Pages do repositório) e idade mínima.
+5. [ ] Política de privacidade: preencher `[[ ]]`, decidir hospedagem (recomendação: GitHub Pages do repositório) e idade mínima. **Atualizada em 22/09** com água, sequência/conquistas, insuficiência cardíaca, lembretes de água, operador Resend e a nova regra de exclusão sem backup (D-018). Faltam só os dados pessoais do responsável, a idade mínima e a URL.
 6. [x] Migração 0014 aplicada na nuvem em 18/09.
-7. [ ] Reativar confirmação de e-mail no Supabase Auth e testar cadastro.
+7. [ ] **Confirmação de e-mail por código de 6 dígitos via Resend (D-019).** Depende de você: criar conta no Resend, verificar um domínio remetente e passar as credenciais SMTP. O resto (template com `{{ .Token }}`, tela do código, `verifyOtp`) eu implemento.
 8. [ ] Revogar token antigo do CLI (`supabase.com/dashboard/account/tokens`).
 9. [ ] `eas init` (cria o projeto na conta Expo `murilorp1711`) → `eas build --profile preview` → TestFlight / teste interno.
 
