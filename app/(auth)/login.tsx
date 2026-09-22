@@ -2,6 +2,7 @@ import { Link, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { ehEmailNaoConfirmado } from '@core/auth/codigo';
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
 import { Button, Colors, Input, LogoNero, Spacing, Typography } from '@ui/index';
@@ -21,6 +22,12 @@ export default function Login() {
     const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password: senha });
     setCarregando(false);
     if (error) {
+      // Quem se cadastrou e não terminou a confirmação travaria num alerta sem saída (D-019):
+      // reenvia o código e leva para a tela que o espera.
+      if (ehEmailNaoConfirmado(error)) {
+        await supabase.auth.resend({ type: 'signup', email: email.trim() });
+        return router.replace({ pathname: '/(auth)/confirmar', params: { email: email.trim() } });
+      }
       Alert.alert('Não foi possível entrar', traduzirErro(error).mensagemUsuario);
       return;
     }

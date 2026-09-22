@@ -27,11 +27,9 @@ export default function Cadastro() {
     setCarregando(false);
 
     if (error) return Alert.alert('Não foi possível cadastrar', traduzirErro(error).mensagemUsuario);
-    if (!data.session) {
-      return Alert.alert('Confirme seu e-mail', 'Enviamos um link de confirmação. Depois de confirmar, volte e entre.', [
-        { text: 'OK', onPress: () => router.replace('/(auth)/login') },
-      ]);
-    }
+    // Sem sessão = a confirmação de e-mail está ligada: o código foi enviado e a pessoa continua
+    // dentro do app, na tela que espera os seis números (D-019).
+    if (!data.session) return router.replace({ pathname: '/(auth)/confirmar', params: { email: email.trim() } });
     router.replace('/');
   };
 

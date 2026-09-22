@@ -6,7 +6,7 @@
 
 ## 1. Quem é o responsável
 
-O aplicativo NERO é mantido por **[[nome completo ou razão social]]**, [[CPF ou CNPJ]], com endereço em [[cidade/UF]] ("nós"). Para qualquer assunto sobre seus dados, incluindo o exercício dos direitos previstos na LGPD, escreva para **[[e-mail de contato]]**. Encarregado pelo tratamento de dados (art. 41 da LGPD): [[nome ou "o próprio responsável"]].
+O aplicativo NERO é mantido por **[[nome completo ou razão social]]**, [[CPF ou CNPJ]], com endereço em [[cidade/UF]] ("nós"). Para qualquer assunto sobre seus dados, incluindo o exercício dos direitos previstos na LGPD, escreva para **nerosaude@gmail.com**. Encarregado pelo tratamento de dados (art. 41 da LGPD): [[nome ou "o próprio responsável"]].
 
 ## 2. O que o NERO é — e o que não é
 
@@ -98,7 +98,7 @@ Se esta política mudar, a nova versão será publicada nesta mesma página com 
 
 ## 13. Contato
 
-[[e-mail de contato]] · [[URL pública desta política]]
+nerosaude@gmail.com · [[URL pública desta política]]
 
 ---
 

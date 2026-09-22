@@ -191,6 +191,15 @@ Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limi
 **Como se implementa:** template de confirmação da Supabase usa `{{ .Token }}` no lugar de `{{ .ConfirmationURL }}`; validação com `verifyOtp({ email, token, type })`. Códigos: 1 pedido por 60 s, expiram em 1 h (configurável).
 **Exigência de tela (Murilo: "tem que ser simples"):** campo grande, teclado numérico, colagem automática do código, mensagem sem jargão, botão de reenviar visível.
 
+**Implementada no app em 22/09/2026** (falta só a configuração de painel, que depende do domínio):
+- `src/core/auth/codigo.ts` (núcleo puro, 12 testes): `normalizarCodigo` aceita código colado com espaços ou com "Código:" junto — casos comuns que não deveriam virar erro; `segundosParaReenviar` arredonda **para cima**, para a tela nunca mostrar 0 com o botão ainda travado; `ehEmailNaoConfirmado` distingue o erro de confirmação pendente de senha errada.
+- `app/(auth)/confirmar.tsx`: **verifica sozinha ao sexto dígito**, sem botão "confirmar" — um passo a menos. Campo grande, `number-pad`, `autoComplete="one-time-code"` (o iOS oferece o código do e-mail sozinho). Código errado mostra recado e deixa tentar de novo sem sair da tela. `verifyOtp({ type: 'signup' })`. 6 testes de regressão.
+- **Buraco de UX fechado:** quem se cadastrava, não terminava e voltava para **entrar** travava num alerta sem saída. O login agora detecta o e-mail não confirmado, reenvia o código e leva para a mesma tela.
+- **Compatível com o estado atual:** enquanto a confirmação estiver desligada, `signUp` devolve sessão e nada muda.
+- Texto do e-mail pronto em `publicacao/email-confirmacao.md`, com o porquê de cada escolha (código em 40 px, sem jargão e **sem link nenhum** — e-mail de saúde com link treina o idoso a clicar em link de e-mail, hábito que golpistas exploram).
+- **Ordem obrigatória:** ligar "Confirm email" na Supabase é o **último** passo. Antes disso o cadastro seguiria para uma confirmação que não chega.
+- **A confirmar no aparelho:** `type: 'signup'` é o que o template "Confirm signup" emite (`EmailOtpType` nos tipos instalados aceita também `'email'`). Se o código for recusado no teste real, é o primeiro lugar a olhar.
+
 ---
 
 ### D-020 — Relatório de Saúde & Hábitos passa a incluir água; sequência fica de fora — 22/09/2026

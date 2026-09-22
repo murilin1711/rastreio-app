@@ -33,6 +33,9 @@
 6. [x] Migração 0014 aplicada na nuvem em 18/09.
 7. [ ] **Confirmação de e-mail por código de 6 dígitos via Resend (D-019).** Depende de você: criar conta no Resend, verificar um domínio remetente e colar a chave no painel da Supabase. O resto (template com `{{ .Token }}`, tela do código, `verifyOtp`) eu implemento.
    - SMTP do Resend, em **Supabase › Authentication › SMTP Settings**: servidor `smtp.resend.com`, porta `465`, usuário `resend`, senha = a **chave de API do Resend**.
+   - **App já implementado em 22/09** (tela do código, `verifyOtp`, reenvio, e o login levando quem não confirmou para a tela certa). Falta só o painel.
+   - Texto do e-mail pronto para colar: [`email-confirmacao.md`](email-confirmacao.md).
+   - **Ligar "Confirm email" é o ÚLTIMO passo**, depois de SMTP e template — antes disso o cadastro pediria um código que não chega.
    - **A chave nunca entra no repositório nem no chat** — ela vive só no painel da Supabase. Uma chave foi colada no chat em 22/09 e deve ser **apagada e recriada** no Resend (mesmo cuidado já aplicado à senha do banco).
 8. [ ] Revogar token antigo do CLI (`supabase.com/dashboard/account/tokens`).
 9. [ ] `eas init` (cria o projeto na conta Expo `murilorp1711`) → `eas build --profile preview` → TestFlight / teste interno.
