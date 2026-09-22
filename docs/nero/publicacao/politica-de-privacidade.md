@@ -98,7 +98,7 @@ Se esta política mudar, a nova versão será publicada nesta mesma página com 
 
 ## 13. Contato
 
-nerosaude@gmail.com · [[URL pública desta política]]
+nerosaude@gmail.com · https://nerosaude.com.br/privacidade
 
 ---
 

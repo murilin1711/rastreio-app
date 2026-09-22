@@ -27,9 +27,9 @@
 ## Depende do Murilo (em ordem)
 1. [ ] Contas **Apple Developer** e **Google Play Console** (pessoa física recomendada).
 2. [x] **Nome nas lojas:** "Nero Saúde" (D-014, 18/09).
-3. [ ] **Bundle id iOS / package Android** — permanente. Recomendação: domínio invertido que você controle (ex.: `br.com.<dominio>.nero`); sem domínio, `com.murilopovoa.nero`.
+3. [x] **Bundle id iOS / package Android: `br.com.nerosaude.app`** (D-021, 22/09) — domínio invertido de `nerosaude.com.br`, já aplicado no `app.json` nos dois sistemas. `expo-doctor` 21/21. **Permanente a partir do primeiro envio.**
 4. [x] Imagens: ícones, splash, favicon, Play e mascote gerados em 18/09 (`imagens.md`).
-5. [ ] Política de privacidade: preencher `[[ ]]`, decidir hospedagem (recomendação: GitHub Pages do repositório) e idade mínima (**18+ confirmado pelo Murilo em 22/09**, já aplicado). **Atualizada em 22/09** com água, sequência/conquistas, insuficiência cardíaca, lembretes de água, operador Resend e a nova regra de exclusão sem backup (D-018). Faltam só os dados pessoais do responsável, a idade mínima e a URL.
+5. [ ] Política de privacidade: preencher `[[ ]]`, hospedar em **https://nerosaude.com.br/privacidade** (domínio comprado em 22/09; melhor que GitHub Pages porque as lojas esperam a política no domínio do próprio app) e idade mínima (**18+ confirmado pelo Murilo em 22/09**, já aplicado). **Atualizada em 22/09** com água, sequência/conquistas, insuficiência cardíaca, lembretes de água, operador Resend e a nova regra de exclusão sem backup (D-018). Faltam só os dados pessoais do responsável, a idade mínima e a URL.
 6. [x] Migração 0014 aplicada na nuvem em 18/09.
 7. [ ] **Confirmação de e-mail por código de 6 dígitos via Resend (D-019).** Depende de você: criar conta no Resend, verificar um domínio remetente e colar a chave no painel da Supabase. O resto (template com `{{ .Token }}`, tela do código, `verifyOtp`) eu implemento.
    - SMTP do Resend, em **Supabase › Authentication › SMTP Settings**: servidor `smtp.resend.com`, porta `465`, usuário `resend`, senha = a **chave de API do Resend**.

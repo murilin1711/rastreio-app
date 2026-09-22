@@ -152,6 +152,18 @@ Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limi
 
 ---
 
+### D-021 — Domínio, bundle id e URL da política — 22/09/2026
+
+**Domínio registrado pelo Murilo em 22/09: `nerosaude.com.br`.** Destrava três pendências que estavam presas nele: remetente do e-mail (D-019), identificador nas lojas e hospedagem da política.
+
+**Bundle id / package: `br.com.nerosaude.app`**, o mesmo nos dois sistemas (`app.json`, `ios.bundleIdentifier` e `android.package`). Escolhido por ser o **domínio invertido** de `nerosaude.com.br` (`com.br` → `br.com`), convenção oficial de Apple e Google. Como o Murilo controla o domínio, ninguém pode reivindicar `br.com.nerosaude.*` — o que importa num identificador **permanente**: trocá-lo depois do primeiro envio cria um app novo, perdendo avaliações, downloads e quem já instalou. O sufixo `app` deixa espaço para outros sob a mesma marca (`br.com.nerosaude.web`, `.pro`).
+**Descartado `com.nerosaude.app`:** corresponde ao domínio `nerosaude.com`, que **não** é do Murilo — funcionaria, mas deixaria de ser um identificador comprovadamente seu. **Descartado `br.com.nerosaude.nero`:** "nero" repete o que "nerosaude" já diz.
+**Verificado:** `expo-doctor` 21/21 depois da alteração.
+
+**URL da política: `https://nerosaude.com.br/privacidade`**, já escrita na seção 13 do texto. Substitui a recomendação anterior de GitHub Pages: as lojas esperam a política no domínio do próprio app, e o Murilo agora tem um. Reversível — é só texto — se a hospedagem for outra.
+
+---
+
 ### D-018 — Backup: projeto transferido para a organização que já tem Supabase Pro — 22/09/2026
 
 **Contexto:** a política de privacidade (rascunho de 18/09) dizia "cópias de segurança do operador são sobrescritas em até 7 dias após a exclusão" — texto escrito supondo o plano **Pro**. Na verificação de 22/09 a documentação da Supabase é explícita: **o plano Free não tem backup automático nem para download**; a recomendação deles é o próprio dono exportar com `supabase db dump`. Manter aquela frase seria declarar uma cópia que não existe.
