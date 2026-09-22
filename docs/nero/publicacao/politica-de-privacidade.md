@@ -65,7 +65,7 @@ Não usamos seus dados para outra finalidade, não os vendemos e não os usamos 
 
 - **Ninguém recebe seus dados por padrão.** Só você acessa o que registrou; as regras de acesso do banco de dados impedem que uma conta leia dados de outra.
 - **Compartilhamento por QR Code:** quando você gera um relatório com QR, criamos um link assinado válido por **7 dias**; quem tiver o link (por exemplo, seu médico, ao escanear o QR) consegue abrir aquele PDF nesse período. Você pode revogar o link antes do prazo na tela do relatório. Depois de 7 dias o link deixa de funcionar.
-- **Operador de infraestrutura:** os dados ficam hospedados na Supabase (banco de dados, autenticação e armazenamento de arquivos), em servidores localizados em **São Paulo, Brasil**, com criptografia em trânsito (TLS) e em repouso. A Supabase atua como operadora, sob nossas instruções, e não usa os dados para fins próprios. Política da Supabase: https://supabase.com/privacy.
+- **Operador de infraestrutura:** os dados ficam hospedados na Supabase (banco de dados, autenticação e armazenamento de arquivos), em servidores localizados em **São Paulo, Brasil**, com criptografia em trânsito (TLS) e em repouso. A Supabase atua como operadora, sob nossas instruções, mantém as cópias de segurança citadas na seção 8 e não usa os dados para fins próprios. Política da Supabase: https://supabase.com/privacy.
 - **Operador de envio de e-mail:** para enviar o código de confirmação de cadastro e a recuperação de senha, seu endereço de e-mail é transmitido ao serviço **Resend**, que atua como operador e o utiliza exclusivamente para entregar essas mensagens. Nenhum dado de saúde é enviado por e-mail.
 - Autoridades: apenas se houver obrigação legal ou ordem judicial.
 
@@ -77,7 +77,7 @@ Os lembretes são notificações **locais**, agendadas no seu aparelho — de me
 
 - Guardamos seus dados enquanto sua conta existir.
 - **Excluir a conta:** em **Minha Saúde → Excluir minha conta** (D-013). A exclusão apaga a conta e **todos** os registros, documentos e relatórios vinculados a ela, de forma irreversível. Links de QR ainda ativos deixam de funcionar.
-- **Não mantemos cópias de segurança.** A exclusão é imediata e definitiva: os dados são apagados do banco e não existe backup de onde eles possam ser recuperados, nem por nós.
+- Os dados são apagados imediatamente do banco. Nosso operador de infraestrutura mantém cópias de segurança diárias por **7 dias**, para o caso de falha; essas cópias são sobrescritas nesse prazo, e depois disso não resta nenhum registro seu. Não guardamos cópias fora dele.
 - Você também pode pedir a exclusão pelo e-mail da seção 1.
 
 ## 9. Seus direitos (art. 18 da LGPD)
@@ -90,7 +90,7 @@ Acesso por senha; regras de acesso por linha no banco (cada conta só enxerga o 
 
 ## 11. Idade mínima
 
-O NERO é destinado a pessoas com **18 anos ou mais**. [[Confirmar: manter 18+? As diretrizes de rastreamento começam em 18–25 anos.]] Não coletamos intencionalmente dados de menores; se isso ocorrer, excluiremos ao tomar conhecimento.
+O NERO é destinado a pessoas com **18 anos ou mais**. Não coletamos intencionalmente dados de menores; se isso ocorrer, excluiremos ao tomar conhecimento.
 
 ## 12. Alterações
 

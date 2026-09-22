@@ -16,17 +16,19 @@
 - [ ] Clipes comemorar e pensando (prompts em `../mascote/animacoes.md`).
 - [ ] Onde acena no primeiro contato: login (recomendado) ou onboarding.
 
-## Infraestrutura (D-018, 22/09)
-- **Plano Supabase: Free por enquanto**, assumindo que **não há backup nenhum** e a exclusão de conta é imediata e definitiva (já escrito na política). **Sem dump periódico.**
-- **Revisar quando entrar o primeiro usuário real que não seja o Murilo** → migrar para **Pro** (backup diário de 7 dias) e atualizar a seção 8 da política.
-- Limites do Free a ter em mente: projeto **pausa após 7 dias de baixa atividade**; Auth embutido com **2 e-mails/hora** (contornado pelo Resend, D-019); sem suporte.
+## Infraestrutura — backup (D-018, 22/09)
+- **Decidido: transferir o projeto NERO para a organização do Murilo que já assina o Supabase Pro.** Custo marginal **~US$ 10/mês** (a assinatura de US$ 25 e o crédito de computação são por organização e já estão consumidos; o NERO entra como projeto adicional). Organização confirmada como exclusivamente dele.
+- **Por quê:** o Free **não tem backup nenhum**. Montar backup próprio (GitHub Actions + armazenamento gratuito) sairia de graça, mas colocaria prontuários de pacientes sob guarda pessoal do Murilo — exposição maior que a mensalidade.
+- [ ] **Ação do Murilo (painel):** Settings › General › **Transfer project** → organização com Pro. Exige **nenhuma integração GitHub ativa**; não muda a região (segue São Paulo).
+- [ ] **Depois da transferência:** confirmar que **Database › Backups** mostra os backups diários, e abrir o app para ver se ainda conecta (URL e chaves não devem mudar).
+- **A política já está escrita supondo a transferência feita** (seção 8: cópias de 7 dias). **Não publicar a política antes de confirmar os backups no painel.**
 
 ## Depende do Murilo (em ordem)
 1. [ ] Contas **Apple Developer** e **Google Play Console** (pessoa física recomendada).
 2. [x] **Nome nas lojas:** "Nero Saúde" (D-014, 18/09).
 3. [ ] **Bundle id iOS / package Android** — permanente. Recomendação: domínio invertido que você controle (ex.: `br.com.<dominio>.nero`); sem domínio, `com.murilopovoa.nero`.
 4. [x] Imagens: ícones, splash, favicon, Play e mascote gerados em 18/09 (`imagens.md`).
-5. [ ] Política de privacidade: preencher `[[ ]]`, decidir hospedagem (recomendação: GitHub Pages do repositório) e idade mínima. **Atualizada em 22/09** com água, sequência/conquistas, insuficiência cardíaca, lembretes de água, operador Resend e a nova regra de exclusão sem backup (D-018). Faltam só os dados pessoais do responsável, a idade mínima e a URL.
+5. [ ] Política de privacidade: preencher `[[ ]]`, decidir hospedagem (recomendação: GitHub Pages do repositório) e idade mínima (**18+ confirmado pelo Murilo em 22/09**, já aplicado). **Atualizada em 22/09** com água, sequência/conquistas, insuficiência cardíaca, lembretes de água, operador Resend e a nova regra de exclusão sem backup (D-018). Faltam só os dados pessoais do responsável, a idade mínima e a URL.
 6. [x] Migração 0014 aplicada na nuvem em 18/09.
 7. [ ] **Confirmação de e-mail por código de 6 dígitos via Resend (D-019).** Depende de você: criar conta no Resend, verificar um domínio remetente e passar as credenciais SMTP. O resto (template com `{{ .Token }}`, tela do código, `verifyOtp`) eu implemento.
 8. [ ] Revogar token antigo do CLI (`supabase.com/dashboard/account/tokens`).

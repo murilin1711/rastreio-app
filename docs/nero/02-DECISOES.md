@@ -152,14 +152,27 @@ Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limi
 
 ---
 
-### D-018 — Supabase no plano Free: sem backup, sem dump, exclusão imediata — 22/09/2026
+### D-018 — Backup: projeto transferido para a organização que já tem Supabase Pro — 22/09/2026
 
-**Contexto:** a política de privacidade (rascunho de 18/09) dizia "cópias de segurança do operador são sobrescritas em até 7 dias após a exclusão" — texto escrito supondo o plano **Pro**. Na verificação de 22/09 a documentação da Supabase é explícita: **o plano Free não tem backup automático nem backup para download**; a recomendação deles é o próprio dono exportar com `supabase db dump`. Manter aquela frase seria declarar uma cópia que não existe.
-**Decisão do Murilo:** ficar no **Free por enquanto** e **sem dump periódico**. A política passa a dizer que a exclusão de conta é **imediata e definitiva, sem cópia de segurança retida**.
-**Motivo (o que sustenta a decisão):** hoje não existe paciente real no banco — não há o que perder, e a simplicidade vale mais. O Murilo levantou também a hipótese de que um dump declarado atrapalharia a aprovação nas lojas; **isso foi verificado e não procede** — nem Apple, nem Google, nem a LGPD proíbem backup declarado, e guardar cópia de dado de saúde é prática esperada. O que reprova é manter cópia sem declarar. A decisão se sustenta pelo primeiro motivo, não por esse.
-**Consequência assumida:** sem nenhuma via de recuperação. Perda ou corrupção do banco = perda total dos dados, sem volta.
-**Gatilho de revisão (explícito):** **quando entrar o primeiro usuário real que não seja o Murilo.** Nesse momento, rodar sem backup deixa de ser aceitável; o caminho natural é o plano **Pro** (backup diário de 7 dias pronto, sem arquivo para guardar), que já estava mapeado como pré-requisito de lançamento público.
-**Outros limites do Free, registrados para não serem redescobertos:** projeto **pausa após 7 dias de baixa atividade**; Auth embutido limitado a **2 e-mails/hora** (resolvido pela D-019); sem acesso a suporte.
+**Contexto:** a política de privacidade (rascunho de 18/09) dizia "cópias de segurança do operador são sobrescritas em até 7 dias após a exclusão" — texto escrito supondo o plano **Pro**. Na verificação de 22/09 a documentação da Supabase é explícita: **o plano Free não tem backup automático nem para download**; a recomendação deles é o próprio dono exportar com `supabase db dump`. Manter aquela frase seria declarar uma cópia que não existe.
+
+**Caminho percorrido (registrado porque as alternativas podem voltar à mesa):**
+1. Primeira decisão do Murilo foi ficar no Free **sem dump**, com exclusão imediata e definitiva. Ele supôs que um dump declarado atrapalharia a aprovação nas lojas; **isso foi verificado e não procede** — nem Apple, nem Google, nem a LGPD proíbem backup declarado. O que reprova é manter cópia sem declarar.
+2. Ao perguntar como receberia o backup automático no Free, ficou claro que **não existe o que receber**. As opções com paciente real eram: **(A)** Pro, **(B)** backup próprio automatizado (GitHub Actions + armazenamento gratuito, custo zero) ou **(C)** seguir sem nada.
+3. **(C) foi descartada para o cenário com paciente real.** **(B) foi descartada** porque colocaria, fora da Supabase e **sob guarda do Murilo**, um acervo de prontuários de terceiros — exposição maior que a mensalidade.
+4. O Murilo lembrou que **já tem uma organização com Pro**, e a assinatura é por organização.
+
+**Decisão:** **transferir o projeto NERO para a organização que já assina o Pro.** Confirmado que a organização é **exclusivamente dele** — nenhum outro membro passa a ter acesso ao banco de prontuários, o que mantém coerência com a política (só ele responde pelos dados).
+
+**Custo real:** **~US$ 10/mês a mais**, não US$ 25. A assinatura de US$ 25 é por organização e já é paga; o crédito de computação de US$ 10 também é por organização e já está consumido pelo projeto existente. O NERO entra como projeto adicional com servidor próprio (Micro, ~US$ 10). Fatura vai de US$ 25 para ~US$ 35. Criar organização nova só para o NERO custaria **duas assinaturas** (~US$ 50) — por isso a transferência.
+
+**O que a transferência resolve:** backup diário com retenção de **7 dias**, fim da pausa por inatividade e nada de cópia sob guarda do Murilo. A seção 8 da política volta a declarar as cópias de 7 dias.
+
+**Detalhes verificados:** exige ser dono da organização de origem e membro da de destino (ambas dele); **não muda a região** — continua São Paulo, como a política declara; exige **nenhuma integração GitHub ativa** no projeto; a indisponibilidade documentada é só no sentido pago → Free. Caminho: Settings › General › Transfer project.
+
+**Situação:** decidida em 22/09. **A transferência é ação de painel e cabe ao Murilo** — a documentação já está escrita como se ela tivesse ocorrido. **Antes de publicar a política, confirmar que Database › Backups mostra os backups diários.** Verificar também que o app segue conectando (URL e chaves não devem mudar, a documentação não afirma).
+
+**Limite do Free que deixa de valer após a transferência:** pausa após 7 dias de baixa atividade. O limite de **2 e-mails/hora** do Auth é do serviço embutido e continua contornado pelo Resend (D-019).
 
 ---
 
