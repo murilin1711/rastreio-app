@@ -198,7 +198,9 @@ Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limi
 **Contexto:** pergunta deixada em aberto no handoff de 19/09. O relatório de hábitos não incluía nem a ingestão de água nem a sequência de dias.
 **Decisão do Murilo:** **água entra; sequência não.**
 **Motivo:** o relatório é o documento que vai para o médico, e nele entra **o que a pessoa registrou** — água é dado de saúde, comparável a sono e atividade, e útil na consulta. A sequência de dias seguidos é **métrica de adesão ao app**, não achado clínico: não diz nada sobre o paciente que o médico precise ler, e ainda arrisca ser lida como desempenho. Coerente com a D-016, que mantém comemoração e conteúdo clínico em trilhos separados.
-**Situação:** decidida, **não implementada**.
+**Implementada em 22/09/2026.** Seção `agua` em `SECOES_BEMESTAR`, entre alimentação e atividade; regra pura `resumoAguaSemana` em `src/core/regras/bemestar/agua.ts`. **A média divide pelos dias com registro, não por sete** — dia sem anotação não é dia sem beber, e lançar zero faria o médico ler ausência de registro como ingestão insuficiente. Teste de regressão garante que a **sequência não apareça** no relatório. Detalhes em `funcionamento/saude-bem-estar.md` §8.1.
+
+**Achado durante a implementação:** `useAgua.test.tsx` **nunca havia rodado** — estourava na importação e o Jest contava a suíte como 0 testes, por isso os "420 testes" do handoff de 19/09 não a incluíam. Corrigido; os 2 testes passam. Total real agora: **430**.
 
 ---
 

@@ -76,6 +76,16 @@ describe('montarConsulta (D-009)', () => {
 describe('montarBemEstar (§88) e integrações da Fase 4', () => {
   const s = montarBemEstar(dadosNeroTeste(), PERIODO_TESTE);
   test('seções na ordem + pendências', () => expect(chaves(s)).toEqual([...SECOES_BEMESTAR, 'pendencias']));
+  test('água entra no relatório de hábitos, com média por dia registrado e dias que bateram a meta (D-020)', () => {
+    const agua = s.find((x) => x.chave === 'agua');
+    expect(agua).toBeDefined();
+    const t = textoDe([agua!]);
+    expect(t).toContain('1.983 ml');  // 5950 / 3 dias registrados, não / 7
+    expect(t).toContain('2 de 3');     // dias que bateram a meta de 2450 ml
+  });
+  test('a sequência de dias seguidos NÃO entra no relatório (D-020): é adesão ao app, não achado clínico', () => {
+    expect(textoDe(s)).not.toMatch(/sequência|dias seguidos/i);
+  });
   test('corpo: IMC com faixa, cintura com RCA, tendência e tabela', () => {
     const t = textoDe([s.find((x) => x.chave === 'corpo')!]);
     expect(t).toContain('Peso atual 82,0 kg');

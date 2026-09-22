@@ -41,7 +41,7 @@ export const SECOES_CARDIO: ChaveSecao[] = ['perfil', 'medicamentos', 'pa', 'mrp
 export const SECOES_ONCOLOGICO: ChaveSecao[] = ['perfil', 'hist_familiar', 'tabagismo', 'rastreamentos_status', 'mama', 'colo', 'colorretal', 'pulmao', 'prostata', 'sintomas', 'documentos'];
 
 /** Relatório de Saúde & Hábitos (§88). */
-export const SECOES_BEMESTAR: ChaveSecao[] = ['perfil', 'corpo', 'alimentacao', 'atividade', 'sono', 'checkins', 'documentos'];
+export const SECOES_BEMESTAR: ChaveSecao[] = ['perfil', 'corpo', 'alimentacao', 'agua', 'atividade', 'sono', 'checkins', 'documentos'];
 
 /** Relatório geral = união, sem repetir (§61). */
 export const SECOES_GERAL: ChaveSecao[] = Array.from(new Set<ChaveSecao>([...SECOES_CARDIO, ...SECOES_ONCOLOGICO, 'corpo', 'alimentacao', 'atividade', 'sono', 'checkins', 'consultas']));

@@ -8,7 +8,7 @@ import type { ExameRegistrado, PendenciaAberta, SintomaAberto } from '@core/rast
 import type { MedidaPA } from '@core/regras/cardio/tipos';
 import type { MedidaGlicemia, Metas } from '@core/regras/cardio/tiposGlicemia';
 import type { ItemCheckup } from '@core/regras/cardio/tiposRisco';
-import type { Atividade, Checkin, MedidaCorporal, Meta, ParametrosBemEstar, Refeicao, Sono } from '@core/regras/bemestar/tipos';
+import type { Atividade, Checkin, MedidaCorporal, Meta, ParametrosBemEstar, Refeicao, RegistroAgua, Sono } from '@core/regras/bemestar/tipos';
 import type { Vinculo } from '@core/regras/bemestar/vinculos';
 import type { Programa, ResultadoElegibilidade } from '@core/regras/tipos';
 
@@ -48,7 +48,7 @@ export interface DadosNero {
   documentos: Documento[];
   consultas: ConsultaResumo[];
   /** Fase 4 — Saúde & Bem-estar (§88). Medidas, atividades, sonos, refeições e check-ins do período; metas ativas; vínculos das glicemias. */
-  bemEstar?: { corporais: MedidaCorporal[]; atividades: Atividade[]; sonos: Sono[]; refeicoes: Refeicao[]; checkins: Checkin[]; metas: Meta[]; vinculos: Vinculo[]; parametros: ParametrosBemEstar; alturaCm: number | null; sexo: 'feminino' | 'masculino' | null; idade: number | null };
+  bemEstar?: { corporais: MedidaCorporal[]; aguas: RegistroAgua[]; atividades: Atividade[]; sonos: Sono[]; refeicoes: Refeicao[]; checkins: Checkin[]; metas: Meta[]; vinculos: Vinculo[]; parametros: ParametrosBemEstar; alturaCm: number | null; sexo: 'feminino' | 'masculino' | null; idade: number | null };
 }
 
 export type Bloco =
@@ -63,7 +63,7 @@ export type ChaveSecao =
   | 'pa' | 'mrpa' | 'glicemia' | 'hba1c' | 'lipidios' | 'renal' | 'tsh' | 'peso' | 'exames_cardio' | 'prevent' | 'agravantes' | 'checkup'
   | 'rastreamentos_status' | 'mama' | 'colo' | 'colorretal' | 'pulmao' | 'prostata'
   | 'pendencias' | 'sintomas' | 'hist_familiar' | 'tabagismo' | 'consultas'
-  | 'corpo' | 'alimentacao' | 'atividade' | 'sono' | 'checkins';
+  | 'corpo' | 'alimentacao' | 'agua' | 'atividade' | 'sono' | 'checkins';
 
 export interface SecaoRelatorio { chave: ChaveSecao; titulo: string; blocos: Bloco[] }
 

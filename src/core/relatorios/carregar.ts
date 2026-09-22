@@ -1,3 +1,4 @@
+import { listarAgua } from '@core/bemestar/agua';
 import { listarAtividades } from '@core/bemestar/atividades';
 import { listarCheckins } from '@core/bemestar/checkins';
 import { listarCorporais } from '@core/bemestar/medidasCorporais';
@@ -42,7 +43,7 @@ export function periodoDias(dias: 30 | 90 | 180, hoje = new Date()): Periodo {
 /** Único ponto que lê o banco para os relatórios: reúne todos os módulos num `DadosNero`. */
 export async function carregarDadosNero(userId: string, periodo: Periodo): Promise<DadosNero> {
   const desdeISO = `${periodo.desde}T00:00:00.000Z`;
-  const [perfil, antecedentes, medicacoes, medidasPA, sessoes, glicemias, examesCardio, risco, ctx, docs, consultas, regrasGli, regrasRisco, corporais, atividades, sonos, refeicoes, checkins, metas, vinculos, regrasBem] = await Promise.all([
+  const [perfil, antecedentes, medicacoes, medidasPA, sessoes, glicemias, examesCardio, risco, ctx, docs, consultas, regrasGli, regrasRisco, corporais, aguas, atividades, sonos, refeicoes, checkins, metas, vinculos, regrasBem] = await Promise.all([
     obterPerfil(userId),
     listarAntecedentes(userId),
     listarMedicacoes(userId),
@@ -57,6 +58,7 @@ export async function carregarDadosNero(userId: string, periodo: Periodo): Promi
     carregarRegrasCardio('glicemia'),
     carregarRegrasCardio('risco_cv'),
     listarCorporais(userId),
+    listarAgua(userId, desdeISO),
     listarAtividades(userId, { desde: desdeISO }),
     listarSono(userId, { desde: desdeISO }),
     listarRefeicoes(userId, { desde: desdeISO }),
@@ -93,7 +95,7 @@ export async function carregarDadosNero(userId: string, periodo: Periodo): Promi
     documentos: docs.filter((d) => (d.dataDocumento ?? d.criadoEm.slice(0, 10)) >= periodo.desde),
     consultas,
     bemEstar: {
-      corporais, atividades, sonos, refeicoes, metas, vinculos,
+      corporais, aguas, atividades, sonos, refeicoes, metas, vinculos,
       checkins: checkins.filter((c) => c.semana >= periodo.desde.slice(0, 7) + '-01'),
       parametros: extrairParametrosBemEstar(regrasBem),
       alturaCm: perfil.alturaCm, sexo: perfil.sexoNascimento, idade: perfil.dataNascimento ? calcularIdade(perfil.dataNascimento) : null,

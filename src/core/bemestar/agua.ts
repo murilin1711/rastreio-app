@@ -1,7 +1,8 @@
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
+import type { RegistroAgua } from '@core/regras/bemestar/tipos';
 
-export interface RegistroAgua { id: string; medidoEm: string; ml: number }
+export type { RegistroAgua } from '@core/regras/bemestar/tipos';
 
 /** Registros de água (tipo 'agua' em `medidas`), do mais recente para trás. */
 export async function listarAgua(userId: string, desde: string): Promise<RegistroAgua[]> {

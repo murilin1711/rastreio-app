@@ -31,7 +31,9 @@
 4. [x] Imagens: ícones, splash, favicon, Play e mascote gerados em 18/09 (`imagens.md`).
 5. [ ] Política de privacidade: preencher `[[ ]]`, decidir hospedagem (recomendação: GitHub Pages do repositório) e idade mínima (**18+ confirmado pelo Murilo em 22/09**, já aplicado). **Atualizada em 22/09** com água, sequência/conquistas, insuficiência cardíaca, lembretes de água, operador Resend e a nova regra de exclusão sem backup (D-018). Faltam só os dados pessoais do responsável, a idade mínima e a URL.
 6. [x] Migração 0014 aplicada na nuvem em 18/09.
-7. [ ] **Confirmação de e-mail por código de 6 dígitos via Resend (D-019).** Depende de você: criar conta no Resend, verificar um domínio remetente e passar as credenciais SMTP. O resto (template com `{{ .Token }}`, tela do código, `verifyOtp`) eu implemento.
+7. [ ] **Confirmação de e-mail por código de 6 dígitos via Resend (D-019).** Depende de você: criar conta no Resend, verificar um domínio remetente e colar a chave no painel da Supabase. O resto (template com `{{ .Token }}`, tela do código, `verifyOtp`) eu implemento.
+   - SMTP do Resend, em **Supabase › Authentication › SMTP Settings**: servidor `smtp.resend.com`, porta `465`, usuário `resend`, senha = a **chave de API do Resend**.
+   - **A chave nunca entra no repositório nem no chat** — ela vive só no painel da Supabase. Uma chave foi colada no chat em 22/09 e deve ser **apagada e recriada** no Resend (mesmo cuidado já aplicado à senha do banco).
 8. [ ] Revogar token antigo do CLI (`supabase.com/dashboard/account/tokens`).
 9. [ ] `eas init` (cria o projeto na conta Expo `murilorp1711`) → `eas build --profile preview` → TestFlight / teste interno.
 

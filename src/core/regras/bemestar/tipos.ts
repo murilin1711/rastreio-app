@@ -4,6 +4,9 @@ export type Sexo = 'feminino' | 'masculino';
 export type ObjetivoPeso = 'reducao' | 'manutencao' | 'aumento' | 'sem_meta';
 
 /** Linha de `medidas` com tipo corporal (D-011). `valores` segue o comentário da coluna. */
+/** Um registro de água bebida (tabela `medidas`, tipo 'agua'). */
+export interface RegistroAgua { id: string; medidoEm: string; ml: number }
+
 export interface MedidaCorporal {
   id: string;
   medidoEm: string;

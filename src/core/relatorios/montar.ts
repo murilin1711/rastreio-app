@@ -9,6 +9,7 @@ import { LISTA_AGRAVANTES } from '@core/regras/cardio/agravantes';
 import { resumoGlicemia } from '@core/regras/cardio/glicemia';
 import type { Programa } from '@core/regras/tipos';
 import { ROTULO_REFEICAO, resumoAlimentacaoSemana } from '@core/regras/bemestar/alimentacao';
+import { resumoAguaSemana } from '@core/regras/bemestar/agua';
 import { ROTULO_ATIVIDADE, resumoSemana, semanaDe } from '@core/regras/bemestar/atividade';
 import { mediasMensais } from '@core/regras/bemestar/checkin';
 import { avaliarPMAV, classificarCintura, classificarRCA, faixaIMC, faixaIMCIdoso, rca, tendenciaPeso } from '@core/regras/bemestar/corpo';
@@ -28,6 +29,8 @@ export function dataHoraBr(iso: string): string {
   const p = (n: number) => String(n).padStart(2, '0');
   return `${p(dt.getDate())}/${p(dt.getMonth() + 1)}/${dt.getFullYear()} ${p(dt.getHours())}:${p(dt.getMinutes())}`;
 }
+/** Mililitros com separador de milhar: 1.983 ml lê melhor que 1983 ml num relatório. */
+const ml = (n: number | null | undefined) => (n == null ? '—' : `${n.toLocaleString('pt-BR')} ml`);
 const num = (n: number | null | undefined, casas = 0) => (n == null ? '—' : n.toFixed(casas).replace('.', ','));
 const texto = (t: string): Bloco => ({ tipo: 'texto', texto: t });
 const vazio = (): Bloco[] => [texto(SEM_REGISTROS)];
@@ -117,6 +120,21 @@ const CONSTRUTORES: Record<ChaveSecao, Construtor> = {
       { tipo: 'tabela', colunas: ['Semana de', 'Dias registrados', 'Café', 'Almoço', 'Jantar', 'Padrão'], linhas: linhasSemana },
       { tipo: 'tabela', colunas: ['Data e hora', 'Refeição', 'O que comeu', 'Quantidade', 'Observação'], linhas: refs.map((r) => [dataHoraBr(r.em), ROTULO_REFEICAO[r.tipo], r.descricao, r.quantidade ?? '—', r.observacao ?? '—']) },
     ] };
+  },
+  agua: (d, periodo) => {
+    const be = d.bemEstar;
+    if (!be || !be.aguas.length) return { chave: 'agua', titulo: 'Ingestão de água', blocos: vazio() };
+    const meta = be.metas.find((m) => m.tipo === 'agua_ml' && m.ativa) ?? null;
+    const metaMl = meta ? meta.valor : null;
+    const semanas = semanasDoPeriodo(periodo)
+      .map((s) => ({ s, r: resumoAguaSemana(be.aguas, s, metaMl) }))
+      .filter((x) => x.r.diasComRegistro > 0);
+    const blocos: Bloco[] = [
+      texto(`${metaMl != null ? `Meta em uso: ${ml(metaMl)} por dia (${meta!.origem === 'app' ? 'sugerida pelo app, 35 ml/kg' : meta!.origem === 'profissional' ? 'definida com profissional' : 'do paciente'}). ` : 'Sem meta definida. '}Registro manual da água bebida — não inclui a água dos alimentos, por isso não é comparável às referências de água total (EFSA, IOM). A média considera apenas os dias com registro: dia sem anotação não é dia sem beber.`),
+      { tipo: 'tabela', colunas: ['Semana de', 'Dias registrados', 'Média por dia', 'Total da semana', 'Dias que bateram a meta'], linhas: semanas.map(({ s, r }) => [dataBr(s.inicio), String(r.diasComRegistro), ml(r.mediaDiariaMl), ml(r.totalMl), r.diasQueBateramMeta != null ? `${r.diasQueBateramMeta} de ${r.diasComRegistro}` : '—']) },
+    ];
+    if (metaMl != null) blocos.push({ tipo: 'barras', itens: semanas.slice(-12).map(({ s, r }) => ({ rotulo: dataBr(s.inicio).slice(0, 5), valor: r.mediaDiariaMl ?? 0, max: Math.max(metaMl, ...semanas.map((x) => x.r.mediaDiariaMl ?? 0)), texto: ml(r.mediaDiariaMl) })) });
+    return { chave: 'agua', titulo: 'Ingestão de água', blocos };
   },
   atividade: (d, periodo) => {
     const be = d.bemEstar; const p: ParametrosBemEstar | undefined = be?.parametros;

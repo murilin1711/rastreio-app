@@ -11,6 +11,10 @@ let mockRegistros: { id: string; medidoEm: string; ml: number }[] = [];
 let mockComemoracoes: string[] = [];
 let mockPerfil: any = { temDoencaRenal: false, temInsuficienciaCardiaca: false, aguaMetaComemoradaEm: null };
 
+// `useAgua` importa `salvarLembretesAgua`, que arrasta a cadeia de notificações até o cliente do
+// Supabase e o AsyncStorage — nativos que não existem no Jest. Sem este mock a suíte inteira
+// estourava na importação e o Jest a contava como 0 testes, sem aparecer no total.
+jest.mock('@core/bemestar/lembretesAgua', () => ({ salvarLembretesAgua: async () => {}, agendarLembretesAgua: async () => {} }));
 jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: { user: { id: 'u1' } }, carregando: false, online: true, sair: jest.fn() }) }));
 jest.mock('@core/perfil/usePerfil', () => ({ usePerfil: () => ({ perfil: mockPerfil, carregando: false, recarregar: async () => {} }) }));
 jest.mock('@core/bemestar/useCorpo', () => ({ useCorpo: () => ({ ultimos: { peso: { valores: { kg: 70 } } } }) }));

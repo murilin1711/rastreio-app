@@ -33,3 +33,37 @@ export function deveComemorarMeta(totalMl: number, metaMl: number | null, comemo
   if (metaMl == null || metaMl <= 0) return false;
   return totalMl >= metaMl && comemoradaEm !== hoje;
 }
+
+/**
+ * Resumo de uma semana para o relatório de Saúde & Hábitos (D-020).
+ *
+ * A **média divide pelos dias com registro, não por sete**: um dia sem registro não é um dia sem
+ * beber — o app não sabe o que aconteceu e não pode lançar zero, que puxaria a média para baixo e
+ * faria o médico ler como ingestão insuficiente algo que é apenas ausência de anotação.
+ *
+ * `diasQueBateramMeta` é `null` quando não há meta: sem meta não existe o que contar (é o caso de
+ * quem tem restrição hídrica, para quem o app não calcula volume nenhum).
+ */
+export function resumoAguaSemana(
+  registros: { medidoEm: string; ml: number }[],
+  semana: { inicio: string; fim: string },
+  metaMl: number | null,
+): { diasComRegistro: number; totalMl: number; mediaDiariaMl: number | null; diasQueBateramMeta: number | null } {
+  const daSemana = registros.filter((r) => {
+    const dia = r.medidoEm.slice(0, 10);
+    return dia >= semana.inicio && dia <= semana.fim;
+  });
+  const porDia = new Map<string, number>();
+  for (const r of daSemana) {
+    const dia = r.medidoEm.slice(0, 10);
+    porDia.set(dia, (porDia.get(dia) ?? 0) + r.ml);
+  }
+  const totalMl = daSemana.reduce((soma, r) => soma + r.ml, 0);
+  const diasComRegistro = porDia.size;
+  return {
+    diasComRegistro,
+    totalMl,
+    mediaDiariaMl: diasComRegistro === 0 ? null : Math.round(totalMl / diasComRegistro),
+    diasQueBateramMeta: metaMl == null || metaMl <= 0 ? null : [...porDia.values()].filter((v) => v >= metaMl).length,
+  };
+}
