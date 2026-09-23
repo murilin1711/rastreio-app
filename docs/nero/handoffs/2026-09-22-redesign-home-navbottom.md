@@ -61,6 +61,7 @@ Ponto que sobrou de propósito: **Minha Saúde ainda lista "Linha do tempo" e "M
 ## 7. Artefatos relevantes
 
 - `docs/nero/design/2026-09-22-redesign-home-navbottom.md` — diagnóstico, as sete decisões, o que foi descartado e por quê, e a finalista de topo que perdeu (caso se queira voltar atrás).
+- Mesmo arquivo, seção final: **os cinco links da Apple** enviados pelo Murilo, com URL, data de acesso e o que saiu de cada um. `design/resources` foi enviado mas não consultado — fica para o trabalho do ícone.
 - `docs/nero/02-DECISOES.md` → **D-022**.
 - `.superpowers/brainstorm/14723-1790111228/content/` — mockups e o painel de calibração (`calibrar-v2.html`). Ignorado pelo git.
 - Recortes do mascote gerados nesta sessão (cabeça e busto), úteis para qualquer tela futura, no mesmo diretório.

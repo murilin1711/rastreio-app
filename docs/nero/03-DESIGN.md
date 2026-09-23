@@ -1,6 +1,8 @@
 # NERO — Sistema de Design (v0, Fase 0)
 
 > Tokens em `src/ui/theme.ts`. Este documento explica as escolhas; o código é a fonte da verdade dos valores.
+>
+> **Referências de design da Apple** (HIG, Liquid Glass, SF Symbols, Icon Composer) com URL e o que saiu de cada uma: `design/2026-09-22-redesign-home-navbottom.md`, seção final.
 
 ## Brief
 App de saúde para pacientes brasileiros adultos (grande parte entre 40 e 70 anos). Tom educativo e sereno: **orienta, não assusta** (§25). Mascote **Nero** (render 3D: branco perolado, listras azul-aço, olhos cobalto). Logo: "N" em gradiente azul/ciano com cruz + palavra "Nero" em marinho (`assets/images/nero/logo-nero.png`, `simbolo-nero.png`).

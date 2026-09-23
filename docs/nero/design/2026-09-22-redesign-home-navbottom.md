@@ -3,8 +3,7 @@
 > Sessão de brainstorming com o Murilo, com mockups no companion visual
 > (`.superpowers/brainstorm/14723-1790111228/content/`).
 > Gatilho: *"não gostei do dashboard principal da página home; do navbottom também não gostei"*.
-> Referências pedidas pelo Murilo: HIG "Designing for iOS", WWDC25 "Meet Liquid Glass",
-> SF Symbols, Icon Composer, Apple Design Resources.
+> Referências enviadas pelo Murilo: ver **Referências de design** no fim deste arquivo.
 
 ## O que estava errado (diagnóstico no código)
 
@@ -180,3 +179,20 @@ o Liquid Glass só aparece de fato no iOS 26.
 **Minha Saúde continua listando** "Linha do tempo" e "Meus lembretes", agora apontando
 para as abas. Duplicação deliberada: a barra é o atalho de quem já sabe onde vai, a lista
 é o mapa de quem procura.
+
+
+---
+
+## Referências de design (enviadas pelo Murilo em 22/09/2026)
+
+Cinco links da Apple. Acesso em 22/09/2026. O que cada um efetivamente mudou no redesign:
+
+| Documento | URL | O que saiu daqui |
+|---|---|---|
+| Human Interface Guidelines — Designing for iOS | https://developer.apple.com/design/human-interface-guidelines/designing-for-ios | Os três princípios (clareza, **deferência**, profundidade). A deferência é o que condenou a capa-gradiente de 92px do `CardModulo`: decoração ganhando do conteúdo. A profundidade é o que faltava na home, onde tudo era retângulo branco com o mesmo contraste. |
+| WWDC25 — Meet Liquid Glass (sessão 219) | https://developer.apple.com/videos/play/wwdc2025/219/ | A tab bar como **camada funcional flutuando sobre o conteúdo**, não faixa colada no rodapé. Também as regras que evitamos violar: nada de "glass on glass", não tingir tudo, não misturar as variantes Regular e Clear. E o fato de os modos de acessibilidade (Reduce Transparency, Increase Contrast, Reduce Motion) serem aplicados pelo sistema — argumento decisivo a favor das abas nativas. |
+| SF Symbols | https://developer.apple.com/sf-symbols/ | Mais de 7.000 símbolos, 9 pesos, alinhados à San Francisco. Usados via prop `sf` no `NativeTabs`. **Restrição:** a biblioteca é feita para plataformas Apple — por isso o par `md` (Material Symbols) no Android, que o `NativeTabs` resolve sozinho. |
+| Icon Composer | https://developer.apple.com/icon-composer/ | Ícone de app **em camadas** com Liquid Glass (realces especulares, refração, translucidez), anotado para os modos default / dark / mono num arquivo só, com sincronização para o Xcode. Requer macOS Tahoe 26.4+. Base da pendência do ícone — hoje `assets/images/icon.png` é camada única. |
+| Apple Design Resources | https://developer.apple.com/design/resources/ | Enviado pelo Murilo; **não consultado nesta sessão** — nada aqui saiu dele. Fica para quando formos fazer o ícone e precisarmos dos templates e da grade oficial. |
+
+**Onde as HIG foram deliberadamente contrariadas:** a logo do NERO fica na home. A HIG desaconselha marca em tela interna (a pessoa já sabe em que app está), mas o Murilo decidiu manter por reconhecimento de marca num app novo. Decisão de produto, consciente — ver item 5.
