@@ -22,7 +22,7 @@ export default function BemEstar() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Módulo" title="Saúde & Bem-estar" onBack={() => router.replace('/(app)')} />
+        <InternalHeader sectionLabel="Módulo" title="Saúde & Bem-estar" onBack={() => router.replace('/(app)/(tabs)')} />
         <View style={styles.cabecalho}>
           <Text style={styles.sub}>Como seus hábitos e seu corpo estão evoluindo ao longo do tempo — sem contar calorias e sem julgar.</Text>
           <NeroAnimado size={88} />
@@ -53,7 +53,7 @@ export default function BemEstar() {
           <ListItem icon="restaurant-outline" title="Minha Alimentação" subtitle="Diário simples e horários das refeições" onPress={() => router.push('/(app)/bem-estar/alimentacao')} />
           <ListItem icon="flag-outline" title="Minhas Metas" subtitle="Objetivos definidos por você ou com o profissional" onPress={() => router.push('/(app)/bem-estar/metas')} />
           <ListItem icon="chatbubble-ellipses-outline" title="Check-in semanal" subtitle="Como foi sua semana, de 0 a 10" onPress={() => router.push('/(app)/bem-estar/checkin')} />
-          <ListItem icon="document-text-outline" title="Relatório de Saúde & Hábitos" subtitle="PDF para clínico, endocrinologista, nutricionista ou educador físico" onPress={() => router.push({ pathname: '/(app)/minha-saude/relatorios/previa', params: { tipo: 'bemestar', dias: '90' } })} />
+          <ListItem icon="document-text-outline" title="Relatório de Saúde & Hábitos" subtitle="PDF para clínico, endocrinologista, nutricionista ou educador físico" onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: 'bemestar', dias: '90' } })} />
         </View>
       </ScrollView>
       <ModalComemoracao conteudo={conquistas.proxima ? TEXTO_CONQUISTA[conquistas.proxima] : null} aoFechar={conquistas.dispensar} />

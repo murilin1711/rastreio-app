@@ -49,7 +49,7 @@ export default function Relatorios() {
         <Opcoes<Dias> opcoes={[{ valor: '30', rotulo: '30 dias' }, { valor: '90', rotulo: '90 dias' }, { valor: '180', rotulo: '180 dias' }]} valor={dias} onChange={setDias} />
         <View style={{ gap: Spacing.md, marginTop: Spacing.xxl }}>
           {CARTOES.map((c) => (
-            <Pressable key={c.tipo} style={({ pressed }) => [styles.cartao, pressed && { opacity: 0.85 }]} onPress={() => router.push({ pathname: '/(app)/minha-saude/relatorios/previa', params: { tipo: c.tipo, dias } })} accessibilityRole="button">
+            <Pressable key={c.tipo} style={({ pressed }) => [styles.cartao, pressed && { opacity: 0.85 }]} onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: c.tipo, dias } })} accessibilityRole="button">
               <View style={styles.icone}><Ionicons name={c.icone} size={24} color={Colors.primary} /></View>
               <View style={{ flex: 1 }}>
                 <Text style={styles.cartaoTitulo}>{c.titulo}</Text>
@@ -59,7 +59,7 @@ export default function Relatorios() {
             </Pressable>
           ))}
         </View>
-        <Button label="Preparar minha consulta" variant="outline" onPress={() => router.push('/(app)/minha-saude/consulta')} style={{ marginTop: Spacing.lg }} />
+        <Button label="Preparar minha consulta" variant="outline" onPress={() => router.push('/(app)/(tabs)/minha-saude/consulta')} style={{ marginTop: Spacing.lg }} />
 
         <Text style={styles.secao}>Compartilhamentos ativos</Text>
         {ativos.length === 0 ? <Text style={styles.vazio}>Nenhum código QR ativo. Ao gerar um, ele aparece aqui com a validade e pode ser encerrado a qualquer momento.</Text> : null}

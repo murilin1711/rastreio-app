@@ -26,7 +26,7 @@ export default function LinhaDoTempoGeral() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Minha Saúde" title="Linha do tempo" onBack={() => router.back()} />
+        <InternalHeader variante="raiz" title="Histórico" />
         {anos.length ? anos.map((a) => (
           <View key={a.ano} style={styles.ano}>
             <Text style={styles.anoTitulo}>{a.ano}</Text>

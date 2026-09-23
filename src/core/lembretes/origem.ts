@@ -35,12 +35,12 @@ export function origemDe(l: { origemTipo: string; titulo: string; origemId: stri
   const t = l.titulo;
   if (t.startsWith('mrpa:')) return { tipo: 'mrpa', rotulo: 'MRPA', rota: l.origemId ? `/(app)/coracao/mrpa/${l.origemId}` : '/(app)/coracao/pressao' };
   if (t.startsWith('glicemia:')) return { tipo: 'glicemia', rotulo: 'Glicemia', rota: '/(app)/coracao/glicemia/registrar' };
-  if (t.startsWith('medicacao:')) return { tipo: 'medicacao', rotulo: 'Medicamento', rota: '/(app)/minha-saude/medicamentos' };
-  if (t.startsWith('consulta:') || l.origemTipo === 'consulta') return { tipo: 'consulta', rotulo: 'Consulta', rota: '/(app)/minha-saude/lembretes/consultas' };
+  if (t.startsWith('medicacao:')) return { tipo: 'medicacao', rotulo: 'Medicamento', rota: '/(app)/(tabs)/minha-saude/medicamentos' };
+  if (t.startsWith('consulta:') || l.origemTipo === 'consulta') return { tipo: 'consulta', rotulo: 'Consulta', rota: '/(app)/(tabs)/agenda/consultas' };
   if (t.startsWith('agua:')) return { tipo: 'agua', rotulo: 'Água', rota: '/(app)/bem-estar/agua' };
   if (t.startsWith('atualizacao:')) return { tipo: 'atualizacao', rotulo: 'Atualização', rota: '/(app)/coracao/checkup' };
   if (l.origemTipo === 'exame') { const programa = t.split(':')[0]; return { tipo: 'exame', rotulo: 'Rastreamento', rota: programa ? ROTA_PROGRAMA(programa) : '/(app)/rastreando' }; }
-  return { tipo: 'atualizacao', rotulo: 'NERO', rota: '/(app)/minha-saude/lembretes' };
+  return { tipo: 'atualizacao', rotulo: 'NERO', rota: '/(app)/(tabs)/agenda' };
 }
 
 /** Texto para a pessoa: sem o `notif:<id>` interno e sem a marca ` silenciado`. */

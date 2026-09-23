@@ -4,7 +4,7 @@ import { agruparPorDia, estaSilenciado, origemDe, textoLimpo, tiposParaCancelar,
 test('origem derivada do título e do origem_tipo', () => {
   expect(origemDe({ origemTipo: 'medida', titulo: 'mrpa:s1:2:manha', origemId: 's1' })).toMatchObject({ tipo: 'mrpa', rota: '/(app)/coracao/mrpa/s1' });
   expect(origemDe({ origemTipo: 'medida', titulo: 'glicemia:jejum:07:00', origemId: null })).toMatchObject({ tipo: 'glicemia' });
-  expect(origemDe({ origemTipo: 'medicacao', titulo: 'medicacao:m1:08:00', origemId: 'm1' })).toMatchObject({ tipo: 'medicacao', rota: '/(app)/minha-saude/medicamentos' });
+  expect(origemDe({ origemTipo: 'medicacao', titulo: 'medicacao:m1:08:00', origemId: 'm1' })).toMatchObject({ tipo: 'medicacao', rota: '/(app)/(tabs)/minha-saude/medicamentos' });
   expect(origemDe({ origemTipo: 'consulta', titulo: 'consulta:c1:d-1', origemId: 'c1' })).toMatchObject({ tipo: 'consulta' });
   expect(origemDe({ origemTipo: 'exame', titulo: 'mama:Mamografia', origemId: 'x1' })).toMatchObject({ tipo: 'exame', rota: '/(app)/rastreando/mama' });
   expect(origemDe({ origemTipo: 'sistema', titulo: 'qualquer', origemId: null }).tipo).toBe('atualizacao');

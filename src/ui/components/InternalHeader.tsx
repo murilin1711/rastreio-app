@@ -11,11 +11,27 @@ interface Props {
   onBack?: () => void;
   rightIcon?: keyof typeof Ionicons.glyphMap;
   onRightPress?: () => void;
+  /** `raiz` = tela inicial de uma aba: não tem para onde voltar, então não mostra o botão. */
+  variante?: 'interna' | 'raiz';
 }
 
-export function InternalHeader({ sectionLabel, title, onBack, rightIcon, onRightPress }: Props) {
+export function InternalHeader({ sectionLabel, title, onBack, rightIcon, onRightPress, variante = 'interna' }: Props) {
   const router = useRouter();
   const voltar = onBack ?? (() => router.back());
+  if (variante === 'raiz') {
+    return (
+      <View style={styles.container}>
+        {rightIcon && onRightPress ? (
+          <View style={[styles.topRow, { justifyContent: 'flex-end' }]}>
+            <TouchableOpacity onPress={onRightPress} style={styles.btn} activeOpacity={0.7} accessibilityRole="button">
+              <Ionicons name={rightIcon} size={18} color={Colors.textSecondary} />
+            </TouchableOpacity>
+          </View>
+        ) : null}
+        <Text style={styles.title}>{title}</Text>
+      </View>
+    );
+  }
   return (
     <View style={styles.container}>
       <View style={styles.topRow}>

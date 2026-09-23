@@ -28,10 +28,10 @@ export default function Lembretes() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Minha Saúde" title="Meus lembretes" onBack={() => router.back()} />
+        <InternalHeader variante="raiz" title="Agenda" />
         <View style={styles.acoes}>
-          <Button label="Preferências" variant="outline" onPress={() => router.push('/(app)/minha-saude/lembretes/preferencias')} style={{ flex: 1 }} />
-          <Button label="Minhas consultas" variant="outline" onPress={() => router.push('/(app)/minha-saude/lembretes/consultas')} style={{ flex: 1 }} />
+          <Button label="Preferências" variant="outline" onPress={() => router.push('/(app)/(tabs)/agenda/preferencias')} style={{ flex: 1 }} />
+          <Button label="Minhas consultas" variant="outline" onPress={() => router.push('/(app)/(tabs)/agenda/consultas')} style={{ flex: 1 }} />
         </View>
         {erro ? <Text style={styles.erro}>{erro.mensagemUsuario}</Text> : null}
         <Text style={styles.secao}>Próximos 30 dias</Text>

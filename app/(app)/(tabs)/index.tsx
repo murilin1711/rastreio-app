@@ -7,7 +7,6 @@ import { useRastreando } from '@core/rastreando/useRastreando';
 import { sincronizarLembretesMedicacao } from '@core/cardio/lembretesCardio';
 import { useHabitos } from '@core/bemestar/useHabitos';
 import { useResumoCardio } from '@core/cardio/useResumoCardio';
-import { formatarHm } from '@core/regras/bemestar/sono';
 import { useConsultas } from '@core/lembretes/useConsultas';
 import { rotuloEspecialidade } from '@core/relatorios/especialidades';
 import { useSessao } from '@core/sessao/SessaoProvider';
@@ -48,12 +47,6 @@ export default function Home() {
     rastreando: rastreando.avaliacoes ? { pendencias: rastreando.pendencias, sintomas: rastreando.sintomas, avaliacoes: rastreando.avaliacoes } : undefined,
     cardio: cardio.resumo,
   });
-  const subtituloCardio = cardio.resumo?.mrpaAtiva
-    ? `MRPA em andamento — dia ${Math.min(Math.max(cardio.resumo.mrpaAtiva.dia, 1), cardio.resumo.mrpaAtiva.diasPrevistos)} de ${cardio.resumo.mrpaAtiva.diasPrevistos}`
-    : cardio.resumo?.ultimaPA || cardio.resumo?.glicemia
-      ? [cardio.resumo.ultimaPA ? `Pressão ${cardio.resumo.ultimaPA.pas}/${cardio.resumo.ultimaPA.pad}` : null, cardio.resumo.glicemia ? `Glicemia ${cardio.resumo.glicemia.mgdl}` : null].filter(Boolean).join(' · ')
-      : 'Pressão, glicemia e risco cardiovascular';
-
   // §21: reagenda os lembretes de medicação (7 dias) uma vez por abertura do app
   const sincronizou = useRef(false);
   useEffect(() => {
@@ -61,7 +54,6 @@ export default function Home() {
     sincronizou.current = true;
     sincronizarLembretesMedicacao(sessao.user.id, ativas.filter((m) => m.lembrar && m.horarios.length)).catch(() => {});
   }, [sessao?.user.id, ativas]);
-  const subtituloRastreando = rastreando.sintomas.length ? 'Sinal de alerta registrado' : rastreando.pendencias.length ? `${rastreando.pendencias.length} pendência${rastreando.pendencias.length > 1 ? 's' : ''}` : rastreando.avaliacoes ? 'Rastreamento de câncer pelo seu perfil' : 'Carregando…';
   const pendentes = itens.filter((i) => i.nivel !== 'verde').length;
   const inicial = perfil?.nome?.trim().charAt(0).toUpperCase() ?? '';
 
@@ -93,14 +85,16 @@ export default function Home() {
           <View style={styles.avatar}><Text style={styles.avatarTexto}>{inicial}</Text></View>
         </View>
 
-        {/* Mascote colado ao texto (não na borda) e com os pés na linha de base de "Como está sua saúde hoje?" */}
+        {/*
+          Abertura no eixo central (D-022): a arte do Nero é frontal e simétrica — ele encara
+          quem olha. Apoiado de lado em bordas ou faixas ele fica torto; centralizado, tudo se
+          alinha sozinho. Tamanhos calibrados pelo Murilo no painel visual de 22/09.
+        */}
         <View style={styles.boasVindas}>
-          <View style={{ flexShrink: 1 }}>
-            <Text style={styles.saudacao}>{saudacao(perfil?.nome)}</Text>
-            <Text style={styles.pergunta}>Como está sua saúde hoje?</Text>
-            <SeloSequencia dias={sequencia.sequencia} />
-          </View>
-          <NeroAnimado entrada="acenar" size={96} style={{ marginBottom: -2 }} />
+          <NeroAnimado entrada="acenar" size={84} style={styles.nero} />
+          <Text style={styles.saudacao}>{saudacao(perfil?.nome)}</Text>
+          <Text style={styles.pergunta}>Como está sua saúde hoje?</Text>
+          <View style={styles.selo}><SeloSequencia dias={sequencia.sequencia} /></View>
         </View>
 
         <View style={styles.secaoTopo}>
@@ -114,12 +108,12 @@ export default function Home() {
         <Text style={[styles.secao, { marginTop: Spacing.xxxl, marginBottom: Spacing.md }]}>Módulos</Text>
         <View style={styles.grade}>
           <View style={styles.linhaGrade}>
-            <CardModulo titulo="Rastreando" descricao={subtituloRastreando} icone="search-outline" capa={[Colors.logoAco, Colors.logoCiano]} onPress={() => router.push('/(app)/rastreando')} />
-            <CardModulo titulo="Minha Saúde" descricao={consultas.proxima ? `Próxima consulta: ${rotuloEspecialidade(consultas.proxima.especialidade)}` : 'Perfil, exames, documentos e relatórios'} icone="person-outline" capa={[Colors.logoMarinho, Colors.logoAco]} onPress={() => router.push('/(app)/minha-saude')} />
+            <CardModulo titulo="Rastreando" icone="search-outline" capa={[Colors.logoAco, Colors.logoCiano]} onPress={() => router.push('/(app)/rastreando')} />
+            <CardModulo titulo="Minha Saúde" icone="person-outline" capa={[Colors.logoMarinho, Colors.logoAco]} onPress={() => router.push('/(app)/(tabs)/minha-saude')} />
           </View>
           <View style={styles.linhaGrade}>
-            <CardModulo titulo="Coração & Metabolismo" descricao={subtituloCardio} icone="heart-outline" capa={['#B4321F', '#F2734A']} onPress={() => router.push('/(app)/coracao')} />
-            <CardModulo titulo="Saúde & Bem-estar" descricao={bemEstar.habitos && (bemEstar.habitos.movimentoMin || bemEstar.habitos.sonoMediaMin != null) ? [`${bemEstar.habitos.movimentoMin} de ${bemEstar.habitos.metaMin} min esta semana`, bemEstar.habitos.sonoMediaMin != null ? `sono ${formatarHm(bemEstar.habitos.sonoMediaMin)}` : null].filter(Boolean).join(' · ') : 'Peso, atividade e sono'} icone="leaf-outline" capa={['#15803D', '#5FCB8A']} onPress={() => router.push('/(app)/bem-estar')} />
+            <CardModulo titulo="Coração & Metabolismo" icone="heart-outline" capa={['#B4321F', '#F2734A']} onPress={() => router.push('/(app)/coracao')} />
+            <CardModulo titulo="Saúde & Bem-estar" icone="leaf-outline" capa={['#15803D', '#5FCB8A']} onPress={() => router.push('/(app)/bem-estar')} />
           </View>
         </View>
 
@@ -134,14 +128,18 @@ export default function Home() {
 const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: Colors.background },
   conteudo: { padding: Spacing.xxl, paddingBottom: Spacing.xxxl },
-  topo: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: Spacing.xl },
+  topo: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   marca: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm },
   marcaTexto: { fontFamily: 'Poppins-ExtraBold', fontSize: 15, letterSpacing: 2, color: Colors.primary },
   avatar: { width: 36, height: 36, borderRadius: 18, backgroundColor: Colors.primary, alignItems: 'center', justifyContent: 'center' },
   avatarTexto: { fontFamily: 'Poppins-Bold', fontSize: 15, color: Colors.white },
-  boasVindas: { flexDirection: 'row', alignItems: 'flex-end', gap: Spacing.sm, marginBottom: Spacing.xxl },
-  saudacao: { ...Typography.display, fontSize: 28, lineHeight: 34, color: Colors.primary },
-  pergunta: { ...Typography.body, color: Colors.textSecondary, marginTop: Spacing.xs },
+  boasVindas: { alignItems: 'center', marginTop: Spacing.sm + 2, marginBottom: Spacing.xxl },
+  /** Sobe o mascote sem abrir espaço no layout: o texto fica colado nele. */
+  nero: { transform: [{ translateY: -6 }] },
+  saudacao: { ...Typography.display, fontSize: 28, lineHeight: 34, color: Colors.primary, textAlign: 'center' },
+  pergunta: { ...Typography.body, color: Colors.textSecondary, marginTop: Spacing.xs, textAlign: 'center' },
+  /** `SeloSequencia` se alinha à esquerda por conta própria; a linha o recentraliza. */
+  selo: { flexDirection: 'row', justifyContent: 'center', marginTop: Spacing.sm },
   secaoTopo: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, marginBottom: Spacing.md },
   secao: { ...Typography.heading, color: Colors.textPrimary },
   contador: { minWidth: 22, height: 22, borderRadius: Radius.pill, paddingHorizontal: 6, backgroundColor: Colors.warning, alignItems: 'center', justifyContent: 'center' },

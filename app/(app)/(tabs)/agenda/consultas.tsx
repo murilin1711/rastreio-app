@@ -60,7 +60,7 @@ export default function Consultas() {
         <Text style={styles.meta}>{dataHoraBr(c.dataHora)}{c.local ? ` · ${c.local}` : ''}{c.profissional ? ` · ${c.profissional}` : ''}</Text>
         {futura ? (
           <View style={styles.acoesLinha}>
-            <Pressable onPress={() => router.push({ pathname: '/(app)/minha-saude/consulta', params: { especialidade: c.especialidade, consultaId: c.id } })} hitSlop={6}><Text style={styles.acao}>Preparar esta consulta</Text></Pressable>
+            <Pressable onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/consulta', params: { especialidade: c.especialidade, consultaId: c.id } })} hitSlop={6}><Text style={styles.acao}>Preparar esta consulta</Text></Pressable>
             <Pressable onPress={() => abrir(c)} hitSlop={6}><Text style={styles.acao}>Editar</Text></Pressable>
             <Pressable onPress={() => apagar(c)} hitSlop={6}><Text style={[styles.acao, { color: Colors.danger }]}>Apagar</Text></Pressable>
           </View>

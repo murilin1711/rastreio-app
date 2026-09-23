@@ -238,6 +238,15 @@ Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limi
 
 ---
 
+### D-022 — Redesign da Home e do navbottom: tab bar nativa e blocos de cor — 22/09/2026
+**Contexto:** o Murilo não gostou do dashboard da home nem do navbottom, e pediu inspiração nas HIG da Apple (iOS 26 / Liquid Glass).
+**Decidido:** (1) trocar `Tabs` JS por `expo-router/unstable-native-tabs` — Liquid Glass, ícone ativo em `.fill` e acessibilidade vêm do sistema; (2) quatro abas, todas de telas existentes: **Início · Agenda · Histórico · Minha Saúde**, promovendo `minha-saude/lembretes` e `minha-saude/linha-do-tempo`, que já são cross-módulo; (3) os módulos **não** entram na barra — continuam na grade 2×2 da home, agora em **blocos de cor cheia com só cor e nome**, sem número nem descrição; (4) a logo do NERO fica na home (decisão do Murilo, contra a recomendação da HIG) e o avatar vira item da barra superior; (5) cor e tipografia ficam como estão.
+**Estrutura:** as abas vão para o grupo `app/(app)/(tabs)/` — `hidden` nas abas nativas torna a rota inalcançável (`types.d.ts:473`), então esconder Rastreando/Coração/Bem-estar da barra não é opção. Grupo é invisível na URL: os caminhos existentes continuam válidos.
+**Em aberto:** a composição do topo (duas finalistas calibradas pelo Murilo). **Descartados:** botão central elevado (não existe na HIG) e aba "Registrar" (tela ainda não existe).
+**Detalhes:** `docs/nero/design/2026-09-22-redesign-home-navbottom.md`
+
+---
+
 ## Decisões clínicas (protocolos adotados)
 
 > Preencher na Fase 1/2. Cada linha precisa de fonte, ano e data de revisão. O documento diz "intervalo definido pelo protocolo vigente" em vários pontos — estas são as lacunas a fechar.

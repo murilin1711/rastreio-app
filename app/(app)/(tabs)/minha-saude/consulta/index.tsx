@@ -27,7 +27,7 @@ export default function PrepararConsulta() {
         <Opcoes<Especialidade> opcoes={ESPECIALIDADES.map((e) => ({ valor: e.id, rotulo: e.rotulo }))} valor={especialidade} onChange={setEspecialidade} />
         <Text style={styles.rotulo}>Período das medidas</Text>
         <Opcoes<Dias> opcoes={[{ valor: '30', rotulo: '30 dias' }, { valor: '90', rotulo: '90 dias' }, { valor: '180', rotulo: '180 dias' }]} valor={dias} onChange={setDias} />
-        <Button label="Ver prévia" disabled={!especialidade} onPress={() => especialidade && router.push({ pathname: '/(app)/minha-saude/relatorios/previa', params: { tipo: 'consulta', especialidade, dias } })} style={{ marginTop: Spacing.xxl }} />
+        <Button label="Ver prévia" disabled={!especialidade} onPress={() => especialidade && router.push({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: 'consulta', especialidade, dias } })} style={{ marginTop: Spacing.xxl }} />
       </ScrollView>
     </SafeAreaView>
   );

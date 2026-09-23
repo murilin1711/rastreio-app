@@ -47,27 +47,27 @@ export default function MinhaSaude() {
 
         <Text style={styles.secao}>Meus dados</Text>
         <View style={{ gap: Spacing.sm }}>
-          <ListItem icon="person-outline" title="Meu perfil" subtitle={perfil?.perfilInicialCompleto ? 'Dados básicos, tabagismo, condições e histórico' : 'Faltam informações essenciais'} onPress={() => router.push('/(app)/minha-saude/perfil')} />
-          <ListItem icon="people-outline" title="Antecedentes familiares" subtitle={antecedentes.length ? plural(antecedentes.length, 'registrado', 'registrados') : perfil?.semAntecedentesFamiliares ? 'Você informou que não há casos na família' : 'Nenhum registrado ainda'} onPress={() => router.push('/(app)/minha-saude/antecedentes')} />
-          <ListItem icon="medkit-outline" title="Meus medicamentos" subtitle={ativas.length ? `${plural(ativas.length, 'em uso', 'em uso')} · histórico` : perfil?.semMedicacoes ? 'Você informou que não usa medicamentos' : 'Nenhum cadastrado ainda'} onPress={() => router.push('/(app)/minha-saude/medicamentos')} />
+          <ListItem icon="person-outline" title="Meu perfil" subtitle={perfil?.perfilInicialCompleto ? 'Dados básicos, tabagismo, condições e histórico' : 'Faltam informações essenciais'} onPress={() => router.push('/(app)/(tabs)/minha-saude/perfil')} />
+          <ListItem icon="people-outline" title="Antecedentes familiares" subtitle={antecedentes.length ? plural(antecedentes.length, 'registrado', 'registrados') : perfil?.semAntecedentesFamiliares ? 'Você informou que não há casos na família' : 'Nenhum registrado ainda'} onPress={() => router.push('/(app)/(tabs)/minha-saude/antecedentes')} />
+          <ListItem icon="medkit-outline" title="Meus medicamentos" subtitle={ativas.length ? `${plural(ativas.length, 'em uso', 'em uso')} · histórico` : perfil?.semMedicacoes ? 'Você informou que não usa medicamentos' : 'Nenhum cadastrado ainda'} onPress={() => router.push('/(app)/(tabs)/minha-saude/medicamentos')} />
         </View>
 
         <Text style={styles.secao}>Meus registros</Text>
         <View style={{ gap: Spacing.sm }}>
-          <ListItem icon="flask-outline" title="Meus exames" subtitle={contadores ? plural(contadores.exames, 'exame de todos os módulos', 'exames de todos os módulos') : 'Laboratoriais, cardiológicos e de rastreamento'} onPress={() => router.push('/(app)/minha-saude/exames')} />
-          <ListItem icon="folder-open-outline" title="Meus documentos" subtitle={contadores?.documentos ? plural(contadores.documentos, 'documento guardado', 'documentos guardados') : 'Laudos, receitas e imagens de exames'} onPress={() => router.push('/(app)/minha-saude/documentos')} />
-          <ListItem icon="time-outline" title="Linha do tempo" subtitle="Tudo em ordem cronológica, de todos os módulos" onPress={() => router.push('/(app)/minha-saude/linha-do-tempo')} />
+          <ListItem icon="flask-outline" title="Meus exames" subtitle={contadores ? plural(contadores.exames, 'exame de todos os módulos', 'exames de todos os módulos') : 'Laboratoriais, cardiológicos e de rastreamento'} onPress={() => router.push('/(app)/(tabs)/minha-saude/exames')} />
+          <ListItem icon="folder-open-outline" title="Meus documentos" subtitle={contadores?.documentos ? plural(contadores.documentos, 'documento guardado', 'documentos guardados') : 'Laudos, receitas e imagens de exames'} onPress={() => router.push('/(app)/(tabs)/minha-saude/documentos')} />
+          <ListItem icon="time-outline" title="Linha do tempo" subtitle="Tudo em ordem cronológica, de todos os módulos" onPress={() => router.push('/(app)/(tabs)/historico')} />
         </View>
 
         <Text style={styles.secao}>Para o médico</Text>
         <View style={{ gap: Spacing.sm }}>
-          <ListItem icon="document-text-outline" title="Relatórios" subtitle="PDF cardiovascular, oncológico ou geral; código QR" onPress={() => router.push('/(app)/minha-saude/relatorios')} />
-          <ListItem icon="calendar-outline" title="Preparar minha consulta" subtitle={consultas.proxima ? `Próxima: ${rotuloEspecialidade(consultas.proxima.especialidade)}, ${dataHoraBr(consultas.proxima.dataHora)}` : 'Relatório focado na especialidade'} onPress={() => router.push(consultas.proxima ? { pathname: '/(app)/minha-saude/consulta', params: { especialidade: consultas.proxima.especialidade, consultaId: consultas.proxima.id } } : '/(app)/minha-saude/consulta')} />
-          <ListItem icon="notifications-outline" title="Meus lembretes" subtitle={contadores?.proximoLembrete ? `Próximo: ${contadores.proximoLembrete}` : 'Próximos 30 dias, preferências e consultas'} onPress={() => router.push('/(app)/minha-saude/lembretes')} />
+          <ListItem icon="document-text-outline" title="Relatórios" subtitle="PDF cardiovascular, oncológico ou geral; código QR" onPress={() => router.push('/(app)/(tabs)/minha-saude/relatorios')} />
+          <ListItem icon="calendar-outline" title="Preparar minha consulta" subtitle={consultas.proxima ? `Próxima: ${rotuloEspecialidade(consultas.proxima.especialidade)}, ${dataHoraBr(consultas.proxima.dataHora)}` : 'Relatório focado na especialidade'} onPress={() => router.push(consultas.proxima ? { pathname: '/(app)/(tabs)/minha-saude/consulta', params: { especialidade: consultas.proxima.especialidade, consultaId: consultas.proxima.id } } : '/(app)/(tabs)/minha-saude/consulta')} />
+          <ListItem icon="notifications-outline" title="Meus lembretes" subtitle={contadores?.proximoLembrete ? `Próximo: ${contadores.proximoLembrete}` : 'Próximos 30 dias, preferências e consultas'} onPress={() => router.push('/(app)/(tabs)/agenda')} />
         </View>
 
         <Button label="Sair da conta" variant="ghost" onPress={sair} style={{ marginTop: Spacing.xxxl }} />
-        <Button label="Excluir minha conta" variant="ghost" onPress={() => router.push('/(app)/minha-saude/excluir-conta')} />
+        <Button label="Excluir minha conta" variant="ghost" onPress={() => router.push('/(app)/(tabs)/minha-saude/excluir-conta')} />
       </ScrollView>
     </SafeAreaView>
   );

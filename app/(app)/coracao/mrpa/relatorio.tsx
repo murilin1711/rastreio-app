@@ -123,7 +123,7 @@ export default function RelatorioMrpaTela() {
         <Text style={styles.ressalva}>{ressalvaRelatorio}</Text>
 
         <View style={styles.compartilhar}>
-          <Button label="Compartilhar em PDF" variant="outline" onPress={() => router.push({ pathname: '/(app)/minha-saude/relatorios/previa', params: { tipo: 'cardio', dias: '180', apenas: 'mrpa' } })} />
+          <Button label="Compartilhar em PDF" variant="outline" onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: 'cardio', dias: '180', apenas: 'mrpa' } })} />
         </View>
       </ScrollView>
     </SafeAreaView>

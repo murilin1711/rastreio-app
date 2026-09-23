@@ -68,7 +68,7 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, 
     const c = consultas.proxima;
     const dt = new Date(c.dataHora);
     const amanha = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate() + 1);
-    const rota = `/(app)/minha-saude/consulta?especialidade=${c.especialidade}&consultaId=${c.id}`;
+    const rota = `/(app)/(tabs)/minha-saude/consulta?especialidade=${c.especialidade}&consultaId=${c.id}`;
     if (mesmoDia(dt, agora)) itens.push({ id: 'consulta_hoje', nivel: 'amarelo', titulo: `Hoje: consulta de ${c.rotuloEspecialidade.toLowerCase()} às ${horaDe(dt)} — preparar`, descricao: 'Abra o relatório para levar ao médico.', rota });
     else if (mesmoDia(dt, amanha)) itens.push({ id: 'consulta_amanha', nivel: 'amarelo', titulo: `Amanhã: consulta de ${c.rotuloEspecialidade.toLowerCase()} às ${horaDe(dt)}`, descricao: 'Quer preparar o relatório?', rota });
   }
@@ -139,7 +139,7 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, 
       nivel: 'amarelo',
       titulo: 'Completar meu perfil de saúde',
       descricao: faltando.length === 1 ? 'Falta 1 informação essencial.' : `Faltam ${faltando.length} informações essenciais.`,
-      rota: '/(app)/minha-saude/perfil',
+      rota: '/(app)/(tabs)/minha-saude/perfil',
     });
   }
   if (antecedentesQtd === 0 && !perfil.semAntecedentesFamiliares) {
@@ -148,7 +148,7 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, 
       nivel: 'cinza',
       titulo: 'Registrar antecedentes familiares',
       descricao: 'Casos de câncer ou infarto precoce na família ajudam a definir seus rastreamentos.',
-      rota: '/(app)/minha-saude/antecedentes',
+      rota: '/(app)/(tabs)/minha-saude/antecedentes',
       acaoSecundaria: { rotulo: 'Não há casos na família', campo: 'semAntecedentesFamiliares' },
     });
   }
@@ -158,7 +158,7 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, 
       nivel: 'cinza',
       titulo: 'Cadastrar meus medicamentos',
       descricao: 'Entram nos relatórios para o seu médico.',
-      rota: '/(app)/minha-saude/medicamentos',
+      rota: '/(app)/(tabs)/minha-saude/medicamentos',
       acaoSecundaria: { rotulo: 'Não uso medicamentos', campo: 'semMedicacoes' },
     });
   }
@@ -168,7 +168,7 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, 
       nivel: 'verde',
       titulo: 'Nada pendente',
       descricao: rastreando && cardio ? 'Perfil completo, rastreamentos e pressão em ordem.' : rastreando ? 'Perfil completo e rastreamentos em ordem.' : 'Seu perfil está completo.',
-      rota: '/(app)/minha-saude',
+      rota: '/(app)/(tabs)/minha-saude',
     });
   }
   return itens.sort((a, b) => PESO[a.nivel] - PESO[b.nivel]);

@@ -23,7 +23,7 @@ export default function Documentos() {
     try {
       const a = await escolherArquivo();
       if (!a) return;
-      router.push({ pathname: '/(app)/minha-saude/documentos/novo', params: { uri: a.uri, mime: a.mime, nome: a.nome } });
+      router.push({ pathname: '/(app)/(tabs)/minha-saude/documentos/novo', params: { uri: a.uri, mime: a.mime, nome: a.nome } });
     } catch (e) {
       Alert.alert('Não foi possível escolher o arquivo', traduzirErro(e).mensagemUsuario);
     }
@@ -41,7 +41,7 @@ export default function Documentos() {
         <View style={{ gap: Spacing.sm, marginTop: Spacing.xxl }}>
           {documentos.length === 0 && !carregando ? (
             <Text style={styles.vazio}>{filtro === 'todos' ? 'Nenhum documento guardado ainda. Fotografe um laudo ou escolha um PDF para começar.' : 'Nenhum documento deste tipo.'}</Text>
-          ) : documentos.map((d) => <LinhaDocumento key={d.id} documento={d} onPress={() => router.push({ pathname: '/(app)/minha-saude/documentos/[id]', params: { id: d.id } })} />)}
+          ) : documentos.map((d) => <LinhaDocumento key={d.id} documento={d} onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/documentos/[id]', params: { id: d.id } })} />)}
         </View>
       </ScrollView>
     </SafeAreaView>

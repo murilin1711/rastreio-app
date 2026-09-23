@@ -80,7 +80,7 @@ export default function Rastreando() {
 
         <View style={{ marginTop: Spacing.xxxl, gap: Spacing.sm }}>
           <Button label="Ver lembretes" variant="outline" onPress={() => router.push('/(app)/rastreando/lembretes')} />
-          <Button label="Relatório de rastreamento" variant="outline" onPress={() => router.push({ pathname: '/(app)/minha-saude/relatorios/previa', params: { tipo: 'oncologico', dias: '180' } })} />
+          <Button label="Relatório de rastreamento" variant="outline" onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: 'oncologico', dias: '180' } })} />
         </View>
         <Text style={styles.rodape}>O NERO organiza as recomendações para o seu perfil e não substitui a avaliação do seu médico.</Text>
       </ScrollView>

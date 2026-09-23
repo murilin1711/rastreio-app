@@ -78,7 +78,7 @@ export default function RelatorioGlicemia() {
         </View>
 
         <Text style={styles.ressalva}>{ressalvaRelatorioGlicemia}</Text>
-        <View style={styles.compartilhar}><Button label="Compartilhar em PDF" variant="outline" onPress={() => router.push({ pathname: '/(app)/minha-saude/relatorios/previa', params: { tipo: 'cardio', dias: '90', apenas: 'glicemia,hba1c' } })} /></View>
+        <View style={styles.compartilhar}><Button label="Compartilhar em PDF" variant="outline" onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: 'cardio', dias: '90', apenas: 'glicemia,hba1c' } })} /></View>
       </ScrollView>
     </SafeAreaView>
   );

@@ -16,9 +16,9 @@ export function BlocoDocumentos({ exameId }: { exameId: string }) {
       <Text style={styles.secao}>Documentos</Text>
       {documentos.length === 0 && !carregando ? <Text style={styles.vazio}>Nenhum laudo ou imagem anexado a este exame.</Text> : null}
       <View style={{ gap: Spacing.sm }}>
-        {documentos.map((d) => <LinhaDocumento key={d.id} documento={d} onPress={() => router.push({ pathname: '/(app)/minha-saude/documentos/[id]', params: { id: d.id } })} />)}
+        {documentos.map((d) => <LinhaDocumento key={d.id} documento={d} onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/documentos/[id]', params: { id: d.id } })} />)}
       </View>
-      <Button label="Anexar documento" variant="outline" onPress={() => router.push({ pathname: '/(app)/minha-saude/documentos/novo', params: { exameId } })} style={{ marginTop: Spacing.md }} />
+      <Button label="Anexar documento" variant="outline" onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/documentos/novo', params: { exameId } })} style={{ marginTop: Spacing.md }} />
     </View>
   );
 }

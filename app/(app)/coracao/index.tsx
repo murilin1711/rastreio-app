@@ -59,7 +59,7 @@ export default function Coracao() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={pressao.carregando} onRefresh={() => { pressao.recarregar(); mrpa.recarregar(); gli.recarregar(); checkup.recarregar(); carregarExtras(); }} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Módulo" title="Coração & Metabolismo" onBack={() => router.replace('/(app)')} />
+        <InternalHeader sectionLabel="Módulo" title="Coração & Metabolismo" onBack={() => router.replace('/(app)/(tabs)')} />
         <Text style={styles.sub}>Pressão, glicemia, exames e risco cardiovascular em um só lugar, para você e seu médico.</Text>
 
         <View style={styles.grade}>

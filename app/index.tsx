@@ -42,5 +42,5 @@ export default function Index() {
   }
   if (!sessao) return <Redirect href={onboardingVisto ? '/(auth)/login' : '/(auth)/onboarding'} />;
   if (!perfilCompleto) return <Redirect href="/perfil-inicial" />;
-  return <Redirect href="/(app)" />;
+  return <Redirect href="/(app)/(tabs)" />;
 }

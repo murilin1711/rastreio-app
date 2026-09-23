@@ -34,8 +34,8 @@ export default function Exames() {
             return (
               <View key={e.id} style={{ gap: Spacing.sm }}>
                 <CartaoExame exame={e} />
-                {anexos.map((d) => <LinhaDocumento key={d.id} documento={d} onPress={() => router.push({ pathname: '/(app)/minha-saude/documentos/[id]', params: { id: d.id } })} />)}
-                <Pressable onPress={() => router.push({ pathname: '/(app)/minha-saude/documentos/novo', params: { exameId: e.id } })} accessibilityRole="button" hitSlop={8}>
+                {anexos.map((d) => <LinhaDocumento key={d.id} documento={d} onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/documentos/[id]', params: { id: d.id } })} />)}
+                <Pressable onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/documentos/novo', params: { exameId: e.id } })} accessibilityRole="button" hitSlop={8}>
                   <Text style={styles.anexar}>{anexos.length ? 'Anexar outro documento' : 'Anexar laudo ou imagem'}</Text>
                 </Pressable>
               </View>
