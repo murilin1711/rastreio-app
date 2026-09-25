@@ -4,6 +4,7 @@ import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCheckin } from '@core/bemestar/useCheckin';
 import { useConquistas } from '@core/bemestar/useConquistas';
+import { CONQUISTAS_BEM_ESTAR } from '@core/regras/bemestar/conquistas';
 import type { Checkin } from '@core/regras/bemestar/tipos';
 import { traduzirErro } from '@core/supabase/erros';
 import { Escala010 } from '@modules/bem-estar/componentes/Escala010';
@@ -28,7 +29,7 @@ export default function CheckinSemanal() {
   const [salvando, setSalvando] = useState(false);
   useEffect(() => { if (atual) { setR({ disposicao: atual.disposicao, alimentacao: atual.alimentacao, atividade: atual.atividade, sono: atual.sono, estresse: atual.estresse, energia: atual.energia, bemEstar: atual.bemEstar }); setObservacao(atual.observacao ?? ''); } }, [atual]);
 
-  const conquistas = useConquistas({ auto: false });
+  const conquistas = useConquistas({ auto: false, chaves: CONQUISTAS_BEM_ESTAR });
   const gravar = async () => {
     if (Object.values(r).every((v) => v == null)) { Alert.alert('Faltou algo', 'Responda pelo menos uma pergunta.'); return; }
     setSalvando(true);

@@ -25,7 +25,7 @@ export default function Rastreando() {
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
         <View style={styles.topo}>
-          <View style={styles.marca}><LogoNero variante="simbolo" width={26} /><Text style={styles.marcaTexto}>RASTREANDO</Text></View>
+          <View style={styles.marca}><LogoNero variante="simbolo" width={26} /><Text style={styles.marcaTexto}>RASTREAMENTOS</Text></View>
         </View>
         <Text style={styles.titulo}>Seus rastreamentos</Text>
         <Text style={styles.sub}>Organizados pelo seu perfil, segundo as diretrizes brasileiras. Rastreamento é para quem não tem sintomas.</Text>

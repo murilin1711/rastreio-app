@@ -28,6 +28,10 @@ const CATALOGO: { chave: ChaveConquista; alcancada: (e: EstadoConquistas) => boo
 
 export const CHAVES_CONQUISTA: ChaveConquista[] = CATALOGO.map((c) => c.chave);
 
+/** As de Saúde & Bem-estar. "Perfil completo" sai onde o perfil é completado (Minha Saúde e Home), não aqui. */
+export const CONQUISTAS_BEM_ESTAR: ChaveConquista[] = ['primeira_atividade', 'primeira_noite_sono', 'primeiro_checkin'];
+export const CONQUISTA_PERFIL: ChaveConquista[] = ['perfil_completo'];
+
 /** As conquistas alcançadas que ainda não estão em `jaObtidas`. */
 export function conquistasNovas(estado: EstadoConquistas, jaObtidas: string[]): ChaveConquista[] {
   return CATALOGO.filter((c) => c.alcancada(estado) && !jaObtidas.includes(c.chave)).map((c) => c.chave);

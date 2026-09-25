@@ -6,6 +6,7 @@ import { useAtividades } from '@core/bemestar/useAtividades';
 import { ROTULO_ATIVIDADE } from '@core/regras/bemestar/atividade';
 import type { Intensidade, TipoAtividade } from '@core/regras/bemestar/tipos';
 import { useConquistas } from '@core/bemestar/useConquistas';
+import { CONQUISTAS_BEM_ESTAR } from '@core/regras/bemestar/conquistas';
 import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
 import { traduzirErro } from '@core/supabase/erros';
 import { DESCRICAO_INTENSIDADE, ROTULO_INTENSIDADE } from '@modules/bem-estar/conteudo/atividade';
@@ -31,7 +32,7 @@ export default function RegistrarAtividade() {
   const [observacao, setObservacao] = useState('');
   const [salvando, setSalvando] = useState(false);
 
-  const conquistas = useConquistas({ auto: false });
+  const conquistas = useConquistas({ auto: false, chaves: CONQUISTAS_BEM_ESTAR });
   const gravar = async () => {
     if (!tipo) { Alert.alert('Faltou algo', 'Escolha a atividade.'); return; }
     if (!data || !horaValida(hora)) { Alert.alert('Faltou algo', 'Informe a data e a hora (HH:MM).'); return; }

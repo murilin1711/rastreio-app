@@ -16,7 +16,7 @@ export default function Pendencias() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Rastreando" title="Pendências" />
+        <InternalHeader sectionLabel="Rastreamentos" title="Pendências" />
         <Text style={styles.ajuda}>Resultados que precisam de uma próxima etapa. Quando você registrar o exame relacionado, a pendência fecha e o NERO define o novo calendário.</Text>
         {saida.lista.length === 0 && !carregando ? <Text style={styles.vazio}>Nenhuma pendência. Quando um exame precisar de continuidade, ele aparece aqui.</Text> : null}
         <View style={{ gap: Spacing.md }}>

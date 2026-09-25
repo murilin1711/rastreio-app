@@ -13,6 +13,8 @@ import { useSessao } from '@core/sessao/SessaoProvider';
 import { usePerfil } from '@core/perfil/usePerfil';
 import { useSequencia } from '@core/bemestar/useSequencia';
 import { useAvisos } from '@core/lembretes/useAvisos';
+import { useConquistas } from '@core/bemestar/useConquistas';
+import { CONQUISTA_PERFIL } from '@core/regras/bemestar/conquistas';
 import { renovarAvisosDiarios } from '@core/lembretes/preferencias';
 import { CardModulo } from '@modules/home/CardModulo';
 import { SeloSequencia } from '@modules/home/SeloSequencia';
@@ -21,6 +23,7 @@ import { EsqueletoPendencias } from '@modules/home/EsqueletoPendencias';
 import { montarItensHoje, type ItemHoje as Item } from '@modules/home/montarItensHoje';
 import { traduzirErro } from '@core/supabase/erros';
 import { TEXTO_SEQUENCIA } from '@modules/bem-estar/conteudo/sequencia';
+import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
 import { Colors, LogoNero, MS_ATRASO_AO_VOLTAR, ModalAtivarAvisos, ModalComemoracao, NeroAnimado, Radius, SaidaConcluida, Spacing, Typography, useEspacoAbas, useSaidaConcluida } from '@ui/index';
 
 /**
@@ -129,6 +132,8 @@ export default function Home() {
    * pular para o fim da lista assim que sai da fonte.
    */
   const [declarado, setDeclarado] = useState<{ item: Item; indice: number } | null>(null);
+  // "Perfil completo" sai quando a declaração se confirma (fim dos 15 s do "Desfazer"), não antes.
+  const conquistas = useConquistas({ auto: false, chaves: CONQUISTA_PERFIL });
 
   /**
    * Pendência resolvida sai na frente da pessoa (D-046, pedido do Murilo): a bolinha fica verde e o
@@ -206,7 +211,7 @@ export default function Home() {
               const verde = declaradoAqui || concluido;
               // Saindo, o item aparece marcado — a bolinha vira o tique verde — e não aceita toque.
               const linha = <ItemHoje item={verde ? { ...i, nivel: 'verde' } : i} onPress={() => (verde ? undefined : router.push(i.rota as Href))} onAcaoSecundaria={verde ? undefined : declararNegativa} />;
-              if (declaradoAqui) return <SaidaConcluida key={i.id} concluido aoDesfazer={desfazerDeclaracao} aoSair={() => setDeclarado(null)}>{linha}</SaidaConcluida>;
+              if (declaradoAqui) return <SaidaConcluida key={i.id} concluido aoDesfazer={desfazerDeclaracao} aoSair={() => { setDeclarado(null); conquistas.avaliar(); }}>{linha}</SaidaConcluida>;
               if (concluido) return <SaidaConcluida key={i.id} concluido discreto atraso={MS_ATRASO_AO_VOLTAR} aoSair={() => saida.aoSair(i)}>{linha}</SaidaConcluida>;
               return <View key={i.id}>{linha}</View>;
             });
@@ -217,7 +222,7 @@ export default function Home() {
         <Text style={[styles.secao, { marginTop: Spacing.xxxl, marginBottom: Spacing.md }]}>Módulos</Text>
         <View style={styles.grade}>
           <View style={styles.linhaGrade}>
-            <CardModulo titulo="Rastreando" icone="search-outline" capa={[Colors.logoAco, Colors.logoCiano]} onPress={() => router.push('/(app)/rastreando')} />
+            <CardModulo titulo="Rastreamentos" icone="search-outline" capa={[Colors.logoAco, Colors.logoCiano]} onPress={() => router.push('/(app)/rastreando')} />
             <CardModulo titulo="Minha Saúde" icone="person-outline" capa={[Colors.logoMarinho, Colors.logoAco]} onPress={() => router.push('/(app)/(tabs)/minha-saude')} />
           </View>
           <View style={styles.linhaGrade}>
@@ -229,6 +234,7 @@ export default function Home() {
         <Text style={styles.rodape}>O NERO organiza suas informações e não substitui a avaliação do seu médico.</Text>
       </ScrollView>
       <ModalComemoracao conteudo={sequencia.marco ? TEXTO_SEQUENCIA[sequencia.marco] : null} aoFechar={sequencia.dispensarMarco} />
+      <ModalComemoracao conteudo={conquistas.proxima ? TEXTO_CONQUISTA[conquistas.proxima] : null} aoFechar={conquistas.dispensar} />
       <ModalAtivarAvisos visivel={avisos.precisa && !sequencia.marco} aoAtivar={() => { avisos.ativar(); }} aoAdiar={() => { avisos.adiar(); }} />
     </SafeAreaView>
   );

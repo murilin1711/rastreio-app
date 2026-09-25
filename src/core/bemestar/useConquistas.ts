@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { usePerfil } from '@core/perfil/usePerfil';
 import { type ChaveConquista, CHAVES_CONQUISTA, conquistasNovas } from '@core/regras/bemestar/conquistas';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { contarParaConquistas, gravarConquistas, listarConquistas } from './conquistas';
@@ -7,16 +6,17 @@ import { contarParaConquistas, gravarConquistas, listarConquistas } from './conq
 interface Opcoes {
   /** `false` nas telas de registro: lá a avaliação acontece depois de salvar, não ao abrir o formulário. */
   auto?: boolean;
+  /** Quais conquistas esta tela pode comemorar. Cada uma sai onde acontece: na tela errada, parece sem motivo. */
+  chaves?: ChaveConquista[];
 }
 
 /**
  * Conquistas pontuais (D-016, parte B). Devolve, uma de cada vez, a próxima conquista a comemorar.
  * Quem já tem todas não dispara nenhuma consulta de contagem.
  */
-export function useConquistas({ auto = true }: Opcoes = {}) {
+export function useConquistas({ auto = true, chaves = CHAVES_CONQUISTA }: Opcoes = {}) {
   const { sessao } = useSessao();
   const userId = sessao?.user.id;
-  const { perfil } = usePerfil();
   const [fila, setFila] = useState<ChaveConquista[]>([]);
   const avaliando = useRef(false);
 
@@ -26,13 +26,9 @@ export function useConquistas({ auto = true }: Opcoes = {}) {
     avaliando.current = true;
     try {
       const obtidas = await listarConquistas(userId);
-      if (obtidas.length >= CHAVES_CONQUISTA.length) return 0;
-      const estado = await contarParaConquistas(userId, {
-        cadastroInicial: perfil?.perfilInicialCompleto ?? false,
-        semMedicacoes: perfil?.semMedicacoes ?? false,
-        semAntecedentes: perfil?.semAntecedentesFamiliares ?? false,
-      });
-      const novas = conquistasNovas(estado, obtidas);
+      if (chaves.every((c) => obtidas.includes(c))) return 0;
+      const estado = await contarParaConquistas(userId);
+      const novas = conquistasNovas(estado, obtidas).filter((c) => chaves.includes(c));
       if (novas.length === 0) return 0;
       await gravarConquistas(userId, novas);
       setFila((f) => [...f, ...novas.filter((c) => !f.includes(c))]);
@@ -42,7 +38,8 @@ export function useConquistas({ auto = true }: Opcoes = {}) {
     } finally {
       avaliando.current = false;
     }
-  }, [userId, perfil?.perfilInicialCompleto, perfil?.semMedicacoes, perfil?.semAntecedentesFamiliares]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId, chaves.join()]);
 
   useEffect(() => { if (auto) avaliar(); }, [auto, avaliar]);
 

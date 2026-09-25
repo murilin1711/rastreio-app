@@ -6,6 +6,7 @@ import { useSono } from '@core/bemestar/useSono';
 import { formatarHm, minutosDeSono } from '@core/regras/bemestar/sono';
 import type { Sono } from '@core/regras/bemestar/tipos';
 import { useConquistas } from '@core/bemestar/useConquistas';
+import { CONQUISTAS_BEM_ESTAR } from '@core/regras/bemestar/conquistas';
 import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
 import { traduzirErro } from '@core/supabase/erros';
 import { ROTULO_CONTEXTO_SONO, ROTULO_QUALIDADE } from '@modules/bem-estar/conteudo/sono';
@@ -37,7 +38,7 @@ export default function RegistrarSono() {
   };
   const previa = calcular();
 
-  const conquistas = useConquistas({ auto: false });
+  const conquistas = useConquistas({ auto: false, chaves: CONQUISTAS_BEM_ESTAR });
   const gravar = async () => {
     if (!data) { Alert.alert('Faltou algo', 'Informe a data em que dormiu.'); return; }
     if (!previa) { Alert.alert('Confira os horários', 'Use o formato HH:MM. O tempo de sono precisa ficar entre 1 minuto e 20 horas.'); return; }

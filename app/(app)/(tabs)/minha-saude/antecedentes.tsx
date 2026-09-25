@@ -5,10 +5,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { AntecedenteFamiliar } from '@core/perfil/tipos';
 import { usePerfil } from '@core/perfil/usePerfil';
 import { useSessao } from '@core/sessao/SessaoProvider';
+import { useConquistas } from '@core/bemestar/useConquistas';
+import { CONQUISTA_PERFIL } from '@core/regras/bemestar/conquistas';
+import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
 import { traduzirErro } from '@core/supabase/erros';
 import { Secao } from '@modules/minha-saude/Secao';
 import { grauPorParentesco, OPCOES_CONDICAO_FAMILIAR, OPCOES_GRAU, OPCOES_PARENTESCO, rotuloDe } from '@modules/minha-saude/opcoes';
-import { Button, Card, Colors, Input, InternalHeader, Select, Spacing, Typography } from '@ui/index';
+import { Button, Card, Colors, Input, InternalHeader, ModalComemoracao, Select, Spacing, Typography } from '@ui/index';
 
 type Form = Partial<AntecedenteFamiliar>;
 
@@ -17,6 +20,8 @@ export default function Antecedentes() {
   const { perfil, antecedentes, salvarAntecedente, excluirAntecedente, salvar: salvarPerfil } = usePerfil();
   const [editando, setEditando] = useState<Form | null>(null);
   const [salvando, setSalvando] = useState(false);
+  // "Perfil completo" sai aqui, na hora em que o último pedaço é salvo (não depois, em outra tela).
+  const conquistas = useConquistas({ auto: false, chaves: CONQUISTA_PERFIL });
 
   const gravar = async () => {
     if (!editando?.parentesco || !editando.grau || !editando.condicao) {
@@ -35,6 +40,7 @@ export default function Antecedentes() {
       });
       if (perfil?.semAntecedentesFamiliares) await salvarPerfil({ semAntecedentesFamiliares: false });
       setEditando(null);
+      conquistas.avaliar();
     } catch (e) {
       Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario);
     } finally {
@@ -100,6 +106,7 @@ export default function Antecedentes() {
           <Button label="Adicionar antecedente" variant="outline" onPress={() => setEditando({})} />
         )}
       </ScrollView>
+      <ModalComemoracao conteudo={conquistas.proxima ? TEXTO_CONQUISTA[conquistas.proxima] : null} aoFechar={conquistas.dispensar} />
     </SafeAreaView>
   );
 }

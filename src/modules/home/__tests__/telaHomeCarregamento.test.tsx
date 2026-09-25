@@ -33,6 +33,7 @@ jest.mock('@core/bemestar/useSequencia', () => ({ useSequencia: () => ({ sequenc
 jest.mock('@core/lembretes/useAvisos', () => ({ useAvisos: () => ({ precisa: false, ativar: jest.fn(), adiar: jest.fn() }) }));
 jest.mock('@core/cardio/lembretesCardio', () => ({ sincronizarLembretesMedicacao: async () => {} }));
 jest.mock('@core/lembretes/preferencias', () => ({ renovarAvisosDiarios: async () => {} }));
+jest.mock('@core/bemestar/useConquistas', () => ({ useConquistas: () => ({ proxima: null, dispensar: jest.fn(), avaliar: async () => 0 }) }));
 
 const Home = require('../../../../app/(app)/(tabs)/index').default;
 

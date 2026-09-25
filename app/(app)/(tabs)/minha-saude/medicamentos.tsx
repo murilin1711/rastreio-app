@@ -7,11 +7,14 @@ import type { Medicacao } from '@core/medicacoes/tipos';
 import { useMedicacoes } from '@core/medicacoes/useMedicacoes';
 import { usePerfil } from '@core/perfil/usePerfil';
 import { useSessao } from '@core/sessao/SessaoProvider';
+import { useConquistas } from '@core/bemestar/useConquistas';
+import { CONQUISTA_PERFIL } from '@core/regras/bemestar/conquistas';
+import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
 import { traduzirErro } from '@core/supabase/erros';
 import { usePedidoDeAvisos } from '@core/lembretes/usePedidoDeAvisos';
 import { Secao } from '@modules/minha-saude/Secao';
 import { HorariosRemedio } from '@modules/minha-saude/HorariosRemedio';
-import { Button, CampoData, Card, Colors, Input, InternalHeader, Spacing, Typography } from '@ui/index';
+import { Button, CampoData, Card, Colors, Input, InternalHeader, ModalComemoracao, Spacing, Typography } from '@ui/index';
 
 type Form = Partial<Medicacao>;
 
@@ -23,6 +26,8 @@ export default function Medicamentos() {
   const { perfil, salvar: salvarPerfil } = usePerfil();
   const [editando, setEditando] = useState<Form | null>(null);
   const [salvando, setSalvando] = useState(false);
+  // "Perfil completo" sai aqui, na hora em que o último pedaço é salvo (não depois, em outra tela).
+  const conquistas = useConquistas({ auto: false, chaves: CONQUISTA_PERFIL });
   const avisos = usePedidoDeAvisos();
 
   const abrir = (m?: Medicacao) => setEditando(m ? { ...m } : { ativa: true, horarios: [] });
@@ -51,6 +56,7 @@ export default function Medicamentos() {
       });
       if (perfil?.semMedicacoes) await salvarPerfil({ semMedicacoes: false });
       setEditando(null);
+      conquistas.avaliar();
     } catch (e) {
       Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario);
     } finally {
@@ -124,6 +130,7 @@ export default function Medicamentos() {
         </View>
       </ScrollView>
       {avisos.modal}
+      <ModalComemoracao conteudo={conquistas.proxima ? TEXTO_CONQUISTA[conquistas.proxima] : null} aoFechar={conquistas.dispensar} />
     </SafeAreaView>
   );
 }
@@ -135,7 +142,7 @@ function CardMed({ m, onEditar, onAlternar }: { m: Medicacao; onEditar: () => vo
         <Text style={styles.cardTitulo}>{m.nome}{m.dose ? `, ${m.dose}` : ''}</Text>
         <Text style={styles.cardSub}>
           {m.horarios.length ? formatarHorarios(m.horarios) : 'Sem horário definido'}
-          {m.desde ? `: desde ${dataBr(m.desde)}` : ''}
+          {m.desde ? ` · desde ${dataBr(m.desde)}` : ''}
           {!m.ativa && m.ate ? `: até ${dataBr(m.ate)}` : ''}
         </Text>
       </View>

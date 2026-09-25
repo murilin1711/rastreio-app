@@ -35,7 +35,7 @@ export default function Lembretes() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo}>
-        <InternalHeader sectionLabel="Rastreando" title="Lembretes" />
+        <InternalHeader sectionLabel="Rastreamentos" title="Lembretes" />
         {permissao === false ? (
           <Card style={{ gap: Spacing.sm, marginBottom: Spacing.xl }}>
             <Text style={styles.avisoTitulo}>Notificações desativadas</Text>

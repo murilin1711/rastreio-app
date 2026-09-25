@@ -622,6 +622,18 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 **Correção.** Cada coluna cabe a maior palavra dela (`larguraTabela.ts`). Se a tabela cabe na tela, as colunas esticam na proporção. Se **não cabe**, cada linha vira um bloco ("Losartana" / "Dose: 50" / "Horários: …" / "Desde: …"), e célula vazia ("—") não aparece. Rolar para o lado foi testado e descartado: a última coluna ficava escondida, e o público 60+ não percebe que dá para rolar.
 
 **Visto no simulador em 25/09:** a tabela de medicamentos do relatório geral aparece em bloco, sem palavra quebrada.
+
+### D-051 — O módulo Rastreando passa a se chamar "Rastreamentos" — 25/09/2026
+**Pedido do Murilo (25/09).** Muda só o que a pessoa lê: cartão da Home, marca no topo do módulo ("RASTREAMENTOS"), rótulo das telas internas e o botão "Voltar aos Rastreamentos". Rotas (`/(app)/rastreando`), pastas e nomes no código continuam `rastreando`, para não quebrar links de notificação já agendados. De quebra, o cartão do remédio trocou "16h03: desde 12/12/2025" por "16h03 · desde 12/12/2025" (pergunta em aberto do handoff de 25/09).
+
+### D-052 — "Perfil completo" é comemorado onde o perfil se completa — 25/09/2026
+**Relato do Murilo (25/09):** registrou um copo de água, apagou, saiu da tela e apareceu "Seu perfil de saúde está completo".
+
+**Causa.** A água não tem relação. As conquistas só eram avaliadas nas telas de Saúde & Bem-estar, e a principal as avalia **toda vez que ganha foco**. O perfil dele tinha ficado completo antes, em Minha Saúde (antecedente cadastrado no teste da D-046), onde nada avaliava. A comemoração ficou pendente até a próxima visita a Bem-estar: a volta da tela da Água.
+
+**Correção.** `useConquistas` recebe `chaves`, as conquistas que aquela tela pode comemorar. Bem-estar só comemora as suas (`CONQUISTAS_BEM_ESTAR`). "Perfil completo" (`CONQUISTA_PERFIL`) sai ao salvar um antecedente ou um medicamento, e na Home quando a declaração "Não uso medicamentos"/"não tenho antecedentes" se confirma (fim dos 15 s do "Desfazer", para não comemorar algo que a pessoa ainda pode desfazer). As contagens passaram a ler o perfil do banco (`contarParaConquistas`), porque logo depois da declaração o estado de outra instância de `usePerfil` ainda não sabe da mudança.
+
+**Teste:** `telaBemEstar.test.tsx` (Bem-estar não concede mais "perfil completo"), que falhava antes. **Não visto no simulador:** a comemoração no momento certo (a conta do Murilo já tem a conquista gravada; exige conta nova).
 ---
 
 ## Decisões clínicas (protocolos adotados)

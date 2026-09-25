@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useConquistas } from '@core/bemestar/useConquistas';
+import { CONQUISTAS_BEM_ESTAR } from '@core/regras/bemestar/conquistas';
 import { useHabitos } from '@core/bemestar/useHabitos';
 import { formatarHm } from '@core/regras/bemestar/sono';
 import { CardResumo } from '@modules/coracao/componentes/CardResumo';
@@ -16,7 +17,7 @@ const fmt = (n: number) => String(n).replace('.', ',');
 export default function BemEstar() {
   const router = useRouter();
   const { habitos: h, carregando, recarregar } = useHabitos();
-  const conquistas = useConquistas();
+  const conquistas = useConquistas({ chaves: CONQUISTAS_BEM_ESTAR });
   useFocusEffect(useCallback(() => { recarregar(); conquistas.avaliar(); }, [recarregar, conquistas.avaliar]));
 
   return (
