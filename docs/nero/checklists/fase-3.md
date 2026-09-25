@@ -1,5 +1,11 @@
 # Checklist manual — Fase 3 (Minha Saúde: exames, documentos, linha do tempo, relatórios, QR, consulta, lembretes)
 
+> **Revisado em 25/09/2026.** Dois nomes mudaram desde que este roteiro foi escrito (D-025):
+> **"Relatórios" e "Preparar minha consulta" viraram um item só, "Levar ao médico"**, em Minha Saúde.
+> Dentro dele, o Resumo completo vem primeiro e a escolha por especialidade fica embaixo, em
+> "Vou a um médico específico". Os testes continuam valendo; só o caminho até as telas mudou.
+
+
 > Executado em: ____/____/2026 · Aparelho: __________________ · Executor: Murilo
 > Pré-requisito: migração 0011 aplicada na nuvem (`supabase db push`) — cria `documentos`, `compartilhamentos`, `consultas`, bucket `relatorios` e as políticas. Referência: `docs/nero/funcionamento/minha-saude.md` §3–§8.
 

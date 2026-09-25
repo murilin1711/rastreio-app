@@ -66,4 +66,16 @@ Este vídeo saiu diferente dos dois primeiros e exigiu duas mudanças no pipelin
 
 Comando: `FUNDO=linha FECHAMENTO=5 Y0=160 Y1=1105 CX=353 python3 scripts/processar-clipe-nero.py <frames> assets/animacoes/nero/comemorar.webp 88 150 0`
 
-**Para o próximo clipe (pensando):** medir o enquadramento antes de processar, porque cada geração sai com escala e posição próprias, e conferir se o fundo é plano.
+## Clipe 4 — pensando (23/09/2026)
+Vídeo de 10 s, 720 × 1280, 24 fps; o gesto de pensar ocupa os frames 12–72 (2,5 s): braços soltos, mão sobe ao queixo, cabeça inclina e o olhar vai para cima, mão desce e volta à pose inicial. 51 frames, 20 fps, **459 KB**, **em loop** (248 × 360 — 4 px mais estreito que o aceno, então `PROPORCAO_MAX` e o layout não mudam). Começa e termina na mesma pose, então o crossfade de 6 frames do `loop=1` fecha sem salto.
+
+Foi o clipe mais limpo dos quatro, e o motivo é o fundo: o prompt pediu **cinza médio chapado** em vez do bege, exatamente por causa do buraco na mão do aceno. Medido antes de processar:
+
+1. **Fundo perfeito.** `#808080` em todo o quadro, em todos os frames — desvio zero entre as linhas 100, 600, 1000 e 1250. `FUNDO=pixel` (padrão) bastou; nada de `FUNDO=linha`.
+2. **`FECHAMENTO=5` não foi preciso.** Com o fundo cinza, o branco do personagem fica a uma distância de cor grande, e o padrão `2` já fecha a silhueta: **zero buracos internos** em todos os 51 frames (componentes de fundo não conectados à borda). A diferença entre `2` e `5` é de ~45 px por frame, espalhados pelo contorno — engorda sem ganho. Usado `FECHAMENTO=2`.
+3. **Enquadramento próprio, casado com o repouso pela escala de saída.** O personagem veio menor (altura 757 px contra 867 no repouso) e deslocado. Em vez de aceitar o salto de tamanho como no comemorar, a janela de recorte foi dimensionada para que, depois do resize para 360 de altura, o personagem meça os mesmos ~341 px do repouso: `757 × 360/341 ≈ 799` de janela. Topo da cabeça em 272 (mínimo do trecho), menos a mesma margem relativa do repouso → `Y0=252 Y1=1051`. `CX=359` medido no centro das pernas (x 250–468), que é o ponto que não se move quando ele inclina o corpo.
+4. **Marca d'água do gerador** no canto inferior direito (y 1135–1185, x 576–623), fora da faixa do corpo — o `hard[1120:] = False` que já existia no script a elimina.
+
+Comando: `FECHAMENTO=2 Y0=252 Y1=1051 CX=359 python3 scripts/processar-clipe-nero.py <frames> assets/animacoes/nero/pensando.webp 12 72 1`
+
+**Regra que se confirmou:** medir o enquadramento antes de processar, porque cada geração sai com escala e posição próprias. E o fundo cinza médio deve virar padrão nos prompts — resolveu de uma vez o problema que custou duas rodadas de calibração nos clipes 2 e 3.

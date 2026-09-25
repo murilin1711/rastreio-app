@@ -1,12 +1,14 @@
 # Política de Privacidade — NERO
 
-> **RASCUNHO (18/09/2026)** — escrito a partir do que o app realmente faz (tabelas em `supabase/migrations/`, buckets `laudos` e `relatorios`, código em `src/core/`). Os campos entre `[[ ]]` só o Murilo pode preencher. Depois de revisado, publicar em URL pública (decisão pendente: GitHub Pages) e apontar em `app.json`, na App Store Connect e no Play Console.
+> Escrita a partir do que o app realmente faz (tabelas em `supabase/migrations/`, buckets `laudos` e `relatorios`, código em `src/core/`). Dados do responsável preenchidos em 24/09/2026. Publicar em https://nerosaude.com.br/privacidade e apontar a URL na App Store Connect e no Play Console.
+>
+> **Antes de publicar:** confirmar no painel da Supabase que os backups diários começaram. A seção 8 promete cópias de 7 dias.
 
-**Última atualização:** [[data da publicação]]
+**Última atualização:** 24 de setembro de 2026
 
 ## 1. Quem é o responsável
 
-O aplicativo NERO é mantido por **[[nome completo ou razão social]]**, [[CPF ou CNPJ]], com endereço em [[cidade/UF]] ("nós"). Para qualquer assunto sobre seus dados, incluindo o exercício dos direitos previstos na LGPD, escreva para **nerosaude@gmail.com**. Encarregado pelo tratamento de dados (art. 41 da LGPD): [[nome ou "o próprio responsável"]].
+O aplicativo NERO é mantido por **Murilo Roiz Póvoa**, CPF 708.784.431-85, em Goiânia/GO ("nós"). Para qualquer assunto sobre seus dados, incluindo o exercício dos direitos previstos na LGPD, escreva para **nerosaude@gmail.com**. Encarregado pelo tratamento de dados (art. 41 da LGPD): o próprio responsável.
 
 ## 2. O que o NERO é — e o que não é
 
@@ -77,7 +79,8 @@ Os lembretes são notificações **locais**, agendadas no seu aparelho — de me
 
 - Guardamos seus dados enquanto sua conta existir.
 - **Excluir a conta:** em **Minha Saúde → Excluir minha conta** (D-013). A exclusão apaga a conta e **todos** os registros, documentos e relatórios vinculados a ela, de forma irreversível. Links de QR ainda ativos deixam de funcionar.
-- Os dados são apagados imediatamente do banco. Nosso operador de infraestrutura mantém cópias de segurança diárias por **7 dias**, para o caso de falha; essas cópias são sobrescritas nesse prazo, e depois disso não resta nenhum registro seu. Não guardamos cópias fora dele.
+- Os dados são apagados imediatamente do banco. Nosso operador de infraestrutura mantém cópias de segurança diárias do **banco de dados** por **7 dias**, para o caso de falha; essas cópias são sobrescritas nesse prazo, e depois disso não resta nenhum registro seu. Não guardamos cópias fora dele.
+- Os **arquivos** que você anexa (laudos, fotos de exame e os PDFs de relatório) ficam em armazenamento separado e **não entram nessas cópias de segurança**. Na prática: quando você exclui um documento ou a conta, ele desaparece na hora, sem ficar em cópia nenhuma; em compensação, um arquivo perdido não pode ser recuperado por nós.
 - Você também pode pedir a exclusão pelo e-mail da seção 1.
 
 ## 9. Seus direitos (art. 18 da LGPD)

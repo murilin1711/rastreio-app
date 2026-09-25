@@ -1,5 +1,11 @@
 # Checklist manual — Fase 4b (alimentação, conexão com glicemia, metas, check-in, relatório de hábitos)
 
+> **Revisado em 25/09/2026.** Desde D-025: o caminho é **Minha Saúde › Levar ao médico**, e o
+> relatório de hábitos se chama **"Peso, alimentação e sono"** na tela (o título dentro do PDF
+> continua "Relatório de Saúde & Hábitos"). A consulta por especialidade agora traz o que não é da
+> especialidade numa seção final, "Outras informações do meu histórico".
+
+
 > Executado em: ____/____/2026 · Aparelho: __________________ · Executor: Murilo
 > Pré-requisito: migrações 0012 e 0013 e as 12 regras `bem_estar` na nuvem. Referência: `docs/nero/funcionamento/saude-bem-estar.md` §5–§8. Faça antes o `checklists/fase-4a.md`.
 

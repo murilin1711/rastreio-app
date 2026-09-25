@@ -3,13 +3,14 @@
 > Documento vivo. Atualizado a cada passo concluído.
 > Especificação de produto completa: [`01-ESPECIFICACAO-NERO.md`](01-ESPECIFICACAO-NERO.md)
 > Registro de decisões: [`02-DECISOES.md`](02-DECISOES.md)
+> **O que ainda falta: [`PENDENCIAS.md`](PENDENCIAS.md)** — publicação, credenciais, buracos conhecidos e o que foi adiado de propósito.
 > Specs técnicas por fase: `docs/superpowers/specs/` · Planos de implementação: `docs/superpowers/plans/`
 
 ---
 
 ## Fila do Murilo (atualizada em 19/09/2026)
 
-> **Nova sessão do Claude Code?** Comece por [`handoffs/2026-09-22-redesign-home-navbottom.md`](handoffs/2026-09-22-redesign-home-navbottom.md) (redesign da home e do navbottom, D-022 — **pendência ativa: o Murilo enviar o vídeo do Nero pensando**). Para o trilho das lojas, [`handoffs/2026-09-22-publicacao-auth-e-agua.md`](handoffs/2026-09-22-publicacao-auth-e-agua.md) continua valendo (o de [19/09](handoffs/2026-09-19-adesao-e-agua.md) (o anterior, [`2026-09-19-publicacao-e-mascote.md`](handoffs/2026-09-19-publicacao-e-mascote.md), continua valendo para mascote e publicação).
+> **Nova sessão do Claude Code?** Comece por [`handoffs/2026-09-25-primeiro-build-e-testflight.md`](handoffs/2026-09-25-primeiro-build-e-testflight.md) — **o app está no TestFlight**, e o que falta está em [`PENDENCIAS.md`](PENDENCIAS.md). O anterior, [`handoffs/2026-09-22-redesign-home-navbottom.md`](handoffs/2026-09-22-redesign-home-navbottom.md) (redesign da home e do navbottom, D-022 — **pendência ativa: o Murilo enviar o vídeo do Nero pensando**). Para o trilho das lojas, [`handoffs/2026-09-22-publicacao-auth-e-agua.md`](handoffs/2026-09-22-publicacao-auth-e-agua.md) continua valendo (o de [19/09](handoffs/2026-09-19-adesao-e-agua.md) (o anterior, [`2026-09-19-publicacao-e-mascote.md`](handoffs/2026-09-19-publicacao-e-mascote.md), continua valendo para mascote e publicação).
 
 As quatro fases estão implementadas, mescladas e na nuvem. Em 19/09 entrou também o **bloco de adesão** (D-016): marcos de meta, conquistas, sequência de dias e o módulo **Minha Água** com lembretes (C-021), além do pedido de permissão de notificações com contexto (D-017). **Nada disso foi testado no aparelho ainda.** O que depende de você, na ordem sugerida:
 

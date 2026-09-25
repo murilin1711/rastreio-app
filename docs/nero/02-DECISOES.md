@@ -247,6 +247,362 @@ Período padrão: medidas dos últimos 180 dias; exames e rastreamentos sem limi
 
 ---
 
+### D-023 — O Nero pensando é a espera das operações longas — 23/09/2026
+**Contexto:** o quarto clipe do mascote (pensando, em loop) ficou pronto. Os três pontos onde ele estava previsto — gerar PDF, calcular risco e enviar documento — mostravam a espera como spinner **dentro do botão**, e o mascote não cabe ali: em ≤44 px ele vira mancha azul.
+**Decidido:** componente `EsperaNero` (`src/ui/components/EsperaNero.tsx`) — modal com véu, cartão branco no centro, Nero pensando, uma linha do que está acontecendo e uma segunda do tempo esperado, com **Cancelar**. O botão que dispara passa a `disabled` em vez de `loading`, para não haver dois indicadores de espera na tela.
+**Números**, calibrados pelo Murilo no painel interativo (mesma forma que resolveu o topo da home em D-022): mascote **152 px**, véu **45 %** (`rgba(15,45,99,0.45)`), Cancelar **sim**, segunda linha **sim**, texto `"Gerando seu relatório…" / "Isso leva alguns segundos."`.
+**Formas descartadas:** bloco de tela cheia trocando o conteúdo (perde de vista o relatório, que é longo) e manter o spinner onde a espera é curta (dois padrões de espera no mesmo app confundem mais do que a demora incomoda).
+**O que "Cancelar" significa em cada ponto** — nenhuma das três operações aborta de verdade no meio, então o cancelamento age no resultado: no **PDF** descarta o arquivo gerado (é temporário, do cache) e não abre o compartilhamento; no **risco** só não navega ao resultado — o cálculo fica guardado e quem voltar a calcular não perde nada; no **documento** o upload já entregou o arquivo ao bucket, então a tela **apaga o órfão** (`apagarArquivo`) e não grava o registro. Este último é o único com efeito colateral real e está coberto por teste (`src/core/documentos/__tests__/telaNovoDocumento.test.tsx`).
+**Piso de 2 s** (23/09/2026, pedido do Murilo depois de ver no aparelho): as três operações terminam em menos de um segundo, e a espera aparecia e sumia num piscar — no PDF a folha de compartilhamento chegava a abrir por cima da animação. `completarPiso(inicio)` segura a espera até completar `PISO_ESPERA_MS = 2000` a partir do instante em que ela apareceu; quando a operação demora mais que isso, não acrescenta nada. No PDF, a espera **fecha antes** de compartilhar, com `aguardarTrocaDeModal()` (350 ms) no meio: no iOS uma folha apresentada enquanto o modal anterior ainda faz o fade simplesmente não aparece. Coberto por `src/core/relatorios/__tests__/telaPreviaPdf.test.tsx`, com relógio simulado.
+**Detalhes do clipe:** `docs/nero/mascote/animacoes.md` → Clipe 4.
+
+---
+
+### D-024 — Barra sempre inteira, saída verde das pendências e o mascote maior — 23/09/2026
+**Barra de abas:** `minimizeBehavior="never"`. O padrão do iOS 26 encolhe a barra para a esquerda ao rolar, deixando só o ícone da aba atual; o Murilo não quis. Nada mais do comportamento nativo muda.
+**Saída verde (`SaidaConcluida` + `useSaidaConcluida`):** a pendência resolvida desaparecia da lista sem aviso quando o exame relacionado era registrado. Agora ela se pinta de verde pastel com um tique, o subtítulo vira "Pendência concluída", segura, e só então encolhe — 1,2 s no total (260 ms para o verde, 620 de pausa, 320 para sumir). Vale na lista do Rastreando e na tela dedicada de Pendências.
+**Duas decisões dentro dela:** (1) com **Reduce Motion** ligado o item sai direto, sem animação — é o que o sistema pede; (2) a comparação fica **congelada enquanto a lista carrega**, senão qualquer recarga que esvazie a lista por um instante pintaria tudo de verde como se tivesse sido resolvido. Coberto por `src/ui/components/__tests__/saidaConcluida.test.tsx`.
+**Mascote**, calibrado pelo Murilo no painel: na **Home** vai de 84 para **135** e perde o `translateY: -6` (com o tamanho novo ele não precisa mais ser puxado para cima); em **Minha Saúde** continua em 96, na borda direita como já estava, mas com **30 de margem** para sair da beirada e **`translateY: -11`** para alinhar com a linha do nome.
+**Observação para depois:** em Minha Saúde o mascote tem quase o dobro da altura do bloco de texto ao lado ("Minha Saúde" + nome). Se o cabeçalho voltar a incomodar, o caminho não é distância nem tamanho — é a estrutura do cabeçalho.
+
+---
+
+### D-025 — "Levar ao médico": uma porta só para relatório e consulta — 23/09/2026
+**Contexto:** o Murilo perguntou qual era a diferença entre "Relatórios" e "Preparar minha consulta", e entre o relatório cardiovascular e a consulta de cardiologia. A comparação mostrou que são quase o mesmo documento e que a diferença que existia estava errada. Diretriz dele: *"tudo tem que ser bastante claro para não ter dúvidas para seu João ou dona Maria de 70 anos; o Nero não quer complicar a vida e sim facilitar."*
+**Decidido:** (1) os dois itens de Minha Saúde viram **um só, "Levar ao médico"**, que abre onde ficavam os Relatórios; (2) dentro, o **Resumo completo vem primeiro, marcado "Recomendado"**, seguido dos três recortes por assunto, e abaixo de todos a entrada "Vou a um médico específico"; (3) o documento por especialidade passa a ser **focado com o resto ao fim** — o que não é da especialidade sai da frente mas não some, sob "Outras informações do meu histórico"; (4) a escolha do médico abre com a **consulta já marcada** e lista as especialidades em **linguagem comum** ("Médico do coração") com o termo técnico menor embaixo.
+**Correções clínicas:** HbA1c, IMC, tabagismo, check-up e pendências entram na cardiologia (o PREVENT que o app calcula usa HbA1c, IMC e TFG como entradas); função renal e alimentação na endocrinologia; **tabagismo nas dez especialidades**, a pedido do Murilo — *"o tabagismo é muito importante"*; pendências e sintomas nas listas curtas. **Nenhum parâmetro clínico foi criado ou alterado** — são seções que já existiam entrando em listas de prioridade.
+**Defeitos corrigidos:** `agua` estava fora do `SECOES_GERAL` — o documento que promete tudo não tinha tudo; e montar o complemento duplicava a seção de pendências, por reaplicar a regra §66.
+**Descartado:** sair sempre completo (perde o foco de quem lê) e manter as duas portas com nomes melhores (continuariam parecendo duas coisas parecidas).
+**Consequência aceita:** o PDF por especialidade cresce — a mastologia sai de ~1 página para 6 ou 8. Aceitável porque o caminho principal passou a ser o Resumo completo, que já seria grande.
+**Detalhes:** `docs/nero/design/2026-09-23-levar-ao-medico.md`
+
+---
+
+### D-026 — Rastreamento que não se aplica ao perfil sai do relatório; a folha de compartilhar espera o modal sair — 23/09/2026
+Dois acertos pedidos pelo Murilo depois de usar o app.
+
+**1. "Não é aplicável ao seu perfil" não vai para o papel.** Mama num perfil masculino, próstata num feminino: a seção saía impressa só para dizer que não se aplica. Agora é omitida — tanto a seção quanto a linha na tabela de rastreamentos.
+**O que tornou isso possível sem perder informação:** `nao_indicado_no_momento` cobria **dois** casos no mesmo status — "não se aplica ao seu perfil" (definitivo) e "você ainda não chegou na faixa etária" (temporário). `ResultadoElegibilidade` ganhou o campo `naoAplicavel`, marcado só no primeiro. O segundo continua aparecendo: saber que a colonoscopia começa aos 45 é informação útil na consulta.
+**Exceção:** havendo exame ou pendência registrada no programa, a seção fica mesmo não sendo aplicável — o dado existe e precisa chegar ao médico.
+
+**2. Gerar PDF não compartilhava.** Regressão de D-023, no mesmo dia. A animação rodava, terminava, e nada acontecia: nem folha de compartilhamento, nem erro.
+**Raiz:** no iOS a folha é um view controller, e apresentá-la enquanto o modal da espera ainda faz o dismiss faz o sistema **descartá-la em silêncio**. O `aguardarTrocaDeModal()` de 350 ms não resolvia porque o contador começava antes de o dismiss iniciar — esconder o modal só agenda um re-render. O mesmo explica por que nenhum alerta de erro aparecia: um `Alert` nessa janela sumiria igual.
+**Correção:** esperar a condição, não o relógio. `useFechamentoDaEspera()` resolve no `onDismiss` do próprio `Modal`, com limite de 900 ms para o Android (onde `onDismiss` não dispara) e para o caso de o evento se perder. `aguardarTrocaDeModal` e `MS_TROCA_DE_MODAL` foram removidos.
+**Coberto por:** `src/core/relatorios/__tests__/telaPreviaPdf.test.tsx` (a folha só abre após o aviso de fechamento; e abre assim mesmo se o aviso nunca vier) e `montar.test.ts` (quatro casos da omissão por perfil).
+
+---
+
+### D-027 — O "nada pendente" não pisca mais, e o conteúdo não fica sob a barra de abas — 23/09/2026
+**1. Verde falso na abertura.** Ao abrir o app, a home mostrava por um instante "Nada pendente" (verde) e depois o substituía pelas pendências reais. Não era animação nem renderização: `montarItensHoje` emite esse item sempre que a lista sai vazia, e nos primeiros frames ela sai vazia porque o perfil já chegou mas rastreamento, cardio, consultas e hábitos ainda não. O "tudo em dia" era uma afirmação sobre dados que não existiam ainda.
+**Correção:** `montarItensHoje` ganhou `pronto`; sem ele o item verde não é emitido. Os outros itens continuam saindo — um perfil incompleto é fato assim que o perfil chega, não precisa esperar o resto. A home calcula `pronto` das cinco fontes.
+**Efeito colateral corrigido junto:** `useResumoCardio` não expunha `carregando`, e seu `catch` engolia a falha em silêncio. Agora expõe, e fecha no `finally` — sem isso, um erro no resumo do cardio deixaria a home esperando para sempre e o verde nunca voltaria.
+
+**2. Cards embaixo da barra de abas.** A barra flutuante do iOS 26 fica **sobre** o conteúdo e o sistema não desconta esse espaço do scroll, então o último card da home encostava nela. `useEspacoAbas()` soma altura da barra (58) + folga (24) + área segura do aparelho ao `paddingBottom`, e as **quatro** telas de aba passaram a usá-lo — o defeito era de todas, não só da home.
+**Coberto por:** quatro casos em `src/modules/home/__tests__/montarItensHoje.test.ts`.
+
+---
+
+### D-028 — Declaração negativa com "Desfazer" de 15 s — 24/09/2026
+**Contexto:** o Murilo pediu de volta a pendência de medicamentos na conta dele. Investigando: ele havia tocado em "Não uso medicamentos" na Home, o que grava `sem_medicacoes` no perfil — e **não havia como desfazer pela interface**. O único caminho de volta era cadastrar um medicamento de verdade (`medicamentos.tsx:52`). O mesmo valia para "Não há casos na família".
+**Decidido:** ao declarar, o item **fica no lugar**, pintado de verde, com **"Desfazer"** e uma linha de 2 px escoando na base por **15 segundos**; ao fim, sai com o mesmo fade da saída concluída. Reaproveita `SaidaConcluida` (D-024), que ganhou a prop `aoDesfazer`.
+**Como se marca:** tocando na **bolinha** do item, que antes era só decorativa. Ela só fica tocável onde a declaração é possível — medicamentos e antecedentes; nas outras pendências resolver exige registrar algo de verdade.
+**O alerta de confirmação fica.** Eu havia tirado, no raciocínio de que "tem certeza?" + "desfazer" é pedir a mesma coisa duas vezes; o Murilo pediu de volta com um argumento melhor: **o alerta é a única hora em que a pessoa aprende onde completar aquela informação depois** ("adicione em Minha Saúde › Meus medicamentos"). O desfazer cobre o arrependimento, não a desinformação — são coisas diferentes.
+**Forma do desfazer:** um **cartão próprio, colado na base do item e da mesma largura**, com o fio do tempo escoando nele. A primeira versão punha o botão sobreposto à direita, disputando espaço com o texto e a seta; ficou confuso e foi refeita. Enquanto o tempo corre, a bolinha do item aparece marcada com o tique verde, e o card **não** se pinta de verde inteiro — o verde vive na bolinha e no cartão.
+**Detalhes de comportamento:** a gravação acontece na hora (não fica pendurada nos 15 s), e desfazer grava o valor de volta — assim nada se perde se o app fechar no meio. O índice do item é guardado para ele não pular para o fim da lista ao sair da fonte. Falha ao salvar devolve o item ao estado normal e avisa.
+**Reduce Motion:** aqui a espera é respeitada mesmo com o movimento reduzido — sem ela não haveria como voltar atrás. Só as transições de cor e de saída ficam instantâneas.
+**Coberto por:** três casos em `src/ui/components/__tests__/saidaConcluida.test.tsx`.
+**Em aberto:** as telas de Meus medicamentos e Antecedentes familiares continuam sem um botão para reverter a declaração depois que os 15 s passaram — quem perder a janela ainda precisa cadastrar um item de verdade.
+
+**Correções do mesmo dia, depois de ver funcionando:**
+- **A bolinha voltou a não ser tocável.** Cheguei a torná-la clicável a pedido, mas ela e a linha "Não uso medicamentos" faziam exatamente a mesma coisa. O Murilo perguntou qual era a diferença — não havia — e escolheu ficar só com a linha escrita, que é a que se anuncia.
+- **A bolinha marca só o que o app não sabe sozinho.** Ficou o critério: declarações ("não uso medicamentos", "não há casos na família") são fato que só o paciente conhece; "atualizar minha prevenção" é **calculado** (3 de 8), e deixar marcar criaria contradição com o relatório e o item voltaria sozinho na abertura seguinte. O mesmo vale para exame atrasado e MRPA.
+- **O cartão de desfazer virou irmão do item:** mesma borda de 1 px, mesmo raio, mesma largura, mesmo padding — só o verde o distingue. A primeira versão era uma faixa sem borda e destoava do card de cima.
+- **Desfazer deixou de piscar.** O cartão recolhe em altura junto com o verde, em 220 ms, e só então o callback dispara. Antes o componente sumia no mesmo frame do toque.
+
+---
+
+### D-029 — O foguinho da sequência explica o que conta — 24/09/2026
+**Contexto:** o selo de dias seguidos usa um foguinho, símbolo emprestado de app de hábito. Quem nunca usou um não tem como adivinhar o que o número conta — e o público do NERO não é o de quem usa app de hábito.
+**Decidido:** o selo passa a ser tocável e abre um balão discreto embaixo, com uma frase: *"Dias seguidos em que você registrou alguma coisa no NERO. Some sozinho se você ficar um dia sem registrar — e nada acontece se isso ocorrer."* Um ícone de informação de 13 px, em cinza, avisa que há algo a tocar.
+**Forma:** balão, não modal — explicar não deve interromper. Ele entra em fade de 180 ms, fica 6 s e sai sozinho; tocar de novo fecha antes. Centralizado no selo, senão os 260 px de largura transbordariam a tela.
+**A segunda frase é deliberada:** *"nada mais muda"*. A sequência existe para incentivar, não para cobrar, e é a mesma razão pela qual o selo some em silêncio quando zera (D-016, 19/09).
+
+**Segunda versão da frase, depois de o Murilo ler a primeira.** Ela dizia *"dias seguidos em que você registrou alguma coisa"*, e o problema apontado foi de incentivo: **convida a inventar dado** para manter o foguinho aceso. *"Vou registrar aqui uma pressão e dane-se."* A frase em uso agora:
+
+> São os dias seguidos em que você anotou alguma coisa do seu dia: água, uma caminhada, o que comeu, uma medida de pressão. Serve para você acompanhar sua constância, então só vale o que aconteceu de verdade. Ficando um dia sem registrar o número volta a zero, e nada mais muda.
+
+Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, e pede dado real. O gatilho no banco (`0017_dias_ativos.sql`) continua contando **qualquer** inserção em atividades, refeições, check-ins, medidas, exames, documentos, consultas, medicações, lembretes, antecedentes, MRPA ou metas — a frase orienta, não restringe.
+
+---
+
+### D-033 — Onboarding, login e a recuperação de senha que não existia — 24/09/2026
+**Contexto:** o Murilo pediu para melhorar o onboarding e o login. *"Não sei o que me incomoda, só sei que não gostei do onboarding, achei pouco profissional e muito difícil de entender, e a página de login está ruim."*
+
+**O que a investigação achou antes de qualquer desenho:** **não existia recuperação de senha.** Nenhum `resetPasswordForEmail`, nenhuma tela. Quem esquecesse a senha perdia o prontuário, sem saída pelo app. Com D-032 isso piorou: a senha virou também a saída de quem não consegue usar a biometria.
+
+**Diagnóstico do onboarding, item a item:**
+- O slide 2 era um **diagrama** (tronco e galhos ligando o perfil a três destinos). Diagrama exige interpretar uma metáfora antes de entender a mensagem.
+- Os textos explicavam **o mecanismo**, não o ganho: *"o que você informa alimenta todos os módulos"*. E **"módulos" é palavra nossa**.
+- O slide 3 se definia **pela negação** ("Orientação, não diagnóstico") e usava como exemplo, na última tela antes de entrar, **um resultado alterado de câncer colorretal**.
+- Os cartões ficavam **tortos em ângulos irregulares** (−2°, +1,5°), o que lê como desalinho e não como pilha. Provável origem do "pouco profissional".
+
+**Decidido:** três slides, **fundo claro**, mascote em cada um, exemplos em linhas legíveis (rótulo pequeno em cima, dado em destaque embaixo). Textos reescritos para o ganho: *Tudo num lugar só · Você conta uma vez só · O NERO avisa a hora* — o terceiro mantém a ressalva, mas no fim da frase.
+**Login sem o mascote**, a pedido do Murilo: *"no login não precisa não, vamos deixar mais minimalista, senão fica muito repetitivo"*. Campos de 56 px e "Esqueci minha senha" alinhado à direita, abaixo da senha.
+**Recuperação de senha:** tela nova, **código de seis dígitos** igual ao do cadastro. Link obrigaria a sair do app e voltar. E-mail que não existe devolve sucesso de propósito: dizer "esta conta não existe" contaria a um estranho quem tem conta. O template de recuperação foi adicionado ao `scripts/configurar-auth.mjs` — sem ele o Supabase mandaria o padrão dele, com link e em inglês.
+
+**Método, que é a parte que interessa para a próxima vez.** Mandei **duas propostas prontas e as duas foram rejeitadas**, repetindo o padrão de D-022 (seis rejeições antes do painel resolver). Só na terceira voltei ao que funciona com ele: **painel interativo em tamanho real**, com controles de fundo, tamanho do mascote, conteúdo e espaçamento, e a instrução de que eu não proporia mais nada. Ele devolveu os números numa rodada. **Para composição visual, painel primeiro; conceito pronto só depois que a direção estiver fechada.**
+
+**Dois erros meus, pegos antes de virarem bug:** ao reescrever o onboarding troquei a chave do `AsyncStorage` (`nero_onboarding_visto_v3`) e o destino do botão final (`/(auth)/login`). A primeira faria o onboarding reaparecer para quem já viu; a segunda mudaria o fluxo sem ninguém pedir. Ambas restauradas.
+
+---
+
+### D-032 — Bloqueio por biometria ao abrir o app — 24/09/2026
+**Contexto:** ao validar D-031 no aparelho, o Murilo notou que o app abre direto na conta. É o comportamento normal de sessão salva, mas significa que **quem pegar o celular desbloqueado abre o prontuário**. Ele pediu Face ID.
+**Decidido:** biometria **opcional, desligada por padrão**, com interruptor em Minha Saúde › Segurança. Pede ao abrir e ao voltar do segundo plano depois de **5 minutos**.
+**Por que opcional:** parte do público tem dificuldade com biometria, e trancar alguém do lado de fora do próprio prontuário é pior do que o risco evitado. Quem quiser, liga.
+**Por que 5 minutos e não sempre:** trocar para o WhatsApp e voltar em trinta segundos não pode pedir de novo. Pedir demais faz a pessoa desligar o recurso, e aí não protege ninguém.
+
+**Quatro decisões de detalhe, todas para não trancar ninguém para fora:**
+- **A biometria é pedida ANTES de ligar** o interruptor. Se o rosto não for reconhecido agora, ligar deixaria a pessoa sem acesso na próxima abertura.
+- **`disableDeviceFallback: false`**: quando o rosto falha (máscara, pouca luz, óculos escuros), cai na senha do aparelho. Sem isso a única saída seria desinstalar o app.
+- **Falha do próprio sistema biométrico pede a senha da conta**, em vez de liberar. Eu tinha feito liberar, argumentando que um erro de hardware não pode bloquear o prontuário; o Murilo corrigiu, e com razão: liberar sem nada abre o prontuário para quem estiver com o aparelho, e a pessoa tem uma credencial que ela mesma cadastrou. `pedirBiometria` passou a distinguir **negado** (rosto não bateu ou cancelou, dá para tentar de novo) de **erro** (o sistema não respondeu, tentar não adianta), e só o segundo leva ao campo de senha.
+- **A preferência mora no cofre do aparelho, não no banco.** É escolha daquele aparelho: a mesma pessoa pode querer biometria no celular que leva na rua e não no tablet de casa.
+
+**A tela de bloqueio não mostra dado nenhum** — só a marca. Nem nome, nem pendência, nem o número da sequência: ela existe justamente para que quem pegou o celular de outra pessoa não veja nada. E enquanto a preferência está sendo lida, a tela fica vazia, porque um piscar do conteúdo mostraria o que o bloqueio esconde.
+**`NSFaceIDUsageDescription`** declarado no `app.json`: sem isso a Apple recusa na revisão.
+**Coberto por:** 8 casos em `src/core/sessao/__tests__/useBloqueio.test.tsx`, incluindo o da troca rápida de app que **não** deve pedir de novo e os três do caminho da senha.
+
+---
+
+### D-031 — Endurecimento de segurança antes da publicação — 24/09/2026
+**Contexto:** o Murilo trouxe uma lista de 22 itens de um vídeo sobre lançamento de app e pediu conferência item a item. Metade já estava resolvida; quatro valiam trabalho. O que foi feito e o que foi deliberadamente deixado de fora:
+
+**1. Sessão fora do texto simples (feito).** O token vivia em `AsyncStorage`, legível em aparelho com jailbreak, backup não criptografado ou análise forense — e a sessão abre um prontuário. Foi para o Keychain/Keystore via `expo-secure-store`.
+**Duas armadilhas resolvidas no adapter** (`src/core/supabase/armazenamentoSeguro.ts`): (a) o Keychain recusa item acima de **2048 bytes**, e a sessão do Supabase (JWT + refresh + user) passa disso, então o valor é dividido em pedaços de 1800; sem isso a gravação falharia calada e a pessoa não conseguiria entrar; (b) quem já estava logado seria deslogado pela atualização, então a primeira leitura migra o valor do `AsyncStorage` e apaga de lá. Coberto por 5 testes.
+
+**2. Limite de upload no servidor (feito, migração `0020_limites_buckets.sql`).** O teto de 10 MB e a lista de tipos existiam só no app; quem tivesse um token subia qualquer coisa direto na API. Agora `laudos` aceita imagem e PDF e `relatorios` só PDF, ambos até 10 MB, **no bucket**. Verificado contra a nuvem: executável recusado com 415, PDF aceito.
+
+**3. Rate limit (não alterado, pendente no painel).** Seis senhas erradas seguidas não foram bloqueadas. O limite existe em Authentication → Rate Limits, mas não foi conferido nem ajustado — é configuração de painel, não de código. **Mais eficaz que mexer nele:** ligar a proteção contra senha vazada (HaveIBeenPwned) e o tamanho mínimo de senha, na mesma tela.
+
+**4. Vulnerabilidades de dependência (decidido NÃO corrigir).** São 15 moderadas, todas indiretas, vindas de **duas** origens: `decode-uri-component` (ReDoS) via `query-string` via `expo-router`, e `uuid` (bounds check) via `expo-sharing`. **`npm audit fix --force` rebaixaria o Expo do SDK 57 para o 46** — onze versões maiores para trás, o que destruiria o app. E o `npm audit fix` simples não resolve nenhuma, porque todas exigem major.
+**Avaliação:** o `query-string` parseia rotas internas do app, não entrada de atacante; o `uuid` é usado em build e compartilhamento. Risco real próximo de zero contra um estrago garantido. Reavaliar quando o Expo atualizar as dependências dele.
+
+**Itens da lista que não se aplicam:** consentimento de IA (o app não usa IA — passa a valer com o portal do médico), cookies (app nativo não tem), login Apple/Google (só é exigido se houver login social de terceiros, e não há). **Itens rejeitados por custo maior que o ganho:** criptografia por coluna (quebra busca e filtro, com RLS correto o ganho é baixo), bloqueio de mass assignment (o RLS já limita cada um à própria linha), trim de respostas (é performance, não segurança), SEO e cache (o site tem uma página).
+
+**Verificação que vale registrar:** as **21 tabelas** foram testadas sem autenticação, com a chave pública. Todas devolveram vazio, e a tentativa de inserção foi recusada com `violates row-level security policy`. O RLS está íntegro.
+
+---
+
+### D-030 — Sem travessões nos textos do app — 24/09/2026
+**Decidido pelo Murilo:** tirar o travessão (—) de todos os textos de interface.
+**O que foi feito:** 70 ocorrências, tratadas em dois grupos.
+
+| Uso | Exemplo antes | Depois |
+|---|---|---|
+| Rótulo + qualificador (46) | `Pressão arterial — medidas avulsas` | `Pressão arterial: medidas avulsas` |
+| Rótulo que já tinha dois pontos | `Hoje: consulta às 14h — preparar` | `Hoje: consulta às 14h · preparar` |
+| Travessão no meio da frase (24) | `Conta só o que você bebe — a água dos alimentos não entra.` | `Conta só o que você bebe. A água dos alimentos não entra.` |
+
+**O que ficou:** o `—` sozinho, em 53 lugares, como notação de "sem valor" em tabelas e listas de relatório. Não é travessão de frase; é o símbolo de célula vazia.
+**Texto clínico foi reescrito um a um**, sem mexer em parâmetro, prazo ou condição: as frases de mama (BRCA1, mamografia anual pós-tratamento), pulmão (tomografia de baixa dose) e água (restrição renal/cardíaca) mudaram só de pontuação.
+**Resíduo corrigido junto:** a notificação de consulta e o onboarding ainda mandavam a pessoa para "Minha Saúde › Preparar minha consulta", nome que deixou de existir em D-025. Agora dizem "Levar ao médico".
+**Testes:** nove afirmavam os textos antigos e foram atualizados, mais dois snapshots de HTML de relatório.
+
+---
+
+### D-034 — Lançar só para iPhone, e um documento para as pendências — 25/09/2026
+**Contexto:** o primeiro build foi enviado ao App Store Connect e a Apple avisou que um app com `supportsTablet: true` precisa de capturas de iPad (2048 × 2732) para ser publicado. O Murilo perguntou se valia a pena e decidiu: *"desligar o suporte, mas colocar em algum lugar um documento de pendências para fazer"*.
+
+**Por que desligar e não gerar as capturas:** capturas de iPad seriam honestas apenas se o app estivesse desenhado para tela larga, e ele não está. Os únicos `maxWidth` do código estão em modais; toda tela estica o conteúdo até a borda. No iPad, um cartão de pressão viraria uma faixa de 1000 px com um número no meio, e a barra de abas ficaria perdida na base de uma tela enorme. Publicar assim entregaria em iPad uma versão pior do app, com a mesma nota na loja.
+
+**O que muda para quem tem iPad:** nada de imediato. O app continua instalável e roda em janela de iPhone, do mesmo jeito que rodaria hoje — só deixa de ser anunciado como app de iPad. Ligar de volta é uma linha no `app.json`, mas exige antes limitar a largura do conteúdo, repensar a grade de módulos e os formulários.
+
+**A segunda metade do pedido virou `docs/nero/PENDENCIAS.md`**, com o que falta em quatro camadas: o que bloqueia a publicação, a configuração fora do código, os buracos funcionais conhecidos e as decisões adiadas **com o motivo do adiamento**. Sem o motivo, uma pendência antiga vira ou trabalho refeito ou uma decisão revertida sem querer — o iPad é exatamente o caso: daqui a três meses "por que não tem iPad?" precisa de uma resposta melhor que "não sei".
+
+---
+
+### D-035 — O piscar entre campos e etapas, e a saída do beco sem saída — 25/09/2026
+**Contexto:** primeiro teste real no TestFlight. Antes de qualquer coisa de interface, um susto: o Murilo não conseguiu entrar, e o "Esqueci minha senha" não mandou e-mail nenhum.
+
+**O diagnóstico, porque a conclusão foi contraintuitiva.** Verificado um a um: a URL e a chave publicável **estão** no binário (o primeiro `grep` falhou por encoding do bytecode Hermes, não por ausência — `strings` com `LC_ALL=C` achou as duas); o servidor de auth responde em 0,48 s; o SMTP do Resend está gravado, com remetente e senha. Nada quebrado. A causa era que **não existia conta com aquele e-mail** — e isso explica os dois sintomas de uma vez, porque `resetPasswordForEmail` devolve sucesso e não envia nada quando o e-mail não tem conta.
+
+**O achado de produto veio do próprio diagnóstico.** A tela de recuperação avança para "Digite o código" mesmo sem conta, de propósito (D-033): dizer "esta conta não existe" contaria a um estranho quem tem conta no app. O preço é alguém esperando para sempre um código que não vem, sem nada na tela explicando. Se o diagnóstico custou meia hora a quem escreveu o código, quem errar uma letra no e-mail não sai de lá sozinho. **A linha nova nomeia as duas causas reais sem confirmar nenhuma:** *"Não chegou? Veja no spam. Se não estiver lá, confira se o e-mail está escrito certo e tente de novo."* O sigilo continua inteiro — a frase não afirma que a conta não existe.
+
+**O piscar, duas causas distintas.** (1) **A borda do campo** trocava de `#DCE2EE` para `#0f2d63` no mesmo frame; ao passar de um campo para o outro, duas bordas mudavam de cor simultaneamente, uma apagando e outra acendendo. Agora a cor atravessa em 160 ms, com `useNativeDriver: false` (cor não é interpolada pela thread nativa). A espessura segue fixa em 1,5, então nada se mexe em volta — a correção é só de cor. Vale para os **32 arquivos** que usam o campo. (2) **As três etapas da recuperação** trocavam de conteúdo no mesmo frame, dentro da mesma tela, sem sinal de que a pessoa avançou. Agora o bloco entra deslizando 16 px no sentido da navegação, em 220 ms; o cabeçalho fica parado de propósito, porque é ele que diz que a tarefa é a mesma.
+
+**Registrado junto:** o servidor aceita senha de 6 caracteres (`password_min_length`) enquanto o app exige 8. Alinhar no painel, em PENDENCIAS.
+
+---
+
+### D-036 — A tela de bloqueio cobre o app em vez de substituí-lo — 25/09/2026
+**Contexto:** o Murilo, testando o Face ID no TestFlight: *"deixar mais clean a aparição da tela após colocar a senha. O jeito que carrega as informações, a página home, é meio piscando. Aparecem as informações primeiro, depois aparecem outras."*
+
+**Causa raiz, no `app/_layout.tsx`.** O `Protegido` fazia `if (travado) return <TelaBloqueada/>` — ou seja, enquanto travado, o `<Stack>` **não existia**. Passar o rosto não revelava o app: montava o app inteiro do zero, com os oito hooks de dados da home começando a carregar naquele instante. O que parecia lentidão de rede era, na verdade, a árvore inteira nascendo depois da biometria.
+
+**Correção:** a cobertura passa a ficar **por cima**, em `StyleSheet.absoluteFill`, com o `<Stack>` montado embaixo desde o início. Três consequências: o app carrega **enquanto** a pessoa se identifica, então o tempo do Face ID deixa de ser tempo perdido; a home já está pronta quando a cobertura sai; e a saída é um fade de 260 ms em vez de uma troca de tela num frame.
+
+**Por que isso não abre o prontuário:** a `TelaBloqueada` é opaca (`backgroundColor` sólido) e ocupa a tela inteira, e `travado` e a cobertura mudam no mesmo commit do React — não há frame intermediário em que o conteúdo apareça.
+
+**Fica de fora, e é diferente deste problema:** quem **não** liga o bloqueio (o padrão) continua vendo a home chegar aos pedaços no primeiro carregamento, porque cada fonte de dado se resolve na sua hora. Isso é carregamento progressivo, não desmontagem, e ainda não foi decidido.
+
+---
+
+### D-037 — A tolerância de 5 minutos nunca funcionou — 25/09/2026
+**Contexto:** ao testar o Face ID no TestFlight, o Murilo relatou que o app só pede o rosto quando ele fecha o app de vez; saindo e voltando, não pede. Ele deu por bom (*"pode deixar do jeito que está"*), acreditando que a regra dos 5 minutos estava funcionando. **Não estava** — e a metade que faltava era a que protege.
+
+**O defeito.** O iOS não alterna só entre `active` e `background`: passa por `inactive` nas duas pontas — `active → inactive → background` ao sair, e `background → inactive → active` ao voltar. O código tratava `inactive` como "saiu agora", então **o `inactive` da volta sobrescrevia a hora real da saída** e a conta do tempo dava sempre zero. Consequência: o app não pedia a biometria ao voltar do segundo plano, nem depois de cinco minutos, nem depois de três horas. O celular na mesa com o NERO aberto atrás abria o prontuário para quem o pegasse. O único caminho que ainda pedia era o relançamento do zero, que é o que o Murilo observou.
+
+**O mesmo defeito na direção oposta:** `inactive` sozinho, sem `background`, é a central de controle, uma chamada chegando ou o próprio prompt do Face ID cobrindo a tela. Nada disso é sair do app, mas o código contava o tempo a partir dali e podia travar quem nunca saiu.
+
+**Correção:** só `background` conta como saída. Uma linha.
+
+**Por que os testes não pegaram:** eles simulavam `background → active`, uma sequência que o iPhone nunca emite. Passavam enquanto o app real não travava nunca. Agora há um bloco que usa a sequência de estados real, incluindo o caso da central de controle — três testes, e os dois primeiros falhavam antes da correção.
+
+**Decisão do Murilo (25/09), depois de saber do defeito:** corrigir e manter os 5 minutos, como a D-032 tinha definido.
+
+### D-038 — "Sair da conta" não saía — 25/09/2026
+**Contexto:** no build 2 do TestFlight o Murilo relatou que o botão "Sair da conta" não funcionava.
+
+**O defeito.** O `signOut()` funcionava: a sessão era apagada. O que faltava era alguém reagir a isso. Quem manda para o login é só `app/index.tsx`, e ele decide uma vez, na abertura, e sai da pilha com o `Redirect` para as abas. Depois disso nenhuma tela olhava a sessão, e a pessoa ficava dentro do app sem conta. A exclusão de conta (D-013) termina em logout e tinha o mesmo defeito: apagava tudo e deixava a pessoa na tela.
+
+**Correção:** `Stack.Protected` no layout raiz (`app/_layout.tsx`, componente `Navegacao`). Com `guard` falso o roteador tira as telas de `(app)` e volta para `app/index.tsx`, que manda ao login. Vale para qualquer tela e qualquer fim de sessão, inclusive token expirado. Enquanto a sessão carrega, a guarda fica aberta, para quem toca num lembrete com o app fechado não cair no login antes de a sessão chegar.
+
+**Duas tentativas erradas antes, no mesmo dia — registradas para ninguém repetir:**
+1. `<Redirect href="/" />` em `app/(app)/_layout.tsx`. Entrou em loop infinito no simulador ("Maximum update depth exceeded").
+2. Achei que a causa era `/` ser ambíguo (grupos não entram no endereço, então `/` é também `(app)/(tabs)/index.tsx`) e troquei para `/(auth)/login`. **O loop continuou.** A ambiguidade existe, mas não era a causa.
+
+**A causa real**, lida no código do `expo-router` 57: o `Redirect` chama `router.replace` dentro de um `useFocusEffect` com função nova a cada renderização. Numa tela isso roda uma vez, porque a tela sai de foco. Num **layout**, o `replace` muda o estado de navegação, o layout renderiza de novo ainda em foco, e dispara outro `replace`. **Nunca usar `<Redirect>` em layout.**
+
+**Teste:** `src/core/sessao/__tests__/guardaSessao.test.tsx` — guarda aberta com sessão, fechada sem sessão, aberta durante o carregamento, e `(app)/_layout` sem `Redirect`. Os quatro falhavam antes. O teste simula o roteador; quem provou que o loop acabou foi o simulador.
+
+### D-039 — O crash do "Não uso medicamentos" — 25/09/2026
+**Contexto:** no build 2 do TestFlight o app fechava ao confirmar "Não uso medicamentos" nas Pendências. O relatório de crash dizia só "erro de JavaScript" (`RCTFatal`); a mensagem apareceu rodando o app no Expo Go do simulador: `TypeError: Cannot read property 'layout' of null`, em `SaidaConcluida.tsx`.
+
+**O defeito.** O componente mede a própria altura para animar a saída e fazia `onLayout={(e) => setAltura((a) => a ?? e.nativeEvent.layout.height)}`. O evento era lido **dentro da função de atualização**, e o React só roda essa função na renderização seguinte — quando o React Native já esvaziou o evento. O primeiro `onLayout` escapava por acaso (o React calcula na hora quando a fila está vazia); o segundo, o do cartão "Desfazer", caía na fila e quebrava. Por isso só a saída **com desfazer** (D-028) derrubava o app, e a saída simples das pendências do Rastreando nunca quebrou.
+
+**Correção:** ler a altura no próprio handler e passar o número ao `setState`. Nenhum outro lugar do código tem o padrão.
+
+**Por que os testes não pegaram:** o `onLayout` nunca dispara no Jest, e quando o teste o disparava entregava um evento que nunca se esvazia. O teste da Home (`src/modules/home/__tests__/telaHomeDeclaracao.test.tsx`) agora esvazia o evento depois do handler, como o React Native faz, e falhava com a mesma mensagem antes da correção. É o terceiro caso do mesmo padrão de D-036 e D-037: o teste simulava um mundo mais gentil que o aparelho.
+
+### D-040 — O "Desfazer" piscava — 25/09/2026
+**Contexto:** com o crash resolvido (D-039), o Murilo testou no simulador: *"ao apertar desfazer ele só pisca a tela e volta a pendência"*.
+
+**O defeito.** O desfazer tirava o item da lista de saída na hora, mas o perfil só voltava a `semMedicacoes: false` quando o servidor respondia. Nesse intervalo a pendência não estava em lugar nenhum e sumia; quando a resposta chegava, reaparecia. No 4G, bem visível.
+
+**Correção:** `usePerfil.salvar` muda a tela primeiro e grava depois. Se a gravação falha, devolve só os campos daquela chamada ao valor anterior e repassa o erro, que a tela já mostrava. Vale para as 18 telas que usam o hook. Os valores anteriores são lidos do perfil atual, e não dentro da função do `setState` (o padrão da D-039).
+
+**Teste:** `src/core/perfil/__tests__/usePerfil.test.tsx` — muda antes do servidor responder; volta atrás se falhar. Os dois falhavam antes.
+
+### D-041 — As pendências entram de uma vez — 25/09/2026
+**Contexto:** o Murilo, no simulador: *"as pendências aparecer uma depois da outra fica estranho"*. Cada fonte (perfil, Rastreando, Coração, consultas, Bem-estar) responde num tempo, e cada pendência entrava quando a sua chegava. A D-027 só tinha segurado o "Nada pendente".
+
+**Decisão do Murilo (25/09), entre três opções** (esqueleto; Nero esperando; espaço vazio): **esqueleto, depois tudo junto.**
+
+**Como funciona:** duas linhas no desenho do `ItemHoje` (caixa, anel, duas barras), paradas, sem brilho correndo. Quando todas as fontes respondem, a lista inteira entra num fade de 200 ms (sem fade com Reduzir Movimento). **Limite de 4 s:** passou disso, mostra o que já chegou — sinal ruim não pode prender a pessoa no esqueleto. **Depois de liberada, não volta:** puxar para atualizar mantém a lista na tela. O contador de pendências só aparece com a lista.
+
+**Arquivos:** `src/modules/home/EsqueletoPendencias.tsx`, `app/(app)/(tabs)/index.tsx`. **Teste:** `src/modules/home/__tests__/telaHomeCarregamento.test.tsx` (quatro casos).
+
+### D-042 — A pergunta dos avisos não voltava depois do primeiro lembrete — 25/09/2026
+**Contexto:** o Murilo cadastrou um remédio com lembrete no simulador e a notificação não apareceu, nem com o app aberto nem fora dele. O Expo Go nem constava na lista de notificações do sistema: a permissão **nunca tinha sido pedida**.
+
+**O defeito.** A permissão só é pedida pela tela "Ativar avisos" (D-010: nunca no meio de um registro), e a Home decidia se mostrava essa tela **uma vez, ao montar** — e só se já houvesse lembrete pendente. Quem abre o app sem lembrete nenhum, cadastra o primeiro remédio e volta à Home não é perguntado: as abas continuam montadas. O lembrete é gravado como "silenciado" e os avisos daquele dia se perdem sem a pessoa saber, até ela fechar e reabrir o app.
+
+**Correção:** a Home reavalia a cada foco (`useFocusEffect`). A regra da D-010 fica intacta: a pergunta aparece ao voltar para a Home, depois do registro, nunca no meio dele.
+
+**Ainda não resolvido:** o agendamento engole qualquer erro (`.catch(() => null)` em `lembretesCardio.ts` e `rastreando/lembretes.ts`). Se o iOS recusar uma notificação, nada avisa.
+
+**Teste:** `src/modules/home/__tests__/telaHomeAvisos.test.tsx` — falhava antes.
+
+### D-043 — A pergunta dos avisos aparece na hora em que o lembrete é ligado — 25/09/2026
+**Decisão do Murilo (25/09), revendo a D-010 e a D-042:** a tela "Ativar avisos" aparece **na própria tela, no momento em que a pessoa liga um lembrete** — por exemplo, ao ligar "Lembrar" num medicamento —, e não só ao voltar para a Home.
+
+**As três regras:**
+1. **No momento de ligar.** Onde o lembrete nasce (medicamento, consulta, plano de glicemia, MRPA, água, exame do Rastreando), a pergunta aparece ali, se o app ainda não tem permissão.
+2. **"Agora não" não cala por 14 dias.** O intervalo de 14 dias continua valendo só para a Home; cada novo lembrete ligado pergunta de novo.
+3. **Quem negou na caixa do iOS** vê, ao ligar um novo lembrete, um aviso de que as notificações estão desligadas nos Ajustes, com um botão que leva direto para lá.
+
+**O que muda em relação à D-010:** a D-010 proibia perguntar no meio de um registro, com medo de a pessoa negar sem entender. O Murilo inverteu: o momento em que a pessoa liga um lembrete é o momento em que ela mais entende por que o app quer avisar.
+
+**Ajustes, direto na página de notificações:** a constante do iOS (`UIApplication.openNotificationSettingsURLString`, iOS 16+) não é exposta pelo React Native nem pelo Expo. Seu valor foi lido compilando um programa para o simulador em 25/09: **`app-settings:notifications`**. O app abre essa URL; se falhar, cai em `Linking.openSettings()` (a página do app, a um toque). No Expo Go abre os ajustes do Expo Go — o teste real é no build.
+
+**Implementado em 25/09:** `src/core/lembretes/usePedidoDeAvisos.tsx` (a tela chama `await pedir()` **antes** de criar o lembrete: a promessa só resolve quando a pessoa responde, então quem aceita já tem o lembrete novo agendado e a tela pode fechar depois), `estadoPermissao()` em `permissao.ts`, modo `ajustes` em `ModalAtivarAvisos`, `marcarAdiado()` em `useAvisos.ts`. Ligado em seis telas: Meus medicamentos (ao ligar "Lembrar"), Consultas (ao salvar), Plano de glicemia (ao salvar com horários), Iniciar MRPA, Minha Água (ao ligar ou ajustar os avisos) e Registrar exame (antes de gravar). **Teste:** `src/core/lembretes/__tests__/usePedidoDeAvisos.test.tsx` (cinco casos).
+
+### D-044 — Textos novos das notificações, e o toque abre a tela — 25/09/2026
+**Decisão do Murilo (25/09), notificação por notificação:** título diz o que fazer, em tom de conversa, com emoji no fim; o detalhe vai embaixo; sem "NERO:" e sem nome de módulo. A tabela completa está em `docs/nero/notificacoes.md`. Motivo: a notificação do remédio chegava como "NERO: Coração & Metabolismo", e a da água também — módulo errado, e nenhum dos dois diz à pessoa o que fazer. Os exames diziam "seu mamografia".
+
+**Implementado em 25/09:**
+- `src/core/lembretes/textos.ts` — todos os textos num lugar só; `agendar()` recebe o texto pronto em vez de montar o título pelo `origemTipo`. O planejador da MRPA (`regras/`) ficou só com o calendário. Teste: `textos.test.ts` (14 casos, espelho da tabela).
+- **Água com a meta do dia** ("Sua meta de hoje: 2 L"): a meta é lida na hora de agendar, e os avisos são refeitos quando a meta de água muda ou um peso é registrado ou apagado (`reagendarAgua`).
+- **O toque abre a tela certa** (`src/core/lembretes/useToqueNotificacao.ts`, montado no layout raiz): a rota vai no `data` de cada notificação, derivada de `origemDe`. Com o app fechado, espera a navegação e a sessão. A véspera da consulta abre "Levar ao médico", que é o que o texto promete. Teste: quatro casos.
+
+**Limite conhecido:** os avisos já agendados antes desta versão continuam com o texto antigo até serem reagendados (abrir o app reagenda os remédios; os outros tipos, ao editar ou ao aceitar a permissão).
+
+### D-045 — Horário se escolhe na roda, não se digita — 25/09/2026
+**Contexto:** o Murilo pediu para facilitar o cadastro de horários dos remédios e dos outros lugares com horário. Levantamento: **os cinco lugares pedem o horário digitado** — remédio (um campo só, "08:00, 20h30" separados por vírgula), MRPA (manhã e noite), glicemia (um por momento), consulta ("HH:MM") e água (início e fim). O app não tem seletor de horário. Para o público 60+, digitar dois-pontos no teclado do celular é das tarefas mais difíceis que se pode pedir.
+
+**Defeito achado no caminho:** a Minha Água grava **a cada tecla** — apagar "08:00" para digitar outro dispara "Confira os horários" no meio da digitação, e desde a D-043 também a pergunta dos avisos. A roda resolve, porque só grava o horário escolhido.
+
+**Decisão do Murilo (25/09), entre três opções** (roda do iPhone; grade de horários comuns; botões − e +): **a roda do iPhone**, a mesma do Despertador — sem digitar, sem horário inválido. Minutos de 5 em 5. **Onde há mais de um horário, um botão para adicionar mais** (observação do Murilo).
+
+**Remédio — decisão do Murilo (25/09), entre três opções** (quantas vezes + primeiro horário; só a lista; momentos do dia): **quantas vezes por dia e o horário da primeira dose.** Opções: 1 vez, 2 vezes (12 em 12 h), 3 vezes (8 em 8 h), 4 vezes (6 em 6 h) e Outro (lista livre). O app preenche os horários a partir da primeira dose; cada um continua editável na roda, e dá para adicionar ou tirar. Mudar a primeira dose recalcula os outros; mexer num horário do meio só muda aquele, e o ritmo passa a "Outro" — o app não sobrescreve o que a pessoa ajustou à mão.
+
+**Os outros lugares, com a mesma roda:**
+- **MRPA:** manhã e noite, uma roda cada (a MRPA tem sempre os dois períodos, então não há "adicionar").
+- **Glicemia:** cada momento do plano mantém o horário padrão atual e ganha a roda para ajustar.
+- **Consulta:** uma roda só, junto da data.
+- **Água:** início e fim na roda; o intervalo já é escolhido por botões. Grava só quando a roda fecha — resolve o defeito da gravação a cada tecla.
+
+**Implementado em 25/09:**
+- `src/ui/components/CampoHorario.tsx` — no iPhone, a roda sobe numa folha com "Pronto" e só grava ao confirmar; no Android, o relógio do sistema. Biblioteca `@react-native-community/datetimepicker` 9.1.0 (lista oficial do Expo SDK 57, já presente no Expo Go); o `expo install` registrou o plugin dela no `app.json`.
+- `horariosDoRitmo()` e `ritmoDe()` em `src/core/medicacoes/horarios.ts` — repartir o dia a partir da primeira dose, e reconhecer o ritmo ao abrir um remédio já cadastrado.
+- `src/modules/minha-saude/HorariosRemedio.tsx` — o bloco do remédio. Substituiu o campo "08:00, 20:00" e o alerta de formato inválido.
+- Roda também em Iniciar MRPA, Plano de glicemia, Consultas e Minha Água (que agora grava só ao confirmar a roda).
+- Testes: `horarios.test.ts` (ritmo) e `horariosRemedio.test.tsx` (cinco casos: preencher, recalcular, ajuste à mão vira "Outro", tirar e adicionar, reconhecer ao abrir).
+
+### D-046 — A pendência resolvida sai na frente da pessoa — 25/09/2026
+**Pedido do Murilo (25/09):** *"ela some sem a pessoa ver, eu quero que ela veja ficando com a bolinha da pendência verde e vendo a pendência sair dali quando tiver realizado a pendência."*
+
+**O que o código fazia.** Três defeitos juntos:
+1. **A Home não recarregava ao voltar.** As abas continuam montadas, e a Home só buscava os dados ao abrir o app e ao puxar a lista. A pendência resolvida em outra tela ficava ali até reabrir o app.
+2. **A Home não usava a saída verde da D-024**, só a do "Não uso medicamentos" (D-028). Quando a pendência saía da lista, sumia de um quadro para o outro.
+3. **Mesmo onde havia saída verde** (Rastreando), a comparação rodava com a tela fora de vista, e a animação podia acontecer escondida. E o item que saía pulava para o fim da lista.
+
+**Correção:**
+- `useSaidaConcluida` (`src/ui/components/SaidaConcluida.tsx`): o item que sai fica **no lugar em que estava**; com `ativo` falso (tela fora de vista, carregando) a lista **congela**; a diferença é calculada já na renderização, para o item aparecer concluído no primeiro quadro, sem sumir e reaparecer. Vale também para as duas telas do Rastreando que já usavam o hook.
+- `SaidaConcluida` ganhou `discreto` (só a bolinha fica verde, sem fundo nem segundo tique — o que o Murilo descreveu) e `atraso` (espera a transição de volta terminar: 450 ms, `MS_ATRASO_AO_VOLTAR`).
+- Home: recarrega a cada volta, em silêncio (o giro do "puxar para atualizar" agora é só de quem puxou); compara só com a Home à vista e os dados prontos; o "Nada pendente" e a declaração negativa ficam fora dessa saída.
+
+**Testes:** `saidaConcluida.test.tsx` (no lugar; congela fora de vista) e `telaHomeSaida.test.tsx` (resolvida fora da Home sai verde ao voltar; voltar recarrega). Os dois falhavam antes.
+
+### D-047 — Lembrete que o sistema recusou aparece como silenciado — 25/09/2026
+**Pedido do Murilo (25/09):** corrigir o agendamento que engolia o erro do iOS (pergunta em aberto do handoff de 25/09).
+
+**O que o código fazia.** Em `src/core/cardio/lembretesCardio.ts` (remédio, MRPA, glicemia, consulta) e `src/core/rastreando/lembretes.ts` (exames), `scheduleNotificationAsync(...).catch(() => null)`: se o sistema recusasse, a linha em `lembretes` era gravada **sem** `notif:` e **sem** ` silenciado`. Na central, o lembrete parecia ativo, mas nada ia tocar, e nenhum registro ficava.
+
+**Correção:** a marca ` silenciado` passa a depender de ter havido agendamento (`notifId`), não só da permissão. Sem permissão ou com recusa do sistema, a linha fica silenciada (a lista já sabe mostrar isso) e a recusa vai para o log (`console.warn('[lembretes] ...')`).
+
+**Limite que isso não cobre:** o iOS guarda no máximo **64 notificações agendadas por app** e, acima disso, descarta as mais distantes **sem erro**. Um remédio 2×/dia por 7 dias já ocupa 14. O `catch` não enxerga esse descarte; fica registrado em `PENDENCIAS.md` §6.
+
+**Teste:** `lembretesMedicacao.test.ts` ("iOS recusa o agendamento: a linha fica silenciada"), que falhava antes.
+
+### D-048 — Remédio, glicemia e água viram um aviso diário, não sete — 25/09/2026
+**Pedido do Murilo (25/09):** *"eu queria que alertasse realmente todos os remédios"*, sem mudar nada para a pessoa, só a configuração por trás.
+
+**Problema.** O iOS guarda no máximo 64 notificações agendadas por app e descarta as mais distantes sem erro. O app agendava um aviso por dia durante 7 dias para cada horário: três remédios 2×/dia = 42; com água e glicemia, passava de 64, e lembretes sumiam calados — justamente para quem mais depende deles.
+
+**Decisão.** O que se repete todo dia pede ao sistema **um aviso diário por horário** (`SchedulableTriggerInputTypes.DAILY`), em `agendarDiario` (`src/core/cardio/lembretesCardio.ts`). Três remédios 2×/dia passam a ocupar 6 vagas. Para a pessoa nada muda: mesmo horário, mesmo texto, mesmas telas. De quebra, o aviso não acaba mais depois de 7 dias sem abrir o app.
+- As linhas da lista (`lembretes`) continuam cobrindo 7 dias, todas com o id do mesmo aviso, então a lista e o cancelamento funcionam como antes. A Home renova remédio (já fazia), glicemia e água a cada abertura (`renovarAvisosDiarios`).
+- **MRPA, consultas e exames continuam com data certa** (poucos avisos, datas específicas).
+- **Sair da conta e excluir a conta passam a apagar todos os avisos do aparelho** (`src/core/sessao/sair.ts`). Antes não apagavam — defeito antigo, que com avisos diários faria o celular tocar para sempre para quem saiu.
+
+**Limite.** Um caso extremo (uns 10 remédios com 3 horários, água de hora em hora, glicemia e MRPA juntos) ainda passa de 64. Raro; não tratado.
+
+**Não existe ainda:** remédio em dias da semana ("toda terça"). A tela só oferece "vezes por dia". O sistema aceita aviso semanal (`WEEKLY`), então dá para fazer, mas é opção nova na tela — a decidir com o Murilo.
+
+**Testes:** `lembretesMedicacao.test.ts` (um aviso diário por horário; repete sem acabar) e `sessao/__tests__/sair.test.ts` (cancela antes de sair). **Conferir no aparelho:** o aviso do remédio chega todo dia no horário, inclusive depois de 7 dias sem abrir o app.
+
+---
+
 ## Decisões clínicas (protocolos adotados)
 
 > Preencher na Fase 1/2. Cada linha precisa de fonte, ano e data de revisão. O documento diz "intervalo definido pelo protocolo vigente" em vários pontos — estas são as lacunas a fechar.
