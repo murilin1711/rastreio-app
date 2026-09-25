@@ -613,6 +613,15 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 **Relatórios.** "Gerar PDF e compartilhar", "Mostrar QR para o médico" e a nota sobem para logo abaixo do título na prévia (vale para todos os relatórios, que passam por `relatorios/previa.tsx`). "Compartilhar em PDF" dos relatórios de glicemia e MRPA também subiu.
 
 **Visto no simulador em 25/09:** Agenda e prévia do relatório geral, sem erro no Metro.
+
+### D-050 — Tabela da prévia do relatório não quebra palavra no meio — 25/09/2026
+**Pedido do Murilo (25/09):** arrumar a tabela de medicamentos da prévia, que mostrava "Medicam/ento" e "12/12/202/5".
+
+**Causa.** Na prévia dentro do app (`SecaoRelatorioView.tsx`), as colunas tinham a mesma largura. Cinco colunas num iPhone deixam cada uma estreita demais para "Medicamento". O PDF não tem o problema (tabela HTML se ajusta ao conteúdo).
+
+**Correção.** Cada coluna cabe a maior palavra dela (`larguraTabela.ts`). Se a tabela cabe na tela, as colunas esticam na proporção. Se **não cabe**, cada linha vira um bloco ("Losartana" / "Dose: 50" / "Horários: …" / "Desde: …"), e célula vazia ("—") não aparece. Rolar para o lado foi testado e descartado: a última coluna ficava escondida, e o público 60+ não percebe que dá para rolar.
+
+**Visto no simulador em 25/09:** a tabela de medicamentos do relatório geral aparece em bloco, sem palavra quebrada.
 ---
 
 ## Decisões clínicas (protocolos adotados)
