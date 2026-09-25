@@ -34,6 +34,7 @@ export default function RelatorioGlicemia() {
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo}>
         <InternalHeader sectionLabel="Minha Glicemia" title="Relatório" onBack={() => router.back()} />
+        <View style={styles.compartilhar}><Button label="Compartilhar em PDF" variant="outline" onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: 'cardio', dias: '90', apenas: 'glicemia,hba1c' } })} /></View>
         <Opcoes<Periodo> opcoes={[{ valor: '7', rotulo: 'Últimos 7 dias' }, { valor: '14', rotulo: '14 dias' }, { valor: '30', rotulo: '30 dias' }, { valor: '90', rotulo: '90 dias' }]} valor={periodo} onChange={setPeriodo} />
 
         {r.n ? (
@@ -78,7 +79,6 @@ export default function RelatorioGlicemia() {
         </View>
 
         <Text style={styles.ressalva}>{ressalvaRelatorioGlicemia}</Text>
-        <View style={styles.compartilhar}><Button label="Compartilhar em PDF" variant="outline" onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: 'cardio', dias: '90', apenas: 'glicemia,hba1c' } })} /></View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -100,5 +100,5 @@ const styles = StyleSheet.create({
   colValor: { ...Typography.caption, color: Colors.textPrimary, width: 36, textAlign: 'right' },
   colObs: { ...Typography.caption, color: Colors.textMuted, flex: 1 },
   ressalva: { ...Typography.caption, color: Colors.textSecondary, fontStyle: 'italic', marginTop: Spacing.xxl },
-  compartilhar: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, marginTop: Spacing.lg },
+  compartilhar: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, marginBottom: Spacing.lg },
 });

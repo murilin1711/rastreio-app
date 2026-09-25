@@ -2,10 +2,11 @@ import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
 import { estaSilenciado, origemDe, textoLimpo, type OrigemLembrete } from './origem';
 
-export interface LembreteCentral extends OrigemLembrete { id: string; quando: string; texto: string; status: string; silenciado: boolean }
+/** `chave` é o `lembretes.titulo` (ex.: `medicacao:<id>:08:00`), usado para agrupar a rotina. */
+export interface LembreteCentral extends OrigemLembrete { id: string; chave: string; quando: string; texto: string; status: string; silenciado: boolean }
 
 type Linha = { id: string; origem_tipo: string; origem_id: string | null; agendado_para: string; titulo: string; mensagem: string | null; status: string };
-const paraCentral = (l: Linha): LembreteCentral => ({ id: l.id, quando: l.agendado_para, texto: textoLimpo(l.mensagem), status: l.status, silenciado: estaSilenciado(l.mensagem), ...origemDe({ origemTipo: l.origem_tipo, titulo: l.titulo, origemId: l.origem_id }) });
+const paraCentral = (l: Linha): LembreteCentral => ({ id: l.id, chave: l.titulo, quando: l.agendado_para, texto: textoLimpo(l.mensagem), status: l.status, silenciado: estaSilenciado(l.mensagem), ...origemDe({ origemTipo: l.origem_tipo, titulo: l.titulo, origemId: l.origem_id }) });
 
 const CAMPOS = 'id, origem_tipo, origem_id, agendado_para, titulo, mensagem, status';
 

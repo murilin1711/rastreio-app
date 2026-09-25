@@ -3,7 +3,9 @@ import { useCallback } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { agruparPorDia } from '@core/lembretes/origem';
+import { separarRotina } from '@core/lembretes/rotina';
 import { useLembretes } from '@core/lembretes/useLembretes';
+import { CardRotina } from '@modules/minha-saude/componentes/CardRotina';
 import { LinhaLembrete } from '@modules/minha-saude/componentes/LinhaLembrete';
 import { Button, Colors, InternalHeader, Spacing, Typography, useEspacoAbas } from '@ui/index';
 
@@ -18,13 +20,18 @@ function tituloDia(dia: string, hoje = new Date()): string {
   return `${DIAS_SEMANA[dt.getDay()]} · ${data}`;
 }
 
-/** Central de lembretes (§63, D-010): próximos 30 dias de todos os módulos, agrupados por dia; últimos 30 dias. */
+/**
+ * Central de lembretes (§63, D-010). O que se repete todo dia fica no card "Todo dia" (D-049); a agenda
+ * mostra só o que é pontual (consulta, exame), agrupado por dia, nos próximos e nos últimos 30 dias.
+ */
 export default function Lembretes() {
   const espacoAbas = useEspacoAbas();
   const router = useRouter();
   const { proximos, passados, carregando, erro, recarregar } = useLembretes(30);
   useFocusEffect(useCallback(() => { recarregar(); }, [recarregar]));
-  const grupos = agruparPorDia(proximos);
+  const { rotina, pontuais } = separarRotina(proximos);
+  const grupos = agruparPorDia(pontuais);
+  const passadosPontuais = separarRotina(passados).pontuais;
 
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
@@ -35,18 +42,19 @@ export default function Lembretes() {
           <Button label="Minhas consultas" variant="outline" onPress={() => router.push('/(app)/(tabs)/agenda/consultas')} style={{ flex: 1 }} />
         </View>
         {erro ? <Text style={styles.erro}>{erro.mensagemUsuario}</Text> : null}
+        {rotina.length ? <CardRotina itens={rotina} onAbrir={(i) => router.push(i.rota as Href)} /> : null}
         <Text style={styles.secao}>Próximos 30 dias</Text>
-        {grupos.length === 0 && !carregando ? <Text style={styles.vazio}>Nenhum lembrete agendado. Exames, medicamentos, MRPA, glicemia e consultas aparecem aqui quando você os cadastra.</Text> : null}
+        {grupos.length === 0 && !carregando ? <Text style={styles.vazio}>{rotina.length ? 'Nenhuma consulta ou exame nos próximos 30 dias.' : 'Nenhum lembrete agendado. Exames, medicamentos, MRPA, glicemia e consultas aparecem aqui quando você os cadastra.'}</Text> : null}
         {grupos.map((g) => (
           <View key={g.dia} style={styles.grupo}>
             <Text style={styles.dia}>{tituloDia(g.dia)}</Text>
             <View style={{ gap: Spacing.xs }}>{g.itens.map((l) => <LinhaLembrete key={l.id} lembrete={l} onPress={() => router.push(l.rota as Href)} />)}</View>
           </View>
         ))}
-        {passados.length ? (
+        {passadosPontuais.length ? (
           <>
             <Text style={styles.secao}>Últimos 30 dias</Text>
-            <View style={{ gap: Spacing.xs }}>{passados.slice(0, 30).map((l) => <LinhaLembrete key={l.id} lembrete={l} onPress={() => router.push(l.rota as Href)} />)}</View>
+            <View style={{ gap: Spacing.xs }}>{passadosPontuais.slice(0, 30).map((l) => <LinhaLembrete key={l.id} lembrete={l} onPress={() => router.push(l.rota as Href)} />)}</View>
           </>
         ) : null}
       </ScrollView>

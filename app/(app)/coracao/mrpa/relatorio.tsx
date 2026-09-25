@@ -46,6 +46,9 @@ export default function RelatorioMrpaTela() {
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo}>
         <InternalHeader sectionLabel="MRPA" title={previa ? 'Prévia do relatório' : 'Relatório da MRPA'} onBack={() => router.replace('/(app)/coracao/pressao')} />
+        <View style={styles.compartilhar}>
+          <Button label="Compartilhar em PDF" variant="outline" onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: 'cardio', dias: '180', apenas: 'mrpa' } })} />
+        </View>
 
         <Card style={styles.card}>
           <Text style={styles.rotulo}>Período e protocolo</Text>
@@ -122,9 +125,6 @@ export default function RelatorioMrpaTela() {
         <Text style={styles.ressalva}>{ressalvaDiretriz}</Text>
         <Text style={styles.ressalva}>{ressalvaRelatorio}</Text>
 
-        <View style={styles.compartilhar}>
-          <Button label="Compartilhar em PDF" variant="outline" onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: 'cardio', dias: '180', apenas: 'mrpa' } })} />
-        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -148,5 +148,5 @@ const styles = StyleSheet.create({
   linhaMedida: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', paddingVertical: Spacing.xs, borderBottomWidth: 1, borderBottomColor: Colors.border },
   excluida: { ...Typography.caption, color: Colors.textMuted, width: '100%' },
   ressalva: { ...Typography.caption, color: Colors.textSecondary, fontStyle: 'italic', marginBottom: Spacing.sm },
-  compartilhar: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, marginTop: Spacing.lg },
+  compartilhar: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, marginBottom: Spacing.lg },
 });

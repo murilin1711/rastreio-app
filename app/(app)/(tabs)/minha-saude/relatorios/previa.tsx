@@ -74,18 +74,19 @@ export default function PreviaRelatorio() {
       <ScrollView contentContainerStyle={styles.conteudo}>
         <InternalHeader sectionLabel="Relatórios" title={rel.titulo} onBack={() => router.back()} />
         <Text style={styles.meta}>Período das medidas: {rel.periodo.rotulo}. Exames e rastreamentos entram sem limite de data.</Text>
-        {rel.erro ? <Text style={styles.erro}>{rel.erro.mensagemUsuario}</Text> : null}
-        {rel.carregando ? <Text style={styles.meta}>Montando o relatório…</Text> : null}
-        <View style={{ gap: Spacing.md, marginTop: Spacing.lg }}>
-          {rel.secoes.map((s) => <SecaoRelatorioView key={s.chave} secao={s} />)}
-        </View>
+        {/* Ações logo abaixo do título: antes ficavam no fim e exigiam rolar o relatório inteiro (D-049). */}
         {!rel.carregando && rel.dados ? (
-          <View style={{ gap: Spacing.sm, marginTop: Spacing.xxl }}>
+          <View style={{ gap: Spacing.sm, marginTop: Spacing.lg }}>
             <Button label="Gerar PDF e compartilhar" onPress={gerarECompartilhar} disabled={gerando} />
             <Button label="Mostrar QR para o médico" variant="outline" onPress={mostrarQr} loading={criandoQr} />
             <Text style={styles.nota}>{TEXTO_QR.nota}</Text>
           </View>
         ) : null}
+        {rel.erro ? <Text style={styles.erro}>{rel.erro.mensagemUsuario}</Text> : null}
+        {rel.carregando ? <Text style={styles.meta}>Montando o relatório…</Text> : null}
+        <View style={{ gap: Spacing.md, marginTop: Spacing.lg }}>
+          {rel.secoes.map((s) => <SecaoRelatorioView key={s.chave} secao={s} />)}
+        </View>
       </ScrollView>
 
       <EsperaNero

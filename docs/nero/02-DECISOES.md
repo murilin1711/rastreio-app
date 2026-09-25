@@ -601,6 +601,18 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 
 **Testes:** `lembretesMedicacao.test.ts` (um aviso diário por horário; repete sem acabar) e `sessao/__tests__/sair.test.ts` (cancela antes de sair). **Conferir no aparelho:** o aviso do remédio chega todo dia no horário, inclusive depois de 7 dias sem abrir o app.
 
+
+### D-049 — Agenda separa a rotina do pontual; ações do relatório no topo — 25/09/2026
+**Pedido do Murilo (25/09):** *"as coisas que são todo dia e seguem um padrão tem que aparecer diferente […] em um card em cima […] e deixar na agenda só as coisas pontuais, igual uma consulta, um agendamento de exame."* E: *"os botões de gerar PDF, compartilhar e QR code tem que estar embaixo do título, senão a pessoa tem que rolar tudo para baixo."*
+
+**Agenda.** Um remédio 2×/dia enchia a lista com 14 linhas. Agora:
+- Card **"Todo dia"** no topo, uma linha por rotina com os horários: cada remédio ("Losartana 50 mg · 08:00 e 20:00"), glicemia (uma linha para o plano), água (em intervalo regular vira "das 08:00 às 20:00, a cada 2 h") e a **MRPA enquanto dura** ("07:00 e 19:00 · até 02/10" — escolha minha, por ser diária durante a sessão). Tocar abre a tela de origem. Linha sem aviso no celular diz "Sem aviso no celular".
+- "Próximos 30 dias" e "Últimos 30 dias" ficam só com consulta e exame.
+- Lógica pura em `src/core/lembretes/rotina.ts` (`separarRotina`), testada em `__tests__/rotina.test.ts`; card em `src/modules/minha-saude/componentes/CardRotina.tsx`. `LembreteCentral` ganhou `chave` (o `titulo` da linha).
+
+**Relatórios.** "Gerar PDF e compartilhar", "Mostrar QR para o médico" e a nota sobem para logo abaixo do título na prévia (vale para todos os relatórios, que passam por `relatorios/previa.tsx`). "Compartilhar em PDF" dos relatórios de glicemia e MRPA também subiu.
+
+**Visto no simulador em 25/09:** Agenda e prévia do relatório geral, sem erro no Metro.
 ---
 
 ## Decisões clínicas (protocolos adotados)
