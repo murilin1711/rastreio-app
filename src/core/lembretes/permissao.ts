@@ -39,6 +39,20 @@ export async function podePerguntar(): Promise<boolean> {
   }
 }
 
+/**
+ * Onde a pessoa está em relação à permissão (D-043): já deu, ainda dá para perguntar, ou negou e o
+ * iOS não deixa perguntar de novo — aí só os Ajustes resolvem.
+ */
+export async function estadoPermissao(): Promise<'concedida' | 'perguntar' | 'negada'> {
+  try {
+    const p = await Notifications.getPermissionsAsync();
+    if (p.status === 'granted') return 'concedida';
+    return (p.canAskAgain ?? true) ? 'perguntar' : 'negada';
+  } catch {
+    return 'perguntar';
+  }
+}
+
 export async function lerPreferencias(userId: string): Promise<PreferenciasLembretes> {
   return (await obterPerfil(userId)).preferenciasLembretes;
 }

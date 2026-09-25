@@ -6,10 +6,11 @@ import { useAgua } from '@core/bemestar/useAgua';
 import { totalDoDiaMl } from '@core/regras/bemestar/agua';
 import { hojeLocalISO } from '@core/bemestar/useAtividades';
 import { traduzirErro } from '@core/supabase/erros';
+import { usePedidoDeAvisos } from '@core/lembretes/usePedidoDeAvisos';
 import { INTERVALOS_AGUA, PORCOES_AGUA, TEXTO_AGUA } from '@modules/bem-estar/conteudo/agua';
 import { horariosAgua, validarConfigAgua } from '@core/regras/bemestar/lembretesAgua';
 import { horaLocal } from '@modules/coracao/componentes/formato';
-import { Button, Card, Colors, Input, InternalHeader, ModalComemoracao, Opcoes, ProgressBar, Radius, Spacing, Typography } from '@ui/index';
+import { CampoHorario, Button, Card, Colors, Input, InternalHeader, ModalComemoracao, Opcoes, ProgressBar, Radius, Spacing, Typography } from '@ui/index';
 
 const litros = (ml: number) => `${String(Math.round(ml / 100) / 10).replace('.', ',')} L`;
 
@@ -17,6 +18,7 @@ const litros = (ml: number) => `${String(Math.round(ml / 100) / 10).replace('.',
 export default function MinhaAgua() {
   const router = useRouter();
   const agua = useAgua();
+  const avisos = usePedidoDeAvisos();
   const [outro, setOutro] = useState('');
   useFocusEffect(useCallback(() => { agua.recarregar(); }, [agua.recarregar]));
 
@@ -32,9 +34,10 @@ export default function MinhaAgua() {
     { text: 'Apagar', style: 'destructive', onPress: () => agua.excluir(id).catch((e) => Alert.alert('Não foi possível apagar', traduzirErro(e).mensagemUsuario)) },
   ]);
 
-  const salvarLembretes = (config: typeof agua.lembretes) => {
+  const salvarLembretes = async (config: typeof agua.lembretes) => {
     const erro = config.ativo ? validarConfigAgua(config) : null;
     if (erro) { Alert.alert('Confira os horários', erro); return; }
+    if (config.ativo) await avisos.pedir(); // D-043: pergunta dos avisos na hora em que o lembrete é ligado, antes de criá-lo.
     agua.salvarLembretes(config).catch((e) => Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario));
   };
 
@@ -97,9 +100,9 @@ export default function MinhaAgua() {
               <>
                 <Text style={styles.rotulo}>Das</Text>
                 <View style={styles.horas}>
-                  <Input value={agua.lembretes.inicio} onChangeText={(t) => salvarLembretes({ ...agua.lembretes, inicio: t })} placeholder="08:00" style={{ flex: 1 }} />
+                  <View style={{ flex: 1 }}><CampoHorario valor={agua.lembretes.inicio} accessibilityLabel="Avisos a partir de" onChange={(t) => salvarLembretes({ ...agua.lembretes, inicio: t })} /></View>
                   <Text style={styles.ate}>até</Text>
-                  <Input value={agua.lembretes.fim} onChangeText={(t) => salvarLembretes({ ...agua.lembretes, fim: t })} placeholder="20:00" style={{ flex: 1 }} />
+                  <View style={{ flex: 1 }}><CampoHorario valor={agua.lembretes.fim} accessibilityLabel="Avisos até" onChange={(t) => salvarLembretes({ ...agua.lembretes, fim: t })} /></View>
                 </View>
                 <Text style={styles.rotulo}>A cada</Text>
                 <Opcoes opcoes={INTERVALOS_AGUA.map((i) => ({ valor: String(i.min), rotulo: i.rotulo }))} valor={String(agua.lembretes.intervaloMin)} onChange={(v) => salvarLembretes({ ...agua.lembretes, intervaloMin: Number(v) })} />
@@ -134,6 +137,7 @@ export default function MinhaAgua() {
         </View>
       </ScrollView>
       <ModalComemoracao conteudo={agua.comemorar ? TEXTO_AGUA.metaBatida : null} aoFechar={agua.dispensarComemoracao} />
+      {avisos.modal}
     </SafeAreaView>
   );
 }

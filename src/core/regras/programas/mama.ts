@@ -1,7 +1,7 @@
 import type { ProgramaHandler } from '../tipos';
 import { casaCondicao, contarAntecedentes, idadeMaisJovem, temAntecedente, temGenetica, temHistoricoPessoal } from './util';
 
-const FONTE = 'CBR/SBM/FEBRASGO 2023 — Urban et al., Radiol Bras 56(4):207-14; reafirmada pela Nota Técnica da CNM de 27/01/2025';
+const FONTE = 'CBR/SBM/FEBRASGO 2023: Urban et al., Radiol Bras 56(4):207-14; reafirmada pela Nota Técnica da CNM de 27/01/2025';
 
 /**
  * Rastreamento do câncer de mama — decisões C-001 e C-009.
@@ -16,10 +16,10 @@ export const mama: ProgramaHandler = {
 
   fatoresModificadores(p) {
     if (temHistoricoPessoal(p, 'mama', 'CDIS', 'carcinoma ductal')) {
-      return `Você já teve câncer de mama. Após o tratamento, a recomendação é mamografia anual — 6 meses após a radioterapia na cirurgia conservadora, ou 1 ano após o tratamento na mastectomia (mama contralateral). O seguimento é definido pela sua equipe. (${FONTE})`;
+      return `Você já teve câncer de mama. Após o tratamento, a recomendação é mamografia anual, começando 6 meses após a radioterapia na cirurgia conservadora, ou 1 ano após o tratamento na mastectomia (mama contralateral). O seguimento é definido pela sua equipe. (${FONTE})`;
     }
     if (temGenetica(p, 'BRCA1')) {
-      return `Mutação em BRCA1: mamografia anual a partir do diagnóstico da mutação, não antes dos 35 anos, e ressonância anual não antes dos 25. Seu protocolo é individualizado — converse com mastologista. (${FONTE})`;
+      return `Mutação em BRCA1: mamografia anual a partir do diagnóstico da mutação, não antes dos 35 anos, e ressonância anual não antes dos 25. Seu protocolo é individualizado, converse com mastologista. (${FONTE})`;
     }
     if (temGenetica(p, 'TP53', 'Li-Fraumeni')) {
       return `Mutação em TP53: mamografia anual não antes dos 30 anos e ressonância anual não antes dos 20. Protocolo individualizado com mastologista. (${FONTE})`;

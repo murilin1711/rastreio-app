@@ -19,6 +19,6 @@ test('tamanho legível', () => {
 });
 test('rótulo do exame para vínculo usa dicionário por módulo e data brasileira', () => {
   const rotulos = { rastreando: { mamografia: 'Mamografia' }, cardio: (t: string) => (t === 'ldl' ? 'LDL-colesterol' : t) };
-  expect(rotuloExameParaVinculo({ id: '1', tipo: 'mamografia', modulo: 'rastreando', programa: 'mama', dataRealizacao: '2026-03-05' }, rotulos)).toBe('Mamografia — 05/03/2026');
-  expect(rotuloExameParaVinculo({ id: '2', tipo: 'ldl', modulo: 'cardio', programa: null, dataRealizacao: '2026-09-01' }, rotulos)).toBe('LDL-colesterol — 01/09/2026');
+  expect(rotuloExameParaVinculo({ id: '1', tipo: 'mamografia', modulo: 'rastreando', programa: 'mama', dataRealizacao: '2026-03-05' }, rotulos)).toBe('Mamografia: 05/03/2026');
+  expect(rotuloExameParaVinculo({ id: '2', tipo: 'ldl', modulo: 'cardio', programa: null, dataRealizacao: '2026-09-01' }, rotulos)).toBe('LDL-colesterol: 01/09/2026');
 });

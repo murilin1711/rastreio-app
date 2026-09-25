@@ -7,6 +7,7 @@ import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro, type ErroNero } from '@core/supabase/erros';
 import * as repo from './medidasCorporais';
 import { carregarRegrasBemEstar } from './regras';
+import { reagendarAgua } from './lembretesAgua';
 
 export interface LoteMedidas { medidoEm: string; pesoKg?: number; cinturaCm?: number; quadrilCm?: number; alturaCm?: number; metodo?: string }
 
@@ -45,6 +46,8 @@ export function useCorpo() {
     if (l.cinturaCm != null) await repo.inserirCorporal(userId, { tipo: 'cintura', medidoEm: l.medidoEm, valores: { cm: l.cinturaCm } });
     if (l.quadrilCm != null) await repo.inserirCorporal(userId, { tipo: 'quadril', medidoEm: l.medidoEm, valores: { cm: l.quadrilCm } });
     if (l.alturaCm != null && l.alturaCm !== perfil?.alturaCm) await salvarPerfil({ alturaCm: l.alturaCm });
+    // Peso novo pode mudar a meta sugerida de água, que vai no texto do aviso (D-044).
+    if (l.pesoKg != null) reagendarAgua(userId).catch(() => {});
     await recarregar();
   };
 
@@ -52,10 +55,11 @@ export function useCorpo() {
     if (!userId) throw new Error('Sessão indisponível');
     await repo.inserirCorporal(userId, { tipo: 'composicao', medidoEm, valores });
     if (valores.kg != null) await repo.inserirCorporal(userId, { tipo: 'peso', medidoEm, valores: { kg: valores.kg, metodo: valores.metodo } });
+    if (valores.kg != null) reagendarAgua(userId).catch(() => {});
     await recarregar();
   };
 
-  const excluir = async (id: string) => { if (!userId) throw new Error('Sessão indisponível'); await repo.excluirCorporal(userId, id); await recarregar(); };
+  const excluir = async (id: string) => { if (!userId) throw new Error('Sessão indisponível'); const peso = medidas.some((m) => m.id === id && m.tipo === 'peso'); await repo.excluirCorporal(userId, id); if (peso) reagendarAgua(userId).catch(() => {}); await recarregar(); };
   const salvarPMAV = async (kg: number | null) => { await salvarPerfil({ pesoMaximoVidaKg: kg }); await recarregarPerfil(); };
   const salvarObjetivo = async (objetivo: ObjetivoPeso) => { await salvarPerfil({ objetivoPeso: objetivo }); await recarregarPerfil(); };
 

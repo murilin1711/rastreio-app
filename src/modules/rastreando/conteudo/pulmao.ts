@@ -7,7 +7,7 @@ export const pulmao: ConteudoPrograma = {
   capa: ['#0F766E', '#2DD4BF'],
   entenda: [
     'O câncer de pulmão é o que mais mata no mundo, e o tabagismo é responsável pela grande maioria dos casos. Descoberto em fase inicial, o tratamento tem muito mais chance de cura.',
-    'A tomografia de baixa dose consegue ver nódulos pequenos que o raio-X não mostra. Ela é indicada apenas para quem tem alto risco pela carga de tabagismo — para os demais, os riscos superam os benefícios.',
+    'A tomografia de baixa dose consegue ver nódulos pequenos que o raio-X não mostra. Ela é indicada apenas para quem tem alto risco pela carga de tabagismo. Para os demais, os riscos superam os benefícios.',
     'Os critérios adotados: 50 a 80 anos, ter fumado pelo menos 20 maços-ano (por exemplo, 1 maço por dia durante 20 anos) e ainda fumar ou ter parado há até 15 anos. O exame é anual.',
     'Parar de fumar continua sendo a medida mais eficaz, em qualquer idade.',
   ],

@@ -10,6 +10,14 @@ const CHAVE_ADIADO = 'nero:avisos-adiados-em';
 const DIAS_PARA_PERGUNTAR_DE_NOVO = 14;
 
 /**
+ * "Agora não" silencia a oferta da Home por 14 dias. Não silencia a pergunta na hora de ligar um
+ * lembrete (D-043): quem liga um lembrete novo é perguntado de novo.
+ */
+export async function marcarAdiado(): Promise<void> {
+  await AsyncStorage.setItem(CHAVE_ADIADO, String(Date.now())).catch(() => {});
+}
+
+/**
  * Decide se a tela de aviso deve aparecer. O pedido ao sistema só acontece a partir dela — nunca
  * no meio de um registro de exame ou de medicação.
  */
@@ -44,7 +52,7 @@ export function useAvisos() {
 
   const adiar = useCallback(async () => {
     setPrecisa(false);
-    await AsyncStorage.setItem(CHAVE_ADIADO, String(Date.now())).catch(() => {});
+    await marcarAdiado();
   }, []);
 
   return { precisa, ativar, adiar, avaliar };

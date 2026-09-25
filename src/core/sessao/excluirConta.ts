@@ -1,5 +1,6 @@
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
+import { sairDoAparelho } from './sair';
 
 const BUCKETS = ['laudos', 'relatorios'] as const;
 
@@ -15,11 +16,11 @@ async function esvaziarBucket(bucket: (typeof BUCKETS)[number], userId: string):
 
 /**
  * D-013: exclusão irreversível da conta. Remove os arquivos dos buckets, chama `excluir_minha_conta()`
- * (apaga `auth.users`; as tabelas caem por cascata) e encerra a sessão local.
+ * (apaga `auth.users`; as tabelas caem por cascata) e encerra a sessão local, apagando os avisos do aparelho.
  */
 export async function excluirConta(userId: string): Promise<void> {
   for (const bucket of BUCKETS) await esvaziarBucket(bucket, userId);
   const { error } = await supabase.rpc('excluir_minha_conta');
   if (error) throw traduzirErro(error);
-  await supabase.auth.signOut({ scope: 'local' }).catch(() => undefined);
+  await sairDoAparelho({ scope: 'local' }).catch(() => undefined);
 }

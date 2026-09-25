@@ -22,10 +22,10 @@ export default function ResultadoRisco() {
   const num = (c: EntradaPrevent['chave']) => (typeof por[c]?.valor === 'number' ? (por[c]!.valor as number) : null);
   const antigos = ultimo.entradas.filter((e) => e.estado === 'antigo');
   const fatores: { nivel: 'verde' | 'amarelo' | 'vermelho'; texto: string }[] = [
-    por.tabagismo?.valor ? { nivel: 'vermelho', texto: 'Fuma atualmente — é o fator que mais pesa e o que mais muda o resultado ao parar.' } : { nivel: 'verde', texto: 'Não fuma.' },
-    (num('pas') ?? 0) >= 130 ? { nivel: 'amarelo', texto: `Pressão sistólica ${num('pas')} — acima da referência domiciliar de 130.` } : { nivel: 'verde', texto: `Pressão sistólica ${num('pas') ?? '—'} — dentro da referência.` },
+    por.tabagismo?.valor ? { nivel: 'vermelho', texto: 'Fuma atualmente: é o fator que mais pesa e o que mais muda o resultado ao parar.' } : { nivel: 'verde', texto: 'Não fuma.' },
+    (num('pas') ?? 0) >= 130 ? { nivel: 'amarelo', texto: `Pressão sistólica ${num('pas')}: acima da referência domiciliar de 130.` } : { nivel: 'verde', texto: `Pressão sistólica ${num('pas') ?? '—'}: dentro da referência.` },
     por.diabetes?.valor ? { nivel: 'vermelho', texto: 'Diabetes.' } : { nivel: 'verde', texto: 'Sem diabetes.' },
-    (num('imc') ?? 0) >= 30 ? { nivel: 'amarelo', texto: `IMC ${fmt(num('imc')!)} — faixa de obesidade.` } : (num('imc') ?? 0) >= 25 ? { nivel: 'amarelo', texto: `IMC ${fmt(num('imc')!)} — faixa de sobrepeso.` } : { nivel: 'verde', texto: `IMC ${num('imc') != null ? fmt(num('imc')!) : '—'} — dentro da faixa esperada.` },
+    (num('imc') ?? 0) >= 30 ? { nivel: 'amarelo', texto: `IMC ${fmt(num('imc')!)}: faixa de obesidade.` } : (num('imc') ?? 0) >= 25 ? { nivel: 'amarelo', texto: `IMC ${fmt(num('imc')!)}: faixa de sobrepeso.` } : { nivel: 'verde', texto: `IMC ${num('imc') != null ? fmt(num('imc')!) : '—'}, dentro da faixa esperada.` },
     (num('tfg') ?? 90) < 60 ? { nivel: 'amarelo', texto: `Função renal reduzida (TFG ${fmt(num('tfg')!)}).` } : { nivel: 'verde', texto: 'Função renal preservada.' },
     perfil?.atividadeFisicaRegular === false ? { nivel: 'amarelo', texto: 'Sedentarismo.' } : perfil?.atividadeFisicaRegular ? { nivel: 'verde', texto: 'Pratica atividade física.' } : { nivel: 'amarelo', texto: 'Atividade física não informada.' },
   ];

@@ -57,7 +57,7 @@ export default function Alimentacao() {
                 <Text style={styles.hora}>{horaLocal(r.em)}</Text>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.texto}>{ROTULO_REFEICAO[r.tipo]}{r.quantidade ? ` · ${ROTULO_QUANTIDADE[r.quantidade].toLowerCase()}` : ''}</Text>
-                  <Text style={styles.nota} numberOfLines={2}>{r.descricao}{r.observacao ? ` — ${r.observacao}` : ''}</Text>
+                  <Text style={styles.nota} numberOfLines={2}>{r.descricao}{r.observacao ? `: ${r.observacao}` : ''}</Text>
                 </View>
               </Pressable>
             ))}

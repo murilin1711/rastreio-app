@@ -11,8 +11,9 @@ import { modelosPlano } from '@core/regras/cardio/glicemia';
 import type { MomentoGlicemia } from '@core/regras/cardio/tiposGlicemia';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro } from '@core/supabase/erros';
+import { usePedidoDeAvisos } from '@core/lembretes/usePedidoDeAvisos';
 import { MOMENTOS, rotuloMomento, ROTULO_PERFIL_META } from '@modules/coracao/conteudo/glicemia';
-import { Button, Colors, Input, InternalHeader, Opcoes, Spacing, Typography } from '@ui/index';
+import { CampoHorario, Button, Colors, Input, InternalHeader, Opcoes, Spacing, Typography } from '@ui/index';
 
 type Quem = 'medico' | 'outro_profissional' | 'diretriz';
 type QuemPlano = 'medico' | 'outro_profissional' | 'nenhum';
@@ -25,6 +26,7 @@ export default function PlanoGlicemia() {
   const { sessao } = useSessao();
   const { perfil, salvar } = usePerfil();
   const { parametros } = useGlicemia();
+  const avisos = usePedidoDeAvisos();
   const [tipo, setTipo] = useState<TipoDiabetes | null>(null);
   const [insulina, setInsulina] = useState<UsoInsulina | null>(null);
   const [quemMetas, setQuemMetas] = useState<Quem | null>(null);
@@ -64,6 +66,7 @@ export default function PlanoGlicemia() {
     }
     const hs = horarios.map((h) => ({ momento: h.momento, hora: normalizarHorario(h.hora) ?? '' }));
     if (hs.some((h) => !h.hora)) { Alert.alert('Horário inválido', 'Use o formato 07:00.'); return; }
+    if (hs.length) await avisos.pedir(); // D-043: pergunta dos avisos na hora em que o lembrete é ligado, antes de criá-lo.
     setSalvando(true);
     try {
       await salvar({ tipoDiabetes: tipo, usaInsulina: insulina, perfilMetaGlicemica: perfilMeta, metasGlicemia: metas, planoGlicemia: { definidoPor: quemPlano ?? 'nenhum', modelo, horarios: hs } });
@@ -125,7 +128,7 @@ export default function PlanoGlicemia() {
               return (
                 <View key={mom.valor} style={styles.momentoLinha}>
                   <View style={{ flex: 1 }}><Opcoes opcoes={[{ valor: mom.valor, rotulo: mom.rotulo }]} valor={h ? [mom.valor] : []} onChange={() => alternarMomento(mom.valor)} multiplo /></View>
-                  {h ? <Input value={h.hora} onChangeText={(v) => setHora(mom.valor, v)} placeholder="07:00" keyboardType="numbers-and-punctuation" style={{ width: 90 }} /> : null}
+                  {h ? <View style={{ width: 130 }}><CampoHorario valor={h.hora} accessibilityLabel={`Horário: ${mom.rotulo}`} onChange={(v) => setHora(mom.valor, v)} /></View> : null}
                 </View>
               );
             })}
@@ -135,6 +138,7 @@ export default function PlanoGlicemia() {
 
         <Button label="Salvar plano" onPress={gravar} loading={salvando} style={{ marginTop: Spacing.xxl }} />
       </ScrollView>
+      {avisos.modal}
     </SafeAreaView>
   );
 }

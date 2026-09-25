@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { agruparPorDia } from '@core/lembretes/origem';
 import { useLembretes } from '@core/lembretes/useLembretes';
 import { LinhaLembrete } from '@modules/minha-saude/componentes/LinhaLembrete';
-import { Button, Colors, InternalHeader, Spacing, Typography } from '@ui/index';
+import { Button, Colors, InternalHeader, Spacing, Typography, useEspacoAbas } from '@ui/index';
 
 const DIAS_SEMANA = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
 function tituloDia(dia: string, hoje = new Date()): string {
@@ -20,6 +20,7 @@ function tituloDia(dia: string, hoje = new Date()): string {
 
 /** Central de lembretes (§63, D-010): próximos 30 dias de todos os módulos, agrupados por dia; últimos 30 dias. */
 export default function Lembretes() {
+  const espacoAbas = useEspacoAbas();
   const router = useRouter();
   const { proximos, passados, carregando, erro, recarregar } = useLembretes(30);
   useFocusEffect(useCallback(() => { recarregar(); }, [recarregar]));
@@ -27,7 +28,7 @@ export default function Lembretes() {
 
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
-      <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
+      <ScrollView contentContainerStyle={[styles.conteudo, { paddingBottom: espacoAbas }]} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
         <InternalHeader variante="raiz" title="Agenda" />
         <View style={styles.acoes}>
           <Button label="Preferências" variant="outline" onPress={() => router.push('/(app)/(tabs)/agenda/preferencias')} style={{ flex: 1 }} />
@@ -55,7 +56,7 @@ export default function Lembretes() {
 
 const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: Colors.background },
-  conteudo: { padding: Spacing.xxl, paddingBottom: Spacing.xxxl },
+  conteudo: { padding: Spacing.xxl },
   acoes: { flexDirection: 'row', gap: Spacing.sm },
   erro: { ...Typography.caption, color: Colors.danger, marginTop: Spacing.md },
   secao: { ...Typography.heading, color: Colors.textPrimary, marginTop: Spacing.xxl, marginBottom: Spacing.sm },

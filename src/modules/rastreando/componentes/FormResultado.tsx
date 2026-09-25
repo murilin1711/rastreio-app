@@ -15,22 +15,22 @@ const SIM_NAO: Opcao<'sim' | 'nao'>[] = [{ valor: 'sim', rotulo: 'Sim' }, { valo
 const bool = (v: unknown) => (v === true ? 'sim' : v === false ? 'nao' : null);
 
 const BIRADS: Opcao<'0' | '1' | '2' | '3' | '4' | '5' | '6'>[] = [
-  { valor: '0', rotulo: 'BI-RADS 0', descricao: 'Inconclusivo — precisa de complementação' },
+  { valor: '0', rotulo: 'BI-RADS 0', descricao: 'Inconclusivo: precisa de complementação' },
   { valor: '1', rotulo: 'BI-RADS 1', descricao: 'Negativo' },
   { valor: '2', rotulo: 'BI-RADS 2', descricao: 'Achado benigno' },
-  { valor: '3', rotulo: 'BI-RADS 3', descricao: 'Provavelmente benigno — controle em curto intervalo' },
-  { valor: '4', rotulo: 'BI-RADS 4', descricao: 'Suspeito — investigação' },
+  { valor: '3', rotulo: 'BI-RADS 3', descricao: 'Provavelmente benigno: controle em curto intervalo' },
+  { valor: '4', rotulo: 'BI-RADS 4', descricao: 'Suspeito: investigação' },
   { valor: '5', rotulo: 'BI-RADS 5', descricao: 'Altamente suspeito' },
   { valor: '6', rotulo: 'BI-RADS 6', descricao: 'Malignidade já confirmada por biópsia' },
 ];
 const DENSIDADE: Opcao<'a' | 'b' | 'c' | 'd'>[] = [
-  { valor: 'a', rotulo: 'A — predominantemente adiposa' }, { valor: 'b', rotulo: 'B — densidade fibroglandular esparsa' },
-  { valor: 'c', rotulo: 'C — heterogeneamente densa' }, { valor: 'd', rotulo: 'D — extremamente densa' },
+  { valor: 'a', rotulo: 'A: predominantemente adiposa' }, { valor: 'b', rotulo: 'B: densidade fibroglandular esparsa' },
+  { valor: 'c', rotulo: 'C: heterogeneamente densa' }, { valor: 'd', rotulo: 'D: extremamente densa' },
 ];
 const HPV: Opcao<'negativo' | '16_18' | 'outros_oncogenicos' | 'invalido'>[] = [
   { valor: 'negativo', rotulo: 'Negativo', descricao: 'HPV oncogênico não detectado' },
   { valor: '16_18', rotulo: 'HPV 16 e/ou 18 detectado' },
-  { valor: 'outros_oncogenicos', rotulo: 'Outros tipos oncogênicos detectados', descricao: 'Não 16/18 — o laudo costuma trazer a citologia reflexa' },
+  { valor: 'outros_oncogenicos', rotulo: 'Outros tipos oncogênicos detectados', descricao: 'Não 16/18: o laudo costuma trazer a citologia reflexa' },
   { valor: 'invalido', rotulo: 'Inválido / inconclusivo', descricao: 'Precisa de nova coleta' },
 ];
 const CITOLOGIA: Opcao<string>[] = [

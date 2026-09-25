@@ -1,6 +1,6 @@
 import 'react-native-url-polyfill/auto';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createClient } from '@supabase/supabase-js';
+import { armazenamentoSeguro } from './armazenamentoSeguro';
 import type { Database } from './database.types';
 
 const url = process.env.EXPO_PUBLIC_SUPABASE_URL;
@@ -12,7 +12,8 @@ if (!url || !anonKey) {
 
 export const supabase = createClient<Database>(url, anonKey, {
   auth: {
-    storage: AsyncStorage,
+    // Keychain/Keystore, não texto simples: a sessão dá acesso a um prontuário (D-031).
+    storage: armazenamentoSeguro,
     autoRefreshToken: true,
     persistSession: true,
     detectSessionInUrl: false,

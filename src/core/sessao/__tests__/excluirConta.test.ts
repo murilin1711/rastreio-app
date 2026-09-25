@@ -3,8 +3,10 @@ import { excluirConta } from '../excluirConta';
 const mockList = jest.fn();
 const mockRemove = jest.fn();
 const mockRpc = jest.fn();
+const mockCancelarAvisos = jest.fn(async () => undefined);
 const mockSignOut = jest.fn(async (_opts: unknown) => ({ error: null }));
 
+jest.mock('expo-notifications', () => ({ cancelAllScheduledNotificationsAsync: () => mockCancelarAvisos() }));
 jest.mock('@core/supabase/client', () => ({
   supabase: {
     storage: { from: () => ({ list: mockList, remove: mockRemove }) },
@@ -30,6 +32,7 @@ describe('excluirConta (D-013)', () => {
     expect(mockRemove).toHaveBeenCalledWith(['u-1/a.pdf', 'u-1/b.jpg']);
     expect(mockRpc).toHaveBeenCalledWith('excluir_minha_conta');
     expect(mockSignOut).toHaveBeenCalledWith({ scope: 'local' });
+    expect(mockCancelarAvisos).toHaveBeenCalled();
   });
 
   it('não chama remove quando o bucket está vazio', async () => {

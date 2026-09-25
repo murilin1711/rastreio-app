@@ -15,6 +15,8 @@ interface Props {
 export function ItemHoje({ item, onPress, onAcaoSecundaria }: Props) {
   const cor = Alerta[item.nivel];
   const concluido = item.nivel === 'verde';
+  // A bolinha mostra o estado, não recebe toque (D-028): ela e a linha "Não uso medicamentos"
+  // faziam exatamente a mesma coisa, e duas portas para a mesma ação confundem mais do que ajudam.
   return (
     <View style={styles.caixa}>
       <Pressable onPress={onPress} style={({ pressed }) => [styles.linha, pressed && { opacity: 0.7 }]} accessibilityRole="button">

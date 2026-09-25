@@ -6,12 +6,13 @@ import { montarLinhaDoTempoGeral } from '@core/linhaDoTempo/geral';
 import type { AnoGeral, ModuloItem } from '@core/linhaDoTempo/agrupar';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { dataCurtaBr } from '@modules/coracao/componentes/formato';
-import { Alerta, Colors, InternalHeader, Spacing, Typography } from '@ui/index';
+import { Alerta, Colors, InternalHeader, Spacing, Typography, useEspacoAbas } from '@ui/index';
 
 const COR_MODULO: Record<ModuloItem, string> = { cardio: '#c2410c', rastreando: Colors.logoCeu, medicacao: Colors.logoArdosia, consulta: Colors.accent, documento: Colors.textMuted, bem_estar: '#15803D' };
 
 /** Linha do tempo geral (§60): todos os módulos, por ano; o ponto tem a cor do módulo ou do nível clínico. */
 export default function LinhaDoTempoGeral() {
+  const espacoAbas = useEspacoAbas();
   const router = useRouter();
   const { sessao } = useSessao();
   const [anos, setAnos] = useState<AnoGeral[]>([]);
@@ -25,7 +26,7 @@ export default function LinhaDoTempoGeral() {
 
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
-      <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
+      <ScrollView contentContainerStyle={[styles.conteudo, { paddingBottom: espacoAbas }]} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
         <InternalHeader variante="raiz" title="Histórico" />
         {anos.length ? anos.map((a) => (
           <View key={a.ano} style={styles.ano}>
@@ -46,7 +47,7 @@ export default function LinhaDoTempoGeral() {
 
 const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: Colors.background },
-  conteudo: { padding: Spacing.xxl, paddingBottom: Spacing.xxxl },
+  conteudo: { padding: Spacing.xxl },
   ano: { marginBottom: Spacing.xxl },
   anoTitulo: { ...Typography.title, color: Colors.primary, marginBottom: Spacing.sm },
   linha: { flexDirection: 'row', alignItems: 'flex-start', gap: Spacing.md, paddingVertical: Spacing.sm, borderBottomWidth: 1, borderBottomColor: Colors.border },

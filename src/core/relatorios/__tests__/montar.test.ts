@@ -1,6 +1,6 @@
-import { SECOES_BEMESTAR, SECOES_CARDIO, SECOES_ONCOLOGICO } from '../especialidades';
+import { SECOES_BEMESTAR, SECOES_CARDIO, SECOES_GERAL, SECOES_ONCOLOGICO } from '../especialidades';
 import { montarBemEstar, montarCardio, montarConsulta, montarGeral, montarOncologico } from '../montar';
-import { SEM_REGISTROS, type SecaoRelatorio } from '../tipos';
+import { SEM_REGISTROS, type ChaveSecao, type SecaoRelatorio } from '../tipos';
 import { PERIODO_TESTE, dadosNeroTeste } from './fixtures';
 
 const chaves = (s: SecaoRelatorio[]) => s.map((x) => x.chave);
@@ -55,19 +55,80 @@ describe('montarGeral', () => {
     expect(new Set(c).size).toBe(c.length);
     expect(c).toEqual(expect.arrayContaining([...SECOES_CARDIO, ...SECOES_ONCOLOGICO, 'consultas']));
   });
+  /**
+   * O geral é o documento que promete tudo. `agua` tinha ficado de fora dele até 23/09/2026 (D-025).
+   * Este teste quebra sozinho quando uma seção nova nascer sem entrar no geral.
+   */
+  test('contém todas as seções que o app sabe montar', () => {
+    // Duas ficam de fora de propósito: `peso`, construtor órfão de antes da Fase 4 cuja informação a
+    // seção `corpo` já traz por inteiro; e `pendencias`, que não entra por lista nenhuma — `montarPor`
+    // a anexa a qualquer relatório quando há pendência aberta (§66).
+    const todas: ChaveSecao[] = [...SECOES_CARDIO, ...SECOES_ONCOLOGICO, ...SECOES_BEMESTAR, 'consultas'];
+    expect(SECOES_GERAL).toEqual(expect.arrayContaining(Array.from(new Set(todas))));
+  });
 });
 
-describe('montarConsulta (D-009)', () => {
-  test('cardiologia começa pelo bloco sempre presente e segue as prioridades', () => {
-    expect(chaves(montarConsulta(dadosNeroTeste(), 'cardiologia', PERIODO_TESTE))).toEqual(['perfil', 'medicamentos', 'documentos', 'mrpa', 'pa', 'glicemia', 'lipidios', 'renal', 'exames_cardio', 'prevent', 'agravantes', 'pendencias']);
+describe('rastreamento que não se aplica ao perfil (D-026)', () => {
+  /** Próstata num perfil feminino: a regra devolve `naoAplicavel`. Papel em branco não ajuda ninguém. */
+  const comNaoAplicavel = () => {
+    const d = dadosNeroTeste();
+    d.avaliacoes.prostata = { programa: 'prostata', status: 'nao_indicado_no_momento', mensagem: 'Este rastreamento não é aplicável ao seu perfil atual.', regraId: null, regraVersao: null, proximaData: null, naoAplicavel: true };
+    return d;
+  };
+
+  test('a seção do programa não entra no relatório', () => {
+    expect(chaves(montarOncologico(comNaoAplicavel(), PERIODO_TESTE))).not.toContain('prostata');
   });
-  test('mastologia não traz PA nem glicemia, mas traz a pendência aberta', () => {
-    const c = chaves(montarConsulta(dadosNeroTeste(), 'mastologia', PERIODO_TESTE));
-    expect(c).not.toContain('pa'); expect(c).not.toContain('glicemia');
-    expect(c).toEqual(['perfil', 'medicamentos', 'documentos', 'mama', 'hist_familiar', 'pendencias']);
+
+  test('e some também da tabela de rastreamentos', () => {
+    const t = montarOncologico(comNaoAplicavel(), PERIODO_TESTE).find((x) => x.chave === 'rastreamentos_status')!.blocos[0];
+    expect(t.tipo).toBe('tabela');
+    if (t.tipo === 'tabela') expect(JSON.stringify(t.linhas)).not.toContain('róstata');
+  });
+
+  test('mas "fora da faixa etária" continua aparecendo — é informação, não ruído', () => {
+    const d = dadosNeroTeste();
+    d.avaliacoes.prostata = { programa: 'prostata', status: 'nao_indicado_no_momento', mensagem: 'Você ainda não está na faixa etária habitual de rastreamento.', regraId: null, regraVersao: null, proximaData: null };
+    expect(chaves(montarOncologico(d, PERIODO_TESTE))).toContain('prostata');
+  });
+
+  test('se houver exame registrado, a seção fica mesmo não sendo aplicável', () => {
+    const d = comNaoAplicavel();
+    d.examesRastreamento = [...d.examesRastreamento, { id: 'e9', programa: 'prostata', tipo: 'psa', dataRealizacao: '2026-01-10', classificacao: 'normal', resultado: {}, proximaAcao: null, dataProximaAcao: null } as never];
+    expect(chaves(montarOncologico(d, PERIODO_TESTE))).toContain('prostata');
+  });
+});
+
+describe('montarConsulta (D-009, revista em D-025)', () => {
+  test('cardiologia: bloco sempre presente, prioridades na ordem, e o resto atrás', () => {
+    const c = chaves(montarConsulta(dadosNeroTeste(), 'cardiologia', PERIODO_TESTE));
+    expect(c.slice(0, 16)).toEqual(['perfil', 'medicamentos', 'documentos', 'mrpa', 'pa', 'glicemia', 'hba1c', 'lipidios', 'renal', 'corpo', 'tabagismo', 'exames_cardio', 'prevent', 'agravantes', 'checkup', 'pendencias']);
+    expect(new Set(c).size).toBe(c.length);
+  });
+  test('mastologia começa curta, mas o que ficou de fora vem no complemento', () => {
+    const s = montarConsulta(dadosNeroTeste(), 'mastologia', PERIODO_TESTE);
+    const c = chaves(s);
+    expect(c.slice(0, 8)).toEqual(['perfil', 'medicamentos', 'documentos', 'mama', 'hist_familiar', 'tabagismo', 'pendencias', 'sintomas']);
+    // O que não é da mastologia sai da frente, mas não some do documento (D-025).
+    expect(c).toContain('pa');
+    expect(new Set(c).size).toBe(c.length);
+  });
+  test('a primeira seção do complemento é a única marcada, e vem depois do foco', () => {
+    const s = montarConsulta(dadosNeroTeste(), 'mastologia', PERIODO_TESTE);
+    const marcadas = s.filter((x) => x.abreComplemento);
+    expect(marcadas).toHaveLength(1);
+    expect(s.indexOf(marcadas[0])).toBeGreaterThan(s.findIndex((x) => x.chave === 'mama'));
+  });
+  test('o complemento omite seções sem registro; o foco as mantém', () => {
+    const d = dadosNeroTeste();
+    d.medidasPA = [];      // pa não é da mastologia → complemento → some
+    d.sintomas = [];       // sintomas é prioridade da mastologia → foco → fica com o texto padrão
+    const s = montarConsulta(d, 'mastologia', PERIODO_TESTE);
+    expect(chaves(s)).not.toContain('pa');
+    expect(s.find((x) => x.chave === 'sintomas')!.blocos).toEqual([{ tipo: 'texto', texto: 'Nenhum sintoma de alerta registrado.' }]);
   });
   test('outra = relatório geral', () => expect(montarConsulta(dadosNeroTeste(), 'outra', PERIODO_TESTE)).toEqual(montarGeral(dadosNeroTeste(), PERIODO_TESTE)));
-  test('sem dados de PA → texto padrão', () => {
+  test('sem dados de PA → texto padrão (PA é prioridade da cardiologia)', () => {
     const d = dadosNeroTeste(); d.medidasPA = [];
     expect(montarConsulta(d, 'cardiologia', PERIODO_TESTE).find((x) => x.chave === 'pa')!.blocos).toEqual([{ tipo: 'texto', texto: SEM_REGISTROS }]);
   });
@@ -89,7 +150,7 @@ describe('montarBemEstar (§88) e integrações da Fase 4', () => {
   test('corpo: IMC com faixa, cintura com RCA, tendência e tabela', () => {
     const t = textoDe([s.find((x) => x.chave === 'corpo')!]);
     expect(t).toContain('Peso atual 82,0 kg');
-    expect(t).toContain('IMC 28,4 — Sobrepeso');
+    expect(t).toContain('IMC 28,4: Sobrepeso');
     expect(t).toContain('relação cintura/altura 0,56 (acima de 0,5)');
     expect(t).toContain('Tendência do peso: redução');
   });

@@ -65,6 +65,15 @@ export type ChaveSecao =
   | 'pendencias' | 'sintomas' | 'hist_familiar' | 'tabagismo' | 'consultas'
   | 'corpo' | 'alimentacao' | 'agua' | 'atividade' | 'sono' | 'checkins';
 
-export interface SecaoRelatorio { chave: ChaveSecao; titulo: string; blocos: Bloco[] }
+export interface SecaoRelatorio {
+  chave: ChaveSecao;
+  titulo: string;
+  blocos: Bloco[];
+  /** Primeira seção da parte "Outras informações do meu histórico" (D-025); quem renderiza põe o divisor. */
+  abreComplemento?: boolean;
+}
+
+/** Título da terceira parte do relatório por especialidade (D-025). */
+export const TITULO_COMPLEMENTO = 'Outras informações do meu histórico';
 
 export const SEM_REGISTROS = 'Sem registros no período';

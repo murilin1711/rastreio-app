@@ -1,7 +1,7 @@
 import type { ProgramaHandler } from '../tipos';
 import { casaCondicao, contarAntecedentes, idadeMaisJovem, temAntecedente, temGenetica, temHistoricoPessoal } from './util';
 
-const CONITEC = 'CONITEC 2026 — Diretrizes Brasileiras do Rastreamento do Câncer de Cólon e Reto (aprovada em 23/06/2026)';
+const CONITEC = 'CONITEC 2026: Diretrizes Brasileiras do Rastreamento do Câncer de Cólon e Reto (aprovada em 23/06/2026)';
 const ACG = 'ACG 2021 (Shaukat et al.)';
 
 /** Rastreamento colorretal — decisões C-004 e C-005. */

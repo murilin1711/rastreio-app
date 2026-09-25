@@ -1,14 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native';
-import type { Bloco, SecaoRelatorio } from '@core/relatorios/tipos';
+import { TITULO_COMPLEMENTO, type Bloco, type SecaoRelatorio } from '@core/relatorios/tipos';
 import { Colors, Radius, Spacing, StatusBadge, Typography } from '@ui/index';
 
 /** Renderização nativa de uma seção do relatório — a prévia mostra o mesmo conteúdo do PDF. */
 export function SecaoRelatorioView({ secao }: { secao: SecaoRelatorio }) {
   return (
-    <View style={styles.secao}>
-      <Text style={styles.titulo}>{secao.titulo}</Text>
-      {secao.blocos.map((b, i) => <BlocoView key={i} bloco={b} />)}
-    </View>
+    <>
+      {secao.abreComplemento ? <Text style={styles.complemento}>{TITULO_COMPLEMENTO}</Text> : null}
+      <View style={styles.secao}>
+        <Text style={styles.titulo}>{secao.titulo}</Text>
+        {secao.blocos.map((b, i) => <BlocoView key={i} bloco={b} />)}
+      </View>
+    </>
   );
 }
 
@@ -40,6 +43,8 @@ function BlocoView({ bloco }: { bloco: Bloco }) {
 }
 
 const styles = StyleSheet.create({
+  /** Divisor da terceira parte (D-025): o que vem daqui para baixo é complemento, não foco. */
+  complemento: { ...Typography.heading, color: Colors.textSecondary, marginTop: Spacing.xxl, paddingTop: Spacing.lg, borderTopWidth: 2, borderTopColor: Colors.border },
   secao: { backgroundColor: Colors.surface, borderRadius: Radius.bloco, padding: Spacing.lg, gap: Spacing.xs },
   titulo: { ...Typography.heading, color: Colors.textPrimary, marginBottom: Spacing.xs },
   texto: { ...Typography.caption, fontSize: 13, lineHeight: 19, color: Colors.textPrimary },

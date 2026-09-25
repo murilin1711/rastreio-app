@@ -6,8 +6,9 @@ import { normalizarHorario } from '@core/medicacoes/horarios';
 import { useMrpa } from '@core/cardio/useMrpa';
 import { hojeISO } from '@core/cardio/usePressao';
 import { traduzirErro } from '@core/supabase/erros';
+import { usePedidoDeAvisos } from '@core/lembretes/usePedidoDeAvisos';
 import { aberturaMrpa, preparoMedida, regrasProtocoloMrpa } from '@modules/coracao/conteudo/pressao';
-import { Button, CampoData, Colors, Input, InternalHeader, Opcoes, Spacing, Typography } from '@ui/index';
+import { CampoHorario, Button, CampoData, Colors, Input, InternalHeader, Opcoes, Spacing, Typography } from '@ui/index';
 
 type Dias = '4' | '5' | '6';
 const amanhaISO = () => new Date(Date.now() + 86_400_000).toISOString().slice(0, 10);
@@ -16,6 +17,7 @@ const amanhaISO = () => new Date(Date.now() + 86_400_000).toISOString().slice(0,
 export default function IniciarMrpa() {
   const router = useRouter();
   const { sessao, parametros, carregando, iniciar } = useMrpa();
+  const avisos = usePedidoDeAvisos();
   const [dias, setDias] = useState<Dias | null>(null);
   const [manha, setManha] = useState('08:00');
   const [noite, setNoite] = useState('20:00');
@@ -36,6 +38,7 @@ export default function IniciarMrpa() {
     if (!inicio || (inicio !== hojeISO() && inicio !== amanhaISO())) { Alert.alert('Data de início', 'A MRPA começa hoje ou amanhã.'); return; }
     const temConsultorio = pasC.trim() || padC.trim();
     if (temConsultorio && (!Number(pasC) || !Number(padC) || !dataC)) { Alert.alert('PA do consultório', 'Informe sistólica, diastólica e a data, ou deixe os três em branco.'); return; }
+    await avisos.pedir(); // D-043: pergunta dos avisos na hora em que o lembrete é ligado, antes de criá-lo.
     setSalvando(true);
     try {
       const s = await iniciar({
@@ -74,8 +77,8 @@ export default function IniciarMrpa() {
 
         <Text style={styles.secao}>Horários dos lembretes</Text>
         <View style={styles.linhaCampos}>
-          <View style={{ flex: 1 }}><Text style={styles.rotulo}>Manhã</Text><Input value={manha} onChangeText={setManha} placeholder="08:00" keyboardType="numbers-and-punctuation" /></View>
-          <View style={{ flex: 1 }}><Text style={styles.rotulo}>Noite</Text><Input value={noite} onChangeText={setNoite} placeholder="20:00" keyboardType="numbers-and-punctuation" /></View>
+          <View style={{ flex: 1 }}><CampoHorario rotulo="Manhã" valor={manha} onChange={setManha} /></View>
+          <View style={{ flex: 1 }}><CampoHorario rotulo="Noite" valor={noite} onChange={setNoite} /></View>
         </View>
 
         <Text style={styles.secao}>Começar</Text>
@@ -92,6 +95,7 @@ export default function IniciarMrpa() {
 
         <Button label="Começar a MRPA" onPress={comecar} loading={salvando} disabled={carregando} style={{ marginTop: Spacing.xxl }} />
       </ScrollView>
+      {avisos.modal}
     </SafeAreaView>
   );
 }

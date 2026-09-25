@@ -1,5 +1,5 @@
 import { useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useMedicacoes } from '@core/medicacoes/useMedicacoes';
@@ -11,7 +11,7 @@ import type { EntradaPrevent } from '@core/regras/cardio/tiposRisco';
 import { traduzirErro } from '@core/supabase/erros';
 import { dataLongaBr } from '@modules/coracao/componentes/formato';
 import { coeficientesPendentes, ROTULO_ESTADO } from '@modules/coracao/conteudo/risco';
-import { Button, Colors, Input, InternalHeader, Opcoes, Radius, Spacing, Typography } from '@ui/index';
+import { Button, Colors, completarPiso, EsperaNero, Input, InternalHeader, Opcoes, Radius, Spacing, Typography } from '@ui/index';
 
 type Resp = Record<string, string>;
 const numero = (t: string | undefined) => (!t || t.trim() === '' ? null : Number(t.replace(',', '.')));
@@ -27,6 +27,7 @@ export default function DadosRisco() {
   const [estatina, setEstatina] = useState<'sim' | 'nao' | null>(null);
   const [fuma, setFuma] = useState<'sim' | 'nao' | null>(null);
   const [calculando, setCalculando] = useState(false);
+  const cancelado = useRef(false);
 
   useEffect(() => {
     if (!entradas) return;
@@ -78,12 +79,19 @@ export default function DadosRisco() {
       const digitado = resp[x.chave] != null && resp[x.chave] !== '';
       return { ...x, valor: v, origem: digitado ? 'digitado' : x.origem, data: digitado ? new Date().toISOString().slice(0, 10) : x.data, estado: v == null ? 'faltando' : x.estado };
     });
+    cancelado.current = false;
+    const inicio = Date.now();
     setCalculando(true);
     try {
       if (perfil && fuma !== null) await salvarPerfil({ tabagismoStatus: fuma === 'sim' ? 'atual' : perfil.tabagismoStatus === 'atual' ? 'ex' : perfil.tabagismoStatus }).catch(() => {});
       await calcular(e, usadas);
-      router.replace('/(app)/coracao/risco/resultado');
+      // O PREVENT roda local e termina quase instantâneo — sem o piso o Nero só piscaria (D-023).
+      await completarPiso(inicio);
+      // Cancelar só impede a ida ao resultado: o cálculo em si já rodou e fica guardado,
+      // então quem desistir e voltar a calcular não perde nada.
+      if (!cancelado.current) router.replace('/(app)/coracao/risco/resultado');
     } catch (err) {
+      if (cancelado.current) return;
       if (err instanceof CoeficientesIndisponiveis) Alert.alert('Ainda não disponível', coeficientesPendentes);
       else Alert.alert('Não foi possível calcular', traduzirErro(err).mensagemUsuario);
     } finally {
@@ -123,7 +131,13 @@ export default function DadosRisco() {
         <View style={styles.linha}><Text style={styles.rotulo}>Você usa estatina (remédio para colesterol)?</Text><Opcoes<'sim' | 'nao'> opcoes={[{ valor: 'sim', rotulo: 'Sim' }, { valor: 'nao', rotulo: 'Não' }]} valor={estatina} onChange={setEstatina} /></View>
         <View style={styles.linha}><Text style={styles.rotulo}>Fuma atualmente?</Text><Opcoes<'sim' | 'nao'> opcoes={[{ valor: 'sim', rotulo: 'Sim' }, { valor: 'nao', rotulo: 'Não' }]} valor={fuma} onChange={setFuma} /></View>
 
-        <Button label="Calcular meu risco" onPress={calcularAgora} loading={calculando} style={{ marginTop: Spacing.xxl }} />
+        <Button label="Calcular meu risco" onPress={calcularAgora} disabled={calculando} style={{ marginTop: Spacing.xxl }} />
+        <EsperaNero
+          visivel={calculando}
+          titulo="Calculando seu risco…"
+          detalhe="Isso leva alguns segundos."
+          onCancelar={() => { cancelado.current = true; setCalculando(false); }}
+        />
       </ScrollView>
     </SafeAreaView>
   );

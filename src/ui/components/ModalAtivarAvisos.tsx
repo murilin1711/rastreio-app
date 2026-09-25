@@ -8,6 +8,11 @@ interface Props {
   visivel: boolean;
   aoAtivar: () => void;
   aoAdiar: () => void;
+  /**
+   * `ajustes`: a pessoa negou no iOS, que não deixa perguntar de novo (D-043). O botão leva aos
+   * Ajustes em vez de abrir a caixa do sistema.
+   */
+  modo?: 'pedir' | 'ajustes';
 }
 
 const ITENS = [
@@ -22,7 +27,8 @@ const ITENS = [
  * contexto faz muita gente negar, e quem nega perde os lembretes de rastreamento.
  * "Agora não" não queima a permissão: o app volta a oferecer depois.
  */
-export function ModalAtivarAvisos({ visivel, aoAtivar, aoAdiar }: Props) {
+export function ModalAtivarAvisos({ visivel, aoAtivar, aoAdiar, modo = 'pedir' }: Props) {
+  if (modo === 'ajustes') return <ModalAjustes visivel={visivel} aoAbrir={aoAtivar} aoAdiar={aoAdiar} />;
   return (
     <Modal visible={visivel} transparent animationType="fade" onRequestClose={aoAdiar}>
       <View style={styles.fundo}>
@@ -40,6 +46,22 @@ export function ModalAtivarAvisos({ visivel, aoAtivar, aoAdiar }: Props) {
           </View>
           <Text style={styles.nota}>Você escolhe quais avisos quer receber, e pode desligar todos a qualquer momento em Minha Saúde.</Text>
           <Button label="Ativar avisos" onPress={aoAtivar} style={styles.botao} />
+          <Button label="Agora não" variant="ghost" onPress={aoAdiar} />
+        </View>
+      </View>
+    </Modal>
+  );
+}
+
+function ModalAjustes({ visivel, aoAbrir, aoAdiar }: { visivel: boolean; aoAbrir: () => void; aoAdiar: () => void }) {
+  return (
+    <Modal visible={visivel} transparent animationType="fade" onRequestClose={aoAdiar}>
+      <View style={styles.fundo}>
+        <View style={styles.caixa}>
+          <View style={styles.sino}><Ionicons name="notifications-off-outline" size={28} color={Colors.primary} /></View>
+          <Text style={styles.titulo}>Seus avisos estão desligados</Text>
+          <Text style={styles.sub}>Para receber este lembrete, ligue as notificações do NERO nos Ajustes do iPhone. É só tocar no botão e ativar "Permitir Notificações".</Text>
+          <Button label="Abrir Ajustes" onPress={aoAbrir} style={styles.botao} />
           <Button label="Agora não" variant="ghost" onPress={aoAdiar} />
         </View>
       </View>

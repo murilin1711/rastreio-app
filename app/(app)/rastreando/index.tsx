@@ -8,12 +8,14 @@ import { PROGRAMAS, ROTULO_PROGRAMA } from '@core/rastreando/tipos';
 import { useRastreando } from '@core/rastreando/useRastreando';
 import { CardPrograma } from '@modules/rastreando/componentes/CardPrograma';
 import { NIVEL_PENDENCIA } from '@modules/rastreando/componentes/statusUI';
-import { Alerta, Button, Colors, LogoNero, Radius, Spacing, Typography } from '@ui/index';
+import { Alerta, Button, Colors, LogoNero, Radius, SaidaConcluida, Spacing, Typography, useSaidaConcluida } from '@ui/index';
 
 /** "Seus rastreamentos" (§28, §37): só o que é aplicável ao perfil, com o que exige ação no topo. */
 export default function Rastreando() {
   const router = useRouter();
   const { avaliacoes, perfil, pendencias, sintomas, carregando, erro, recarregar } = useRastreando();
+  // Pendência resolvida fica verde e só então sai da lista (D-024).
+  const saidaPendencias = useSaidaConcluida(pendencias, (p) => p.id, !carregando);
 
   const aplicaveis = perfil ? PROGRAMAS.filter((p) => handlers[p]?.aplicavel(perfil) ?? true) : [];
   const outros = PROGRAMAS.filter((p) => !aplicaveis.includes(p));
@@ -35,22 +37,24 @@ export default function Rastreando() {
           </View>
         ) : null}
 
-        {pendencias.length > 0 ? (
+        {saidaPendencias.lista.length > 0 ? (
           <>
             <View style={styles.secaoTopo}>
               <Text style={styles.secao}>Pendências</Text>
               <View style={styles.contador}><Text style={styles.contadorTexto}>{pendencias.length}</Text></View>
             </View>
             <View style={{ gap: Spacing.sm, marginBottom: Spacing.xxl }}>
-              {pendencias.map((p) => (
-                <Pressable key={p.id} onPress={() => router.push('/(app)/rastreando/pendencias')} style={({ pressed }) => [styles.pend, pressed && { opacity: 0.7 }]}>
-                  <View style={[styles.anel, { borderColor: Alerta[NIVEL_PENDENCIA[p.nivelAlerta] ?? 'laranja'].fg }]} />
-                  <View style={{ flex: 1 }}>
-                    <Text style={styles.pendTitulo}>{ROTULO_PROGRAMA[p.programa]}: {p.descricao}</Text>
-                    <Text style={styles.pendSub}>Registre o exame relacionado para concluir.</Text>
-                  </View>
-                  <Ionicons name="chevron-forward" size={16} color={Colors.textMuted} />
-                </Pressable>
+              {saidaPendencias.lista.map(({ item: p, concluido }) => (
+                <SaidaConcluida key={p.id} concluido={concluido} aoSair={() => saidaPendencias.aoSair(p)}>
+                  <Pressable disabled={concluido} onPress={() => router.push('/(app)/rastreando/pendencias')} style={({ pressed }) => [styles.pend, pressed && { opacity: 0.7 }]}>
+                    <View style={[styles.anel, { borderColor: Alerta[NIVEL_PENDENCIA[p.nivelAlerta] ?? 'laranja'].fg }]} />
+                    <View style={{ flex: 1 }}>
+                      <Text style={styles.pendTitulo}>{ROTULO_PROGRAMA[p.programa]}: {p.descricao}</Text>
+                      <Text style={styles.pendSub}>{concluido ? 'Pendência concluída.' : 'Registre o exame relacionado para concluir.'}</Text>
+                    </View>
+                    {concluido ? null : <Ionicons name="chevron-forward" size={16} color={Colors.textMuted} />}
+                  </Pressable>
+                </SaidaConcluida>
               ))}
             </View>
           </>

@@ -35,5 +35,5 @@ export interface ExameParaVinculo { id: string; tipo: string; modulo: string; pr
 export function rotuloExameParaVinculo(e: ExameParaVinculo, rotulos: { rastreando: Record<string, string>; cardio: (tipo: string) => string }): string {
   const nome = e.modulo === 'rastreando' ? (rotulos.rastreando[e.tipo] ?? e.tipo) : rotulos.cardio(e.tipo);
   const [a, m, d] = e.dataRealizacao.split('-');
-  return `${nome} — ${d}/${m}/${a}`;
+  return `${nome}: ${d}/${m}/${a}`;
 }

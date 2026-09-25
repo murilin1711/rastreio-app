@@ -64,10 +64,10 @@ export function avaliarGlicemia(m: { mgdl: number; momento: MomentoGlicemia; sin
 }
 
 const MODELOS: ModeloPlano[] = [
-  { id: 'dm1_sem_sensor', rotulo: 'Diabetes tipo 1 sem sensor', descricao: 'Pelo menos 5 medidas por dia: antes das refeições e antes de dormir; também se suspeitar de hipoglicemia, antes de exercício e antes de dirigir.', momentos: ['antes_cafe', 'antes_almoco', 'antes_jantar', 'antes_dormir'], fonte: 'SBD 2026 — Monitorização, R5 (I, B)' },
-  { id: 'dm2_basal', rotulo: 'Diabetes tipo 2 com insulina basal', descricao: 'Glicemia em jejum, com medidas noturnas eventuais; também se suspeitar de hipoglicemia.', momentos: ['jejum'], fonte: 'SBD 2026 — Monitorização, R9 (I, B)' },
-  { id: 'dm2_intensiva', rotulo: 'Diabetes tipo 2 com insulina em várias doses', descricao: 'Pelo menos antes das refeições e ao deitar; também se suspeitar de hipoglicemia e antes de dirigir.', momentos: ['antes_cafe', 'antes_almoco', 'antes_jantar', 'antes_dormir'], fonte: 'SBD 2026 — Monitorização, R10 (I, C)' },
-  { id: 'dm2_sem_insulina', rotulo: 'Diabetes tipo 2 sem insulina', descricao: 'A medida em casa pode ser considerada, de forma individualizada, para autoconhecimento e adesão. Sem horários fixos: combine com seu médico.', momentos: [], fonte: 'SBD 2026 — Monitorização, R8 (IIb, B)' },
+  { id: 'dm1_sem_sensor', rotulo: 'Diabetes tipo 1 sem sensor', descricao: 'Pelo menos 5 medidas por dia: antes das refeições e antes de dormir; também se suspeitar de hipoglicemia, antes de exercício e antes de dirigir.', momentos: ['antes_cafe', 'antes_almoco', 'antes_jantar', 'antes_dormir'], fonte: 'SBD 2026: Monitorização, R5 (I, B)' },
+  { id: 'dm2_basal', rotulo: 'Diabetes tipo 2 com insulina basal', descricao: 'Glicemia em jejum, com medidas noturnas eventuais; também se suspeitar de hipoglicemia.', momentos: ['jejum'], fonte: 'SBD 2026: Monitorização, R9 (I, B)' },
+  { id: 'dm2_intensiva', rotulo: 'Diabetes tipo 2 com insulina em várias doses', descricao: 'Pelo menos antes das refeições e ao deitar; também se suspeitar de hipoglicemia e antes de dirigir.', momentos: ['antes_cafe', 'antes_almoco', 'antes_jantar', 'antes_dormir'], fonte: 'SBD 2026: Monitorização, R10 (I, C)' },
+  { id: 'dm2_sem_insulina', rotulo: 'Diabetes tipo 2 sem insulina', descricao: 'A medida em casa pode ser considerada, de forma individualizada, para autoconhecimento e adesão. Sem horários fixos: combine com seu médico.', momentos: [], fonte: 'SBD 2026: Monitorização, R8 (IIb, B)' },
 ];
 
 /** Modelos sugeridos quando o médico não prescreveu horários (§7). Sem tipo/insulina definidos, devolve todos. */

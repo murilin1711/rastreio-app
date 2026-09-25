@@ -26,6 +26,16 @@ export async function reagendarTudo(userId: string): Promise<void> {
   }
 }
 
+/**
+ * D-048: glicemia e água viraram avisos diários, que não acabam; as linhas da lista, não (7 dias).
+ * Renovar ao abrir o app mantém a lista igual ao que o celular vai tocar, como já acontecia com o remédio.
+ */
+export async function renovarAvisosDiarios(userId: string): Promise<void> {
+  const prefs = await lerPrefs(userId);
+  if (prefs.glicemia) await reagendarTipo(userId, 'glicemia').catch(() => {});
+  if (prefs.agua) await reagendarTipo(userId, 'agua').catch(() => {});
+}
+
 /** Grava as preferências e aplica a diferença: desligar cancela só as notificações do celular; religar reagenda (D-010). */
 export async function salvarPreferencias(userId: string, depois: PreferenciasLembretes): Promise<void> {
   const antes = (await obterPerfil(userId)).preferenciasLembretes;

@@ -3,9 +3,12 @@ import { Colors } from '@ui/theme';
 
 /**
  * Barra de abas nativa (D-022): no iOS 26 o sistema entrega Liquid Glass, ícone ativo em
- * `.fill`, adaptação clara/escura pelo conteúdo atrás, minimizar ao rolar e os modos de
- * acessibilidade (Reduce Transparency, Increase Contrast, Reduce Motion). No Android vira
- * a barra do Material 3.
+ * `.fill`, adaptação clara/escura pelo conteúdo atrás e os modos de acessibilidade (Reduce
+ * Transparency, Increase Contrast, Reduce Motion). No Android vira a barra do Material 3.
+ *
+ * `minimizeBehavior="never"`: o padrão do iOS 26 encolhe a barra para a esquerda ao rolar,
+ * deixando só o ícone da aba atual. O Murilo não quis (23/09/2026) — a barra fica inteira o
+ * tempo todo.
  *
  * As abas são os **eixos transversais** — o que a pessoa faz em qualquer módulo. Os módulos
  * (Rastreando, Coração, Bem-estar) ficam fora deste grupo e são alcançados pela grade da
@@ -15,7 +18,7 @@ import { Colors } from '@ui/theme';
  */
 export default function TabsLayout() {
   return (
-    <NativeTabs tintColor={Colors.primary} minimizeBehavior="onScrollDown">
+    <NativeTabs tintColor={Colors.primary} minimizeBehavior="never">
       <NativeTabs.Trigger name="index">
         <NativeTabs.Trigger.Icon sf={{ default: 'house', selected: 'house.fill' }} md="home" />
         <NativeTabs.Trigger.Label>Início</NativeTabs.Trigger.Label>

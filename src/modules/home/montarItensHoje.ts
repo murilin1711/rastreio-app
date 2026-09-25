@@ -47,6 +47,12 @@ interface Entrada {
   consultas?: ConsultasResumo;
   bemEstar?: BemEstarResumo;
   agora?: Date;
+  /**
+   * Todas as fontes da home já responderam. Falso enquanto alguma carrega: aí o "Nada pendente" não
+   * é emitido, porque seria uma afirmação sobre dados que ainda não chegaram (D-027). O resto dos
+   * itens continua saindo — um perfil incompleto é fato assim que o perfil chega.
+   */
+  pronto?: boolean;
 }
 
 const mesmoDia = (a: Date, b: Date) => a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
@@ -59,7 +65,7 @@ const NIVEL: Record<string, NivelAlertaUI> = { verde: 'verde', amarelo: 'amarelo
  * Bloco "Hoje" da Home (§56): o que precisa de atenção, do mais grave ao mais leve.
  * Fase 0: só completude do perfil. A Fase 1 acrescenta pendências e exames do Rastreando.
  */
-export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, rastreando, cardio, consultas, bemEstar, agora = new Date() }: Entrada): ItemHoje[] {
+export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, rastreando, cardio, consultas, bemEstar, agora = new Date(), pronto = true }: Entrada): ItemHoje[] {
   if (!perfil) return [];
   const itens: ItemHoje[] = [];
 
@@ -69,7 +75,7 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, 
     const dt = new Date(c.dataHora);
     const amanha = new Date(agora.getFullYear(), agora.getMonth(), agora.getDate() + 1);
     const rota = `/(app)/(tabs)/minha-saude/consulta?especialidade=${c.especialidade}&consultaId=${c.id}`;
-    if (mesmoDia(dt, agora)) itens.push({ id: 'consulta_hoje', nivel: 'amarelo', titulo: `Hoje: consulta de ${c.rotuloEspecialidade.toLowerCase()} às ${horaDe(dt)} — preparar`, descricao: 'Abra o relatório para levar ao médico.', rota });
+    if (mesmoDia(dt, agora)) itens.push({ id: 'consulta_hoje', nivel: 'amarelo', titulo: `Hoje: consulta de ${c.rotuloEspecialidade.toLowerCase()} às ${horaDe(dt)} · preparar`, descricao: 'Abra o relatório para levar ao médico.', rota });
     else if (mesmoDia(dt, amanha)) itens.push({ id: 'consulta_amanha', nivel: 'amarelo', titulo: `Amanhã: consulta de ${c.rotuloEspecialidade.toLowerCase()} às ${horaDe(dt)}`, descricao: 'Quer preparar o relatório?', rota });
   }
 
@@ -102,14 +108,14 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, 
     }
     if (mrpaAtiva && mrpaAtiva.faltaHoje.length && mrpaAtiva.dia >= 1 && mrpaAtiva.dia <= mrpaAtiva.diasPrevistos) {
       const periodo = mrpaAtiva.faltaHoje.includes('manha') ? 'manhã' : 'noite';
-      itens.push({ id: 'mrpa_hoje', nivel: 'amarelo', titulo: `Fazer as medidas da ${periodo} — MRPA, dia ${mrpaAtiva.dia} de ${mrpaAtiva.diasPrevistos}`, descricao: '3 medidas com 1 minuto de intervalo.', rota: `/(app)/coracao/mrpa/${mrpaAtiva.id}` });
+      itens.push({ id: 'mrpa_hoje', nivel: 'amarelo', titulo: `Fazer as medidas da ${periodo} · MRPA, dia ${mrpaAtiva.dia} de ${mrpaAtiva.diasPrevistos}`, descricao: '3 medidas com 1 minuto de intervalo.', rota: `/(app)/coracao/mrpa/${mrpaAtiva.id}` });
     }
     const { glicemia, planoVencidoHoje, checkup } = cardio;
     if (glicemia?.nivel && Date.now() - Date.parse(glicemia.medidoEm) < 86_400_000) {
       itens.push({ id: 'glicemia_alerta', nivel: glicemia.nivel, titulo: glicemia.nivel === 'vermelho' ? 'Procurar atendimento: glicemia com sinais de alarme' : glicemia.mgdl < 70 ? 'Rever orientação: glicemia muito baixa' : 'Repetir a medida: glicemia muito alta', descricao: `Última medida ${glicemia.mgdl} mg/dL. Siga a orientação do seu médico.`, rota: '/(app)/coracao/glicemia' });
     }
     if (planoVencidoHoje) {
-      itens.push({ id: 'glicemia_plano', nivel: 'amarelo', titulo: `Medir glicemia — ${planoVencidoHoje.rotulo}`, descricao: `Horário do seu plano: ${planoVencidoHoje.hora}.`, rota: '/(app)/coracao/glicemia/registrar' });
+      itens.push({ id: 'glicemia_plano', nivel: 'amarelo', titulo: `Medir glicemia · ${planoVencidoHoje.rotulo}`, descricao: `Horário do seu plano: ${planoVencidoHoje.hora}.`, rota: '/(app)/coracao/glicemia/registrar' });
     }
     if (checkup && checkup.faltante && checkup.atualizados < checkup.total) {
       itens.push({ id: 'checkup', nivel: 'cinza', titulo: `Atualizar minha prevenção: ${checkup.atualizados} de ${checkup.total} em dia`, descricao: checkup.faltante, rota: '/(app)/coracao/checkup' });
@@ -162,7 +168,7 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, 
       acaoSecundaria: { rotulo: 'Não uso medicamentos', campo: 'semMedicacoes' },
     });
   }
-  if (!itens.length) {
+  if (!itens.length && pronto) {
     itens.push({
       id: 'tudo_em_dia',
       nivel: 'verde',

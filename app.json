@@ -8,14 +8,14 @@
     "scheme": "nero",
     "userInterfaceStyle": "light",
     "ios": {
-      "supportsTablet": true,
-      "buildNumber": "1",
+      "supportsTablet": false,
       "infoPlist": {
         "CFBundleDevelopmentRegion": "pt-BR",
         "CFBundleLocalizations": [
           "pt-BR"
         ],
-        "ITSAppUsesNonExemptEncryption": false
+        "ITSAppUsesNonExemptEncryption": false,
+        "NSFaceIDUsageDescription": "O NERO usa o Face ID para que só você veja suas informações de saúde neste aparelho."
       },
       "bundleIdentifier": "br.com.nerosaude.app"
     },
@@ -24,7 +24,7 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "monochromeImage": "./assets/images/adaptive-icon-mono.png",
-        "backgroundColor": "#F3F0EA"
+        "backgroundColor": "#FFFFFF"
       },
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO",
@@ -46,7 +46,7 @@
           "image": "./assets/images/splash.png",
           "imageWidth": 220,
           "resizeMode": "contain",
-          "backgroundColor": "#F3F0EA"
+          "backgroundColor": "#FFFFFF"
         }
       ],
       "expo-sharing",
@@ -67,10 +67,19 @@
           "defaultChannel": "lembretes"
         }
       ],
-      "expo-image"
+      "expo-image",
+      "expo-secure-store",
+      "@react-native-community/datetimepicker"
     ],
     "experiments": {
       "typedRoutes": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "e30fea11-66fa-49b6-b3c5-a1e0cc60ff93"
+      }
+    },
+    "owner": "murilorp1711"
   }
 }

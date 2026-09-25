@@ -7,7 +7,7 @@ export const frase30anos = 'A estimativa em 30 anos não tem faixas de classific
 export const fraseAgravantes = 'Existem fatores adicionais que podem modificar a interpretação do seu risco calculado. Converse com seu médico.';
 export const fraseFatores = 'As cores abaixo são educativas, não um diagnóstico. Mostram o que pesa na estimativa e o que você pode conversar com seu médico.';
 export const coeficientesPendentes = 'O cálculo do PREVENT ainda não está disponível nesta versão: os coeficientes da equação estão sendo transcritos da publicação original (Khan et al., 2024). Seus dados já ficam organizados para quando ele for liberado.';
-export const ROTULO_ESTADO = { atual: 'Atual', antigo: 'Antigo — tem mais recente?', faltando: 'Faltando' } as const;
+export const ROTULO_ESTADO = { atual: 'Atual', antigo: 'Antigo: tem mais recente?', faltando: 'Faltando' } as const;
 export const ROTULO_MOTIVO_INELEGIVEL = {
   idade: 'O escore foi desenvolvido para pessoas de 30 a 79 anos.',
   evento_previo: 'Quem já teve infarto, AVC ou procedimento nas artérias tem o risco avaliado de outra forma pelo médico.',

@@ -8,6 +8,7 @@ import { PROGRAMAS, ROTULO_EXAME, TIPOS_POR_PROGRAMA, type TipoExameRastreamento
 import { useRastreando } from '@core/rastreando/useRastreando';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro } from '@core/supabase/erros';
+import { usePedidoDeAvisos } from '@core/lembretes/usePedidoDeAvisos';
 import { PassoPerfil } from '@modules/minha-saude/PassoPerfil';
 import { FormResultado, resultadoValido, type Resultado } from '@modules/rastreando/componentes/FormResultado';
 import { ResultadoClassificacaoView } from '@modules/rastreando/componentes/ResultadoClassificacaoView';
@@ -22,6 +23,7 @@ export default function Registrar() {
   const { programa, pendencia } = useLocalSearchParams<{ programa: string; pendencia?: string }>();
   const { sessao, online } = useSessao();
   const { pendencias, exames, recarregar } = useRastreando();
+  const avisos = usePedidoDeAvisos();
 
   const valido = PROGRAMAS.includes(programa as Programa);
   const p = (valido ? programa : 'mama') as Programa;
@@ -51,6 +53,7 @@ export default function Registrar() {
 
   const salvar = async () => {
     if (!sessao || !tipo || !data) return;
+    await avisos.pedir(); // D-043: o exame cria os lembretes da próxima data; pergunta antes de gravar.
     setSalvando(true);
     try {
       const r = await registrarExame(sessao.user.id, {
@@ -83,7 +86,7 @@ export default function Registrar() {
   const comum = { passo, total: TOTAL, salvando, ultimo: passo === TOTAL, onVoltar: passo > 1 ? () => setPasso(passo - 1) : () => router.back() };
   const avancar = () => (passo === TOTAL ? salvar() : setPasso(passo + 1));
 
-  switch (atual) {
+  const tela = (() => { switch (atual) {
     case 'tipo':
       return (
         <PassoPerfil {...comum} titulo="Qual exame você fez?" podeAvancar={!!tipo} onAvancar={avancar}>
@@ -129,7 +132,8 @@ export default function Registrar() {
           </View>
         </PassoPerfil>
       );
-  }
+  } })();
+  return <>{tela}{avisos.modal}</>;
 }
 
 const styles = StyleSheet.create({

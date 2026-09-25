@@ -88,6 +88,12 @@ export interface ResultadoElegibilidade {
   proximaData: string | null;
   /** Regra citada (ex.: "ACG 2021, Rec. 9"). */
   detalhes?: string;
+  /**
+   * O programa não se aplica a este perfil e não vai se aplicar (próstata em perfil feminino, mama
+   * em perfil masculino) — diferente de "fora da faixa etária", que é temporário e compartilha o
+   * mesmo status. Quem monta relatório usa isto para não imprimir a seção (D-026).
+   */
+  naoAplicavel?: boolean;
 }
 
 export interface BloqueioSeguranca {

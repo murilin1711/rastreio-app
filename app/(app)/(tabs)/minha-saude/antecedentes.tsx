@@ -43,7 +43,7 @@ export default function Antecedentes() {
   };
 
   const excluir = (a: AntecedenteFamiliar) =>
-    Alert.alert('Remover antecedente', `${rotuloDe(OPCOES_PARENTESCO, a.parentesco)} — ${rotuloDe(OPCOES_CONDICAO_FAMILIAR, a.condicao)}`, [
+    Alert.alert('Remover antecedente', `${rotuloDe(OPCOES_PARENTESCO, a.parentesco)}: ${rotuloDe(OPCOES_CONDICAO_FAMILIAR, a.condicao)}`, [
       { text: 'Cancelar', style: 'cancel' },
       { text: 'Remover', style: 'destructive', onPress: () => excluirAntecedente(a.id).catch((e) => Alert.alert('Não foi possível remover', traduzirErro(e).mensagemUsuario)) },
     ]);

@@ -98,7 +98,7 @@ export default function RelatorioMrpaTela() {
 
         <View style={styles.bloco}>
           <Text style={styles.secao}>Medicamentos em uso</Text>
-          {ativas.length ? ativas.map((m) => <Text key={m.id} style={styles.texto}>• {m.nome}{m.dose ? ` ${m.dose}` : ''}{m.horarios.length ? ` — ${formatarHorarios(m.horarios)}` : ''}</Text>) : <Text style={styles.texto}>Nenhum cadastrado.</Text>}
+          {ativas.length ? ativas.map((m) => <Text key={m.id} style={styles.texto}>• {m.nome}{m.dose ? ` ${m.dose}` : ''}{m.horarios.length ? `: ${formatarHorarios(m.horarios)}` : ''}</Text>) : <Text style={styles.texto}>Nenhum cadastrado.</Text>}
         </View>
 
         {sintomas.length ? (

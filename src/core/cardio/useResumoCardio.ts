@@ -7,6 +7,9 @@ export function useResumoCardio() {
   const { sessao } = useSessao();
   const userId = sessao?.user.id;
   const [resumo, setResumo] = useState<ResumoCardio | undefined>(undefined);
+  // `carregando` fecha mesmo quando a busca falha: a Home espera por ele para decidir se já pode
+  // dizer "nada pendente" (D-027), e um erro aqui não pode deixá-la esperando para sempre.
+  const [carregando, setCarregando] = useState(true);
 
   const recarregar = useCallback(async () => {
     if (!userId) return;
@@ -14,6 +17,8 @@ export function useResumoCardio() {
       setResumo(await montarResumoCardio(userId));
     } catch {
       // a Home segue funcionando sem o resumo do módulo
+    } finally {
+      setCarregando(false);
     }
   }, [userId]);
 
@@ -21,5 +26,5 @@ export function useResumoCardio() {
     recarregar();
   }, [recarregar]);
 
-  return { resumo, recarregar };
+  return { resumo, carregando, recarregar };
 }

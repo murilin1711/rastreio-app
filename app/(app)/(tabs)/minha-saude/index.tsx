@@ -1,5 +1,7 @@
 import { useFocusEffect, useRouter } from 'expo-router';
-import { useCallback, useState } from 'react';
+import * as WebBrowser from 'expo-web-browser';
+import { Alert, Switch } from 'react-native';
+import { useCallback, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { listarExamesCardio } from '@core/cardio/examesCardio';
@@ -9,15 +11,34 @@ import { useConsultas } from '@core/lembretes/useConsultas';
 import { useMedicacoes } from '@core/medicacoes/useMedicacoes';
 import { usePerfil } from '@core/perfil/usePerfil';
 import { montarContexto } from '@core/rastreando/contexto';
-import { rotuloEspecialidade } from '@core/relatorios/especialidades';
+import { bloqueioAtivo, definirBloqueio, pedirBiometria, recursoBiometrico, type RecursoBiometrico } from '@core/sessao/bloqueio';
+import { URL_PRIVACIDADE } from '@core/publicacao';
+import { nomeComum } from '@core/relatorios/especialidades';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { dataHoraBr } from '@modules/coracao/componentes/formato';
-import { Button, Colors, ListItem, NeroAnimado, Spacing, Typography } from '@ui/index';
+import { Button, Colors, ListItem, NeroAnimado, Radius, Spacing, Typography, useEspacoAbas } from '@ui/index';
 
 const plural = (n: number, s: string, p: string) => `${n} ${n === 1 ? s : p}`;
 
 /** Minha Saúde (§58–§63): índice transversal com contadores por entrada. */
 export default function MinhaSaude() {
+  const espacoAbas = useEspacoAbas();
+  // Bloqueio por biometria (D-032): preferência do aparelho, não da conta.
+  const [biometria, setBiometria] = useState<RecursoBiometrico | null>(null);
+  const [travaLigada, setTravaLigada] = useState(false);
+  useEffect(() => {
+    recursoBiometrico().then(setBiometria);
+    bloqueioAtivo().then(setTravaLigada);
+  }, []);
+
+  const alternarTrava = async (ligar: boolean) => {
+    // Pede a biometria ANTES de ligar: se o rosto não for reconhecido agora, ligar trancaria a
+    // pessoa para fora do próprio prontuário na próxima abertura.
+    if (ligar && !(await pedirBiometria())) return;
+    await definirBloqueio(ligar);
+    setTravaLigada(ligar);
+    if (ligar) Alert.alert('Pronto', `O NERO vai pedir ${biometria?.nome ?? 'a biometria'} ao abrir e quando você voltar depois de alguns minutos.`);
+  };
   const router = useRouter();
   const { sessao, sair } = useSessao();
   const { perfil, antecedentes, recarregar: recarregarPerfil } = usePerfil();
@@ -36,13 +57,13 @@ export default function MinhaSaude() {
 
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
-      <ScrollView contentContainerStyle={styles.conteudo}>
+      <ScrollView contentContainerStyle={[styles.conteudo, { paddingBottom: espacoAbas }]}>
         <View style={styles.cabecalho}>
           <View style={{ flex: 1 }}>
             <Text style={styles.contexto}>Minha Saúde</Text>
             <Text style={styles.titulo}>{perfil?.nome || 'Seu perfil'}</Text>
           </View>
-          <NeroAnimado size={96} />
+          <NeroAnimado size={96} style={styles.nero} />
         </View>
 
         <Text style={styles.secao}>Meus dados</Text>
@@ -61,13 +82,29 @@ export default function MinhaSaude() {
 
         <Text style={styles.secao}>Para o médico</Text>
         <View style={{ gap: Spacing.sm }}>
-          <ListItem icon="document-text-outline" title="Relatórios" subtitle="PDF cardiovascular, oncológico ou geral; código QR" onPress={() => router.push('/(app)/(tabs)/minha-saude/relatorios')} />
-          <ListItem icon="calendar-outline" title="Preparar minha consulta" subtitle={consultas.proxima ? `Próxima: ${rotuloEspecialidade(consultas.proxima.especialidade)}, ${dataHoraBr(consultas.proxima.dataHora)}` : 'Relatório focado na especialidade'} onPress={() => router.push(consultas.proxima ? { pathname: '/(app)/(tabs)/minha-saude/consulta', params: { especialidade: consultas.proxima.especialidade, consultaId: consultas.proxima.id } } : '/(app)/(tabs)/minha-saude/consulta')} />
+          {/* Uma porta só para relatório e consulta (D-025): eram dois itens que produziam quase o
+              mesmo documento, e nem quem fez o app distinguia os dois de imediato. */}
+          <ListItem icon="document-text-outline" title="Levar ao médico" subtitle={consultas.proxima ? `Sua consulta de ${dataHoraBr(consultas.proxima.dataHora)} · ${nomeComum(consultas.proxima.especialidade)}` : 'Um resumo da sua saúde para a consulta'} onPress={() => router.push('/(app)/(tabs)/minha-saude/relatorios')} />
           <ListItem icon="notifications-outline" title="Meus lembretes" subtitle={contadores?.proximoLembrete ? `Próximo: ${contadores.proximoLembrete}` : 'Próximos 30 dias, preferências e consultas'} onPress={() => router.push('/(app)/(tabs)/agenda')} />
         </View>
 
+        {biometria?.disponivel ? (
+          <>
+            <Text style={styles.secao}>Segurança</Text>
+            <View style={styles.trava}>
+              <View style={{ flex: 1 }}>
+                <Text style={styles.travaTitulo}>Pedir {biometria.nome} ao abrir</Text>
+                <Text style={styles.travaSub}>Quem pegar seu celular desbloqueado não vê suas informações de saúde.</Text>
+              </View>
+              <Switch value={travaLigada} onValueChange={alternarTrava} trackColor={{ true: Colors.accent }} />
+            </View>
+          </>
+        ) : null}
+
         <Button label="Sair da conta" variant="ghost" onPress={sair} style={{ marginTop: Spacing.xxxl }} />
         <Button label="Excluir minha conta" variant="ghost" onPress={() => router.push('/(app)/(tabs)/minha-saude/excluir-conta')} />
+        {/* Exigido pelas duas lojas na ficha do app, e esperado também aqui dentro. */}
+        <Button label="Política de privacidade" variant="ghost" onPress={() => WebBrowser.openBrowserAsync(URL_PRIVACIDADE).catch(() => {})} />
       </ScrollView>
     </SafeAreaView>
   );
@@ -75,9 +112,14 @@ export default function MinhaSaude() {
 
 const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: Colors.background },
-  conteudo: { padding: Spacing.xxl, paddingBottom: Spacing.xxxl },
+  conteudo: { padding: Spacing.xxl },
   cabecalho: { flexDirection: 'row', alignItems: 'center', marginBottom: Spacing.lg },
+  /** Calibrado pelo Murilo em 23/09: fora da borda e um pouco acima da linha do nome. */
+  nero: { marginRight: 30, transform: [{ translateY: -11 }] },
   contexto: { ...Typography.caption, color: Colors.textSecondary },
   titulo: { ...Typography.display, fontSize: 26, lineHeight: 32, color: Colors.primary },
   secao: { ...Typography.heading, color: Colors.textPrimary, marginTop: Spacing.xxl, marginBottom: Spacing.sm },
+  trava: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md, backgroundColor: Colors.surface, borderRadius: Radius.linha, borderWidth: 1, borderColor: Colors.border, padding: Spacing.lg },
+  travaTitulo: { ...Typography.subheading, color: Colors.textPrimary },
+  travaSub: { ...Typography.caption, color: Colors.textSecondary, marginTop: 2 },
 });

@@ -1,7 +1,7 @@
 import type { PerfilRegras, ProgramaHandler } from '../tipos';
 import { casaCondicao, temHistoricoPessoal } from './util';
 
-const FONTE = 'INCA 2025 — Diretrizes Brasileiras para o Rastreamento do Câncer do Colo do Útero, 3. ed. (Portaria SAES/SECTICS 13/2025)';
+const FONTE = 'INCA 2025: Diretrizes Brasileiras para o Rastreamento do Câncer do Colo do Útero, 3. ed. (Portaria SAES/SECTICS 13/2025)';
 
 export function imunossuprimida(p: PerfilRegras): boolean {
   return p.condicoes.hiv === true || p.condicoes.imunossupressao === true;

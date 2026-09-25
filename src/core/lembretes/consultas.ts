@@ -3,6 +3,7 @@ import { rotuloEspecialidade } from '@core/relatorios/especialidades';
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
 import { notificacoesPermitidas } from './permissao';
+import { textoConsultaDia, textoConsultaVespera } from './textos';
 import type { Consulta } from './tipos';
 
 const CAMPOS = 'id, especialidade, data_hora, local, profissional, observacao';
@@ -44,11 +45,11 @@ export async function agendarLembretesConsulta(userId: string, c: Consulta): Pro
   await cancelarLembretesConsulta(userId, c.id);
   const temPermissao = await notificacoesPermitidas(userId, 'consulta');
   const dt = new Date(c.dataHora);
-  const esp = rotuloEspecialidade(c.especialidade).toLowerCase();
+  const esp = rotuloEspecialidade(c.especialidade);
   const vespera = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate() - 1, 9, 0, 0);
   const dia = new Date(dt.getFullYear(), dt.getMonth(), dt.getDate(), 7, 0, 0);
-  await agendar(userId, 'consulta', c.id, `consulta:${c.id}:vespera`, `Amanhã: consulta de ${esp} às ${hora(c.dataHora)}. Quer preparar o relatório?`, vespera, temPermissao);
-  await agendar(userId, 'consulta', c.id, `consulta:${c.id}:dia`, `Hoje: consulta de ${esp} às ${hora(c.dataHora)}${c.local ? ` — ${c.local}` : ''}. O relatório está em Minha Saúde › Preparar minha consulta.`, dia, temPermissao);
+  await agendar(userId, 'consulta', c.id, `consulta:${c.id}:vespera`, textoConsultaVespera(esp, hora(c.dataHora)), vespera, temPermissao);
+  await agendar(userId, 'consulta', c.id, `consulta:${c.id}:dia`, textoConsultaDia(esp, hora(c.dataHora), c.local), dia, temPermissao);
 }
 
 export async function cancelarLembretesConsulta(userId: string, consultaId: string): Promise<void> {

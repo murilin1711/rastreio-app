@@ -39,13 +39,21 @@ export default function Login() {
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
           <LogoNero variante="completa" width={170} style={{ alignSelf: 'center' }} />
-          <Text style={styles.titulo}>Bem-vindo</Text>
-          <Text style={styles.sub}>Entre para continuar seu acompanhamento.</Text>
+          <Text style={styles.titulo}>Que bom te ver</Text>
+          <Text style={styles.sub}>Entre para continuar de onde parou</Text>
 
+          {/*
+            Sem o mascote aqui, de propósito (D-033): ele já se apresenta nos três slides do
+            onboarding, e repetir na tela seguinte cansa. O login é a tela mais enxuta do app.
+            Campos de 56 px, calibrados pelo Murilo: o público é de idosos.
+          */}
           <View style={styles.form}>
-            <Input placeholder="E-mail" autoCapitalize="none" autoComplete="email" keyboardType="email-address" value={email} onChangeText={setEmail} />
-            <Input placeholder="Senha" secureTextEntry autoComplete="password" value={senha} onChangeText={setSenha} onSubmitEditing={entrar} />
-            <Button label="Entrar" onPress={entrar} loading={carregando} />
+            <Input placeholder="E-mail" autoCapitalize="none" autoComplete="email" keyboardType="email-address" value={email} onChangeText={setEmail} style={styles.campo} />
+            <Input placeholder="Senha" secureTextEntry autoComplete="password" value={senha} onChangeText={setSenha} onSubmitEditing={entrar} style={styles.campo} />
+            <Link href={{ pathname: '/(auth)/recuperar', params: email.trim() ? { email: email.trim() } : {} }} style={styles.esqueci}>
+              Esqueci minha senha
+            </Link>
+            <Button label="Entrar" onPress={entrar} loading={carregando} style={styles.botao} />
           </View>
 
           <Link href="/(auth)/cadastro" style={styles.link}>
@@ -63,6 +71,10 @@ const styles = StyleSheet.create({
   titulo: { ...Typography.display, color: Colors.primary, textAlign: 'center', marginTop: Spacing.xl },
   sub: { ...Typography.body, color: Colors.textSecondary, textAlign: 'center', marginTop: Spacing.xs },
   form: { gap: Spacing.md, marginTop: Spacing.xxxl },
+  /** 56 px: alvo confortável para quem tem dificuldade de mira (D-033). */
+  campo: { minHeight: 56 },
+  botao: { minHeight: 56 },
+  esqueci: { ...Typography.body, fontFamily: 'Poppins-SemiBold', color: Colors.accent, textAlign: 'right', marginTop: -Spacing.xs },
   link: { ...Typography.body, color: Colors.textSecondary, textAlign: 'center', marginTop: Spacing.xxl },
   linkForte: { fontFamily: 'Poppins-SemiBold', color: Colors.primary },
 });

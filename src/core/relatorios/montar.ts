@@ -47,7 +47,7 @@ const ROTULO_STATUS: Record<string, string> = { indicado: 'Indicado', proximo_de
 const ROTULO_CATEGORIA_RISCO = { baixo: 'baixo', intermediario: 'intermediário', alto: 'alto' } as const;
 
 // ——— seções ———
-type Construtor = (d: DadosNero, periodo: Periodo) => SecaoRelatorio;
+type Construtor = (d: DadosNero, periodo: Periodo) => SecaoRelatorio | null;
 
 function laboratorio(d: DadosNero, chave: ChaveSecao, titulo: string, tipos: string[]): SecaoRelatorio {
   const ultimos = ultimoPorTipo(d.examesCardio, tipos);
@@ -61,9 +61,16 @@ function laboratorio(d: DadosNero, chave: ChaveSecao, titulo: string, tipos: str
   return { chave, titulo, blocos: [{ tipo: 'tabela', colunas: ['Exame', 'Último resultado', 'Data', 'Referência do laboratório', 'Anteriores'], linhas }] };
 }
 
-function programa(d: DadosNero, chave: ChaveSecao, p: Programa, titulo: string): SecaoRelatorio {
+/**
+ * Seção de um programa de rastreamento, ou `null` quando ele não se aplica ao perfil e não há nada
+ * registrado (D-026): imprimir "não é aplicável ao seu perfil" só gasta papel e atenção do médico.
+ * Havendo exame ou pendência registrada, a seção fica — o dado existe e precisa ser mostrado.
+ */
+function programa(d: DadosNero, chave: ChaveSecao, p: Programa, titulo: string): SecaoRelatorio | null {
   const blocos: Bloco[] = [];
   const av = d.avaliacoes[p];
+  const temRegistroNoPrograma = d.examesRastreamento.some((e) => e.programa === p) || d.pendencias.some((x) => x.programa === p);
+  if (av?.naoAplicavel && !temRegistroNoPrograma) return null;
   if (av) blocos.push(texto(`Situação: ${ROTULO_STATUS[av.status] ?? av.status}. ${av.mensagem}${av.proximaData ? ` Próxima data: ${dataBr(av.proximaData)}.` : ''}`));
   const exames = d.examesRastreamento.filter((e) => e.programa === p).sort((a, b) => b.dataRealizacao.localeCompare(a.dataRealizacao));
   if (exames.length) {
@@ -96,8 +103,8 @@ const CONSTRUTORES: Record<ChaveSecao, Construtor> = {
     const ultimo = pesos[0]; const cintura = cinturas[0];
     const imc = ultimo && be.alturaCm ? ultimo.valores.kg! / (be.alturaCm / 100) ** 2 : null;
     const itens: string[] = [];
-    if (ultimo) itens.push(`Peso atual ${num(ultimo.valores.kg, 1)} kg (${dataBr(ultimo.medidoEm)})${imc != null ? ` · IMC ${num(imc, 1)} — ${faixaIMC(imc, p).rotulo}${faixaIMCIdoso(imc, be.idade, p) ? ` · ${faixaIMCIdoso(imc, be.idade, p)!.rotulo}` : ''}` : ''}`);
-    if (cintura) { const v = be.alturaCm ? rca(cintura.valores.cm!, be.alturaCm) : null; itens.push(`Circunferência abdominal ${num(cintura.valores.cm, 0)} cm (${dataBr(cintura.medidoEm)})${be.sexo ? ` — ${classificarCintura(cintura.valores.cm!, be.sexo, p).faixa.replace('_', ' ')}` : ''}${v != null ? ` · relação cintura/altura ${num(v, 2)} (${classificarRCA(v, p).acima ? 'acima' : 'abaixo'} de 0,5)` : ''}`); }
+    if (ultimo) itens.push(`Peso atual ${num(ultimo.valores.kg, 1)} kg (${dataBr(ultimo.medidoEm)})${imc != null ? ` · IMC ${num(imc, 1)}: ${faixaIMC(imc, p).rotulo}${faixaIMCIdoso(imc, be.idade, p) ? ` · ${faixaIMCIdoso(imc, be.idade, p)!.rotulo}` : ''}` : ''}`);
+    if (cintura) { const v = be.alturaCm ? rca(cintura.valores.cm!, be.alturaCm) : null; itens.push(`Circunferência abdominal ${num(cintura.valores.cm, 0)} cm (${dataBr(cintura.medidoEm)})${be.sexo ? `: ${classificarCintura(cintura.valores.cm!, be.sexo, p).faixa.replace('_', ' ')}` : ''}${v != null ? ` · relação cintura/altura ${num(v, 2)} (${classificarRCA(v, p).acima ? 'acima' : 'abaixo'} de 0,5)` : ''}`); }
     const tend = tendenciaPeso(pesos.map((m) => ({ medidoEm: m.medidoEm, kg: m.valores.kg! })), periodo.ate, p);
     if (tend) itens.push(`Tendência do peso: ${tend === 'estavel' ? 'estável' : tend === 'aumento' ? 'aumento' : 'redução'} (médias de 14 dias)`);
     if (d.perfil.pesoMaximoVidaKg != null && ultimo && imc != null) { const r = avaliarPMAV(ultimo.valores.kg!, d.perfil.pesoMaximoVidaKg, imc, p); itens.push(`Peso máximo da vida ${num(d.perfil.pesoMaximoVidaKg, 1)} kg · ${num(r.perdaPct, 1)} % abaixo${r.faixa && r.faixa !== 'nenhuma' ? ` · faixa de obesidade ${r.faixa} (ABESO 2026)` : ''}`); }
@@ -130,7 +137,7 @@ const CONSTRUTORES: Record<ChaveSecao, Construtor> = {
       .map((s) => ({ s, r: resumoAguaSemana(be.aguas, s, metaMl) }))
       .filter((x) => x.r.diasComRegistro > 0);
     const blocos: Bloco[] = [
-      texto(`${metaMl != null ? `Meta em uso: ${ml(metaMl)} por dia (${meta!.origem === 'app' ? 'sugerida pelo app, 35 ml/kg' : meta!.origem === 'profissional' ? 'definida com profissional' : 'do paciente'}). ` : 'Sem meta definida. '}Registro manual da água bebida — não inclui a água dos alimentos, por isso não é comparável às referências de água total (EFSA, IOM). A média considera apenas os dias com registro: dia sem anotação não é dia sem beber.`),
+      texto(`${metaMl != null ? `Meta em uso: ${ml(metaMl)} por dia (${meta!.origem === 'app' ? 'sugerida pelo app, 35 ml/kg' : meta!.origem === 'profissional' ? 'definida com profissional' : 'do paciente'}). ` : 'Sem meta definida. '}Registro manual da água bebida, sem incluir a água dos alimentos, por isso não é comparável às referências de água total (EFSA, IOM). A média considera apenas os dias com registro: dia sem anotação não é dia sem beber.`),
       { tipo: 'tabela', colunas: ['Semana de', 'Dias registrados', 'Média por dia', 'Total da semana', 'Dias que bateram a meta'], linhas: semanas.map(({ s, r }) => [dataBr(s.inicio), String(r.diasComRegistro), ml(r.mediaDiariaMl), ml(r.totalMl), r.diasQueBateramMeta != null ? `${r.diasQueBateramMeta} de ${r.diasComRegistro}` : '—']) },
     ];
     if (metaMl != null) blocos.push({ tipo: 'barras', itens: semanas.slice(-12).map(({ s, r }) => ({ rotulo: dataBr(s.inicio).slice(0, 5), valor: r.mediaDiariaMl ?? 0, max: Math.max(metaMl, ...semanas.map((x) => x.r.mediaDiariaMl ?? 0)), texto: ml(r.mediaDiariaMl) })) });
@@ -189,9 +196,9 @@ const CONSTRUTORES: Record<ChaveSecao, Construtor> = {
   documentos: (d) => ({ chave: 'documentos', titulo: 'Documentos anexados no período', blocos: d.documentos.length ? [{ tipo: 'lista', itens: d.documentos.map((x) => `${x.nome} · ${ROTULO_TIPO_DOCUMENTO[x.tipo]} · ${dataBr(x.dataDocumento ?? x.criadoEm)}`) }] : vazio() }),
   pa: (d) => {
     const ms = d.medidasPA.filter((m) => !m.sessaoId).sort((a, b) => a.medidoEm.localeCompare(b.medidoEm));
-    if (!ms.length) return { chave: 'pa', titulo: 'Pressão arterial — medidas avulsas', blocos: vazio() };
+    if (!ms.length) return { chave: 'pa', titulo: 'Pressão arterial: medidas avulsas', blocos: vazio() };
     const mPas = media(ms.map((m) => m.pas))!; const mPad = media(ms.map((m) => m.pad))!;
-    return { chave: 'pa', titulo: 'Pressão arterial — medidas avulsas', blocos: [
+    return { chave: 'pa', titulo: 'Pressão arterial: medidas avulsas', blocos: [
       texto(`${ms.length} medidas no período · média ${num(mPas)}/${num(mPad)} mmHg. Medidas avulsas são triagem e não definem diagnóstico; a referência domiciliar é a da MRPA.`),
       { tipo: 'barras', itens: ms.slice(-14).map((m) => ({ rotulo: dataBr(m.medidoEm), valor: m.pas, max: 200, texto: `${m.pas}/${m.pad}` })) },
       { tipo: 'tabela', colunas: ['Data e hora', 'PAS', 'PAD', 'FC', 'Sintomas'], linhas: ms.map((m) => [dataHoraBr(m.medidoEm), String(m.pas), String(m.pad), m.fc != null ? String(m.fc) : '—', m.contexto.sintomas?.length ? m.contexto.sintomas.join(', ') : '—']) },
@@ -199,7 +206,7 @@ const CONSTRUTORES: Record<ChaveSecao, Construtor> = {
   },
   mrpa: (d) => {
     const ss = d.sessoesMrpa.filter((s) => s.resultado);
-    if (!ss.length) return { chave: 'mrpa', titulo: 'MRPA — monitorização residencial', blocos: vazio() };
+    if (!ss.length) return { chave: 'mrpa', titulo: 'MRPA: monitorização residencial', blocos: vazio() };
     const blocos: Bloco[] = [];
     for (const s of ss) {
       const r = s.resultado!;
@@ -209,7 +216,7 @@ const CONSTRUTORES: Record<ChaveSecao, Construtor> = {
       if (r.medias.porDia.length) blocos.push({ tipo: 'barras', itens: r.medias.porDia.filter((x) => x.total).map((x) => ({ rotulo: `Dia ${x.dia}`, valor: x.total!.pas, max: 200, texto: `${num(x.total!.pas)}/${num(x.total!.pad)}` })) });
       if (r.valido && r.acimaReferencia != null) blocos.push({ tipo: 'chip', nivel: r.acimaReferencia ? 'amarelo' : 'verde', texto: r.acimaReferencia ? 'Média acima da referência domiciliar (130/80 mmHg)' : 'Média dentro da referência domiciliar (130/80 mmHg)' });
     }
-    return { chave: 'mrpa', titulo: 'MRPA — monitorização residencial', blocos };
+    return { chave: 'mrpa', titulo: 'MRPA: monitorização residencial', blocos };
   },
   glicemia: (d) => {
     if (!d.glicemias.length) return { chave: 'glicemia', titulo: 'Glicemia capilar', blocos: vazio() };
@@ -255,10 +262,11 @@ const CONSTRUTORES: Record<ChaveSecao, Construtor> = {
   },
   checkup: (d) => {
     if (!d.checkup) return { chave: 'checkup', titulo: 'Check-up cardiometabólico', blocos: vazio() };
-    return { chave: 'checkup', titulo: 'Check-up cardiometabólico', blocos: [texto(`${d.checkup.atualizados} de ${d.checkup.total} itens atualizados`), { tipo: 'lista', itens: d.checkup.itens.map((i) => `${i.rotulo}: ${i.naoSeAplica ? 'não se aplica' : i.atualizado ? 'atualizado' : 'pendente'} — ${i.frase}`) }] };
+    return { chave: 'checkup', titulo: 'Check-up cardiometabólico', blocos: [texto(`${d.checkup.atualizados} de ${d.checkup.total} itens atualizados`), { tipo: 'lista', itens: d.checkup.itens.map((i) => `${i.rotulo}: ${i.naoSeAplica ? 'não se aplica' : i.atualizado ? 'atualizado' : 'pendente'} · ${i.frase}`) }] };
   },
   rastreamentos_status: (d) => {
-    const linhas = (Object.keys(d.avaliacoes) as Programa[]).map((p) => { const a = d.avaliacoes[p]!; return [ROTULO_PROGRAMA[p], ROTULO_STATUS[a.status] ?? a.status, a.proximaData ? dataBr(a.proximaData) : '—', a.mensagem]; });
+    // Programas que não se aplicam ao perfil ficam fora da tabela pelo mesmo motivo da seção (D-026).
+    const linhas = (Object.keys(d.avaliacoes) as Programa[]).filter((p) => !d.avaliacoes[p]!.naoAplicavel).map((p) => { const a = d.avaliacoes[p]!; return [ROTULO_PROGRAMA[p], ROTULO_STATUS[a.status] ?? a.status, a.proximaData ? dataBr(a.proximaData) : '—', a.mensagem]; });
     return { chave: 'rastreamentos_status', titulo: 'Rastreamentos aplicáveis', blocos: linhas.length ? [{ tipo: 'tabela', colunas: ['Programa', 'Situação', 'Próxima data', 'Orientação'], linhas }] : vazio() };
   },
   mama: (d) => programa(d, 'mama', 'mama', 'Mama'),
@@ -278,10 +286,15 @@ const CONSTRUTORES: Record<ChaveSecao, Construtor> = {
   consultas: (d) => ({ chave: 'consultas', titulo: 'Consultas marcadas', blocos: d.consultas.length ? [{ tipo: 'lista', itens: d.consultas.map((c) => `${rotuloEspecialidade(c.especialidade)} · ${dataHoraBr(c.dataHora)}${c.local ? ` · ${c.local}` : ''}${c.profissional ? ` · ${c.profissional}` : ''}`) }] : [texto('Nenhuma consulta marcada.')] }),
 };
 
-function montarPor(chaves: ChaveSecao[], d: DadosNero, periodo: Periodo): SecaoRelatorio[] {
-  const secoes = chaves.map((c) => CONSTRUTORES[c](d, periodo));
+/**
+ * `garantirPendencias` desligado só na montagem do complemento (D-025): a regra §66 já foi aplicada
+ * na parte de cima, e reaplicá-la aqui duplicaria a seção no mesmo documento.
+ */
+function montarPor(chaves: ChaveSecao[], d: DadosNero, periodo: Periodo, garantirPendencias = true): SecaoRelatorio[] {
+  const secoes = chaves.map((c) => CONSTRUTORES[c](d, periodo)).filter((x): x is SecaoRelatorio => x !== null);
   // Pendência aberta nunca é omitida, em nenhum tipo de relatório (§66).
-  if (d.pendencias.length && !chaves.includes('pendencias')) secoes.push(CONSTRUTORES.pendencias(d, periodo));
+  // `pendencias` nunca devolve null — só os construtores de programa fazem isso (D-026).
+  if (garantirPendencias && d.pendencias.length && !chaves.includes('pendencias')) secoes.push(CONSTRUTORES.pendencias(d, periodo)!);
   return secoes;
 }
 
@@ -299,10 +312,30 @@ export function montarBemEstar(d: DadosNero, periodo: Periodo): SecaoRelatorio[]
 export function montarGeral(d: DadosNero, periodo: Periodo): SecaoRelatorio[] {
   return montarPor(SECOES_GERAL, d, periodo);
 }
-/** D-009: bloco sempre presente primeiro, depois as prioridades da especialidade. 'outra' = relatório geral. */
+/**
+ * D-009, revisto em D-025: bloco sempre presente, depois as prioridades da especialidade, depois todo
+ * o resto sob "Outras informações do meu histórico". Antes o que não era da especialidade ficava de
+ * fora do PDF; agora só sai da frente. 'outra' = relatório geral.
+ *
+ * No complemento as seções vazias são omitidas: são vinte e poucas, e "Sem registros no período"
+ * repetido vinte vezes só faz volume. No foco elas ficam — que a MRPA não exista é informação que o
+ * cardiologista quer ter.
+ */
 export function montarConsulta(d: DadosNero, especialidade: Especialidade, periodo: Periodo): SecaoRelatorio[] {
   if (especialidade === 'outra') return montarGeral(d, periodo);
-  return montarPor([...SEMPRE_PRESENTE, ...PRIORIDADES[especialidade]], d, periodo);
+  const foco = [...SEMPRE_PRESENTE, ...PRIORIDADES[especialidade]];
+  const secoes = montarPor(foco, d, periodo);
+  const jaTem = new Set(secoes.map((s) => s.chave));
+  const resto = montarPor(SECOES_GERAL.filter((c) => !jaTem.has(c)), d, periodo, false).filter((s) => temRegistro(s));
+  if (resto.length) resto[0] = { ...resto[0], abreComplemento: true };
+  return [...secoes, ...resto];
+}
+
+/** Uma seção "vazia" é a que só diz que não há nada: um único bloco de texto com a frase padrão. */
+function temRegistro(s: SecaoRelatorio): boolean {
+  if (s.blocos.length !== 1) return s.blocos.length > 0;
+  const b = s.blocos[0];
+  return !(b.tipo === 'texto' && b.texto === SEM_REGISTROS);
 }
 
 export function tituloRelatorio(tipo: 'cardio' | 'oncologico' | 'geral' | 'consulta' | 'bemestar', especialidade?: Especialidade): string {
@@ -311,6 +344,8 @@ export function tituloRelatorio(tipo: 'cardio' | 'oncologico' | 'geral' | 'consu
     case 'oncologico': return 'Relatório de rastreamento oncológico';
     case 'geral': return 'Relatório geral de acompanhamento';
     case 'bemestar': return 'Relatório de Saúde & Hábitos';
-    case 'consulta': return `Preparação para consulta — ${especialidade ? rotuloEspecialidade(especialidade) : ''}`.trim();
+    // Montado a partir do rótulo técnico para não depender de concordância caso a caso
+    // ("para o cardiologista", "para a ginecologista").
+    case 'consulta': return especialidade ? `Resumo da minha saúde, consulta de ${rotuloEspecialidade(especialidade).toLowerCase()}` : 'Resumo da minha saúde';
   }
 }

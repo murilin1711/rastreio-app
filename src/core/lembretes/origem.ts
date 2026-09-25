@@ -36,6 +36,8 @@ export function origemDe(l: { origemTipo: string; titulo: string; origemId: stri
   if (t.startsWith('mrpa:')) return { tipo: 'mrpa', rotulo: 'MRPA', rota: l.origemId ? `/(app)/coracao/mrpa/${l.origemId}` : '/(app)/coracao/pressao' };
   if (t.startsWith('glicemia:')) return { tipo: 'glicemia', rotulo: 'Glicemia', rota: '/(app)/coracao/glicemia/registrar' };
   if (t.startsWith('medicacao:')) return { tipo: 'medicacao', rotulo: 'Medicamento', rota: '/(app)/(tabs)/minha-saude/medicamentos' };
+  // A véspera promete "Toque para preparar o relatório" (D-044): abre Levar ao médico.
+  if (t.startsWith('consulta:') && t.endsWith(':vespera')) return { tipo: 'consulta', rotulo: 'Consulta', rota: '/(app)/(tabs)/minha-saude/consulta' };
   if (t.startsWith('consulta:') || l.origemTipo === 'consulta') return { tipo: 'consulta', rotulo: 'Consulta', rota: '/(app)/(tabs)/agenda/consultas' };
   if (t.startsWith('agua:')) return { tipo: 'agua', rotulo: 'Água', rota: '/(app)/bem-estar/agua' };
   if (t.startsWith('atualizacao:')) return { tipo: 'atualizacao', rotulo: 'Atualização', rota: '/(app)/coracao/checkup' };

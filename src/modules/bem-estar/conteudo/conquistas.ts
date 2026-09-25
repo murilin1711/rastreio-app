@@ -16,7 +16,7 @@ export const TEXTO_CONQUISTA: Record<ChaveConquista, { titulo: string; incentivo
   },
   primeira_noite_sono: {
     titulo: 'Sua primeira noite de sono está registrada.',
-    incentivo: 'Continue registrando: o sono só faz sentido em conjunto — é a média de sete dias que mostra como você tem dormido.',
+    incentivo: 'Continue registrando: o sono só faz sentido em conjunto. É a média de sete dias que mostra como você tem dormido.',
   },
   primeiro_checkin: {
     titulo: 'Seu primeiro check-in está guardado.',

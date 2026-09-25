@@ -20,6 +20,6 @@ export const TEXTO_SEQUENCIA: Record<MarcoSequencia, { titulo: string; incentivo
   },
   100: {
     titulo: 'Cem dias seguidos.',
-    incentivo: 'Cem dias de acompanhamento contínuo. Se um dia a sequência parar, seus registros continuam todos aí — o que você construiu não se perde.',
+    incentivo: 'Cem dias de acompanhamento contínuo. Se um dia a sequência parar, seus registros continuam todos aí: o que você construiu não se perde.',
   },
 };

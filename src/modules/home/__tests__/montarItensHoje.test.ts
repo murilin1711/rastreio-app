@@ -28,6 +28,29 @@ test('tudo preenchido → um único item positivo', () => {
   expect(itens[0]).toMatchObject({ id: 'tudo_em_dia', nivel: 'verde' });
 });
 
+describe('enquanto os dados ainda estão chegando (D-027)', () => {
+  test('não afirma "nada pendente" com o perfil ainda vazio', () => {
+    // Nos primeiros frames da home nada carregou: perfil null e contadores em zero. Dizer que está
+    // tudo em dia aí é uma afirmação sobre dados que ainda não existem — e era o verde que piscava.
+    expect(montarItensHoje({ perfil: null, antecedentesQtd: 0, medicacoesAtivasQtd: 0, pronto: false })).toEqual([]);
+  });
+
+  test('nem quando o perfil já veio mas o resto não', () => {
+    expect(montarItensHoje({ perfil: completo, antecedentesQtd: 1, medicacoesAtivasQtd: 1, pronto: false })).toEqual([]);
+  });
+
+  test('o que já é sabido continua aparecendo antes de tudo carregar', () => {
+    // Um perfil incompleto é fato assim que o perfil chega; não precisa esperar o resto.
+    const itens = montarItensHoje({ perfil: { ...completo, tabagismoStatus: null }, antecedentesQtd: 1, medicacoesAtivasQtd: 1, pronto: false });
+    expect(itens.map((i) => i.id)).toContain('perfil_incompleto');
+  });
+
+  test('com tudo carregado, o verde volta', () => {
+    const itens = montarItensHoje({ perfil: completo, antecedentesQtd: 1, medicacoesAtivasQtd: 1, pronto: true });
+    expect(itens[0]).toMatchObject({ id: 'tudo_em_dia' });
+  });
+});
+
 test('ordena por gravidade: amarelo antes de cinza', () => {
   const itens = montarItensHoje({ perfil: { ...completo, alturaCm: null }, antecedentesQtd: 0, medicacoesAtivasQtd: 0 });
   expect(itens[0].nivel).toBe('amarelo');
@@ -91,7 +114,7 @@ describe('itens do Coração & Metabolismo (Fase 2a)', () => {
   });
   test('MRPA em andamento com período faltando hoje vira item amarelo com o dia', () => {
     const itens = montarItensHoje({ ...base, cardio: { ...vazio, mrpaAtiva: { id: 's1', dia: 3, diasPrevistos: 6, faltaHoje: ['noite'] } } });
-    expect(itens[0]).toMatchObject({ id: 'mrpa_hoje', nivel: 'amarelo', titulo: 'Fazer as medidas da noite — MRPA, dia 3 de 6', rota: '/(app)/coracao/mrpa/s1' });
+    expect(itens[0]).toMatchObject({ id: 'mrpa_hoje', nivel: 'amarelo', titulo: 'Fazer as medidas da noite · MRPA, dia 3 de 6', rota: '/(app)/coracao/mrpa/s1' });
   });
   test('MRPA concluída acima da referência vira item amarelo para levar ao médico', () => {
     const itens = montarItensHoje({ ...base, cardio: { ...vazio, mrpaAcimaSemLeitura: { id: 's2', concluidaEm: '2026-09-12T10:00:00Z' } } });
@@ -112,7 +135,7 @@ describe('itens do Coração & Metabolismo (Fase 2b)', () => {
   });
   test('horário do plano vencido sem medida vira item amarelo', () => {
     const itens = montarItensHoje({ ...base, cardio: { ...vazio, planoVencidoHoje: { momento: 'antes_almoco', rotulo: 'antes do almoço', hora: '12:00' } } });
-    expect(itens[0]).toMatchObject({ id: 'glicemia_plano', nivel: 'amarelo', titulo: 'Medir glicemia — antes do almoço', rota: '/(app)/coracao/glicemia/registrar' });
+    expect(itens[0]).toMatchObject({ id: 'glicemia_plano', nivel: 'amarelo', titulo: 'Medir glicemia · antes do almoço', rota: '/(app)/coracao/glicemia/registrar' });
   });
   test('check-up com item faltante vira item cinza com a frase', () => {
     const itens = montarItensHoje({ ...base, cardio: { ...vazio, checkup: { atualizados: 5, total: 8, faltante: 'Falta atualizar seu perfil lipídico.' } } });
@@ -130,7 +153,7 @@ describe('consultas (D-010)', () => {
     const itens = montarItensHoje({ ...base, consultas: { proxima: { id: 'c1', especialidade: 'cardiologia', rotuloEspecialidade: 'Cardiologia', dataHora: new Date(2026, 8, 18, 14, 0).toISOString() } } });
     const i = itens.find((x) => x.id === 'consulta_hoje')!;
     expect(i.nivel).toBe('amarelo');
-    expect(i.titulo).toBe('Hoje: consulta de cardiologia às 14:00 — preparar');
+    expect(i.titulo).toBe('Hoje: consulta de cardiologia às 14:00 · preparar');
     expect(i.rota).toContain('especialidade=cardiologia');
   });
   test('consulta amanhã → item amanhã; depois de amanhã → nada', () => {

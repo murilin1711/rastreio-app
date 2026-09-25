@@ -2,16 +2,18 @@ import { useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { formatarHorarios, parsearHorarios } from '@core/medicacoes/horarios';
+import { formatarHorarios } from '@core/medicacoes/horarios';
 import type { Medicacao } from '@core/medicacoes/tipos';
 import { useMedicacoes } from '@core/medicacoes/useMedicacoes';
 import { usePerfil } from '@core/perfil/usePerfil';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro } from '@core/supabase/erros';
+import { usePedidoDeAvisos } from '@core/lembretes/usePedidoDeAvisos';
 import { Secao } from '@modules/minha-saude/Secao';
+import { HorariosRemedio } from '@modules/minha-saude/HorariosRemedio';
 import { Button, CampoData, Card, Colors, Input, InternalHeader, Spacing, Typography } from '@ui/index';
 
-type Form = Partial<Medicacao> & { horariosTexto?: string };
+type Form = Partial<Medicacao>;
 
 const dataBr = (iso: string) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}`;
 
@@ -21,8 +23,9 @@ export default function Medicamentos() {
   const { perfil, salvar: salvarPerfil } = usePerfil();
   const [editando, setEditando] = useState<Form | null>(null);
   const [salvando, setSalvando] = useState(false);
+  const avisos = usePedidoDeAvisos();
 
-  const abrir = (m?: Medicacao) => setEditando(m ? { ...m, horariosTexto: formatarHorarios(m.horarios) } : { ativa: true, horariosTexto: '' });
+  const abrir = (m?: Medicacao) => setEditando(m ? { ...m } : { ativa: true, horarios: [] });
 
   const gravar = async () => {
     const nome = editando?.nome?.trim();
@@ -30,11 +33,8 @@ export default function Medicamentos() {
       Alert.alert('Faltou algo', 'Informe o nome do medicamento.');
       return;
     }
-    const { horarios, invalidos } = parsearHorarios(editando?.horariosTexto ?? '');
-    if (invalidos.length) {
-      Alert.alert('Horário inválido', `Não entendi "${invalidos[0]}". Use o formato 08:00 ou 20h30, separados por vírgula.`);
-      return;
-    }
+    // Horários vêm da roda (D-045): não há formato a validar.
+    const horarios = editando?.horarios ?? [];
     setSalvando(true);
     try {
       await salvar({
@@ -101,13 +101,13 @@ export default function Medicamentos() {
             <Secao titulo={editando.id ? 'Editar medicamento' : 'Novo medicamento'}>
               <Input placeholder="Nome, por exemplo Losartana" value={editando.nome ?? ''} onChangeText={(v) => setEditando({ ...editando, nome: v })} />
               <Input placeholder="Dose, por exemplo 50 mg" value={editando.dose ?? ''} onChangeText={(v) => setEditando({ ...editando, dose: v })} />
-              <Input placeholder="Horários, por exemplo 08:00, 20:00" value={editando.horariosTexto ?? ''} onChangeText={(v) => setEditando({ ...editando, horariosTexto: v })} />
+              <HorariosRemedio horarios={editando.horarios ?? []} onChange={(h) => setEditando({ ...editando, horarios: h })} />
               <View style={styles.toggle}>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.toggleTitulo}>Lembrar nos horários</Text>
                   <Text style={styles.toggleSub}>Notificação no celular em cada horário informado.</Text>
                 </View>
-                <Switch value={editando.lembrar ?? false} onValueChange={(v) => setEditando({ ...editando, lembrar: v })} trackColor={{ true: Colors.accent }} />
+                <Switch value={editando.lembrar ?? false} onValueChange={(v) => { setEditando({ ...editando, lembrar: v }); if (v) avisos.pedir(); /* D-043 */ }} trackColor={{ true: Colors.accent }} />
               </View>
               <CampoData rotulo="Desde quando?" valor={editando.desde ?? null} onChange={(v) => setEditando({ ...editando, desde: v })} />
               <Input placeholder="Quem prescreveu (opcional)" value={editando.prescritor ?? ''} onChangeText={(v) => setEditando({ ...editando, prescritor: v })} />
@@ -123,6 +123,7 @@ export default function Medicamentos() {
           )}
         </View>
       </ScrollView>
+      {avisos.modal}
     </SafeAreaView>
   );
 }
@@ -134,8 +135,8 @@ function CardMed({ m, onEditar, onAlternar }: { m: Medicacao; onEditar: () => vo
         <Text style={styles.cardTitulo}>{m.nome}{m.dose ? `, ${m.dose}` : ''}</Text>
         <Text style={styles.cardSub}>
           {m.horarios.length ? formatarHorarios(m.horarios) : 'Sem horário definido'}
-          {m.desde ? ` — desde ${dataBr(m.desde)}` : ''}
-          {!m.ativa && m.ate ? ` — até ${dataBr(m.ate)}` : ''}
+          {m.desde ? `: desde ${dataBr(m.desde)}` : ''}
+          {!m.ativa && m.ate ? `: até ${dataBr(m.ate)}` : ''}
         </Text>
       </View>
       <Pressable onPress={onEditar} hitSlop={8} accessibilityLabel="Editar"><Ionicons name="create-outline" size={22} color={Colors.textSecondary} /></Pressable>

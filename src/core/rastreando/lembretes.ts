@@ -1,6 +1,8 @@
 import * as Notifications from 'expo-notifications';
 import { CANAL_LEMBRETES } from '@core/lembretes/configurar';
 import { notificacoesPermitidas, pedirPermissaoNotificacoes } from '@core/lembretes/permissao';
+import { origemDe } from '@core/lembretes/origem';
+import { mensagemDaLista, textoExameAntes, textoExameDepois, textoExameDia, tituloCompleto, type TextoNotificacao } from '@core/lembretes/textos';
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
 
@@ -33,10 +35,11 @@ export async function cancelarLembretesDoPrograma(userId: string, programa: stri
   if (e2) throw traduzirErro(e2);
 }
 
-function textoLembrete(dias: number, rotuloExame: string): string {
-  if (dias > 0) return `Seu ${rotuloExame} está previsto para daqui a ${dias} dias.`;
-  if (dias === 0) return `Hoje é a data prevista do seu ${rotuloExame}.`;
-  return `Você já realizou seu ${rotuloExame}? Registre o resultado para manter seu acompanhamento atualizado.`;
+/** Textos em `core/lembretes/textos.ts` (D-044): "exame" no título resolve o gênero de "seu mamografia". */
+function textoLembrete(dias: number, rotuloExame: string): TextoNotificacao {
+  if (dias > 0) return textoExameAntes(rotuloExame, dias);
+  if (dias === 0) return textoExameDia(rotuloExame);
+  return textoExameDepois(rotuloExame);
 }
 
 export async function agendarLembretes(userId: string, exameId: string, programa: string, dataProxima: string, rotuloExame: string): Promise<void> {
@@ -51,9 +54,13 @@ export async function agendarLembretes(userId: string, exameId: string, programa
     let notifId: string | null = null;
     if (temPermissao) {
       notifId = await Notifications.scheduleNotificationAsync({
-        content: { title: 'NERO — Rastreando', body: texto },
+        content: { title: tituloCompleto(texto), body: texto.corpo, data: { rota: origemDe({ origemTipo: 'exame', titulo: `${programa}:${rotuloExame}`, origemId: exameId }).rota } },
         trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: quando, channelId: CANAL_LEMBRETES },
-      }).catch(() => null);
+      }).catch((e) => {
+        // Se o sistema recusa o agendamento, a linha fica silenciada em vez de fingir que vai tocar.
+        console.warn('[lembretes] o sistema recusou o agendamento', e);
+        return null;
+      });
     }
     const { error } = await supabase.from('lembretes').insert({
       user_id: userId,
@@ -61,7 +68,7 @@ export async function agendarLembretes(userId: string, exameId: string, programa
       origem_id: exameId,
       agendado_para: quando.toISOString(),
       titulo: `${programa}:${rotuloExame}`,
-      mensagem: `${texto}${notifId ? ` notif:${notifId}` : ''}${temPermissao ? '' : ' silenciado'}`,
+      mensagem: `${mensagemDaLista(texto)}${notifId ? ` notif:${notifId}` : ' silenciado'}`,
     });
     if (error) throw traduzirErro(error);
   }

@@ -12,5 +12,4 @@ test('um lembrete por período por dia, no horário escolhido, com título rastr
   expect(l[0].quando.getDate()).toBe(10);
   expect(l[7]).toMatchObject({ dia: 4, periodo: 'noite' });
   expect(l[7].quando.getDate()).toBe(13);
-  expect(l[0].texto).toBe('Hora de registrar sua pressão — MRPA, dia 1 de 4 (manhã).');
 });

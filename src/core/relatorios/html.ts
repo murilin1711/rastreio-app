@@ -1,4 +1,4 @@
-import type { Bloco, Periodo, SecaoRelatorio, TipoRelatorio } from './tipos';
+import { TITULO_COMPLEMENTO, type Bloco, type Periodo, type SecaoRelatorio, type TipoRelatorio } from './tipos';
 
 /** Ressalvas literais da especificação — nunca reescrever. */
 export const RESSALVA_CARDIO = 'Este relatório organiza suas aferições domiciliares e não substitui a interpretação realizada pelo seu médico.';
@@ -41,6 +41,8 @@ header .qr { width: 96px; height: 96px; flex: none; }
 header .qr svg { width: 96px; height: 96px; }
 section { page-break-inside: avoid; break-inside: avoid; margin-bottom: 14px; }
 h2 { font-size: 12.5pt; color: #0f2d63; margin: 14px 0 6px; border-left: 4px solid #5B8DB8; padding-left: 8px; }
+/* Abre a terceira parte do relatório por especialidade: marca a virada de foco para complemento. */
+h2.complemento { font-size: 14pt; border-left: none; padding: 14px 0 0; margin-top: 26px; border-top: 2px solid #DCE2EE; color: #4A5C7A; page-break-before: always; }
 p { margin: 4px 0; }
 ul { margin: 4px 0; padding-left: 18px; }
 table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 6px 0; }
@@ -81,7 +83,7 @@ export function htmlRelatorio(e: EntradaHtml): string {
   const geradoEm = `${dataBr(e.geradoEm)} ${String(dt.getHours()).padStart(2, '0')}:${String(dt.getMinutes()).padStart(2, '0')}`;
   return `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><title>${escapar(e.titulo)}</title><style>${CSS}</style></head><body>
 <header><div><div class="marca">NERO</div><h1>${escapar(e.titulo)}</h1><div class="meta">${escapar(e.paciente.nome)}${e.paciente.nascimento ? ` · nascimento ${dataBr(e.paciente.nascimento)}` : ''}<br>Período das medidas: ${escapar(e.periodo.rotulo)} (${dataBr(e.periodo.desde)} a ${dataBr(e.periodo.ate)})<br>Gerado em ${geradoEm}</div></div>${e.qrSvg ? `<div class="qr">${e.qrSvg}</div>` : ''}</header>
-${e.secoes.map((s) => `<section><h2>${escapar(s.titulo)}</h2>${s.blocos.map(bloco).join('')}</section>`).join('\n')}
+${e.secoes.map((s) => `${s.abreComplemento ? `<h2 class="complemento">${escapar(TITULO_COMPLEMENTO)}</h2>` : ''}<section><h2>${escapar(s.titulo)}</h2>${s.blocos.map(bloco).join('')}</section>`).join('\n')}
 <footer>${ressalvas.map((r) => `<p>${escapar(r)}</p>`).join('')}<p>Gerado pelo NERO em ${geradoEm} · dados registrados pelo paciente.${e.validadeQr ? ` O código QR dá acesso a este PDF até ${escapar(e.validadeQr)}.` : ''}</p></footer>
 </body></html>`;
 }

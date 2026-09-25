@@ -71,7 +71,7 @@ export default function Atividades() {
         <Text style={styles.secao}>Meta semanal</Text>
         <Text style={styles.nota}>{TEXTO_ATIVIDADE.metaIntro}</Text>
         <Card style={styles.card}>
-          <Text style={styles.texto}>{metaAtiva ? `Meta atual: ${metaAtiva.valor} minutos por semana (${metaAtiva.origem === 'app' ? 'sugerida' : metaAtiva.origem === 'usuario' ? 'sua' : 'definida com profissional'})` : 'Sem meta definida — o NERO usa a sugerida (150 min) só para mostrar o progresso.'}</Text>
+          <Text style={styles.texto}>{metaAtiva ? `Meta atual: ${metaAtiva.valor} minutos por semana (${metaAtiva.origem === 'app' ? 'sugerida' : metaAtiva.origem === 'usuario' ? 'sua' : 'definida com profissional'})` : 'Sem meta definida: o NERO usa a sugerida (150 min) só para mostrar o progresso.'}</Text>
           {!criando ? (
             <View style={{ gap: Spacing.sm, marginTop: Spacing.sm }}>
               {metaAtiva?.origem !== 'app' ? <Button label={TEXTO_ATIVIDADE.metaSugerida} variant="outline" onPress={usarSugerida} /> : null}

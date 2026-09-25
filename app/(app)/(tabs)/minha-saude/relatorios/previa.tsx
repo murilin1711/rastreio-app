@@ -1,5 +1,5 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SvgXml } from 'react-native-svg';
@@ -12,7 +12,7 @@ import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro } from '@core/supabase/erros';
 import { SecaoRelatorioView } from '@modules/minha-saude/componentes/SecaoRelatorioView';
 import { TEXTO_QR } from '@modules/minha-saude/conteudo/relatorios';
-import { Button, Colors, InternalHeader, Radius, Spacing, Typography } from '@ui/index';
+import { Button, Colors, completarPiso, EsperaNero, InternalHeader, Radius, Spacing, Typography, useFechamentoDaEspera } from '@ui/index';
 
 /** Prévia nativa do relatório + "Gerar PDF e compartilhar" (no aparelho) + "Mostrar QR para o médico" (D-007). */
 export default function PreviaRelatorio() {
@@ -22,12 +22,32 @@ export default function PreviaRelatorio() {
   const dias = (Number(p.dias) === 30 || Number(p.dias) === 180 ? Number(p.dias) : 90) as 30 | 90 | 180;
   const rel = useRelatorio({ tipo: p.tipo ?? 'geral', dias, especialidade: p.especialidade, apenas: p.apenas ? (p.apenas.split(',') as ChaveSecao[]) : undefined });
   const [gerando, setGerando] = useState(false);
+  const cancelado = useRef(false);
+  const fechamento = useFechamentoDaEspera();
   const [qr, setQr] = useState<{ id: string; svg: string; expiraEm: string } | null>(null);
   const [criandoQr, setCriandoQr] = useState(false);
 
   const gerarECompartilhar = async () => {
+    cancelado.current = false;
+    const inicio = Date.now();
     setGerando(true);
-    try { await compartilharArquivo(await gerarPdf(rel.html())); } catch (e) { Alert.alert('Não foi possível gerar o PDF', traduzirErro(e).mensagemUsuario); } finally { setGerando(false); }
+    try {
+      const arquivo = await gerarPdf(rel.html());
+      // O PDF costuma ficar pronto em menos de um segundo. Sem o piso, o Nero pisca e a folha de
+      // compartilhamento abre por cima dele; com ele, a animação tem tempo de ser vista.
+      await completarPiso(inicio);
+      // Cancelar não interrompe a geração (expo-print não aborta); apenas descarta o resultado,
+      // que é o que o usuário espera ao desistir — o PDF é um arquivo temporário do cache.
+      if (cancelado.current) return;
+      // Esconder a espera e esperar que ela tenha saído mesmo: no iOS, apresentar a folha durante o
+      // dismiss do modal faz o sistema descartá-la sem aviso (era o bug de 23/09).
+      const saiu = fechamento.aguardar();
+      setGerando(false);
+      await saiu;
+      await compartilharArquivo(arquivo);
+    } catch (e) {
+      if (!cancelado.current) Alert.alert('Não foi possível gerar o PDF', traduzirErro(e).mensagemUsuario);
+    } finally { setGerando(false); }
   };
 
   const mostrarQr = () => {
@@ -61,12 +81,20 @@ export default function PreviaRelatorio() {
         </View>
         {!rel.carregando && rel.dados ? (
           <View style={{ gap: Spacing.sm, marginTop: Spacing.xxl }}>
-            <Button label="Gerar PDF e compartilhar" onPress={gerarECompartilhar} loading={gerando} />
+            <Button label="Gerar PDF e compartilhar" onPress={gerarECompartilhar} disabled={gerando} />
             <Button label="Mostrar QR para o médico" variant="outline" onPress={mostrarQr} loading={criandoQr} />
             <Text style={styles.nota}>{TEXTO_QR.nota}</Text>
           </View>
         ) : null}
       </ScrollView>
+
+      <EsperaNero
+        visivel={gerando}
+        titulo="Gerando seu relatório…"
+        detalhe="Isso leva alguns segundos."
+        onCancelar={() => { cancelado.current = true; setGerando(false); }}
+        onFechada={fechamento.onFechada}
+      />
 
       <Modal visible={!!qr} transparent animationType="fade" onRequestClose={() => setQr(null)}>
         <Pressable style={styles.fundo} onPress={() => setQr(null)}>

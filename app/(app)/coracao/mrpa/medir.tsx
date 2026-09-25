@@ -72,7 +72,7 @@ export default function MedirMrpa() {
             <Text style={styles.secao}>Prepare-se</Text>
             {preparoMedida.map((t) => <Text key={t} style={styles.item}>• {t}</Text>)}
             <Text style={[styles.item, { marginTop: Spacing.md }]}>Antes da refeição e do remédio de pressão. Se já comeu, espere 2 horas.</Text>
-            <Button label="Já descansei 5 minutos — começar" onPress={() => setEtapa('medida')} style={{ marginTop: Spacing.xxl }} />
+            <Button label="Já descansei 5 minutos: começar" onPress={() => setEtapa('medida')} style={{ marginTop: Spacing.xxl }} />
           </>
         ) : null}
 

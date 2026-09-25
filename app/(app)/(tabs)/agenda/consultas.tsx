@@ -7,8 +7,9 @@ import { useConsultas } from '@core/lembretes/useConsultas';
 import { ESPECIALIDADES, rotuloEspecialidade } from '@core/relatorios/especialidades';
 import type { Especialidade } from '@core/relatorios/tipos';
 import { traduzirErro } from '@core/supabase/erros';
+import { usePedidoDeAvisos } from '@core/lembretes/usePedidoDeAvisos';
 import { dataHoraBr, paraISO } from '@modules/coracao/componentes/formato';
-import { Button, CampoData, Colors, Input, InternalHeader, Radius, Select, Spacing, Typography } from '@ui/index';
+import { CampoHorario, Button, CampoData, Colors, Input, InternalHeader, Radius, Select, Spacing, Typography } from '@ui/index';
 
 const horaValida = (h: string) => /^([01]\d|2[0-3]):[0-5]\d$/.test(h);
 
@@ -17,6 +18,7 @@ export default function Consultas() {
   const router = useRouter();
   const { futuras, passadas, salvar, excluir, carregando } = useConsultas();
   const [aberto, setAberto] = useState(false);
+  const avisos = usePedidoDeAvisos();
   const [editando, setEditando] = useState<Consulta | null>(null);
   const [especialidade, setEspecialidade] = useState<Especialidade | null>(null);
   const [data, setData] = useState<string | null>(null);
@@ -38,7 +40,8 @@ export default function Consultas() {
   const gravar = async () => {
     if (!especialidade) { Alert.alert('Faltou algo', 'Escolha a especialidade.'); return; }
     if (!data) { Alert.alert('Faltou algo', 'Informe a data da consulta.'); return; }
-    if (!horaValida(hora)) { Alert.alert('Faltou algo', 'Informe a hora no formato HH:MM.'); return; }
+    if (!horaValida(hora)) { Alert.alert('Faltou algo', 'Escolha a hora da consulta.'); return; }
+    await avisos.pedir(); // D-043: pergunta dos avisos na hora em que o lembrete é ligado, antes de criá-lo.
     setSalvando(true);
     try {
       await salvar({ id: editando?.id, especialidade, dataHora: paraISO(data, hora), local: local.trim() || null, profissional: profissional.trim() || null, observacao: observacao.trim() || null });
@@ -80,7 +83,7 @@ export default function Consultas() {
             <Text style={styles.rotulo}>Data</Text>
             <CampoData valor={data} onChange={setData} futuro />
             <Text style={styles.rotulo}>Hora</Text>
-            <Input value={hora} onChangeText={setHora} placeholder="14:00" keyboardType="numbers-and-punctuation" maxLength={5} />
+            <CampoHorario valor={hora || null} vazio="Escolher a hora" accessibilityLabel="Hora da consulta" onChange={setHora} />
             <Text style={styles.rotulo}>Local (opcional)</Text>
             <Input value={local} onChangeText={setLocal} placeholder="Clínica ou hospital" />
             <Text style={styles.rotulo}>Profissional (opcional)</Text>
@@ -98,6 +101,7 @@ export default function Consultas() {
         <View style={{ gap: Spacing.sm }}>{futuras.map((c) => <Linha key={c.id} c={c} futura />)}</View>
         {passadas.length ? (<><Text style={styles.secao}>Anteriores</Text><View style={{ gap: Spacing.sm }}>{passadas.map((c) => <Linha key={c.id} c={c} futura={false} />)}</View></>) : null}
       </ScrollView>
+      {avisos.modal}
     </SafeAreaView>
   );
 }

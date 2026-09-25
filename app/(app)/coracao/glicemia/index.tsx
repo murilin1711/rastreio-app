@@ -37,7 +37,7 @@ export default function MinhaGlicemia() {
           <Card style={styles.metas}>
             <Text style={styles.resumoTitulo}>Suas metas</Text>
             <Text style={styles.texto}>Jejum e antes das refeições: {metas.jejumMin}–{metas.jejumMax} · 2 h após: {metas.posMax != null ? `< ${metas.posMax}` : 'sem meta'} · ao deitar: {metas.deitarMin}–{metas.deitarMax}</Text>
-            <Text style={styles.resumoSub}>{metas.origem === 'diretriz' ? `Meta da diretriz SBD 2026 (${ROTULO_PERFIL_META[metas.perfil as keyof typeof ROTULO_PERFIL_META] ?? 'adulto'}) — confirme com seu médico.` : metas.origem === 'medico' ? 'Definidas pelo seu médico.' : 'Definidas por outro profissional de saúde.'}</Text>
+            <Text style={styles.resumoSub}>{metas.origem === 'diretriz' ? `Meta da diretriz SBD 2026 (${ROTULO_PERFIL_META[metas.perfil as keyof typeof ROTULO_PERFIL_META] ?? 'adulto'}). Confirme com seu médico.` : metas.origem === 'medico' ? 'Definidas pelo seu médico.' : 'Definidas por outro profissional de saúde.'}</Text>
           </Card>
         ) : perfil && !perfil.temDiabetes ? (
           <Text style={styles.nota}>{semDiabetesRodape}</Text>

@@ -23,8 +23,8 @@ test('itens do bem-estar: medidas individuais, sono e atividade por semana, chec
   });
   expect(itens.map((i) => `${i.titulo}: ${i.valor}`)).toEqual([
     'Peso: 82 kg', 'Circunferência abdominal: 96 cm',
-    'Sono — semana de 14/09: média 7h00 (2 noites)',
-    'Atividade — semana de 14/09: 80 min que contam · 2 sessões',
+    'Sono · semana de 14/09: média 7h00 (2 noites)',
+    'Atividade · semana de 14/09: 80 min que contam · 2 sessões',
     'Check-in semanal: bem-estar 7/10 · energia 6/10 · estresse 4/10',
   ]);
 });

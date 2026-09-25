@@ -2,6 +2,7 @@ import NetInfo from '@react-native-community/netinfo';
 import type { Session } from '@supabase/supabase-js';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { supabase } from '@core/supabase/client';
+import { sairDoAparelho } from './sair';
 
 interface Sessao {
   sessao: Session | null;
@@ -31,7 +32,7 @@ export function SessaoProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const sair = async () => {
-    await supabase.auth.signOut();
+    await sairDoAparelho();
   };
 
   return <Ctx.Provider value={{ sessao, carregando, online, sair }}>{children}</Ctx.Provider>;

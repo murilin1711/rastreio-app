@@ -17,7 +17,7 @@ export function ResultadoClassificacaoView({ r, lembretesOk }: { r: ResultadoCla
       <Text style={styles.mensagem}>{r.mensagemPaciente}</Text>
       <View style={styles.linha}>
         <Text style={styles.chave}>Próxima ação</Text>
-        <Text style={styles.valor}>{r.proximaAcao}{r.dataProximaAcao ? ` — ${dataBr(r.dataProximaAcao)}` : ''}</Text>
+        <Text style={styles.valor}>{r.proximaAcao}{r.dataProximaAcao ? `: ${dataBr(r.dataProximaAcao)}` : ''}</Text>
       </View>
       {r.abrePendencia ? <Text style={styles.pendencia}>Este exame ficou como pendência até você registrar a próxima etapa.</Text> : null}
       {r.dataProximaAcao && !lembretesOk ? <Text style={styles.aviso}>Exame salvo, mas não foi possível criar os lembretes. Tente de novo em Lembretes.</Text> : null}

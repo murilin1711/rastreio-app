@@ -1,17 +1,17 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { rotuloExame } from '@core/cardio/tiposExames';
 import { rotuloExameParaVinculo, type ExameParaVinculo } from '@core/documentos/mapeamento';
 import { inserir, listarExamesParaVinculo } from '@core/documentos/repositorio';
-import { enviar, type ArquivoEscolhido } from '@core/documentos/storage';
+import { apagarArquivo, enviar, type ArquivoEscolhido } from '@core/documentos/storage';
 import { ROTULO_TIPO_DOCUMENTO, type TipoDocumento } from '@core/documentos/tipos';
 import { ROTULO_EXAME } from '@core/rastreando/tipos';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro } from '@core/supabase/erros';
 import { escolherArquivo } from '@modules/minha-saude/componentes/escolherArquivo';
-import { Button, CampoData, Colors, Input, InternalHeader, Select, Spacing, Typography } from '@ui/index';
+import { Button, CampoData, Colors, completarPiso, EsperaNero, Input, InternalHeader, Select, Spacing, Typography } from '@ui/index';
 
 const SEM_VINCULO = '__nenhum__';
 const TIPOS = (Object.keys(ROTULO_TIPO_DOCUMENTO) as TipoDocumento[]).map((t) => ({ valor: t, rotulo: ROTULO_TIPO_DOCUMENTO[t] }));
@@ -32,6 +32,7 @@ export default function NovoDocumento() {
   const [exameId, setExameId] = useState<string>(params.exameId ?? SEM_VINCULO);
   const [exames, setExames] = useState<ExameParaVinculo[]>([]);
   const [salvando, setSalvando] = useState(false);
+  const cancelado = useRef(false);
 
   useEffect(() => {
     if (!sessao?.user.id) return;
@@ -54,13 +55,20 @@ export default function NovoDocumento() {
     if (!arquivo) { Alert.alert('Faltou algo', 'Escolha o arquivo do documento.'); return; }
     if (!tipo) { Alert.alert('Faltou algo', 'Escolha o tipo do documento.'); return; }
     const nomeFinal = nome.trim() || ROTULO_TIPO_DOCUMENTO[tipo];
+    cancelado.current = false;
+    const inicio = Date.now();
     setSalvando(true);
     try {
       const enviado = await enviar(sessao.user.id, arquivo);
+      // O upload não aborta no meio; se o usuário desistiu enquanto ele corria, o arquivo já está
+      // no bucket e precisa ser apagado — sem isso ficaria um órfão sem registro que o liste.
+      if (cancelado.current) { apagarArquivo(enviado.caminho).catch(() => {}); return; }
       await inserir(sessao.user.id, { exameId: exameId === SEM_VINCULO ? null : exameId, tipo, nome: nomeFinal, caminho: enviado.caminho, mime: enviado.mime, tamanho: enviado.tamanho, dataDocumento: data, observacao: observacao.trim() || null });
+      // Arquivo pequeno em rede boa sobe em menos de um segundo — o piso evita o piscar (D-023).
+      await completarPiso(inicio);
       router.back();
     } catch (e) {
-      Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario);
+      if (!cancelado.current) Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario);
     } finally {
       setSalvando(false);
     }
@@ -83,7 +91,13 @@ export default function NovoDocumento() {
         <Select opcoes={opcoesExame} valor={exameId} onChange={setExameId} placeholder="Escolha o exame" />
         <Text style={styles.rotulo}>Observação (opcional)</Text>
         <Input value={observacao} onChangeText={setObservacao} multiline />
-        <Button label="Salvar documento" onPress={salvar} loading={salvando} style={{ marginTop: Spacing.xxl }} />
+        <Button label="Salvar documento" onPress={salvar} disabled={salvando} style={{ marginTop: Spacing.xxl }} />
+        <EsperaNero
+          visivel={salvando}
+          titulo="Enviando seu documento…"
+          detalhe="Isso leva alguns segundos."
+          onCancelar={() => { cancelado.current = true; setSalvando(false); }}
+        />
       </ScrollView>
     </SafeAreaView>
   );

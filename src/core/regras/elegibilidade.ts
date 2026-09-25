@@ -50,7 +50,7 @@ export function avaliarElegibilidade(
   const handler = handlers[programa];
 
   const aplicavel = handler ? handler.aplicavel(perfil) : aplicavelAoPerfil(programa, perfil);
-  if (!aplicavel) return { ...base, status: 'nao_indicado_no_momento', mensagem: MSG.naoAplicavel };
+  if (!aplicavel) return { ...base, status: 'nao_indicado_no_momento', mensagem: MSG.naoAplicavel, naoAplicavel: true };
 
   const bloqueio = aplicarHierarquiaSeguranca(programa, contexto);
   if (bloqueio) return { ...base, status: 'acompanhamento_medico', mensagem: bloqueio.mensagemPaciente };

@@ -20,7 +20,7 @@ export async function montarLinhaDoTempoGeral(userId: string): Promise<AnoGeral[
   const [cardio, ctx, medicacoes, consultas, docs, corporais, sonos, atividades, checkins] = await Promise.all([montarLinhaDoTempo(userId), montarContexto(userId), listarMedicacoes(userId), listarConsultas(userId), documentos.listar(userId), listarCorporais(userId), listarSono(userId), listarAtividades(userId), listarCheckins(userId)]);
   const itens: ItemGeral[] = [];
   for (const a of cardio) for (const i of a.itens) itens.push({ data: i.data, modulo: 'cardio', titulo: i.titulo, valor: i.valor, rota: i.tipo === 'exame' ? '/(app)/coracao/exames' : '/(app)/coracao' });
-  for (const e of ctx.exames) itens.push({ data: e.dataRealizacao, modulo: 'rastreando', titulo: `${ROTULO_EXAME[e.tipo as TipoExameRastreamento] ?? e.tipo} — ${ROTULO_PROGRAMA[e.programa]}`, valor: resumoResultado(e), nivel: e.nivelAlerta as ItemGeral['nivel'], rota: `/(app)/rastreando/${e.programa}/exames` });
+  for (const e of ctx.exames) itens.push({ data: e.dataRealizacao, modulo: 'rastreando', titulo: `${ROTULO_EXAME[e.tipo as TipoExameRastreamento] ?? e.tipo} · ${ROTULO_PROGRAMA[e.programa]}`, valor: resumoResultado(e), nivel: e.nivelAlerta as ItemGeral['nivel'], rota: `/(app)/rastreando/${e.programa}/exames` });
   for (const m of medicacoes) {
     if (m.desde) itens.push({ data: m.desde, modulo: 'medicacao', titulo: `Início: ${m.nome}`, valor: m.dose ?? '', rota: '/(app)/(tabs)/minha-saude/medicamentos' });
     if (!m.ativa && m.ate) itens.push({ data: m.ate, modulo: 'medicacao', titulo: `Fim: ${m.nome}`, valor: m.dose ?? '', rota: '/(app)/(tabs)/minha-saude/medicamentos' });
