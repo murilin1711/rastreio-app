@@ -7,7 +7,8 @@ import { metadataDoAceite } from '@core/consentimento/repositorio';
 import { traduzirErro } from '@core/supabase/erros';
 import { type Aceites, AceiteTermos } from '@modules/conta/AceiteTermos';
 import { BotoesSociais } from '@modules/conta/BotoesSociais';
-import { Button, Colors, Input, InternalHeader, Spacing, Typography } from '@ui/index';
+import { Creditos } from '@modules/conta/Creditos';
+import { Button, Colors, Input, LogoNero, Spacing, Typography } from '@ui/index';
 
 export default function Cadastro() {
   const router = useRouter();
@@ -44,7 +45,8 @@ export default function Cadastro() {
     <SafeAreaView style={styles.tela}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-          <InternalHeader variante="raiz" title="Criar conta" />
+          <LogoNero variante="completa" width={140} style={{ alignSelf: 'center' }} />
+          <Text style={styles.titulo}>Criar conta</Text>
           <View style={styles.form}>
             <BotoesSociais />
             <Input placeholder="Nome" autoComplete="name" value={nome} onChangeText={setNome} />
@@ -59,6 +61,7 @@ export default function Cadastro() {
           <Link href="/(auth)/login" replace style={styles.link}>
             Já tem conta? <Text style={styles.linkForte}>Entrar</Text>
           </Link>
+          <Creditos />
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -68,8 +71,9 @@ export default function Cadastro() {
 const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: Colors.background },
   conteudo: { flexGrow: 1, paddingHorizontal: Spacing.xxl, paddingTop: Spacing.xxl },
+  titulo: { ...Typography.display, color: Colors.primary, textAlign: 'center', marginTop: Spacing.lg, marginBottom: Spacing.xl },
   form: { gap: Spacing.md },
   aviso: { ...Typography.caption, color: Colors.textSecondary, textAlign: 'center', marginTop: Spacing.md },
-  link: { ...Typography.body, color: Colors.textSecondary, textAlign: 'center', marginTop: Spacing.xxl, marginBottom: Spacing.xxl },
+  link: { ...Typography.body, color: Colors.textSecondary, textAlign: 'center', marginTop: Spacing.xl },
   linkForte: { fontFamily: 'Poppins-SemiBold', color: Colors.primary },
 });

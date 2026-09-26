@@ -18,6 +18,7 @@ import { EMAIL_CONTATO, URL_PRIVACIDADE, URL_TERMOS } from '@core/publicacao';
 import { nomeComum } from '@core/relatorios/especialidades';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { dataHoraBr } from '@modules/coracao/componentes/formato';
+import { Creditos } from '@modules/conta/Creditos';
 import { Button, Colors, ListItem, NeroAnimado, Radius, Spacing, Typography, useEspacoAbas } from '@ui/index';
 
 const plural = (n: number, s: string, p: string) => `${n} ${n === 1 ? s : p}`;
@@ -121,6 +122,7 @@ export default function MinhaSaude() {
         {/* Exigido pelas duas lojas na ficha do app, e esperado também aqui dentro. */}
         <Button label="Política de privacidade" variant="ghost" onPress={() => WebBrowser.openBrowserAsync(URL_PRIVACIDADE).catch(() => {})} />
         <Button label="Termos de uso" variant="ghost" onPress={() => WebBrowser.openBrowserAsync(URL_TERMOS).catch(() => {})} />
+        <Creditos />
       </ScrollView>
     </SafeAreaView>
   );

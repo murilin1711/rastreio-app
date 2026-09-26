@@ -1,4 +1,5 @@
 import { TITULO_COMPLEMENTO, type Bloco, type Periodo, type SecaoRelatorio, type TipoRelatorio } from './tipos';
+import { CREDITOS } from '@core/publicacao';
 
 /** Ressalvas literais da especificação — nunca reescrever. */
 export const RESSALVA_CARDIO = 'Este relatório organiza suas aferições domiciliares e não substitui a interpretação realizada pelo seu médico.';
@@ -84,6 +85,6 @@ export function htmlRelatorio(e: EntradaHtml): string {
   return `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><title>${escapar(e.titulo)}</title><style>${CSS}</style></head><body>
 <header><div><div class="marca">NERO</div><h1>${escapar(e.titulo)}</h1><div class="meta">${escapar(e.paciente.nome)}${e.paciente.nascimento ? ` · nascimento ${dataBr(e.paciente.nascimento)}` : ''}<br>Período das medidas: ${escapar(e.periodo.rotulo)} (${dataBr(e.periodo.desde)} a ${dataBr(e.periodo.ate)})<br>Gerado em ${geradoEm}</div></div>${e.qrSvg ? `<div class="qr">${e.qrSvg}</div>` : ''}</header>
 ${e.secoes.map((s) => `${s.abreComplemento ? `<h2 class="complemento">${escapar(TITULO_COMPLEMENTO)}</h2>` : ''}<section><h2>${escapar(s.titulo)}</h2>${s.blocos.map(bloco).join('')}</section>`).join('\n')}
-<footer>${ressalvas.map((r) => `<p>${escapar(r)}</p>`).join('')}<p>Gerado pelo NERO em ${geradoEm} · dados registrados pelo paciente.${e.validadeQr ? ` O código QR dá acesso a este PDF até ${escapar(e.validadeQr)}.` : ''}</p></footer>
+<footer>${ressalvas.map((r) => `<p>${escapar(r)}</p>`).join('')}<p>Gerado pelo NERO em ${geradoEm} · dados registrados pelo paciente.${e.validadeQr ? ` O código QR dá acesso a este PDF até ${escapar(e.validadeQr)}.` : ''}</p><p>${escapar(CREDITOS)}.</p></footer>
 </body></html>`;
 }

@@ -41,7 +41,7 @@ footer p { margin: 3px 0; }
 <section><h2>Check-ins semanais</h2><p>Respostas de 0 a 10 dadas pelo paciente sobre a semana. Não é instrumento diagnóstico.</p><table><thead><tr><th>Semana de</th><th>Disposição</th><th>Alimentação</th><th>Atividade</th><th>Sono</th><th>Estresse</th><th>Energia</th><th>Bem-estar</th><th>Observação</th></tr></thead><tbody><tr><td>07/09/2026</td><td>7</td><td>6</td><td>5</td><td>6</td><td>4</td><td>7</td><td>7</td><td>semana corrida</td></tr></tbody></table><table><thead><tr><th>Mês</th><th>Energia</th><th>Estresse</th><th>Bem-estar</th><th>Check-ins</th></tr></thead><tbody><tr><td>2026-09</td><td>7</td><td>4</td><td>7</td><td>1</td></tr></tbody></table></section>
 <section><h2>Documentos anexados no período</h2><ul><li>Laudo mamografia · Laudo de exame · 10/05/2026</li></ul></section>
 <section><h2>Pendências abertas</h2><p class="chip" style="background:#ffedd5;color:#c2410c">Intestino (colorretal) · desde 20/08/2026: FIT positivo: colonoscopia indicada</p></section>
-<footer><p>Este relatório organiza suas aferições domiciliares e não substitui a interpretação realizada pelo seu médico.</p><p>As informações apresentadas foram registradas pelo usuário e organizadas pelo NERO para facilitar o acompanhamento com seu profissional de saúde. O relatório não substitui avaliação médica.</p><p>Registros de hábitos, alimentação e sono são autorrelatados.</p><p>Gerado pelo NERO em 18/09/2026 10:30 · dados registrados pelo paciente.</p></footer>
+<footer><p>Este relatório organiza suas aferições domiciliares e não substitui a interpretação realizada pelo seu médico.</p><p>As informações apresentadas foram registradas pelo usuário e organizadas pelo NERO para facilitar o acompanhamento com seu profissional de saúde. O relatório não substitui avaliação médica.</p><p>Registros de hábitos, alimentação e sono são autorrelatados.</p><p>Gerado pelo NERO em 18/09/2026 10:30 · dados registrados pelo paciente.</p><p>Criado por Murilo Roiz Póvoa e Dra. Denise Padilha.</p></footer>
 </body></html>"
 `;
 
@@ -91,6 +91,6 @@ footer p { margin: 3px 0; }
 <section><h2>Check-up cardiometabólico</h2><p>1 de 8 itens atualizados</p><ul><li>Pressão: atualizado · MRPA válida há 1 mês</li></ul></section>
 <section><h2>Documentos anexados no período</h2><ul><li>Laudo mamografia · Laudo de exame · 10/05/2026</li></ul></section>
 <section><h2>Pendências abertas</h2><p class="chip" style="background:#ffedd5;color:#c2410c">Intestino (colorretal) · desde 20/08/2026: FIT positivo: colonoscopia indicada</p></section>
-<footer><p>Este relatório organiza suas aferições domiciliares e não substitui a interpretação realizada pelo seu médico.</p><p>Gerado pelo NERO em 18/09/2026 10:30 · dados registrados pelo paciente.</p></footer>
+<footer><p>Este relatório organiza suas aferições domiciliares e não substitui a interpretação realizada pelo seu médico.</p><p>Gerado pelo NERO em 18/09/2026 10:30 · dados registrados pelo paciente.</p><p>Criado por Murilo Roiz Póvoa e Dra. Denise Padilha.</p></footer>
 </body></html>"
 `;

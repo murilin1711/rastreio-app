@@ -6,6 +6,7 @@ import { ehEmailNaoConfirmado } from '@core/auth/codigo';
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
 import { BotoesSociais } from '@modules/conta/BotoesSociais';
+import { Creditos } from '@modules/conta/Creditos';
 import { Button, Colors, Input, LogoNero, Spacing, Typography } from '@ui/index';
 
 export default function Login() {
@@ -61,6 +62,7 @@ export default function Login() {
           <Link href="/(auth)/cadastro" replace style={styles.link}>
             Ainda não tem conta? <Text style={styles.linkForte}>Criar conta</Text>
           </Link>
+          <Creditos />
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>

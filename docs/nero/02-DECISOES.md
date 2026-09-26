@@ -729,7 +729,10 @@ Junto: `envolverRaiz` só aplica o `Sentry.wrap` quando o Sentry foi iniciado, o
 - **Consentimento:** quem entra por Apple/Google não passa pelas caixas do cadastro; o `app/index.tsx` leva à tela de aceite (D-056).
 - Painéis (feitos pelo Murilo): "Sign In with Apple" no App ID; provedor Apple na Supabase com Client ID `br.com.nerosaude.app`; projeto NERO no Google Cloud com tela de consentimento e clientes Web e iOS; provedor Google na Supabase com os dois IDs (Web primeiro) e "Skip nonce check".
 
-**Testes:** pgTAP (nome vindo do Google; perfil com nome vazio na Apple) no banco local. **Não visto:** os dois logins funcionando, só no build 3. **Pendente:** aplicar a 0022 na nuvem.
+**Testes:** pgTAP (nome vindo do Google; perfil com nome vazio na Apple) no banco local. **Não visto:** os dois logins funcionando, só no build 3. 0022 aplicada na nuvem em 26/09.
+
+### D-062 — Logo em "Criar conta" e créditos dos criadores — 26/09/2026
+**Pedido do Murilo (26/09).** "Criar conta" ganhou a logo completa do Nero no topo, como o login. E a linha **"Criado por Murilo Roiz Póvoa e Dra. Denise Padilha"** (`CREDITOS` em `src/core/publicacao.ts`, componente `Creditos`) entra nos lugares escolhidos por ele: **rodapé do login e do Criar conta**, **rodapé de Minha Saúde** (abaixo de Política e Termos) e **rodapé do relatório em PDF**. Ficou de fora, de propósito, das telas de uso diário e da última tela do onboarding. **Visto no simulador:** login e Criar conta. O rodapé de Minha Saúde e o PDF, só pelo código e pelo teste do PDF.
 ---
 
 ## Decisões clínicas (protocolos adotados)
