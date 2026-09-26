@@ -21,8 +21,9 @@
       rodar `npx eas-cli env:update --variable-name SENTRY_AUTH_TOKEN --value NOVO --environment production --environment preview`.
 - [ ] **Recriar a chave do Resend.** A atual foi colada no chat em 22/09. Trocar no painel da Supabase
       (`scripts/configurar-auth.mjs` com a chave nova, `--aplicar`).
-- [ ] **Apagar as contas de teste** em Authentication › Users: `nerosaude+teste1@gmail.com` (confirmado
-      em 24/09 que ainda existe) e `teste.remoto@nero.dev`.
+- [x] ~~Apagar as contas de teste.~~ **Feito em 26/09** (pedido do Murilo): `nerosaude+teste1@gmail.com` e
+      `teste.remoto@nero.dev`, ambas sem dados, apagadas pelo id. A primeira recebia e-mail na caixa `nerosaude@gmail.com`,
+      que não é o e-mail do NERO (o certo é `nerosaudeapp@gmail.com`).
 - [ ] **Verificação em duas etapas nas duas contas Supabase.** Ambas abrem o banco de prontuários.
       Passo a passo: supabase.com/dashboard/account/security → adicionar fator (app autenticador).
       **Sem códigos de recuperação:** cadastrar um segundo fator em outro aparelho.
