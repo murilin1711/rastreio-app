@@ -36,8 +36,9 @@
 
 - [ ] **Capturas de tela** do iPhone 6.9" (1290 × 2796). Com `supportsTablet: false` desde 25/09, não
       são mais necessárias as de iPad.
-- [ ] **Textos da ficha**: nome, subtítulo, descrição, palavras-chave, categoria ("Saúde e fitness" ou
-      "Medicina").
+- [ ] **Textos da ficha**: descrição e palavras-chave. **Decidido em 26/09:** nome "Nero Saúde", subtítulo
+      "Sua saúde organizada", categoria principal **Medicina** (secundária Saúde e fitness), idioma português (Brasil).
+      Classificação etária: "Medical or Treatment Information" frequente e "Health or Wellness Topics" sim; o resto não.
 - [ ] **URL da política**: `https://nerosaude.com.br/privacidade` (já no ar).
 - [ ] **Questionário de privacidade da App Store**, respondido a partir da política. O ponto sensível:
       dados de saúde **são** coletados e **são** vinculados à identidade, mas **não** servem a
