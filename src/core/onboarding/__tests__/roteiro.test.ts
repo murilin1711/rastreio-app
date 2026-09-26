@@ -25,7 +25,7 @@ test('tela 2: o pensando pausa 3 s entre os ciclos', () => {
 test('tela 5: frase que encolhe, uma informação por fala (devagar) e a frase da consulta', () => {
   const r = passo('relatorio');
   expect(r.lento).toBe(true);
-  expect(r.falas.map((f) => f.texto)).toEqual(['Eu junto todas as suas informações.', 'Seu histórico.', 'Seus exames.', 'Suas medicações.', 'Na consulta, é só mostrar pro seu médico.']);
+  expect(r.falas.map((f) => f.texto)).toEqual(['Eu junto todas as suas informações.', 'Seu histórico.', 'Seus exames.', 'Suas medicações.', 'E muito mais.', 'Na consulta, é só mostrar pro seu médico.']);
   expect(r.falas[0].encolher).toBe(true);
   expect(r.falas.slice(2).every((f) => f.substituir)).toBe(true);
   expect(r.falas.flatMap((f) => (f.marcos ?? []).map((m) => m.cartao))).toEqual(['historico', 'exames', 'medicacoes']);
@@ -35,6 +35,9 @@ test('tela 6: quatro notificações, cada uma na sua fala, devagar', () => {
   const l = passo('lembrete');
   expect(l.lento).toBe(true);
   expect(l.falas.flatMap((f) => (f.marcos ?? []).map((m) => m.cartao))).toEqual(['remedio', 'consulta', 'exame', 'agua']);
+  // Uma notificação por fala (pedido do Murilo): exame e água separados.
+  expect(l.falas.every((f) => (f.marcos ?? []).length === 1)).toBe(true);
+  expect(l.falas.map((f) => f.texto)).toEqual(['Eu te lembro do remédio na hora certa.', 'Eu lembro da sua consulta.', 'Eu te lembro de marcar seu exame.', 'Eu te lembro de tomar água.']);
 });
 
 test('final: "E te ajudo com muito mais!" antes do convite para a conta', () => {
@@ -51,5 +54,5 @@ test('fala com e sem nome', () => {
 test('marco acha a palavra ignorando pontuação e maiúsculas', () => {
   expect(indiceDoMarco('Seu histórico, seus exames e suas medicações.', 'histórico')).toBe(1);
   expect(indiceDoMarco('Seu histórico, seus exames e suas medicações.', 'medicações')).toBe(6);
-  expect(indiceDoMarco('Eu lembro de marcar seu exame e de tomar água.', 'água')).toBe(9);
+  expect(indiceDoMarco('Eu te lembro de tomar água.', 'água')).toBe(5);
 });

@@ -50,6 +50,8 @@ export const ROTEIRO: Passo[] = [
       { texto: 'Seu histórico.', marcos: [{ palavra: 'histórico', cartao: 'historico' }] },
       { texto: 'Seus exames.', substituir: true, marcos: [{ palavra: 'exames', cartao: 'exames' }] },
       { texto: 'Suas medicações.', substituir: true, marcos: [{ palavra: 'medicações', cartao: 'medicacoes' }] },
+      // Não é só isso (pedido do Murilo): sem cartão próprio, só a fala.
+      { texto: 'E muito mais.', substituir: true },
       { texto: 'Na consulta, é só mostrar pro seu médico.', substituir: true },
     ],
   },
@@ -58,7 +60,8 @@ export const ROTEIRO: Passo[] = [
     falas: [
       { texto: 'Eu te lembro do remédio na hora certa.', marcos: [{ palavra: 'certa', cartao: 'remedio' }] },
       { texto: 'Eu lembro da sua consulta.', substituir: true, marcos: [{ palavra: 'consulta', cartao: 'consulta' }] },
-      { texto: 'Eu lembro de marcar seu exame e de tomar água.', substituir: true, marcos: [{ palavra: 'exame', cartao: 'exame' }, { palavra: 'água', cartao: 'agua' }] },
+      { texto: 'Eu te lembro de marcar seu exame.', substituir: true, marcos: [{ palavra: 'exame', cartao: 'exame' }] },
+      { texto: 'Eu te lembro de tomar água.', substituir: true, marcos: [{ palavra: 'água', cartao: 'agua' }] },
     ],
   },
   {
