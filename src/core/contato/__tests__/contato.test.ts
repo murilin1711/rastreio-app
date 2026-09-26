@@ -3,7 +3,7 @@ import { urlEmailContato } from '../contato';
 
 test('mailto com endereço, assunto e a versão do app e do sistema', () => {
   const url = urlEmailContato({ versaoApp: '1.0.0', build: '3', sistema: 'iOS 26.5' });
-  expect(url.startsWith('mailto:nerosaude@gmail.com?subject=')).toBe(true);
+  expect(url.startsWith('mailto:nerosaudeapp@gmail.com?subject=')).toBe(true);
   const corpo = decodeURIComponent(url.split('body=')[1]);
   expect(corpo).toContain('NERO 1.0.0 (3)');
   expect(corpo).toContain('iOS 26.5');

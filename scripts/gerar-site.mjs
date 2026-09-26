@@ -83,7 +83,7 @@ const pagina = (titulo, descricao, corpo) => `<!doctype html>
 <body>
 <main>
 ${corpo}
-<footer>NERO · Goiânia/GO · <a href="mailto:nerosaude@gmail.com">nerosaude@gmail.com</a></footer>
+<footer>NERO · Goiânia/GO · <a href="mailto:nerosaudeapp@gmail.com">nerosaudeapp@gmail.com</a></footer>
 </main>
 </body>
 </html>

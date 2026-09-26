@@ -8,7 +8,7 @@
 
 ## 1. Quem é o responsável
 
-O aplicativo NERO é mantido por **Murilo Roiz Póvoa**, CPF 708.784.431-85, em Goiânia/GO ("nós"). Para qualquer assunto sobre seus dados, incluindo o exercício dos direitos previstos na LGPD, escreva para **nerosaude@gmail.com**. Encarregado pelo tratamento de dados (art. 41 da LGPD): o próprio responsável.
+O aplicativo NERO é mantido por **Murilo Roiz Póvoa**, CPF 708.784.431-85, em Goiânia/GO ("nós"). Para qualquer assunto sobre seus dados, incluindo o exercício dos direitos previstos na LGPD, escreva para **nerosaudeapp@gmail.com**. Encarregado pelo tratamento de dados (art. 41 da LGPD): o próprio responsável.
 
 ## 2. O que o NERO é — e o que não é
 
@@ -107,7 +107,7 @@ Se esta política mudar, a nova versão será publicada nesta mesma página com 
 
 ## 13. Contato
 
-nerosaude@gmail.com · https://nerosaude.com.br/privacidade
+nerosaudeapp@gmail.com · https://nerosaude.com.br/privacidade
 
 ---
 
