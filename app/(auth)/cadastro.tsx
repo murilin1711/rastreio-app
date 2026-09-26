@@ -6,6 +6,7 @@ import { supabase } from '@core/supabase/client';
 import { metadataDoAceite } from '@core/consentimento/repositorio';
 import { traduzirErro } from '@core/supabase/erros';
 import { type Aceites, AceiteTermos } from '@modules/conta/AceiteTermos';
+import { BotoesSociais } from '@modules/conta/BotoesSociais';
 import { Button, Colors, Input, InternalHeader, Spacing, Typography } from '@ui/index';
 
 export default function Cadastro() {
@@ -45,6 +46,7 @@ export default function Cadastro() {
         <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
           <InternalHeader variante="raiz" title="Criar conta" />
           <View style={styles.form}>
+            <BotoesSociais />
             <Input placeholder="Nome" autoComplete="name" value={nome} onChangeText={setNome} />
             <Input placeholder="E-mail" autoCapitalize="none" autoComplete="email" keyboardType="email-address" value={email} onChangeText={setEmail} />
             <Input placeholder="Senha (mínimo 8 caracteres)" secureTextEntry autoComplete="new-password" value={senha} onChangeText={setSenha} />

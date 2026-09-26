@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { ehEmailNaoConfirmado } from '@core/auth/codigo';
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
+import { BotoesSociais } from '@modules/conta/BotoesSociais';
 import { Button, Colors, Input, LogoNero, Spacing, Typography } from '@ui/index';
 
 export default function Login() {
@@ -48,6 +49,7 @@ export default function Login() {
             Campos de 56 px, calibrados pelo Murilo: o público é de idosos.
           */}
           <View style={styles.form}>
+            <BotoesSociais />
             <Input placeholder="E-mail" autoCapitalize="none" autoComplete="email" keyboardType="email-address" value={email} onChangeText={setEmail} style={styles.campo} />
             <Input placeholder="Senha" secureTextEntry autoComplete="password" value={senha} onChangeText={setSenha} onSubmitEditing={entrar} style={styles.campo} />
             <Link href={{ pathname: '/(auth)/recuperar', params: email.trim() ? { email: email.trim() } : {} }} style={styles.esqueci}>

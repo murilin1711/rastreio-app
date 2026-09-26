@@ -19,7 +19,10 @@ const numero = (v: string) => (v.trim() ? Number(v.replace(',', '.')) : null);
 export default function PerfilInicial() {
   const router = useRouter();
   const { sessao } = useSessao();
-  const { salvar } = usePerfil();
+  const { perfil, salvar } = usePerfil();
+  // D-061: quem entrou com a Apple pode chegar sem nome (a Apple só o entrega uma vez, fora do token).
+  const faltaNome = perfil != null && !perfil.nome.trim();
+  const [nome, setNome] = useState('');
   const [passo, setPasso] = useState(1);
   const [salvando, setSalvando] = useState(false);
 
@@ -57,6 +60,7 @@ export default function PerfilInicial() {
         : Object.fromEntries(CHAVES_CONDICAO.map((k) => [k, condicoes.includes(k)]));
 
       await salvar({
+        ...(faltaNome && nome.trim() ? { nome: nome.trim() } : {}),
         dataNascimento,
         sexoNascimento: sexo,
         racaCor,
@@ -101,8 +105,11 @@ export default function PerfilInicial() {
   switch (logico) {
     case 1:
       return (
-        <PassoPerfil {...comum} titulo="Quando você nasceu?" ajuda="Sua idade define quais acompanhamentos fazem sentido para você." podeAvancar={!!dataNascimento}>
-          <CampoData valor={dataNascimento} onChange={setDataNascimento} />
+        <PassoPerfil {...comum} titulo={faltaNome ? 'Como você quer ser chamado?' : 'Quando você nasceu?'} ajuda={faltaNome ? 'E, logo abaixo, sua data de nascimento: a idade define quais acompanhamentos fazem sentido para você.' : 'Sua idade define quais acompanhamentos fazem sentido para você.'} podeAvancar={!!dataNascimento && (!faltaNome || nome.trim().length >= 2)}>
+          <View style={{ gap: Spacing.md }}>
+            {faltaNome ? <Input placeholder="Seu nome" autoComplete="name" value={nome} onChangeText={setNome} /> : null}
+            <CampoData valor={dataNascimento} onChange={setDataNascimento} />
+          </View>
         </PassoPerfil>
       );
     case 2:

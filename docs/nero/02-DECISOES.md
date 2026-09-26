@@ -718,6 +718,18 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 **Visto no simulador (26/09):** o plano de 8 avisos com a permissão concedida, e a Agenda com "Toda semana". Durante o teste, a chave da conta do Murilo ficou **desligada**; ele religa em Agenda › Preferências. **Não visto:** a notificação tocando no domingo (só no aparelho).
 
 Junto: `envolverRaiz` só aplica o `Sentry.wrap` quando o Sentry foi iniciado, o que tira o aviso "wrap antes de init" do Metro no modo de desenvolvimento.
+
+### D-061 — Entrar com a Apple e com o Google — 26/09/2026
+**Pedido do Murilo (26/09).** Para quem tem 60+, esquecer a senha é a maior causa de abandono.
+
+**Como ficou.** Login nativo: o sistema entrega um token e a Supabase abre ou cria a conta (`signInWithIdToken`, `src/core/auth/social.ts`). Os botões "Continuar com a Apple" (componente oficial, exigido pela Apple) e "Continuar com o Google" ficam acima do e-mail, no login e no cadastro (`BotoesSociais`).
+- **Apple:** `expo-apple-authentication`, `ios.usesAppleSignIn`, nonce (hash para a Apple, valor bruto para a Supabase). A Apple entrega o nome só no primeiro login e fora do token: o app o grava no perfil se ainda estiver vazio.
+- **Google:** `@react-native-google-signin/google-signin`; IDs de cliente Web e iOS no código (não são segredo); `iosUrlScheme` = ID do iOS invertido no plugin. No Expo Go o botão não aparece (não há o módulo nativo). O cliente Android fica para quando existir a conta do Play (precisa do SHA-1 do primeiro build Android).
+- **Nome:** migração **0022**: o gatilho do cadastro usa `nome`, senão `full_name`/`name` (Google). Se ainda faltar (Apple sem nome), o primeiro passo do perfil inicial pergunta "Como você quer ser chamado?".
+- **Consentimento:** quem entra por Apple/Google não passa pelas caixas do cadastro; o `app/index.tsx` leva à tela de aceite (D-056).
+- Painéis (feitos pelo Murilo): "Sign In with Apple" no App ID; provedor Apple na Supabase com Client ID `br.com.nerosaude.app`; projeto NERO no Google Cloud com tela de consentimento e clientes Web e iOS; provedor Google na Supabase com os dois IDs (Web primeiro) e "Skip nonce check".
+
+**Testes:** pgTAP (nome vindo do Google; perfil com nome vazio na Apple) no banco local. **Não visto:** os dois logins funcionando, só no build 3. **Pendente:** aplicar a 0022 na nuvem.
 ---
 
 ## Decisões clínicas (protocolos adotados)
