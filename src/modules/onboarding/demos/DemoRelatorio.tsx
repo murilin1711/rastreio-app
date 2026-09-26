@@ -37,7 +37,7 @@ interface Props {
  */
 export function DemoRelatorio({ visiveis, juntar, onTerminou }: Props) {
   // Junção mais devagar (pedido do Murilo): dá para ver cada cartão entrar no relatório.
-  const { progresso, repetir } = useSequencia(6000, onTerminou, juntar);
+  const { progresso, repetir } = useSequencia(4800, onTerminou, juntar);
   const entrar = fase(progresso, 0, 0.6);
   const documento = fase(progresso, 0.45, 0.75);
   const qr = fase(progresso, 0.75, 1);
@@ -65,7 +65,7 @@ export function DemoRelatorio({ visiveis, juntar, onTerminou }: Props) {
 
 /** Um cartão: entra quando é nomeado e, na junção, desliza para dentro do relatório e some. */
 function Cartao({ cartao, indice, visivel, entrar }: { cartao: (typeof CARTOES)[number]; indice: number; visivel: boolean; entrar: Animated.AnimatedInterpolation<number> }) {
-  const aparecer = useEntrada(visivel, 800, false);
+  const aparecer = useEntrada(visivel, 600, false);
   if (!visivel) return null;
   const topo = indice * (ALTURA_CARTAO + VAO);
   const centro = (ALTURA_TOTAL - ALTURA_CARTAO) / 2;

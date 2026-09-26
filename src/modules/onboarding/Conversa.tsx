@@ -6,8 +6,8 @@ import { FalaNero, MS_ENCOLHER } from './FalaNero';
 
 const PAUSA_ENTRE_FALAS = 450;
 /** Telas 5 e 6 (pedido do Murilo): uma coisa de cada vez, com tempo de ver cada cartão entrar. */
-const PAUSA_LENTA = 1300;
-const RITMO_LENTO = 1.5;
+const PAUSA_LENTA = 900;
+const RITMO_LENTO = 1.2;
 
 interface Props {
   falas: Fala[];

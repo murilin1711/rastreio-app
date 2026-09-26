@@ -31,7 +31,7 @@ export function DemoLembrete({ visiveis }: { visiveis: string[] }) {
 }
 
 function Aviso({ id }: { id: string }) {
-  const v = useEntrada(true, 800);
+  const v = useEntrada(true, 600);
   const a = AVISOS[id];
   if (!a) return null;
   return (
