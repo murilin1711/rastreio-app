@@ -11,4 +11,4 @@ export const VERSAO_TERMOS = '2026-09-26';
 export const VERSAO_CONSENTIMENTO_SAUDE = '2026-09-26';
 
 /** Créditos (pedido do Murilo, 26/09): login, criar conta, rodapé de Minha Saúde e rodapé do PDF. */
-export const CREDITOS = 'Criado por Murilo Roiz Póvoa e Dra. Denise Padilha';
+export const CREDITOS = 'Criado por Murilo Roiz Póvoa e Dra. Denise Padilha (CRM/AL 12430)';
