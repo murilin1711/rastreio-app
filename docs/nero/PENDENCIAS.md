@@ -22,6 +22,10 @@
       em 24/09 que ainda existe) e `teste.remoto@nero.dev`.
 - [ ] **Verificação em duas etapas nas duas contas Supabase.** Ambas abrem o banco de prontuários.
 
+- [ ] **Revisar os termos de uso com advogado** (D-056). Rascunho em `docs/nero/publicacao/termos-de-uso.md`:
+      atenção à limitação de responsabilidade (CDC), ao "não é dispositivo médico" e ao foro. Mudou o
+      texto depois de publicado? Trocar `VERSAO_TERMOS`, e todos veem o aceite de novo.
+
 ### Ficha das lojas
 
 - [ ] **Capturas de tela** do iPhone 6.9" (1290 × 2796). Com `supportsTablet: false` desde 25/09, não

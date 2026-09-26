@@ -89,24 +89,28 @@ ${corpo}
 </html>
 `;
 
-const md = readFileSync(join(RAIZ, 'docs/nero/publicacao/politica-de-privacidade.md'), 'utf8');
-if (md.includes('[[')) {
-  console.error('A política ainda tem campos entre [[ ]]. Preencha antes de gerar o site.');
-  process.exit(1);
-}
+/** Cada documento vira `site/<pasta>/index.html`, para a URL funcionar sem `.html`. */
+const PAGINAS = [
+  { fonte: 'politica-de-privacidade.md', pasta: 'privacidade', titulo: 'Política de Privacidade — NERO', descricao: 'Como o aplicativo NERO trata os seus dados de saúde.' },
+  { fonte: 'termos-de-uso.md', pasta: 'termos', titulo: 'Termos de Uso — NERO', descricao: 'As regras de uso do aplicativo NERO.' },
+];
 
-mkdirSync(join(RAIZ, 'site/privacidade'), { recursive: true });
-writeFileSync(
-  join(RAIZ, 'site/privacidade/index.html'),
-  pagina('Política de Privacidade — NERO', 'Como o aplicativo NERO trata os seus dados de saúde.', paraHtml(md)),
-);
+for (const p of PAGINAS) {
+  const md = readFileSync(join(RAIZ, 'docs/nero/publicacao', p.fonte), 'utf8');
+  if (md.includes('[[')) {
+    console.error(`${p.fonte} ainda tem campos entre [[ ]]. Preencha antes de gerar o site.`);
+    process.exit(1);
+  }
+  mkdirSync(join(RAIZ, 'site', p.pasta), { recursive: true });
+  writeFileSync(join(RAIZ, 'site', p.pasta, 'index.html'), pagina(p.titulo, p.descricao, paraHtml(md)));
+}
 writeFileSync(
   join(RAIZ, 'site/index.html'),
   '<!doctype html><html lang="pt-BR"><meta charset="utf-8">' +
   '<meta http-equiv="refresh" content="0; url=/privacidade">' +
-  '<title>NERO</title><p><a href="/privacidade">Política de Privacidade do NERO</a></p></html>\n',
+  '<title>NERO</title><p><a href="/privacidade">Política de Privacidade do NERO</a> · <a href="/termos">Termos de Uso</a></p></html>\n',
 );
-console.log('site/ gerado a partir da política.');
+console.log('site/ gerado a partir da política e dos termos.');
 
 if (!process.argv.includes('--publicar')) process.exit(0);
 
@@ -115,11 +119,11 @@ const tmp = mkdtempSync(join(tmpdir(), 'nerosaude-site-'));
 try {
   execFileSync('git', ['clone', '--depth', '1', REPO_SITE, tmp], { stdio: 'inherit' });
   cpSync(join(RAIZ, 'site/index.html'), join(tmp, 'index.html'));
-  cpSync(join(RAIZ, 'site/privacidade'), join(tmp, 'privacidade'), { recursive: true });
+  for (const p of PAGINAS) cpSync(join(RAIZ, 'site', p.pasta), join(tmp, p.pasta), { recursive: true });
   const mudou = execFileSync('git', ['status', '--porcelain'], { cwd: tmp }).toString().trim();
   if (!mudou) { console.log('Nada mudou desde a última publicação.'); process.exit(0); }
   execFileSync('git', ['add', '-A'], { cwd: tmp });
-  execFileSync('git', ['commit', '-m', 'Atualiza a política de privacidade\n\nGerado por scripts/gerar-site.mjs a partir do Markdown do aplicativo.'], { cwd: tmp, stdio: 'inherit' });
+  execFileSync('git', ['commit', '-m', 'Atualiza a política de privacidade e os termos de uso\n\nGerado por scripts/gerar-site.mjs a partir do Markdown do aplicativo.'], { cwd: tmp, stdio: 'inherit' });
   execFileSync('git', ['push'], { cwd: tmp, stdio: 'inherit' });
   console.log('Publicado. A Hostinger republica sozinha em alguns instantes.');
 } finally {

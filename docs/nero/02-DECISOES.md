@@ -667,6 +667,19 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 **Mudança.** O onboarding termina em `/(auth)/cadastro`. O cadastro virou tela de entrada (sem seta de voltar) e ganhou no rodapé "Já tem conta? **Entrar**". Login e cadastro trocam um pelo outro (`replace`), sem empilhar. Quem já viu o onboarding e saiu da conta continua indo ao login (`app/index.tsx`), porque essa pessoa já tem conta.
 
 **Senha vazada.** Com a proteção contra senha vazada ligada no painel (Authentication › Providers › Email, plano Pro), a Supabase devolve `weak_password` com `reasons: ['pwned']`, e o app mostraria "A senha precisa ter pelo menos 8 caracteres". Agora mostra: "Essa senha já apareceu em vazamentos de dados na internet e pode ser descoberta. Escolha outra." (`traduzirErro`, testado).
+
+### D-056 — Termos de uso e consentimento para os dados de saúde — 26/09/2026
+**Pedido do Murilo (26/09):** colocar consentimento e termos de uso. Formato escolhido por ele: **duas caixas separadas** no cadastro, uma para os termos + a política e outra só para os dados de saúde. A LGPD pede consentimento "específico e destacado" para dado sensível (art. 11, I), e a política (§5) já dizia que ele é dado na criação da conta.
+
+**Como funciona.**
+- **Cadastro:** as duas caixas ficam antes de "Criar conta", com links para os documentos. O botão continua ativo e, faltando alguma caixa, avisa o que falta (botão apagado não explica nada para quem tem 60+). O aceite viaja no metadata do `signUp` (`metadataDoAceite`). Como no cadastro ainda não há sessão, é o gatilho `handle_new_user` que o grava.
+- **Registro:** tabela `consentimentos` (migração 0021), uma linha por tipo (`termos`, `dados_saude`) + versão + data. A pessoa só lê e grava os próprios registros e não há update/delete: o registro é prova. Some junto com a conta, que é também como se revoga.
+- **Contas antigas e versões novas:** `app/index.tsx` confere o aceite na versão atual (`VERSAO_TERMOS`, `VERSAO_CONSENTIMENTO_SAUDE` em `src/core/publicacao.ts`). Faltando, abre `app/consentimento.tsx` ("Antes de continuar", com as mesmas caixas e a opção "Sair da conta"). Se a consulta falhar por rede, o app segue, para não trancar a pessoa fora; o aceite é pedido de novo na próxima abertura.
+- **Termos:** `docs/nero/publicacao/termos-de-uso.md`, **rascunho a revisar com advogado** (responsabilidade diante do CDC, "não é dispositivo médico", foro). O gerador do site (`scripts/gerar-site.mjs`) publica também `nerosaude.com.br/termos`.
+
+**Testes:** `consentimento.test.ts` (versão atual dos dois aceites) e `supabase/tests/consentimentos.test.sql` (gatilho, RLS, conta antiga), com os 69 pgTAP passando no banco local.
+
+**Pendente para valer:** aplicar a 0021 na nuvem (`supabase db push`) e publicar o site (`npm run site:publicar`). Até lá, o link "Termos de uso" dá erro e o app não consegue conferir o aceite (segue sem pedir).
 ---
 
 ## Decisões clínicas (protocolos adotados)

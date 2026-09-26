@@ -205,6 +205,27 @@ export type Database = {
         }
         Relationships: []
       }
+      consentimentos: {
+        Row: {
+          aceito_em: string
+          tipo: string
+          user_id: string
+          versao: string
+        }
+        Insert: {
+          aceito_em?: string
+          tipo: string
+          user_id: string
+          versao: string
+        }
+        Update: {
+          aceito_em?: string
+          tipo?: string
+          user_id?: string
+          versao?: string
+        }
+        Relationships: []
+      }
       consultas: {
         Row: {
           created_at: string

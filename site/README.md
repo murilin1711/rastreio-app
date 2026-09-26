@@ -1,6 +1,6 @@
 # site/ — a página pública do NERO
 
-**Gerado, não editado à mão.** A fonte é `docs/nero/publicacao/politica-de-privacidade.md`.
+**Gerado, não editado à mão.** As fontes são `docs/nero/publicacao/politica-de-privacidade.md` e `termos-de-uso.md`.
 
 ```
 npm run site            # gera os arquivos aqui
@@ -11,6 +11,7 @@ npm run site:publicar   # gera e envia para o repositório que a Hostinger publi
 |---|---|
 | `index.html` | `https://nerosaude.com.br` (redireciona) |
 | `privacidade/index.html` | `https://nerosaude.com.br/privacidade` |
+| `termos/index.html` | `https://nerosaude.com.br/termos` |
 
 A pasta com `index.html` dentro é o que faz a URL funcionar **sem `.html`**, que é a forma esperada
 pelas lojas e pelo botão no app.
