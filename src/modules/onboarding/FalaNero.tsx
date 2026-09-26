@@ -10,7 +10,7 @@ interface Props {
   fala: string;
   /** Chamado uma vez por fala, quando a última palavra aparece (ou na hora, com Reduzir movimento). */
   onTerminou: () => void;
-  /** Contador: quando aumenta, a frase se completa. A tela incrementa ao receber um toque. */
+  /** Contador: quando aumenta depois de a fala aparecer, a frase se completa. A tela incrementa ao receber um toque. */
   completar: number;
 }
 
@@ -57,8 +57,13 @@ export function FalaNero({ linhaPequena, fala, onTerminou, completar }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fala]);
 
+  // Só toques depois de a fala aparecer contam: a pergunta dos avisos nasce com o contador da tela já
+  // alto, e um toque antigo não pode completá-la antes de começar.
+  const completarAoMontar = useRef(completar);
   useEffect(() => {
-    if (completar > 0) terminar();
+    // A tela zera o contador a cada passo: acompanhar a descida para o próximo toque contar.
+    if (completar < completarAoMontar.current) { completarAoMontar.current = completar; return; }
+    if (completar > completarAoMontar.current) terminar();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [completar]);
 

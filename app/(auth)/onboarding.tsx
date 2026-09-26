@@ -3,7 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect, useRef, useState } from 'react';
-import { Animated, KeyboardAvoidingView, PanResponder, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Animated, Keyboard, KeyboardAvoidingView, PanResponder, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { estadoPermissao, pedirPermissaoNotificacoes } from '@core/lembretes/permissao';
 import { marcarAdiado } from '@core/lembretes/useAvisos';
@@ -35,6 +35,13 @@ export default function Onboarding() {
   // Tela 6: só pergunta se o iOS ainda não tem resposta (a chance de pedir é uma só).
   const [podePerguntar, setPodePerguntar] = useState<boolean | null>(null);
   const passo = ROTEIRO[indice];
+  // Com o teclado aberto (tela do nome), o Nero encolhe: num iPhone pequeno, grande ele empurraria o botão.
+  const [tecladoAberto, setTecladoAberto] = useState(false);
+  useEffect(() => {
+    const abrir = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillShow' : 'keyboardDidShow', () => setTecladoAberto(true));
+    const fechar = Keyboard.addListener(Platform.OS === 'ios' ? 'keyboardWillHide' : 'keyboardDidHide', () => setTecladoAberto(false));
+    return () => { abrir.remove(); fechar.remove(); };
+  }, []);
   const ultimo = indice === ROTEIRO.length - 1;
 
   useEffect(() => {
@@ -160,7 +167,7 @@ export default function Onboarding() {
         </Pressable>
 
         <View style={styles.baixo}>
-          <CenaNero clipe={passo.clipe} tamanho={passo.nero} />
+          <CenaNero clipe={passo.clipe} tamanho={tecladoAberto ? 'pequeno' : passo.nero} />
           <Rodape>{rodape()}</Rodape>
         </View>
       </KeyboardAvoidingView>

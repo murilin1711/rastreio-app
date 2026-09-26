@@ -3,7 +3,7 @@
  * e a pergunta dos avisos que não gasta a chance única do iOS.
  */
 import React from 'react';
-import { AccessibilityInfo, Text, TextInput } from 'react-native';
+import { AccessibilityInfo, Keyboard, Text, TextInput } from 'react-native';
 import { act, create } from 'react-test-renderer';
 
 const mockMem: Record<string, string> = {};
@@ -24,6 +24,7 @@ jest.mock('expo-linear-gradient', () => ({ LinearGradient: () => null }));
 jest.spyOn(AccessibilityInfo, 'isReduceMotionEnabled').mockImplementation(() => Promise.resolve(true));
 
 import { ONBOARDING_KEY } from '@core/onboarding/chave';
+import { CenaNero } from '@modules/onboarding/CenaNero';
 const Onboarding = require('../../../../app/(auth)/onboarding').default;
 
 const textoDe = (n: any): string => {
@@ -147,4 +148,17 @@ it('"Já tenho conta" vai ao login', async () => {
   await tocar(a, 'Próximo');
   await tocar(a, 'Já tenho conta');
   expect(mockReplace).toHaveBeenCalledWith('/(auth)/login');
+});
+
+it('com o teclado aberto na tela do nome, o Nero encolhe (o botão não some em iPhone pequeno)', async () => {
+  const ouvintes: Record<string, () => void> = {};
+  const espiao = jest.spyOn(Keyboard, 'addListener').mockImplementation(((evento: string, cb: () => void) => { ouvintes[evento] = cb; return { remove: () => {} }; }) as never);
+  const a = await abrir();
+  await tocar(a, 'Oi, Nero!');
+  expect(a.root.findByType(CenaNero).props.tamanho).toBe('grande');
+  await act(async () => { ouvintes.keyboardWillShow?.(); ouvintes.keyboardDidShow?.(); });
+  expect(a.root.findByType(CenaNero).props.tamanho).toBe('pequeno');
+  await act(async () => { ouvintes.keyboardWillHide?.(); ouvintes.keyboardDidHide?.(); });
+  expect(a.root.findByType(CenaNero).props.tamanho).toBe('grande');
+  espiao.mockRestore();
 });

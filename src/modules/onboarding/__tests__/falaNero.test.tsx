@@ -49,3 +49,18 @@ it('fala nova recomeça a animação e avisa de novo', async () => {
   await act(async () => { jest.advanceTimersByTime(3000); });
   expect(fim).toHaveBeenCalledTimes(2);
 });
+
+it('um toque dado antes de a fala existir não a completa ao montar (pergunta dos avisos)', async () => {
+  const fim = jest.fn();
+  await act(async () => { create(<FalaNero fala="Posso te avisar?" onTerminou={fim} completar={3} />); });
+  expect(fim).not.toHaveBeenCalled();
+});
+
+it('se a tela zera o contador depois de a fala aparecer, o próximo toque ainda completa', async () => {
+  const fim = jest.fn();
+  let a: any;
+  await act(async () => { a = create(<FalaNero fala="Anote sua pressão e sua glicemia" onTerminou={fim} completar={2} />); });
+  await act(async () => { a.update(<FalaNero fala="Anote sua pressão e sua glicemia" onTerminou={fim} completar={0} />); });
+  await act(async () => { a.update(<FalaNero fala="Anote sua pressão e sua glicemia" onTerminou={fim} completar={1} />); });
+  expect(fim).toHaveBeenCalledTimes(1);
+});
