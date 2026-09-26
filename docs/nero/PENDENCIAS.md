@@ -21,6 +21,8 @@
 - [ ] **Apagar as contas de teste** em Authentication › Users: `nerosaude+teste1@gmail.com` (confirmado
       em 24/09 que ainda existe) e `teste.remoto@nero.dev`.
 - [ ] **Verificação em duas etapas nas duas contas Supabase.** Ambas abrem o banco de prontuários.
+      Passo a passo: supabase.com/dashboard/account/security → adicionar fator (app autenticador).
+      **Sem códigos de recuperação:** cadastrar um segundo fator em outro aparelho.
 
 - [ ] **Revisar os termos de uso com advogado** (D-056). Rascunho em `docs/nero/publicacao/termos-de-uso.md`:
       atenção à limitação de responsabilidade (CDC), ao "não é dispositivo médico" e ao foro. Mudou o
@@ -70,10 +72,8 @@
 
 ## 2. Configuração que não é código
 
-- [ ] **Painel da Supabase → Authentication → Policies:** ligar a **proteção contra senha vazada**
-      (checa contra a base do Have I Been Pwned) e definir tamanho mínimo de senha. Contra ataque real
-      vale mais que rate limit: a maioria dos acessos indevidos usa senha reaproveitada de outro
-      vazamento, não força bruta.
+- [x] ~~Proteção contra senha vazada.~~ **O Murilo decidiu não ligar (26/09).** Se mudar de ideia: Authentication ›
+      Providers › Email › "Prevent use of leaked passwords" (plano Pro); o app já tem a mensagem (D-055).
 - [ ] **Authentication → Rate Limits:** seis senhas erradas seguidas não foram bloqueadas no teste de
       24/09. Sugerido em D-031: manter login em 30/hora (o limite é por IP, e rede compartilhada faz
       várias pessoas dividirem um) e baixar a **verificação de código para 10/hora**.

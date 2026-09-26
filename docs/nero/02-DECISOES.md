@@ -679,7 +679,9 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 
 **Testes:** `consentimento.test.ts` (versão atual dos dois aceites) e `supabase/tests/consentimentos.test.sql` (gatilho, RLS, conta antiga), com os 69 pgTAP passando no banco local.
 
-**Pendente para valer:** aplicar a 0021 na nuvem (`supabase db push`) e publicar o site (`npm run site:publicar`). Até lá, o link "Termos de uso" dá erro e o app não consegue conferir o aceite (segue sem pedir).
+**No ar em 26/09:** 0021 aplicada na nuvem e `nerosaude.com.br/termos` publicado (com autorização do Murilo, ainda como rascunho, antes da revisão jurídica). Visto no simulador: a conta do Murilo, sem aceite, abre em "Antes de continuar".
+
+**Proteção contra senha vazada:** o Murilo decidiu **não ligar** (26/09). A mensagem própria da D-055 fica no código, sem efeito até alguém ligar a opção no painel.
 ---
 
 ## Decisões clínicas (protocolos adotados)
