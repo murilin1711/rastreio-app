@@ -19,6 +19,8 @@ interface Props {
   encolhida?: boolean;
   /** Fala substituída pela seguinte: some sem sair da árvore, para não reiniciar. */
   oculta?: boolean;
+  /** Multiplica o tempo por palavra (telas 5 e 6 mais devagar). */
+  ritmo?: number;
 }
 
 /**
@@ -26,7 +28,7 @@ interface Props {
  * completa a frase (a tela incrementa `completar`); com Reduzir movimento ela aparece inteira. O leitor
  * de tela recebe a frase inteira, sem depender da animação.
  */
-export function FalaNero({ linhaPequena, fala, onTerminou, completar, onProgresso, encolhida = false, oculta = false }: Props) {
+export function FalaNero({ linhaPequena, fala, onTerminou, completar, onProgresso, encolhida = false, oculta = false, ritmo = 1 }: Props) {
   const palavras = fala.split(' ');
   const [mostradas, setMostradas] = useState(0);
   const avisou = useRef(false);
@@ -64,7 +66,7 @@ export function FalaNero({ linhaPequena, fala, onTerminou, completar, onProgress
           n += 1;
           mostrar(n);
           if (n >= total.current) { clearInterval(relogio); terminar(); }
-        }, MS_POR_PALAVRA(total.current));
+        }, Math.round(MS_POR_PALAVRA(total.current) * ritmo));
       })
       .catch(() => { if (vivo) terminar(); });
     return () => { vivo = false; if (relogio) clearInterval(relogio); };

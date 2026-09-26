@@ -773,6 +773,12 @@ Junto: `envolverRaiz` só aplica o `Sentry.wrap` quando o Sentry foi iniciado, o
 - **Final:** a "comemorar" tem o Nero de olhos fechados (sorriso ^^) o tempo todo e terminava congelada assim; agora ele comemora e **passa ao repouso, de olhos abertos** (`entrada: 'comemorar'`).
 - Estrutura nova: `Conversa` toca as falas em sequência (encolher, substituir, marcos que chamam os cartões); o roteiro virou `falas` por tela. Atalho só de desenvolvimento: `/onboarding?passo=relatorio` abre direto numa tela.
 - **Visto no simulador:** as 7 telas no estado final (atalho de desenvolvimento, sem mouse). As animações em movimento, só no aparelho.
+
+**Segunda rodada de ajustes (26/09):**
+- **Tela 5 mais devagar e uma coisa de cada vez:** "Eu junto todas as suas informações." (sem "num relatório") encolhe; depois "Seu histórico." → "Seus exames." → "Suas medicações.", cada frase no lugar da anterior e com o seu cartão entrando devagar (0,8 s); por fim "Na consulta, é só mostrar pro seu médico." e a junção no relatório em 6 s, com o QR.
+- **Tela 6 mais devagar e mais limpa:** cada notificação nova entra **embaixo** da anterior, com um aparecer suave (0,8 s), sem mexer nas que já estão. Antes a mais nova entrava em cima e empurrava as outras, o que parecia piscar e trocar de ordem.
+- **Modo devagar** (`lento` no roteiro, telas 5 e 6): 1,5× o tempo por palavra e 1,3 s entre as falas.
+- **Final:** "E te ajudo com muito mais!" (encolhe) antes de "Pronto{, nome}! Agora é só criar sua conta.", para dizer que o app faz mais do que as três demonstrações.
 ---
 
 ## Decisões clínicas (protocolos adotados)

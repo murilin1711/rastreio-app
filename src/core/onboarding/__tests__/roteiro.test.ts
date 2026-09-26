@@ -22,16 +22,24 @@ test('tela 2: o pensando pausa 3 s entre os ciclos', () => {
   expect(passo('nome').pausaClipeMs).toBe(3000);
 });
 
-test('tela 5: frase que encolhe, exemplos que chamam os cartões e a frase da consulta', () => {
+test('tela 5: frase que encolhe, uma informação por fala (devagar) e a frase da consulta', () => {
   const r = passo('relatorio');
-  expect(r.falas[0]).toMatchObject({ texto: 'Eu junto todas as suas informações num relatório.', encolher: true });
-  expect(r.falas[1].marcos?.map((m) => m.cartao)).toEqual(['historico', 'exames', 'medicacoes']);
-  expect(r.falas[2]).toMatchObject({ texto: 'Na consulta, é só mostrar pro seu médico.', substituir: true });
+  expect(r.lento).toBe(true);
+  expect(r.falas.map((f) => f.texto)).toEqual(['Eu junto todas as suas informações.', 'Seu histórico.', 'Seus exames.', 'Suas medicações.', 'Na consulta, é só mostrar pro seu médico.']);
+  expect(r.falas[0].encolher).toBe(true);
+  expect(r.falas.slice(2).every((f) => f.substituir)).toBe(true);
+  expect(r.falas.flatMap((f) => (f.marcos ?? []).map((m) => m.cartao))).toEqual(['historico', 'exames', 'medicacoes']);
 });
 
-test('tela 6: quatro notificações, cada uma na sua fala', () => {
+test('tela 6: quatro notificações, cada uma na sua fala, devagar', () => {
   const l = passo('lembrete');
+  expect(l.lento).toBe(true);
   expect(l.falas.flatMap((f) => (f.marcos ?? []).map((m) => m.cartao))).toEqual(['remedio', 'consulta', 'exame', 'agua']);
+});
+
+test('final: "E te ajudo com muito mais!" antes do convite para a conta', () => {
+  expect(passo('final').falas.map((f) => f.texto)).toEqual(['E te ajudo com muito mais!', 'Pronto{, nome}! Agora é só criar sua conta.']);
+  expect(passo('final').falas[0].encolher).toBe(true);
 });
 
 test('fala com e sem nome', () => {

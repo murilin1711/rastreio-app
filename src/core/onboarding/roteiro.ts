@@ -25,6 +25,8 @@ export interface Passo {
   atrasoInicialMs?: number;
   /** Pausa do clipe entre um ciclo e outro (tela 2: pensando, para, pensa de novo). */
   pausaClipeMs?: number;
+  /** Fala e animações mais devagar, com pausa maior entre as falas (telas 5 e 6, pedido do Murilo). */
+  lento?: boolean;
   falas: Fala[];
   botao: string;
 }
@@ -42,22 +44,27 @@ export const ROTEIRO: Passo[] = [
   { id: 'prazer', clipe: 'acenar', padrao: 1, botao: 'Vamos lá', falas: [{ texto: 'Prazer{, nome}! Vou te mostrar o que eu faço por você.' }] },
   { id: 'pressao', clipe: 'repouso', padrao: 2, botao: 'Próximo', falas: [{ texto: 'Anote sua pressão e sua glicemia. Eu organizo tudo pra você.' }] },
   {
-    id: 'relatorio', clipe: 'repouso', padrao: 2, botao: 'Próximo',
+    id: 'relatorio', clipe: 'repouso', padrao: 2, lento: true, botao: 'Próximo',
     falas: [
-      { texto: 'Eu junto todas as suas informações num relatório.', encolher: true },
-      { texto: 'Seu histórico, seus exames e suas medicações.', marcos: [{ palavra: 'histórico', cartao: 'historico' }, { palavra: 'exames', cartao: 'exames' }, { palavra: 'medicações', cartao: 'medicacoes' }] },
+      { texto: 'Eu junto todas as suas informações.', encolher: true },
+      { texto: 'Seu histórico.', marcos: [{ palavra: 'histórico', cartao: 'historico' }] },
+      { texto: 'Seus exames.', substituir: true, marcos: [{ palavra: 'exames', cartao: 'exames' }] },
+      { texto: 'Suas medicações.', substituir: true, marcos: [{ palavra: 'medicações', cartao: 'medicacoes' }] },
       { texto: 'Na consulta, é só mostrar pro seu médico.', substituir: true },
     ],
   },
   {
-    id: 'lembrete', clipe: 'repouso', padrao: 2, botao: 'Próximo',
+    id: 'lembrete', clipe: 'repouso', padrao: 2, lento: true, botao: 'Próximo',
     falas: [
       { texto: 'Eu te lembro do remédio na hora certa.', marcos: [{ palavra: 'certa', cartao: 'remedio' }] },
       { texto: 'Eu lembro da sua consulta.', substituir: true, marcos: [{ palavra: 'consulta', cartao: 'consulta' }] },
       { texto: 'Eu lembro de marcar seu exame e de tomar água.', substituir: true, marcos: [{ palavra: 'exame', cartao: 'exame' }, { palavra: 'água', cartao: 'agua' }] },
     ],
   },
-  { id: 'final', clipe: 'repouso', entrada: 'comemorar', padrao: 1, botao: 'Criar minha conta', falas: [{ texto: 'Pronto{, nome}! Agora é só criar sua conta.' }] },
+  {
+    id: 'final', clipe: 'repouso', entrada: 'comemorar', padrao: 1, botao: 'Criar minha conta',
+    falas: [{ texto: 'E te ajudo com muito mais!', encolher: true }, { texto: 'Pronto{, nome}! Agora é só criar sua conta.' }],
+  },
 ];
 
 /** Tela 6, depois das notificações: o Nero pergunta antes do aviso do sistema. */

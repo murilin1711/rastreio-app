@@ -12,11 +12,12 @@ const AVISOS: Record<string, { titulo: string; corpo: string }> = {
 };
 
 /**
- * Tela 6 (ajuste do Murilo, 26/09): um iPhone maior, na tela bloqueada, e cada notificação descendo quando
- * o Nero fala dela. Como no iPhone, a mais nova fica em cima.
+ * Tela 6 (ajustes do Murilo, 26/09): um iPhone maior, na tela bloqueada, e cada notificação aparecendo
+ * quando o Nero fala dela. A nova entra **embaixo** da anterior, devagar, sem mexer nas que já estão: pôr
+ * a mais nova em cima empurrava as outras e parecia que piscavam e trocavam de lugar.
  */
 export function DemoLembrete({ visiveis }: { visiveis: string[] }) {
-  const ordem = [...visiveis].reverse();
+  const ordem = visiveis;
   return (
     <View style={styles.aparelho} accessibilityRole="image" accessibilityLabel="Exemplo: notificações do Nero na tela bloqueada, de remédio, consulta, exame e água">
       <View style={styles.ilha} />
@@ -30,11 +31,11 @@ export function DemoLembrete({ visiveis }: { visiveis: string[] }) {
 }
 
 function Aviso({ id }: { id: string }) {
-  const v = useEntrada(true);
+  const v = useEntrada(true, 800);
   const a = AVISOS[id];
   if (!a) return null;
   return (
-    <Animated.View style={[styles.notificacao, { opacity: v, transform: [{ translateY: v.interpolate({ inputRange: [0, 1], outputRange: [-30, 0] }) }] }]}>
+    <Animated.View style={[styles.notificacao, { opacity: v, transform: [{ translateY: v.interpolate({ inputRange: [0, 1], outputRange: [10, 0] }) }] }]}>
       <View style={styles.icone}><LogoNero variante="simbolo" width={18} /></View>
       <View style={{ flex: 1 }}>
         <Text style={styles.titulo} numberOfLines={2}>{a.titulo}</Text>

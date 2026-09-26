@@ -153,6 +153,7 @@ export default function Onboarding() {
                 falas={passo.falas}
                 nome={nomeValido ? nome : null}
                 atrasoInicialMs={passo.atrasoInicialMs}
+                lento={passo.lento}
                 completar={completar}
                 onMarco={(c) => setCartoes((l) => (l.includes(c) ? l : [...l, c]))}
                 onTerminou={() => setConversaPronta(true)}

@@ -56,7 +56,7 @@ it('as 7 telas em ordem, até o cadastro, marcando o onboarding como visto', asy
   await tocar(a, 'Vamos lá');
   expect(tela(a)).toContain('Anote sua pressão e sua glicemia.');
   await tocar(a, 'Próximo');
-  expect(tela(a)).toContain('Eu junto todas as suas informações num relatório.');
+  expect(tela(a)).toContain('Eu junto todas as suas informações.');
   await tocar(a, 'Próximo');
   expect(tela(a)).toContain('Posso te avisar?');
   await tocar(a, 'Agora não');
