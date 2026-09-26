@@ -20,6 +20,7 @@ import { CardModulo } from '@modules/home/CardModulo';
 import { SeloSequencia } from '@modules/home/SeloSequencia';
 import { ItemHoje } from '@modules/home/ItemHoje';
 import { EsqueletoPendencias } from '@modules/home/EsqueletoPendencias';
+import { FaixaAtalhos } from '@modules/home/FaixaAtalhos';
 import { montarItensHoje, type ItemHoje as Item } from '@modules/home/montarItensHoje';
 import { traduzirErro } from '@core/supabase/erros';
 import { TEXTO_SEQUENCIA } from '@modules/bem-estar/conteudo/sequencia';
@@ -230,6 +231,9 @@ export default function Home() {
             <CardModulo titulo="Saúde & Bem-estar" icone="leaf-outline" capa={['#15803D', '#5FCB8A']} onPress={() => router.push('/(app)/bem-estar')} />
           </View>
         </View>
+
+        <Text style={[styles.secao, { marginTop: Spacing.xxxl, marginBottom: Spacing.md }]}>Atalhos</Text>
+        <FaixaAtalhos sangria={Spacing.xxl} onAbrir={(rota) => router.push(rota as Href)} />
 
         <Text style={styles.rodape}>O NERO organiza suas informações e não substitui a avaliação do seu médico.</Text>
       </ScrollView>

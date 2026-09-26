@@ -634,6 +634,17 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 **Correção.** `useConquistas` recebe `chaves`, as conquistas que aquela tela pode comemorar. Bem-estar só comemora as suas (`CONQUISTAS_BEM_ESTAR`). "Perfil completo" (`CONQUISTA_PERFIL`) sai ao salvar um antecedente ou um medicamento, e na Home quando a declaração "Não uso medicamentos"/"não tenho antecedentes" se confirma (fim dos 15 s do "Desfazer", para não comemorar algo que a pessoa ainda pode desfazer). As contagens passaram a ler o perfil do banco (`contarParaConquistas`), porque logo depois da declaração o estado de outra instância de `usePerfil` ainda não sabe da mudança.
 
 **Teste:** `telaBemEstar.test.tsx` (Bem-estar não concede mais "perfil completo"), que falhava antes. **Não visto no simulador:** a comemoração no momento certo (a conta do Murilo já tem a conquista gravada; exige conta nova).
+
+### D-053 — Atalhos na Home, numa faixa que rola para o lado — 25/09/2026
+**Pedido do Murilo (25/09):** atalhos abaixo dos módulos para o que precisa de acesso fácil, começando por "Relatório para o médico".
+
+**O que entra** (escolha dele, 25/09): Relatório (abre Levar ao médico), Medir pressão, Medir glicemia, Remédios (Meus medicamentos) e Consultas (Minhas consultas). Ficaram de fora água, peso, guardar exame e anotar sintoma.
+
+**Formato:** faixa de círculos com rótulo curto, que rola para o lado, escolhida numa prévia no navegador contra a lista com ícone. A faixa vai de borda a borda da tela, e o primeiro item alinha com o texto. Código em `src/modules/home/FaixaAtalhos.tsx`; o teste `faixaAtalhos.test.ts` confere que cada atalho leva a uma tela que existe.
+
+**Para depois:** os planos que o médico passar (quando existir o portal do médico) e a próxima consulta.
+
+**Visto no simulador em 25/09.**
 ---
 
 ## Decisões clínicas (protocolos adotados)

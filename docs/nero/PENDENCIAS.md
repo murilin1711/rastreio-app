@@ -87,14 +87,8 @@
 
 ## 4. Pedidos do Murilo ainda não desenhados
 
-- [ ] **Atalhos na home, abaixo dos módulos** (pedido em 25/09). Hoje a home termina na grade de
-      quatro módulos e no aviso de rodapé; quem quer registrar uma pressão precisa entrar em
-      Coração & Metabolismo e achar a tela. A ideia é uma faixa de ações diretas logo abaixo da
-      grade. **A definir antes de qualquer código:** quais ações entram (as candidatas óbvias são
-      registrar pressão, glicemia, água, peso e anotar um sintoma), se a lista é fixa ou aprende com
-      o uso, e como não repetir o que já está em Pendências logo acima — duas listas de ações na
-      mesma tela competindo entre si seria pior que nenhuma. Vale o painel de calibração antes,
-      como em D-033.
+- [ ] **Atalhos na home: próximos candidatos** (a faixa entrou em 25/09, D-053). O Murilo quer, quando
+      existirem, os **planos que o médico passar** (depende do portal do médico) e a **próxima consulta**.
 - [ ] **Lembrete do check-in semanal** (pedido em 25/09). Hoje o check-in só aparece como pendência na
       Home no domingo, segunda e terça (`src/core/regras/bemestar/checkin.ts`); nenhuma notificação é
       agendada, e ele não existe em `PreferenciasLembretes`. **A definir:** dia e hora do aviso (a
