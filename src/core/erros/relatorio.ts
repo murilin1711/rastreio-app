@@ -30,3 +30,9 @@ export function iniciarRelatorioDeErros(): void {
 export function envolverRaiz(Raiz: () => React.JSX.Element | null): React.ComponentType {
   return DSN && !__DEV__ ? Sentry.wrap(Raiz as React.ComponentType<Record<string, unknown>>) : Raiz;
 }
+
+/** Erro tratado na tela (o app mostra um aviso), mas que precisamos ver: falha de login, por exemplo. */
+export function registrarErro(erro: unknown, contexto: Record<string, string> = {}): void {
+  if (!DSN || __DEV__) return;
+  Sentry.captureException(erro, { tags: contexto });
+}

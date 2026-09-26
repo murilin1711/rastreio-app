@@ -1,6 +1,5 @@
 import * as AppleAuthentication from 'expo-apple-authentication';
 import Constants, { ExecutionEnvironment } from 'expo-constants';
-import * as Crypto from 'expo-crypto';
 import { Platform } from 'react-native';
 import { supabase } from '@core/supabase/client';
 
@@ -9,8 +8,10 @@ import { supabase } from '@core/supabase/client';
  * ou abre a conta com `signInWithIdToken`. Quem entra assim não passa pelas caixas do cadastro; o
  * `app/index.tsx` leva à tela de aceite (D-056). IDs do Google não são segredo (vão dentro do app).
  */
-export const GOOGLE_WEB_CLIENT_ID = '778333253878-rg4u675l5p4926329pjngmle68iabthe.apps.googleusercontent.com';
-export const GOOGLE_IOS_CLIENT_ID = '778333253878-btk37n764jlvaq39nilqdnf35tk86qf1.apps.googleusercontent.com';
+// Corrigidos em 26/09: estavam trocados. O Google recusou o login com "custom scheme não permitido para cliente Web",
+// o que prova que o ID usado como iOS era o do cliente Web.
+export const GOOGLE_WEB_CLIENT_ID = '778333253878-btk37n764jlvaq39nilqdnf35tk86qf1.apps.googleusercontent.com';
+export const GOOGLE_IOS_CLIENT_ID = '778333253878-rg4u675l5p4926329pjngmle68iabthe.apps.googleusercontent.com';
 
 export type ResultadoSocial = 'ok' | 'cancelado';
 
@@ -22,21 +23,19 @@ export async function appleDisponivel(): Promise<boolean> {
 export const googleDisponivel = () => Constants.executionEnvironment !== ExecutionEnvironment.StoreClient;
 
 export async function entrarComApple(): Promise<ResultadoSocial> {
-  // A Apple recebe o hash; a Supabase recebe o valor bruto e confere que batem (evita reuso do token).
-  const nonce = Crypto.randomUUID();
-  const hash = await Crypto.digestStringAsync(Crypto.CryptoDigestAlgorithm.SHA256, nonce);
+  // Igual ao exemplo oficial da Supabase para Expo: sem nonce. A primeira versão mandava o hash do nonce à
+  // Apple e o valor bruto à Supabase (formato do login pela web) e falhou no aparelho em 26/09.
   let credencial: AppleAuthentication.AppleAuthenticationCredential;
   try {
     credencial = await AppleAuthentication.signInAsync({
       requestedScopes: [AppleAuthentication.AppleAuthenticationScope.FULL_NAME, AppleAuthentication.AppleAuthenticationScope.EMAIL],
-      nonce: hash,
     });
   } catch (e) {
     if ((e as { code?: string }).code === 'ERR_REQUEST_CANCELED') return 'cancelado';
     throw e;
   }
   if (!credencial.identityToken) throw new Error('A Apple não devolveu o token de identidade.');
-  const { data, error } = await supabase.auth.signInWithIdToken({ provider: 'apple', token: credencial.identityToken, nonce });
+  const { data, error } = await supabase.auth.signInWithIdToken({ provider: 'apple', token: credencial.identityToken });
   if (error) throw error;
   // A Apple só entrega o nome no primeiro login, fora do token: grava se o perfil ainda estiver sem nome.
   const nome = [credencial.fullName?.givenName, credencial.fullName?.familyName].filter(Boolean).join(' ').trim();

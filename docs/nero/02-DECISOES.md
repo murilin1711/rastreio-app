@@ -731,6 +731,13 @@ Junto: `envolverRaiz` só aplica o `Sentry.wrap` quando o Sentry foi iniciado, o
 
 **Testes:** pgTAP (nome vindo do Google; perfil com nome vazio na Apple) no banco local. **Não visto:** os dois logins funcionando, só no build 3. 0022 aplicada na nuvem em 26/09.
 
+**Primeiro teste no build 3 (26/09), e o que mudou:**
+- **Google** recusou com "custom scheme URIs are not allowed for WEB client type": os dois IDs estavam **trocados** (eu supus a ordem em que o Murilo os mandou). Web = `…btk37n764…`, iOS = `…rg4u675l…`. Corrigido no código e no `iosUrlScheme` do `app.json` (**nativo: só vale a partir do build 4**). Na Supabase, o ID Web deve vir primeiro em Client IDs.
+- **Apple** abriu a folha do sistema, ficou parada e deu "não foi possível concluir". Sem log do servidor (o CLI não lê os logs de auth e o registro de auditoria não guarda falhas). Suspeito principal: o **nonce**, no formato do login pela web. O exemplo oficial da Supabase para Expo não usa nonce; o app passou a fazer igual. Falha de login agora vai para o Sentry (`registrarErro`), com a marca `login: apple|google`.
+- **Botão da Apple** saía em inglês ("Continue with Apple"): virou botão próprio em português, no visual da Apple (fundo preto, maçã).
+- **Posição:** os botões sociais foram para **baixo** do e-mail e da senha, depois de um "ou", no login e no Criar conta (pedido do Murilo). O Criar conta ficou centralizado na altura.
+- **Logo completa** (login e Criar conta): o "N" era de uma versão antiga, desbotada; trocado pelo "N" azul vivo do ícone da App Store, mantendo o "Nero" escrito (`assets/images/nero/logo-nero.png`).
+
 ### D-062 — Logo em "Criar conta" e créditos dos criadores — 26/09/2026
 **Pedido do Murilo (26/09).** "Criar conta" ganhou a logo completa do Nero no topo, como o login. E a linha **"Criado por Murilo Roiz Póvoa e Dra. Denise Padilha (CRM/AL 12430)"** (CRM acrescentado em 26/09, a pedido do Murilo, pela regra de publicidade médica do CFM) (`CREDITOS` em `src/core/publicacao.ts`, componente `Creditos`) entra nos lugares escolhidos por ele: **rodapé do login e do Criar conta**, **rodapé de Minha Saúde** (abaixo de Política e Termos) e **rodapé do relatório em PDF**. Ficou de fora, de propósito, das telas de uso diário e da última tela do onboarding. **Visto no simulador:** login e Criar conta. O rodapé de Minha Saúde e o PDF, só pelo código e pelo teste do PDF.
 

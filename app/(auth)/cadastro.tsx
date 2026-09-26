@@ -47,12 +47,12 @@ export default function Cadastro() {
           <LogoNero variante="completa" width={140} style={{ alignSelf: 'center' }} />
           <Text style={styles.titulo}>Criar conta</Text>
           <View style={styles.form}>
-            <BotoesSociais />
             <Input placeholder="Nome" autoComplete="name" value={nome} onChangeText={setNome} />
             <Input placeholder="E-mail" autoCapitalize="none" autoComplete="email" keyboardType="email-address" value={email} onChangeText={setEmail} />
             <Input placeholder="Senha (mínimo 8 caracteres)" secureTextEntry autoComplete="new-password" value={senha} onChangeText={setSenha} />
             <AceiteTermos valor={aceitou} onChange={setAceitou} />
             <Button label="Criar conta" onPress={cadastrar} loading={carregando} />
+            <BotoesSociais />
           </View>
           <Link href="/(auth)/login" replace style={styles.link}>
             Já tem conta? <Text style={styles.linkForte}>Entrar</Text>
@@ -66,7 +66,8 @@ export default function Cadastro() {
 
 const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: Colors.background },
-  conteudo: { flexGrow: 1, paddingHorizontal: Spacing.xxl, paddingTop: Spacing.xxl },
+  // Centralizado na altura, como o login: antes o conteúdo ficava encostado no topo (pedido do Murilo, 26/09).
+  conteudo: { flexGrow: 1, justifyContent: 'center', paddingHorizontal: Spacing.xxl, paddingVertical: Spacing.xxl },
   titulo: { ...Typography.display, color: Colors.primary, textAlign: 'center', marginTop: Spacing.lg, marginBottom: Spacing.xl },
   form: { gap: Spacing.md },
   link: { ...Typography.body, color: Colors.textSecondary, textAlign: 'center', marginTop: Spacing.xl },

@@ -82,7 +82,7 @@
       [
         "@react-native-google-signin/google-signin",
         {
-          "iosUrlScheme": "com.googleusercontent.apps.778333253878-btk37n764jlvaq39nilqdnf35tk86qf1"
+          "iosUrlScheme": "com.googleusercontent.apps.778333253878-rg4u675l5p4926329pjngmle68iabthe"
         }
       ],
       "expo-apple-authentication"

@@ -50,13 +50,13 @@ export default function Login() {
             Campos de 56 px, calibrados pelo Murilo: o público é de idosos.
           */}
           <View style={styles.form}>
-            <BotoesSociais />
             <Input placeholder="E-mail" autoCapitalize="none" autoComplete="email" keyboardType="email-address" value={email} onChangeText={setEmail} style={styles.campo} />
             <Input placeholder="Senha" secureTextEntry autoComplete="password" value={senha} onChangeText={setSenha} onSubmitEditing={entrar} style={styles.campo} />
             <Link href={{ pathname: '/(auth)/recuperar', params: email.trim() ? { email: email.trim() } : {} }} style={styles.esqueci}>
               Esqueci minha senha
             </Link>
             <Button label="Entrar" onPress={entrar} loading={carregando} style={styles.botao} />
+            <BotoesSociais />
           </View>
 
           <Link href="/(auth)/cadastro" replace style={styles.link}>
