@@ -626,6 +626,8 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 ### D-051 — O módulo Rastreando passa a se chamar "Rastreamentos" — 25/09/2026
 **Pedido do Murilo (25/09).** Muda só o que a pessoa lê: cartão da Home, marca no topo do módulo ("RASTREAMENTOS"), rótulo das telas internas e o botão "Voltar aos Rastreamentos". Rotas (`/(app)/rastreando`), pastas e nomes no código continuam `rastreando`, para não quebrar links de notificação já agendados. De quebra, o cartão do remédio trocou "16h03: desde 12/12/2025" por "16h03 · desde 12/12/2025" (pergunta em aberto do handoff de 25/09).
 
+**Complemento (26/09, pedido do Murilo):** em Levar ao médico, o cartão "Exames de prevenção" passou a se chamar **"Rastreamentos"** (descrição igual). Ele abre o "Relatório de rastreamento oncológico", o mesmo do módulo, e o Murilo não o achou com o nome antigo.
+
 ### D-052 — "Perfil completo" é comemorado onde o perfil se completa — 25/09/2026
 **Relato do Murilo (25/09):** registrou um copo de água, apagou, saiu da tela e apareceu "Seu perfil de saúde está completo".
 

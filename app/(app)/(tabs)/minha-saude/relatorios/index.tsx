@@ -21,7 +21,7 @@ type Dias = '30' | '90' | '180';
 const CARTOES: { tipo: TipoRelatorio; icone: keyof typeof Ionicons.glyphMap; titulo: string; descricao: string; recomendado?: boolean }[] = [
   { tipo: 'geral', icone: 'document-text-outline', titulo: 'Resumo completo', descricao: 'Tudo o que você registrou. Serve para qualquer médico.', recomendado: true },
   { tipo: 'cardio', icone: 'heart-outline', titulo: 'Coração e diabetes', descricao: 'Pressão, açúcar no sangue, colesterol, exames do coração e seus remédios.' },
-  { tipo: 'oncologico', icone: 'shield-checkmark-outline', titulo: 'Exames de prevenção', descricao: 'Mamografia, papanicolau, colonoscopia e os outros exames de rotina: o que já fez e o que falta.' },
+  { tipo: 'oncologico', icone: 'shield-checkmark-outline', titulo: 'Rastreamentos', descricao: 'Mamografia, papanicolau, colonoscopia e os outros exames de rotina: o que já fez e o que falta.' },
   { tipo: 'bemestar', icone: 'leaf-outline', titulo: 'Peso, alimentação e sono', descricao: 'Como você tem comido, se movimentado, bebido água e dormido.' },
 ];
 
