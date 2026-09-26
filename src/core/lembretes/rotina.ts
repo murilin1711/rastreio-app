@@ -15,10 +15,14 @@ export interface ItemRotina {
   ate?: string;
   rota: string;
   silenciado: boolean;
+  /** O card separa "Todo dia" de "Toda semana" (check-in, D-060). */
+  frequencia: 'dia' | 'semana';
 }
 
-const TIPOS_ROTINA: TipoLembrete[] = ['medicacao', 'glicemia', 'mrpa', 'agua'];
-const ORDEM: Record<string, number> = { medicacao: 0, glicemia: 1, mrpa: 2, agua: 3 };
+const TIPOS_ROTINA: TipoLembrete[] = ['medicacao', 'glicemia', 'mrpa', 'agua', 'checkin'];
+const ORDEM: Record<string, number> = { medicacao: 0, glicemia: 1, mrpa: 2, agua: 3, checkin: 4 };
+/** Os horários do check-in são fixos (D-060); descrever pelos avisos agendados diria "10:00 e 19:00" sem os dias. */
+const HORARIOS_CHECKIN = 'domingo às 10:00 e terça às 19:00, se ainda não respondeu';
 
 const hhmm = (iso: string) => { const d = new Date(iso); return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`; };
 const minutos = (h: string) => { const [a, b] = h.split(':').map(Number); return a * 60 + b; };
@@ -53,6 +57,7 @@ function nomeDo(tipo: TipoLembrete, texto: string): string {
   if (tipo === 'glicemia') return 'Medir a glicemia';
   if (tipo === 'agua') return 'Beber água';
   if (tipo === 'mrpa') return 'Medir a pressão (MRPA)';
+  if (tipo === 'checkin') return 'Check-in semanal';
   return texto.split(' · ').slice(1).join(' · ') || 'Remédio';
 }
 
@@ -74,10 +79,11 @@ export function separarRotina<T extends LembreteCentral>(itens: T[]): { rotina: 
       chave,
       tipo: primeiro.tipo,
       nome: nomeDo(primeiro.tipo, primeiro.texto),
-      horarios: descreverHorarios(horas),
+      horarios: primeiro.tipo === 'checkin' ? HORARIOS_CHECKIN : descreverHorarios(horas),
       ate: primeiro.tipo === 'mrpa' ? `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}` : undefined,
       rota: primeiro.rota,
       silenciado: ls.every((l) => l.silenciado),
+      frequencia: primeiro.tipo === 'checkin' ? 'semana' : 'dia',
     };
   });
   rotina.sort((a, b) => ORDEM[a.tipo] - ORDEM[b.tipo] || a.nome.localeCompare(b.nome));

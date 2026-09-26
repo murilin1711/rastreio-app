@@ -29,7 +29,7 @@ async function gravarLinha(userId: string, origemTipo: OrigemAgendada, origemId:
   if (error) throw traduzirErro(error);
 }
 
-type OrigemAgendada = 'medida' | 'medicacao' | 'consulta';
+type OrigemAgendada = 'medida' | 'medicacao' | 'consulta' | 'sistema';
 
 /**
  * Mesmo esquema de `rastreando/lembretes.ts`: notificação local + linha em `lembretes` com `notif:<id>` na mensagem.

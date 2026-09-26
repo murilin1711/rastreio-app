@@ -8,7 +8,7 @@ const p: PerfilSaude = {
   temDiabetes: false, temHipertensao: null, temDoencaRenal: null, temImunossupressao: null, temHiv: true, temDii: null,
   historicoCancerPessoal: [{ tipo: 'Melanoma', ano: 2015 }], lesoesPrecursoras: [], doencasGeneticas: [{ nome: 'BRCA1' }], radioterapiaToracica: false,
   jaTeveAtividadeSexual: true, racaCor: 'parda', menopausa: null, semMedicacoes: false, semAntecedentesFamiliares: false, perfilInicialCompleto: true, marcoSequenciaComemorado: 0, temInsuficienciaCardiaca: null, aguaMetaComemoradaEm: null, lembretesAgua: { ativo: false, inicio: '08:00', fim: '20:00', intervaloMin: 120 },
-  tipoDiabetes: null, usaInsulina: null, eventoCvPrevio: null, perfilMetaGlicemica: 'adulto', metasGlicemia: null, planoGlicemia: null, agravantesCv: { itens: [], atualizadoEm: null }, atividadeFisicaRegular: null, preferenciasLembretes: { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true, agua: false }, pesoMaximoVidaKg: null, objetivoPeso: null,
+  tipoDiabetes: null, usaInsulina: null, eventoCvPrevio: null, perfilMetaGlicemica: 'adulto', metasGlicemia: null, planoGlicemia: null, agravantesCv: { itens: [], atualizadoEm: null }, atividadeFisicaRegular: null, preferenciasLembretes: { exame: true, mrpa: true, glicemia: true, medicacao: true, consulta: true, atualizacao: true, agua: false, checkin: true }, pesoMaximoVidaKg: null, objetivoPeso: null,
 };
 
 test('converte perfil de domínio em PerfilRegras com derivados', () => {

@@ -1,7 +1,7 @@
 # Notificações do NERO
 
 > Criado em 25/09/2026. Título e texto de cada notificação que o app agenda, decididos um a um com o
-> Murilo. **Estado: implementado em 25/09 (D-044), falta o check-in semanal.** Quando implementar, o código
+> Murilo. **Estado: implementado em 25/09 (D-044); check-in semanal decidido em 26/09 (D-060).** Quando implementar, o código
 > deve bater com esta tabela, e qualquer texto novo entra aqui antes de entrar no código.
 
 ## Princípios
@@ -30,12 +30,13 @@
 | Exame, 60/30/7 dias antes (9h) | Seu exame está chegando 🔎 | "Mamografia · daqui a 30 dias" | 25/09 |
 | Exame, no dia (9h) | Hoje é a data do seu exame 🔎 | "Mamografia" | 25/09 |
 | Exame, 7 dias depois (9h) | Já fez seu exame? 🔎 | "Mamografia · registre o resultado para seguir em dia" | 25/09 |
+| Check-in, domingo (10h) | Como foi sua semana? 💬 | "Responda o check-in: leva um minuto." | 26/09 |
+| Check-in, terça (19h), só se não respondeu | Último dia do check-in 💬 | "Conte como foi sua semana antes que ela feche." | 26/09 |
 
 ## A discutir
 
 | Lembrete | Título hoje | Texto hoje | Problema |
 |---|---|---|---|
-| Check-in semanal | — | — | Não existe ainda (ver `PENDENCIAS.md`) |
 
 ## Detalhes para a implementação
 

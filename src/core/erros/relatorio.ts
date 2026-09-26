@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/react-native';
+import type React from 'react';
 import { limitarRepeticao, limparEvento, limparRastro } from './limpeza';
 
 /**
@@ -22,5 +23,10 @@ export function iniciarRelatorioDeErros(): void {
   });
 }
 
-/** Envolve a raiz: erro de renderização que derrubaria o app também é registrado. */
-export const envolverRaiz = Sentry.wrap;
+/**
+ * Envolve a raiz: erro de renderização que derrubaria o app também é registrado. Só quando o Sentry
+ * foi iniciado; sem isso ele avisa no Metro que `wrap` veio antes de `init`.
+ */
+export function envolverRaiz(Raiz: () => React.JSX.Element | null): React.ComponentType {
+  return DSN && !__DEV__ ? Sentry.wrap(Raiz as React.ComponentType<Record<string, unknown>>) : Raiz;
+}

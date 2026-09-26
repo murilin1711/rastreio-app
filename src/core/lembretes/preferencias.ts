@@ -2,6 +2,7 @@ import * as Notifications from 'expo-notifications';
 import { agendarLembretesGlicemia, agendarLembretesMrpa, sincronizarLembretesMedicacao } from '@core/cardio/lembretesCardio';
 import { sessaoAtiva } from '@core/cardio/sessoesMrpa';
 import { agendarLembretesAgua } from '@core/bemestar/lembretesAgua';
+import { agendarLembretesCheckin } from '@core/bemestar/lembretesCheckin';
 import { listarMedicacoes } from '@core/medicacoes/repositorio';
 import { obterPerfil, salvarPerfil } from '@core/perfil/repositorio';
 import type { PreferenciasLembretes } from '@core/perfil/tipos';
@@ -34,6 +35,8 @@ export async function renovarAvisosDiarios(userId: string): Promise<void> {
   const prefs = await lerPrefs(userId);
   if (prefs.glicemia) await reagendarTipo(userId, 'glicemia').catch(() => {});
   if (prefs.agua) await reagendarTipo(userId, 'agua').catch(() => {});
+  // D-060: o check-in também é renovado (4 semanas à frente), não só os diários.
+  if (prefs.checkin) await reagendarTipo(userId, 'checkin').catch(() => {});
 }
 
 /** Grava as preferências e aplica a diferença: desligar cancela só as notificações do celular; religar reagenda (D-010). */
@@ -102,6 +105,9 @@ export async function reagendarTipo(userId: string, tipo: TipoLembrete): Promise
       await agendarLembretesAgua(userId, perfil.lembretesAgua, temRestricao);
       return;
     }
+    case 'checkin':
+      await agendarLembretesCheckin(userId);
+      return;
     case 'atualizacao':
       return; // ainda não há agendador próprio; o item fica visível na Home pelo check-up
   }

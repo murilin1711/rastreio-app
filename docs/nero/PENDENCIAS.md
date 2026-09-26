@@ -96,12 +96,6 @@
 
 - [ ] **Atalhos na home: próximos candidatos** (a faixa entrou em 25/09, D-053). O Murilo quer, quando
       existirem, os **planos que o médico passar** (depende do portal do médico) e a **próxima consulta**.
-- [ ] **Lembrete do check-in semanal** (pedido em 25/09). Hoje o check-in só aparece como pendência na
-      Home no domingo, segunda e terça (`src/core/regras/bemestar/checkin.ts`); nenhuma notificação é
-      agendada, e ele não existe em `PreferenciasLembretes`. **A definir:** dia e hora do aviso (a
-      janela de resposta é domingo a terça), se avisa uma vez só ou repete na terça quem não
-      respondeu, se para de avisar assim que o check-in é feito, e a chave nas preferências para
-      desligar — como os outros lembretes.
 - [ ] **Preço dos medicamentos** (pedido em 25/09). Mostrar quanto custa cada remédio cadastrado.
       **A definir:** a fonte — a candidata natural é a tabela da CMED/Anvisa, que é pública, mas
       traz o **preço máximo** (PMC), não o de balcão; mostrar como "preço" enganaria. Também: por

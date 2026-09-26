@@ -5,6 +5,7 @@ import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro, type ErroNero } from '@core/supabase/erros';
 import * as repo from './checkins';
 import { hojeLocalISO } from './useAtividades';
+import { aoResponderCheckin } from './lembretesCheckin';
 
 /** Check-in semanal (§86–§87). */
 export function useCheckin() {
@@ -28,7 +29,7 @@ export function useCheckin() {
   const pendente = useMemo(() => checkinPendente(checkins, hoje), [checkins, hoje]);
   const meses = useMemo(() => mediasMensais(checkins), [checkins]);
 
-  const salvar = async (c: Omit<Checkin, 'id' | 'semana'>) => { if (!userId) throw new Error('Sessão indisponível'); await repo.salvarCheckin(userId, { ...c, semana: semanaAlvo }); await recarregar(); };
+  const salvar = async (c: Omit<Checkin, 'id' | 'semana'>) => { if (!userId) throw new Error('Sessão indisponível'); await repo.salvarCheckin(userId, { ...c, semana: semanaAlvo }); aoResponderCheckin(userId, semanaAlvo).catch(() => {}); await recarregar(); };
 
   return { checkins, semanaAlvo, atual, pendente, meses, carregando, erro, salvar, recarregar };
 }

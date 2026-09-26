@@ -11,6 +11,7 @@ export const ROTULO_TIPO_LEMBRETE: Record<TipoLembrete, string> = {
   consulta: 'Consultas',
   atualizacao: 'Atualização de dados clínicos',
   agua: 'Água',
+  checkin: 'Check-in semanal',
 };
 
 export const DESCRICAO_TIPO_LEMBRETE: Record<TipoLembrete, string> = {
@@ -21,10 +22,11 @@ export const DESCRICAO_TIPO_LEMBRETE: Record<TipoLembrete, string> = {
   consulta: 'Um dia antes e no dia da consulta.',
   atualizacao: 'Quando algum dado do check-up ficar antigo.',
   agua: 'Avisos para beber água na janela e no intervalo que você escolher, em Minha Água.',
+  checkin: 'Domingo às 10h e, se ainda não respondeu, terça às 19h.',
 };
 
 /** Como cada módulo grava o título em `lembretes` — a origem é derivada daqui, sem coluna nova. */
-export const PREFIXO_DO_TIPO: Record<TipoLembrete, string> = { exame: '', mrpa: 'mrpa:', glicemia: 'glicemia:', medicacao: 'medicacao:', consulta: 'consulta:', atualizacao: 'atualizacao:', agua: 'agua:' };
+export const PREFIXO_DO_TIPO: Record<TipoLembrete, string> = { exame: '', mrpa: 'mrpa:', glicemia: 'glicemia:', medicacao: 'medicacao:', consulta: 'consulta:', atualizacao: 'atualizacao:', agua: 'agua:', checkin: 'checkin:' };
 
 export interface OrigemLembrete { tipo: TipoLembrete; rotulo: string; rota: string }
 
@@ -39,6 +41,7 @@ export function origemDe(l: { origemTipo: string; titulo: string; origemId: stri
   // A véspera promete "Toque para preparar o relatório" (D-044): abre Levar ao médico.
   if (t.startsWith('consulta:') && t.endsWith(':vespera')) return { tipo: 'consulta', rotulo: 'Consulta', rota: '/(app)/(tabs)/minha-saude/consulta' };
   if (t.startsWith('consulta:') || l.origemTipo === 'consulta') return { tipo: 'consulta', rotulo: 'Consulta', rota: '/(app)/(tabs)/agenda/consultas' };
+  if (t.startsWith('checkin:')) return { tipo: 'checkin', rotulo: 'Check-in', rota: '/(app)/bem-estar/checkin' };
   if (t.startsWith('agua:')) return { tipo: 'agua', rotulo: 'Água', rota: '/(app)/bem-estar/agua' };
   if (t.startsWith('atualizacao:')) return { tipo: 'atualizacao', rotulo: 'Atualização', rota: '/(app)/coracao/checkup' };
   if (l.origemTipo === 'exame') { const programa = t.split(':')[0]; return { tipo: 'exame', rotulo: 'Rastreamento', rota: programa ? ROTA_PROGRAMA(programa) : '/(app)/rastreando' }; }

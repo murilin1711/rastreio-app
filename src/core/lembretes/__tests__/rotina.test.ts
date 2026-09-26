@@ -48,3 +48,18 @@ test('silenciado: a linha avisa que o celular não vai tocar', () => {
   const { rotina } = separarRotina([linha('medicacao:m1:08:00', '2026-09-26T08:00:00', 'Hora de tomar seu remédio · X', { silenciado: true })]);
   expect(rotina[0].silenciado).toBe(true);
 });
+
+test('check-in semanal entra na rotina como "toda semana", não na agenda', () => {
+  const { rotina, pontuais } = separarRotina([
+    linha('checkin:2026-09-21:dom', '2026-09-27T10:00:00', 'Como foi sua semana? · Responda o check-in: leva um minuto.', { tipo: 'checkin' }),
+    linha('checkin:2026-09-21:ter', '2026-09-29T19:00:00', 'Último dia do check-in · Conte como foi sua semana antes que ela feche.', { tipo: 'checkin' }),
+    linha('checkin:2026-09-28:dom', '2026-10-04T10:00:00', 'Como foi sua semana? · Responda o check-in: leva um minuto.', { tipo: 'checkin' }),
+  ]);
+  expect(pontuais).toEqual([]);
+  expect(rotina).toEqual([expect.objectContaining({ chave: 'checkin', nome: 'Check-in semanal', frequencia: 'semana', horarios: 'domingo às 10:00 e terça às 19:00, se ainda não respondeu' })]);
+});
+
+test('os diários são "todo dia"', () => {
+  const { rotina } = separarRotina([linha('medicacao:m1:08:00', '2026-09-26T08:00:00', 'Hora de tomar seu remédio · X')]);
+  expect(rotina[0].frequencia).toBe('dia');
+});

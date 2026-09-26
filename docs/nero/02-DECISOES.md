@@ -705,6 +705,19 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 **Como ficou:** `expo-updates` com `runtimeVersion: { policy: "fingerprint" }` (a atualização só chega a builds com o mesmo código nativo; isso é calculado sozinho). O app confere ao abrir e aplica na abertura seguinte (`checkAutomatically: ON_LOAD`, `fallbackToCacheTimeout: 0`), sem tela de espera. Canais no `eas.json`: `development`, `preview`, `production`. O build 3, pelo perfil `production`, recebe o que for publicado em `production`. **O build 2 nunca vai receber**, porque não tem o pacote.
 
 **Publicar uma correção:** `eas update --channel production --message "…"`. Desfazer: `eas update:rollback`. Plano gratuito da Expo: 1.000 usuários ativos/mês, sem cobrança além (o serviço para de entregar acima disso). Continua exigindo build: permissões novas, biblioteca nativa nova, atualização do Expo, ícone e splash.
+
+### D-060 — Lembrete do check-in semanal — 26/09/2026
+**Pedido do Murilo (25/09); decisões dele em 26/09:** aviso no **domingo às 10h** e, **só para quem ainda não respondeu**, outro na **terça às 19h**, último dia da janela (domingo a terça). Texto "pergunta direta": "Como foi sua semana? 💬 / Responda o check-in: leva um minuto." e "Último dia do check-in 💬 / Conte como foi sua semana antes que ela feche." (tabela em `notificacoes.md`).
+
+**Como funciona.**
+- Domingo e terça avaliam a **mesma semana** (`semanaDoCheckin`), então a chave do lembrete leva a semana (`checkin:<segunda>:dom|ter`). Responder o check-in cancela o que sobrou dela (`aoResponderCheckin`, chamado em `useCheckin.salvar`).
+- Avisos com data (não repetição semanal), porque o de terça depende de ter respondido: 4 semanas à frente, 8 das 64 vagas do iOS, renovados a cada abertura da Home (`renovarAvisosDiarios`). Semana já respondida não é agendada. Planejamento puro em `src/core/regras/bemestar/lembretesCheckin.ts` (testado).
+- Nova preferência `checkin`, **ligada por padrão** (o check-in já aparece como pendência para todos), com chave em Agenda › Preferências. Sem migração: o mapeamento completa a chave com o padrão. Origem `sistema` em `lembretes`, identificada pelo prefixo `checkin:`.
+- Na Agenda, o card de rotina ganhou a parte **"Toda semana"** abaixo de "Todo dia": "Check-in semanal · domingo às 10:00 e terça às 19:00, se ainda não respondeu". Não entra na lista de pontuais.
+
+**Visto no simulador (26/09):** o plano de 8 avisos com a permissão concedida, e a Agenda com "Toda semana". Durante o teste, a chave da conta do Murilo ficou **desligada**; ele religa em Agenda › Preferências. **Não visto:** a notificação tocando no domingo (só no aparelho).
+
+Junto: `envolverRaiz` só aplica o `Sentry.wrap` quando o Sentry foi iniciado, o que tira o aviso "wrap antes de init" do Metro no modo de desenvolvimento.
 ---
 
 ## Decisões clínicas (protocolos adotados)

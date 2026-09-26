@@ -12,6 +12,11 @@ export interface TextoNotificacao {
   corpo: string;
 }
 
+/** D-060: domingo às 10h. */
+export const textoCheckinDomingo = (): TextoNotificacao => ({ titulo: 'Como foi sua semana?', emoji: '💬', corpo: 'Responda o check-in: leva um minuto.' });
+/** D-060: terça às 19h, só para quem ainda não respondeu. */
+export const textoCheckinTerca = (): TextoNotificacao => ({ titulo: 'Último dia do check-in', emoji: '💬', corpo: 'Conte como foi sua semana antes que ela feche.' });
+
 /** O que vai no título da notificação: a frase e o emoji no fim. */
 export const tituloCompleto = (t: TextoNotificacao) => `${t.titulo} ${t.emoji}`;
 
