@@ -693,7 +693,11 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 
 **Como ficou:** `@sentry/react-native` (integração oficial do Expo). `iniciarRelatorioDeErros` só liga com `EXPO_PUBLIC_SENTRY_DSN` e fora do modo de desenvolvimento; `Sentry.wrap` na raiz registra também erro de renderização. **Privacidade** (`src/core/erros/limpeza.ts`, testado): sem captura de tela nem estrutura da tela, `sendDefaultPii: false`, sem usuário/requisição/extras no evento; rastros de toque e de console descartados (podem ter o texto da tela, como o nome de um remédio); endereços sem parâmetros (e-mail, filtros do banco). Chega o que serve para consertar: mensagem, pilha, aparelho, versão.
 
-**Falta (Murilo):** criar a conta no Sentry e passar a DSN. Até lá, o código fica pronto e desligado. O envio de source maps no build fica desligado (`SENTRY_DISABLE_AUTO_UPLOAD` no `eas.json`) até existir o token, para o build não falhar. A política de privacidade precisa citar o Sentry como operador antes de ligar.
+**Conta criada pelo Murilo em 26/09:** organização `nero-saude`, projeto `react-native`, região **UE (Alemanha)** (`ingest.de.sentry.io`). A DSN, que não é segredo, vai no `env` dos perfis `preview` e `production` do `eas.json`; o plugin no `app.json` já tem organização, projeto e `https://de.sentry.io/`. O teste de 14 dias é das funções pagas; depois a conta fica no plano gratuito (5.000 ocorrências/mês, 1 usuário), sem cartão. Contra um defeito que se repete e gasta a cota, o mesmo erro vai até 5 vezes por abertura do app (`limitarRepeticao`, testado). O repositório **não** foi conectado ao Sentry.
+
+**Source maps** (o erro aparece com o nome do arquivo e a linha legíveis): continuam desligados (`SENTRY_DISABLE_AUTO_UPLOAD`) até existir um token do Sentry na EAS. Sem eles o erro chega, mas com o código minificado.
+
+**Política de privacidade** atualizada em 26/09: Sentry (UE) e Expo (atualizações) como operadores, o que o relatório de erro leva e o que não leva, base legal (legítimo interesse, art. 7º, IX) e transferência internacional (art. 33). Vale a mesma revisão jurídica dos termos.
 
 ### D-059 — Atualização pelo ar (expo-updates) — 26/09/2026
 **Motivo:** sem ela, qualquer correção, até um texto errado, exigia build novo e a revisão da Apple. Aprovado pelo Murilo em 26/09, depois da explicação do que muda.

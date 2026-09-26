@@ -1,5 +1,5 @@
 import * as Sentry from '@sentry/react-native';
-import { limparEvento, limparRastro } from './limpeza';
+import { limitarRepeticao, limparEvento, limparRastro } from './limpeza';
 
 /**
  * Relatório de erros (D-058). Só liga com a chave do projeto no Sentry (`EXPO_PUBLIC_SENTRY_DSN`) e
@@ -10,6 +10,7 @@ const DSN = process.env.EXPO_PUBLIC_SENTRY_DSN;
 
 export function iniciarRelatorioDeErros(): void {
   if (!DSN || __DEV__) return;
+  const deixa = limitarRepeticao(5);
   Sentry.init({
     dsn: DSN,
     sendDefaultPii: false,
@@ -17,7 +18,7 @@ export function iniciarRelatorioDeErros(): void {
     attachViewHierarchy: false,
     tracesSampleRate: 0,
     beforeBreadcrumb: (b) => limparRastro(b),
-    beforeSend: (e) => limparEvento(e),
+    beforeSend: (e) => { const limpo = deixa(e); return limpo ? limparEvento(limpo) : null; },
   });
 }
 

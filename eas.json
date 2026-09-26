@@ -22,14 +22,16 @@
       },
       "channel": "preview",
       "env": {
-        "SENTRY_DISABLE_AUTO_UPLOAD": "true"
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true",
+        "EXPO_PUBLIC_SENTRY_DSN": "https://b43adedf024659cec098add838ef030a@o4512153380585472.ingest.de.sentry.io/4512153415385168"
       }
     },
     "production": {
       "autoIncrement": true,
       "channel": "production",
       "env": {
-        "SENTRY_DISABLE_AUTO_UPLOAD": "true"
+        "SENTRY_DISABLE_AUTO_UPLOAD": "true",
+        "EXPO_PUBLIC_SENTRY_DSN": "https://b43adedf024659cec098add838ef030a@o4512153380585472.ingest.de.sentry.io/4512153415385168"
       }
     }
   },

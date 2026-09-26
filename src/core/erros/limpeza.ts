@@ -26,3 +26,18 @@ export function limparEvento<T extends Evento>(e: T): T {
   const { user: _u, request: _r, extra: _x, ...resto } = e;
   return resto as T;
 }
+
+/**
+ * Um defeito que dispara em sequência (tela que recarrega sozinha) gastaria as 5.000 ocorrências/mês do
+ * plano gratuito num dia. Cada erro diferente vai até `maximo` vezes por abertura do app; o resto fica.
+ */
+export function limitarRepeticao(maximo: number) {
+  const contagem = new Map<string, number>();
+  return <T extends { exception?: { values?: { type?: string; value?: string }[] }; message?: unknown }>(e: T): T | null => {
+    const x = e.exception?.values?.[0];
+    const chave = x ? `${x.type}:${x.value}` : String(e.message ?? '');
+    const n = (contagem.get(chave) ?? 0) + 1;
+    contagem.set(chave, n);
+    return n > maximo ? null : e;
+  };
+}

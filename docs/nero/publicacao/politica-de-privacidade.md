@@ -4,7 +4,7 @@
 >
 > **Antes de publicar:** confirmar no painel da Supabase que os backups diários começaram. A seção 8 promete cópias de 7 dias.
 
-**Última atualização:** 24 de setembro de 2026
+**Última atualização:** 26 de setembro de 2026
 
 ## 1. Quem é o responsável
 
@@ -39,6 +39,8 @@ Todos os dados abaixo são fornecidos por você, no app. Não coletamos dados de
 
 **Uso do app**
 - Os dias em que você registrou alguma coisa (só a data, nunca o que foi registrado), para mostrar sua sequência de dias seguidos, e quais marcos de meta e conquistas de uso já foram comemorados. Esses dados servem apenas para o app não repetir a mesma comemoração; não são compartilhados nem entram nos relatórios.
+- A data e a versão em que você aceitou os Termos de uso e autorizou o uso dos seus dados de saúde, como prova do seu consentimento.
+- **Relatórios de erro:** quando o app falha, é enviado um relatório técnico com a mensagem de erro, o trecho do código em que ela ocorreu, o modelo do aparelho, a versão do sistema e a do app. Ele **não** contém seus dados de saúde, o que aparece na tela, o que você digitou, seu nome, e-mail ou identificação da conta. Serve apenas para corrigirmos defeitos.
 
 **Documentos** (dado sensível)
 - Imagens e PDFs de laudos, receitas e exames que você anexa por foto, galeria ou arquivo. Ficam em área de armazenamento privada, acessível só pela sua conta.
@@ -48,7 +50,7 @@ Todos os dados abaixo são fornecidos por você, no app. Não coletamos dados de
 
 **O que não coletamos**
 - Localização, contatos, microfone, dados de outros apps, identificadores de publicidade.
-- Não usamos ferramentas de analytics, rastreadores nem anúncios. Não há SDK de terceiros para esse fim no app.
+- Não usamos ferramentas de analytics, rastreadores nem anúncios. O único componente de terceiros que envia informação técnica é o de relatório de erros descrito acima, sem dados de saúde e sem identificar você.
 
 ## 4. Para que usamos os dados
 
@@ -60,7 +62,9 @@ Não usamos seus dados para outra finalidade, não os vendemos e não os usamos 
 
 ## 5. Base legal
 
-- Dados de saúde: **consentimento específico e destacado** (art. 11, I da LGPD), dado quando você cria a conta e preenche o perfil. Você pode revogá-lo a qualquer momento excluindo a conta (seção 8).
+- Dados de saúde: **consentimento específico e destacado** (art. 11, I da LGPD), dado quando você cria a conta, numa caixa própria, separada do aceite dos Termos de uso. Você pode revogá-lo a qualquer momento excluindo a conta (seção 8).
+- Relatórios de erro: legítimo interesse em manter o aplicativo funcionando (art. 7º, IX), limitado a dados técnicos sem conteúdo de saúde.
+- Transferência internacional: os relatórios de erro (Sentry, União Europeia) e o serviço de atualizações (Expo, Estados Unidos) ficam fora do Brasil, com as garantias contratuais desses fornecedores (art. 33 da LGPD). Seus dados de saúde continuam apenas no Brasil.
 - E-mail e senha: execução do serviço que você contratou ao criar a conta (art. 7º, V).
 
 ## 6. Com quem os dados são compartilhados
@@ -69,6 +73,8 @@ Não usamos seus dados para outra finalidade, não os vendemos e não os usamos 
 - **Compartilhamento por QR Code:** quando você gera um relatório com QR, criamos um link assinado válido por **7 dias**; quem tiver o link (por exemplo, seu médico, ao escanear o QR) consegue abrir aquele PDF nesse período. Você pode revogar o link antes do prazo na tela do relatório. Depois de 7 dias o link deixa de funcionar.
 - **Operador de infraestrutura:** os dados ficam hospedados na Supabase (banco de dados, autenticação e armazenamento de arquivos), em servidores localizados em **São Paulo, Brasil**, com criptografia em trânsito (TLS) e em repouso. A Supabase atua como operadora, sob nossas instruções, mantém as cópias de segurança citadas na seção 8 e não usa os dados para fins próprios. Política da Supabase: https://supabase.com/privacy.
 - **Operador de envio de e-mail:** para enviar o código de confirmação de cadastro e a recuperação de senha, seu endereço de e-mail é transmitido ao serviço **Resend**, que atua como operador e o utiliza exclusivamente para entregar essas mensagens. Nenhum dado de saúde é enviado por e-mail.
+- **Operador de relatório de erros:** os relatórios técnicos de falha descritos na seção 3 são enviados ao serviço **Sentry** (Functional Software, Inc.), com dados armazenados na **União Europeia (Alemanha)**. Antes do envio, o próprio app remove qualquer conteúdo de tela, texto digitado e identificação da conta. Política do Sentry: https://sentry.io/privacy.
+- **Atualizações do app:** correções do aplicativo podem ser baixadas diretamente dos servidores da **Expo** (650 Industries, Inc.), sem passar pela loja. Nesse download o aparelho informa apenas dados técnicos (versão do app e do sistema); nenhum dado seu é enviado.
 - Autoridades: apenas se houver obrigação legal ou ordem judicial.
 
 ## 7. Lembretes e notificações

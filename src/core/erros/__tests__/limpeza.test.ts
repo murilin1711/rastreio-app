@@ -23,3 +23,12 @@ test('o evento sai sem pessoa, sem requisição e sem extras', () => {
   expect(e.message).toBe('boom');
   expect(e.exception).toEqual({ values: [{ type: 'TypeError' }] });
 });
+
+test('o mesmo erro repetido em sequência para de ser enviado depois de 5 vezes na mesma abertura', () => {
+  const { limitarRepeticao } = require('../limpeza');
+  const deixa = limitarRepeticao(5);
+  const erro = { exception: { values: [{ type: 'TypeError', value: 'x is undefined' }] } };
+  const enviados = Array.from({ length: 8 }, () => deixa(erro)).filter(Boolean).length;
+  expect(enviados).toBe(5);
+  expect(deixa({ exception: { values: [{ type: 'RangeError', value: 'outro' }] } })).toBeTruthy(); // erro diferente passa
+});

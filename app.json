@@ -70,7 +70,14 @@
       "expo-image",
       "expo-secure-store",
       "@react-native-community/datetimepicker",
-      "@sentry/react-native"
+      [
+        "@sentry/react-native",
+        {
+          "organization": "nero-saude",
+          "project": "react-native",
+          "url": "https://de.sentry.io/"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
