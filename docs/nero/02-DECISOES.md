@@ -742,6 +742,26 @@ Junto: `envolverRaiz` só aplica o `Sentry.wrap` quando o Sentry foi iniciado, o
 **Pedido do Murilo (26/09).** "Criar conta" ganhou a logo completa do Nero no topo, como o login. E a linha **"Criado por Murilo Roiz Póvoa e Dra. Denise Padilha (CRM/AL 12430)"** (CRM acrescentado em 26/09, a pedido do Murilo, pela regra de publicidade médica do CFM) (`CREDITOS` em `src/core/publicacao.ts`, componente `Creditos`) entra nos lugares escolhidos por ele: **rodapé do login e do Criar conta**, **rodapé de Minha Saúde** (abaixo de Política e Termos) e **rodapé do relatório em PDF**. Ficou de fora, de propósito, das telas de uso diário e da última tela do onboarding. **Visto no simulador:** login e Criar conta. O rodapé de Minha Saúde e o PDF, só pelo código e pelo teste do PDF.
 
 **Primeira atualização pelo ar (26/09).** Publicada no canal `production` para o build 3. A primeira tentativa saiu com runtime diferente do build (`8a83070b…` × `a02e9b33…`) e **não chegaria a ele**: o `eas.json` entra na impressão digital, e eu tinha acrescentado o `ascAppId` depois do build. O `eas.json` voltou exatamente ao do build 3 e a atualização foi republicada com o runtime certo (grupo `0084e967`). **Regra:** entre um build e as atualizações dele, não mexer em `eas.json`, `app.json`, `package.json` nem em plugins. Antes de publicar, conferir com `eas fingerprint:compare <runtime do build> --environment production`. A `EXPO_PUBLIC_SENTRY_DSN` também foi cadastrada nas variáveis da EAS (produção e preview), para as atualizações terem o Sentry ligado.
+
+### D-063 — Onboarding novo: o Nero fala — 26/09/2026
+**Pedido do Murilo (26/09):** onboarding mais interativo e bonito, com o Nero falando (referência: Gentler Streak, no Mobbin), as falas aparecendo aos poucos, telas animadas mostrando o que o app faz e a pergunta de notificação no próprio onboarding. **Substitui os três slides da D-033.** Spec: `docs/superpowers/specs/2026-09-26-nero-onboarding-nero-fala-design.md`; plano: `docs/superpowers/plans/2026-09-26-nero-onboarding-nero-fala.md`.
+
+**Decisões dele:** o Nero pergunta o nome, e o cadastro já vem preenchido; pergunta dos avisos antes do sistema, com "Agora não" que não gasta a chance do iOS; funções mostradas: pressão e glicemia, relatório e lembretes (exames de prevenção de fora); animações feitas no próprio app (caminho A, sem arte nem vídeo); ordem Oi → Nome → Prazer → Pressão → Relatório → Lembretes/avisos → Final.
+
+**Roteiro final** (`src/core/onboarding/roteiro.ts`):
+1. "Oi, eu sou o Nero!" / "Vou te ajudar a organizar a sua saúde." · **Oi, Nero!**
+2. "E você, como se chama?" · campo de nome · **Continuar** (2 letras ou mais) · "Prefiro não dizer"
+3. "Prazer, {nome}! Vou te mostrar o que eu faço por você." · **Vamos lá**
+4. "Anote sua pressão e sua glicemia. Eu organizo tudo pra você." · demo: cartão 128 por 78 "no alvo", gráfico da semana se desenhando, "Média da semana: 126 por 80"
+5. "Eu junto todas as suas informações num relatório. Na consulta, é só mostrar pro seu médico." (fala do Murilo) · demo: três folhas viram o relatório, o QR aparece
+6. "Eu te lembro do remédio na hora certa." · demo: notificação "Hora de tomar seu remédio 💊 / Losartana 50 mg" às 08:00 · "Posso te avisar?" · **Sim, pode me avisar** / "Agora não"
+7. "Pronto, {nome}! Agora é só criar sua conta." · **Criar minha conta** · "Já tenho conta"
+
+**Como funciona.** Fala palavra por palavra (`FalaNero`, ~2 s por frase), tocar completa a frase, o botão aparece no fim, com Reduzir movimento tudo aparece de uma vez e o leitor de tela lê a frase inteira. Pontinhos, "Pular" (vai ao cadastro), voltar pela seta ou arrastando. O nome fica só no celular (`nomeGuardado`) até a conta existir: preenche o cadastro e o perfil inicial (login Apple/Google sem nome) e é apagado depois. Avisos: "Sim" chama `pedirPermissaoNotificacoes`; "Agora não" chama `marcarAdiado` (a Home fica 14 dias sem perguntar) e a pergunta volta ao ligar um lembrete (D-043); com o iOS já decidido, a pergunta não aparece. Céu em degradê claro e o Nero sobre um chão discreto (`CenaNero`), grande nas conversas, pequeno no canto nas demos. Demos com dados de exemplo sem valor fora do normal nem cor de alerta.
+
+**Decisões de implementação:** animações com o `Animated` do React Native (não o Reanimated) e voltar com `PanResponder` (não o gesture-handler), porque rodam nos testes sem configuração e o resultado visual é o mesmo. Sem biblioteca nativa nova. As miniaturas do onboarding antigo saíram.
+
+**Testes:** roteiro, nome guardado, `FalaNero`, as três demos e a tela inteira (fluxo, nome, voltar e trocar o nome, "Prefiro não dizer", "Pular", "Agora não", "Sim", permissão já decidida, "Já tenho conta"). **Visto no simulador:** a tela 1. As outras só no percurso com toques (mouse do Mac) ou no aparelho.
 ---
 
 ## Decisões clínicas (protocolos adotados)

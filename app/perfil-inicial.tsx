@@ -1,7 +1,8 @@
 import { useRouter } from 'expo-router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Alert, Text, View } from 'react-native';
 import type { RacaCor, SexoNascimento, TabagismoStatus } from '@core/perfil/tipos';
+import { apagarNome, lerNome } from '@core/onboarding/nomeGuardado';
 import { usePerfil } from '@core/perfil/usePerfil';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { supabase } from '@core/supabase/client';
@@ -23,6 +24,8 @@ export default function PerfilInicial() {
   // D-061: quem entrou com a Apple pode chegar sem nome (a Apple só o entrega uma vez, fora do token).
   const faltaNome = perfil != null && !perfil.nome.trim();
   const [nome, setNome] = useState('');
+  // D-063: quem entrou por Apple/Google sem nome recebe o nome dito ao Nero no onboarding, se houver.
+  useEffect(() => { if (faltaNome) lerNome().then((n) => { if (n) setNome((atual) => atual || n); }); }, [faltaNome]);
   const [passo, setPasso] = useState(1);
   const [salvando, setSalvando] = useState(false);
 
@@ -85,6 +88,7 @@ export default function PerfilInicial() {
         });
         if (error) throw traduzirErro(error);
       }
+      apagarNome();
       router.replace('/');
     } catch (e) {
       Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario);

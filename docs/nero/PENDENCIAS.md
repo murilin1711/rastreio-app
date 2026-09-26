@@ -56,6 +56,8 @@
 - [ ] **No build 4, junto:** devolver `"ascAppId": "6815939474"` ao `submit.production.ios` do `eas.json` (sem ele
       o envio ao TestFlight pede modo interativo) e criar `.fingerprintignore` com `eas.json`, para mudanças nele não
       separarem o build das atualizações. Hoje não dá: qualquer uma das duas mudaria o runtime do build 3.
+- [ ] **Conferir o onboarding novo (D-063) no aparelho:** as 7 telas, o ritmo da fala (2 s por frase é o ponto de partida),
+      o teclado na tela do nome, o iPhone pequeno, o nome chegando ao cadastro e a pergunta dos avisos.
 - [ ] **Conferir no build 3 o que só o aparelho mostra:** entrar com a Apple e com o Google; tela "Antes de continuar";
       um erro chegando ao Sentry com arquivo e linha legíveis; uma atualização pelo ar chegando (publicar uma
       mudança pequena com `eas update --channel production`); notificação do check-in no domingo.
