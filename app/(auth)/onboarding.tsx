@@ -1,132 +1,204 @@
+import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { useRef, useState } from 'react';
-import { Dimensions, FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
+import { useEffect, useRef, useState } from 'react';
+import { Animated, KeyboardAvoidingView, PanResponder, Platform, Pressable, StyleSheet, Text, TextInput, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { estadoPermissao, pedirPermissaoNotificacoes } from '@core/lembretes/permissao';
+import { marcarAdiado } from '@core/lembretes/useAvisos';
 import { ONBOARDING_KEY } from '@core/onboarding/chave';
-import { LinhasExemplo, NeroDoSlide } from '@modules/onboarding/Miniaturas';
-import { Colors, LogoNero, Radius, Spacing, Typography } from '@ui/index';
-
-const { width } = Dimensions.get('window');
+import { apagarNome, guardarNome } from '@core/onboarding/nomeGuardado';
+import { falaComNome, PERGUNTA_AVISOS, ROTEIRO } from '@core/onboarding/roteiro';
+import { CenaNero, CeuOnboarding } from '@modules/onboarding/CenaNero';
+import { DemoLembrete } from '@modules/onboarding/demos/DemoLembrete';
+import { DemoPressao } from '@modules/onboarding/demos/DemoPressao';
+import { DemoRelatorio } from '@modules/onboarding/demos/DemoRelatorio';
+import { FalaNero } from '@modules/onboarding/FalaNero';
+import { Button, Colors, Radius, Spacing, Typography } from '@ui/index';
 
 /**
- * Onboarding (D-033). Três slides, fundo claro, mascote em cada um.
+ * Onboarding em que o Nero fala (D-063; spec `docs/superpowers/specs/2026-09-26-nero-onboarding-nero-fala-design.md`).
+ * Substitui os três slides da D-033. Esta tela só conduz: passo atual, pontinhos, "Pular", voltar e as
+ * saídas. As falas estão em `ROTEIRO`; a fala, a cena e as demonstrações são peças próprias.
  *
- * Os textos respondem **o que a pessoa ganha**, não como o app funciona. A versão anterior dizia
- * "o que você informa alimenta todos os módulos" — "módulos" é palavra nossa — e fechava com
- * "Orientação, não diagnóstico", definindo-se pela negação logo antes de a pessoa entrar. Agora o
- * terceiro slide promete o aviso e põe a ressalva no fim da frase, onde ela pertence.
- *
- * Fundo claro, calibrado pelo Murilo em 24/09: o mascote é azul e branco e desaparecia sobre o
- * gradiente marinho que havia aqui.
+ * Ninguém avança sozinho: o botão aparece quando a fala termina, e tocar na tela completa a fala.
  */
-const slides = [
-  {
-    id: '1',
-    clipe: 'repouso' as const,
-    titulo: 'Tudo num\nlugar só',
-    texto: 'Pressão, exames, remédios e o que você sente. Do jeito que o seu médico precisa ver.',
-    linhas: [
-      { icone: 'heart-outline' as const, rotulo: 'Pressão de hoje', valor: '128 por 78' },
-      { icone: 'checkmark-circle-outline' as const, rotulo: 'Mamografia', valor: 'Em dia até 2027' },
-    ],
-  },
-  {
-    id: '2',
-    clipe: 'pensando' as const,
-    titulo: 'Você conta\numa vez só',
-    texto: 'O NERO lembra da sua história em todas as telas. Ninguém pede a mesma coisa duas vezes.',
-    linhas: [
-      { icone: 'create-outline' as const, rotulo: 'Você contou', valor: 'Parou de fumar em 2020' },
-      { icone: 'arrow-forward-outline' as const, rotulo: 'Já preenchido em', valor: 'Risco do coração e pulmão', consequencia: true },
-    ],
-  },
-  {
-    id: '3',
-    clipe: 'acenar' as const,
-    titulo: 'O NERO\navisa a hora',
-    texto: 'Remédio do dia, exame que está vencendo, pressão que subiu. Quem decide continua sendo o seu médico.',
-    linhas: [
-      { icone: 'time-outline' as const, rotulo: 'Hoje, às 8h', valor: 'Losartana' },
-      { icone: 'calendar-outline' as const, rotulo: 'Este mês', valor: 'Mamografia: está na hora' },
-    ],
-  },
-];
-
 export default function Onboarding() {
   const router = useRouter();
-  const lista = useRef<FlatList>(null);
-  const [atual, setAtual] = useState(0);
-  const ultimo = atual === slides.length - 1;
+  const [indice, setIndice] = useState(0);
+  const [nome, setNome] = useState('');
+  const [completar, setCompletar] = useState(0);
+  const [falaPronta, setFalaPronta] = useState(false);
+  const [demoPronta, setDemoPronta] = useState(false);
+  const [perguntaPronta, setPerguntaPronta] = useState(false);
+  // Tela 6: só pergunta se o iOS ainda não tem resposta (a chance de pedir é uma só).
+  const [podePerguntar, setPodePerguntar] = useState<boolean | null>(null);
+  const passo = ROTEIRO[indice];
+  const ultimo = indice === ROTEIRO.length - 1;
 
-  const concluir = async () => {
-    try { await AsyncStorage.setItem(ONBOARDING_KEY, 'true'); } catch {}
-    // Quem acabou de ver o onboarding é gente nova: vai direto criar a conta (pedido do Murilo, 26/09).
-    router.replace('/(auth)/cadastro');
+  useEffect(() => {
+    setFalaPronta(false); setDemoPronta(false); setPerguntaPronta(false); setCompletar(0);
+    if (passo.id === 'lembrete') estadoPermissao().then((e) => setPodePerguntar(e === 'perguntar')).catch(() => setPodePerguntar(false));
+  }, [indice, passo.id]);
+
+  const avancar = () => setIndice((i) => Math.min(i + 1, ROTEIRO.length - 1));
+  const voltar = () => setIndice((i) => Math.max(i - 1, 0));
+  const sair = async (destino: '/(auth)/cadastro' | '/(auth)/login') => {
+    try { await AsyncStorage.setItem(ONBOARDING_KEY, 'true'); } catch { /* segue */ }
+    router.replace(destino);
   };
-  const proxima = () => (ultimo ? concluir() : lista.current?.scrollToIndex({ index: atual + 1 }));
+
+  // Voltar arrastando para a direita (PanResponder: funciona sem configurar o gesture-handler).
+  const indiceAtual = useRef(indice);
+  indiceAtual.current = indice;
+  const arrastar = useRef(PanResponder.create({
+    onMoveShouldSetPanResponder: (_e, g) => g.dx > 20 && Math.abs(g.dy) < 20 && indiceAtual.current > 0,
+    onPanResponderRelease: (_e, g) => { if (g.dx > 80) voltar(); },
+  })).current;
+
+  const nomeValido = nome.trim().length >= 2;
+  const continuarNome = async () => { if (!nomeValido) return; await guardarNome(nome); avancar(); };
+  const semNome = async () => { await apagarNome(); setNome(''); avancar(); };
+  const responderAvisos = async (sim: boolean) => {
+    if (sim) await pedirPermissaoNotificacoes().catch(() => false);
+    else await marcarAdiado();
+    avancar();
+  };
+
+  const nomeFala = nomeValido ? nome : null;
+  const temDemo = passo.id === 'pressao' || passo.id === 'relatorio' || passo.id === 'lembrete';
+  const mostrarPergunta = passo.id === 'lembrete' && podePerguntar === true && falaPronta && demoPronta;
+
+  const rodape = () => {
+    if (!falaPronta) return null;
+    if (passo.id === 'nome') {
+      return (
+        <>
+          <Button label={passo.botao} onPress={continuarNome} disabled={!nomeValido} />
+          <Pressable onPress={semNome} hitSlop={8} accessibilityRole="button"><Text style={styles.link}>Prefiro não dizer</Text></Pressable>
+        </>
+      );
+    }
+    if (passo.id === 'lembrete' && podePerguntar === true) {
+      if (!perguntaPronta) return null;
+      return (
+        <>
+          <Button label="Sim, pode me avisar" onPress={() => responderAvisos(true)} />
+          <Pressable onPress={() => responderAvisos(false)} hitSlop={8} accessibilityRole="button"><Text style={styles.link}>Agora não</Text></Pressable>
+        </>
+      );
+    }
+    if (passo.id === 'lembrete' && podePerguntar === null) return null;
+    if (ultimo) {
+      return (
+        <>
+          <Button label={passo.botao} onPress={() => sair('/(auth)/cadastro')} />
+          <Pressable onPress={() => sair('/(auth)/login')} hitSlop={8} accessibilityRole="button"><Text style={styles.link}>Já tenho conta</Text></Pressable>
+        </>
+      );
+    }
+    return <Button label={passo.botao} onPress={avancar} />;
+  };
 
   return (
-    <SafeAreaView style={styles.tela}>
+    <SafeAreaView style={styles.tela} {...arrastar.panHandlers}>
       <StatusBar style="dark" />
-      <View style={styles.topo}>
-        <LogoNero variante="simbolo" width={26} />
-        {!ultimo ? (
-          <Pressable onPress={concluir} hitSlop={12} accessibilityRole="button">
-            <Text style={styles.pular}>Pular</Text>
-          </Pressable>
-        ) : null}
-      </View>
-
-      <View style={styles.progresso}>
-        {slides.map((_, i) => <View key={i} style={[styles.segmento, i <= atual && styles.segmentoAtivo]} />)}
-      </View>
-
-      <FlatList
-        ref={lista}
-        data={slides}
-        horizontal
-        pagingEnabled
-        showsHorizontalScrollIndicator={false}
-        keyExtractor={(s) => s.id}
-        onMomentumScrollEnd={(e) => setAtual(Math.round(e.nativeEvent.contentOffset.x / width))}
-        renderItem={({ item }) => (
-          <View style={styles.slide}>
-            <NeroDoSlide clipe={item.clipe} />
-            <Text style={styles.titulo}>{item.titulo}</Text>
-            <Text style={styles.texto}>{item.texto}</Text>
-            <View style={styles.exemplos}>
-              <LinhasExemplo linhas={item.linhas} />
-            </View>
+      <CeuOnboarding />
+      <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={styles.corpo}>
+        <View style={styles.topo}>
+          <View style={styles.lado}>
+            {indice > 0 ? (
+              <Pressable onPress={voltar} hitSlop={12} accessibilityRole="button" accessibilityLabel="Voltar">
+                <Ionicons name="chevron-back" size={24} color={Colors.primary} />
+                <Text style={styles.oculto}>Voltar</Text>
+              </Pressable>
+            ) : null}
           </View>
-        )}
-      />
+          <View style={styles.pontos}>
+            {ROTEIRO.map((p, i) => <View key={p.id} style={[styles.ponto, i === indice && styles.pontoAtual, i < indice && styles.pontoFeito]} />)}
+          </View>
+          <View style={[styles.lado, { alignItems: 'flex-end' }]}>
+            {!ultimo ? (
+              <Pressable onPress={() => sair('/(auth)/cadastro')} hitSlop={12} accessibilityRole="button">
+                <Text style={styles.pular}>Pular</Text>
+              </Pressable>
+            ) : null}
+          </View>
+        </View>
 
-      <View style={styles.rodape}>
-        <Pressable onPress={proxima} style={({ pressed }) => [styles.botao, pressed && { opacity: 0.85 }]} accessibilityRole="button">
-          <Text style={styles.botaoTexto}>{ultimo ? 'Começar' : 'Próxima'}</Text>
+        {/* Tocar em qualquer ponto completa a fala; o botão continua sendo o único jeito de avançar. */}
+        <Pressable style={styles.palco} onPress={() => setCompletar((c) => c + 1)} accessible={false}>
+          <FalaNero key={`fala-${indice}`} linhaPequena={passo.linhaPequena} fala={falaComNome(passo.fala, nomeFala)} onTerminou={() => setFalaPronta(true)} completar={completar} />
+          {passo.id === 'nome' ? (
+            <TextInput
+              value={nome}
+              onChangeText={setNome}
+              placeholder="Seu nome"
+              placeholderTextColor={Colors.textMuted}
+              autoFocus
+              autoComplete="name"
+              autoCapitalize="words"
+              returnKeyType="next"
+              onSubmitEditing={continuarNome}
+              style={styles.campoNome}
+              accessibilityLabel="Seu nome"
+            />
+          ) : null}
+          {temDemo ? (
+            <View style={styles.demo}>
+              {passo.id === 'pressao' ? <DemoPressao onTerminou={() => setDemoPronta(true)} /> : null}
+              {passo.id === 'relatorio' ? <DemoRelatorio onTerminou={() => setDemoPronta(true)} /> : null}
+              {passo.id === 'lembrete' ? <DemoLembrete onTerminou={() => setDemoPronta(true)} /> : null}
+            </View>
+          ) : null}
+          {mostrarPergunta ? (
+            <View style={styles.pergunta}>
+              <FalaNero key="pergunta" fala={PERGUNTA_AVISOS} onTerminou={() => setPerguntaPronta(true)} completar={completar} />
+            </View>
+          ) : null}
         </Pressable>
-      </View>
+
+        <View style={styles.baixo}>
+          <CenaNero clipe={passo.clipe} tamanho={passo.nero} />
+          <Rodape>{rodape()}</Rodape>
+        </View>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
 
-/** Espaçamento calibrado pelo Murilo em 24/09: 14 entre os blocos, título em 27. */
-const RESPIRO = 14;
+/** O rodapé entra deslizando de baixo quando a fala termina. */
+function Rodape({ children }: { children: React.ReactNode }) {
+  const entrada = useRef(new Animated.Value(0)).current;
+  const visivel = !!children;
+  useEffect(() => {
+    entrada.setValue(0);
+    if (visivel) Animated.timing(entrada, { toValue: 1, duration: 260, useNativeDriver: true }).start();
+  }, [visivel, entrada]);
+  return (
+    <Animated.View style={[styles.rodape, { opacity: entrada, transform: [{ translateY: entrada.interpolate({ inputRange: [0, 1], outputRange: [16, 0] }) }] }]}>
+      {children}
+    </Animated.View>
+  );
+}
 
 const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: Colors.background },
-  topo: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: Spacing.xxl, height: 44 },
+  corpo: { flex: 1 },
+  topo: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: Spacing.xxl, height: 48 },
+  lado: { width: 64 },
+  oculto: { position: 'absolute', width: 1, height: 1, opacity: 0 },
+  pontos: { flex: 1, flexDirection: 'row', justifyContent: 'center', gap: 6 },
+  ponto: { width: 7, height: 7, borderRadius: Radius.pill, backgroundColor: Colors.border },
+  pontoAtual: { width: 20, backgroundColor: Colors.logoCeu },
+  pontoFeito: { backgroundColor: Colors.accent },
   pular: { ...Typography.subheading, color: Colors.textSecondary },
-  progresso: { flexDirection: 'row', gap: Spacing.sm, paddingHorizontal: Spacing.xxl, marginTop: Spacing.xs },
-  segmento: { flex: 1, height: 3, borderRadius: Radius.pill, backgroundColor: Colors.border },
-  segmentoAtivo: { backgroundColor: Colors.logoCeu },
-  slide: { width, paddingHorizontal: Spacing.xxl, paddingTop: Spacing.xl },
-  titulo: { fontFamily: 'Poppins-ExtraBold', fontSize: 27, lineHeight: 31, letterSpacing: -0.4, color: Colors.primary, marginTop: RESPIRO },
-  texto: { ...Typography.body, fontSize: 15, lineHeight: 23, color: Colors.textSecondary, marginTop: RESPIRO },
-  exemplos: { marginTop: RESPIRO },
-  rodape: { padding: Spacing.xxl },
-  botao: { backgroundColor: Colors.primary, borderRadius: Radius.linha + 2, minHeight: 54, alignItems: 'center', justifyContent: 'center' },
-  botaoTexto: { ...Typography.subheading, fontSize: 16, color: Colors.white },
+  palco: { flex: 1, paddingHorizontal: Spacing.xxl, paddingTop: Spacing.xxl, gap: Spacing.xl },
+  campoNome: { fontFamily: 'Poppins-SemiBold', fontSize: 30, color: Colors.primary, borderBottomWidth: 2, borderBottomColor: Colors.accent, paddingVertical: Spacing.sm },
+  demo: { marginTop: Spacing.sm },
+  pergunta: { marginTop: Spacing.xs },
+  baixo: { paddingHorizontal: Spacing.xxl, paddingBottom: Spacing.md },
+  rodape: { gap: Spacing.md, alignItems: 'stretch', minHeight: 54, marginTop: Spacing.md },
+  link: { ...Typography.subheading, color: Colors.textSecondary, textAlign: 'center' },
 });
