@@ -56,7 +56,7 @@ export default function Login() {
             <Button label="Entrar" onPress={entrar} loading={carregando} style={styles.botao} />
           </View>
 
-          <Link href="/(auth)/cadastro" style={styles.link}>
+          <Link href="/(auth)/cadastro" replace style={styles.link}>
             Ainda não tem conta? <Text style={styles.linkForte}>Criar conta</Text>
           </Link>
         </ScrollView>

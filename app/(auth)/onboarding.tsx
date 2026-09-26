@@ -62,7 +62,8 @@ export default function Onboarding() {
 
   const concluir = async () => {
     try { await AsyncStorage.setItem(ONBOARDING_KEY, 'true'); } catch {}
-    router.replace('/(auth)/login');
+    // Quem acabou de ver o onboarding é gente nova: vai direto criar a conta (pedido do Murilo, 26/09).
+    router.replace('/(auth)/cadastro');
   };
   const proxima = () => (ultimo ? concluir() : lista.current?.scrollToIndex({ index: atual + 1 }));
 

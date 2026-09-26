@@ -29,3 +29,10 @@ describe('traduzirErro', () => {
     expect(traduzirErro(original)).toBe(original);
   });
 });
+
+test('senha vazada ganha mensagem própria, não a de tamanho', () => {
+  // Com a proteção contra senha vazada ligada no painel, a Supabase devolve `weak_password` com
+  // `reasons: ['pwned']` (supabase-js, AuthWeakPasswordError).
+  expect(traduzirErro({ code: 'weak_password', message: 'x', reasons: ['pwned'] }).mensagemUsuario).toMatch(/vazamento/);
+  expect(traduzirErro({ code: 'weak_password', message: 'x', reasons: ['length'] }).mensagemUsuario).toBe('A senha precisa ter pelo menos 8 caracteres.');
+});

@@ -660,6 +660,13 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 - `jest.setup.js` devolve os dois ganchos ao comportamento simples nos testes de tela, que simulam o roteador só pela metade.
 
 **Visto no simulador em 25/09:** atalho Relatório → voltar → Home, e a aba Minha Saúde abre na tela inicial; Rastreamentos → Relatório de rastreamento → voltar → Rastreamentos → sair do módulo → Home; atalho Remédios → voltar → Home. **Não coberto:** toque em notificação (não há origem para voltar) e o botão voltar do Android (só no aparelho).
+
+### D-055 — Depois do onboarding, "Criar conta"; mensagem para senha vazada — 26/09/2026
+**Pedido do Murilo (26/09):** depois do onboarding, a pessoa tem que ir para criar conta, não para entrar.
+
+**Mudança.** O onboarding termina em `/(auth)/cadastro`. O cadastro virou tela de entrada (sem seta de voltar) e ganhou no rodapé "Já tem conta? **Entrar**". Login e cadastro trocam um pelo outro (`replace`), sem empilhar. Quem já viu o onboarding e saiu da conta continua indo ao login (`app/index.tsx`), porque essa pessoa já tem conta.
+
+**Senha vazada.** Com a proteção contra senha vazada ligada no painel (Authentication › Providers › Email, plano Pro), a Supabase devolve `weak_password` com `reasons: ['pwned']`, e o app mostraria "A senha precisa ter pelo menos 8 caracteres". Agora mostra: "Essa senha já apareceu em vazamentos de dados na internet e pode ser descoberta. Escolha outra." (`traduzirErro`, testado).
 ---
 
 ## Decisões clínicas (protocolos adotados)

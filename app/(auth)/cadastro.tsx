@@ -1,4 +1,4 @@
-import { useRouter } from 'expo-router';
+import { Link, useRouter } from 'expo-router';
 import { useState } from 'react';
 import { Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -37,7 +37,7 @@ export default function Cadastro() {
     <SafeAreaView style={styles.tela}>
       <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : undefined} style={{ flex: 1 }}>
         <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-          <InternalHeader sectionLabel="NERO" title="Criar conta" />
+          <InternalHeader variante="raiz" title="Criar conta" />
           <View style={styles.form}>
             <Input placeholder="Nome" autoComplete="name" value={nome} onChangeText={setNome} />
             <Input placeholder="E-mail" autoCapitalize="none" autoComplete="email" keyboardType="email-address" value={email} onChangeText={setEmail} />
@@ -47,6 +47,9 @@ export default function Cadastro() {
               Seus dados de saúde são seus. O NERO organiza informações e não substitui a avaliação do seu médico.
             </Text>
           </View>
+          <Link href="/(auth)/login" replace style={styles.link}>
+            Já tem conta? <Text style={styles.linkForte}>Entrar</Text>
+          </Link>
         </ScrollView>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -55,7 +58,9 @@ export default function Cadastro() {
 
 const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: Colors.background },
-  conteudo: { flexGrow: 1, paddingHorizontal: Spacing.xxl },
+  conteudo: { flexGrow: 1, paddingHorizontal: Spacing.xxl, paddingTop: Spacing.xxl },
   form: { gap: Spacing.md },
   aviso: { ...Typography.caption, color: Colors.textSecondary, textAlign: 'center', marginTop: Spacing.md },
+  link: { ...Typography.body, color: Colors.textSecondary, textAlign: 'center', marginTop: Spacing.xxl, marginBottom: Spacing.xxl },
+  linkForte: { fontFamily: 'Poppins-SemiBold', color: Colors.primary },
 });
