@@ -62,7 +62,7 @@ Não usamos seus dados para outra finalidade, não os vendemos e não os usamos 
 
 ## 5. Base legal
 
-- Dados de saúde: **consentimento específico e destacado** (art. 11, I da LGPD), dado quando você cria a conta, numa caixa própria, separada do aceite dos Termos de uso. Você pode revogá-lo a qualquer momento excluindo a conta (seção 8).
+- Dados de saúde: **consentimento específico e destacado** (art. 11, I da LGPD), dado quando você cria a conta, marcando a caixa em que autoriza expressamente o uso dos seus dados de saúde. Você pode revogá-lo a qualquer momento excluindo a conta (seção 8).
 - Relatórios de erro: legítimo interesse em manter o aplicativo funcionando (art. 7º, IX), limitado a dados técnicos sem conteúdo de saúde.
 - Transferência internacional: os relatórios de erro (Sentry, União Europeia) e o serviço de atualizações (Expo, Estados Unidos) ficam fora do Brasil, com as garantias contratuais desses fornecedores (art. 33 da LGPD). Seus dados de saúde continuam apenas no Brasil.
 - E-mail e senha: execução do serviço que você contratou ao criar a conta (art. 7º, V).

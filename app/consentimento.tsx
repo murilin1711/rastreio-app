@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { registrarConsentimento } from '@core/consentimento/repositorio';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro } from '@core/supabase/erros';
-import { type Aceites, AceiteTermos } from '@modules/conta/AceiteTermos';
+import { AceiteTermos } from '@modules/conta/AceiteTermos';
 import { Button, Colors, InternalHeader, Spacing, Typography } from '@ui/index';
 
 /**
@@ -15,13 +15,11 @@ import { Button, Colors, InternalHeader, Spacing, Typography } from '@ui/index';
 export default function Consentimento() {
   const router = useRouter();
   const { sessao, sair } = useSessao();
-  const [aceites, setAceites] = useState<Aceites>({ termos: false, dadosSaude: false });
+  const [aceitou, setAceitou] = useState(false);
   const [salvando, setSalvando] = useState(false);
 
   const continuar = async () => {
-    if (!aceites.termos || !aceites.dadosSaude) {
-      return Alert.alert('Faltou marcar', 'Para continuar, marque as duas caixas: os termos de uso e a autorização para guardar seus dados de saúde.');
-    }
+    if (!aceitou) return Alert.alert('Faltou marcar', 'Para continuar, marque a caixa de aceite dos termos.');
     if (!sessao) return;
     setSalvando(true);
     try {
@@ -39,9 +37,9 @@ export default function Consentimento() {
       <ScrollView contentContainerStyle={styles.conteudo}>
         <InternalHeader variante="raiz" title="Antes de continuar" />
         <Text style={styles.texto}>
-          O NERO agora tem termos de uso. Para continuar, leia e aceite os termos e autorize o app a guardar seus dados de saúde, como já fazia.
+          Para continuar, aceite os termos de uso do NERO.
         </Text>
-        <AceiteTermos valor={aceites} onChange={setAceites} />
+        <AceiteTermos valor={aceitou} onChange={setAceitou} />
         <Button label="Continuar" onPress={continuar} loading={salvando} style={{ marginTop: Spacing.xl }} />
         <Button label="Sair da conta" variant="ghost" onPress={() => { sair(); }} />
       </ScrollView>
