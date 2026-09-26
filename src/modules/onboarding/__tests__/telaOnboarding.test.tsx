@@ -138,7 +138,7 @@ it('com a permissão já decidida, não pergunta de novo', async () => {
   mockEstado = 'concedida';
   const a = await irAteLembrete();
   expect(tela(a)).not.toContain('Posso te avisar?');
-  expect(tela(a)).toContain('Eu te lembro de tomar água.');
+  expect(tela(a)).toContain('E do que mais você precisar.');
   await tocar(a, 'Próximo');
   expect(tela(a)).toContain('Pronto! Agora é só criar sua conta.');
 });

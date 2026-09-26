@@ -62,6 +62,8 @@ export const ROTEIRO: Passo[] = [
       { texto: 'Eu lembro da sua consulta.', substituir: true, marcos: [{ palavra: 'consulta', cartao: 'consulta' }] },
       { texto: 'Eu te lembro de marcar seu exame.', substituir: true, marcos: [{ palavra: 'exame', cartao: 'exame' }] },
       { texto: 'Eu te lembro de tomar água.', substituir: true, marcos: [{ palavra: 'água', cartao: 'agua' }] },
+      // Não é só isso, sem repetir o "muito mais" do relatório e da tela final (pedido do Murilo).
+      { texto: 'E do que mais você precisar.', substituir: true },
     ],
   },
   {

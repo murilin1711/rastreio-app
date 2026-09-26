@@ -35,9 +35,9 @@ test('tela 6: quatro notificações, cada uma na sua fala, devagar', () => {
   const l = passo('lembrete');
   expect(l.lento).toBe(true);
   expect(l.falas.flatMap((f) => (f.marcos ?? []).map((m) => m.cartao))).toEqual(['remedio', 'consulta', 'exame', 'agua']);
-  // Uma notificação por fala (pedido do Murilo): exame e água separados.
-  expect(l.falas.every((f) => (f.marcos ?? []).length === 1)).toBe(true);
-  expect(l.falas.map((f) => f.texto)).toEqual(['Eu te lembro do remédio na hora certa.', 'Eu lembro da sua consulta.', 'Eu te lembro de marcar seu exame.', 'Eu te lembro de tomar água.']);
+  // Uma notificação por fala (pedido do Murilo): exame e água separados; a última fala não tem notificação.
+  expect(l.falas.slice(0, 4).every((f) => (f.marcos ?? []).length === 1)).toBe(true);
+  expect(l.falas.map((f) => f.texto)).toEqual(['Eu te lembro do remédio na hora certa.', 'Eu lembro da sua consulta.', 'Eu te lembro de marcar seu exame.', 'Eu te lembro de tomar água.', 'E do que mais você precisar.']);
 });
 
 test('final: "E te ajudo com muito mais!" antes do convite para a conta', () => {
