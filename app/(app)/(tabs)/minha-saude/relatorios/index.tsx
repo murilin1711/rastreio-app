@@ -48,7 +48,7 @@ export default function Relatorios() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo}>
-        <InternalHeader sectionLabel="Minha Saúde" title="Levar ao médico" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Minha Saúde" title="Levar ao médico" />
         <Text style={styles.ajuda}>O NERO organiza o que você registrou num documento para levar à consulta. Ele é feito no seu celular; só vai para a internet se você pedir um código QR.</Text>
         <Text style={styles.rotulo}>Período das medidas</Text>
         <Opcoes<Dias> opcoes={[{ valor: '30', rotulo: '30 dias' }, { valor: '90', rotulo: '90 dias' }, { valor: '180', rotulo: '180 dias' }]} valor={dias} onChange={setDias} />

@@ -43,7 +43,7 @@ export default function Exames() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Minha Saúde" title="Meus exames" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Minha Saúde" title="Meus exames" />
         <View style={styles.acoes}>
           <Button label="Exame de laboratório ou cardiológico" variant="outline" onPress={() => router.push('/(app)/coracao/exames/registrar')} />
           <Button label="Exame de rastreamento" variant="outline" onPress={() => router.push('/(app)/rastreando')} />

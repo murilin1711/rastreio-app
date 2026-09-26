@@ -26,6 +26,7 @@ import { traduzirErro } from '@core/supabase/erros';
 import { TEXTO_SEQUENCIA } from '@modules/bem-estar/conteudo/sequencia';
 import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
 import { Colors, LogoNero, MS_ATRASO_AO_VOLTAR, ModalAtivarAvisos, ModalComemoracao, NeroAnimado, Radius, SaidaConcluida, Spacing, Typography, useEspacoAbas, useSaidaConcluida } from '@ui/index';
+import { useAbrir } from '@core/navegacao/useVoltar';
 
 /**
  * Abertura das pendências (D-041): espera todas as fontes, até este limite. Com sinal ruim, uma fonte
@@ -45,6 +46,7 @@ function saudacao(nome?: string | null) {
 export default function Home() {
   const espacoAbas = useEspacoAbas();
   const router = useRouter();
+  const abrir = useAbrir();
   const { perfil, antecedentes, carregando, recarregar, salvar } = usePerfil();
   const sequencia = useSequencia();
   const avisos = useAvisos();
@@ -211,7 +213,7 @@ export default function Home() {
               const declaradoAqui = i.id === declarado?.item.id;
               const verde = declaradoAqui || concluido;
               // Saindo, o item aparece marcado — a bolinha vira o tique verde — e não aceita toque.
-              const linha = <ItemHoje item={verde ? { ...i, nivel: 'verde' } : i} onPress={() => (verde ? undefined : router.push(i.rota as Href))} onAcaoSecundaria={verde ? undefined : declararNegativa} />;
+              const linha = <ItemHoje item={verde ? { ...i, nivel: 'verde' } : i} onPress={() => (verde ? undefined : abrir(i.rota))} onAcaoSecundaria={verde ? undefined : declararNegativa} />;
               if (declaradoAqui) return <SaidaConcluida key={i.id} concluido aoDesfazer={desfazerDeclaracao} aoSair={() => { setDeclarado(null); conquistas.avaliar(); }}>{linha}</SaidaConcluida>;
               if (concluido) return <SaidaConcluida key={i.id} concluido discreto atraso={MS_ATRASO_AO_VOLTAR} aoSair={() => saida.aoSair(i)}>{linha}</SaidaConcluida>;
               return <View key={i.id}>{linha}</View>;
@@ -233,7 +235,7 @@ export default function Home() {
         </View>
 
         <Text style={[styles.secao, { marginTop: Spacing.xxxl, marginBottom: Spacing.md }]}>Atalhos</Text>
-        <FaixaAtalhos sangria={Spacing.xxl} onAbrir={(rota) => router.push(rota as Href)} />
+        <FaixaAtalhos sangria={Spacing.xxl} onAbrir={abrir} />
 
         <Text style={styles.rodape}>O NERO organiza suas informações e não substitui a avaliação do seu médico.</Text>
       </ScrollView>

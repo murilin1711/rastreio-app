@@ -7,6 +7,7 @@ import type { AnoGeral, ModuloItem } from '@core/linhaDoTempo/agrupar';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { dataCurtaBr } from '@modules/coracao/componentes/formato';
 import { Alerta, Colors, InternalHeader, Spacing, Typography, useEspacoAbas } from '@ui/index';
+import { useAbrir } from '@core/navegacao/useVoltar';
 
 const COR_MODULO: Record<ModuloItem, string> = { cardio: '#c2410c', rastreando: Colors.logoCeu, medicacao: Colors.logoArdosia, consulta: Colors.accent, documento: Colors.textMuted, bem_estar: '#15803D' };
 
@@ -14,6 +15,7 @@ const COR_MODULO: Record<ModuloItem, string> = { cardio: '#c2410c', rastreando: 
 export default function LinhaDoTempoGeral() {
   const espacoAbas = useEspacoAbas();
   const router = useRouter();
+  const abrir = useAbrir();
   const { sessao } = useSessao();
   const [anos, setAnos] = useState<AnoGeral[]>([]);
   const [carregando, setCarregando] = useState(true);
@@ -32,7 +34,7 @@ export default function LinhaDoTempoGeral() {
           <View key={a.ano} style={styles.ano}>
             <Text style={styles.anoTitulo}>{a.ano}</Text>
             {a.itens.map((i, idx) => (
-              <Pressable key={idx} style={({ pressed }) => [styles.linha, pressed && i.rota ? { opacity: 0.7 } : null]} onPress={() => i.rota && router.push(i.rota as Href)}>
+              <Pressable key={idx} style={({ pressed }) => [styles.linha, pressed && i.rota ? { opacity: 0.7 } : null]} onPress={() => i.rota && abrir(i.rota as Href)}>
                 <View style={[styles.ponto, { backgroundColor: i.nivel ? Alerta[i.nivel].fg : COR_MODULO[i.modulo] }]} />
                 <Text style={styles.data}>{dataCurtaBr(i.data)}</Text>
                 <View style={{ flex: 1 }}><Text style={styles.titulo}>{i.titulo}</Text>{i.valor ? <Text style={styles.valor}>{i.valor}</Text> : null}</View>

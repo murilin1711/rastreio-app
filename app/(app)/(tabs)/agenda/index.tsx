@@ -8,6 +8,7 @@ import { useLembretes } from '@core/lembretes/useLembretes';
 import { CardRotina } from '@modules/minha-saude/componentes/CardRotina';
 import { LinhaLembrete } from '@modules/minha-saude/componentes/LinhaLembrete';
 import { Button, Colors, InternalHeader, Spacing, Typography, useEspacoAbas } from '@ui/index';
+import { useAbrir } from '@core/navegacao/useVoltar';
 
 const DIAS_SEMANA = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
 function tituloDia(dia: string, hoje = new Date()): string {
@@ -27,6 +28,7 @@ function tituloDia(dia: string, hoje = new Date()): string {
 export default function Lembretes() {
   const espacoAbas = useEspacoAbas();
   const router = useRouter();
+  const abrir = useAbrir();
   const { proximos, passados, carregando, erro, recarregar } = useLembretes(30);
   useFocusEffect(useCallback(() => { recarregar(); }, [recarregar]));
   const { rotina, pontuais } = separarRotina(proximos);
@@ -38,23 +40,23 @@ export default function Lembretes() {
       <ScrollView contentContainerStyle={[styles.conteudo, { paddingBottom: espacoAbas }]} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
         <InternalHeader variante="raiz" title="Agenda" />
         <View style={styles.acoes}>
-          <Button label="Preferências" variant="outline" onPress={() => router.push('/(app)/(tabs)/agenda/preferencias')} style={{ flex: 1 }} />
-          <Button label="Minhas consultas" variant="outline" onPress={() => router.push('/(app)/(tabs)/agenda/consultas')} style={{ flex: 1 }} />
+          <Button label="Preferências" variant="outline" onPress={() => abrir('/(app)/(tabs)/agenda/preferencias')} style={{ flex: 1 }} />
+          <Button label="Minhas consultas" variant="outline" onPress={() => abrir('/(app)/(tabs)/agenda/consultas')} style={{ flex: 1 }} />
         </View>
         {erro ? <Text style={styles.erro}>{erro.mensagemUsuario}</Text> : null}
-        {rotina.length ? <CardRotina itens={rotina} onAbrir={(i) => router.push(i.rota as Href)} /> : null}
+        {rotina.length ? <CardRotina itens={rotina} onAbrir={(i) => abrir(i.rota as Href)} /> : null}
         <Text style={styles.secao}>Próximos 30 dias</Text>
         {grupos.length === 0 && !carregando ? <Text style={styles.vazio}>{rotina.length ? 'Nenhuma consulta ou exame nos próximos 30 dias.' : 'Nenhum lembrete agendado. Exames, medicamentos, MRPA, glicemia e consultas aparecem aqui quando você os cadastra.'}</Text> : null}
         {grupos.map((g) => (
           <View key={g.dia} style={styles.grupo}>
             <Text style={styles.dia}>{tituloDia(g.dia)}</Text>
-            <View style={{ gap: Spacing.xs }}>{g.itens.map((l) => <LinhaLembrete key={l.id} lembrete={l} onPress={() => router.push(l.rota as Href)} />)}</View>
+            <View style={{ gap: Spacing.xs }}>{g.itens.map((l) => <LinhaLembrete key={l.id} lembrete={l} onPress={() => abrir(l.rota as Href)} />)}</View>
           </View>
         ))}
         {passadosPontuais.length ? (
           <>
             <Text style={styles.secao}>Últimos 30 dias</Text>
-            <View style={{ gap: Spacing.xs }}>{passadosPontuais.slice(0, 30).map((l) => <LinhaLembrete key={l.id} lembrete={l} onPress={() => router.push(l.rota as Href)} />)}</View>
+            <View style={{ gap: Spacing.xs }}>{passadosPontuais.slice(0, 30).map((l) => <LinhaLembrete key={l.id} lembrete={l} onPress={() => abrir(l.rota as Href)} />)}</View>
           </>
         ) : null}
       </ScrollView>

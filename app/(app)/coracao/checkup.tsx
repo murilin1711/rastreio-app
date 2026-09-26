@@ -6,12 +6,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCheckup } from '@core/cardio/useCheckup';
 import type { ItemCheckup } from '@core/regras/cardio/tiposRisco';
 import { Colors, InternalHeader, Spacing, Typography } from '@ui/index';
+import { useAbrir } from '@core/navegacao/useVoltar';
 
 const ROTA: Record<ItemCheckup['chave'], string> = { pa: '/(app)/coracao/pressao', peso: '/(app)/coracao/risco/dados', tabagismo: '/(app)/(tabs)/minha-saude/perfil', glicemia_hba1c: '/(app)/coracao/exames/registrar', lipidios: '/(app)/coracao/exames/registrar', renal: '/(app)/coracao/exames/registrar', atividade: '/(app)/coracao', risco: '/(app)/coracao/risco' };
 
 /** "Como está minha prevenção?" (§24): n/8 pelas janelas de C-014, sem pedir exames além dos que o módulo usa. */
 export default function Checkup() {
   const router = useRouter();
+  const abrir = useAbrir();
   const { resultado, carregando, recarregar } = useCheckup();
   useFocusEffect(useCallback(() => { recarregar(); }, [recarregar]));
 
@@ -25,7 +27,7 @@ export default function Checkup() {
             <Text style={styles.sub}>Cada item vale pelo prazo que as diretrizes usam para reavaliação (pressão nos últimos dias; peso no último mês; exames de sangue no último ano).</Text>
             <View style={styles.lista}>
               {resultado.itens.map((i) => (
-                <Pressable key={i.chave} disabled={i.atualizado} onPress={() => router.push(ROTA[i.chave] as never)} style={({ pressed }) => [styles.linha, pressed && { opacity: 0.7 }]}>
+                <Pressable key={i.chave} disabled={i.atualizado} onPress={() => abrir(ROTA[i.chave] as never)} style={({ pressed }) => [styles.linha, pressed && { opacity: 0.7 }]}>
                   <Ionicons name={i.atualizado ? 'checkmark-circle' : 'ellipse-outline'} size={22} color={i.atualizado ? Colors.success : i.naoSeAplica ? Colors.textMuted : Colors.textSecondary} />
                   <View style={{ flex: 1 }}>
                     <Text style={styles.titulo}>{i.rotulo}</Text>

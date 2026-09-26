@@ -77,7 +77,7 @@ export default function NovoDocumento() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Meus documentos" title="Novo documento" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Meus documentos" title="Novo documento" />
         <Text style={styles.rotulo}>Arquivo</Text>
         {arquivo ? <Text style={styles.texto}>{arquivo.nome}</Text> : <Text style={styles.ajuda}>Nenhum arquivo escolhido.</Text>}
         <Button label={arquivo ? 'Trocar arquivo' : 'Escolher arquivo'} variant="outline" onPress={pedirArquivo} style={{ marginTop: Spacing.sm }} />

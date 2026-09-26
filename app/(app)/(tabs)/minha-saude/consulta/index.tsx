@@ -34,7 +34,7 @@ export default function PrepararConsulta() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo}>
-        <InternalHeader sectionLabel="Levar ao médico" title="Para qual médico?" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Levar ao médico" title="Para qual médico?" />
         <Text style={styles.ajuda}>{TEXTO_CONSULTA.introducao}</Text>
 
         {proxima ? (

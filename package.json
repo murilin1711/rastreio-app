@@ -22,6 +22,9 @@
     "testPathIgnorePatterns": [
       "/node_modules/",
       "/__tests__/fixtures[^/]*\\.ts$"
+    ],
+    "setupFiles": [
+      "<rootDir>/jest.setup.js"
     ]
   },
   "dependencies": {

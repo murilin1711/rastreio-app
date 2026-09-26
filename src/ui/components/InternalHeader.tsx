@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useRouter } from 'expo-router';
+import { useVoltar } from '@core/navegacao/useVoltar';
 import { Colors, Radius, Spacing, Typography } from '@ui/theme';
 
 interface Props {
@@ -16,8 +16,8 @@ interface Props {
 }
 
 export function InternalHeader({ sectionLabel, title, onBack, rightIcon, onRightPress, variante = 'interna' }: Props) {
-  const router = useRouter();
-  const voltar = onBack ?? (() => router.back());
+  const voltarPadrao = useVoltar();
+  const voltar = onBack ?? voltarPadrao;
   if (variante === 'raiz') {
     return (
       <View style={styles.container}>

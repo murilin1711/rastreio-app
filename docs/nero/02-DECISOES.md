@@ -645,6 +645,19 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 **Para depois:** os planos que o médico passar (quando existir o portal do médico) e a próxima consulta.
 
 **Visto no simulador em 25/09.**
+
+### D-054 — A seta de voltar leva de onde a pessoa veio, com a barra de baixo visível — 25/09/2026
+**Relato do Murilo (25/09):** pelos atalhos Relatório ou Remédios, a seta de voltar levava ao "Relatório de rastreamento oncológico", nos dois casos. Pediu: manter a barra de baixo e voltar sempre para a última área em que estava.
+
+**Causa.** Cada aba guarda a própria pilha de telas. Relatórios e Meus medicamentos são da aba Minha Saúde. O relatório de rastreamento, aberto antes pelo módulo Rastreamentos, tinha ficado nessa pilha, e o atalho empilhava a tela por cima dele. O mesmo padrão aparecia em 12 lugares (pendências da Home, módulos, Agenda, Histórico). Abrir o relatório pelo Rastreamentos também fechava o módulo, e o voltar não retornava para ele.
+
+**Correção** (`src/core/navegacao/`):
+- `comVolta` (regra pura, testada): quando o destino é de **outra aba**, a tela leva o parâmetro `voltarPara` com o caminho de origem. Mesma aba ou módulo: nada muda.
+- `useAbrir` substitui `router.push` nos lugares que cruzam de aba.
+- `useVoltar`, usado pela seta do `InternalHeader`: com `voltarPara`, vai para a origem e devolve a aba à tela inicial, para não reaparecer lá na próxima visita. Se a origem é um módulo, a aba de baixo volta a Início antes de reabri-lo. O arrastar do iOS fica desligado nessas telas (desempilharia para a tela esquecida), e o voltar do Android segue a mesma regra da seta.
+- `jest.setup.js` devolve os dois ganchos ao comportamento simples nos testes de tela, que simulam o roteador só pela metade.
+
+**Visto no simulador em 25/09:** atalho Relatório → voltar → Home, e a aba Minha Saúde abre na tela inicial; Rastreamentos → Relatório de rastreamento → voltar → Rastreamentos → sair do módulo → Home; atalho Remédios → voltar → Home. **Não coberto:** toque em notificação (não há origem para voltar) e o botão voltar do Android (só no aparelho).
 ---
 
 ## Decisões clínicas (protocolos adotados)

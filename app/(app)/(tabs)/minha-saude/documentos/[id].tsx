@@ -55,7 +55,7 @@ export default function DetalheDocumento() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo}>
-        <InternalHeader sectionLabel="Meus documentos" title={doc?.nome ?? 'Documento'} onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Meus documentos" title={doc?.nome ?? 'Documento'} />
         {erro ? <Text style={styles.erro}>{erro}</Text> : null}
         {!doc && !erro ? <Text style={styles.texto}>Carregando…</Text> : null}
         {doc ? (

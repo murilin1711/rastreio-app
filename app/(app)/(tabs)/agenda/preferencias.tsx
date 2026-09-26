@@ -35,7 +35,7 @@ export default function Preferencias() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo}>
-        <InternalHeader sectionLabel="Meus lembretes" title="Preferências" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Meus lembretes" title="Preferências" />
         <Text style={styles.ajuda}>{TEXTO_PREFERENCIAS.introducao}</Text>
         <View style={{ gap: Spacing.sm, marginTop: Spacing.xl }}>
           {TIPOS.map((t) => (

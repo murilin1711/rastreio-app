@@ -32,7 +32,7 @@ export default function Documentos() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Minha Saúde" title="Meus documentos" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Minha Saúde" title="Meus documentos" />
         <Text style={styles.ajuda}>Guarde laudos, receitas e imagens de exames. Só você vê estes arquivos; eles entram no relatório apenas se você pedir.</Text>
         <Button label="Adicionar documento" onPress={adicionar} style={{ marginTop: Spacing.lg }} />
         <Text style={styles.rotulo}>Mostrar</Text>

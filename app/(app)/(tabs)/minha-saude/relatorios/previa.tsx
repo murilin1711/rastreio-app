@@ -72,7 +72,7 @@ export default function PreviaRelatorio() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo}>
-        <InternalHeader sectionLabel="Relatórios" title={rel.titulo} onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Relatórios" title={rel.titulo} />
         <Text style={styles.meta}>Período das medidas: {rel.periodo.rotulo}. Exames e rastreamentos entram sem limite de data.</Text>
         {/* Ações logo abaixo do título: antes ficavam no fim e exigiam rolar o relatório inteiro (D-049). */}
         {!rel.carregando && rel.dados ? (

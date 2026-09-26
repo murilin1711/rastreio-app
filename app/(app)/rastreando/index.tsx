@@ -9,10 +9,12 @@ import { useRastreando } from '@core/rastreando/useRastreando';
 import { CardPrograma } from '@modules/rastreando/componentes/CardPrograma';
 import { NIVEL_PENDENCIA } from '@modules/rastreando/componentes/statusUI';
 import { Alerta, Button, Colors, LogoNero, Radius, SaidaConcluida, Spacing, Typography, useSaidaConcluida } from '@ui/index';
+import { useAbrir } from '@core/navegacao/useVoltar';
 
 /** "Seus rastreamentos" (§28, §37): só o que é aplicável ao perfil, com o que exige ação no topo. */
 export default function Rastreando() {
   const router = useRouter();
+  const abrir = useAbrir();
   const { avaliacoes, perfil, pendencias, sintomas, carregando, erro, recarregar } = useRastreando();
   // Pendência resolvida fica verde e só então sai da lista (D-024).
   const saidaPendencias = useSaidaConcluida(pendencias, (p) => p.id, !carregando);
@@ -46,7 +48,7 @@ export default function Rastreando() {
             <View style={{ gap: Spacing.sm, marginBottom: Spacing.xxl }}>
               {saidaPendencias.lista.map(({ item: p, concluido }) => (
                 <SaidaConcluida key={p.id} concluido={concluido} aoSair={() => saidaPendencias.aoSair(p)}>
-                  <Pressable disabled={concluido} onPress={() => router.push('/(app)/rastreando/pendencias')} style={({ pressed }) => [styles.pend, pressed && { opacity: 0.7 }]}>
+                  <Pressable disabled={concluido} onPress={() => abrir('/(app)/rastreando/pendencias')} style={({ pressed }) => [styles.pend, pressed && { opacity: 0.7 }]}>
                     <View style={[styles.anel, { borderColor: Alerta[NIVEL_PENDENCIA[p.nivelAlerta] ?? 'laranja'].fg }]} />
                     <View style={{ flex: 1 }}>
                       <Text style={styles.pendTitulo}>{ROTULO_PROGRAMA[p.programa]}: {p.descricao}</Text>
@@ -67,7 +69,7 @@ export default function Rastreando() {
               {pares(aplicaveis).map((linha, i) => (
                 <View key={i} style={styles.linhaGrade}>
                   {linha.map((p) => (
-                    <CardPrograma key={p} programa={p} avaliacao={avaliacoes[p]} pendencia={pendencias.find((x) => x.programa === p)} sintomas={sintomas.filter((s) => s.programa === p).length} onPress={() => router.push({ pathname: '/(app)/rastreando/[programa]', params: { programa: p } })} />
+                    <CardPrograma key={p} programa={p} avaliacao={avaliacoes[p]} pendencia={pendencias.find((x) => x.programa === p)} sintomas={sintomas.filter((s) => s.programa === p).length} onPress={() => abrir({ pathname: '/(app)/rastreando/[programa]', params: { programa: p } })} />
                   ))}
                   {linha.length === 1 ? <View style={{ flex: 1 }} /> : null}
                 </View>
@@ -83,8 +85,8 @@ export default function Rastreando() {
         ) : null}
 
         <View style={{ marginTop: Spacing.xxxl, gap: Spacing.sm }}>
-          <Button label="Ver lembretes" variant="outline" onPress={() => router.push('/(app)/rastreando/lembretes')} />
-          <Button label="Relatório de rastreamento" variant="outline" onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: 'oncologico', dias: '180' } })} />
+          <Button label="Ver lembretes" variant="outline" onPress={() => abrir('/(app)/rastreando/lembretes')} />
+          <Button label="Relatório de rastreamento" variant="outline" onPress={() => abrir({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: 'oncologico', dias: '180' } })} />
         </View>
         <Text style={styles.rodape}>O NERO organiza as recomendações para o seu perfil e não substitui a avaliação do seu médico.</Text>
       </ScrollView>

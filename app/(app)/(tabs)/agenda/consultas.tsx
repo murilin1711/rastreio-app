@@ -75,7 +75,7 @@ export default function Consultas() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Meus lembretes" title="Minhas consultas" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Meus lembretes" title="Minhas consultas" />
         {!aberto ? <Button label="Marcar consulta" onPress={() => abrir()} /> : (
           <View style={styles.form}>
             <Text style={styles.rotulo}>Especialidade</Text>

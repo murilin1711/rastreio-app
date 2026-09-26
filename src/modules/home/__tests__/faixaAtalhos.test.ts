@@ -12,6 +12,6 @@ it('os cinco atalhos escolhidos, na ordem', () => {
   expect(ATALHOS.map((a: { rotulo: string }) => a.rotulo)).toEqual(['Relatório', 'Medir pressão', 'Medir glicemia', 'Remédios', 'Consultas']);
 });
 
-it.each(ATALHOS.map((a: { rotulo: string; rota: string }) => [a.rotulo, a.rota]))('%s leva a uma tela que existe (%s)', (_r, rota) => {
-  expect(existe(rota as string)).toBe(true);
+it.each(ATALHOS.map((a: { rotulo: string; rota: string }) => [a.rotulo, a.rota]) as [string, string][])('%s leva a uma tela que existe (%s)', (_r: string, rota: string) => {
+  expect(existe(rota)).toBe(true);
 });

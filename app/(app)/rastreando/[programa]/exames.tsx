@@ -10,9 +10,11 @@ import { CartaoExame } from '@modules/rastreando/componentes/CartaoExame';
 import { LinhaDocumento } from '@modules/minha-saude/componentes/LinhaDocumento';
 import { CONTEUDO } from '@modules/rastreando/conteudo';
 import { Button, Colors, InternalHeader, Spacing, Typography } from '@ui/index';
+import { useAbrir } from '@core/navegacao/useVoltar';
 
 export default function Exames() {
   const router = useRouter();
+  const abrir = useAbrir();
   const { programa } = useLocalSearchParams<{ programa: string }>();
   const { exames, carregando, recarregar } = useRastreando();
   const docs = useDocumentos();
@@ -25,7 +27,7 @@ export default function Exames() {
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
         <InternalHeader sectionLabel={CONTEUDO[p].titulo} title="Meus exames" />
-        <Button label="Registrar exame" onPress={() => router.push({ pathname: '/(app)/rastreando/[programa]/registrar', params: { programa: p } })} />
+        <Button label="Registrar exame" onPress={() => abrir({ pathname: '/(app)/rastreando/[programa]/registrar', params: { programa: p } })} />
         <View style={{ gap: Spacing.md, marginTop: Spacing.xxl }}>
           {meus.length === 0 && !carregando ? (
             <Text style={styles.vazio}>Nenhum exame registrado. Registre seu primeiro exame para o NERO organizar o seu acompanhamento.</Text>
@@ -34,8 +36,8 @@ export default function Exames() {
             return (
               <View key={e.id} style={{ gap: Spacing.sm }}>
                 <CartaoExame exame={e} />
-                {anexos.map((d) => <LinhaDocumento key={d.id} documento={d} onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/documentos/[id]', params: { id: d.id } })} />)}
-                <Pressable onPress={() => router.push({ pathname: '/(app)/(tabs)/minha-saude/documentos/novo', params: { exameId: e.id } })} accessibilityRole="button" hitSlop={8}>
+                {anexos.map((d) => <LinhaDocumento key={d.id} documento={d} onPress={() => abrir({ pathname: '/(app)/(tabs)/minha-saude/documentos/[id]', params: { id: d.id } })} />)}
+                <Pressable onPress={() => abrir({ pathname: '/(app)/(tabs)/minha-saude/documentos/novo', params: { exameId: e.id } })} accessibilityRole="button" hitSlop={8}>
                   <Text style={styles.anexar}>{anexos.length ? 'Anexar outro documento' : 'Anexar laudo ou imagem'}</Text>
                 </Pressable>
               </View>
