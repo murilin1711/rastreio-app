@@ -762,6 +762,17 @@ Junto: `envolverRaiz` só aplica o `Sentry.wrap` quando o Sentry foi iniciado, o
 **Decisões de implementação:** animações com o `Animated` do React Native (não o Reanimated) e voltar com `PanResponder` (não o gesture-handler), porque rodam nos testes sem configuração e o resultado visual é o mesmo. Sem biblioteca nativa nova. As miniaturas do onboarding antigo saíram.
 
 **Testes:** roteiro, nome guardado, `FalaNero`, as três demos e a tela inteira (fluxo, nome, voltar e trocar o nome, "Prefiro não dizer", "Pular", "Agora não", "Sim", permissão já decidida, "Já tenho conta"). **Visto no simulador:** a tela 1. As outras só no percurso com toques (mouse do Mac) ou no aparelho.
+
+**Ajustes do Murilo depois de ver no simulador (26/09):**
+- **Dois padrões de tela.** Padrão 1 (telas 1, 2, 3 e final): Nero grande, centralizado, no meio do espaço entre a fala e o botão. Padrão 2 (4, 5 e 6): conteúdo em cima e o Nero centralizado na horizontal logo abaixo, maior que antes, limitado ao espaço que sobra. **Botão em pílula** como na referência (Gentler Streak), mais estreito que a tela e centralizado, no azul e na fonte do NERO.
+- **Tela 1:** primeiro só o Nero (1 s); "Oi, eu sou o Nero!" aparece grande e, ao terminar, **encolhe e fica cinza**; depois vem "Vou te ajudar a organizar a sua saúde.".
+- **Tela 2:** o "pensando" toca, **para 3 s** no primeiro quadro (`pensando-parado.png`) e recomeça (`NeroAnimado` ganhou `pausaMs`).
+- **Tela 4:** a fala primeiro, **depois** os cartões (juntos confundiam); entrou o cartão de **glicemia em jejum (95 mg/dL)**; saiu o verde "no alvo".
+- **Tela 5:** "Eu junto todas as suas informações num relatório." encolhe e fica cinza; "Seu histórico, seus exames e suas medicações." faz **cada cartão aparecer com a sua palavra**; "Na consulta, é só mostrar pro seu médico." substitui a anterior, e os cartões entram no relatório **mais devagar** (4,6 s), com o QR ao lado.
+- **Tela 6:** iPhone maior, com **quatro notificações** (textos reais do `notificacoes.md`), cada uma com a sua fala: "Eu te lembro do remédio na hora certa." (remédio) → "Eu lembro da sua consulta." (consulta) → "Eu lembro de marcar seu exame e de tomar água." (exame e água). A mais nova fica em cima, como no iPhone. Depois vem a pergunta dos avisos.
+- **Final:** a "comemorar" tem o Nero de olhos fechados (sorriso ^^) o tempo todo e terminava congelada assim; agora ele comemora e **passa ao repouso, de olhos abertos** (`entrada: 'comemorar'`).
+- Estrutura nova: `Conversa` toca as falas em sequência (encolher, substituir, marcos que chamam os cartões); o roteiro virou `falas` por tela. Atalho só de desenvolvimento: `/onboarding?passo=relatorio` abre direto numa tela.
+- **Visto no simulador:** as 7 telas no estado final (atalho de desenvolvimento, sem mouse). As animações em movimento, só no aparelho.
 ---
 
 ## Decisões clínicas (protocolos adotados)

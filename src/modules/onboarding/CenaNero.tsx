@@ -8,22 +8,27 @@ export function CeuOnboarding() {
   return <LinearGradient colors={['#E4EFFA', Colors.background]} locations={[0, 0.7]} style={StyleSheet.absoluteFill} pointerEvents="none" />;
 }
 
-/**
- * O Nero sobre um "chão" discreto. Grande nas telas de conversa; pequeno, no canto, nas de demonstração,
- * para a animação do app ocupar o centro.
- */
-export function CenaNero({ clipe, tamanho }: { clipe: NeroClipe; tamanho: 'grande' | 'pequeno' }) {
-  const altura = tamanho === 'grande' ? 230 : 120;
+interface Props {
+  clipe: NeroClipe;
+  /** Clipe tocado uma vez antes de `clipe` (final: comemora e volta ao repouso, de olhos abertos). */
+  entrada?: NeroClipe;
+  /** Pausa entre ciclos do clipe (tela 2: pensa, para 3 s, pensa de novo). */
+  pausaMs?: number;
+  /** Altura do Nero em pontos. */
+  tamanho: number;
+}
+
+/** O Nero centralizado na horizontal, sobre um chão discreto. O tamanho vem do padrão da tela. */
+export function CenaNero({ clipe, entrada, pausaMs, tamanho }: Props) {
   return (
-    <View style={[styles.cena, tamanho === 'pequeno' && styles.canto]} pointerEvents="none">
-      <View style={[styles.chao, { width: altura * 0.62, height: altura * 0.07, borderRadius: altura }]} />
-      <NeroAnimado clipe={clipe} size={altura} />
+    <View style={styles.cena} pointerEvents="none">
+      <View style={[styles.chao, { width: tamanho * 0.62, height: tamanho * 0.07, borderRadius: tamanho }]} />
+      <NeroAnimado clipe={clipe} entrada={entrada} pausaMs={pausaMs} size={tamanho} />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   cena: { alignItems: 'center', justifyContent: 'flex-end' },
-  canto: { alignSelf: 'flex-end' },
   chao: { position: 'absolute', bottom: 4, backgroundColor: 'rgba(15,45,99,0.06)' },
 });

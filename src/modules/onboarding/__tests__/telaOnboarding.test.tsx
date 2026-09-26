@@ -13,7 +13,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: async (k: string) => { delete mockMem[k]; },
 }));
 const mockReplace = jest.fn();
-jest.mock('expo-router', () => ({ useRouter: () => ({ replace: mockReplace }) }));
+jest.mock('expo-router', () => ({ useRouter: () => ({ replace: mockReplace }), useLocalSearchParams: () => ({}) }));
 let mockEstado: 'concedida' | 'perguntar' | 'negada' = 'perguntar';
 const mockPedir = jest.fn(async () => true);
 jest.mock('@core/lembretes/permissao', () => ({ estadoPermissao: async () => mockEstado, pedirPermissaoNotificacoes: () => mockPedir() }));
@@ -58,7 +58,7 @@ it('as 7 telas em ordem, até o cadastro, marcando o onboarding como visto', asy
   await tocar(a, 'Próximo');
   expect(tela(a)).toContain('Eu junto todas as suas informações num relatório.');
   await tocar(a, 'Próximo');
-  expect(tela(a)).toContain('Eu te lembro do remédio na hora certa.');
+  expect(tela(a)).toContain('Posso te avisar?');
   await tocar(a, 'Agora não');
   expect(tela(a)).toContain('Pronto, Maria! Agora é só criar sua conta.');
   await tocar(a, 'Criar minha conta');
@@ -138,6 +138,7 @@ it('com a permissão já decidida, não pergunta de novo', async () => {
   mockEstado = 'concedida';
   const a = await irAteLembrete();
   expect(tela(a)).not.toContain('Posso te avisar?');
+  expect(tela(a)).toContain('Eu lembro de marcar seu exame e de tomar água.');
   await tocar(a, 'Próximo');
   expect(tela(a)).toContain('Pronto! Agora é só criar sua conta.');
 });
@@ -155,10 +156,10 @@ it('com o teclado aberto na tela do nome, o Nero encolhe (o botão não some em 
   const espiao = jest.spyOn(Keyboard, 'addListener').mockImplementation(((evento: string, cb: () => void) => { ouvintes[evento] = cb; return { remove: () => {} }; }) as never);
   const a = await abrir();
   await tocar(a, 'Oi, Nero!');
-  expect(a.root.findByType(CenaNero).props.tamanho).toBe('grande');
+  const grande = a.root.findByType(CenaNero).props.tamanho;
   await act(async () => { ouvintes.keyboardWillShow?.(); ouvintes.keyboardDidShow?.(); });
-  expect(a.root.findByType(CenaNero).props.tamanho).toBe('pequeno');
+  expect(a.root.findByType(CenaNero).props.tamanho).toBeLessThan(grande);
   await act(async () => { ouvintes.keyboardWillHide?.(); ouvintes.keyboardDidHide?.(); });
-  expect(a.root.findByType(CenaNero).props.tamanho).toBe('grande');
+  expect(a.root.findByType(CenaNero).props.tamanho).toBe(grande);
   espiao.mockRestore();
 });

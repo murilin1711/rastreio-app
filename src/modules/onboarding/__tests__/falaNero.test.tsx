@@ -64,3 +64,10 @@ it('se a tela zera o contador depois de a fala aparecer, o próximo toque ainda 
   await act(async () => { a.update(<FalaNero fala="Anote sua pressão e sua glicemia" onTerminou={fim} completar={1} />); });
   expect(fim).toHaveBeenCalledTimes(1);
 });
+
+it('avisa o progresso palavra por palavra (os cartões aparecem com a palavra)', async () => {
+  const progresso: number[] = [];
+  await act(async () => { create(<FalaNero fala="Seu histórico, seus exames" onTerminou={() => {}} completar={0} onProgresso={(n) => progresso.push(n)} />); });
+  await act(async () => { jest.advanceTimersByTime(3000); });
+  expect(progresso).toEqual([1, 2, 3, 4]);
+});

@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from 'react';
-import { AccessibilityInfo, StyleSheet, Text, View } from 'react-native';
+import { AccessibilityInfo, Animated, StyleSheet, Text, View } from 'react-native';
 import { Colors, Spacing, Typography } from '@ui/theme';
 
 /** ~2 s por frase, entre 90 e 260 ms por palavra (D-063): nem arrastado nas curtas, nem corrido nas longas. */
 export const MS_POR_PALAVRA = (total: number) => Math.min(260, Math.max(90, Math.round(2000 / Math.max(total, 1))));
+const MS_ENCOLHER = 380;
 
 interface Props {
   linhaPequena?: string;
@@ -12,6 +13,12 @@ interface Props {
   onTerminou: () => void;
   /** Contador: quando aumenta depois de a fala aparecer, a frase se completa. A tela incrementa ao receber um toque. */
   completar: number;
+  /** Quantas palavras já apareceram (os cartões da demonstração aparecem junto da palavra). */
+  onProgresso?: (palavras: number) => void;
+  /** Fala já dita que encolhe e fica cinza para a próxima entrar embaixo (telas 1 e 5). */
+  encolhida?: boolean;
+  /** Fala substituída pela seguinte: some sem sair da árvore, para não reiniciar. */
+  oculta?: boolean;
 }
 
 /**
@@ -19,17 +26,24 @@ interface Props {
  * completa a frase (a tela incrementa `completar`); com Reduzir movimento ela aparece inteira. O leitor
  * de tela recebe a frase inteira, sem depender da animação.
  */
-export function FalaNero({ linhaPequena, fala, onTerminou, completar }: Props) {
+export function FalaNero({ linhaPequena, fala, onTerminou, completar, onProgresso, encolhida = false, oculta = false }: Props) {
   const palavras = fala.split(' ');
   const [mostradas, setMostradas] = useState(0);
   const avisou = useRef(false);
   const aoTerminar = useRef(onTerminou);
   aoTerminar.current = onTerminou;
+  const aoProgredir = useRef(onProgresso);
+  aoProgredir.current = onProgresso;
   const total = useRef(palavras.length);
   total.current = palavras.length;
 
+  const ultimoAviso = useRef(0);
+  const mostrar = (n: number) => {
+    setMostradas(n);
+    if (n !== ultimoAviso.current) { ultimoAviso.current = n; aoProgredir.current?.(n); }
+  };
   const terminar = () => {
-    setMostradas(total.current);
+    mostrar(total.current);
     if (avisou.current) return;
     avisou.current = true;
     aoTerminar.current();
@@ -39,6 +53,7 @@ export function FalaNero({ linhaPequena, fala, onTerminou, completar }: Props) {
     let vivo = true;
     let relogio: ReturnType<typeof setInterval> | undefined;
     avisou.current = false;
+    ultimoAviso.current = 0;
     setMostradas(0);
     AccessibilityInfo.isReduceMotionEnabled()
       .then((reduzir) => {
@@ -47,7 +62,7 @@ export function FalaNero({ linhaPequena, fala, onTerminou, completar }: Props) {
         let n = 0;
         relogio = setInterval(() => {
           n += 1;
-          setMostradas(n);
+          mostrar(n);
           if (n >= total.current) { clearInterval(relogio); terminar(); }
         }, MS_POR_PALAVRA(total.current));
       })
@@ -67,19 +82,39 @@ export function FalaNero({ linhaPequena, fala, onTerminou, completar }: Props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [completar]);
 
+  // Encolher (tela 1: "Oi, eu sou o Nero!"): troca para o tamanho e o cinza da linha pequena e faz uma
+  // transição curta. Animar o tamanho da letra não recalcula a altura do texto, e a frase longa da tela 5
+  // ficava cortada numa linha só.
+  const transicao = useRef(new Animated.Value(1)).current;
+  const encolheuAntes = useRef(encolhida);
+  useEffect(() => {
+    if (encolhida === encolheuAntes.current) return;
+    encolheuAntes.current = encolhida;
+    transicao.setValue(0);
+    Animated.timing(transicao, { toValue: 1, duration: MS_ENCOLHER, useNativeDriver: true }).start();
+  }, [encolhida, transicao]);
+
+  if (oculta) return null;
   return (
     <View accessible accessibilityRole="text" accessibilityLabel={[linhaPequena, fala].filter(Boolean).join(' ')}>
       {linhaPequena ? <Text style={styles.pequena}>{linhaPequena}</Text> : null}
-      <Text style={styles.fala}>
+      <Animated.Text style={[styles.fala, encolhida ? styles.encolhida : styles.grande, {
+        opacity: transicao.interpolate({ inputRange: [0, 1], outputRange: [0.35, 1] }),
+        transform: [{ translateY: transicao.interpolate({ inputRange: [0, 1], outputRange: [4, 0] }) }],
+      }]}>
         {palavras.map((p, i) => (
           <Text key={i} style={{ opacity: i < mostradas ? 1 : 0.18 }}>{p}{i < palavras.length - 1 ? ' ' : ''}</Text>
         ))}
-      </Text>
+      </Animated.Text>
     </View>
   );
 }
 
+export { MS_ENCOLHER };
+
 const styles = StyleSheet.create({
   pequena: { ...Typography.heading, color: Colors.textMuted, marginBottom: Spacing.sm },
-  fala: { fontFamily: 'Poppins-Bold', fontSize: 26, lineHeight: 33, color: Colors.primary },
+  fala: { fontFamily: 'Poppins-Bold' },
+  grande: { fontSize: 26, lineHeight: 33, color: Colors.primary },
+  encolhida: { fontSize: 18, lineHeight: 24, color: Colors.textMuted },
 });

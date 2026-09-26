@@ -4,9 +4,10 @@ import { AccessibilityInfo, Animated, Easing } from 'react-native';
 /**
  * Motor das demonstrações (D-063): um valor de 0 a 1 em `duracaoMs`, que cada demo interpola por fases.
  * Com Reduzir movimento vai direto a 1. `onTerminou` é chamado uma vez só, na primeira vez que chega ao
- * fim; `repetir` (toque na demo) roda de novo sem avisar outra vez.
+ * fim; `repetir` (toque na demo) roda de novo sem avisar outra vez. Com `ativo` falso, espera em 0
+ * (a junção do relatório só começa quando a última fala termina).
  */
-export function useSequencia(duracaoMs: number, onTerminou?: () => void) {
+export function useSequencia(duracaoMs: number, onTerminou?: () => void, ativo = true) {
   const progresso = useRef(new Animated.Value(0)).current;
   const avisou = useRef(false);
   const aviso = useRef(onTerminou);
@@ -30,12 +31,13 @@ export function useSequencia(duracaoMs: number, onTerminou?: () => void) {
   }, [duracaoMs, progresso]);
 
   useEffect(() => {
+    if (!ativo) return undefined;
     let vivo = true;
     AccessibilityInfo.isReduceMotionEnabled()
       .then((r) => { reduzir.current = r; if (vivo) rodar(); })
       .catch(() => { if (vivo) rodar(); });
     return () => { vivo = false; progresso.stopAnimation(); };
-  }, [rodar, progresso]);
+  }, [rodar, progresso, ativo]);
 
   return { progresso, repetir: rodar };
 }

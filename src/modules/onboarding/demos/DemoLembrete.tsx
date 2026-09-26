@@ -1,40 +1,59 @@
-import { Animated, Pressable, StyleSheet, Text, View } from 'react-native';
+import { Animated, StyleSheet, Text, View } from 'react-native';
 import { LogoNero } from '@ui/components/LogoNero';
 import { Colors, Radius, Spacing, Typography } from '@ui/theme';
-import { fase, useSequencia } from './useSequencia';
+import { useEntrada } from './useEntrada';
 
-/** Tela 6: um iPhone estilizado às 08:00 e a notificação do remédio descendo, com o texto real (D-044). */
-export function DemoLembrete({ onTerminou }: { onTerminou?: () => void }) {
-  const { progresso, repetir } = useSequencia(2600, onTerminou);
-  const aviso = fase(progresso, 0.2, 0.7);
+/** As quatro notificações da tela 6, com os textos reais do app (`docs/nero/notificacoes.md`). */
+const AVISOS: Record<string, { titulo: string; corpo: string }> = {
+  remedio: { titulo: 'Hora de tomar seu remédio 💊', corpo: 'Losartana 50 mg' },
+  consulta: { titulo: 'Sua consulta é amanhã 📅', corpo: 'Cardiologia às 14:30. Toque para preparar o relatório.' },
+  exame: { titulo: 'Seu exame está chegando 🔎', corpo: 'Mamografia · daqui a 30 dias' },
+  agua: { titulo: 'Hora de beber água 💧', corpo: 'Sua meta de hoje: 2 L.' },
+};
+
+/**
+ * Tela 6 (ajuste do Murilo, 26/09): um iPhone maior, na tela bloqueada, e cada notificação descendo quando
+ * o Nero fala dela. Como no iPhone, a mais nova fica em cima.
+ */
+export function DemoLembrete({ visiveis }: { visiveis: string[] }) {
+  const ordem = [...visiveis].reverse();
   return (
-    <Pressable onPress={repetir} style={styles.area} accessibilityRole="image" accessibilityLabel="Exemplo: às 8 horas, a notificação Hora de tomar seu remédio, Losartana 50 miligramas">
-      <View style={styles.aparelho}>
-        <View style={styles.ilha} />
-        <Text style={styles.hora}>08:00</Text>
-        <Text style={styles.data}>segunda-feira</Text>
-        <Animated.View style={[styles.notificacao, { opacity: aviso, transform: [{ translateY: aviso.interpolate({ inputRange: [0, 1], outputRange: [-60, 0] }) }] }]}>
-          <View style={styles.icone}><LogoNero variante="simbolo" width={20} /></View>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.titulo}>Hora de tomar seu remédio 💊</Text>
-            <Text style={styles.corpo}>Losartana 50 mg</Text>
-          </View>
-          <Text style={styles.agora}>agora</Text>
-        </Animated.View>
+    <View style={styles.aparelho} accessibilityRole="image" accessibilityLabel="Exemplo: notificações do Nero na tela bloqueada, de remédio, consulta, exame e água">
+      <View style={styles.ilha} />
+      <Text style={styles.hora}>08:00</Text>
+      <Text style={styles.data}>segunda-feira</Text>
+      <View style={styles.lista}>
+        {ordem.map((id) => <Aviso key={id} id={id} />)}
       </View>
-    </Pressable>
+    </View>
+  );
+}
+
+function Aviso({ id }: { id: string }) {
+  const v = useEntrada(true);
+  const a = AVISOS[id];
+  if (!a) return null;
+  return (
+    <Animated.View style={[styles.notificacao, { opacity: v, transform: [{ translateY: v.interpolate({ inputRange: [0, 1], outputRange: [-30, 0] }) }] }]}>
+      <View style={styles.icone}><LogoNero variante="simbolo" width={18} /></View>
+      <View style={{ flex: 1 }}>
+        <Text style={styles.titulo} numberOfLines={2}>{a.titulo}</Text>
+        <Text style={styles.corpo} numberOfLines={2}>{a.corpo}</Text>
+      </View>
+      <Text style={styles.agora}>agora</Text>
+    </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
-  area: { alignItems: 'center' },
-  aparelho: { width: 250, height: 230, borderRadius: 36, backgroundColor: Colors.hero, paddingHorizontal: Spacing.md, alignItems: 'center', overflow: 'hidden' },
-  ilha: { width: 70, height: 20, borderRadius: 10, backgroundColor: '#000', marginTop: Spacing.sm },
-  hora: { fontFamily: 'Poppins-Bold', fontSize: 48, lineHeight: 56, color: Colors.white, marginTop: Spacing.sm },
+  aparelho: { alignSelf: 'center', width: 300, minHeight: 330, borderRadius: 40, backgroundColor: Colors.hero, paddingHorizontal: Spacing.md, paddingBottom: Spacing.lg, alignItems: 'center' },
+  ilha: { width: 76, height: 22, borderRadius: 11, backgroundColor: '#000', marginTop: Spacing.sm },
+  hora: { fontFamily: 'Poppins-Bold', fontSize: 42, lineHeight: 50, color: Colors.white, marginTop: Spacing.xs },
   data: { ...Typography.caption, color: 'rgba(255,255,255,0.75)' },
-  notificacao: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, alignSelf: 'stretch', backgroundColor: 'rgba(255,255,255,0.92)', borderRadius: Radius.linha + 4, padding: Spacing.sm, marginTop: Spacing.md },
-  icone: { width: 34, height: 34, borderRadius: 8, backgroundColor: Colors.surface, alignItems: 'center', justifyContent: 'center' },
-  titulo: { ...Typography.caption, fontFamily: 'Poppins-SemiBold', fontSize: 13, color: '#111' },
-  corpo: { ...Typography.caption, fontSize: 13, color: '#333' },
-  agora: { ...Typography.caption, fontSize: 11, color: '#666', alignSelf: 'flex-start' },
+  lista: { alignSelf: 'stretch', gap: Spacing.xs, marginTop: Spacing.md },
+  notificacao: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, backgroundColor: 'rgba(255,255,255,0.93)', borderRadius: Radius.linha + 4, paddingVertical: Spacing.xs + 2, paddingHorizontal: Spacing.sm },
+  icone: { width: 32, height: 32, borderRadius: 8, backgroundColor: Colors.surface, alignItems: 'center', justifyContent: 'center' },
+  titulo: { ...Typography.caption, fontFamily: 'Poppins-SemiBold', fontSize: 12.5, lineHeight: 16, color: '#111' },
+  corpo: { ...Typography.caption, fontSize: 12, lineHeight: 15, color: '#333' },
+  agora: { ...Typography.caption, fontSize: 10.5, color: '#666', alignSelf: 'flex-start' },
 });
