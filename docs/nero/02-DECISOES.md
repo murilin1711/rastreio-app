@@ -695,7 +695,7 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 
 **Conta criada pelo Murilo em 26/09:** organização `nero-saude`, projeto `react-native`, região **UE (Alemanha)** (`ingest.de.sentry.io`). A DSN, que não é segredo, vai no `env` dos perfis `preview` e `production` do `eas.json`; o plugin no `app.json` já tem organização, projeto e `https://de.sentry.io/`. O teste de 14 dias é das funções pagas; depois a conta fica no plano gratuito (5.000 ocorrências/mês, 1 usuário), sem cartão. Contra um defeito que se repete e gasta a cota, o mesmo erro vai até 5 vezes por abertura do app (`limitarRepeticao`, testado). O repositório **não** foi conectado ao Sentry.
 
-**Source maps** (o erro aparece com o nome do arquivo e a linha legíveis): continuam desligados (`SENTRY_DISABLE_AUTO_UPLOAD`) até existir um token do Sentry na EAS. Sem eles o erro chega, mas com o código minificado.
+**Source maps** (o erro aparece com o nome do arquivo e a linha legíveis): ligados em 26/09. O token `SENTRY_AUTH_TOKEN` está na EAS como secreto (`production` e `preview`), e o `SENTRY_DISABLE_AUTO_UPLOAD` saiu do `eas.json`. O token apareceu no chat ao ser cadastrado: trocar junto com os outros (PENDENCIAS §1).
 
 **Política de privacidade** atualizada em 26/09: Sentry (UE) e Expo (atualizações) como operadores, o que o relatório de erro leva e o que não leva, base legal (legítimo interesse, art. 7º, IX) e transferência internacional (art. 33). Vale a mesma revisão jurídica dos termos.
 

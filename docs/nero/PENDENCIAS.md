@@ -16,6 +16,9 @@
 - [ ] **Revogar dois tokens da Supabase** em `supabase.com/dashboard/account/tokens`: o de 22/09 e o de
       25/09, usado para aplicar o template de recuperação. O segundo apareceu no chat e por isso deixou
       de ser secreto.
+- [ ] **Trocar o token do Sentry** (`SENTRY_AUTH_TOKEN` na EAS). Apareceu no chat em 26/09 ao ser cadastrado.
+      Risco baixo (só envia source maps, não lê erros). Criar outro em Settings › Organization Tokens e
+      rodar `npx eas-cli env:update --variable-name SENTRY_AUTH_TOKEN --value NOVO --environment production --environment preview`.
 - [ ] **Recriar a chave do Resend.** A atual foi colada no chat em 22/09. Trocar no painel da Supabase
       (`scripts/configurar-auth.mjs` com a chave nova, `--aplicar`).
 - [ ] **Apagar as contas de teste** em Authentication › Users: `nerosaude+teste1@gmail.com` (confirmado
