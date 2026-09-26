@@ -1,7 +1,8 @@
-const { getDefaultConfig } = require('expo/metro-config');
+// Sentry (D-058): mesma configuração do Expo, com os identificadores que ligam o erro ao código-fonte.
+const { getSentryExpoConfig } = require('@sentry/react-native/metro');
 
 module.exports = (() => {
-  const config = getDefaultConfig(__dirname);
+  const config = getSentryExpoConfig(__dirname);
 
   const { transformer, resolver } = config;
 

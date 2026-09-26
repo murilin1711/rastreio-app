@@ -69,7 +69,8 @@
       ],
       "expo-image",
       "expo-secure-store",
-      "@react-native-community/datetimepicker"
+      "@react-native-community/datetimepicker",
+      "@sentry/react-native"
     ],
     "experiments": {
       "typedRoutes": true
@@ -80,6 +81,14 @@
         "projectId": "e30fea11-66fa-49b6-b3c5-a1e0cc60ff93"
       }
     },
-    "owner": "murilorp1711"
+    "owner": "murilorp1711",
+    "runtimeVersion": {
+      "policy": "fingerprint"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/e30fea11-66fa-49b6-b3c5-a1e0cc60ff93",
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
+    }
   }
 }

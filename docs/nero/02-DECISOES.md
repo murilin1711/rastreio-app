@@ -682,6 +682,25 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 **No ar em 26/09:** 0021 aplicada na nuvem e `nerosaude.com.br/termos` publicado (com autorização do Murilo, ainda como rascunho, antes da revisão jurídica). Visto no simulador: a conta do Murilo, sem aceite, abre em "Antes de continuar".
 
 **Proteção contra senha vazada:** o Murilo decidiu **não ligar** (26/09). A mensagem própria da D-055 fica no código, sem efeito até alguém ligar a opção no painel.
+
+### D-057 — "Fale com o NERO" em Minha Saúde — 26/09/2026
+**Motivo:** o e-mail de contato existia no código (`EMAIL_CONTATO`), mas em nenhuma tela; quem tivesse dúvida ou problema não tinha a quem recorrer. Aprovado pelo Murilo em 26/09.
+
+**Como ficou:** seção **Ajuda** em Minha Saúde, antes de "Sair da conta", com a linha "Fale com o NERO" e o endereço visível. O toque abre o e-mail com assunto e a versão do app e do sistema (`urlEmailContato`, testado). O corpo pede para não mandar resultado de exame: a política promete que dado de saúde não trafega por e-mail. Sem app de e-mail configurado, aparece o endereço para anotar. Junto entrou "Termos de uso" ao lado de "Política de privacidade". **Visto no simulador.**
+
+### D-058 — Relatório de erros com Sentry, sem dado de saúde — 26/09/2026
+**Motivo:** não havia nenhum. O crash do build 2 chegou só como `RCTFatal`, sem mensagem; com pacientes reais, não saberíamos o que quebrou. Aprovado pelo Murilo em 26/09.
+
+**Como ficou:** `@sentry/react-native` (integração oficial do Expo). `iniciarRelatorioDeErros` só liga com `EXPO_PUBLIC_SENTRY_DSN` e fora do modo de desenvolvimento; `Sentry.wrap` na raiz registra também erro de renderização. **Privacidade** (`src/core/erros/limpeza.ts`, testado): sem captura de tela nem estrutura da tela, `sendDefaultPii: false`, sem usuário/requisição/extras no evento; rastros de toque e de console descartados (podem ter o texto da tela, como o nome de um remédio); endereços sem parâmetros (e-mail, filtros do banco). Chega o que serve para consertar: mensagem, pilha, aparelho, versão.
+
+**Falta (Murilo):** criar a conta no Sentry e passar a DSN. Até lá, o código fica pronto e desligado. O envio de source maps no build fica desligado (`SENTRY_DISABLE_AUTO_UPLOAD` no `eas.json`) até existir o token, para o build não falhar. A política de privacidade precisa citar o Sentry como operador antes de ligar.
+
+### D-059 — Atualização pelo ar (expo-updates) — 26/09/2026
+**Motivo:** sem ela, qualquer correção, até um texto errado, exigia build novo e a revisão da Apple. Aprovado pelo Murilo em 26/09, depois da explicação do que muda.
+
+**Como ficou:** `expo-updates` com `runtimeVersion: { policy: "fingerprint" }` (a atualização só chega a builds com o mesmo código nativo; isso é calculado sozinho). O app confere ao abrir e aplica na abertura seguinte (`checkAutomatically: ON_LOAD`, `fallbackToCacheTimeout: 0`), sem tela de espera. Canais no `eas.json`: `development`, `preview`, `production`. O build 3, pelo perfil `production`, recebe o que for publicado em `production`. **O build 2 nunca vai receber**, porque não tem o pacote.
+
+**Publicar uma correção:** `eas update --channel production --message "…"`. Desfazer: `eas update:rollback`. Plano gratuito da Expo: 1.000 usuários ativos/mês, sem cobrança além (o serviço para de entregar acima disso). Continua exigindo build: permissões novas, biblioteca nativa nova, atualização do Expo, ícone e splash.
 ---
 
 ## Decisões clínicas (protocolos adotados)

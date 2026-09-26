@@ -1,6 +1,7 @@
 import { useFocusEffect, useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
-import { Alert, Switch } from 'react-native';
+import Constants from 'expo-constants';
+import { Alert, Linking, Platform, Switch } from 'react-native';
 import { useCallback, useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -12,7 +13,8 @@ import { useMedicacoes } from '@core/medicacoes/useMedicacoes';
 import { usePerfil } from '@core/perfil/usePerfil';
 import { montarContexto } from '@core/rastreando/contexto';
 import { bloqueioAtivo, definirBloqueio, pedirBiometria, recursoBiometrico, type RecursoBiometrico } from '@core/sessao/bloqueio';
-import { URL_PRIVACIDADE } from '@core/publicacao';
+import { urlEmailContato } from '@core/contato/contato';
+import { EMAIL_CONTATO, URL_PRIVACIDADE, URL_TERMOS } from '@core/publicacao';
 import { nomeComum } from '@core/relatorios/especialidades';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { dataHoraBr } from '@modules/coracao/componentes/formato';
@@ -55,6 +57,16 @@ export default function MinhaSaude() {
   }, [sessao?.user.id]);
   useFocusEffect(useCallback(() => { carregar(); recarregarPerfil(); recarregarMed(); consultas.recarregar(); }, [carregar, recarregarPerfil, recarregarMed, consultas.recarregar]));
 
+
+  /** D-057: abre o e-mail; sem app de e-mail configurado, mostra o endereço para anotar. */
+  const falarComNero = () => {
+    const url = urlEmailContato({
+      versaoApp: Constants.expoConfig?.version ?? '?',
+      build: Constants.expoConfig?.ios?.buildNumber ?? null,
+      sistema: `${Platform.OS === 'ios' ? 'iOS' : 'Android'} ${Platform.Version}`,
+    });
+    Linking.openURL(url).catch(() => Alert.alert('Fale com o NERO', `Escreva para ${EMAIL_CONTATO}. Respondemos por e-mail.`));
+  };
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={[styles.conteudo, { paddingBottom: espacoAbas }]}>
@@ -101,10 +113,14 @@ export default function MinhaSaude() {
           </>
         ) : null}
 
+        <Text style={styles.secao}>Ajuda</Text>
+        <ListItem icon="mail-outline" title="Fale com o NERO" subtitle={`Dúvidas, problemas ou sugestões: ${EMAIL_CONTATO}`} onPress={falarComNero} />
+
         <Button label="Sair da conta" variant="ghost" onPress={sair} style={{ marginTop: Spacing.xxxl }} />
         <Button label="Excluir minha conta" variant="ghost" onPress={() => router.push('/(app)/(tabs)/minha-saude/excluir-conta')} />
         {/* Exigido pelas duas lojas na ficha do app, e esperado também aqui dentro. */}
         <Button label="Política de privacidade" variant="ghost" onPress={() => WebBrowser.openBrowserAsync(URL_PRIVACIDADE).catch(() => {})} />
+        <Button label="Termos de uso" variant="ghost" onPress={() => WebBrowser.openBrowserAsync(URL_TERMOS).catch(() => {})} />
       </ScrollView>
     </SafeAreaView>
   );

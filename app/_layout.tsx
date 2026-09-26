@@ -11,12 +11,14 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import React, { useEffect, useRef, useState } from 'react';
 import { Animated, StyleSheet, View } from 'react-native';
+import { envolverRaiz, iniciarRelatorioDeErros } from '@core/erros/relatorio';
 import { configurarNotificacoes } from '@core/lembretes/configurar';
 import { SessaoProvider, useSessao } from '@core/sessao/SessaoProvider';
 import { useBloqueio } from '@core/sessao/useBloqueio';
 import { useToqueNotificacao } from '@core/lembretes/useToqueNotificacao';
 import { TelaBloqueada } from '@ui/index';
 
+iniciarRelatorioDeErros();
 SplashScreen.preventAutoHideAsync();
 configurarNotificacoes();
 
@@ -98,7 +100,7 @@ export function Navegacao() {
   );
 }
 
-export default function Layout() {
+function Layout() {
   const [fontesCarregadas] = useFonts({
     'Poppins-Regular': Poppins_400Regular,
     'Poppins-Medium': Poppins_500Medium,
@@ -122,3 +124,5 @@ export default function Layout() {
     </SessaoProvider>
   );
 }
+
+export default envolverRaiz(Layout);
