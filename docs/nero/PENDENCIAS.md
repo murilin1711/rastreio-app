@@ -48,14 +48,12 @@
 
 ### Teste no aparelho
 
-- [ ] **Gerar o build 3 antes de submeter.** O build 2 (no TestFlight desde 25/09) foi compilado às 00:56,
-      doze minutos antes de o `supportsTablet: false` entrar no `app.json`, então **ainda declara iPad** e a
-      Apple cobraria as capturas de 2048 × 2732. Para testar no iPhone ele serve: é idêntico ao código atual
-      fora essa linha. O build 3 deve juntar o iPad desligado e o que os testes apontarem.
-
-- [ ] **Apagar a pasta `ios/` antes do build 3.** Foi gerada em 25/09 na tentativa de build Release
-      local no simulador. Com ela presente, o EAS compila a partir dela e **ignora o `app.json`**
-      (ícone, `supportsTablet`, permissões) — o build 3 sairia com a configuração congelada de hoje.
+- [x] ~~Gerar o build 3.~~ **Feito em 26/09:** build 3 (1.0.0), canal `production`, commit `76d93af`, pasta `ios/`
+      apagada antes (agora no `.gitignore`). Enviado ao TestFlight pela EAS (`ascAppId` no `eas.json`). É o primeiro
+      com atualização pelo ar, Sentry, termos/consentimento e login Apple/Google.
+- [ ] **Conferir no build 3 o que só o aparelho mostra:** entrar com a Apple e com o Google; tela "Antes de continuar";
+      um erro chegando ao Sentry com arquivo e linha legíveis; uma atualização pelo ar chegando (publicar uma
+      mudança pequena com `eas update --channel production`); notificação do check-in no domingo.
 - [ ] **Conferir no aparelho D-038 a D-041** no build 3. D-038 e D-039 já passaram no simulador em
       25/09 (Expo Go); falta o build de produção. "Sair da conta" volta ao login; "Não uso
       medicamentos" → Confirmar mostra o verde com "Desfazer" sem fechar o app; "Desfazer" devolve a
