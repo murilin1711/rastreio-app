@@ -51,6 +51,9 @@
 - [x] ~~Gerar o build 3.~~ **Feito em 26/09:** build 3 (1.0.0), canal `production`, commit `76d93af`, pasta `ios/`
       apagada antes (agora no `.gitignore`). Enviado ao TestFlight pela EAS (`ascAppId` no `eas.json`). É o primeiro
       com atualização pelo ar, Sentry, termos/consentimento e login Apple/Google.
+- [ ] **No build 4, junto:** devolver `"ascAppId": "6815939474"` ao `submit.production.ios` do `eas.json` (sem ele
+      o envio ao TestFlight pede modo interativo) e criar `.fingerprintignore` com `eas.json`, para mudanças nele não
+      separarem o build das atualizações. Hoje não dá: qualquer uma das duas mudaria o runtime do build 3.
 - [ ] **Conferir no build 3 o que só o aparelho mostra:** entrar com a Apple e com o Google; tela "Antes de continuar";
       um erro chegando ao Sentry com arquivo e linha legíveis; uma atualização pelo ar chegando (publicar uma
       mudança pequena com `eas update --channel production`); notificação do check-in no domingo.

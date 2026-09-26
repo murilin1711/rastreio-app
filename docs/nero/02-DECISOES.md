@@ -704,7 +704,7 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 
 **Como ficou:** `expo-updates` com `runtimeVersion: { policy: "fingerprint" }` (a atualização só chega a builds com o mesmo código nativo; isso é calculado sozinho). O app confere ao abrir e aplica na abertura seguinte (`checkAutomatically: ON_LOAD`, `fallbackToCacheTimeout: 0`), sem tela de espera. Canais no `eas.json`: `development`, `preview`, `production`. O build 3, pelo perfil `production`, recebe o que for publicado em `production`. **O build 2 nunca vai receber**, porque não tem o pacote.
 
-**Publicar uma correção:** `eas update --channel production --message "…"`. Desfazer: `eas update:rollback`. Plano gratuito da Expo: 1.000 usuários ativos/mês, sem cobrança além (o serviço para de entregar acima disso). Continua exigindo build: permissões novas, biblioteca nativa nova, atualização do Expo, ícone e splash.
+**Publicar uma correção:** `eas update --channel production --environment production --platform ios --message "…"`. O `--environment production` é obrigatório: a atualização é montada no Mac, e sem ele sairia sem as variáveis da EAS (Supabase, Sentry). Desfazer: `eas update:rollback`. Plano gratuito da Expo: 1.000 usuários ativos/mês, sem cobrança além (o serviço para de entregar acima disso). Continua exigindo build: permissões novas, biblioteca nativa nova, atualização do Expo, ícone e splash.
 
 ### D-060 — Lembrete do check-in semanal — 26/09/2026
 **Pedido do Murilo (25/09); decisões dele em 26/09:** aviso no **domingo às 10h** e, **só para quem ainda não respondeu**, outro na **terça às 19h**, último dia da janela (domingo a terça). Texto "pergunta direta": "Como foi sua semana? 💬 / Responda o check-in: leva um minuto." e "Último dia do check-in 💬 / Conte como foi sua semana antes que ela feche." (tabela em `notificacoes.md`).
@@ -733,6 +733,8 @@ Junto: `envolverRaiz` só aplica o `Sentry.wrap` quando o Sentry foi iniciado, o
 
 ### D-062 — Logo em "Criar conta" e créditos dos criadores — 26/09/2026
 **Pedido do Murilo (26/09).** "Criar conta" ganhou a logo completa do Nero no topo, como o login. E a linha **"Criado por Murilo Roiz Póvoa e Dra. Denise Padilha"** (`CREDITOS` em `src/core/publicacao.ts`, componente `Creditos`) entra nos lugares escolhidos por ele: **rodapé do login e do Criar conta**, **rodapé de Minha Saúde** (abaixo de Política e Termos) e **rodapé do relatório em PDF**. Ficou de fora, de propósito, das telas de uso diário e da última tela do onboarding. **Visto no simulador:** login e Criar conta. O rodapé de Minha Saúde e o PDF, só pelo código e pelo teste do PDF.
+
+**Primeira atualização pelo ar (26/09).** Publicada no canal `production` para o build 3. A primeira tentativa saiu com runtime diferente do build (`8a83070b…` × `a02e9b33…`) e **não chegaria a ele**: o `eas.json` entra na impressão digital, e eu tinha acrescentado o `ascAppId` depois do build. O `eas.json` voltou exatamente ao do build 3 e a atualização foi republicada com o runtime certo (grupo `0084e967`). **Regra:** entre um build e as atualizações dele, não mexer em `eas.json`, `app.json`, `package.json` nem em plugins. Antes de publicar, conferir com `eas fingerprint:compare <runtime do build> --environment production`. A `EXPO_PUBLIC_SENTRY_DSN` também foi cadastrada nas variáveis da EAS (produção e preview), para as atualizações terem o Sentry ligado.
 ---
 
 ## Decisões clínicas (protocolos adotados)
