@@ -119,3 +119,16 @@ The last frame must match the first frame exactly (same pose, same position, eye
 Negativo v2: `text, watermark, logo, extra limbs, extra fingers, distorted face, closed eyes at the end, camera movement, zoom, background change, gradient background, horizon, floor, shadow on ground, blur, morphing`.
 
 Entrega: `comemorar.mp4` e `pensando.mp4` (720 × 1280, 24 fps, 10 s). O Claude escolhe o ciclo, fecha o loop, casa o tamanho com o repouso pela escala de saída (como no clipe 4) e troca em `assets/animacoes/nero/`. Com o comemorar em loop, a tela final do onboarding pode deixar de voltar ao repouso; decidir com o Murilo quando os vídeos chegarem.
+
+## Clipe 3 v2 — comemorar longo e em loop (27/09/2026)
+Vídeo do Gemini (`gemini_generated_video_3b6c049d.mp4`), **1280 × 720 horizontal**, 24 fps, 10 s — diferente dos anteriores, que eram verticais. Fundo cinza como pedido, mas em **degradê** (126 no topo, 144 embaixo) e com sombra leve no chão; sem marca d'água nos cantos. Olhos abertos quase o tempo todo, como pedido.
+
+- **Ciclo:** quadros 1–126 (5,25 s). O 126 é o mais parecido com o 1 (diferença média 1,26 em cinza, contra ~2,5 nos vizinhos), então o loop emenda sem salto; o crossfade do `loop=1` faz o resto.
+- **Adaptação ao pipeline vertical:** em vez de mexer no script (que assume 720 × 1280), cada quadro foi recortado em 720 de largura centrado nas pernas (x 242–962) e completado em cima e embaixo com a cor da primeira e da última linha, pés na altura dos clipes antigos (deslocamento vertical 380).
+- **Enquadramento:** no alto do pulo a cabeça vai a y 27 do original, então a janela precisou de 678 px (`Y0=392 Y1=1070`): o Nero sai ~9 % menor que no repouso, como no comemorar antigo. Aceito: ele aparece sozinho, em contexto próprio.
+- `FUNDO=linha` (por causa do degradê), `FECHAMENTO=2`, `CX=360`. Saída: **308 × 360, 105 quadros, 20 fps, 954 KB**.
+- Sobra uma sombra cinza muito leve sob os pés, visível só em fundo escuro; no fundo claro do app não aparece.
+
+Comando: `FUNDO=linha FECHAMENTO=2 Y0=392 Y1=1070 CX=360 python3 scripts/processar-clipe-nero.py <quadros verticais> assets/animacoes/nero/comemorar.webp 1 126 1`
+
+**Largura da caixa:** o clipe é mais largo (308) que o aceno (252) por causa dos braços abertos. A regra antiga (largura do clipe mais largo de todos) alargaria o Nero na Home e em Minha Saúde, onde o Murilo calibrou a posição. Nova regra (`larguraDaCaixa`): a caixa é a do aceno e só cresce onde um dos clipes usados é mais largo — o modal de comemoração e a tela final do onboarding. **No onboarding, a tela final passou a usar o comemorar em loop** (antes: comemorava uma vez e ia ao repouso). Falta o pensando v2.

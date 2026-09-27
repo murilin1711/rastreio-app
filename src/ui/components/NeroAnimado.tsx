@@ -10,12 +10,20 @@ interface Clipe { fonte: number; largura: number; altura: number; loop: boolean;
 export const CLIPES: Record<NeroClipe, Clipe> = {
   repouso: { fonte: require('../../../assets/animacoes/nero/repouso.webp'), largura: 218, altura: 360, loop: true, duracaoMs: 4400 },
   acenar: { fonte: require('../../../assets/animacoes/nero/acenar.webp'), largura: 252, altura: 360, loop: false, duracaoMs: 3050 },
-  comemorar: { fonte: require('../../../assets/animacoes/nero/comemorar.webp'), largura: 228, altura: 360, loop: false, duracaoMs: 2650 },
+  // v2 (27/09): 5,25 s em loop, olhos abertos no fim do ciclo; mais largo por causa dos braços abertos.
+  comemorar: { fonte: require('../../../assets/animacoes/nero/comemorar.webp'), largura: 308, altura: 360, loop: true, duracaoMs: 5250 },
   pensando: { fonte: require('../../../assets/animacoes/nero/pensando.webp'), largura: 248, altura: 360, loop: true, duracaoMs: 2550, parado: require('../../../assets/animacoes/nero/pensando-parado.png') },
 };
 
-/** Largura fixa (a do clipe mais largo) para a troca de clipe não mexer no layout; `contain` centraliza. */
-const PROPORCAO_MAX = Math.max(...Object.values(CLIPES).map((c) => c.largura / c.altura));
+/**
+ * Largura da caixa: a do aceno (252/360), para a troca entre clipes não mexer no layout; `contain` centraliza.
+ * Só cresce onde um dos clipes usados é mais largo (o comemorar v2, de braços abertos). Antes era a do clipe
+ * mais largo de todos, e o comemorar v2 alargaria o Nero na Home e em Minha Saúde, calibrados pelo Murilo.
+ */
+const PROPORCAO_BASE = 252 / 360;
+const proporcao = (c: NeroClipe) => CLIPES[c].largura / CLIPES[c].altura;
+export const larguraDaCaixa = (size: number, clipe: NeroClipe, entrada?: NeroClipe) =>
+  size * Math.max(PROPORCAO_BASE, proporcao(clipe), entrada ? proporcao(entrada) : 0);
 
 interface Props {
   /** Clipe em loop mostrado normalmente. */
@@ -59,7 +67,7 @@ export function NeroAnimado({ clipe = 'repouso', entrada, size = 96, pausaMs, st
     <Image
       key={`${atual}-${ciclo}-${parado ? 'p' : 'a'}`}
       source={comPausa && parado ? c.parado : c.fonte}
-      style={[{ width: size * PROPORCAO_MAX, height: size }, style]}
+      style={[{ width: larguraDaCaixa(size, clipe, entrada), height: size }, style]}
       contentFit="contain"
       autoplay
       accessibilityLabel="Nero, mascote do aplicativo"

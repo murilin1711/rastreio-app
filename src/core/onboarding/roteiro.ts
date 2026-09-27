@@ -70,7 +70,7 @@ export const ROTEIRO: Passo[] = [
     ],
   },
   {
-    id: 'final', clipe: 'repouso', entrada: 'comemorar', padrao: 1, botao: 'Criar minha conta',
+    id: 'final', clipe: 'comemorar', padrao: 1, botao: 'Criar minha conta',
     falas: [{ texto: 'E te ajudo com muito mais!', encolher: true }, { texto: 'Pronto{, nome}! Agora é só criar sua conta.' }],
   },
 ];

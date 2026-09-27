@@ -1,6 +1,6 @@
 import React from 'react';
 import { act, create } from 'react-test-renderer';
-import { CLIPES, NeroAnimado, useClipeAtual, type NeroClipe } from '../NeroAnimado';
+import { CLIPES, NeroAnimado, useClipeAtual, type NeroClipe, larguraDaCaixa } from '../NeroAnimado';
 
 jest.mock('expo-image', () => {
   const { View } = require('react-native');
@@ -39,7 +39,16 @@ describe('NeroAnimado (D-015)', () => {
     const antes = largura();
     act(() => { jest.advanceTimersByTime(CLIPES.acenar.duracaoMs); });
     expect(largura()).toBe(antes);
-    expect(antes).toBeCloseTo(100 * Math.max(...Object.values(CLIPES).map((c) => c.largura / c.altura)));
+    // A caixa é a do aceno (252/360): o comemorar v2, mais largo, só alarga onde aparece (27/09).
+    expect(antes).toBeCloseTo(100 * 252 / 360);
+  });
+
+  it('só onde o comemorar v2 aparece a caixa alarga; Home e Minha Saúde ficam como o Murilo calibrou', () => {
+    expect(larguraDaCaixa(360, 'repouso')).toBeCloseTo(252);
+    expect(larguraDaCaixa(360, 'repouso', 'acenar')).toBeCloseTo(252);
+    expect(larguraDaCaixa(360, 'pensando')).toBeCloseTo(252);
+    expect(larguraDaCaixa(360, 'comemorar')).toBeCloseTo(308);
+    expect(larguraDaCaixa(360, 'repouso', 'comemorar')).toBeCloseTo(308);
   });
 
   it('todo clipe tem duração e proporção coerentes com o arquivo', () => {
