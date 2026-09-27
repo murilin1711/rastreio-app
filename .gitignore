@@ -35,3 +35,6 @@ supabase/.branches/
 # Pastas nativas geradas pelo prebuild. Com elas presentes, o EAS ignora o app.json (ver PENDENCIAS.md).
 /ios
 /android
+
+# Chave da conta de serviço do Google Play (nunca versionar)
+credenciais/

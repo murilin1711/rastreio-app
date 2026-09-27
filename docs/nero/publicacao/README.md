@@ -62,7 +62,7 @@
 - **No app:** botão "Política de privacidade" em Minha Saúde, abaixo de Excluir conta. A URL vive em `src/core/publicacao.ts`, num lugar só.
 - **Hospedagem:** Hostinger (Apache). Subir `site/index.html` em `public_html/` e `site/privacidade/index.html` em `public_html/privacidade/`. A pasta com index dentro é o que faz a URL funcionar sem `.html`. Passo a passo em `site/README.md`.
 - **Falta:** subir os dois arquivos e colar a URL nas fichas das duas lojas.
-- **CPF:** decidido em 24/09 que fica. A conta das lojas é pessoa física, e o nome do titular aparece na ficha de qualquer forma.
+- **CPF → CNPJ (27/09):** a política passou a identificar o responsável pelo MEI (CNPJ 62.043.447/0001-03), que é o titular da conta do Google Play; a Apple segue no CPF, e como MEI e pessoa física são a mesma pessoa, a política vale para as duas lojas sem expor o CPF. Publicar com o próximo lote.
 - **Backups confirmados** em 24/09; a seção 8 está honesta.
 - **Correção feita na mesma conferência:** o painel avisa que os backups **não incluem o Storage**, e é lá que ficam laudos, fotos de exame e PDFs de relatório. A política dava a entender que tudo tinha cópia de 7 dias. O texto agora separa as duas coisas: o banco tem 7 dias; os arquivos não têm cópia nenhuma — some na hora quando o paciente exclui (melhor para privacidade) e não há como restaurar se for perdido (pior para durabilidade).
 - **No ar desde 24/09** em https://nerosaude.com.br/privacidade, com HTTPS. Publicação por `npm run site:publicar`; a Vercel republica sozinha a cada push.

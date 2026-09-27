@@ -8,7 +8,7 @@
 
 ## 1. Quem é o responsável
 
-O aplicativo NERO é mantido por **Murilo Roiz Póvoa**, CPF 708.784.431-85, em Goiânia/GO ("nós"). Para qualquer assunto sobre seus dados, incluindo o exercício dos direitos previstos na LGPD, escreva para **nerosaudeapp@gmail.com**. Encarregado pelo tratamento de dados (art. 41 da LGPD): o próprio responsável.
+O aplicativo NERO é mantido por **Murilo Roiz Póvoa**, microempreendedor individual inscrito no CNPJ 62.043.447/0001-03, em Goiânia/GO ("nós"). Para qualquer assunto sobre seus dados, incluindo o exercício dos direitos previstos na LGPD, escreva para **nerosaudeapp@gmail.com**. Encarregado pelo tratamento de dados (art. 41 da LGPD): o próprio responsável.
 
 ## 2. O que o NERO é — e o que não é
 
@@ -84,7 +84,7 @@ Os lembretes são notificações **locais**, agendadas no seu aparelho — de me
 ## 8. Por quanto tempo guardamos — e como excluir
 
 - Guardamos seus dados enquanto sua conta existir.
-- **Excluir a conta:** em **Minha Saúde → Excluir minha conta** (D-013). A exclusão apaga a conta e **todos** os registros, documentos e relatórios vinculados a ela, de forma irreversível. Links de QR ainda ativos deixam de funcionar.
+- **Excluir a conta:** em **Minha Saúde → Excluir minha conta**. A exclusão apaga a conta e **todos** os registros, documentos e relatórios vinculados a ela, de forma irreversível. Links de QR ainda ativos deixam de funcionar.
 - Os dados são apagados imediatamente do banco. Nosso operador de infraestrutura mantém cópias de segurança diárias do **banco de dados** por **7 dias**, para o caso de falha; essas cópias são sobrescritas nesse prazo, e depois disso não resta nenhum registro seu. Não guardamos cópias fora dele.
 - Os **arquivos** que você anexa (laudos, fotos de exame e os PDFs de relatório) ficam em armazenamento separado e **não entram nessas cópias de segurança**. Na prática: quando você exclui um documento ou a conta, ele desaparece na hora, sem ficar em cópia nenhuma; em compensação, um arquivo perdido não pode ser recuperado por nós.
 - Você também pode pedir a exclusão pelo e-mail da seção 1.

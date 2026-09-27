@@ -10,9 +10,37 @@
 
 ### Contas e credenciais
 
-- [ ] **Google Play Console** (US$ 25, pagamento único). Conta pessoal nova exige **12 testadores por
-      14 dias** antes de publicar aberto, e esse relógio só começa quando a conta existe. Cada dia sem
-      criá-la é um dia a mais no lançamento Android.
+- [x] **Google Play Console — conta criada, paga e verificada em 27/09.** Conta de **Organização** no
+      CNPJ do Murilo (o Google exige organização para "apps médicos"; o Nero cai em "Medication and
+      Treatment Management" e "Diseases and Conditions Management" — fontes:
+      support.google.com/googleplay/android-developer/answer/13634885 e /answer/14738291). Dona:
+      `nerosaudeapp@gmail.com` (permanente). Site verificado no Search Console por TXT na Hostinger;
+      e-mail do domínio passou a receber pela Hostinger (MX `mx1/mx2.hostinger.com`).
+      Declarado no cadastro: "Telehealth or medical apps"; monetização "We don't know yet".
+- [ ] **Política de privacidade com o CNPJ (MEI 62.043.447/0001-03) no lugar do CPF — texto trocado em
+      27/09**, falta publicar junto com o próximo lote do app (`npm run site:publicar`).
+- [ ] **Apple fica no CPF (decisão do Murilo, 27/09).** Risco conhecido: diretriz 5.1.1(ix) prefere pessoa
+      jurídica para apps de saúde; reavaliar só se a revisão da Apple reclamar.
+- [ ] **CNAE do MEI é "Cursos preparatórios para concursos"**, sem relação com software. Não impediu a
+      verificação do Google; se o Nero passar a faturar, falar com um contador sobre a atividade.
+- [ ] **Primeiro build Android pronto (27/09):** build `2c6d9133` (versionCode 2, `.aab`), chave de assinatura
+      gerada e guardada pela Expo. Manifesto conferido: **sem `AD_ID`** (bate com "Advertising ID: No"),
+      `RECORD_AUDIO` bloqueado. **Enviado e publicado no teste interno em 27/09** (Play App Signing ativo). Link de convite: https://play.google.com/apps/internaltest/4701442173001504585 . Próximos envios: `scripts/play-api.mjs` (conta de serviço `play-publisher@nero-509815`, chave em `credenciais/google-play.json`).
+      App "Nero Saúde" criado no Play em 27/09 (gratuito, pt-BR); conta de organização não pede 12
+      testadores/14 dias. Ficha: `publicacao/ficha-da-loja.md`. Faltam imagem de destaque e capturas.
+- [x] **Login com Google no Android (feito pelo Murilo em 27/09):** criar cliente OAuth Android no Google Cloud com o SHA-1 da chave de
+      assinatura do Play. **SHA-1 (chave de assinatura do Google, conferido pelo SHA-256 da API em 27/09): `53:45:34:67:D5:4A:1E:C2:16:2B:7E:EE:14:41:FF:F5:49:8F:D2:0D`**, pacote `br.com.nerosaude.app`, no mesmo projeto do cliente Web (`nero`). O código não muda (usa o `webClientId`).
+- [x] **Play, feito pelo Murilo em 27/09:** conta de revisão `nerosaudeapp+revisao@gmail.com` em "Sign in
+      details"; Privacy policy, Ads, Target audience (18+) e Data safety salvas; categoria na Store settings.
+- [ ] **Play, falta:** testar num Android real pelo link do teste interno (Murilo procurando aparelho; plano B:
+      emulador do Android Studio com imagem "Google Play", ou o Pre-launch report do próprio Play); depois a
+      versão de produção (só Brasil), que passa por revisão do Google.
+- [ ] **Capturas de tela das lojas — adiado a pedido do Murilo (27/09).** Senha da conta de revisão em
+      `credenciais/conta-revisao.txt` (apareceu no chat; é conta fictícia e vai ao revisor). Antes de tirar:
+      **trocar o nome "Teste" da conta** por um nome crível. Telas pedidas pelo Murilo: **onboarding**
+      (a parte do Nero falando) e a **primeira página** (Home), além das telas com dados (pressão,
+      remédios, água, relatório). Mínimo 2, ideal 4+ em 9:16 (1080 × 1920); enviar com
+      `node scripts/play-ficha.mjs` (lê `assets/images/loja/captura-N.png`).
 - [ ] **Revogar dois tokens da Supabase** em `supabase.com/dashboard/account/tokens`: o de 22/09 e o de
       25/09, usado para aplicar o template de recuperação. O segundo apareceu no chat e por isso deixou
       de ser secreto.
