@@ -79,3 +79,43 @@ Foi o clipe mais limpo dos quatro, e o motivo é o fundo: o prompt pediu **cinza
 Comando: `FECHAMENTO=2 Y0=252 Y1=1051 CX=359 python3 scripts/processar-clipe-nero.py <frames> assets/animacoes/nero/pensando.webp 12 72 1`
 
 **Regra que se confirmou:** medir o enquadramento antes de processar, porque cada geração sai com escala e posição próprias. E o fundo cinza médio deve virar padrão nos prompts — resolveu de uma vez o problema que custou duas rodadas de calibração nos clipes 2 e 3.
+
+## Prompts v2 — comemorar e pensando longos e em loop (27/09/2026)
+Pedido do Murilo: refazer os dois clipes um pouco mais longos e em loop, para o onboarding (D-063). Ciclo de **6 s** dentro do vídeo de 10 s: o dobro do atual, e ainda abaixo de ~1 MB em WebP (medido: 4,4 s de loop = 948 KB; 9 s passava de 1,7 MB).
+
+O que mudou em relação aos prompts de 19/09, pelo que os clipes 1–4 ensinaram:
+- **Fundo cinza médio `#808080` chapado** (resolveu o recorte no clipe 4 sem calibração).
+- **Mesmo tamanho e posição do repouso** pedidos no prompt (cada geração saía com escala própria).
+- **Começa e termina na mesma pose, de olhos abertos**, com linha do tempo segundo a segundo: o loop fecha sem salto, e o comemorar deixa de terminar congelado de olhos fechados (reclamação do Murilo em 26/09).
+- Formato vertical 9:16 (720 × 1280), como os vídeos que ele gerou.
+
+Bloco comum v2:
+```
+The exact same 3D cartoon character from the reference image: small white body with light-blue swirl hair and stripes, big blue glossy eyes, gentle smile, Pixar-style soft render. Full body visible, centered, facing the camera, same size and position as the reference: head near the top third, feet near the bottom, with empty space around. Completely flat solid medium gray background (#808080), perfectly uniform, no gradient, no horizon line, no floor, no shadow on the ground, no props, no text. Static camera, no zoom, no pan, no cut. Character keeps identical proportions, colors and design in every frame.
+```
+
+Comemorar v2 (loop, 6 s):
+```
+[bloco comum] A joyful celebration that loops seamlessly. Timeline:
+0–1 s: calm standing pose, eyes open, gentle smile, looking at the camera.
+1–2 s: he raises both arms happily above his head, smile grows wider, eyes stay open and sparkling.
+2–3.5 s: one small, soft happy jump with arms up, playful squash-and-stretch on landing, feet land in exactly the same spot.
+3.5–4.5 s: a cheerful little side-to-side sway with arms still up, big open-eyed smile (a quick blink is fine, but eyes must be open most of the time).
+4.5–6 s: arms come down slowly and he settles back into the exact same calm standing pose as the first frame, eyes open, gentle smile.
+The last frame must match the first frame exactly (same pose, same position, eyes open) so the clip loops with no jump. Warm, happy, not frantic. No confetti, no props, no text. 6-second cycle.
+```
+
+Pensando v2 (loop, 6 s):
+```
+[bloco comum] A calm thinking animation that loops seamlessly. Timeline:
+0–1 s: calm standing pose, arms relaxed, eyes open, looking at the camera with a gentle smile.
+1–2 s: he slowly brings his right hand up to his chin.
+2–3.5 s: he tilts his head slightly and looks up and to the side with curious eyes, as if thinking, then gently taps his chin twice.
+3.5–4.5 s: he looks back toward the camera with a small "I've got it" smile, eyebrows lifting slightly.
+4.5–6 s: the hand comes down slowly and he returns to the exact same calm standing pose as the first frame, eyes open.
+The last frame must match the first frame exactly (same pose, same position, eyes open) so the clip loops with no jump. Slow, soft, thoughtful movements, feet never move. 6-second cycle.
+```
+
+Negativo v2: `text, watermark, logo, extra limbs, extra fingers, distorted face, closed eyes at the end, camera movement, zoom, background change, gradient background, horizon, floor, shadow on ground, blur, morphing`.
+
+Entrega: `comemorar.mp4` e `pensando.mp4` (720 × 1280, 24 fps, 10 s). O Claude escolhe o ciclo, fecha o loop, casa o tamanho com o repouso pela escala de saída (como no clipe 4) e troca em `assets/animacoes/nero/`. Com o comemorar em loop, a tela final do onboarding pode deixar de voltar ao repouso; decidir com o Murilo quando os vídeos chegarem.
