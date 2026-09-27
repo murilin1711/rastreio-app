@@ -38,6 +38,8 @@ export default function Onboarding() {
   const [conversaPronta, setConversaPronta] = useState(false);
   const [cartoes, setCartoes] = useState<string[]>([]);
   const [perguntaPronta, setPerguntaPronta] = useState(false);
+  // Tela 5: o botão só depois de tudo entrar no relatório (pedido do Murilo, 27/09).
+  const [juncaoPronta, setJuncaoPronta] = useState(false);
   // Tela 6: só pergunta se o iOS ainda não tem resposta (a chance de pedir é uma só).
   const [podePerguntar, setPodePerguntar] = useState<boolean | null>(null);
   const passo = ROTEIRO[indice];
@@ -52,7 +54,7 @@ export default function Onboarding() {
   }, []);
 
   useEffect(() => {
-    setConversaPronta(false); setPerguntaPronta(false); setCartoes([]); setCompletar(0);
+    setConversaPronta(false); setPerguntaPronta(false); setJuncaoPronta(false); setCartoes([]); setCompletar(0);
     if (passo.id === 'lembrete') estadoPermissao().then((e) => setPodePerguntar(e === 'perguntar')).catch(() => setPodePerguntar(false));
   }, [indice, passo.id]);
 
@@ -87,6 +89,7 @@ export default function Onboarding() {
 
   const rodape = () => {
     if (!conversaPronta) return null;
+    if (passo.id === 'relatorio' && !juncaoPronta) return null;
     if (passo.id === 'nome') {
       return (
         <>
@@ -153,7 +156,7 @@ export default function Onboarding() {
                 falas={passo.falas}
                 nome={nomeValido ? nome : null}
                 atrasoInicialMs={passo.atrasoInicialMs}
-                lento={passo.lento}
+                ritmo={passo.ritmo}
                 completar={completar}
                 onMarco={(c) => setCartoes((l) => (l.includes(c) ? l : [...l, c]))}
                 onTerminou={() => setConversaPronta(true)}
@@ -176,7 +179,7 @@ export default function Onboarding() {
             ) : null}
             {/* Tela 4: os cartões só depois da fala (fala e cartão juntos confundiam). */}
             {passo.id === 'pressao' && conversaPronta ? <DemoPressao /> : null}
-            {passo.id === 'relatorio' ? <DemoRelatorio visiveis={cartoes} juntar={conversaPronta} /> : null}
+            {passo.id === 'relatorio' ? <DemoRelatorio visiveis={cartoes} juntar={conversaPronta} onTerminou={() => setJuncaoPronta(true)} /> : null}
             {passo.id === 'lembrete' ? <DemoLembrete visiveis={cartoes} /> : null}
           </View>
           <View style={passo.padrao === 1 ? styles.neroMeio : styles.neroBaixo} onLayout={(e) => setEspacoBaixo(e.nativeEvent.layout.height)}>

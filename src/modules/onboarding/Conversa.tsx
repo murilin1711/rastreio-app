@@ -5,17 +5,14 @@ import { Spacing } from '@ui/theme';
 import { FalaNero, MS_ENCOLHER } from './FalaNero';
 
 const PAUSA_ENTRE_FALAS = 450;
-/** Telas 5 e 6 (pedido do Murilo): uma coisa de cada vez, com tempo de ver cada cartão entrar. */
-const PAUSA_LENTA = 900;
-const RITMO_LENTO = 1.2;
 
 interface Props {
   falas: Fala[];
   nome: string | null;
   /** Só o Nero na tela antes da primeira fala. */
   atrasoInicialMs?: number;
-  /** Mais devagar: palavras mais espaçadas e pausa maior entre as falas. */
-  lento?: boolean;
+  /** Ritmo próprio da tela (telas 5 e 6): tempo por palavra e pausa entre as falas. */
+  ritmo?: { palavra: number; pausaMs: number };
   completar: number;
   /** Um cartão da demonstração deve aparecer (a palavra do marco foi dita). */
   onMarco?: (cartao: string) => void;
@@ -27,7 +24,7 @@ interface Props {
  * termina e a próxima entra embaixo; uma com `substituir` entra no lugar da anterior. Os `marcos` avisam a
  * tela quando a palavra de um cartão aparece. Com Reduzir movimento, tudo aparece sem pausas.
  */
-export function Conversa({ falas, nome, atrasoInicialMs = 0, lento = false, completar, onMarco, onTerminou }: Props) {
+export function Conversa({ falas, nome, atrasoInicialMs = 0, ritmo, completar, onMarco, onTerminou }: Props) {
   const [atual, setAtual] = useState(-1);
   const reduzir = useRef(false);
   const disparados = useRef(new Set<string>());
@@ -64,7 +61,7 @@ export function Conversa({ falas, nome, atrasoInicialMs = 0, lento = false, comp
   const terminou = (i: number) => {
     progrediu(i, Number.MAX_SAFE_INTEGER);
     if (i >= falas.length - 1) { aoTerminar.current(); return; }
-    const espera = reduzir.current ? 0 : (lento ? PAUSA_LENTA : PAUSA_ENTRE_FALAS) + (falas[i].encolher ? MS_ENCOLHER : 0);
+    const espera = reduzir.current ? 0 : (ritmo?.pausaMs ?? PAUSA_ENTRE_FALAS) + (falas[i].encolher ? MS_ENCOLHER : 0);
     if (espera) setTimeout(() => setAtual((a) => Math.max(a, i + 1)), espera);
     else setAtual((a) => Math.max(a, i + 1));
   };
@@ -78,7 +75,7 @@ export function Conversa({ falas, nome, atrasoInicialMs = 0, lento = false, comp
           completar={i === atual ? completar : 0}
           encolhida={!!f.encolher && i < atual}
           oculta={!!falas[i + 1]?.substituir && i + 1 <= atual}
-          ritmo={lento ? RITMO_LENTO : 1}
+          ritmo={ritmo?.palavra ?? 1}
           onProgresso={(n) => progrediu(i, n)}
           onTerminou={() => terminou(i)}
         />

@@ -24,7 +24,8 @@ test('tela 2: o pensando pausa 3 s entre os ciclos', () => {
 
 test('tela 5: frase que encolhe, uma informação por fala (devagar) e a frase da consulta', () => {
   const r = passo('relatorio');
-  expect(r.lento).toBe(true);
+  // Um pouco mais rápida que a tela 6 (pedido do Murilo, 27/09).
+  expect(r.ritmo).toEqual({ palavra: 1.1, pausaMs: 650 });
   expect(r.falas.map((f) => f.texto)).toEqual(['Eu junto todas as suas informações.', 'Seu histórico.', 'Seus exames.', 'Suas medicações.', 'E muito mais.', 'Na consulta, é só mostrar pro seu médico.']);
   expect(r.falas[0].encolher).toBe(true);
   expect(r.falas.slice(2).every((f) => f.substituir)).toBe(true);
@@ -33,7 +34,7 @@ test('tela 5: frase que encolhe, uma informação por fala (devagar) e a frase d
 
 test('tela 6: quatro notificações, cada uma na sua fala, devagar', () => {
   const l = passo('lembrete');
-  expect(l.lento).toBe(true);
+  expect(l.ritmo).toEqual({ palavra: 1.2, pausaMs: 900 });
   expect(l.falas.flatMap((f) => (f.marcos ?? []).map((m) => m.cartao))).toEqual(['remedio', 'consulta', 'exame', 'agua']);
   // Uma notificação por fala (pedido do Murilo): exame e água separados; a última fala não tem notificação.
   expect(l.falas.slice(0, 4).every((f) => (f.marcos ?? []).length === 1)).toBe(true);

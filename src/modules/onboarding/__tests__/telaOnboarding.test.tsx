@@ -163,3 +163,15 @@ it('com o teclado aberto na tela do nome, o Nero encolhe (o botão não some em 
   expect(a.root.findByType(CenaNero).props.tamanho).toBe(grande);
   espiao.mockRestore();
 });
+
+it('tela 5: o botão só aparece quando a junção no relatório termina', async () => {
+  const a = await abrir();
+  await tocar(a, 'Oi, Nero!');
+  await tocar(a, 'Prefiro não dizer');
+  await tocar(a, 'Vamos lá');
+  await tocar(a, 'Próximo');
+  // Com Reduzir movimento a junção termina na hora; o botão depende do aviso de fim da demonstração.
+  const { DemoRelatorio } = require('@modules/onboarding/demos/DemoRelatorio');
+  expect(a.root.findByType(DemoRelatorio).props.onTerminou).toEqual(expect.any(Function));
+  expect(tela(a)).toContain('Próximo');
+});

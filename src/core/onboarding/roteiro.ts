@@ -25,8 +25,11 @@ export interface Passo {
   atrasoInicialMs?: number;
   /** Pausa do clipe entre um ciclo e outro (tela 2: pensando, para, pensa de novo). */
   pausaClipeMs?: number;
-  /** Fala e animações mais devagar, com pausa maior entre as falas (telas 5 e 6, pedido do Murilo). */
-  lento?: boolean;
+  /**
+   * Ritmo próprio da tela: multiplica o tempo por palavra e define a pausa entre as falas (telas 5 e 6,
+   * uma coisa de cada vez). Sem ele, o ritmo normal (1× e 450 ms).
+   */
+  ritmo?: { palavra: number; pausaMs: number };
   falas: Fala[];
   botao: string;
 }
@@ -44,7 +47,7 @@ export const ROTEIRO: Passo[] = [
   { id: 'prazer', clipe: 'acenar', padrao: 1, botao: 'Vamos lá', falas: [{ texto: 'Prazer{, nome}! Vou te mostrar o que eu faço por você.' }] },
   { id: 'pressao', clipe: 'repouso', padrao: 2, botao: 'Próximo', falas: [{ texto: 'Anote sua pressão e sua glicemia. Eu organizo tudo pra você.' }] },
   {
-    id: 'relatorio', clipe: 'repouso', padrao: 2, lento: true, botao: 'Próximo',
+    id: 'relatorio', clipe: 'repouso', padrao: 2, ritmo: { palavra: 1.1, pausaMs: 650 }, botao: 'Próximo',
     falas: [
       { texto: 'Eu junto todas as suas informações.', encolher: true },
       { texto: 'Seu histórico.', marcos: [{ palavra: 'histórico', cartao: 'historico' }] },
@@ -56,7 +59,7 @@ export const ROTEIRO: Passo[] = [
     ],
   },
   {
-    id: 'lembrete', clipe: 'repouso', padrao: 2, lento: true, botao: 'Próximo',
+    id: 'lembrete', clipe: 'repouso', padrao: 2, ritmo: { palavra: 1.2, pausaMs: 900 }, botao: 'Próximo',
     falas: [
       { texto: 'Eu te lembro do remédio na hora certa.', marcos: [{ palavra: 'certa', cartao: 'remedio' }] },
       { texto: 'Eu lembro da sua consulta.', substituir: true, marcos: [{ palavra: 'consulta', cartao: 'consulta' }] },
