@@ -47,8 +47,8 @@ describe('NeroAnimado (D-015)', () => {
     expect(larguraDaCaixa(360, 'repouso')).toBeCloseTo(252);
     expect(larguraDaCaixa(360, 'repouso', 'acenar')).toBeCloseTo(252);
     expect(larguraDaCaixa(360, 'pensando')).toBeCloseTo(252);
-    expect(larguraDaCaixa(360, 'comemorar')).toBeCloseTo(308);
-    expect(larguraDaCaixa(360, 'repouso', 'comemorar')).toBeCloseTo(308);
+    expect(larguraDaCaixa(360, 'comemorar')).toBeCloseTo(360 * 490 / 640);
+    expect(larguraDaCaixa(360, 'repouso', 'comemorar')).toBeCloseTo(360 * 490 / 640);
   });
 
   it('todo clipe tem duração e proporção coerentes com o arquivo', () => {

@@ -132,3 +132,10 @@ Vídeo do Gemini (`gemini_generated_video_3b6c049d.mp4`), **1280 × 720 horizont
 Comando: `FUNDO=linha FECHAMENTO=2 Y0=392 Y1=1070 CX=360 python3 scripts/processar-clipe-nero.py <quadros verticais> assets/animacoes/nero/comemorar.webp 1 126 1`
 
 **Largura da caixa:** o clipe é mais largo (308) que o aceno (252) por causa dos braços abertos. A regra antiga (largura do clipe mais largo de todos) alargaria o Nero na Home e em Minha Saúde, onde o Murilo calibrou a posição. Nova regra (`larguraDaCaixa`): a caixa é a do aceno e só cresce onde um dos clipes usados é mais largo — o modal de comemoração e a tela final do onboarding. **No onboarding, a tela final passou a usar o comemorar em loop** (antes: comemorava uma vez e ia ao repouso). Falta o pensando v2.
+
+**Correção do mesmo dia (27/09): centralização e nitidez.** O Murilo notou o Nero fora do centro e sem nitidez.
+- *Centro:* eu tinha centrado pelo meio das pernas medido com limiar 40, que pegou a sombra do chão, assimétrica (x 602). Cabeça, tronco e pernas com limiar 70 concordam em **x ≈ 632**: 30 px de erro. Recorte refeito com `X0=272`; na saída, o tronco fica a 2–3 px do meio da imagem em todo o ciclo.
+- *Nitidez:* todos os clipes tinham 360 px de altura, pensados para a Home (104 pt). No onboarding o Nero chega a 290 pt (~870 px na tela), esticado mais de 2×. O comemorar passou a **640 px, q 80: 490 × 640, 1,9 MB**.
+- **Pendente:** repouso, acenar e pensando continuam em 360 px e ficam macios no onboarding (padrão 1). Regerar em 640 px exige os vídeos originais (o repouso e o acenar vieram de vídeos de 19/09 que não estão no repositório); o pensando v2 já será processado em 640.
+
+Comando final: `FUNDO=linha FECHAMENTO=2 Y0=392 Y1=1070 CX=360 python3 scripts/processar-clipe-nero.py <quadros verticais, X0=272> assets/animacoes/nero/comemorar.webp 1 126 1 20 640 80`

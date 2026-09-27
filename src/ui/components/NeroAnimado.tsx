@@ -10,8 +10,9 @@ interface Clipe { fonte: number; largura: number; altura: number; loop: boolean;
 export const CLIPES: Record<NeroClipe, Clipe> = {
   repouso: { fonte: require('../../../assets/animacoes/nero/repouso.webp'), largura: 218, altura: 360, loop: true, duracaoMs: 4400 },
   acenar: { fonte: require('../../../assets/animacoes/nero/acenar.webp'), largura: 252, altura: 360, loop: false, duracaoMs: 3050 },
-  // v2 (27/09): 5,25 s em loop, olhos abertos no fim do ciclo; mais largo por causa dos braços abertos.
-  comemorar: { fonte: require('../../../assets/animacoes/nero/comemorar.webp'), largura: 308, altura: 360, loop: true, duracaoMs: 5250 },
+  // v2 (27/09): 5,25 s em loop, olhos abertos no fim do ciclo, centrado pelo tronco e em 640 px de altura
+  // (nítido no onboarding, onde o Nero chega a 290 pt); mais largo por causa dos braços abertos.
+  comemorar: { fonte: require('../../../assets/animacoes/nero/comemorar.webp'), largura: 490, altura: 640, loop: true, duracaoMs: 5250 },
   pensando: { fonte: require('../../../assets/animacoes/nero/pensando.webp'), largura: 248, altura: 360, loop: true, duracaoMs: 2550, parado: require('../../../assets/animacoes/nero/pensando-parado.png') },
 };
 
