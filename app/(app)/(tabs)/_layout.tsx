@@ -1,5 +1,24 @@
+import { Platform } from 'react-native';
 import { NativeTabs } from 'expo-router/unstable-native-tabs';
 import { Colors } from '@ui/theme';
+
+/**
+ * Cores do Android. Sem elas o Material 3 pinta a barra com as cores dinâmicas do papel de parede
+ * (Material You) — num aparelho de teste, lilás, fora da paleta do Nero (28/09/2026). No iOS nada
+ * disso é passado: um `backgroundColor` apagaria o Liquid Glass.
+ */
+const ANDROID = Platform.OS === 'android'
+  ? {
+      backgroundColor: Colors.surface,
+      indicatorColor: Colors.surfaceAlt,
+      rippleColor: Colors.surfaceAlt,
+      iconColor: { default: Colors.textMuted, selected: Colors.primary },
+      labelStyle: {
+        default: { color: Colors.textMuted },
+        selected: { color: Colors.primary },
+      },
+    }
+  : {};
 
 /**
  * Barra de abas nativa (D-022): no iOS 26 o sistema entrega Liquid Glass, ícone ativo em
@@ -18,7 +37,7 @@ import { Colors } from '@ui/theme';
  */
 export default function TabsLayout() {
   return (
-    <NativeTabs tintColor={Colors.primary} minimizeBehavior="never">
+    <NativeTabs tintColor={Colors.primary} minimizeBehavior="never" {...ANDROID}>
       <NativeTabs.Trigger name="index">
         <NativeTabs.Trigger.Icon sf={{ default: 'house', selected: 'house.fill' }} md="home" />
         <NativeTabs.Trigger.Label>Início</NativeTabs.Trigger.Label>

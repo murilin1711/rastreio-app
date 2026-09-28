@@ -105,7 +105,9 @@ export function FalaNero({ linhaPequena, fala, onTerminou, completar, onProgress
         transform: [{ translateY: transicao.interpolate({ inputRange: [0, 1], outputRange: [4, 0] }) }],
       }]}>
         {palavras.map((p, i) => (
-          <Text key={i} style={{ opacity: i < mostradas ? 1 : 0.18 }}>{p}{i < palavras.length - 1 ? ' ' : ''}</Text>
+          <Text key={i} style={i < mostradas ? undefined : encolhida ? styles.apagadaEncolhida : styles.apagada}>
+            {p}{i < palavras.length - 1 ? ' ' : ''}
+          </Text>
         ))}
       </Animated.Text>
     </View>
@@ -119,4 +121,8 @@ const styles = StyleSheet.create({
   fala: { fontFamily: 'Poppins-Bold' },
   grande: { fontSize: 26, lineHeight: 33, color: Colors.primary },
   encolhida: { fontSize: 18, lineHeight: 24, color: Colors.textMuted },
+  // Palavra ainda não dita: a cor final com 18% de alfa (2E). Não usar `opacity` — no Android um <Text>
+  // dentro de outro vira trecho do mesmo texto e ignora `opacity`, e a frase aparecia inteira de uma vez.
+  apagada: { color: `${Colors.primary}2E` },
+  apagadaEncolhida: { color: `${Colors.textMuted}2E` },
 });

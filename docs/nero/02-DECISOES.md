@@ -780,6 +780,27 @@ Junto: `envolverRaiz` só aplica o `Sentry.wrap` quando o Sentry foi iniciado, o
 - **Ritmo por tela** (`ritmo` no roteiro): tela 5 com 1,1× por palavra, 0,65 s entre as falas, cartões em 0,48 s e junção em 3,8 s; tela 6 com 1,2× e 0,9 s, notificações em 0,6 s. (Ajustado em três rodadas: a primeira, 1,5× e 1,3 s, ficou lenta demais; em 27/09 o Murilo pediu a tela 5 um pouco mais rápida.) **Na tela 5 o botão só aparece quando a junção no relatório termina.**
 - **Terceira rodada (26/09):** na tela 6, exame e água viraram falas separadas ("Eu te lembro de marcar seu exame." e "Eu te lembro de tomar água.", com o "te" para o Nero não parecer falar de si), uma notificação por fala; na tela 5 entrou "E muito mais." depois de "Suas medicações.", para deixar claro que não é só isso. Na tela 6, pelo mesmo motivo, "E do que mais você precisar." depois da água (palavra diferente para não repetir o "muito mais").
 - **Final:** "E te ajudo com muito mais!" (encolhe) antes de "Pronto{, nome}! Agora é só criar sua conta.", para dizer que o app faz mais do que as três demonstrações.
+
+### D-064 — Três ajustes do primeiro teste no Android — 28/09/2026
+**O Murilo testou o build Android (versionCode 2, teste interno) num aparelho e apontou três problemas.**
+
+1. **As falas do onboarding apareciam inteiras de uma vez.** Causa: cada palavra é um `<Text>` dentro do
+   `<Text>` da frase, e no Android esses trechos ignoram `opacity` (viram parte do mesmo texto). No iOS
+   funciona. **Correção:** a palavra ainda não dita recebe a cor final com 18% de alfa (`#0f2d632E`; na fala
+   encolhida, o cinza com o mesmo alfa), em vez de `opacity`. Visualmente igual no iPhone
+   (`src/modules/onboarding/FalaNero.tsx`).
+2. **Barra de abas lilás e pesada.** Causa: sem cor definida, o Material 3 usa as cores dinâmicas do papel de
+   parede (Material You). **Correção, só no Android:** fundo branco (`surface`), destaque da aba ativa em
+   `surfaceAlt`, ícone e rótulo ativos em marinho e inativos em `textMuted`. No iOS nada muda — um
+   `backgroundColor` apagaria o Liquid Glass (`app/(app)/(tabs)/_layout.tsx`). A altura é a do Material 3 e
+   não tem ajuste no `NativeTabs`; reavaliar depois de ver com as cores certas.
+3. **Ícone encostado na borda.** A 62% (§5 de `design/2026-09-24-icone-app.md`), a máscara em círculo cortava a
+   borda esquerda do N e o "+" encostava. Painel com 62 / 54 / 48% nas três máscaras e no tamanho real.
+   **Escolha do Murilo:** tela inicial a **48%** (`adaptive-icon.png` e `adaptive-icon-mono.png`); **ícone da loja
+   fica como está** (76%, `loja/icone-play-512.png`). O ícone do iOS não muda.
+
+**Falta ver no aparelho:** os três só aparecem num build Android novo (a barra nativa e o ícone não existem no
+Expo Go). Entram no próximo lote.
 ---
 
 ## Decisões clínicas (protocolos adotados)

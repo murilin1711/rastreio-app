@@ -76,6 +76,9 @@
 
 ### Teste no aparelho
 
+- [ ] **Conferir no próximo build Android os três ajustes da D-064:** a fala do onboarding aparecendo palavra por
+      palavra, a barra de abas branca sem o lilás (e se a altura ainda incomoda) e o ícone a 48% na tela inicial.
+
 - [x] ~~Gerar o build 3.~~ **Feito em 26/09:** build 3 (1.0.0), canal `production`, commit `76d93af`, pasta `ios/`
       apagada antes (agora no `.gitignore`). Enviado ao TestFlight pela EAS (`ascAppId` no `eas.json`). É o primeiro
       com atualização pelo ar, Sentry, termos/consentimento e login Apple/Google.
