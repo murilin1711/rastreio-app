@@ -76,8 +76,10 @@
 
 ### Teste no aparelho
 
-- [ ] **Conferir no próximo build Android os três ajustes da D-064:** a fala do onboarding aparecendo palavra por
+- [ ] **Conferir no build Android 3 os três ajustes da D-064:** a fala do onboarding aparecendo palavra por
       palavra, a barra de abas branca sem o lilás (e se a altura ainda incomoda) e o ícone a 48% na tela inicial.
+      Build `cc4d6af8` (versionCode 3, commit `a147786`), publicado no teste interno em 28/09 por
+      `node scripts/play-enviar-aab.mjs <URL do .aab>` — os próximos envios Android saem assim, rodados pelo Murilo.
 
 - [x] ~~Gerar o build 3.~~ **Feito em 26/09:** build 3 (1.0.0), canal `production`, commit `76d93af`, pasta `ios/`
       apagada antes (agora no `.gitignore`). Enviado ao TestFlight pela EAS (`ascAppId` no `eas.json`). É o primeiro
