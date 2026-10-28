@@ -10,6 +10,12 @@
 
 ### Contas e credenciais
 
+- [ ] **Login com o Google não entra (28/10).** Duas causas achadas: (1) na Supabase o "Skip nonce check" do
+      Google estava **desligado** (`external_google_skip_nonce_check = false`, conferido pela API), e o login
+      nativo do iOS precisa dele ligado; (2) no Google Cloud a tela de consentimento estava em **Testing** com 0
+      testadores. Ligar em Supabase › Authentication › Sign In / Providers › Google; publicar em Google Auth
+      Platform › Audience (depois de completar Branding, sem logo).
+
 - [x] **Resolvido em 28/10 (DKIM criado na Hostinger e domínio verificado no Resend): cadastro por e-mail e recuperação de senha estavam fora do ar.** A Supabase responde
       `500 "Error sending confirmation email"`. Causa: falta o TXT **DKIM `resend._domainkey`** no DNS da
       Hostinger, então o Resend não considera o domínio verificado. O resto da zona está íntegro (MX e SPF da
