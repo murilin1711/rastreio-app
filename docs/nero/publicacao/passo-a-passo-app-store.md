@@ -42,8 +42,12 @@ Salve no canto superior direito.
 ## 4. Versão 1.0 (menu lateral → "iOS App" → "1.0 Preparar para envio")
 
 ### 4.1 Pré-visualizações e capturas de tela
-- Aba **iPhone 6.9"**: arraste as 10 imagens de `~/Desktop/nero-capturas/` **na ordem dos números**
-  (01 a 10). As outras telas de iPhone usam essas automaticamente. iPad não aparece (app só para iPhone).
+- O App Store Connect recusou 1320 × 2868 ("File dimensions are invalid"). Use as pastas redimensionadas
+  em `~/Desktop/nero-capturas/`, **na ordem dos números** (01 a 10):
+  - quadro **iPhone 6.9"** → pasta `6.9-1290x2796`;
+  - quadro **iPhone 6.5"** (se for ele que aparece, ou se o 6.9" recusar) → pasta `6.5-1284x2778`;
+  - último recurso no 6.5" → pasta `6.5-1242x2688`.
+- Basta preencher um dos quadros; os outros tamanhos de iPhone usam essas imagens. iPad não aparece.
 
 ### 4.2 Cabeçalho (aba "Header and Search Results", se aparecer)
 - Product page header: `~/Desktop/nero-header/cabecalho-nero.png` (se recusar, `cabecalho-nero.jpeg`).
