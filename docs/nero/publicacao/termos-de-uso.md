@@ -69,4 +69,4 @@ Estes Termos seguem as leis brasileiras. Eventuais conflitos podem ser resolvido
 
 ## 14. Contato
 
-Murilo Roiz Póvoa · Goiânia/GO · nerosaudeapp@gmail.com · https://nerosaude.com.br/termos
+Murilo Roiz Póvoa (MEI, CNPJ 62.043.447/0001-03) · Goiânia/GO · nerosaudeapp@gmail.com · https://nerosaude.com.br/termos
