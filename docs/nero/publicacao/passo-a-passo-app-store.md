@@ -44,6 +44,8 @@ Salve no canto superior direito.
 ### 4.1 Pré-visualizações e capturas de tela
 - O App Store Connect recusou 1320 × 2868 ("File dimensions are invalid"). Use as pastas redimensionadas
   em `~/Desktop/nero-capturas/`, **na ordem dos números** (01 a 10):
+  - quadro **iPhone 6.1" / 6.3"** (o que o App Store Connect pediu em 28/10) → pasta `6.3-1206x2622`
+    (ou `6.1-1179x2556`);
   - quadro **iPhone 6.9"** → pasta `6.9-1290x2796`;
   - quadro **iPhone 6.5"** (se for ele que aparece, ou se o 6.9" recusar) → pasta `6.5-1284x2778`;
   - último recurso no 6.5" → pasta `6.5-1242x2688`.
