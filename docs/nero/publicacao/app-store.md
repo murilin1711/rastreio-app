@@ -93,28 +93,33 @@ do Google quebrados — **não usar**.
 
 ## 4. Capturas de tela
 
-- Tamanho obrigatório: **iPhone 6.9"** — 1320 × 2868 ou 1290 × 2796, retrato. (iPad não: `supportsTablet: false`.)
-- De 3 a 10 imagens; as 3 primeiras aparecem na busca, então são as que vendem.
-- Ordem sugerida:
-  1. **Onboarding** — o Nero falando ("Oi! Eu sou o Nero…").
-  2. **Home** — o painel do dia com atalhos.
-  3. **Pressão** — registros com a faixa da diretriz ao lado.
-  4. **Remédios** — horários e lembretes.
-  5. **Relatório em PDF / QR Code** — o que leva ao médico.
-  6. **Rastreamentos** — os exames que fazem sentido para o perfil.
-- Usar a **conta de revisão** com dados fictícios críveis, nunca a conta pessoal (dados de saúde reais).
-  Antes, trocar o nome "Teste" por um nome crível.
-- No iPhone: lateral + volume para cima. Um iPhone Pro Max (15/16/17) já sai no tamanho certo; outros
-  modelos saem menores e precisam ser refeitos no simulador do iPhone 17 Pro Max.
+**Prontas (28/10):** `assets/images/loja/app-store/envio/` (cópia em `~/Desktop/nero-capturas/`), 10 imagens
+de 1320 × 2868 (iPhone 6.9"), já numeradas na ordem de envio:
+
+1. Onboarding: "Oi, eu sou o Nero!"
+2. Home da Maria (sequência de 7 dias, módulos)
+3. Coração & Metabolismo (pressão, glicemia, HbA1c, LDL, peso)
+4. Rastreamentos indicados para o perfil
+5. Relatório geral (PDF e QR para o médico)
+6. Onboarding: os quatro lembretes na tela de bloqueio
+7. Minha Pressão (média, gráfico, medidas)
+8. Como está minha prevenção? (6 de 8 em dia)
+9. Onboarding: relatório e QR
+10. Levar ao médico
+
+As 3 primeiras aparecem na busca. Tiradas no simulador do iPhone 17 Pro Max com o Expo Go, na conta de
+demonstração (dados fictícios). Cabeçalho: `cabecalho-3840x1646.png`.
 
 ## 5. Revisão do app (App Review Information)
 
 ### Login
 
 - **Login exigido:** sim.
-- Usuário: `nerosaudeapp+revisao@gmail.com`
-- Senha: a de `credenciais/conta-revisao.txt` (a mesma informada ao Google Play).
-- A conta precisa ter **o aceite dos termos feito** e alguns registros, para o revisor não cair em telas vazias.
+- Usuário: `nerosaudeapp+demo@gmail.com` (Maria Oliveira, 58 anos, hipertensa, dados fictícios criados em 28/10)
+- Senha: a de `credenciais/conta-demo.txt`.
+- A conta já tem aceite dos termos, perfil completo, uma semana de pressão, glicemia, peso, exames de
+  laboratório, dois remédios e uma consulta marcada.
+- O Google Play ainda usa `nerosaudeapp+revisao@gmail.com`; vale trocar lá pela mesma conta.
 
 ### Contato
 
@@ -180,7 +185,7 @@ como nos termos e na política.
 ## 8. Antes de tocar em "Enviar para revisão"
 
 - [ ] Build 4 testado pelo TestFlight: logins da Apple e do Google, "Antes de continuar", onboarding inteiro.
-- [ ] Política nova publicada (`npm run site:publicar`): CNPJ e caixa única de aceite.
-- [ ] Conta de revisão com nome crível, aceite feito e dados de exemplo.
+- [x] Política nova publicada (`npm run site:publicar`): CNPJ e caixa única de aceite.
+- [x] Conta de revisão com nome crível, aceite feito e dados de exemplo (Maria Oliveira, 28/10).
 - [ ] Capturas de tela enviadas.
 - [ ] Liberação da versão: **"Liberar manualmente"**, para escolher o dia depois da aprovação.

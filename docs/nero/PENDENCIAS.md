@@ -82,6 +82,17 @@
 - [ ] **Declarar que não é dispositivo médico.** Apps de saúde precisam disso na revisão; as ressalvas
       dos §26 e §40 já cobrem dentro do app.
 
+### Defeitos achados nas capturas (28/10)
+
+- [ ] **Comemoração da sequência de 7 dias reaparece toda vez que a Home abre.** Visto na conta de demonstração
+      com `marco_sequencia_comemorado = 7` já gravado: a cada volta à Home (e a cada abertura do app) o modal
+      "Uma semana inteira de registros." surge de novo. Suspeita: `useSequencia` calcula com `doPerfil = 0`
+      antes de o perfil carregar (`src/core/bemestar/useSequencia.ts`, `base = Math.max(doPerfil, …)`), e o
+      `comemorado` em `useRef` se perde quando a Home remonta. Vai afetar todo usuário que chegar a 3, 7, 30 ou
+      100 dias. Corrigir antes do lançamento aberto (dá para mandar por atualização pelo ar).
+- [ ] **Nomes dos rastreamentos com maiúsculas estranhas** na tela "Seus rastreamentos": "De Mama",
+      "Colo Do Útero", "De Pulmão". O certo seria "Mama", "Colo do útero", "Pulmão".
+
 ### Teste no aparelho
 
 - [ ] **Conferir no build Android 3 os três ajustes da D-064:** a fala do onboarding aparecendo palavra por
