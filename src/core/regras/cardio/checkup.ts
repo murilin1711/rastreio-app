@@ -13,7 +13,7 @@ export function avaliarCheckup(f: FontesCheckup, perfil: { temDiabetes: boolean 
     { chave: 'glicemia_hba1c', rotulo: 'Glicemia / HbA1c', atualizado: glicemiaNaoSeAplica || ok('hba1c', f.glicemiaOuHba1c), naoSeAplica: glicemiaNaoSeAplica || undefined, frase: glicemiaNaoSeAplica ? 'Não se aplica: sem diabetes no perfil.' : 'Falta atualizar sua hemoglobina glicada ou glicemia.' },
     { chave: 'lipidios', rotulo: 'Perfil lipídico', atualizado: ok('lipidios', f.lipidios), frase: 'Falta atualizar seu perfil lipídico.' },
     { chave: 'renal', rotulo: 'Função renal', atualizado: ok('renal', f.renal), frase: 'Falta atualizar sua creatinina ou TFG.' },
-    { chave: 'atividade', rotulo: 'Atividade física', atualizado: ok('peso', f.atividadeFisica), frase: 'Falta registrar sua atividade física (chega na próxima fase).' },
+    { chave: 'atividade', rotulo: 'Atividade física', atualizado: ok('peso', f.atividadeFisica), frase: 'Falta registrar sua atividade física em Saúde & Bem-estar.' },
     { chave: 'risco', rotulo: 'Risco cardiovascular', atualizado: ok('risco', f.risco), frase: 'Falta calcular (ou atualizar) seu risco cardiovascular.' },
   ];
   return { itens, total: 8, atualizados: itens.filter((i) => i.atualizado).length };

@@ -12,11 +12,15 @@ import { hojeLocalISO } from './useAtividades';
  * O marco já comemorado fica também num ref: depois de gravar não dá para esperar o perfil
  * recarregar para saber disso, e depender da identidade do `recarregar` do perfil põe o efeito
  * em laço (foi o que o teste de regressão pegou).
+ *
+ * Só decide o marco com o perfil carregado: antes disso o marco comemorado parece 0 e a
+ * comemoração voltava a cada vez que a Home montava (28/10).
  */
 export function useSequencia() {
   const { sessao } = useSessao();
   const userId = sessao?.user.id;
   const { perfil } = usePerfil();
+  const perfilPronto = perfil != null;
   const doPerfil = perfil?.marcoSequenciaComemorado ?? 0;
   const [resumo, setResumo] = useState<{ sequencia: number; total: number }>({ sequencia: 0, total: 0 });
   const [marco, setMarco] = useState<MarcoSequencia | null>(null);
@@ -28,6 +32,7 @@ export function useSequencia() {
       const dias = await listarDiasAtivos(userId);
       const r = resumoSequencia(dias, hojeLocalISO());
       setResumo(r);
+      if (!perfilPronto) return;
       const base = Math.max(doPerfil, comemorado.current);
       const novo = marcoSequencia(r.sequencia, base);
       if (novo != null) {
@@ -38,7 +43,7 @@ export function useSequencia() {
     } catch {
       // a sequência é enfeite: falha aqui não pode atrapalhar a Home
     }
-  }, [userId, doPerfil]);
+  }, [userId, perfilPronto, doPerfil]);
 
   useEffect(() => { recarregar(); }, [recarregar]);
 

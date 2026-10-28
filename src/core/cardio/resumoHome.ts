@@ -22,13 +22,14 @@ const ROTULO_MOMENTO_CURTO: Record<string, string> = { jejum: 'em jejum', antes_
 /** Fontes do check-up (§24) a partir do banco. */
 export async function montarFontesCheckup(userId: string, perfil: PerfilSaude): Promise<FontesCheckup> {
   const desde7 = new Date(Date.now() - 7 * DIA_MS).toISOString();
-  const [casuais, sessoes, exames, gli, peso, risco] = await Promise.all([
+  const [casuais, sessoes, exames, gli, peso, risco, atividade] = await Promise.all([
     medidasRepo.listarPA(userId, { sessaoId: null, desde: desde7 }),
     sessoesRepo.listarSessoes(userId),
     ultimoPorTipo(userId, ['colesterol_total', 'hdl', 'ldl', 'creatinina', 'tfg', 'hba1c']),
     listarGlicemia(userId, { limite: 1 }),
     supabase.from('medidas').select('medido_em').eq('user_id', userId).eq('tipo', 'peso').order('medido_em', { ascending: false }).limit(1).maybeSingle(),
     supabase.from('riscos_cv').select('calculado_em').eq('user_id', userId).order('calculado_em', { ascending: false }).limit(1).maybeSingle(),
+    supabase.from('atividades').select('inicio').eq('user_id', userId).order('inicio', { ascending: false }).limit(1).maybeSingle(),
   ]);
   const mrpa = sessoes.find((s) => s.status === 'concluida' && s.resultado?.valido);
   const lip = [exames.colesterol_total, exames.hdl, exames.ldl].filter(Boolean).map((e) => e!.dataRealizacao).sort().pop() ?? null;
@@ -42,7 +43,7 @@ export async function montarFontesCheckup(userId: string, perfil: PerfilSaude): 
     glicemiaOuHba1c: gliData,
     lipidios: lip,
     renal,
-    atividadeFisica: null,
+    atividadeFisica: atividade.data?.inicio.slice(0, 10) ?? null,
     risco: risco.data?.calculado_em.slice(0, 10) ?? null,
   };
 }

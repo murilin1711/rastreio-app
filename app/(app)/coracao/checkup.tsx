@@ -8,7 +8,7 @@ import type { ItemCheckup } from '@core/regras/cardio/tiposRisco';
 import { Colors, InternalHeader, Spacing, Typography } from '@ui/index';
 import { useAbrir } from '@core/navegacao/useVoltar';
 
-const ROTA: Record<ItemCheckup['chave'], string> = { pa: '/(app)/coracao/pressao', peso: '/(app)/coracao/risco/dados', tabagismo: '/(app)/(tabs)/minha-saude/perfil', glicemia_hba1c: '/(app)/coracao/exames/registrar', lipidios: '/(app)/coracao/exames/registrar', renal: '/(app)/coracao/exames/registrar', atividade: '/(app)/coracao', risco: '/(app)/coracao/risco' };
+const ROTA: Record<ItemCheckup['chave'], string> = { pa: '/(app)/coracao/pressao', peso: '/(app)/coracao/risco/dados', tabagismo: '/(app)/(tabs)/minha-saude/perfil', glicemia_hba1c: '/(app)/coracao/exames/registrar', lipidios: '/(app)/coracao/exames/registrar', renal: '/(app)/coracao/exames/registrar', atividade: '/(app)/bem-estar/atividade', risco: '/(app)/coracao/risco' };
 
 /** "Como está minha prevenção?" (§24): n/8 pelas janelas de C-014, sem pedir exames além dos que o módulo usa. */
 export default function Checkup() {

@@ -24,3 +24,12 @@ test('sem diabetes: glicemia/HbA1c não se aplica e conta como atualizado', () =
   expect(g).toMatchObject({ atualizado: true, naoSeAplica: true });
   expect(r.atualizados).toBe(1);
 });
+
+test('atividade física: aponta para o registro no Bem-estar e vale pela janela de 30 dias', () => {
+  const base = { pa: { data: null, ehMrpa: false, nCasual7d: 0 }, peso: null, tabagismoAtualizadoEm: null, glicemiaOuHba1c: null, lipidios: null, renal: null, risco: null };
+  const sem = avaliarCheckup({ ...base, atividadeFisica: null }, { temDiabetes: false }, hoje, p).itens.find((i) => i.chave === 'atividade')!;
+  expect(sem.atualizado).toBe(false);
+  expect(sem.frase).toBe('Falta registrar sua atividade física em Saúde & Bem-estar.');
+  const com = avaliarCheckup({ ...base, atividadeFisica: dias(5) }, { temDiabetes: false }, hoje, p).itens.find((i) => i.chave === 'atividade')!;
+  expect(com.atualizado).toBe(true);
+});

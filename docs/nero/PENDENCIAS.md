@@ -84,14 +84,18 @@
 
 ### Defeitos achados nas capturas (28/10)
 
-- [ ] **Comemoração da sequência de 7 dias reaparece toda vez que a Home abre.** Visto na conta de demonstração
+- [x] **Corrigido em 28/10 (`useSequencia` espera o perfil; teste de regressão).** Comemoração da sequência de 7 dias reaparecia toda vez que a Home abria. Visto na conta de demonstração
       com `marco_sequencia_comemorado = 7` já gravado: a cada volta à Home (e a cada abertura do app) o modal
       "Uma semana inteira de registros." surge de novo. Suspeita: `useSequencia` calcula com `doPerfil = 0`
       antes de o perfil carregar (`src/core/bemestar/useSequencia.ts`, `base = Math.max(doPerfil, …)`), e o
       `comemorado` em `useRef` se perde quando a Home remonta. Vai afetar todo usuário que chegar a 3, 7, 30 ou
       100 dias. Corrigir antes do lançamento aberto (dá para mandar por atualização pelo ar).
-- [ ] **Nomes dos rastreamentos com maiúsculas estranhas** na tela "Seus rastreamentos": "De Mama",
+- [x] **Corrigido em 28/10 (`nomeCurto`, com teste).** Nomes dos rastreamentos com maiúsculas estranhas na tela "Seus rastreamentos": "De Mama",
       "Colo Do Útero", "De Pulmão". O certo seria "Mama", "Colo do útero", "Pulmão".
+- [x] **Corrigido em 28/10 (teste em `checkup.test.ts`).** No check-up "Como está minha prevenção?", a atividade
+      física estava fixa em `null` em `montarFontesCheckup`: o item nunca ficava em dia (ninguém passava de 7/8) e
+      dizia "chega na próxima fase", embora o registro de atividade já exista. Agora lê a última atividade e
+      leva para Saúde & Bem-estar › Atividade.
 
 ### Teste no aparelho
 

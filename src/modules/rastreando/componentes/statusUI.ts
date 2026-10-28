@@ -19,3 +19,9 @@ export function dataBr(iso: string | null | undefined): string {
   if (!iso) return '';
   return `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.slice(0, 4)}`;
 }
+
+/** Nome do programa no card: "Câncer do colo do útero" → "Colo do útero". */
+export function nomeCurto(titulo: string): string {
+  const s = titulo.replace(/^Câncer /, '').replace(/^d[eoa] /, '');
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}

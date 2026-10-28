@@ -6,7 +6,7 @@ import type { PendenciaAberta } from '@core/rastreando/contexto';
 import type { Programa, ResultadoElegibilidade } from '@core/regras/tipos';
 import { CONTEUDO } from '@modules/rastreando/conteudo';
 import { Colors, Radius, Shadows, Spacing, StatusBadge, Typography } from '@ui/index';
-import { dataBr, NIVEL_PENDENCIA, STATUS_UI } from './statusUI';
+import { dataBr, NIVEL_PENDENCIA, nomeCurto, STATUS_UI } from './statusUI';
 
 interface Props {
   programa: Programa;
@@ -40,7 +40,7 @@ export function CardPrograma({ programa, avaliacao, pendencia, sintomas, onPress
         <Ionicons name={c.icone as keyof typeof Ionicons.glyphMap} size={30} color="rgba(255,255,255,0.92)" />
       </LinearGradient>
       <View style={styles.corpo}>
-        <Text style={styles.titulo} numberOfLines={1}>{c.titulo.replace('Câncer ', '').replace(/^d[oa] /, '')}</Text>
+        <Text style={styles.titulo} numberOfLines={1}>{nomeCurto(c.titulo)}</Text>
         <StatusBadge nivel={badge.nivel} label={badge.rotulo} />
         <Text style={styles.linha} numberOfLines={2}>{linha}</Text>
       </View>
@@ -52,6 +52,6 @@ const styles = StyleSheet.create({
   card: { flex: 1, backgroundColor: Colors.surface, borderRadius: Radius.bloco, overflow: 'hidden', borderWidth: 1, borderColor: Colors.border, ...Shadows.card },
   capa: { height: 72, alignItems: 'center', justifyContent: 'center' },
   corpo: { padding: Spacing.md, gap: 6, minHeight: 96 },
-  titulo: { ...Typography.subheading, color: Colors.textPrimary, textTransform: 'capitalize' },
+  titulo: { ...Typography.subheading, color: Colors.textPrimary },
   linha: { ...Typography.caption, color: Colors.textSecondary },
 });

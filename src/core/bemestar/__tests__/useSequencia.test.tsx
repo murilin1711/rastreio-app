@@ -10,12 +10,13 @@ import { Text } from 'react-native';
 let mockMarcos: number[] = [];
 let mockMarcoNoPerfil = 0;
 let mockRecargasPerfil = 0;
+let mockPerfilCarregado = true;
 
 jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: { user: { id: 'u1' } }, carregando: false, online: true, sair: jest.fn() }) }));
 jest.mock('@core/perfil/usePerfil', () => ({
   usePerfil: () => ({
-    perfil: { marcoSequenciaComemorado: mockMarcoNoPerfil },
-    carregando: false,
+    perfil: mockPerfilCarregado ? { marcoSequenciaComemorado: mockMarcoNoPerfil } : null,
+    carregando: !mockPerfilCarregado,
     recarregar: async () => { mockRecargasPerfil++; },
   }),
 }));
@@ -33,7 +34,7 @@ function Sonda() {
   return <Text>{`${s.sequencia}/${s.total}/${s.marco ?? '-'}`}</Text>;
 }
 
-beforeEach(() => { mockMarcos = []; mockMarcoNoPerfil = 0; mockRecargasPerfil = 0; });
+beforeEach(() => { mockMarcos = []; mockMarcoNoPerfil = 0; mockRecargasPerfil = 0; mockPerfilCarregado = true; });
 
 it('conta a sequência e grava o marco de 3 dias uma única vez', async () => {
   let arvore: any;
@@ -48,4 +49,19 @@ it('quem já comemorou o marco não grava de novo', async () => {
   await act(async () => { create(<Sonda />); });
   for (let i = 0; i < 3; i++) await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
   expect(mockMarcos).toEqual([]);
+});
+
+// Regressão de 28/10: a Home monta com o perfil ainda carregando. Sem esperar por ele, o marco
+// comemorado parecia 0 e a comemoração voltava a cada abertura da Home.
+it('espera o perfil carregar antes de decidir se há marco novo', async () => {
+  mockMarcoNoPerfil = 3;
+  mockPerfilCarregado = false;
+  let arvore: any;
+  await act(async () => { arvore = create(<Sonda />); });
+  for (let i = 0; i < 3; i++) await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
+  mockPerfilCarregado = true;
+  await act(async () => { arvore.update(<Sonda />); });
+  for (let i = 0; i < 3; i++) await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
+  expect(mockMarcos).toEqual([]);
+  expect(arvore.toJSON().children[0]).toBe('3/3/-');
 });
