@@ -8,6 +8,12 @@
 
 ## 1. Bloqueia a publicação
 
+> **28/10/2026: versão 1.0.0 (build 4 + atualização pelo ar `a9aab62a`) enviada para revisão da Apple**, com
+> liberação manual, idioma principal português, só Brasil, grátis, conta de demonstração Maria Oliveira.
+> Depois da aprovação: App Store Connect › versão 1.0 › "Liberar esta versão".
+> Risco conhecido em aberto: excluir conta não revoga o token do "Entrar com a Apple" (diretriz 5.1.1(v)).
+> Se a Apple recusar por isso, implementar a revogação (função no servidor com a chave .p8 da Apple).
+
 ### Contas e credenciais
 
 - [x] **Resolvido em 28/10: Apple e Google entrando no build 4 (testado pelo Murilo no TestFlight).** Login com o Google não entrava. Duas causas achadas: (1) na Supabase o "Skip nonce check" do
