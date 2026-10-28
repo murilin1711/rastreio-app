@@ -10,7 +10,7 @@
 
 ### Contas e credenciais
 
-- [ ] **URGENTE (achado em 28/10): cadastro por e-mail e recuperação de senha fora do ar.** A Supabase responde
+- [x] **Resolvido em 28/10 (DKIM criado na Hostinger e domínio verificado no Resend): cadastro por e-mail e recuperação de senha estavam fora do ar.** A Supabase responde
       `500 "Error sending confirmation email"`. Causa: falta o TXT **DKIM `resend._domainkey`** no DNS da
       Hostinger, então o Resend não considera o domínio verificado. O resto da zona está íntegro (MX e SPF da
       Hostinger, verificação do Google, DMARC, `www` e os CNAME `send`/`rsend` → `*.forge.rmta.net`). O SMTP na
