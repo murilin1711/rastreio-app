@@ -10,6 +10,14 @@
 
 ### Contas e credenciais
 
+- [ ] **URGENTE (achado em 28/10): cadastro por e-mail e recuperação de senha fora do ar.** A Supabase responde
+      `500 "Error sending confirmation email"`. Causa: a zona DNS de `nerosaude.com.br` na Hostinger foi alterada
+      em 22/10 (serial `2026102201` no SOA) e ficou só com o `A` da Vercel. Sumiram os registros do Resend
+      (`send` MX/TXT e `resend._domainkey`), o MX da Hostinger e o TXT do Google Search Console. O SMTP na
+      Supabase está correto (conferido pela API). Conserto: copiar os registros do painel do Resend
+      (Domains › nerosaude.com.br) para o DNS da Hostinger, clicar "Verify" no Resend e testar um cadastro.
+      Apple e Google continuam entrando, porque não usam e-mail.
+
 - [x] **Google Play Console — conta criada, paga e verificada em 27/09.** Conta de **Organização** no
       CNPJ do Murilo (o Google exige organização para "apps médicos"; o Nero cai em "Medication and
       Treatment Management" e "Diseases and Conditions Management" — fontes:
