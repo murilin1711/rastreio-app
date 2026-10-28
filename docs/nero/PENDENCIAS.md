@@ -11,11 +11,11 @@
 ### Contas e credenciais
 
 - [ ] **URGENTE (achado em 28/10): cadastro por e-mail e recuperação de senha fora do ar.** A Supabase responde
-      `500 "Error sending confirmation email"`. Causa: a zona DNS de `nerosaude.com.br` na Hostinger foi alterada
-      em 22/10 (serial `2026102201` no SOA) e ficou só com o `A` da Vercel. Sumiram os registros do Resend
-      (`send` MX/TXT e `resend._domainkey`), o MX da Hostinger e o TXT do Google Search Console. O SMTP na
-      Supabase está correto (conferido pela API). Conserto: copiar os registros do painel do Resend
-      (Domains › nerosaude.com.br) para o DNS da Hostinger, clicar "Verify" no Resend e testar um cadastro.
+      `500 "Error sending confirmation email"`. Causa: falta o TXT **DKIM `resend._domainkey`** no DNS da
+      Hostinger, então o Resend não considera o domínio verificado. O resto da zona está íntegro (MX e SPF da
+      Hostinger, verificação do Google, DMARC, `www` e os CNAME `send`/`rsend` → `*.forge.rmta.net`). O SMTP na
+      Supabase está correto (conferido pela API). Conserto: criar o TXT com o valor do painel do Resend
+      (Domains › nerosaude.com.br), clicar "Verify" no Resend e testar um cadastro.
       Apple e Google continuam entrando, porque não usam e-mail.
 
 - [x] **Google Play Console — conta criada, paga e verificada em 27/09.** Conta de **Organização** no
