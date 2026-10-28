@@ -10,7 +10,7 @@
 
 ### Contas e credenciais
 
-- [ ] **Login com o Google não entra (28/10).** Duas causas achadas: (1) na Supabase o "Skip nonce check" do
+- [x] **Resolvido em 28/10: Apple e Google entrando no build 4 (testado pelo Murilo no TestFlight).** Login com o Google não entrava. Duas causas achadas: (1) na Supabase o "Skip nonce check" do
       Google estava **desligado** (`external_google_skip_nonce_check = false`, conferido pela API), e o login
       nativo do iOS precisa dele ligado; (2) no Google Cloud a tela de consentimento estava em **Testing** com 0
       testadores. Ligar em Supabase › Authentication › Sign In / Providers › Google; publicar em Google Auth
