@@ -11,6 +11,7 @@ import { LinhaDocumento } from '@modules/minha-saude/componentes/LinhaDocumento'
 import { CONTEUDO } from '@modules/rastreando/conteudo';
 import { Button, Colors, InternalHeader, Spacing, Typography } from '@ui/index';
 import { useAbrir } from '@core/navegacao/useVoltar';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 export default function Exames() {
   const router = useRouter();
@@ -44,6 +45,7 @@ export default function Exames() {
             );
           })}
         </View>
+        <FontesDaTela tema={p} />
       </ScrollView>
     </SafeAreaView>
   );

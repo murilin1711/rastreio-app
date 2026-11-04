@@ -10,6 +10,7 @@ import { CardPrograma } from '@modules/rastreando/componentes/CardPrograma';
 import { NIVEL_PENDENCIA } from '@modules/rastreando/componentes/statusUI';
 import { Alerta, Button, Colors, LogoNero, Radius, SaidaConcluida, Spacing, Typography, useSaidaConcluida } from '@ui/index';
 import { useAbrir } from '@core/navegacao/useVoltar';
+import { LinkFontes } from '@modules/fontes/FontesDaTela';
 
 /** "Seus rastreamentos" (§28, §37): só o que é aplicável ao perfil, com o que exige ação no topo. */
 export default function Rastreando() {
@@ -89,6 +90,7 @@ export default function Rastreando() {
           <Button label="Relatório de rastreamento" variant="outline" onPress={() => abrir({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: 'oncologico', dias: '180' } })} />
         </View>
         <Text style={styles.rodape}>O NERO organiza as recomendações para o seu perfil e não substitui a avaliação do seu médico.</Text>
+        <LinkFontes />
       </ScrollView>
     </SafeAreaView>
   );

@@ -1,5 +1,6 @@
 import { TITULO_COMPLEMENTO, type Bloco, type Periodo, type SecaoRelatorio, type TipoRelatorio } from './tipos';
 import { CREDITOS } from '@core/publicacao';
+import { fontesDoRelatorio } from './fontes';
 
 /** Ressalvas literais da especificação — nunca reescrever. */
 export const RESSALVA_CARDIO = 'Este relatório organiza suas aferições domiciliares e não substitui a interpretação realizada pelo seu médico.';
@@ -57,6 +58,9 @@ tbody tr:nth-child(even) td { background: #F5F7FB; }
 .barra .preenchido { display: block; height: 100%; background: #5B8DB8; }
 .barra .valor { width: 60px; text-align: right; }
 .chip { display: inline-block; border-radius: 12px; padding: 2px 10px; font-size: 9.5pt; font-weight: 600; }
+.fontes { page-break-inside: auto; break-inside: auto; font-size: 8.5pt; }
+.fontes ol { margin: 4px 0; padding-left: 18px; }
+.fontes a { color: #0f2d63; word-break: break-all; }
 footer { margin-top: 24px; border-top: 1px solid #DCE2EE; padding-top: 8px; font-size: 8.5pt; color: #4A5C7A; }
 footer p { margin: 3px 0; }
 `;
@@ -78,6 +82,13 @@ function dataBr(iso: string | null): string {
   return `${d}/${m}/${a}`;
 }
 
+/** Referências com o link escrito por extenso: o PDF também é impresso, e no papel o link não abre. */
+function blocoFontes(secoes: SecaoRelatorio[]): string {
+  const fontes = fontesDoRelatorio(secoes);
+  if (!fontes.length) return '';
+  return `<section class="fontes"><h2>Fontes</h2><ol>${fontes.map((f) => `<li>${escapar(f.titulo.replace(/\.$/, ''))}. ${escapar(f.emissor)}, ${f.ano}. <a href="${escapar(f.url)}">${escapar(f.url)}</a></li>`).join('')}</ol></section>`;
+}
+
 export function htmlRelatorio(e: EntradaHtml): string {
   const ressalvas = ressalvasPara(e.tipo);
   const dt = new Date(e.geradoEm);
@@ -85,6 +96,7 @@ export function htmlRelatorio(e: EntradaHtml): string {
   return `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><title>${escapar(e.titulo)}</title><style>${CSS}</style></head><body>
 <header><div><div class="marca">NERO</div><h1>${escapar(e.titulo)}</h1><div class="meta">${escapar(e.paciente.nome)}${e.paciente.nascimento ? ` · nascimento ${dataBr(e.paciente.nascimento)}` : ''}<br>Período das medidas: ${escapar(e.periodo.rotulo)} (${dataBr(e.periodo.desde)} a ${dataBr(e.periodo.ate)})<br>Gerado em ${geradoEm}</div></div>${e.qrSvg ? `<div class="qr">${e.qrSvg}</div>` : ''}</header>
 ${e.secoes.map((s) => `${s.abreComplemento ? `<h2 class="complemento">${escapar(TITULO_COMPLEMENTO)}</h2>` : ''}<section><h2>${escapar(s.titulo)}</h2>${s.blocos.map(bloco).join('')}</section>`).join('\n')}
+${blocoFontes(e.secoes)}
 <footer>${ressalvas.map((r) => `<p>${escapar(r)}</p>`).join('')}<p>Gerado pelo NERO em ${geradoEm} · dados registrados pelo paciente.${e.validadeQr ? ` O código QR dá acesso a este PDF até ${escapar(e.validadeQr)}.` : ''}</p><p>${escapar(CREDITOS)}.</p></footer>
 </body></html>`;
 }

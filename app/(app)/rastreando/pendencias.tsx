@@ -6,6 +6,7 @@ import { useRastreando } from '@core/rastreando/useRastreando';
 import { resumoResultado } from '@modules/rastreando/componentes/CartaoExame';
 import { dataBr, NIVEL_PENDENCIA } from '@modules/rastreando/componentes/statusUI';
 import { Button, Card, Colors, InternalHeader, SaidaConcluida, Spacing, StatusBadge, Typography, useSaidaConcluida } from '@ui/index';
+import { LinkFontes } from '@modules/fontes/FontesDaTela';
 
 /** §50: exames cujo fluxo ainda não foi concluído. */
 export default function Pendencias() {
@@ -40,6 +41,7 @@ export default function Pendencias() {
             );
           })}
         </View>
+        <LinkFontes />
       </ScrollView>
     </SafeAreaView>
   );

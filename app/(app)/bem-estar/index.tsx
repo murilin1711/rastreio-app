@@ -11,6 +11,7 @@ import { TEXTO_CHECKIN } from '@modules/bem-estar/conteudo/checkin';
 import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
 import { Button, Colors, InternalHeader, ListItem, ModalComemoracao, NeroAnimado, Radius, Spacing, Typography } from '@ui/index';
 import { useAbrir } from '@core/navegacao/useVoltar';
+import { LinkFontes } from '@modules/fontes/FontesDaTela';
 
 const fmt = (n: number) => String(n).replace('.', ',');
 
@@ -58,6 +59,7 @@ export default function BemEstar() {
           <ListItem icon="chatbubble-ellipses-outline" title="Check-in semanal" subtitle="Como foi sua semana, de 0 a 10" onPress={() => abrir('/(app)/bem-estar/checkin')} />
           <ListItem icon="document-text-outline" title="Relatório de Saúde & Hábitos" subtitle="PDF para clínico, endocrinologista, nutricionista ou educador físico" onPress={() => abrir({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: 'bemestar', dias: '90' } })} />
         </View>
+        <LinkFontes />
       </ScrollView>
       <ModalComemoracao conteudo={conquistas.proxima ? TEXTO_CONQUISTA[conquistas.proxima] : null} aoFechar={conquistas.dispensar} />
     </SafeAreaView>

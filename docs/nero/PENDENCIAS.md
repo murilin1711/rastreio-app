@@ -21,8 +21,11 @@
 >   corretor, e nova tentativa sem os espaços das pontas quando a senha exata falha.
 > - **1.4.1 (informação médica sem citação):** a Apple quer link para as fontes. Feito: catálogo
 >   `src/core/referencias/catalogo.ts` (espelha `referencias/REFERENCIAS.md`), bloco "Fontes" com links no
->   pé de 33 telas clínicas e a tela "Fontes científicas" (Minha Saúde › Ajuda). **Ao trocar uma
->   referência no acervo, trocar no catálogo também.**
+>   pé de 37 telas clínicas e na prévia do relatório, seção "Fontes" no PDF, link para o acervo nas telas
+>   de índice e diário (Alimentação, Check-in e Metas não têm referência própria, por isso só o link) e a
+>   tela "Fontes científicas" (Minha Saúde › Ajuda). **Ao trocar uma referência no acervo, trocar no
+>   catálogo também.** A escolha de fontes por assunto (`FONTES_POR_TEMA`) ainda precisa de revisão clínica.
+> - Senha da conta de demonstração trocada em 03/11 por uma só de letras e números (`credenciais/conta-demo.txt`).
 > - Falta: novo build, resposta no App Store Connect (texto em `publicacao/app-store.md` §5) e reenvio.
 
 ### Contas e credenciais

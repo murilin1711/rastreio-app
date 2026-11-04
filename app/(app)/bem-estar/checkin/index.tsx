@@ -12,6 +12,7 @@ import { PERGUNTAS_CHECKIN, TEXTO_CHECKIN } from '@modules/bem-estar/conteudo/ch
 import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
 import { dataCurtaBr } from '@modules/coracao/componentes/formato';
 import { Button, Card, Colors, Input, InternalHeader, ModalComemoracao, Spacing, Typography } from '@ui/index';
+import { LinkFontes } from '@modules/fontes/FontesDaTela';
 
 type Chave = (typeof PERGUNTAS_CHECKIN)[number]['chave'];
 type Respostas = Pick<Checkin, Chave>;
@@ -68,6 +69,7 @@ export default function CheckinSemanal() {
             </Card>
           </>
         ) : null}
+        <LinkFontes />
       </ScrollView>
       <ModalComemoracao
         conteudo={conquistas.proxima ? TEXTO_CONQUISTA[conquistas.proxima] : null}

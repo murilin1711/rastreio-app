@@ -10,6 +10,7 @@ import { traduzirErro } from '@core/supabase/erros';
 import { BlocoPeriodo } from '@modules/coracao/componentes/BlocoPeriodo';
 import { dataLongaBr } from '@modules/coracao/componentes/formato';
 import { Button, Colors, InternalHeader, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 /** Tela diária da MRPA (§2, C-011): "Dia 3 de 6", blocos manhã/noite, concluir só após o último dia. */
 export default function SessaoMrpaTela() {
@@ -83,6 +84,7 @@ export default function SessaoMrpaTela() {
           {!podeConcluir ? <Text style={styles.ajuda}>Disponível a partir do dia {total}.</Text> : null}
           <Button label="Cancelar MRPA" variant="ghost" onPress={confirmarCancelar} disabled={processando} />
         </View>
+        <FontesDaTela tema="mrpa" />
       </ScrollView>
     </SafeAreaView>
   );

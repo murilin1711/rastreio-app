@@ -134,7 +134,7 @@ DEMO ACCOUNT
 Use the credentials above. The account already has sample records (blood pressure, glucose, medications, appointments) so every screen has content. Sign in with Apple and Google sign-in are also available on the login screen.
 
 WHAT THE APP DOES
-Users manually enter their own data: blood pressure, blood glucose, medications and schedules, lab results, cancer screening exams, water intake, sleep, body measurements and appointments. Next to each record the app shows what the Brazilian medical society guidelines recommend. Every screen with health information ends with a "Fontes" (Sources) box listing the guidelines it is based on, each one a link to the original document. The full list is in Minha Saúde tab > Fontes científicas. Users can generate a PDF report to bring to their doctor and optionally share it through a QR code link that expires after 7 days and can be revoked.
+Users manually enter their own data: blood pressure, blood glucose, medications and schedules, lab results, cancer screening exams, water intake, sleep, body measurements and appointments. Next to each record the app shows what the Brazilian medical society guidelines recommend. Every screen with health information ends with a "Fontes" (Sources) box listing the guidelines it is based on, each one a link to the original document. PDF reports list their sources too. The full list is in Minha Saúde tab > Ajuda > Fontes científicas. Users can generate a PDF report to bring to their doctor and optionally share it through a QR code link that expires after 7 days and can be revoked.
 
 NOT A MEDICAL DEVICE (Guideline 1.4.1)
 The app does not measure anything with the device's sensors or camera, does not diagnose, does not prescribe and does not replace a physician. All values are typed in by the user. This disclaimer is shown inside the app and in the store description. When the user marks an alarm symptom, the app only advises seeking medical care. Clinical content was written with Dr. Denise Padilha, a licensed physician (CRM/AL 12430, Brazil).
@@ -173,7 +173,9 @@ the guidelines used, and each item opens the original document. Examples:
 - Coração & Metabolismo > Minha Glicemia: Brazilian Diabetes Society Guideline 2026.
 - Coração & Metabolismo > Minha Pressão: Brazilian Hypertension Guideline 2025.
 - Rastreando (cancer screening): INCA, CONITEC, CBR/SBM/FEBRASGO, USPSTF and others.
-The complete list of sources is also available at Minha Saúde tab > Ajuda > Fontes científicas.
+The PDF reports (Minha Saúde tab > Levar ao médico) also list the sources of the sections they include,
+with the full link. The complete list of sources is available at Minha Saúde tab > Ajuda > Fontes científicas,
+and overview screens link to it.
 ```
 
 ## 6. Privacidade do app (App Privacy — "nutrition label")

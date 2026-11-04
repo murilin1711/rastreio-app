@@ -29,19 +29,31 @@ export function LinhaFonte({ referencia }: { referencia: Referencia }) {
  * Bloco "Fontes" no pé de toda tela com informação clínica (diretriz 1.4.1 da App Store): cada
  * referência abre o documento original, e o link do fim leva ao acervo completo.
  */
-export function FontesDaTela({ tema }: { tema: TemaFonte }) {
+export function FontesDaTela({ tema, referencias }: { tema?: TemaFonte; referencias?: (Referencia & { id: string })[] }) {
   const router = useRouter();
+  const lista = referencias ?? (tema ? fontesDoTema(tema) : []);
   return (
     <View style={styles.caixa} testID="fontes-da-tela">
       <View style={styles.cabecalho}>
         <Ionicons name="library-outline" size={18} color={Colors.primary} />
         <Text style={styles.rotulo}>Fontes</Text>
       </View>
-      {fontesDoTema(tema).map((r) => <LinhaFonte key={r.id} referencia={r} />)}
+      {lista.map((r) => <LinhaFonte key={r.id} referencia={r} />)}
       <TouchableOpacity onPress={() => router.push('/(app)/fontes')} accessibilityRole="link">
         <Text style={styles.todas}>Ver todas as fontes científicas</Text>
       </TouchableOpacity>
     </View>
+  );
+}
+
+/** Para telas sem referência própria (índices, diários): só leva ao acervo, sem citar o que não se aplica. */
+export function LinkFontes() {
+  const router = useRouter();
+  return (
+    <TouchableOpacity onPress={() => router.push('/(app)/fontes')} style={styles.link} accessibilityRole="link">
+      <Ionicons name="library-outline" size={16} color={Colors.accent} />
+      <Text style={styles.linkTexto}>Fontes científicas do NERO</Text>
+    </TouchableOpacity>
   );
 }
 
@@ -52,5 +64,7 @@ const styles = StyleSheet.create({
   linha: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md, paddingVertical: Spacing.xs },
   titulo: { ...Typography.caption, color: Colors.textPrimary },
   emissor: { ...Typography.caption, color: Colors.textSecondary },
+  link: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: Spacing.xs, paddingVertical: Spacing.md, marginTop: Spacing.lg },
+  linkTexto: { ...Typography.caption, fontFamily: 'Poppins-SemiBold', color: Colors.accent },
   todas: { ...Typography.caption, fontFamily: 'Poppins-SemiBold', color: Colors.accent, marginTop: Spacing.xs },
 });

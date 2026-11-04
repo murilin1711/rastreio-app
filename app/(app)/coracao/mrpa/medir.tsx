@@ -10,6 +10,7 @@ import { Cronometro } from '@modules/coracao/componentes/Cronometro';
 import { LeituraPA } from '@modules/coracao/componentes/LeituraPA';
 import { preparoMedida, ROTULO_MOTIVO_EXCLUSAO } from '@modules/coracao/conteudo/pressao';
 import { Alerta, Button, Colors, Input, InternalHeader, Radius, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 type Etapa = 'preparo' | 'medida' | 'espera' | 'resumo';
 const numero = (t: string) => (t.trim() === '' ? null : Number(t.replace(',', '.')));
@@ -111,6 +112,7 @@ export default function MedirMrpa() {
             <Button label="Voltar para o dia" onPress={() => router.back()} style={{ marginTop: Spacing.xxl }} />
           </>
         ) : null}
+        <FontesDaTela tema="mrpa" />
       </ScrollView>
     </SafeAreaView>
   );

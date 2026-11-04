@@ -9,6 +9,7 @@ import { useSessao } from '@core/sessao/SessaoProvider';
 import { LinhaExame } from '@modules/coracao/componentes/LinhaExame';
 import { CartaoExame } from '@modules/rastreando/componentes/CartaoExame';
 import { Button, Colors, InternalHeader, Opcoes, Spacing, Typography } from '@ui/index';
+import { LinkFontes } from '@modules/fontes/FontesDaTela';
 
 type Filtro = 'todos' | 'laboratorial' | 'cardiologico' | 'oncologico';
 const FILTROS: { valor: Filtro; rotulo: string }[] = [{ valor: 'todos', rotulo: 'Todos' }, { valor: 'laboratorial', rotulo: 'Laboratoriais' }, { valor: 'cardiologico', rotulo: 'Cardiológicos' }, { valor: 'oncologico', rotulo: 'Oncológicos' }];
@@ -56,6 +57,7 @@ export default function Exames() {
             ? <LinhaExame key={i.cardio.id} exame={i.cardio} onPress={() => router.push({ pathname: '/(app)/coracao/exames/[id]', params: { id: i.cardio!.id } })} />
             : <Pressable key={i.rastreando!.id} onPress={() => router.push({ pathname: '/(app)/rastreando/[programa]/exames', params: { programa: i.rastreando!.programa } })}><CartaoExame exame={i.rastreando!} /></Pressable>)}
         </View>
+        <LinkFontes />
       </ScrollView>
     </SafeAreaView>
   );

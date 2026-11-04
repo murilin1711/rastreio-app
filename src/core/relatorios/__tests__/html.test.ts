@@ -19,7 +19,7 @@ test('oncológico traz a ressalva do §40; consulta e geral trazem as duas', () 
   expect(c).toContain(RESSALVA_CARDIO); expect(c).toContain(RESSALVA_ONCOLOGICO);
 });
 test('nenhuma frase diagnóstica', () => {
-  const h = htmlRelatorio({ ...base, tipo: 'geral', titulo: 'x', secoes: montarConsulta(dadosNeroTeste(), 'outra', PERIODO_TESTE) }).toLowerCase();
+  const h = htmlRelatorio({ ...base, tipo: 'geral', titulo: 'x', secoes: montarConsulta(dadosNeroTeste(), 'outra', PERIODO_TESTE) }).toLowerCase().split('class="fontes"')[0]; // títulos de diretrizes ("Diagnóstico de diabetes") não falam do paciente
   expect(h).not.toContain('você tem');
   expect(h).not.toContain('diagnóstico de');
 });
@@ -38,4 +38,13 @@ test('relatório de Saúde & Hábitos traz as três ressalvas', () => {
   expect(h).toContain(RESSALVA_CARDIO); expect(h).toContain(RESSALVA_ONCOLOGICO); expect(h).toContain(RESSALVA_HABITOS);
   expect(h.toLowerCase()).not.toContain('você tem');
   expect(h).toMatchSnapshot();
+});
+
+test('cita com link as fontes das seções presentes, e só delas', () => {
+  const c = htmlRelatorio({ ...base, tipo: 'cardio', titulo: 'x', secoes: montarCardio(dadosNeroTeste(), PERIODO_TESTE) });
+  expect(c).toContain('<h2>Fontes</h2>');
+  expect(c).toContain('href="https://abccardiol.org/article/diretriz-brasileira-de-hipertensao-arterial-2025/"');
+  expect(c).not.toContain('Lung-RADS');
+  const semClinica = htmlRelatorio({ ...base, tipo: 'geral', titulo: 'x', secoes: [{ chave: 'medicamentos', titulo: 'Medicamentos em uso', blocos: [] }] });
+  expect(semClinica).not.toContain('<h2>Fontes</h2>');
 });

@@ -9,6 +9,7 @@ import { ROTULO_QUANTIDADE, TEXTO_ALIMENTACAO } from '@modules/bem-estar/conteud
 import { CardResumo } from '@modules/coracao/componentes/CardResumo';
 import { dataCurtaBr, horaLocal } from '@modules/coracao/componentes/formato';
 import { Button, Card, Colors, InternalHeader, Radius, Spacing, Typography } from '@ui/index';
+import { LinkFontes } from '@modules/fontes/FontesDaTela';
 
 const DIAS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
 
@@ -64,6 +65,7 @@ export default function Alimentacao() {
           </View>
         ))}
         {ultimos7.length ? <Text style={styles.nota}>Toque e segure um registro para apagar.</Text> : null}
+        <LinkFontes />
       </ScrollView>
     </SafeAreaView>
   );
