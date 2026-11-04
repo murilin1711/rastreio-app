@@ -7,6 +7,7 @@ import { useRastreando } from '@core/rastreando/useRastreando';
 import { CONTEUDO } from '@modules/rastreando/conteudo';
 import { STATUS_UI, dataBr } from '@modules/rastreando/componentes/statusUI';
 import { Colors, InternalHeader, ListItem, Spacing, StatusBadge, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 /** Hub do câncer (§29): informações, elegibilidade, fatores, sinais, exames e histórico. */
 export default function HubPrograma() {
@@ -45,8 +46,7 @@ export default function HubPrograma() {
           <ListItem icon="document-text-outline" title="Meus exames" subtitle={meus.length ? `${meus.length} registrado${meus.length > 1 ? 's' : ''}` : 'Nenhum registrado'} onPress={() => ir('exames')} />
           <ListItem icon="time-outline" title="Histórico" subtitle="Linha do tempo deste rastreamento" onPress={() => ir('historico')} />
         </View>
-
-        <Text style={styles.fonte}>Fontes: {c.fonteResumo}</Text>
+        <FontesDaTela tema={programa as Programa} />
       </ScrollView>
     </SafeAreaView>
   );

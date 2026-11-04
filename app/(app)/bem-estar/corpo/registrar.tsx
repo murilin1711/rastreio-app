@@ -6,6 +6,7 @@ import { useCorpo } from '@core/bemestar/useCorpo';
 import { traduzirErro } from '@core/supabase/erros';
 import { ROTULO_METODO } from '@modules/bem-estar/conteudo/corpo';
 import { Button, CampoData, Colors, Input, InternalHeader, Radius, Select, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 const numero = (t: string) => (t.trim() === '' ? null : Number(t.replace(',', '.')));
 type Metodo = keyof typeof ROTULO_METODO;
@@ -62,6 +63,7 @@ export default function RegistrarMedidas() {
         <Text style={styles.rotulo}>Data da medida</Text>
         <CampoData valor={data} onChange={setData} />
         <Button label="Salvar medidas" onPress={gravar} loading={salvando} style={{ marginTop: Spacing.xxl }} />
+        <FontesDaTela tema='corpo' />
       </ScrollView>
       <Modal visible={tecnica} transparent animationType="fade" onRequestClose={() => setTecnica(false)}>
         <Pressable style={styles.fundo} onPress={() => setTecnica(false)}>

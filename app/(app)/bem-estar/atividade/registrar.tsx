@@ -12,6 +12,7 @@ import { traduzirErro } from '@core/supabase/erros';
 import { DESCRICAO_INTENSIDADE, ROTULO_INTENSIDADE } from '@modules/bem-estar/conteudo/atividade';
 import { paraISO } from '@modules/coracao/componentes/formato';
 import { Button, CampoData, Colors, Input, InternalHeader, ModalComemoracao, Opcoes, Select, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 const numero = (t: string) => (t.trim() === '' ? null : Number(t.replace(',', '.')));
 const horaValida = (h: string) => /^([01]\d|2[0-3]):[0-5]\d$/.test(h);
@@ -70,6 +71,7 @@ export default function RegistrarAtividade() {
         <Input value={calorias} onChangeText={setCalorias} placeholder="Calorias (se o aparelho informou)" keyboardType="number-pad" style={{ marginTop: Spacing.sm }} />
         <Input value={observacao} onChangeText={setObservacao} placeholder="Observação" multiline style={{ marginTop: Spacing.sm }} />
         <Button label="Salvar atividade" onPress={gravar} loading={salvando} style={{ marginTop: Spacing.xxl }} />
+        <FontesDaTela tema='atividade' />
       </ScrollView>
       <ModalComemoracao
         conteudo={conquistas.proxima ? TEXTO_CONQUISTA[conquistas.proxima] : null}

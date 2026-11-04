@@ -12,6 +12,7 @@ import { LeituraGlicemia } from '@modules/coracao/componentes/LeituraGlicemia';
 import { MOMENTOS, rotuloMomento, SINTOMAS_GLICEMIA } from '@modules/coracao/conteudo/glicemia';
 import { VinculoGlicemia } from '@modules/bem-estar/componentes/VinculoGlicemia';
 import { Alerta, Button, CampoData, Colors, Input, InternalHeader, Opcoes, Radius, Select, Spacing, StatusBadge, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 type Refeicao = NonNullable<MedidaGlicemia['contexto']['refeicao']>;
 const numero = (t: string) => (t.trim() === '' ? null : Number(t.replace(',', '.')));
@@ -82,6 +83,7 @@ export default function RegistrarGlicemia() {
           ) : null}
           <VinculoGlicemia glicemiaId={id} medidoEm={medidoEm} />
           <Button label="Concluir" onPress={() => router.back()} style={{ marginTop: Spacing.xxl }} />
+          <FontesDaTela tema='glicemia' />
         </ScrollView>
       </SafeAreaView>
     );
@@ -117,6 +119,7 @@ export default function RegistrarGlicemia() {
         <Input value={observacao} onChangeText={setObservacao} placeholder="ex.: almoço habitual" multiline />
 
         <Button label="Salvar glicemia" onPress={gravar} loading={salvando} disabled={carregando} style={{ marginTop: Spacing.xxl }} />
+        <FontesDaTela tema='glicemia' />
       </ScrollView>
     </SafeAreaView>
   );

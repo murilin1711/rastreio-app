@@ -17,6 +17,7 @@ import { LeituraGlicemia } from '@modules/coracao/componentes/LeituraGlicemia';
 import { LeituraPA } from '@modules/coracao/componentes/LeituraPA';
 import { rotuloMomento } from '@modules/coracao/conteudo/glicemia';
 import { Colors, InternalHeader, ListItem, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 const MES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 const mesAno = (iso: string) => `${MES[Number(iso.slice(5, 7)) - 1]}/${iso.slice(0, 4)}`;
@@ -78,6 +79,7 @@ export default function Coracao() {
           <ListItem icon="time-outline" title="Minha linha do tempo" subtitle="Evolução ao longo dos anos" onPress={() => router.push('/(app)/coracao/linha-do-tempo')} />
           <ListItem icon="alert-circle-outline" title="Sinais de alerta" subtitle="Quando procurar atendimento" onPress={() => router.push('/(app)/coracao/sinais')} />
         </View>
+        <FontesDaTela tema='coracao' />
       </ScrollView>
     </SafeAreaView>
   );

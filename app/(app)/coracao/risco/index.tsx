@@ -6,6 +6,7 @@ import { useRiscoCv } from '@core/cardio/useRiscoCv';
 import { dataLongaBr } from '@modules/coracao/componentes/formato';
 import { entendaPrevent, fraseCategoria, ROTULO_MOTIVO_INELEGIVEL } from '@modules/coracao/conteudo/risco';
 import { Button, Card, Colors, InternalHeader, ListItem, Spacing, StatusBadge, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 const ROTULO_CAT = { baixo: 'Risco baixo pelo escore', intermediario: 'Risco intermediário pelo escore', alto: 'Risco alto pelo escore' } as const;
 const NIVEL_CAT = { baixo: 'verde', intermediario: 'amarelo', alto: 'laranja' } as const;
@@ -57,6 +58,7 @@ export default function MeuRisco() {
         <View style={styles.lista}>
           <ListItem icon="list-outline" title="Fatores agravantes e escore de cálcio" subtitle="O que pode mudar a interpretação do seu risco" onPress={() => router.push('/(app)/coracao/risco/agravantes')} />
         </View>
+        <FontesDaTela tema='risco' />
       </ScrollView>
     </SafeAreaView>
   );

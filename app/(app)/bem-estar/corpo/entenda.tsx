@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCorpo } from '@core/bemestar/useCorpo';
 import { Card, Colors, InternalHeader, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 /** "Entenda cada medida" (§72): uma seção por regra, com a fonte. */
 export default function Entenda() {
@@ -25,6 +26,7 @@ export default function Entenda() {
             <Text style={styles.fonte}>Fonte: {s.regra.fonte} ({s.regra.ano})</Text>
           </Card>
         ))}
+        <FontesDaTela tema='corpo' />
       </ScrollView>
     </SafeAreaView>
   );

@@ -14,6 +14,7 @@ import { LeituraPA } from '@modules/coracao/componentes/LeituraPA';
 import { ressalvaDiretriz, ressalvaRelatorio, ROTULO_INVALIDEZ, ROTULO_MOTIVO_EXCLUSAO, SINTOMAS_PA } from '@modules/coracao/conteudo/pressao';
 import { Alerta, Button, Card, Colors, InternalHeader, Radius, Spacing, StatusBadge, Typography } from '@ui/index';
 import { useAbrir } from '@core/navegacao/useVoltar';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 /** Relatório da MRPA (§3, C-011): período, qualidade, médias, resultado, medicações, sintomas, tabela e ressalvas literais. */
 export default function RelatorioMrpaTela() {
@@ -127,6 +128,7 @@ export default function RelatorioMrpaTela() {
         <Text style={styles.ressalva}>{ressalvaDiretriz}</Text>
         <Text style={styles.ressalva}>{ressalvaRelatorio}</Text>
 
+        <FontesDaTela tema='mrpa' />
       </ScrollView>
     </SafeAreaView>
   );

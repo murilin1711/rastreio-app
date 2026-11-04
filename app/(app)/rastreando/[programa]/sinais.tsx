@@ -11,6 +11,7 @@ import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro } from '@core/supabase/erros';
 import { CONTEUDO } from '@modules/rastreando/conteudo';
 import { Button, Card, Colors, InternalHeader, Radius, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 /** §29.4 / §52: sinais de alerta têm prioridade sobre o calendário de rastreamento. */
 export default function Sinais() {
@@ -76,7 +77,7 @@ export default function Sinais() {
             </View>
           ))}
         </View>
-        <Text style={styles.fonte}>Fontes: {c.fonteResumo}</Text>
+        <FontesDaTela tema={programa as Programa} />
       </ScrollView>
     </SafeAreaView>
   );

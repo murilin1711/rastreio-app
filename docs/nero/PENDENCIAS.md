@@ -14,6 +14,17 @@
 > Risco conhecido em aberto: excluir conta não revoga o token do "Entrar com a Apple" (diretriz 5.1.1(v)).
 > Se a Apple recusar por isso, implementar a revogação (função no servidor com a chave .p8 da Apple).
 
+> **03/11/2026: recusada na primeira revisão (iPad Air 11", build 4).** Dois motivos:
+> - **2.1 (não entraram com a conta de demonstração):** "E-mail ou senha incorretos". A mesma senha entra
+>   pela API no mesmo dia, então o que chegou ao servidor era diferente do que está nas notas (provável
+>   espaço/quebra de linha ao colar). Correção no app: campo de senha sem maiúscula automática nem
+>   corretor, e nova tentativa sem os espaços das pontas quando a senha exata falha.
+> - **1.4.1 (informação médica sem citação):** a Apple quer link para as fontes. Feito: catálogo
+>   `src/core/referencias/catalogo.ts` (espelha `referencias/REFERENCIAS.md`), bloco "Fontes" com links no
+>   pé de 33 telas clínicas e a tela "Fontes científicas" (Minha Saúde › Ajuda). **Ao trocar uma
+>   referência no acervo, trocar no catálogo também.**
+> - Falta: novo build, resposta no App Store Connect (texto em `publicacao/app-store.md` §5) e reenvio.
+
 ### Contas e credenciais
 
 - [x] **Resolvido em 28/10: Apple e Google entrando no build 4 (testado pelo Murilo no TestFlight).** Login com o Google não entrava. Duas causas achadas: (1) na Supabase o "Skip nonce check" do

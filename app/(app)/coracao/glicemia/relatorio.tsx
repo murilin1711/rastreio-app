@@ -13,6 +13,7 @@ import { LeituraGlicemia } from '@modules/coracao/componentes/LeituraGlicemia';
 import { ressalvaRelatorioGlicemia, rotuloMomento } from '@modules/coracao/conteudo/glicemia';
 import { Button, Card, Colors, InternalHeader, Opcoes, Spacing, Typography } from '@ui/index';
 import { useAbrir } from '@core/navegacao/useVoltar';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 type Periodo = '7' | '14' | '30' | '90';
 
@@ -81,6 +82,7 @@ export default function RelatorioGlicemia() {
         </View>
 
         <Text style={styles.ressalva}>{ressalvaRelatorioGlicemia}</Text>
+        <FontesDaTela tema='glicemia' />
       </ScrollView>
     </SafeAreaView>
   );

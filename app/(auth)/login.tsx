@@ -21,7 +21,12 @@ export default function Login() {
       return;
     }
     setCarregando(true);
-    const { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password: senha });
+    let { error } = await supabase.auth.signInWithPassword({ email: email.trim(), password: senha });
+    // Senha colada com espaço ou quebra de linha nas pontas (suspeita, não confirmada, da recusa da Apple
+    // de 03/11/2026): tenta de novo sem elas. A senha exata vai primeiro, então quem tem espaço na senha não perde nada.
+    if (error && senha.trim() !== senha && senha.trim()) {
+      ({ error } = await supabase.auth.signInWithPassword({ email: email.trim(), password: senha.trim() }));
+    }
     setCarregando(false);
     if (error) {
       // Quem se cadastrou e não terminou a confirmação travaria num alerta sem saída (D-019):
@@ -50,8 +55,8 @@ export default function Login() {
             Campos de 56 px, calibrados pelo Murilo: o público é de idosos.
           */}
           <View style={styles.form}>
-            <Input placeholder="E-mail" autoCapitalize="none" autoComplete="email" keyboardType="email-address" value={email} onChangeText={setEmail} style={styles.campo} />
-            <Input placeholder="Senha" secureTextEntry autoComplete="password" value={senha} onChangeText={setSenha} onSubmitEditing={entrar} style={styles.campo} />
+            <Input placeholder="E-mail" autoCapitalize="none" autoCorrect={false} textContentType="username" autoComplete="email" keyboardType="email-address" value={email} onChangeText={setEmail} style={styles.campo} />
+            <Input placeholder="Senha" secureTextEntry autoCapitalize="none" autoCorrect={false} textContentType="password" autoComplete="password" value={senha} onChangeText={setSenha} onSubmitEditing={entrar} style={styles.campo} />
             <Link href={{ pathname: '/(auth)/recuperar', params: email.trim() ? { email: email.trim() } : {} }} style={styles.esqueci}>
               Esqueci minha senha
             </Link>

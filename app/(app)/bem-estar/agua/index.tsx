@@ -11,6 +11,7 @@ import { INTERVALOS_AGUA, PORCOES_AGUA, TEXTO_AGUA } from '@modules/bem-estar/co
 import { horariosAgua, validarConfigAgua } from '@core/regras/bemestar/lembretesAgua';
 import { horaLocal } from '@modules/coracao/componentes/formato';
 import { CampoHorario, Button, Card, Colors, Input, InternalHeader, ModalComemoracao, Opcoes, ProgressBar, Radius, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 const litros = (ml: number) => `${String(Math.round(ml / 100) / 10).replace('.', ',')} L`;
 
@@ -135,6 +136,7 @@ export default function MinhaAgua() {
             </Card>
           ))}
         </View>
+        <FontesDaTela tema='agua' />
       </ScrollView>
       <ModalComemoracao conteudo={agua.comemorar ? TEXTO_AGUA.metaBatida : null} aoFechar={agua.dispensarComemoracao} />
       {avisos.modal}

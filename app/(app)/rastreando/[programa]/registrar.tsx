@@ -16,6 +16,7 @@ import { resumoResultado } from '@modules/rastreando/componentes/CartaoExame';
 import { dataBr } from '@modules/rastreando/componentes/statusUI';
 import { CONTEUDO } from '@modules/rastreando/conteudo';
 import { Button, CampoData, Colors, Input, InternalHeader, Opcoes, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 /** Registro de exame de rastreamento (§30, §42, §51). */
 export default function Registrar() {
@@ -78,6 +79,7 @@ export default function Registrar() {
             <Button label="Ver meus exames" onPress={() => router.replace({ pathname: '/(app)/rastreando/[programa]/exames', params: { programa: p } })} />
             <Button label="Voltar aos Rastreamentos" variant="outline" onPress={() => router.replace('/(app)/rastreando')} />
           </View>
+          <FontesDaTela tema={programa as Programa} />
         </ScrollView>
       </SafeAreaView>
     );

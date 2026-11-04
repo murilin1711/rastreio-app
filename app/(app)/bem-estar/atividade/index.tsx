@@ -9,6 +9,7 @@ import { ROTULO_INTENSIDADE, TEXTO_ATIVIDADE } from '@modules/bem-estar/conteudo
 import { CardResumo } from '@modules/coracao/componentes/CardResumo';
 import { dataHoraBr } from '@modules/coracao/componentes/formato';
 import { Button, Card, Colors, Input, InternalHeader, ProgressBar, Radius, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 const DIAS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
 
@@ -109,6 +110,7 @@ export default function Atividades() {
             <Text style={styles.nota}>Toque e segure um registro para apagar.</Text>
           </>
         ) : null}
+        <FontesDaTela tema='atividade' />
       </ScrollView>
     </SafeAreaView>
   );

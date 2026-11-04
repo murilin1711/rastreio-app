@@ -8,6 +8,7 @@ import { LeituraGlicemia } from '@modules/coracao/componentes/LeituraGlicemia';
 import { LinhaGlicemia } from '@modules/coracao/componentes/LinhaGlicemia';
 import { entendaMetas, ROTULO_PERFIL_META, semDiabetesRodape } from '@modules/coracao/conteudo/glicemia';
 import { Button, Card, Colors, InternalHeader, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 /** Minha Glicemia (§5, C-012): registros, metas visíveis com origem, resumo dos 7 dias. */
 export default function MinhaGlicemia() {
@@ -60,6 +61,7 @@ export default function MinhaGlicemia() {
         ) : !carregando ? (
           <View style={styles.bloco}><Text style={styles.secao}>Registre sua primeira glicemia</Text><Text style={styles.texto}>Escolha o momento da medida (em jejum, antes ou depois das refeições) para o app comparar com a meta certa.</Text></View>
         ) : null}
+        <FontesDaTela tema='glicemia' />
       </ScrollView>
     </SafeAreaView>
   );

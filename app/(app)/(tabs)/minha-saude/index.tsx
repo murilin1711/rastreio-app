@@ -115,6 +115,8 @@ export default function MinhaSaude() {
         ) : null}
 
         <Text style={styles.secao}>Ajuda</Text>
+        <ListItem icon="library-outline" title="Fontes científicas" subtitle="As diretrizes por trás de cada número do app, com link para o original" onPress={() => router.push('/(app)/fontes')} />
+        <View style={{ height: Spacing.sm }} />
         <ListItem icon="mail-outline" title="Fale com o NERO" subtitle={`Dúvidas, problemas ou sugestões: ${EMAIL_CONTATO}`} onPress={falarComNero} />
 
         <Button label="Sair da conta" variant="ghost" onPress={sair} style={{ marginTop: Spacing.xxxl }} />

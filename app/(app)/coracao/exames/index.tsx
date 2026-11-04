@@ -5,6 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useExamesCardio } from '@core/cardio/useExamesCardio';
 import { LinhaExame } from '@modules/coracao/componentes/LinhaExame';
 import { Button, Colors, EmBreveBadge, InternalHeader, Opcoes, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 type Filtro = 'todos' | 'laboratorial' | 'cardiologico';
 
@@ -32,6 +33,7 @@ export default function MeusExames() {
           <View style={styles.bloco}><Text style={styles.secao}>Nenhum exame ainda</Text><Text style={styles.texto}>Comece pelos que o cálculo de risco usa: colesterol total, HDL, creatinina e, se tiver, hemoglobina glicada.</Text></View>
         ) : null}
         <View style={styles.anexo}><Text style={styles.texto}>Anexar laudo (PDF ou foto)</Text><EmBreveBadge /></View>
+        <FontesDaTela tema='examesCardio' />
       </ScrollView>
     </SafeAreaView>
   );

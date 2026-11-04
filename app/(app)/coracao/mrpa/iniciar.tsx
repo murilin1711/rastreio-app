@@ -9,6 +9,7 @@ import { traduzirErro } from '@core/supabase/erros';
 import { usePedidoDeAvisos } from '@core/lembretes/usePedidoDeAvisos';
 import { aberturaMrpa, preparoMedida, regrasProtocoloMrpa } from '@modules/coracao/conteudo/pressao';
 import { CampoHorario, Button, CampoData, Colors, Input, InternalHeader, Opcoes, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 type Dias = '4' | '5' | '6';
 const amanhaISO = () => new Date(Date.now() + 86_400_000).toISOString().slice(0, 10);
@@ -94,6 +95,7 @@ export default function IniciarMrpa() {
         <View style={{ marginTop: Spacing.sm }}><CampoData valor={dataC} onChange={setDataC} rotulo="Data da medida no consultório" /></View>
 
         <Button label="Começar a MRPA" onPress={comecar} loading={salvando} disabled={carregando} style={{ marginTop: Spacing.xxl }} />
+        <FontesDaTela tema='mrpa' />
       </ScrollView>
       {avisos.modal}
     </SafeAreaView>

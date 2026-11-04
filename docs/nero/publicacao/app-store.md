@@ -134,7 +134,7 @@ DEMO ACCOUNT
 Use the credentials above. The account already has sample records (blood pressure, glucose, medications, appointments) so every screen has content. Sign in with Apple and Google sign-in are also available on the login screen.
 
 WHAT THE APP DOES
-Users manually enter their own data: blood pressure, blood glucose, medications and schedules, lab results, cancer screening exams, water intake, sleep, body measurements and appointments. Next to each record the app shows what the Brazilian medical society guidelines recommend, always citing the source. Users can generate a PDF report to bring to their doctor and optionally share it through a QR code link that expires after 7 days and can be revoked.
+Users manually enter their own data: blood pressure, blood glucose, medications and schedules, lab results, cancer screening exams, water intake, sleep, body measurements and appointments. Next to each record the app shows what the Brazilian medical society guidelines recommend. Every screen with health information ends with a "Fontes" (Sources) box listing the guidelines it is based on, each one a link to the original document. The full list is in Minha Saúde tab > Fontes científicas. Users can generate a PDF report to bring to their doctor and optionally share it through a QR code link that expires after 7 days and can be revoked.
 
 NOT A MEDICAL DEVICE (Guideline 1.4.1)
 The app does not measure anything with the device's sensors or camera, does not diagnose, does not prescribe and does not replace a physician. All values are typed in by the user. This disclaimer is shown inside the app and in the store description. When the user marks an alarm symptom, the app only advises seeking medical care. Clinical content was written with Dr. Denise Padilha, a licensed physician (CRM/AL 12430, Brazil).
@@ -149,6 +149,31 @@ PERMISSIONS
 
 PRIVACY
 No ads, no analytics, no tracking. Health data is stored in Brazil (Supabase, São Paulo) and is only accessible by the account owner. Crash reports (Sentry) contain no health data and no account identifier.
+```
+
+### Resposta à recusa de 03/11/2026 (Resolution Center, em inglês)
+
+```
+Hello, thank you for the review.
+
+Guideline 2.1 – Demo account
+The demo account is active and we confirmed the sign-in again today:
+User: nerosaudeapp+demo@gmail.com
+Password: <senha atual de credenciais/conta-demo.txt>
+Please type the password exactly as shown (it is case-sensitive, with no spaces). The new build also
+disables auto-capitalization/autocorrect on the password field and ignores accidental spaces when the
+password is pasted, which we believe caused the failed attempt.
+
+Guideline 1.4.1 – Citations
+We added citations with links to every screen that shows health information, calculations or
+recommendations. At the bottom of each of these screens there is a "Fontes" (Sources) box listing
+the guidelines used, and each item opens the original document. Examples:
+- Coração & Metabolismo > Meu Risco Cardiovascular: Brazilian Society of Cardiology Dyslipidemia
+  Guideline 2025 and the AHA PREVENT equations (Khan et al., Circulation 2024).
+- Coração & Metabolismo > Minha Glicemia: Brazilian Diabetes Society Guideline 2026.
+- Coração & Metabolismo > Minha Pressão: Brazilian Hypertension Guideline 2025.
+- Rastreando (cancer screening): INCA, CONITEC, CBR/SBM/FEBRASGO, USPSTF and others.
+The complete list of sources is also available at Minha Saúde tab > Ajuda > Fontes científicas.
 ```
 
 ## 6. Privacidade do app (App Privacy — "nutrition label")

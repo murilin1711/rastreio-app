@@ -12,6 +12,7 @@ import { traduzirErro } from '@core/supabase/erros';
 import { ROTULO_CONTEXTO_SONO, ROTULO_QUALIDADE } from '@modules/bem-estar/conteudo/sono';
 import { paraISO } from '@modules/coracao/componentes/formato';
 import { Button, CampoData, Colors, Input, InternalHeader, ModalComemoracao, Opcoes, Radius, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 const horaValida = (h: string) => /^([01]\d|2[0-3]):[0-5]\d$/.test(h);
 const ontemISO = () => new Date(Date.now() - 86_400_000).toISOString().slice(0, 10);
@@ -72,6 +73,7 @@ export default function RegistrarSono() {
           </View>
         ))}
         <Button label="Salvar noite" onPress={gravar} loading={salvando} style={{ marginTop: Spacing.xxl }} />
+        <FontesDaTela tema='sono' />
       </ScrollView>
       <ModalComemoracao
         conteudo={conquistas.proxima ? TEXTO_CONQUISTA[conquistas.proxima] : null}

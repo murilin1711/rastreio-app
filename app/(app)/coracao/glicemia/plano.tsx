@@ -14,6 +14,7 @@ import { traduzirErro } from '@core/supabase/erros';
 import { usePedidoDeAvisos } from '@core/lembretes/usePedidoDeAvisos';
 import { MOMENTOS, rotuloMomento, ROTULO_PERFIL_META } from '@modules/coracao/conteudo/glicemia';
 import { CampoHorario, Button, Colors, Input, InternalHeader, Opcoes, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 type Quem = 'medico' | 'outro_profissional' | 'diretriz';
 type QuemPlano = 'medico' | 'outro_profissional' | 'nenhum';
@@ -137,6 +138,7 @@ export default function PlanoGlicemia() {
         ) : null}
 
         <Button label="Salvar plano" onPress={gravar} loading={salvando} style={{ marginTop: Spacing.xxl }} />
+        <FontesDaTela tema='glicemia' />
       </ScrollView>
       {avisos.modal}
     </SafeAreaView>

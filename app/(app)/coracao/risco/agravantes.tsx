@@ -10,6 +10,7 @@ import { traduzirErro } from '@core/supabase/erros';
 import { dataLongaBr } from '@modules/coracao/componentes/formato';
 import { fraseAgravantes } from '@modules/coracao/conteudo/risco';
 import { Alerta, Button, Colors, InternalHeader, Opcoes, Radius, Spacing, StatusBadge, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 /** §17 agravantes (Tabela 4.3) e §18 escore de cálcio (Tabela 4.4). O app não reclassifica o risco. */
 export default function Agravantes() {
@@ -54,6 +55,7 @@ export default function Agravantes() {
           ) : <Text style={styles.nota}>Nenhum escore de cálcio registrado. Se você fez o exame, registre o valor em Agatston.</Text>}
           <Button label={cac ? 'Registrar novo escore de cálcio' : 'Registrar escore de cálcio'} variant="outline" onPress={() => router.push({ pathname: '/(app)/coracao/exames/registrar', params: { tipo: 'cac' } })} style={{ marginTop: Spacing.md }} />
         </View>
+        <FontesDaTela tema='risco' />
       </ScrollView>
     </SafeAreaView>
   );

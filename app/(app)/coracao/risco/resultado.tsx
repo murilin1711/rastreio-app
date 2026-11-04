@@ -7,6 +7,7 @@ import { dataLongaBr } from '@modules/coracao/componentes/formato';
 import { FatorRisco } from '@modules/coracao/componentes/FatorRisco';
 import { frase30anos, fraseAgravantes, fraseCategoria, fraseFatores, fraseResultado } from '@modules/coracao/conteudo/risco';
 import { Alerta, Button, Card, Colors, InternalHeader, Radius, Spacing, StatusBadge, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 const ROTULO_CAT = { baixo: 'Risco baixo pelo escore', intermediario: 'Risco intermediário pelo escore', alto: 'Risco alto pelo escore' } as const;
 const NIVEL_CAT = { baixo: 'verde', intermediario: 'amarelo', alto: 'laranja' } as const;
@@ -59,6 +60,7 @@ export default function ResultadoRisco() {
 
         {ultimo.agravantesPresentes.length ? <View style={[styles.aviso, { backgroundColor: Alerta.amarelo.bg }]}><Text style={[styles.texto, { color: Alerta.amarelo.fg }]}>{fraseAgravantes}</Text></View> : null}
         <Button label="Fatores agravantes e escore de cálcio" variant="outline" onPress={() => router.push('/(app)/coracao/risco/agravantes')} style={{ marginTop: Spacing.lg }} />
+        <FontesDaTela tema='risco' />
       </ScrollView>
     </SafeAreaView>
   );

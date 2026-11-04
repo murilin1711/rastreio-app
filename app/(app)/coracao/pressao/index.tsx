@@ -10,6 +10,7 @@ import { LeituraPA } from '@modules/coracao/componentes/LeituraPA';
 import { LinhaMedida } from '@modules/coracao/componentes/LinhaMedida';
 import { entendaReferencia, preparoMedida } from '@modules/coracao/conteudo/pressao';
 import { Button, Card, Colors, InternalHeader, Radius, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 /** Minha Pressão (§1, C-010): registro casual, médias descritivas e convite para MRPA. Sem cor por valor. */
 export default function MinhaPressao() {
@@ -89,6 +90,7 @@ export default function MinhaPressao() {
             {preparoMedida.map((t) => <Text key={t} style={styles.item}>• {t}</Text>)}
           </View>
         ) : null}
+        <FontesDaTela tema='pressao' />
       </ScrollView>
     </SafeAreaView>
   );

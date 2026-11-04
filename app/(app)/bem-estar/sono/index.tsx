@@ -9,6 +9,7 @@ import { ROTULO_CONTEXTO_SONO, ROTULO_QUALIDADE, TEXTO_SONO } from '@modules/bem
 import { CardResumo } from '@modules/coracao/componentes/CardResumo';
 import { dataCurtaBr, dataHoraBr, horaLocal } from '@modules/coracao/componentes/formato';
 import { Button, Card, Colors, InternalHeader, Radius, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 /** Meu Sono (§80): média de 7 dias, horários médios, barras por noite, referência AASM (C-018), noites registradas. */
 export default function MeuSono() {
@@ -66,6 +67,7 @@ export default function MeuSono() {
             <Text style={styles.nota}>Toque e segure um registro para apagar.</Text>
           </>
         ) : !carregando ? <Text style={styles.vazio}>{TEXTO_SONO.semRegistros}</Text> : null}
+        <FontesDaTela tema='sono' />
       </ScrollView>
     </SafeAreaView>
   );
