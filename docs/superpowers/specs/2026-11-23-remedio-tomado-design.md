@@ -65,10 +65,10 @@ horários do cadastro (decisão de Claude: evita criar linhas antecipadas e não
 - **Reagendar tudo uma vez** na primeira abertura depois da atualização (`sincronizarLembretesMedicacao`, já
   existe), para quem já usa o app receber o texto e a rota novos.
 - **Lembrete principal** (já existe, diário): texto passa a ser
-  `Hora da Losartana 50 mg · 1 comprimido` / `Toque aqui para marcar`.
+  `Hora do remédio: Losartana 50 mg · 1 comprimido` / `Toque aqui para marcar`.
   O `data.rota` passa a apontar para a tela de marcar com o remédio e o horário; a **data da dose** é a data em
   que a notificação foi entregue (`notification.date`).
-- **Segundo lembrete**: 30 min depois, *"Você tomou a Losartana das 8h? Toque aqui para marcar"*.
+- **Segundo lembrete**: 30 min depois, *"Você tomou Losartana das 8h? Toque aqui para marcar"*.
   - Não pode ser diário (um aviso diário não se cancela só num dia). É **avulso**, agendado para as doses de
     **hoje e amanhã** (janela móvel), refeita sempre que o app abre ou um remédio é salvo.
   - Marcar a dose (tomei ou não tomei) **cancela** o segundo lembrete dela.
