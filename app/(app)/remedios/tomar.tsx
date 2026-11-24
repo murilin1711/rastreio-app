@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { cancelarSegundoLembrete } from '@core/cardio/lembretesCardio';
 import { classificarDoses, podeMarcar } from '@core/medicacoes/adesao';
 import { horaCurta } from '@core/medicacoes/horarios';
-import { listarMedicacoes, listarTomadas, registrarTomada, substituirTomadas } from '@core/medicacoes/repositorio';
+import { listarMedicacoes, listarTomadas, novoIdTomada, registrarTomada, substituirTomadas } from '@core/medicacoes/repositorio';
 import type { Medicacao, Tomada } from '@core/medicacoes/tipos';
 import { formatarQuantidade, UNIDADES } from '@core/medicacoes/unidades';
 import { useSessao } from '@core/sessao/SessaoProvider';
@@ -56,6 +56,12 @@ export default function Tomar() {
   const [marcado, setMarcado] = useState(false);
   // O estado só trava os botões na próxima renderização; dois toques no mesmo quadro passariam.
   const ocupado = useRef(false);
+  /**
+   * Id da última tentativa que falhou e da ação dela (M3). Se a rede caiu depois do banco gravar, repetir a
+   * MESMA ação reenvia o mesmo id e o banco recusa a duplicata (que conta como sucesso): a marca não dobra.
+   * Outra ação, ou outra quantidade, ganha id novo.
+   */
+  const tentativa = useRef<{ chave: string; id: string } | null>(null);
 
   const dataDose = data || diaLocal(new Date());
 
@@ -155,12 +161,16 @@ export default function Tomar() {
       tomou,
       quantidade: tomou ? quantidade : null,
     };
+    const chave = `${modo}|${acao}|${JSON.stringify(nova)}`;
+    if (tentativa.current?.chave !== chave) tentativa.current = { chave, id: novoIdTomada() };
+    const id = tentativa.current.id;
     try {
       if (modo === 'substituir' && hora) {
-        await substituirTomadas(userId, { medicacaoId: remedio.id, dataPrevista: dataDose, horaPrevista: hora }, nova);
+        await substituirTomadas(userId, { medicacaoId: remedio.id, dataPrevista: dataDose, horaPrevista: hora }, nova, id);
       } else {
-        await registrarTomada(userId, nova);
+        await registrarTomada(userId, nova, id);
       }
+      tentativa.current = null;
     } catch (e) {
       ocupado.current = false;
       setSalvando(null);

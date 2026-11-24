@@ -33,7 +33,9 @@ jest.mock('react-native-safe-area-context', () => {
   return { SafeAreaView: View, useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }) };
 });
 jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: { user: { id: 'u1' } }, carregando: false }) }));
+let mockIds = 0;
 jest.mock('@core/medicacoes/repositorio', () => ({
+  novoIdTomada: () => `id-${++mockIds}`,
   listarMedicacoes: async () => mockLista,
   listarTomadas: async () => mockTomadas,
   registrarTomada: (...a: any[]) => mockRegistrar(...a),
@@ -90,7 +92,7 @@ it('"✓ Tomei" grava com a quantidade mostrada, cancela o segundo lembrete e mo
   await tocar('✓ Tomei');
   expect(mockRegistrar).toHaveBeenCalledWith('u1', {
     medicacaoId: 'm1', dataPrevista: '2026-11-23', horaPrevista: '08:00', quantidadePrevista: 1, tomou: true, quantidade: 2,
-  });
+  }, expect.any(String));
   expect(mockCancelarSegundo).toHaveBeenCalledWith('m1', '2026-11-23', '08:00');
   expect(tela()).toContain('Marcado ✓');
   expect(mockBack).not.toHaveBeenCalled();
@@ -121,7 +123,7 @@ it('"Não tomei" grava tomou=false sem quantidade', async () => {
   await tocar('Não tomei');
   expect(mockRegistrar).toHaveBeenCalledWith('u1', {
     medicacaoId: 'm1', dataPrevista: '2026-11-23', horaPrevista: '08:00', quantidadePrevista: 1, tomou: false, quantidade: null,
-  });
+  }, expect.any(String));
   expect(mockCancelarSegundo).toHaveBeenCalledWith('m1', '2026-11-23', '08:00');
   expect(tela()).toContain('Marcado ✓');
 });
@@ -156,6 +158,30 @@ it('sem internet: avisa e não volta', async () => {
   expect(mockRegistrar).toHaveBeenCalledTimes(2);
 });
 
+it('repetir a MESMA ação depois de uma falha usa o mesmo id (M3: a marca não dobra)', async () => {
+  jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+  mockRegistrar.mockImplementationOnce(async () => { throw new Error('Network request failed'); });
+  await abrir();
+  await tocar('✓ Tomei');
+  await tocar('✓ Tomei');
+  expect(mockRegistrar).toHaveBeenCalledTimes(2);
+  const [primeira, segunda] = mockRegistrar.mock.calls.map((c) => c[2]);
+  expect(typeof primeira).toBe('string');
+  expect(segunda).toBe(primeira);
+});
+
+it('depois de uma falha, outra ação (ou outra quantidade) ganha id novo', async () => {
+  jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+  mockRegistrar.mockImplementation(async () => { throw new Error('Network request failed'); });
+  await abrir();
+  await tocar('✓ Tomei');
+  await tocar('Não tomei');
+  await tocarRotulo('Aumentar');
+  await tocar('✓ Tomei');
+  const ids = mockRegistrar.mock.calls.map((c) => c[2]);
+  expect(new Set(ids).size).toBe(3);
+});
+
 describe('dose já marcada', () => {
   beforeEach(() => {
     mockTomadas = [{
@@ -177,7 +203,7 @@ describe('dose já marcada', () => {
     await tocar('Tomei de novo');
     expect(mockRegistrar).toHaveBeenCalledWith('u1', {
       medicacaoId: 'm1', dataPrevista: '2026-11-23', horaPrevista: '08:00', quantidadePrevista: 1, tomou: true, quantidade: 1,
-    });
+    }, expect.any(String));
     expect(mockSubstituir).not.toHaveBeenCalled();
     expect(tela()).toContain('Marcado ✓');
   });
@@ -192,6 +218,7 @@ describe('dose já marcada', () => {
       'u1',
       { medicacaoId: 'm1', dataPrevista: '2026-11-23', horaPrevista: '08:00' },
       { medicacaoId: 'm1', dataPrevista: '2026-11-23', horaPrevista: '08:00', quantidadePrevista: 1, tomou: false, quantidade: null },
+      expect.any(String),
     );
     expect(mockRegistrar).not.toHaveBeenCalled();
     expect(tela()).toContain('Marcado ✓');
@@ -217,14 +244,14 @@ it('dose de ontem ainda pode ser marcada', async () => {
   await abrir();
   expect(tela()).toContain('✓ Tomei');
   await tocar('✓ Tomei');
-  expect(mockRegistrar).toHaveBeenCalledWith('u1', expect.objectContaining({ dataPrevista: '2026-11-22', horaPrevista: '08:00' }));
+  expect(mockRegistrar).toHaveBeenCalledWith('u1', expect.objectContaining({ dataPrevista: '2026-11-22', horaPrevista: '08:00' }), expect.any(String));
 });
 
 it('sem data: a dose é de hoje', async () => {
   mockParams = { med: 'm1', hora: '08:00' };
   await abrir();
   await tocar('✓ Tomei');
-  expect(mockRegistrar).toHaveBeenCalledWith('u1', expect.objectContaining({ dataPrevista: '2026-11-23' }));
+  expect(mockRegistrar).toHaveBeenCalledWith('u1', expect.objectContaining({ dataPrevista: '2026-11-23' }), expect.any(String));
 });
 
 it('remédio que não está mais na lista', async () => {
@@ -243,7 +270,7 @@ it('"se precisar": sem horário, grava sem data prevista', async () => {
   await tocar('✓ Tomei');
   expect(mockRegistrar).toHaveBeenCalledWith('u1', {
     medicacaoId: 'm3', dataPrevista: null, horaPrevista: null, quantidadePrevista: null, tomou: true, quantidade: 1,
-  });
+  }, expect.any(String));
   expect(mockCancelarSegundo).not.toHaveBeenCalled();
   expect(tela()).toContain('Marcado ✓');
 });
@@ -264,7 +291,7 @@ describe('R-T6-a', () => {
     await tocar('✓ Tomei');
     expect(mockRegistrar).toHaveBeenCalledWith('u1', {
       medicacaoId: 'm1', dataPrevista: '2026-11-23', horaPrevista: '08:00', quantidadePrevista: 1, tomou: true, quantidade: 1,
-    });
+    }, expect.any(String));
     expect(mockSubstituir).not.toHaveBeenCalled();
   });
 

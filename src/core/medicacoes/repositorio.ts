@@ -1,3 +1,4 @@
+import { randomUUID } from 'expo-crypto';
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
 import type { Tables } from '@core/supabase/database.types';
@@ -181,8 +182,18 @@ async function paginar(
 }
 
 /** Grava uma marca; `marcado_em` é a hora do banco (agora). */
-export async function registrarTomada(userId: string, t: NovaTomada): Promise<void> {
+/** Id de uma marca, gerado no cliente: a tela guarda o da tentativa e o repete se a mesma ação for repetida. */
+export function novoIdTomada(): string {
+  return randomUUID();
+}
+
+/**
+ * Grava uma marca com `id` gerado no cliente. Se a rede cair depois do banco gravar, repetir a mesma ação
+ * com o mesmo `id` dá chave duplicada (23505), que conta como sucesso: a marca não dobra (M3).
+ */
+export async function registrarTomada(userId: string, t: NovaTomada, id: string = novoIdTomada()): Promise<void> {
   const { error } = await supabase.from('tomadas_medicacao').insert({
+    id,
     user_id: userId,
     medicacao_id: t.medicacaoId,
     data_prevista: t.dataPrevista,
@@ -191,14 +202,15 @@ export async function registrarTomada(userId: string, t: NovaTomada): Promise<vo
     tomou: t.tomou,
     quantidade: t.quantidade,
   });
-  if (error) throw traduzirErro(error);
+  if (error && (error as { code?: string }).code !== '23505') throw traduzirErro(error);
 }
 
-/** "Corrigir": apaga as marcas daquela dose e grava a nova. */
+/** "Corrigir": apaga as marcas daquela dose e grava a nova (com o `id` da tentativa, como em `registrarTomada`). */
 export async function substituirTomadas(
   userId: string,
   dose: { medicacaoId: string; dataPrevista: string; horaPrevista: string },
   nova: NovaTomada,
+  id: string = novoIdTomada(),
 ): Promise<void> {
   const { error } = await supabase
     .from('tomadas_medicacao')
@@ -208,5 +220,5 @@ export async function substituirTomadas(
     .eq('data_prevista', dose.dataPrevista)
     .eq('hora_prevista', dose.horaPrevista);
   if (error) throw traduzirErro(error);
-  await registrarTomada(userId, nova);
+  await registrarTomada(userId, nova, id);
 }

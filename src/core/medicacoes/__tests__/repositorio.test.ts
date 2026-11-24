@@ -1,6 +1,8 @@
 jest.mock('@core/supabase/client', () => ({ supabase: { from: jest.fn() } }));
+let mockUuids = 0;
+jest.mock('expo-crypto', () => ({ randomUUID: () => `00000000-0000-4000-8000-${String(++mockUuids).padStart(12, '0')}` }));
 import { supabase } from '@core/supabase/client';
-import { alternarAtiva, listarTomadas, paraLinhaMedicacao, paraMedicacao, substituirTomadas } from '../repositorio';
+import { alternarAtiva, listarTomadas, novoIdTomada, paraLinhaMedicacao, paraMedicacao, registrarTomada, substituirTomadas } from '../repositorio';
 
 const linha = {
   id: 'm1', nome: 'Losartana', dose: '50 mg', horarios: ['08:00', '20:00'], quantidades: { '08:00': 2 },
@@ -135,14 +137,46 @@ it('substituirTomadas apaga as marcas da dose e grava a nova', async () => {
     'u1',
     { medicacaoId: 'm1', dataPrevista: '2026-11-23', horaPrevista: '08:00' },
     { medicacaoId: 'm1', dataPrevista: '2026-11-23', horaPrevista: '08:00', quantidadePrevista: 1, tomou: false, quantidade: null },
+    'id-da-tentativa',
   );
   expect(apagar.chamadas).toEqual([
     ['delete'], ['eq', 'user_id', 'u1'], ['eq', 'medicacao_id', 'm1'], ['eq', 'data_prevista', '2026-11-23'], ['eq', 'hora_prevista', '08:00'],
   ]);
   expect(gravar.chamadas).toEqual([[
     'insert',
-    { user_id: 'u1', medicacao_id: 'm1', data_prevista: '2026-11-23', hora_prevista: '08:00', quantidade_prevista: 1, tomou: false, quantidade: null },
+    { id: 'id-da-tentativa', user_id: 'u1', medicacao_id: 'm1', data_prevista: '2026-11-23', hora_prevista: '08:00', quantidade_prevista: 1, tomou: false, quantidade: null },
   ]]);
+});
+
+describe('registrarTomada (M3: repetição de rede não dobra a marca)', () => {
+  const from = supabase.from as jest.Mock;
+  beforeEach(() => from.mockReset());
+  const nova = { medicacaoId: 'm1', dataPrevista: '2026-11-23', horaPrevista: '08:00', quantidadePrevista: 1, tomou: true, quantidade: 1 };
+
+  it('grava com o id gerado no cliente (uuid)', async () => {
+    const { q, chamadas } = consulta({});
+    from.mockReturnValue(q);
+    await registrarTomada('u1', nova, 'id-1');
+    expect(chamadas[0]).toEqual(['insert', expect.objectContaining({ id: 'id-1', user_id: 'u1', medicacao_id: 'm1' })]);
+  });
+
+  it('sem id, gera um uuid novo', async () => {
+    const { q, chamadas } = consulta({});
+    from.mockReturnValue(q);
+    await registrarTomada('u1', nova);
+    expect((chamadas[0][1] as { id: string }).id).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/);
+    expect(novoIdTomada()).not.toBe((chamadas[0][1] as { id: string }).id);
+  });
+
+  it('id repetido (23505: a 1ª tentativa chegou ao banco) conta como sucesso', async () => {
+    from.mockReturnValue(consulta({ error: { code: '23505', message: 'duplicate key value violates unique constraint "tomadas_medicacao_pkey"' } }).q);
+    await expect(registrarTomada('u1', nova, 'id-1')).resolves.toBeUndefined();
+  });
+
+  it('outro erro continua sendo erro', async () => {
+    from.mockReturnValue(consulta({ error: { message: 'Network request failed' } }).q);
+    await expect(registrarTomada('u1', nova, 'id-1')).rejects.toThrow('Sem conexão com a internet. Verifique sua rede e tente novamente.');
+  });
 });
 
 describe('alternarAtiva', () => {
