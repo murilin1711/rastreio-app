@@ -3,6 +3,8 @@ import { CANAL_LEMBRETES } from '@core/lembretes/configurar';
 import { planejarLembretesMrpa } from '@core/regras/cardio/lembretesMrpa';
 import type { SessaoMrpa } from '@core/regras/cardio/tipos';
 import type { Medicacao } from '@core/medicacoes/tipos';
+import { rotaTomar } from '@core/medicacoes/horarios';
+import { formatarQuantidade } from '@core/medicacoes/unidades';
 import { notificacoesPermitidas } from '@core/lembretes/permissao';
 import { origemDe } from '@core/lembretes/origem';
 import { mensagemDaLista, textoGlicemia, textoMrpa, textoRemedio, tituloCompleto, type TextoNotificacao } from '@core/lembretes/textos';
@@ -52,9 +54,10 @@ export async function agendar(userId: string, origemTipo: OrigemAgendada, origem
  * dia durante 7 dias, três remédios 2×/dia já ocupavam 42. As linhas da lista continuam sendo 7 dias à
  * frente, todas com o id do mesmo aviso, para a lista e o cancelamento funcionarem como antes.
  */
-export async function agendarDiario(userId: string, origemTipo: OrigemAgendada, origemId: string | null, chave: string, texto: TextoNotificacao, horario: string, temPermissao: boolean): Promise<void> {
+export async function agendarDiario(userId: string, origemTipo: OrigemAgendada, origemId: string | null, chave: string, texto: TextoNotificacao, horario: string, temPermissao: boolean, rotaDoToque?: string): Promise<void> {
   const [hh, mm] = horario.split(':').map(Number);
-  const rota = origemDe({ origemTipo, titulo: chave, origemId }).rota;
+  // A rota explícita é só para o toque; a Agenda continua usando `origemDe` (remédio → Meus remédios).
+  const rota = rotaDoToque ?? origemDe({ origemTipo, titulo: chave, origemId }).rota;
   const notifId = temPermissao
     ? await pedirAoSistema({ title: tituloCompleto(texto), body: texto.corpo, data: { rota } }, { type: Notifications.SchedulableTriggerInputTypes.DAILY, hour: hh, minute: mm, channelId: CANAL_LEMBRETES })
     : null;
@@ -83,13 +86,25 @@ export async function agendarLembretesMrpa(userId: string, sessao: SessaoMrpa): 
   for (const l of planejarLembretesMrpa(sessao)) await agendar(userId, 'medida', sessao.id, l.titulo, textoMrpa(l.dia, sessao.diasPrevistos, l.periodo), l.quando, temPermissao);
 }
 
-/** §21: um aviso diário por horário (D-048); a lista mostra os próximos 7 dias e `sincronizar` a renova ao abrir o app. */
+/**
+ * §21: um aviso diário por horário (D-048); a lista mostra os próximos 7 dias e `sincronizar` a renova ao abrir o app.
+ * Spec de 23/11: o título leva a quantidade daquele horário e o toque abre a tela "Tomou?" da dose
+ * (a data entra no toque, `rotaComData`). A chave continua `medicacao:<id>:<HH:MM>`.
+ */
 export async function agendarLembretesMedicacao(userId: string, m: Medicacao): Promise<void> {
   await cancelarLembretes(userId, `medicacao:${m.id}:`);
   const temPermissao = await notificacoesPermitidas(userId, 'medicacao');
-  for (const h of m.horarios) await agendarDiario(userId, 'medicacao', m.id, `medicacao:${m.id}:${h.hora}`, textoRemedio(m.nome, m.dose ?? null), h.hora, temPermissao);
+  for (const h of m.horarios) {
+    const texto = textoRemedio(m.nome, m.dose ?? null, m.doseVariavel ? null : formatarQuantidade(h.quantidade, m.unidade));
+    await agendarDiario(userId, 'medicacao', m.id, `medicacao:${m.id}:${h.hora}`, texto, h.hora, temPermissao, rotaTomar(m.id, h.hora));
+  }
 }
 
+/**
+ * Chamada pela Home a cada abertura do app (`(tabs)/index.tsx`). É ela que, na primeira abertura
+ * depois da atualização, troca os avisos antigos ("Hora de tomar seu remédio", que abriam Meus
+ * medicamentos) pelos novos (spec §6.2): `agendarLembretesMedicacao` cancela pelo prefixo e reagenda.
+ */
 export async function sincronizarLembretesMedicacao(userId: string, ativasComLembrete: Medicacao[]): Promise<void> {
   for (const m of ativasComLembrete) await agendarLembretesMedicacao(userId, m);
 }

@@ -21,6 +21,7 @@ let mockCanceladas: string[] = [];
 let mockLinhas: { titulo: string; agendado_para: string; mensagem: string }[] = [];
 let mockPermissao = true;
 let mockIosRecusa = false;
+let mockPendentes: { id: string; mensagem: string }[] = [];
 
 jest.mock('expo-notifications', () => ({
   SchedulableTriggerInputTypes: { DATE: 'date', DAILY: 'daily' },
@@ -37,7 +38,7 @@ jest.mock('@core/supabase/client', () => ({
   supabase: {
     from: () => ({
       insert: async (linha: any) => { mockLinhas.push(linha); return { error: null }; },
-      select: () => ({ eq: () => ({ eq: () => ({ like: async () => ({ data: [], error: null }) }) }) }),
+      select: () => ({ eq: () => ({ eq: () => ({ like: async () => ({ data: mockPendentes, error: null }) }) }) }),
       update: () => ({ eq: () => ({ eq: () => ({ like: async () => ({ error: null }) }) }) }),
     }),
   },
@@ -46,7 +47,7 @@ jest.mock('@core/supabase/client', () => ({
 const { agendarLembretesMedicacao } = require('../lembretesCardio');
 
 beforeEach(() => {
-  mockAgendadas = []; mockCanceladas = []; mockLinhas = []; mockPermissao = true; mockIosRecusa = false;
+  mockAgendadas = []; mockCanceladas = []; mockLinhas = []; mockPermissao = true; mockIosRecusa = false; mockPendentes = [];
   jest.useFakeTimers().setSystemTime(AGORA);
 });
 afterEach(() => { jest.useRealTimers(); });
@@ -62,15 +63,17 @@ it('do que a pessoa digita até o que fica agendado', async () => {
   // D-048: um aviso diário por horário (o iOS guarda no máximo 64 agendados por app).
   expect(mockAgendadas).toHaveLength(2);
   expect(mockAgendadas.map((a) => [a.tipo, a.hour, a.minute])).toEqual([['daily', 8, 0], ['daily', 20, 0]]);
-  // D-044: ação no título, remédio embaixo; o toque abre Meus medicamentos.
-  expect(mockAgendadas[0].title).toBe('Hora de tomar seu remédio 💊');
-  expect(mockAgendadas[0].body).toBe('Losartana');
-  expect(mockAgendadas[0].rota).toBe('/(app)/(tabs)/minha-saude/medicamentos');
+  // Spec de 23/11 (D-066): remédio e quantidade no título; o toque abre a tela "Tomou?" daquela dose.
+  expect(mockAgendadas[0].title).toBe('Hora do remédio: Losartana · 1 comprimido 💊');
+  expect(mockAgendadas[0].body).toBe('Toque aqui para marcar');
+  expect(mockAgendadas[0].rota).toBe('/(app)/remedios/tomar?med=m1&hora=08:00');
+  expect(mockAgendadas[1].rota).toBe('/(app)/remedios/tomar?med=m1&hora=20:00');
 
   // A lista do app continua mostrando os próximos 7 dias: 14 menos o de hoje às 8h, que já passou
   // (são 9h no relógio do teste). Cada linha leva o id do aviso diário, para cancelar depois.
   expect(mockLinhas).toHaveLength(13);
   expect(mockLinhas[0].titulo).toBe('medicacao:m1:08:00');
+  expect(mockLinhas[0].mensagem).toMatch(/^Hora do remédio: Losartana · 1 comprimido · Toque aqui para marcar notif:/);
   expect(mockLinhas.every((l) => /notif:notif-[12]$/.test(l.mensagem))).toBe(true);
 });
 
@@ -104,4 +107,27 @@ it('o aviso se repete todo dia: não acaba depois de sete dias sem abrir o app',
   expect(mockAgendadas).toHaveLength(1);
   expect(mockAgendadas[0].tipo).toBe('daily');
   expect(mockAgendadas[0].date).toBeUndefined();
+});
+
+it('quantidade de cada horário no título; "dose muda conforme o dia" fica sem quantidade', async () => {
+  const m = remedio('m1', 'Losartana', ['08:00', '20:00']);
+  m.dose = '50 mg';
+  m.horarios = [{ hora: '08:00', quantidade: 0.5 }, { hora: '20:00', quantidade: 2 }];
+  await agendarLembretesMedicacao('u1', m);
+  expect(mockAgendadas.map((a) => a.title)).toEqual(['Hora do remédio: Losartana 50 mg · meio comprimido 💊', 'Hora do remédio: Losartana 50 mg · 2 comprimidos 💊']);
+
+  mockAgendadas = [];
+  await agendarLembretesMedicacao('u1', { ...remedio('m2', 'X', ['08:00']), doseVariavel: true });
+  expect(mockAgendadas[0].title).toBe('Hora do remédio: X 💊');
+});
+
+it('spec §6.2: ao abrir o app depois da atualização, o aviso antigo sai e entra o novo, com a rota da dose', async () => {
+  // Quem já usa o app tem o aviso diário no texto antigo; a Home chama `sincronizarLembretesMedicacao` ao abrir.
+  mockPendentes = [{ id: 'l1', mensagem: 'Hora de tomar seu remédio · Losartana notif:velho-1' }];
+  const { sincronizarLembretesMedicacao } = require('../lembretesCardio');
+  await sincronizarLembretesMedicacao('u1', [remedio('m1', 'Losartana', ['20:00'])]);
+  expect(mockCanceladas).toEqual(['velho-1']);
+  expect(mockAgendadas).toHaveLength(1);
+  expect(mockAgendadas[0].title).toBe('Hora do remédio: Losartana · 1 comprimido 💊');
+  expect(mockAgendadas[0].rota).toBe('/(app)/remedios/tomar?med=m1&hora=20:00');
 });

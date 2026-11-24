@@ -69,3 +69,12 @@ export function horaCurta(hora: string): string {
 export function mesclarQuantidades(horas: string[], anteriores: HorarioDose[]): HorarioDose[] {
   return horas.map((hora) => ({ hora, quantidade: anteriores.find((a) => a.hora === hora)?.quantidade ?? 1 }));
 }
+
+/**
+ * Rota da tela "Tomou?" (`app/(app)/remedios/tomar.tsx`). Sem `hora`, é o uso de um remédio "se
+ * precisar"; sem `data`, a tela usa hoje. O lembrete principal (diário) não sabe a data: quem a
+ * acrescenta é o toque, com o dia em que a notificação foi entregue (`rotaComData`).
+ */
+export function rotaTomar(medicacaoId: string, hora?: string, data?: string): string {
+  return `/(app)/remedios/tomar?med=${medicacaoId}${hora ? `&hora=${hora}` : ''}${hora && data ? `&data=${data}` : ''}`;
+}

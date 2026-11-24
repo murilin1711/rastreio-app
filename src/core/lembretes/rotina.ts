@@ -1,5 +1,6 @@
 import type { LembreteCentral } from './central';
 import type { TipoLembrete } from './origem';
+import { PREFIXO_REMEDIO } from './textos';
 
 /**
  * Agenda (pedido do Murilo, 25/09): o que se repete todo dia — remédio, glicemia, água e, enquanto
@@ -58,6 +59,9 @@ function nomeDo(tipo: TipoLembrete, texto: string): string {
   if (tipo === 'agua') return 'Beber água';
   if (tipo === 'mrpa') return 'Medir a pressão (MRPA)';
   if (tipo === 'checkin') return 'Check-in semanal';
+  // Remédio: "Hora do remédio: Losartana 50 mg · 1 comprimido · Toque aqui para marcar" → "Losartana 50 mg".
+  if (texto.startsWith(PREFIXO_REMEDIO)) return texto.slice(PREFIXO_REMEDIO.length).split(' · ')[0].trim() || 'Remédio';
+  // Linha gravada no texto antigo ("Hora de tomar seu remédio · Losartana 50 mg"), até o app reagendar.
   return texto.split(' · ').slice(1).join(' · ') || 'Remédio';
 }
 

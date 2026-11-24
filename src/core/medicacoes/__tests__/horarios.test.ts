@@ -68,3 +68,15 @@ test('mesclarQuantidades mantém a quantidade de quem continua; hora nova entra 
   expect(mesclarQuantidades(['08:00', '14:00'], [{ hora: '08:00', quantidade: 2 }, { hora: '20:00', quantidade: 1 }]))
     .toEqual([{ hora: '08:00', quantidade: 2 }, { hora: '14:00', quantidade: 1 }]);
 });
+
+import { rotaTomar } from '../horarios';
+
+describe('rotaTomar', () => {
+  it('remédio e horário; a data só quando vem', () => {
+    expect(rotaTomar('m1', '08:00')).toBe('/(app)/remedios/tomar?med=m1&hora=08:00');
+    expect(rotaTomar('m1', '20:30', '2026-11-23')).toBe('/(app)/remedios/tomar?med=m1&hora=20:30&data=2026-11-23');
+  });
+  it('sem horário ("se precisar"): só o remédio', () => {
+    expect(rotaTomar('m1')).toBe('/(app)/remedios/tomar?med=m1');
+  });
+});
