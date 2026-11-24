@@ -861,6 +861,96 @@ deixaram de ser entrada e as rotas fixas de `montarItensHoje`, e `nomesNovos.tes
 **Falta ver no aparelho:** folha Anotar por cima, arrastar fecha, ＋ some nas telas internas, voltas de Histórico e
 Levar ao médico, e botões a 17 pt com letra grande.
 
+### D-066 — Marcar remédio tomado — 23/11/2026
+**Por quê:** o NERO lembrava o horário do remédio, mas não sabia se a pessoa tomou. O Murilo quer que o idoso
+registre cada dose e que o médico veja esse registro (no check-in semanal e no PDF). É também a base do projeto
+"Familiar e emergência" (avisar um familiar quando a dose ficar sem resposta).
+
+**Como marca (escolha do Murilo):** **toque simples na notificação abre a tela "Tomou?"** já no remédio, no horário e
+na data certos (a data é a da entrega da notificação). **Botões dentro da notificação ("✓ Tomei" ao segurar) foram
+descartados:** o idoso não descobre o gesto de segurar. A tela tem `✓ Tomei` (grande), `Não tomei` e a quantidade
+pré-preenchida com o previsto (`Quantos comprimidos?` segue a unidade); dose já marcada mostra
+`Você já marcou essa dose às 8h10` com `Corrigir` (troca o registro) ou `Tomei de novo` (segunda tomada). Salvar
+mostra `Marcado ✓` sem esperar o cancelamento do segundo lembrete. Remédio "se precisar" não tem `Não tomei`.
+
+**Onde mais se marca:** tela inicial › "Para fazer hoje" (cada dose de hoje não marcada cujo horário já chegou);
+＋ Anotar › **"Tomei remédio"** (doses de hoje, uma seção **"De ontem"** com as doses de ontem ainda não marcadas e
+os remédios "se precisar" com "Tomei agora"); e "Meus remédios" (novo nome da tela de medicamentos), com as doses
+de hoje e o estado de cada uma. Sem "De ontem" o prazo até o fim do dia seguinte não teria onde ser usado.
+
+**Só a dose marcada vira linha** (`tomadas_medicacao`); as previstas são calculadas do cadastro. Cada tomada guarda
+cópia do previsto (`hora_prevista`, `quantidade_prevista`), então mudar o cadastro não reescreve o passado.
+
+**Classificação de cada dose prevista** (funções puras em `src/core/medicacoes/adesao.ts`):
+
+| Estado | Regra |
+|---|---|
+| Tomou | marcou "Tomei" com a quantidade prevista |
+| Não tomou | marcou "Não tomei" |
+| Errado | **quantidade diferente da prevista ou dose dobrada** (mais de uma tomada na mesma dose; escolha do Murilo). Em "a dose muda conforme o dia", só a dose dobrada |
+| Com atraso | tomou mais de **2 h** depois do horário. **Só informação, não é erro**: soma-se a Tomou ou Errado |
+| Sem registro | nada marcado **até o fim do dia seguinte**; quem só esqueceu de marcar não vira "não tomou" |
+
+Não contam doses fora de `desde`/`ate` nem de antes de `horarios_desde`. "Se precisar" não tem percentual: conta
+os usos dentro do período do remédio.
+
+**Sem limite de 80 % e sem cor (decisão do Murilo, 23/11):** a spec previa marcar na linha do tempo as semanas com
+adesão abaixo de 80 %. Saiu: seria julgamento clínico novo, sem diretriz que o sustente. A linha do tempo não recebe
+as doses, e nenhum resumo pinta a adesão de verde, amarelo ou vermelho.
+
+**Check-in semanal:** acima das perguntas, o quadro só de leitura **"Seus remédios nesta semana"**, só com fatos:
+uma fileira de símbolos (● tomou, ○ não tomou, ⚠ errado, – sem registro; a pendente fica de fora) e o texto
+`12 de 14 · 1 não tomada · 1 sem registro`, `7 de 7 ✓` (o ✓ é fato: todas tomadas, e o atraso continua junto:
+`7 de 7 ✓ · 2 com atraso`) ou `usou 3 vezes` para "se precisar". O quadro reserva o lugar enquanto carrega. O PDF
+fica para o plano do relatório (**D-067**).
+
+**Tomar remédio não conta na sequência de dias** (`dias_ativos`), por ora: decisão de produto.
+
+**Cadastro:** cada horário ganha "quanto tomar". **Unidades:** comprimido (passo 0,5, com "meio comprimido" e
+"1 comprimido e meio"), gota (1), unidade de insulina (1), mL (0,5) e jato ou inalação (1); a unidade vale também
+em "se precisar", e trocar a unidade leva as quantidades ao passo da nova. Opções **"a dose muda conforme o dia"** e
+**"se precisar"** (sem horário, sem lembrete). Ao salvar o primeiro remédio com horário aparece uma vez, e fica fixa
+no topo de "Meus remédios": `Sempre que tomar, marque no NERO. É assim que você e seu médico acompanham o tratamento.`
+Remédio com horário e lembrete desligado conta na adesão e aparece em "Para fazer hoje"; só não recebe aviso.
+
+**Dados (migração 0023):**
+- **`quantidades jsonb` à parte (`{"08:00": 1, "20:00": 2}`), e `horarios` continua `string[]`.** A spec pedia
+  `{hora, quantidade}` dentro de `horarios`, mas o build que está nas lojas lê `horarios` como lista de `'HH:MM'`
+  (`h.split(':')`) e quebraria a tela e os lembretes de quem não atualizou. Hora sem entrada vale 1. No app o
+  modelo é `HorarioDose[]`.
+- Colunas `unidade`, `dose_variavel`, `se_precisar`, `horarios_desde`. Ao migrar: remédio ativo sem horário vira
+  "se precisar" (e, no app, ativo com `horarios = []` também é tratado como "se precisar", porque o build antigo
+  ainda pode cadastrá-lo); quem tem horário começa a contar na migração, 1 comprimido por horário.
+- **`horarios_desde` mantido por gatilho** (insert ou mudança em `horarios`/`quantidades`), para valer também nas
+  edições do build antigo. **Reativar um remédio grava `horarios_desde` = agora**: o tempo parado não vira "sem
+  registro". Interromper grava `ate` com a data local.
+- **FK composta `(medicacao_id, user_id)` → `medicacoes(id, user_id)`**: a tomada só aponta para remédio do mesmo
+  dono (FK ignora RLS). RLS de dono como na 0005; a exclusão de conta apaga junto. Hora validada (00:00–23:59).
+- `listarTomadas` pagina além do teto de 1000 linhas do PostgREST. Política de privacidade: "registro de tomada de
+  remédios".
+
+**Notificações:**
+- Lembrete principal (diário, como na D-048): `Hora do remédio: Losartana 50 mg · 1 comprimido 💊` /
+  `Toque aqui para marcar` (o 💊 vem pelo padrão da D-044; "dose muda conforme o dia" não mostra a quantidade).
+  Todos são reagendados na primeira abertura depois da atualização.
+- **Segundo lembrete, 30 min depois**, só se a dose não foi marcada: `Você tomou Losartana das 8h? 💊` /
+  `Toque aqui para marcar`. É avulso (um diário não se cancela num dia só), no máximo um por dose, com
+  identificador `medicacao2:<remédio>:<data>:<hora>`, e **não grava linha em `lembretes`** (não aparece na Agenda).
+  Janela **ontem, hoje e amanhã**: ontem só o que ainda vai tocar (a dose das 23:45 avisa às 00:15, e a
+  sincronização depois da meia-noite não pode perdê-la). **Teto de 40 avulsos e nunca mais de 64 avisos no
+  total** (iOS, D-048), contando o que já está agendado; passou, fica só hoje (e o resto de ontem). Refeito ao
+  abrir o app e ao salvar remédio, numa **fila de sincronização** (uma de cada vez, conferindo as marcas logo antes
+  de agendar). Marcar a dose (tomei ou não tomei) cancela o dela. A preferência "Medicamentos" desligada cala os
+  dois. Se o app ficar dias sem abrir, os segundos param e o principal continua (aceito).
+- **Textos neutros em gênero** ("Hora do remédio", "Você tomou … das 8h?"), sem "esqueceu" nem cobrança.
+
+**Fontes:** spec `docs/superpowers/specs/2026-11-23-remedio-tomado-design.md`; plano
+`docs/superpowers/plans/2026-11-23-nero-remedio-tomado.md`; textos em `docs/nero/notificacoes.md`.
+
+**Falta ver no aparelho:** lembrete com o texto novo, toque abrindo "Tomou?" na dose certa, segundo lembrete aos
+30 min e cancelado ao marcar, "De ontem", quadro do check-in, interromper e reativar, e as 5 unidades em tela de
+320 pt.
+
 ---
 
 ## Decisões clínicas (protocolos adotados)
