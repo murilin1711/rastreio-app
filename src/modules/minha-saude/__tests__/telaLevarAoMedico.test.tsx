@@ -8,6 +8,7 @@ import { existe } from '../../../testes/rotas';
 (globalThis as any).mockReact = React;
 const mockPush = jest.fn();
 let mockSessoes: { id: string; concluidaEm: string | null }[] = [];
+let mockAtivos: object[] = [];
 
 // O jest.setup.js simplifica o useAbrir; aqui vale o de verdade (módulo do Coração: sem voltarPara).
 jest.unmock('@core/navegacao/useVoltar');
@@ -24,7 +25,7 @@ jest.mock('react-native-safe-area-context', () => {
   return { SafeAreaView: View, useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }) };
 });
 jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: { user: { id: 'u1' } }, carregando: false }) }));
-jest.mock('@core/relatorios/compartilharQr', () => ({ limparExpirados: async () => {}, listarAtivos: async () => [], revogar: jest.fn() }));
+jest.mock('@core/relatorios/compartilharQr', () => ({ limparExpirados: async () => {}, listarAtivos: async () => mockAtivos, revogar: jest.fn() }));
 jest.mock('@core/cardio/sessoesMrpa', () => ({ listarSessoes: jest.fn(async () => mockSessoes) }));
 
 const Relatorios = require('../../../../app/(app)/(tabs)/minha-saude/relatorios/index').default;
@@ -37,7 +38,7 @@ async function montar() {
   return arvore;
 }
 
-beforeEach(() => { mockPush.mockClear(); mockSessoes = []; });
+beforeEach(() => { mockPush.mockClear(); mockSessoes = []; mockAtivos = []; });
 
 it('cartões com os nomes novos', async () => {
   const arvore = await montar();
@@ -84,5 +85,16 @@ it('se a lista de sessões falhar, a tela abre sem o aviso', async () => {
   const arvore = await montar();
   expect(textoDe(arvore.toJSON())).toContain('Resumo completo');
   expect(textoDe(arvore.toJSON())).not.toContain('Abrir o relatório da MRPA');
+  act(() => arvore.unmount());
+});
+
+it('encerrar um compartilhamento avisa que o relatório e o PDF saem da nuvem (D-067)', async () => {
+  const { Alert } = require('react-native');
+  const alerta = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+  mockAtivos = [{ id: 'c1', tipo: 'geral', especialidade: null, caminho: 'u1/x.pdf', url: null, expiraEm: '2026-12-01T10:00:00Z', criadoEm: '2026-11-24T10:00:00Z' }];
+  const arvore = await montar();
+  act(() => apertar(arvore, 'Encerrar'));
+  expect(alerta).toHaveBeenCalledWith('Encerrar compartilhamento?', 'O código QR deixa de funcionar imediatamente e o relatório e o PDF são removidos da nuvem.', expect.any(Array));
+  alerta.mockRestore();
   act(() => arvore.unmount());
 });

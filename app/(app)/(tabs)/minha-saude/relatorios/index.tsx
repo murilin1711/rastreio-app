@@ -46,7 +46,7 @@ export default function Relatorios() {
   useFocusEffect(useCallback(() => { carregar(); }, [carregar]));
 
   const encerrar = (c: Compartilhamento) => {
-    Alert.alert('Encerrar compartilhamento?', 'O código QR deixa de funcionar imediatamente e o PDF é removido da nuvem.', [
+    Alert.alert('Encerrar compartilhamento?', 'O código QR deixa de funcionar imediatamente e o relatório e o PDF são removidos da nuvem.', [
       { text: 'Cancelar', style: 'cancel' },
       { text: 'Encerrar', style: 'destructive', onPress: async () => { try { await revogar(sessao!.user.id, c.id); await carregar(); } catch (e) { Alert.alert('Não foi possível encerrar', traduzirErro(e).mensagemUsuario); } } },
     ]);

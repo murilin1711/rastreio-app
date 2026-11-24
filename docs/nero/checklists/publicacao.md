@@ -2,7 +2,7 @@
 
 > Revisado em 25/09/2026 contra o código atual. Rodar no aparelho e anotar o que quebrar.
 > **Primeira rodada no TestFlight em 25/09** (build 2): cadastro, código por e-mail e Face ID passaram.
-> Migrações aplicadas até a **0020**.
+> Migrações aplicadas no remoto até a **0022** (conferido em 24/11 com `supabase migration list --linked`); 0023 e 0024 pendentes (D-066, D-067).
 
 ## Build 6: navegação, remédio tomado e relatório novo (D-065, D-066, D-067)
 
