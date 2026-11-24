@@ -27,7 +27,7 @@ export default function MeuRisco() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Coração & Metabolismo" title="Meu Risco Cardiovascular" />
+        <InternalHeader sectionLabel="Pressão, coração e diabetes" title="Meu Risco Cardiovascular" />
         <Text style={styles.sub}>{entendaPrevent}</Text>
 
         {ultimo ? (

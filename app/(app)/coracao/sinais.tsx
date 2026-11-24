@@ -9,7 +9,7 @@ export default function SinaisAlerta() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo}>
-        <InternalHeader sectionLabel="Coração & Metabolismo" title="Quando procurar atendimento" />
+        <InternalHeader sectionLabel="Pressão, coração e diabetes" title="Quando procurar o pronto-socorro" />
         <View style={styles.lista}>
           {sinaisAlerta.map((s) => (
             <View key={s} style={styles.item}>

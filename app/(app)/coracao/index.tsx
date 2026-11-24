@@ -6,26 +6,29 @@ import { ultimoPorTipo } from '@core/cardio/examesCardio';
 import type { ExameCardio } from '@core/cardio/mapeamento';
 import { ultimoRisco, type RiscoSalvo } from '@core/cardio/riscoCv';
 import { useCheckup } from '@core/cardio/useCheckup';
+import { useAbrir } from '@core/navegacao/useVoltar';
 import { useGlicemia } from '@core/cardio/useGlicemia';
 import { useMrpa } from '@core/cardio/useMrpa';
 import { usePressao } from '@core/cardio/usePressao';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { supabase } from '@core/supabase/client';
+import { acoesCoracao } from '@modules/coracao/acoes';
 import { CardResumo } from '@modules/coracao/componentes/CardResumo';
 import { dataLongaBr, haQuanto } from '@modules/coracao/componentes/formato';
 import { LeituraGlicemia } from '@modules/coracao/componentes/LeituraGlicemia';
 import { LeituraPA } from '@modules/coracao/componentes/LeituraPA';
 import { rotuloMomento } from '@modules/coracao/conteudo/glicemia';
-import { Colors, InternalHeader, ListItem, Spacing, Typography } from '@ui/index';
+import { Colors, InternalHeader, ListaAcoes, Spacing, Typography } from '@ui/index';
 import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 const MES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
 const mesAno = (iso: string) => `${MES[Number(iso.slice(5, 7)) - 1]}/${iso.slice(0, 4)}`;
 const fmt = (n: number) => String(n).replace('.', ',');
 
-/** Dashboard "Minha Saúde Cardiovascular" (§19): cada card abre a área correspondente. */
+/** Módulo "Pressão, coração e diabetes" no molde único (spec de navegação §6.5, D-065): o que fazer primeiro, depois só os números que existem. */
 export default function Coracao() {
   const router = useRouter();
+  const abrir = useAbrir();
   const { sessao } = useSessao();
   const pressao = usePressao();
   const mrpa = useMrpa();
@@ -57,28 +60,38 @@ export default function Coracao() {
   const ldl = exames.ldl;
   const ck = checkup.resultado;
 
+  const cartoes = [
+    ultimaPA && <CardResumo key="pressao" titulo="Pressão" valor={<LeituraPA pas={ultimaPA.pas} pad={ultimaPA.pad} />} detalhe={`última medida ${haQuanto(ultimaPA.medidoEm)}`} vazio="" onPress={() => router.push('/(app)/coracao/pressao')} />,
+    ultimaG && <CardResumo key="glicemia" titulo="Glicemia" valor={<LeituraGlicemia mgdl={ultimaG.mgdl} />} detalhe={`${rotuloMomento(ultimaG.momento).toLowerCase()} · ${haQuanto(ultimaG.medidoEm)}`} vazio="" onPress={() => router.push('/(app)/coracao/glicemia')} />,
+    hba1c?.resultado.valor != null && <CardResumo key="hba1c" titulo="Glicada (HbA1c)" valor={`${fmt(hba1c.resultado.valor)} %`} detalhe={`último exame ${mesAno(hba1c.dataRealizacao)}`} vazio="" onPress={() => router.push({ pathname: '/(app)/coracao/exames/[id]', params: { id: hba1c.id } })} />,
+    ldl?.resultado.valor != null && <CardResumo key="ldl" titulo="Colesterol LDL" valor={`${fmt(ldl.resultado.valor)} mg/dL`} detalhe={`último exame ${mesAno(ldl.dataRealizacao)}`} vazio="" onPress={() => router.push({ pathname: '/(app)/coracao/exames/[id]', params: { id: ldl.id } })} />,
+    risco && <CardResumo key="risco" titulo="Risco cardiovascular" valor={`${fmt(risco.ascvd10)} %`} detalhe={`em 10 anos · ${dataLongaBr(risco.calculadoEm.slice(0, 10))}`} vazio="" onPress={() => router.push('/(app)/coracao/risco')} />,
+    // Peso mora em Hábitos e bem-estar › Corpo (casa única, spec §6.6).
+    peso && <CardResumo key="peso" titulo="Peso" valor={`${fmt(peso.kg)} kg`} detalhe={haQuanto(peso.em)} vazio="" onPress={() => router.push('/(app)/bem-estar/corpo')} />,
+  ].filter(Boolean);
+
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={pressao.carregando} onRefresh={() => { pressao.recarregar(); mrpa.recarregar(); gli.recarregar(); checkup.recarregar(); carregarExtras(); }} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Módulo" title="Coração & Metabolismo" onBack={() => router.replace('/(app)/(tabs)')} />
+        <InternalHeader sectionLabel="Módulo" title="Pressão, coração e diabetes" onBack={() => router.replace('/(app)/(tabs)')} />
+
+        <ListaAcoes
+          acoes={acoesCoracao({
+            mrpa: s ? { id: s.id, dia: mrpa.dia, diasPrevistos: s.diasPrevistos } : null,
+            subtituloPrevencao: ck ? `Informações atualizadas: ${ck.atualizados}/${ck.total}` : 'Verificando…',
+          })}
+          onAbrir={abrir}
+        />
+
+        {/* Só os números que existem: sem cartão vazio pedindo registro (spec §6.5). */}
+        {cartoes.length ? (
+          <View style={styles.numeros}>
+            <Text style={styles.secao}>Seus últimos números</Text>
+            <View style={styles.grade}>{cartoes}</View>
+          </View>
+        ) : null}
+
         <Text style={styles.sub}>Pressão, glicemia, exames e risco cardiovascular em um só lugar, para você e seu médico.</Text>
-
-        <View style={styles.grade}>
-          <CardResumo titulo="Pressão" valor={ultimaPA ? <LeituraPA pas={ultimaPA.pas} pad={ultimaPA.pad} /> : undefined} detalhe={ultimaPA ? `última medida ${haQuanto(ultimaPA.medidoEm)}` : undefined} vazio="Registre para começar" onPress={() => router.push('/(app)/coracao/pressao')} />
-          <CardResumo titulo="MRPA" valor={s ? `Dia ${Math.min(Math.max(mrpa.dia, 1), s.diasPrevistos)} de ${s.diasPrevistos}` : undefined} detalhe={s ? 'em andamento' : undefined} vazio="Nenhuma em andamento" onPress={() => router.push(s ? { pathname: '/(app)/coracao/mrpa/[sessao]', params: { sessao: s.id } } : '/(app)/coracao/mrpa/iniciar')} />
-          <CardResumo titulo="Glicemia" valor={ultimaG ? <LeituraGlicemia mgdl={ultimaG.mgdl} /> : undefined} detalhe={ultimaG ? `${rotuloMomento(ultimaG.momento).toLowerCase()} · ${haQuanto(ultimaG.medidoEm)}` : undefined} vazio="Registre para começar" onPress={() => router.push('/(app)/coracao/glicemia')} />
-          <CardResumo titulo="HbA1c" valor={hba1c?.resultado.valor != null ? `${fmt(hba1c.resultado.valor)} %` : undefined} detalhe={hba1c ? `último exame ${mesAno(hba1c.dataRealizacao)}` : undefined} vazio="Registre em Meus Exames" onPress={() => router.push(hba1c ? { pathname: '/(app)/coracao/exames/[id]', params: { id: hba1c.id } } : '/(app)/coracao/exames')} />
-          <CardResumo titulo="LDL" valor={ldl?.resultado.valor != null ? `${fmt(ldl.resultado.valor)} mg/dL` : undefined} detalhe={ldl ? `último exame ${mesAno(ldl.dataRealizacao)}` : undefined} vazio="Registre em Meus Exames" onPress={() => router.push(ldl ? { pathname: '/(app)/coracao/exames/[id]', params: { id: ldl.id } } : '/(app)/coracao/exames')} />
-          <CardResumo titulo="Risco cardiovascular" valor={risco ? `${fmt(risco.ascvd10)} %` : undefined} detalhe={risco ? `em 10 anos · ${dataLongaBr(risco.calculadoEm.slice(0, 10))}` : undefined} vazio="Calcule seu risco" onPress={() => router.push('/(app)/coracao/risco')} />
-          <CardResumo titulo="Peso" valor={peso ? `${fmt(peso.kg)} kg` : undefined} detalhe={peso ? haQuanto(peso.em) : undefined} vazio="Informado ao calcular o risco" onPress={() => router.push('/(app)/coracao/risco/dados')} />
-        </View>
-
-        <View style={styles.lista}>
-          <ListItem icon="checkmark-circle-outline" title="Como está minha prevenção?" subtitle={ck ? `Informações atualizadas: ${ck.atualizados}/${ck.total}` : 'Verificando…'} onPress={() => router.push('/(app)/coracao/checkup')} />
-          <ListItem icon="flask-outline" title="Meus exames" subtitle="Laboratoriais e cardiológicos" onPress={() => router.push('/(app)/coracao/exames')} />
-          <ListItem icon="time-outline" title="Minha linha do tempo" subtitle="Evolução ao longo dos anos" onPress={() => router.push('/(app)/coracao/linha-do-tempo')} />
-          <ListItem icon="alert-circle-outline" title="Sinais de alerta" subtitle="Quando procurar atendimento" onPress={() => router.push('/(app)/coracao/sinais')} />
-        </View>
         <FontesDaTela tema='coracao' />
       </ScrollView>
     </SafeAreaView>
@@ -88,7 +101,8 @@ export default function Coracao() {
 const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: Colors.background },
   conteudo: { padding: Spacing.xxl, paddingBottom: Spacing.xxxl },
-  sub: { ...Typography.body, color: Colors.textSecondary, marginBottom: Spacing.xxl },
-  grade: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.md, marginBottom: Spacing.xxl },
-  lista: { gap: Spacing.sm },
+  sub: { ...Typography.body, color: Colors.textSecondary, marginTop: Spacing.xxl, marginBottom: Spacing.xxl },
+  numeros: { marginTop: Spacing.xxl, gap: Spacing.md },
+  secao: { ...Typography.heading, color: Colors.textPrimary },
+  grade: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.md },
 });

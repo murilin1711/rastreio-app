@@ -38,9 +38,14 @@ export default function MinhaPressao() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Coração & Metabolismo" title="Minha Pressão" />
+        <InternalHeader sectionLabel="Pressão, coração e diabetes" title="Minha Pressão" />
 
         {erro ? <Text style={styles.erro}>{erro.mensagemUsuario}</Text> : null}
+
+        <View style={styles.acoes}>
+          <Button label="Anotar minha pressão" onPress={() => router.push('/(app)/coracao/pressao/registrar')} />
+          <Button label="Iniciar MRPA" variant="outline" onPress={() => router.push('/(app)/coracao/mrpa/iniciar')} />
+        </View>
 
         {resumo7.media ? (
           <Card style={styles.resumo}>
@@ -64,11 +69,6 @@ export default function MinhaPressao() {
             </View>
           </View>
         ) : null}
-
-        <View style={styles.acoes}>
-          <Button label="Registrar medida" onPress={() => router.push('/(app)/coracao/pressao/registrar')} />
-          <Button label="Iniciar MRPA" variant="outline" onPress={() => router.push('/(app)/coracao/mrpa/iniciar')} />
-        </View>
 
         {barras.length > 1 ? (
           <View style={styles.bloco}>

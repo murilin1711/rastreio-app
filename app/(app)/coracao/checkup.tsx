@@ -21,7 +21,7 @@ export default function Checkup() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Coração & Metabolismo" title="Como está minha prevenção?" />
+        <InternalHeader sectionLabel="Pressão, coração e diabetes" title="Como está minha prevenção?" />
         {resultado ? (
           <>
             <Text style={styles.contador}>Informações atualizadas: {resultado.atualizados}/{resultado.total}</Text>

@@ -20,8 +20,15 @@ export default function MinhaGlicemia() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Coração & Metabolismo" title="Minha Glicemia" />
+        <InternalHeader sectionLabel="Pressão, coração e diabetes" title="Minha Glicemia" />
         {erro ? <Text style={styles.erro}>{erro.mensagemUsuario}</Text> : null}
+        <View style={styles.acoes}>
+          <Button label="Anotar minha glicemia" onPress={() => router.push('/(app)/coracao/glicemia/registrar')} />
+          <View style={{ flexDirection: 'row', gap: Spacing.sm }}>
+            <Button label="Meu plano" variant="outline" onPress={() => router.push('/(app)/coracao/glicemia/plano')} style={{ flex: 1 }} />
+            <Button label="Relatório" variant="outline" onPress={() => router.push('/(app)/coracao/glicemia/relatorio')} style={{ flex: 1 }} />
+          </View>
+        </View>
 
         {resumo7.n > 0 ? (
           <Card style={styles.resumo}>
@@ -43,14 +50,6 @@ export default function MinhaGlicemia() {
         ) : perfil && !perfil.temDiabetes ? (
           <Text style={styles.nota}>{semDiabetesRodape}</Text>
         ) : null}
-
-        <View style={styles.acoes}>
-          <Button label="Registrar glicemia" onPress={() => router.push('/(app)/coracao/glicemia/registrar')} />
-          <View style={{ flexDirection: 'row', gap: Spacing.sm }}>
-            <Button label="Meu plano" variant="outline" onPress={() => router.push('/(app)/coracao/glicemia/plano')} style={{ flex: 1 }} />
-            <Button label="Relatório" variant="outline" onPress={() => router.push('/(app)/coracao/glicemia/relatorio')} style={{ flex: 1 }} />
-          </View>
-        </View>
 
         {ultimos30.length ? (
           <View style={styles.bloco}>

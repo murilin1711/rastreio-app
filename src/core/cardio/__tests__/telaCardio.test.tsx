@@ -4,9 +4,11 @@
  * Renderiza a tela com repositórios simulados e confere que as recargas param.
  */
 import React from 'react';
-import { act, create } from 'react-test-renderer';
+import { act, create, type ReactTestRenderer } from 'react-test-renderer';
+import { textoDe } from '../../../testes/arvore';
 
 let mockRecargasMrpa = 0;
+let mockExames: Record<string, unknown> = {};
 (globalThis as any).mockReact = React;
 
 jest.mock('expo-router', () => ({
@@ -14,6 +16,7 @@ jest.mock('expo-router', () => ({
   useFocusEffect: (cb: () => void) => { (globalThis as any).mockReact.useEffect(() => { cb(); }, [cb]); },
   useRouter: () => ({ push: jest.fn(), replace: jest.fn(), back: jest.fn() }),
   useLocalSearchParams: () => ({}),
+  usePathname: () => '/coracao',
 }));
 jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: { user: { id: 'u1' } }, carregando: false, online: true, sair: jest.fn() }) }));
 jest.mock('@core/cardio/regras', () => ({ carregarRegrasCardio: async () => [] }));
@@ -28,7 +31,7 @@ jest.mock('@core/cardio/medidas', () => new Proxy({}, { get: (_t, k) => async ()
 jest.mock('@core/cardio/glicemia', () => new Proxy({}, { get: () => async () => [] }));
 jest.mock('@core/perfil/repositorio', () => ({ obterPerfil: async () => ({ temDiabetes: false, nome: 'X' }), listarAntecedentes: async () => [] }));
 jest.mock('@core/cardio/resumoHome', () => ({ montarFontesCheckup: async () => ({}) }));
-jest.mock('@core/cardio/examesCardio', () => ({ ultimoPorTipo: async () => ({}) }));
+jest.mock('@core/cardio/examesCardio', () => ({ ultimoPorTipo: async () => mockExames }));
 jest.mock('@core/cardio/riscoCv', () => ({ ultimoRisco: async () => null }));
 jest.mock('@core/supabase/client', () => {
   const q: Record<string, unknown> = {};
@@ -45,3 +48,47 @@ it('a tela do Cardio estabiliza depois de carregar (sem loop de recarga)', async
   // montagem + foco + perfil carregado; antes da correção passava de 200 em menos de 1 s
   expect(mockRecargasMrpa).toBeLessThanOrEqual(4);
 }, 10000);
+
+async function montar() {
+  let arvore!: ReactTestRenderer;
+  await act(async () => { arvore = create(<Coracao />); });
+  await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
+  return arvore;
+}
+
+afterEach(() => { mockExames = {}; });
+
+it('cabeçalho "Pressão, coração e diabetes" e começa por "O que você quer fazer?"', async () => {
+  const arvore = await montar();
+  const texto = textoDe(arvore.toJSON());
+  expect(texto).toContain('Pressão, coração e diabetes');
+  expect(texto).not.toContain('Coração & Metabolismo');
+  const titulo = texto.indexOf('Pressão, coração e diabetes');
+  const pergunta = texto.indexOf('O que você quer fazer?');
+  expect(pergunta).toBeGreaterThan(titulo);
+  expect(texto.indexOf('Minha pressão')).toBeGreaterThan(pergunta);
+  expect(texto).not.toContain('Minha linha do tempo');
+  act(() => arvore.unmount());
+});
+
+it('sem nenhum número, "Seus últimos números" e "Registre para começar" não aparecem', async () => {
+  const arvore = await montar();
+  const texto = textoDe(arvore.toJSON());
+  expect(texto).not.toContain('Seus últimos números');
+  expect(texto).not.toContain('Registre para começar');
+  expect(texto).not.toContain('Registre em Meus Exames');
+  expect(texto).not.toContain('Calcule seu risco');
+  act(() => arvore.unmount());
+});
+
+it('com HbA1c 6,1: "Seus últimos números" com o cartão "Glicada (HbA1c)" e sem cartão de LDL', async () => {
+  mockExames = { hba1c: { id: 'e1', resultado: { valor: 6.1 }, dataRealizacao: '2026-10-05' } };
+  const arvore = await montar();
+  const texto = textoDe(arvore.toJSON());
+  expect(texto).toContain('Seus últimos números');
+  expect(texto).toContain('Glicada (HbA1c)');
+  expect(texto).toContain('6,1 %');
+  expect(texto).not.toContain('Colesterol LDL');
+  expect(texto).not.toContain('LDL');
+  act(() => arvore.unmount());
+});
