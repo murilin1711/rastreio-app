@@ -33,6 +33,7 @@ jest.mock('@core/perfil/usePerfil', () => ({
   },
 }));
 jest.mock('@core/medicacoes/useMedicacoes', () => ({ useMedicacoes: () => ({ ativas: [], recarregar: jest.fn() }) }));
+jest.mock('@core/medicacoes/useDosesHoje', () => ({ useDosesHoje: () => ({ doses: [], carregando: false, erro: null, recarregar: async () => {} }) }));
 jest.mock('@core/rastreando/useRastreando', () => ({ useRastreando: () => ({ avaliacoes: {}, pendencias: [], sintomas: [], carregando: false, recarregar: jest.fn() }) }));
 jest.mock('@core/cardio/useResumoCardio', () => ({ useResumoCardio: () => ({ resumo: undefined, carregando: false, recarregar: jest.fn() }) }));
 jest.mock('@core/lembretes/useConsultas', () => ({ useConsultas: () => ({ proxima: null, carregando: false, recarregar: jest.fn() }) }));

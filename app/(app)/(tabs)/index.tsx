@@ -3,6 +3,7 @@ import { useFocusEffect, useIsFocused, useRouter, type Href } from 'expo-router'
 import { AccessibilityInfo, Alert, Animated, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useMedicacoes } from '@core/medicacoes/useMedicacoes';
+import { useDosesHoje } from '@core/medicacoes/useDosesHoje';
 import { useRastreando } from '@core/rastreando/useRastreando';
 import { sincronizarLembretesMedicacao } from '@core/cardio/lembretesCardio';
 import { useHabitos } from '@core/bemestar/useHabitos';
@@ -25,7 +26,7 @@ import { montarItensHoje, type ItemHoje as Item } from '@modules/home/montarIten
 import { traduzirErro } from '@core/supabase/erros';
 import { TEXTO_SEQUENCIA } from '@modules/bem-estar/conteudo/sequencia';
 import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
-import { BotaoAcao, Colors, LogoNero, MS_ATRASO_AO_VOLTAR, ModalAtivarAvisos, ModalComemoracao, NeroAnimado, Radius, SaidaConcluida, Spacing, Typography, useEspacoAbas, useSaidaConcluida } from '@ui/index';
+import { BotaoAcao, Button, Colors, LogoNero, MS_ATRASO_AO_VOLTAR, ModalAtivarAvisos, ModalComemoracao, NeroAnimado, Radius, SaidaConcluida, Spacing, Typography, useEspacoAbas, useSaidaConcluida } from '@ui/index';
 import { useAbrir } from '@core/navegacao/useVoltar';
 import { LinkFontes } from '@modules/fontes/FontesDaTela';
 import { BotaoAnotar } from '@modules/anotar/BotaoAnotar';
@@ -61,6 +62,8 @@ export default function Home() {
   const avaliarAvisos = avisos.avaliar;
   useFocusEffect(useCallback(() => { avaliarAvisos(); }, [avaliarAvisos]));
   const { ativas, recarregar: recarregarMed } = useMedicacoes();
+  // Doses de hoje: não entram no `pronto` (não seguram o esqueleto); a dose cujo horário chegou vira item.
+  const dosesHoje = useDosesHoje();
   const rastreando = useRastreando();
   const cardio = useResumoCardio();
   const consultas = useConsultas();
@@ -73,9 +76,11 @@ export default function Home() {
     consultas: { proxima: consultas.proxima ? { id: consultas.proxima.id, especialidade: consultas.proxima.especialidade, rotuloEspecialidade: rotuloEspecialidade(consultas.proxima.especialidade), dataHora: consultas.proxima.dataHora } : null },
     rastreando: rastreando.avaliacoes ? { pendencias: rastreando.pendencias, sintomas: rastreando.sintomas, avaliacoes: rastreando.avaliacoes } : undefined,
     cardio: cardio.resumo,
+    dosesHoje: dosesHoje.doses.map((d) => ({ ...d, nome: ativas.find((m) => m.id === d.medicacaoId)?.nome ?? 'Remédio' })),
     // Só afirma "nada pendente" quando todas as fontes responderam: antes disso o verde piscava na
-    // abertura do app e era substituído pelas pendências reais (D-027).
-    pronto,
+    // abertura do app e era substituído pelas pendências reais (D-027). As doses de hoje não seguram o
+    // esqueleto, mas sem elas (carregando ou com erro) o "nada pendente" também não é afirmado.
+    pronto: pronto && !dosesHoje.carregando && !dosesHoje.erro,
   });
   // §21: reagenda os lembretes de medicação uma vez por abertura do app (renova a lista de 7 dias)
   const sincronizou = useRef(false);
@@ -115,7 +120,7 @@ export default function Home() {
   const pendentes = itens.filter((i) => i.nivel !== 'verde').length;
   const inicial = perfil?.nome?.trim().charAt(0).toUpperCase() ?? '';
 
-  const atualizar = () => { recarregar(); recarregarMed(); rastreando.recarregar(); cardio.recarregar(); consultas.recarregar(); bemEstar.recarregar(); };
+  const atualizar = () => { recarregar(); recarregarMed(); dosesHoje.recarregar(); rastreando.recarregar(); cardio.recarregar(); consultas.recarregar(); bemEstar.recarregar(); };
 
   /**
    * Volta à Home recarrega as pendências (D-046). As abas continuam montadas, e a Home só buscava os
@@ -234,6 +239,13 @@ export default function Home() {
               return <View key={i.id}>{linha}</View>;
             });
           })()}
+          {dosesHoje.erro ? (
+            // Erro nas doses não pode virar lista vazia em silêncio: diria que não há remédio a marcar.
+            <View style={styles.erroDoses}>
+              <Text style={styles.erroDosesTexto}>Não foi possível ver as doses de remédio de hoje. {dosesHoje.erro}</Text>
+              <Button label="Tentar de novo" variant="outline" onPress={() => { dosesHoje.recarregar(); }} />
+            </View>
+          ) : null}
         </Animated.View>
         )}
 
@@ -272,6 +284,8 @@ const styles = StyleSheet.create({
   contador: { minWidth: 22, height: 22, borderRadius: Radius.pill, paddingHorizontal: 6, backgroundColor: Colors.warning, alignItems: 'center', justifyContent: 'center' },
   contadorTexto: { fontFamily: 'Poppins-Bold', fontSize: 12, color: Colors.white },
   grade: { gap: Spacing.md },
+  erroDoses: { backgroundColor: Colors.surface, borderRadius: Radius.linha, padding: Spacing.lg, gap: Spacing.md },
+  erroDosesTexto: { ...Typography.body, color: Colors.textPrimary },
   linhaGrade: { flexDirection: 'row', gap: Spacing.md },
   rodape: { ...Typography.caption, color: Colors.textMuted, textAlign: 'center', marginTop: Spacing.xxxl },
 });
