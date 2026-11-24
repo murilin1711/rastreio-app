@@ -25,9 +25,9 @@ export function dadosNeroTeste(): DadosNero {
     perfil,
     antecedentes: [{ id: 'a1', parentesco: 'mae', grau: 'primeiro', condicao: 'mama', idadeDiagnostico: 52, observacao: null }],
     medicacoes: [
-      { id: 'm1', nome: 'Losartana', dose: '50 mg', horarios: ['08:00'], desde: '2024-03-01', ate: null, prescritor: 'Dr. Lima', ativa: true, lembrar: true, observacao: null },
-      { id: 'm2', nome: 'Metformina', dose: '850 mg', horarios: ['08:00', '20:00'], desde: '2023-01-10', ate: null, prescritor: null, ativa: true, lembrar: false, observacao: null },
-      { id: 'm3', nome: 'Sinvastatina', dose: '20 mg', horarios: ['22:00'], desde: '2022-01-01', ate: '2024-01-01', prescritor: null, ativa: false, lembrar: false, observacao: null },
+      { id: 'm1', nome: 'Losartana', dose: '50 mg', horarios: [{ hora: '08:00', quantidade: 1 }], unidade: 'comprimido', doseVariavel: false, sePrecisar: false, horariosDesde: null, desde: '2024-03-01', ate: null, prescritor: 'Dr. Lima', ativa: true, lembrar: true, observacao: null },
+      { id: 'm2', nome: 'Metformina', dose: '850 mg', horarios: [{ hora: '08:00', quantidade: 1 }, { hora: '20:00', quantidade: 1 }], unidade: 'comprimido', doseVariavel: false, sePrecisar: false, horariosDesde: null, desde: '2023-01-10', ate: null, prescritor: null, ativa: true, lembrar: false, observacao: null },
+      { id: 'm3', nome: 'Sinvastatina', dose: '20 mg', horarios: [{ hora: '22:00', quantidade: 1 }], unidade: 'comprimido', doseVariavel: false, sePrecisar: false, horariosDesde: null, desde: '2022-01-01', ate: '2024-01-01', prescritor: null, ativa: false, lembrar: false, observacao: null },
     ],
     medidasPA: [pa(1, 128, 82), pa(2, 134, 86), pa(3, 126, 80), pa(4, 140, 90), pa(5, 122, 78), pa(6, 130, 84)],
     sessoesMrpa: [{

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Alert, Pressable, ScrollView, StyleSheet, Switch, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { formatarHorarios } from '@core/medicacoes/horarios';
+import { formatarHorarios, mesclarQuantidades } from '@core/medicacoes/horarios';
 import type { Medicacao } from '@core/medicacoes/tipos';
 import { useMedicacoes } from '@core/medicacoes/useMedicacoes';
 import { usePerfil } from '@core/perfil/usePerfil';
@@ -47,6 +47,9 @@ export default function Medicamentos() {
         nome,
         dose: editando?.dose?.trim() || null,
         horarios,
+        unidade: editando?.unidade ?? 'comprimido',
+        doseVariavel: editando?.doseVariavel ?? false,
+        sePrecisar: horarios.length === 0,
         desde: editando?.desde ?? null,
         ate: editando?.ate ?? null,
         prescritor: editando?.prescritor?.trim() || null,
@@ -107,7 +110,7 @@ export default function Medicamentos() {
             <Secao titulo={editando.id ? 'Editar medicamento' : 'Novo medicamento'}>
               <Input placeholder="Nome, por exemplo Losartana" value={editando.nome ?? ''} onChangeText={(v) => setEditando({ ...editando, nome: v })} />
               <Input placeholder="Dose, por exemplo 50 mg" value={editando.dose ?? ''} onChangeText={(v) => setEditando({ ...editando, dose: v })} />
-              <HorariosRemedio horarios={editando.horarios ?? []} onChange={(h) => setEditando({ ...editando, horarios: h })} />
+              <HorariosRemedio horarios={(editando.horarios ?? []).map((h) => h.hora)} onChange={(hs) => setEditando({ ...editando, horarios: mesclarQuantidades(hs, editando.horarios ?? []) })} />
               <View style={styles.toggle}>
                 <View style={{ flex: 1 }}>
                   <Text style={styles.toggleTitulo}>Lembrar nos horários</Text>
@@ -141,7 +144,7 @@ function CardMed({ m, onEditar, onAlternar }: { m: Medicacao; onEditar: () => vo
       <View style={{ flex: 1 }}>
         <Text style={styles.cardTitulo}>{m.nome}{m.dose ? `, ${m.dose}` : ''}</Text>
         <Text style={styles.cardSub}>
-          {m.horarios.length ? formatarHorarios(m.horarios) : 'Sem horário definido'}
+          {m.horarios.length ? formatarHorarios(m.horarios.map((h) => h.hora)) : 'Sem horário definido'}
           {m.desde ? ` · desde ${dataBr(m.desde)}` : ''}
           {!m.ativa && m.ate ? `: até ${dataBr(m.ate)}` : ''}
         </Text>

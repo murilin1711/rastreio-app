@@ -5,6 +5,14 @@
  * "será que está agendando mesmo?".
  */
 import { parsearHorarios } from '@core/medicacoes/horarios';
+import type { Medicacao } from '@core/medicacoes/tipos';
+
+/** Remédio no modelo do app: cada hora com 1 comprimido. */
+const remedio = (id: string, nome: string, horarios: string[]): Medicacao => ({
+  id, nome, dose: null, horarios: horarios.map((hora) => ({ hora, quantidade: 1 })), unidade: 'comprimido',
+  doseVariavel: false, sePrecisar: false, horariosDesde: null, desde: null, ate: null, prescritor: null,
+  ativa: true, lembrar: true, observacao: null,
+});
 
 const AGORA = new Date('2026-09-24T09:00:00');
 
@@ -49,7 +57,7 @@ it('do que a pessoa digita até o que fica agendado', async () => {
   expect(invalidos).toEqual([]);
   expect(horarios).toEqual(['08:00', '20:00']);
 
-  await agendarLembretesMedicacao('u1', { id: 'm1', nome: 'Losartana', horarios });
+  await agendarLembretesMedicacao('u1', remedio('m1', 'Losartana', horarios));
 
   // D-048: um aviso diário por horário (o iOS guarda no máximo 64 agendados por app).
   expect(mockAgendadas).toHaveLength(2);
@@ -67,7 +75,7 @@ it('do que a pessoa digita até o que fica agendado', async () => {
 });
 
 it('horário que já passou hoje não vira lembrete para trás', async () => {
-  await agendarLembretesMedicacao('u1', { id: 'm1', nome: 'X', horarios: ['06:00'] });
+  await agendarLembretesMedicacao('u1', remedio('m1', 'X', ['06:00']));
   expect(mockAgendadas).toHaveLength(1);              // o diário das 6h começa amanhã
   expect(mockLinhas).toHaveLength(6);                 // sete dias menos hoje
   expect(mockLinhas.every((l) => new Date(l.agendado_para).getTime() > AGORA.getTime())).toBe(true);
@@ -75,7 +83,7 @@ it('horário que já passou hoje não vira lembrete para trás', async () => {
 
 it('sem permissão do sistema, grava o lembrete mas não toca nada', async () => {
   mockPermissao = false;
-  await agendarLembretesMedicacao('u1', { id: 'm1', nome: 'X', horarios: ['20:00'] });
+  await agendarLembretesMedicacao('u1', remedio('m1', 'X', ['20:00']));
   expect(mockAgendadas).toHaveLength(0);
   expect(mockLinhas).toHaveLength(7);
   expect(mockLinhas[0].mensagem).toContain('silenciado');
@@ -84,7 +92,7 @@ it('sem permissão do sistema, grava o lembrete mas não toca nada', async () =>
 it('iOS recusa o agendamento: a linha fica silenciada, não finge que vai tocar', async () => {
   mockIosRecusa = true;
   const aviso = jest.spyOn(console, 'warn').mockImplementation(() => {});
-  await agendarLembretesMedicacao('u1', { id: 'm1', nome: 'X', horarios: ['20:00'] });
+  await agendarLembretesMedicacao('u1', remedio('m1', 'X', ['20:00']));
   expect(mockLinhas).toHaveLength(7);
   expect(mockLinhas.every((l) => l.mensagem.endsWith(' silenciado') && !l.mensagem.includes('notif:'))).toBe(true);
   expect(aviso).toHaveBeenCalled();
@@ -92,7 +100,7 @@ it('iOS recusa o agendamento: a linha fica silenciada, não finge que vai tocar'
 });
 
 it('o aviso se repete todo dia: não acaba depois de sete dias sem abrir o app', async () => {
-  await agendarLembretesMedicacao('u1', { id: 'm1', nome: 'X', horarios: ['20:00'] });
+  await agendarLembretesMedicacao('u1', remedio('m1', 'X', ['20:00']));
   expect(mockAgendadas).toHaveLength(1);
   expect(mockAgendadas[0].tipo).toBe('daily');
   expect(mockAgendadas[0].date).toBeUndefined();

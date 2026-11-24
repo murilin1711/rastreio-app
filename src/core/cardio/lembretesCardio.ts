@@ -2,6 +2,7 @@ import * as Notifications from 'expo-notifications';
 import { CANAL_LEMBRETES } from '@core/lembretes/configurar';
 import { planejarLembretesMrpa } from '@core/regras/cardio/lembretesMrpa';
 import type { SessaoMrpa } from '@core/regras/cardio/tipos';
+import type { Medicacao } from '@core/medicacoes/tipos';
 import { notificacoesPermitidas } from '@core/lembretes/permissao';
 import { origemDe } from '@core/lembretes/origem';
 import { mensagemDaLista, textoGlicemia, textoMrpa, textoRemedio, tituloCompleto, type TextoNotificacao } from '@core/lembretes/textos';
@@ -83,13 +84,13 @@ export async function agendarLembretesMrpa(userId: string, sessao: SessaoMrpa): 
 }
 
 /** §21: um aviso diário por horário (D-048); a lista mostra os próximos 7 dias e `sincronizar` a renova ao abrir o app. */
-export async function agendarLembretesMedicacao(userId: string, m: { id: string; nome: string; dose?: string | null; horarios: string[] }): Promise<void> {
+export async function agendarLembretesMedicacao(userId: string, m: Medicacao): Promise<void> {
   await cancelarLembretes(userId, `medicacao:${m.id}:`);
   const temPermissao = await notificacoesPermitidas(userId, 'medicacao');
-  for (const h of m.horarios) await agendarDiario(userId, 'medicacao', m.id, `medicacao:${m.id}:${h}`, textoRemedio(m.nome, m.dose ?? null), h, temPermissao);
+  for (const h of m.horarios) await agendarDiario(userId, 'medicacao', m.id, `medicacao:${m.id}:${h.hora}`, textoRemedio(m.nome, m.dose ?? null), h.hora, temPermissao);
 }
 
-export async function sincronizarLembretesMedicacao(userId: string, ativasComLembrete: { id: string; nome: string; dose?: string | null; horarios: string[] }[]): Promise<void> {
+export async function sincronizarLembretesMedicacao(userId: string, ativasComLembrete: Medicacao[]): Promise<void> {
   for (const m of ativasComLembrete) await agendarLembretesMedicacao(userId, m);
 }
 

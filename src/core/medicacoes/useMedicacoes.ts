@@ -31,7 +31,7 @@ export function useMedicacoes() {
     else await cancelarLembretes(userId, `medicacao:${m.id}:`);
   };
 
-  const salvar = async (m: Omit<Medicacao, 'id'> & { id?: string }) => {
+  const salvar = async (m: Omit<Medicacao, 'id' | 'horariosDesde'> & { id?: string }) => {
     if (!userId) return;
     await repo.salvarMedicacao(userId, m);
     const lista = await repo.listarMedicacoes(userId);
