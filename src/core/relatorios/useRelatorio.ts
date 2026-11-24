@@ -3,12 +3,16 @@ import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro, type ErroNero } from '@core/supabase/erros';
 import { carregarDadosNero, periodoDias } from './carregar';
 import { htmlRelatorio } from './html';
+import { montarPainel } from './painel';
 import { montarBemEstar, montarCardio, montarConsulta, montarGeral, montarOncologico, tituloRelatorio } from './montar';
-import type { ChaveSecao, DadosNero, Especialidade, SecaoRelatorio, TipoRelatorio } from './tipos';
+import type { ChaveSecao, DadosNero, Especialidade, PainelRelatorio, SecaoRelatorio, TipoRelatorio } from './tipos';
 
 export interface ParametrosRelatorio { tipo: TipoRelatorio; dias: 30 | 90 | 180; especialidade?: Especialidade; apenas?: ChaveSecao[] }
 
-/** Carrega os dados uma vez e monta seções + HTML (com ou sem QR) para a prévia, o PDF e o compartilhamento. */
+/**
+ * Carrega os dados uma vez e monta painel (página 1, D-067) + seções + HTML (com ou sem QR) para a prévia, o PDF
+ * e o compartilhamento. Todo PDF gerado no app sai daqui com o painel; nunca com a opção `tela` (só a página do QR).
+ */
 export function useRelatorio(p: ParametrosRelatorio) {
   const { sessao } = useSessao();
   const userId = sessao?.user.id;
@@ -37,11 +41,18 @@ export function useRelatorio(p: ParametrosRelatorio) {
     }
   }, [dados, p.tipo, p.especialidade, apenasChave, periodo]);
 
+  const painel: PainelRelatorio | null = useMemo(() => {
+    if (!dados) return null;
+    return montarPainel(dados, { tipo: p.tipo, especialidade: p.especialidade, apenas: apenasChave ? (apenasChave.split(',') as ChaveSecao[]) : undefined, periodo });
+  }, [dados, p.tipo, p.especialidade, apenasChave, periodo]);
+
+  /** Data de geração dos dados (`carregarDadosNero`): a mesma do painel, da adesão e do rodapé do PDF. */
+  const geradoEm = dados?.geradoEm ?? '';
   const titulo = tituloRelatorio(p.tipo, p.especialidade);
   const html = useCallback((qrSvg?: string, validadeQr?: string) => {
     if (!dados) return '';
-    return htmlRelatorio({ tipo: p.tipo, titulo, paciente: { nome: dados.perfil.nome, nascimento: dados.perfil.dataNascimento }, periodo, secoes, geradoEm: new Date().toISOString(), qrSvg, validadeQr });
-  }, [dados, p.tipo, titulo, periodo, secoes]);
+    return htmlRelatorio({ tipo: p.tipo, titulo, paciente: { nome: dados.perfil.nome, nascimento: dados.perfil.dataNascimento }, periodo, secoes, painel, geradoEm: dados.geradoEm, qrSvg, validadeQr });
+  }, [dados, p.tipo, titulo, periodo, secoes, painel]);
 
-  return { dados, secoes, titulo, periodo, html, carregando, erro, recarregar };
+  return { dados, painel, geradoEm, secoes, titulo, periodo, html, carregando, erro, recarregar };
 }

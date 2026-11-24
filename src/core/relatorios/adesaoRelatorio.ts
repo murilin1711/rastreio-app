@@ -7,6 +7,21 @@ import type { Bloco, DadosNero, EstadoDosePainel, LinhaAdesao } from './tipos';
 /** Símbolo de cada dose no painel. `◆` para errada (e não o `⚠` do app) porque renderiza igual no PDF e no navegador (Ruling X2). */
 export const SIMBOLO_DOSE: Record<EstadoDosePainel, string> = { tomou: '●', nao_tomou: '○', errado: '◆', sem_registro: '–' };
 export const LEGENDA_DOSES = '● tomou · ○ não tomou · ◆ errada · – sem registro';
+/** Estado de cada dose em palavras: rótulo acessível dos símbolos (a forma nunca sozinha). */
+export const ROTULO_DOSE: Record<EstadoDosePainel, string> = { tomou: 'tomou', nao_tomou: 'não tomou', errado: 'errada', sem_registro: 'sem registro' };
+
+/** Contagem por estado em palavras ("10 tomou, 4 não tomou"), para leitor de tela; '' sem doses. */
+export function rotuloDoses(doses: EstadoDosePainel[]): string {
+  return (Object.keys(ROTULO_DOSE) as EstadoDosePainel[]).map((e) => ({ e, n: doses.filter((x) => x === e).length }))
+    .filter((x) => x.n > 0).map((x) => `${x.n} ${ROTULO_DOSE[x.e]}`).join(', ');
+}
+
+/** Contagem à direita das bolinhas: fatos ("10 de 14"), sem percentual nem selo (Ruling S0). */
+export function contaRemedio(l: LinhaAdesao): string {
+  if (l.sePrecisar) return l.usosSePrecisar === 0 ? 'não usou' : l.usosSePrecisar === 1 ? 'usou 1 vez' : `usou ${l.usosSePrecisar} vezes`;
+  if (l.previstas === 0) return 'sem doses previstas no período';
+  return `${l.tomou} de ${l.previstas}`;
+}
 
 /** Janela da adesão no painel (2 semanas); o "em 14 dias" de "Para atenção" vem daqui. */
 export const DIAS_ADESAO_PAINEL = 14;

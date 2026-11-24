@@ -1,6 +1,6 @@
-import { TITULO_COMPLEMENTO, type Bloco, type CartaoNumero, type EstadoDosePainel, type LinhaAdesao, type PainelRelatorio, type Periodo, type ProgramaPainel, type SecaoRelatorio, type TipoRelatorio } from './tipos';
+import { TITULO_COMPLEMENTO, type Bloco, type CartaoNumero, type LinhaAdesao, type PainelRelatorio, type Periodo, type ProgramaPainel, type SecaoRelatorio, type TipoRelatorio } from './tipos';
 import { CREDITOS } from '@core/publicacao';
-import { LEGENDA_DOSES, SIMBOLO_DOSE } from './adesaoRelatorio';
+import { LEGENDA_DOSES, ROTULO_DOSE, SIMBOLO_DOSE, contaRemedio, rotuloDoses } from './adesaoRelatorio';
 import { fontesDoRelatorio } from './fontes';
 import { svgSistolica } from './grafico';
 
@@ -131,30 +131,23 @@ function blocoFontes(secoes: SecaoRelatorio[]): string {
   return `<section class="fontes"><h2>Fontes</h2><ol>${fontes.map((f) => `<li>${escapar(f.titulo.replace(/\.$/, ''))}. ${escapar(f.emissor)}, ${f.ano}. <a href="${escapar(f.url)}">${escapar(f.url)}</a></li>`).join('')}</ol></section>`;
 }
 
-const SETA: Record<NonNullable<CartaoNumero['tendencia']>, { seta: string; rotulo: string }> = {
+/** Seta da tendência e o rótulo dela (a seta nunca sozinha): também na prévia do app. */
+export const SETA_TENDENCIA: Record<NonNullable<CartaoNumero['tendencia']>, { seta: string; rotulo: string }> = {
   subiu: { seta: '↑', rotulo: 'subiu em relação à medida anterior' },
   desceu: { seta: '↓', rotulo: 'desceu em relação à medida anterior' },
 };
-const ROTULO_DOSE: Record<EstadoDosePainel, string> = { tomou: 'tomou', nao_tomou: 'não tomou', errado: 'errada', sem_registro: 'sem registro' };
 
 function cartao(c: CartaoNumero): string {
-  const t = c.tendencia ? SETA[c.tendencia] : null;
+  const t = c.tendencia ? SETA_TENDENCIA[c.tendencia] : null;
   const det = [c.data, c.detalhe].filter(Boolean).map((x) => escapar(x!)).join(' · ');
   return `<div class="cartao"><div class="titulo">${escapar(c.titulo)}</div><div class="valor">${escapar(c.valor)}${c.unidade ? ` <span class="unidade">${escapar(c.unidade)}</span>` : ''}${t ? `<span class="tendencia" title="${t.rotulo}" aria-label="${t.rotulo}">${t.seta}</span>` : ''}</div>${det ? `<div class="det">${det}</div>` : ''}</div>`;
-}
-
-/** Contagem à direita das bolinhas: fatos ("10 de 14"), sem percentual nem selo (Ruling S0). */
-function contaRemedio(l: LinhaAdesao): string {
-  if (l.sePrecisar) return l.usosSePrecisar === 0 ? 'não usou' : l.usosSePrecisar === 1 ? 'usou 1 vez' : `usou ${l.usosSePrecisar} vezes`;
-  if (l.previstas === 0) return 'sem doses previstas no período';
-  return `${l.tomou} de ${l.previstas}`;
 }
 
 function linhaRemedio(l: LinhaAdesao): string {
   const nome = l.dose ? `${l.nome} ${l.dose}` : l.nome;
   const doses = l.doses.map((e) => `<span class="dose" title="${ROTULO_DOSE[e]}">${SIMBOLO_DOSE[e]}</span>`).join('');
-  const contagem = (Object.keys(ROTULO_DOSE) as EstadoDosePainel[]).map((e) => ({ e, n: l.doses.filter((x) => x === e).length })).filter((x) => x.n > 0);
-  const rotulo = contagem.length ? ` aria-label="${contagem.map((x) => `${x.n} ${ROTULO_DOSE[x.e]}`).join(', ')}"` : '';
+  const contagem = rotuloDoses(l.doses);
+  const rotulo = contagem ? ` aria-label="${contagem}"` : '';
   return `<div class="remedio"><span class="nome">${escapar(nome)}</span><span class="doses"${rotulo}>${doses}</span><span class="conta">${escapar(contaRemedio(l))}</span></div>`;
 }
 

@@ -12,6 +12,7 @@ import { useRelatorio } from '@core/relatorios/useRelatorio';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro } from '@core/supabase/erros';
 import { FontesDaTela } from '@modules/fontes/FontesDaTela';
+import { PainelRelatorioView } from '@modules/minha-saude/componentes/PainelRelatorioView';
 import { SecaoRelatorioView } from '@modules/minha-saude/componentes/SecaoRelatorioView';
 import { TEXTO_QR } from '@modules/minha-saude/conteudo/relatorios';
 import { Button, Colors, completarPiso, EsperaNero, InternalHeader, Radius, Spacing, Typography, useFechamentoDaEspera } from '@ui/index';
@@ -76,6 +77,7 @@ export default function PreviaRelatorio() {
       <ScrollView contentContainerStyle={styles.conteudo}>
         <InternalHeader sectionLabel="Relatórios" title={rel.titulo} />
         <Text style={styles.meta}>Período das medidas: {rel.periodo.rotulo}. Exames e rastreamentos entram sem limite de data.</Text>
+        {rel.geradoEm ? <Text style={styles.meta}>{`Gerado em ${dataHoraBr(rel.geradoEm)}.`}</Text> : null}
         {/* Ações logo abaixo do título: antes ficavam no fim e exigiam rolar o relatório inteiro (D-049). */}
         {!rel.carregando && rel.dados ? (
           <View style={{ gap: Spacing.sm, marginTop: Spacing.lg }}>
@@ -84,6 +86,8 @@ export default function PreviaRelatorio() {
             <Text style={styles.nota}>{TEXTO_QR.nota}</Text>
           </View>
         ) : null}
+        {/* Página 1 do relatório (painel, D-067), em 1 coluna, antes do detalhe. */}
+        {rel.painel ? <View style={{ marginTop: Spacing.lg }}><PainelRelatorioView painel={rel.painel} /></View> : null}
         {rel.erro ? <Text style={styles.erro}>{rel.erro.mensagemUsuario}</Text> : null}
         {rel.carregando ? <Text style={styles.meta}>Montando o relatório…</Text> : null}
         <View style={{ gap: Spacing.md, marginTop: Spacing.lg }}>

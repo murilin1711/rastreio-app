@@ -8,6 +8,7 @@ import { act, create } from 'react-test-renderer';
 
 let mockCompartilhados: string[] = [];
 let mockGerou = 0;
+let mockPainel: unknown = null;
 
 jest.mock('expo-router', () => ({
   useRouter: () => ({ push: jest.fn(), replace: jest.fn(), back: jest.fn() }),
@@ -15,7 +16,7 @@ jest.mock('expo-router', () => ({
 }));
 jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: { user: { id: 'u1' } }, carregando: false, online: true, sair: jest.fn() }) }));
 jest.mock('@core/relatorios/useRelatorio', () => ({
-  useRelatorio: () => ({ titulo: 'Relatório', periodo: { rotulo: '90 dias' }, secoes: [], dados: {}, carregando: false, erro: null, html: () => '<html></html>' }),
+  useRelatorio: () => ({ titulo: 'Relatório', periodo: { rotulo: '90 dias' }, secoes: [], dados: {}, painel: mockPainel, geradoEm: '2026-09-18T10:30:00', carregando: false, erro: null, html: () => '<html></html>' }),
 }));
 jest.mock('@core/relatorios/gerarPdf', () => ({
   gerarPdf: async () => { mockGerou++; return 'file:///relatorio.pdf'; },
@@ -47,7 +48,7 @@ async function avancar(ms: number) {
   await act(async () => {});
 }
 
-beforeEach(() => { mockCompartilhados = []; mockGerou = 0; jest.useFakeTimers(); });
+beforeEach(() => { mockCompartilhados = []; mockGerou = 0; mockPainel = null; jest.useFakeTimers(); });
 afterEach(() => { jest.useRealTimers(); });
 
 it('segura a espera pelo piso e só compartilha depois que ela sai da tela', async () => {
@@ -92,3 +93,17 @@ it('se o aviso de fechamento nunca vier, compartilha mesmo assim depois do limit
   await avancar(LIMITE_FECHAMENTO_MS + 50);
   expect(mockCompartilhados).toEqual(['file:///relatorio.pdf']);
 }, 10000);
+
+it('com o painel pronto, mostra a página 1 depois das ações e a data de geração', async () => {
+  const { montarPainel } = require('@core/relatorios/painel');
+  const { dadosNeroTeste, PERIODO_TESTE } = require('./fixtures');
+  const { PainelRelatorioView } = require('@modules/minha-saude/componentes/PainelRelatorioView');
+  mockPainel = montarPainel(dadosNeroTeste(), { tipo: 'geral', periodo: PERIODO_TESTE });
+  let arvore: any;
+  await act(async () => { arvore = create(<Previa />); });
+  expect(arvore.root.findAllByType(PainelRelatorioView)).toHaveLength(1);
+  const texto = textoDe(arvore.toJSON());
+  expect(texto).toContain('Gerado em 18/09/2026 10:30.');
+  expect(texto.indexOf('Mostrar QR para o médico')).toBeLessThan(texto.indexOf('Para atenção nesta consulta'));
+  act(() => arvore.unmount());
+});
