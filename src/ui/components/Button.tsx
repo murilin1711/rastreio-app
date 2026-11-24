@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
   ghost:        { backgroundColor: 'transparent' },
   danger:       { backgroundColor: Colors.danger },
   disabled:     { opacity: 0.45 },
-  label:        { ...Typography.subheading },
+  label:        { ...Typography.heading },
   primaryLabel: { color: Colors.white },
   outlineLabel: { color: Colors.primary },
   ghostLabel:   { color: Colors.textSecondary },

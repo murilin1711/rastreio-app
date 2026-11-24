@@ -1,4 +1,3 @@
-import { useRouter } from 'expo-router';
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -18,7 +17,6 @@ import { LinkFontes } from '@modules/fontes/FontesDaTela';
  * depois o que exige ação e só o que é aplicável ao perfil.
  */
 export default function Rastreando() {
-  const router = useRouter();
   const abrir = useAbrir();
   const { avaliacoes, perfil, pendencias, sintomas, carregando, erro, recarregar } = useRastreando();
   // Pendência resolvida fica verde e só então sai da lista (D-024).

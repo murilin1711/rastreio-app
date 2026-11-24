@@ -42,17 +42,21 @@ beforeEach(() => { mockGravadas = []; mockContagens = 0; mockObtidas = []; mockH
 it('grava as conquistas novas uma única vez, e só as de Bem-estar', async () => {
   // "Perfil completo" não é daqui: aparecia ao voltar da Água para quem tinha completado o perfil
   // em outra tela (relato do Murilo, 25/09). Ela sai onde o perfil é completado.
-  await act(async () => { create(<BemEstar />); });
+  let arvore: any;
+  await act(async () => { arvore = create(<BemEstar />); });
   for (let i = 0; i < 5; i++) await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
   expect(mockGravadas).toEqual([['primeira_atividade']]);
+  act(() => arvore.unmount());
 }, 10000);
 
 it('quem já tem todas as conquistas não dispara contagem no banco', async () => {
   mockObtidas = ['primeira_atividade', 'primeira_noite_sono', 'primeiro_checkin'];
-  await act(async () => { create(<BemEstar />); });
+  let arvore: any;
+  await act(async () => { arvore = create(<BemEstar />); });
   for (let i = 0; i < 3; i++) await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
   expect(mockContagens).toBe(0);
   expect(mockGravadas).toEqual([]);
+  act(() => arvore.unmount());
 }, 10000);
 
 async function montar() {

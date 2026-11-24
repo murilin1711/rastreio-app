@@ -10,7 +10,7 @@ import { entendaMetas, ROTULO_PERFIL_META, semDiabetesRodape } from '@modules/co
 import { Button, Card, Colors, InternalHeader, Spacing, Typography } from '@ui/index';
 import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
-/** Minha Glicemia (§5, C-012): registros, metas visíveis com origem, resumo dos 7 dias. */
+/** Minha glicemia (§5, C-012): registros, metas visíveis com origem, resumo dos 7 dias. */
 export default function MinhaGlicemia() {
   const router = useRouter();
   const { medidas, metas, perfil, resumo7, carregando, erro, avaliar, recarregar } = useGlicemia();
@@ -20,7 +20,7 @@ export default function MinhaGlicemia() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Pressão, coração e diabetes" title="Minha Glicemia" />
+        <InternalHeader sectionLabel="Pressão, coração e diabetes" title="Minha glicemia" />
         {erro ? <Text style={styles.erro}>{erro.mensagemUsuario}</Text> : null}
         <View style={styles.acoes}>
           <Button label="Anotar minha glicemia" onPress={() => router.push('/(app)/coracao/glicemia/registrar')} />

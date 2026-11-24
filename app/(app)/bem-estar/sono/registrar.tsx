@@ -20,7 +20,7 @@ const somarDia = (iso: string) => { const [a, m, d] = iso.split('-').map(Number)
 type Qualidade = '1' | '2' | '3' | '4' | '5';
 type ChaveCtx = keyof typeof ROTULO_CONTEXTO_SONO;
 
-/** Registrar noite (§80): dormiu (data + hora), acordou (hora; se antes de dormir, assume o dia seguinte), qualidade, opcionais. */
+/** Anotar noite de sono (§80): dormiu (data + hora), acordou (hora; se antes de dormir, assume o dia seguinte), qualidade, opcionais. */
 export default function RegistrarSono() {
   const router = useRouter();
   const { inserir } = useSono();
@@ -54,7 +54,7 @@ export default function RegistrarSono() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Meu Sono" title="Registrar noite" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Meu Sono" title="Anotar noite de sono" onBack={() => router.back()} />
         <Text style={styles.rotulo}>Data em que dormiu</Text>
         <CampoData valor={data} onChange={setData} />
         <Text style={styles.rotulo}>Horários</Text>

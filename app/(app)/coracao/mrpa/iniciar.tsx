@@ -59,7 +59,7 @@ export default function IniciarMrpa() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Minha Pressão" title="Iniciar MRPA" />
+        <InternalHeader sectionLabel="Minha pressão" title="Iniciar MRPA" />
         <Text style={styles.abertura}>{aberturaMrpa}</Text>
 
         <Text style={styles.secao}>Como será</Text>

@@ -18,7 +18,7 @@ const numero = (t: string) => (t.trim() === '' ? null : Number(t.replace(',', '.
 const horaValida = (h: string) => /^([01]\d|2[0-3]):[0-5]\d$/.test(h);
 const agoraHHMM = () => { const d = new Date(); return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`; };
 
-/** Registrar atividade (§77): tipo, data/hora, duração, intensidade percebida; distância, FC e calorias opcionais. */
+/** Anotar atividade (§77): tipo, data/hora, duração, intensidade percebida; distância, FC e calorias opcionais. */
 export default function RegistrarAtividade() {
   const router = useRouter();
   const { inserir } = useAtividades();
@@ -53,7 +53,7 @@ export default function RegistrarAtividade() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Minhas Atividades" title="Registrar atividade" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Minhas Atividades" title="Anotar atividade" onBack={() => router.back()} />
         <Text style={styles.rotulo}>Atividade</Text>
         <Select opcoes={(Object.keys(ROTULO_ATIVIDADE) as TipoAtividade[]).map((t) => ({ valor: t, rotulo: ROTULO_ATIVIDADE[t] }))} valor={tipo} onChange={setTipo} placeholder="Escolha a atividade" />
         <Text style={styles.rotulo}>Data e hora de início</Text>

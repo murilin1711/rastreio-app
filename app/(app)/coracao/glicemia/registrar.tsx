@@ -70,7 +70,7 @@ export default function RegistrarGlicemia() {
     return (
       <SafeAreaView style={styles.tela} edges={['top']}>
         <ScrollView contentContainerStyle={styles.conteudo}>
-          <InternalHeader sectionLabel="Minha Glicemia" title="Glicemia registrada" onBack={() => router.back()} />
+          <InternalHeader sectionLabel="Minha glicemia" title="Glicemia registrada" onBack={() => router.back()} />
           <View style={styles.resultado}>
             <LeituraGlicemia mgdl={mgdl} tamanho="grande" />
             <Text style={styles.momentoTexto}>{momento ? rotuloMomento(momento) : ''}</Text>
@@ -92,7 +92,7 @@ export default function RegistrarGlicemia() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Minha Glicemia" title="Registrar glicemia" />
+        <InternalHeader sectionLabel="Minha glicemia" title="Anotar minha glicemia" />
         <Text style={styles.rotulo}>Qual o momento da medida?</Text>
         <Select<MomentoGlicemia> opcoes={MOMENTOS} valor={momento} onChange={setMomento} placeholder="Escolha o momento" />
         <Text style={styles.rotulo}>Glicemia (mg/dL)</Text>

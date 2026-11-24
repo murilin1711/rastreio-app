@@ -1,9 +1,8 @@
 /** Aba Minha Saúde como lista única (spec de navegação §6.3, D-065): "O que você quer fazer?" e sem "Linha do tempo". */
-import fs from 'fs';
-import path from 'path';
 import React from 'react';
 import { act, create, type ReactTestRenderer } from 'react-test-renderer';
 import { apertar, textoDe } from '../../../testes/arvore';
+import { existe } from '../../../testes/rotas';
 
 (globalThis as any).mockReact = React;
 const mockPush = jest.fn();
@@ -42,10 +41,6 @@ const MinhaSaude = require('../../../../app/(app)/(tabs)/minha-saude/index').def
 const { ListItem } = require('@ui/components/ListItem');
 
 /** O arquivo de tela que atende a rota (`/(app)/(tabs)/minha-saude/x` → `app/(app)/(tabs)/minha-saude/x.tsx` ou `x/index.tsx`). */
-const existe = (rota: string) => {
-  const base = path.join(__dirname, '../../../../app', rota.split('?')[0]);
-  return fs.existsSync(`${base}.tsx`) || fs.existsSync(path.join(base, 'index.tsx'));
-};
 
 async function montar() {
   let arvore!: ReactTestRenderer;

@@ -1,12 +1,8 @@
 /** Itens da folha Anotar: cada um precisa levar a uma tela que existe — rota errada só apareceria no aparelho. */
-import { existsSync } from 'fs';
-import { join } from 'path';
+import { existe } from '../../../testes/rotas';
 
 jest.mock('@expo/vector-icons', () => ({ Ionicons: { glyphMap: {} } }));
 const { ITENS_ANOTAR } = require('../itensAnotar');
-
-const RAIZ = join(__dirname, '../../../../app');
-const existe = (rota: string) => ['.tsx', '/index.tsx'].some((fim) => existsSync(join(RAIZ, rota.replace(/^\//, '') + fim)));
 
 it('começa por Pressão e Glicemia e tem os nove itens da spec', () => {
   const rotulos = ITENS_ANOTAR.map((i: { rotulo: string }) => i.rotulo);

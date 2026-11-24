@@ -36,7 +36,7 @@ export default function RelatorioGlicemia() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo}>
-        <InternalHeader sectionLabel="Minha Glicemia" title="Relatório" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Minha glicemia" title="Relatório" onBack={() => router.back()} />
         <View style={styles.compartilhar}><Button label="Compartilhar em PDF" variant="outline" onPress={() => abrir({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: 'cardio', dias: '90', apenas: 'glicemia,hba1c' } })} /></View>
         <Opcoes<Periodo> opcoes={[{ valor: '7', rotulo: 'Últimos 7 dias' }, { valor: '14', rotulo: '14 dias' }, { valor: '30', rotulo: '30 dias' }, { valor: '90', rotulo: '90 dias' }]} valor={periodo} onChange={setPeriodo} />
 

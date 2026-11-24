@@ -38,11 +38,14 @@ const Home = require('../../../../app/(app)/(tabs)/index').default;
 const CINCO = ['Anotar minha pressão', 'Meus remédios', 'Anotar minha glicemia', 'Levar ao médico', 'Minhas consultas'];
 const CUIDADOS = ['Pressão, coração e diabetes', 'Exames de prevenção', 'Hábitos e bem-estar'];
 
+const montadas: any[] = [];
 async function montar() {
   let a: any;
   await act(async () => { a = create(<Home />); });
+  montadas.push(a);
   return a;
 }
+afterEach(() => { act(() => { montadas.splice(0).forEach((a) => a.unmount()); }); });
 /** Conteúdo de cada `Text` da tela (o `Text` de fora; os de dentro repetem o mesmo texto). */
 const textos = (a: any): string[] => a.root.findAllByType(Text).map(textoDe);
 const botao = (a: any, rotulo: string) => a.root.findAll((n: any) => n.props.accessibilityLabel === rotulo && typeof n.props.onPress === 'function');
@@ -87,6 +90,9 @@ it('"Para fazer hoje" substitui "Pendências"; "Meus cuidados" tem os três mód
   expect(t).toContain('Peso, sono, atividades, água, alimentação e metas');
   for (const c of CUIDADOS) {
     const [card] = botao(a, c);
+    // O VoiceOver lê o nome e, em seguida, o que tem dentro.
+    expect(card.props.accessibilityHint).toBeTruthy();
+    expect(t).toContain(card.props.accessibilityHint);
     expect(StyleSheet.flatten(card.props.style({ pressed: false }))).toMatchObject({ width: '100%' });
     expect(StyleSheet.flatten(card.props.style({ pressed: false })).flex).toBeUndefined();
   }

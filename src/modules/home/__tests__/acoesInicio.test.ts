@@ -1,12 +1,8 @@
 /** Ações do topo do Início (spec de navegação §6.3, D-065): no máximo cinco, e cada uma leva a uma tela que existe. */
-import { existsSync } from 'fs';
-import { join } from 'path';
+import { existe } from '../../../testes/rotas';
 
 jest.mock('@expo/vector-icons', () => ({ Ionicons: Object.assign(() => null, { glyphMap: {} }) }));
 const { acoesInicio } = require('../acoesInicio');
-
-const RAIZ = join(__dirname, '../../../../app');
-const existe = (rota: string) => ['.tsx', '/index.tsx'].some((fim) => existsSync(join(RAIZ, rota.replace(/^\//, '') + fim)));
 
 it('com diabetes no perfil: pressão, remédios, glicemia, médico + consultas', () => {
   const { grade, largo } = acoesInicio(true);

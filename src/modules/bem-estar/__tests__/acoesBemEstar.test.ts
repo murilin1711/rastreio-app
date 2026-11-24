@@ -1,12 +1,8 @@
 /** Ações do módulo "Hábitos e bem-estar" (spec de navegação §6.5, D-065): molde único, cada uma leva a uma tela que existe. */
-import { existsSync } from 'fs';
-import { join } from 'path';
+import { existe } from '../../../testes/rotas';
 
 jest.mock('@expo/vector-icons', () => ({ Ionicons: Object.assign(() => null, { glyphMap: {} }) }));
 const { ACOES_BEM_ESTAR } = require('../acoes');
-
-const RAIZ = join(__dirname, '../../../../app');
-const existe = (rota: string) => ['.tsx', '/index.tsx'].some((fim) => existsSync(join(RAIZ, rota.split('?')[0].replace(/^\//, '') + fim)));
 
 it('as sete ações na ordem da spec', () => {
   expect(ACOES_BEM_ESTAR.map((a: { titulo: string }) => a.titulo)).toEqual([

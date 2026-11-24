@@ -12,7 +12,7 @@ import { entendaReferencia, preparoMedida } from '@modules/coracao/conteudo/pres
 import { Button, Card, Colors, InternalHeader, Radius, Spacing, Typography } from '@ui/index';
 import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
-/** Minha Pressão (§1, C-010): registro casual, médias descritivas e convite para MRPA. Sem cor por valor. */
+/** Minha pressão (§1, C-010): registro casual, médias descritivas e convite para MRPA. Sem cor por valor. */
 export default function MinhaPressao() {
   const router = useRouter();
   const { medidas, parametros, resumo7, resumo30, convidarMrpa, carregando, erro, dispensarConvite, recarregar } = usePressao();
@@ -38,7 +38,7 @@ export default function MinhaPressao() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Pressão, coração e diabetes" title="Minha Pressão" />
+        <InternalHeader sectionLabel="Pressão, coração e diabetes" title="Minha pressão" />
 
         {erro ? <Text style={styles.erro}>{erro.mensagemUsuario}</Text> : null}
 

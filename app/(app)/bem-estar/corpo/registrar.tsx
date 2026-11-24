@@ -11,7 +11,7 @@ import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 const numero = (t: string) => (t.trim() === '' ? null : Number(t.replace(',', '.')));
 type Metodo = keyof typeof ROTULO_METODO;
 
-/** Registrar medidas (§70): peso, altura, cintura, quadril, método, data. Validação de plausibilidade (spec §10). */
+/** Anotar peso e medidas (§70): peso, altura, cintura, quadril, método, data. Validação de plausibilidade (spec §10). */
 export default function RegistrarMedidas() {
   const router = useRouter();
   const { perfil, ultimos, parametros, registrar } = useCorpo();
@@ -48,7 +48,7 @@ export default function RegistrarMedidas() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Meu Corpo" title="Registrar medidas" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Meu Corpo" title="Anotar peso e medidas" onBack={() => router.back()} />
         <Text style={styles.rotulo}>Peso (kg)</Text>
         <Input value={peso} onChangeText={setPeso} placeholder="Ex.: 72,4" keyboardType="decimal-pad" />
         <Text style={styles.rotulo}>Altura (cm)</Text>

@@ -1,12 +1,12 @@
 /** Ações do módulo "Pressão, coração e diabetes" (spec de navegação §6.5, D-065): molde único, cada uma leva a uma tela que existe. */
 import { existsSync } from 'fs';
 import { join } from 'path';
+import { existe } from '../../../testes/rotas';
 
 jest.mock('@expo/vector-icons', () => ({ Ionicons: Object.assign(() => null, { glyphMap: {} }) }));
 const { acoesCoracao } = require('../acoes');
 
 const RAIZ = join(__dirname, '../../../../app');
-const existe = (rota: string) => ['.tsx', '/index.tsx'].some((fim) => existsSync(join(RAIZ, rota.replace(/^\//, '') + fim)));
 
 it('sem MRPA, as sete ações na ordem da spec', () => {
   expect(acoesCoracao({ mrpa: null }).map((a: { titulo: string }) => a.titulo)).toEqual([

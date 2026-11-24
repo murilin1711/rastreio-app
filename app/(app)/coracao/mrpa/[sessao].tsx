@@ -25,7 +25,7 @@ export default function SessaoMrpaTela() {
   if (!sessao) {
     return (
       <SafeAreaView style={styles.tela} edges={['top']}>
-        <View style={styles.conteudo}><InternalHeader sectionLabel="Minha Pressão" title="MRPA" /><Text style={styles.sub}>{carregando ? 'Carregando…' : erro?.mensagemUsuario ?? 'Sessão não encontrada.'}</Text></View>
+        <View style={styles.conteudo}><InternalHeader sectionLabel="Minha pressão" title="MRPA" /><Text style={styles.sub}>{carregando ? 'Carregando…' : erro?.mensagemUsuario ?? 'Sessão não encontrada.'}</Text></View>
       </SafeAreaView>
     );
   }

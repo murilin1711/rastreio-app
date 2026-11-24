@@ -30,6 +30,7 @@ export function CardModulo({ titulo, icone, capa, emBreve, descricao, largo, onP
       disabled={emBreve}
       accessibilityRole="button"
       accessibilityLabel={titulo}
+      accessibilityHint={descricao}
       accessibilityState={{ disabled: !!emBreve }}
       style={({ pressed }) => [styles.card, largo ? styles.largo : styles.normal, pressed && !emBreve && styles.pressionado]}
     >

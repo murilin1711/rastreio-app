@@ -1,7 +1,7 @@
 import type { SintomaPA } from '@core/regras/cardio/tipos';
 
 /**
- * Textos do Minha Pressão. Fonte: Diretrizes de Medidas da PA 2023, Quadro 19 (instruções ao paciente),
+ * Textos do Minha pressão. Fonte: Diretrizes de Medidas da PA 2023, Quadro 19 (instruções ao paciente),
  * em linguagem do §25. Revisão clínica: docs/nero/revisao/ (Fase 2a).
  */
 export const preparoMedida = [

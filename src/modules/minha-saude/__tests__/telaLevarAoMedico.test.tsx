@@ -1,9 +1,9 @@
 /** "Levar ao médico" (spec de navegação §6.4, D-065): cartões com os nomes novos e o aviso da MRPA concluída. */
-import fs from 'fs';
-import path from 'path';
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { act, create, type ReactTestRenderer } from 'react-test-renderer';
 import { apertar, textoDe } from '../../../testes/arvore';
+import { existe } from '../../../testes/rotas';
 
 (globalThis as any).mockReact = React;
 const mockPush = jest.fn();
@@ -25,14 +25,10 @@ jest.mock('react-native-safe-area-context', () => {
 });
 jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: { user: { id: 'u1' } }, carregando: false }) }));
 jest.mock('@core/relatorios/compartilharQr', () => ({ limparExpirados: async () => {}, listarAtivos: async () => [], revogar: jest.fn() }));
-jest.mock('@core/cardio/sessoesMrpa', () => ({ listarSessoes: async () => mockSessoes }));
+jest.mock('@core/cardio/sessoesMrpa', () => ({ listarSessoes: jest.fn(async () => mockSessoes) }));
 
 const Relatorios = require('../../../../app/(app)/(tabs)/minha-saude/relatorios/index').default;
-
-const existe = (rota: string) => {
-  const base = path.join(__dirname, '../../../../app', rota.split('?')[0]);
-  return fs.existsSync(`${base}.tsx`) || fs.existsSync(path.join(base, 'index.tsx'));
-};
+const { listarSessoes } = require('@core/cardio/sessoesMrpa');
 
 async function montar() {
   let arvore!: ReactTestRenderer;
@@ -72,6 +68,8 @@ it('com MRPA concluída, o aviso leva ao relatório dela', async () => {
   expect(texto.indexOf('Vou a um médico específico')).toBeGreaterThan(aviso);
   const links = arvore.root.findAll((n) => n.props?.accessibilityRole === 'link' && typeof n.props?.onPress === 'function' && typeof n.type !== 'string');
   expect(links.map((n) => n.props.accessibilityLabel)).toEqual(['Abrir o relatório da MRPA', 'Abrir o relatório da glicemia']);
+  // Área de toque mínima de 44 pt, sem depender do hitSlop.
+  for (const l of links) expect(StyleSheet.flatten(l.props.style)?.minHeight).toBeGreaterThanOrEqual(44);
   act(() => apertar(arvore, 'Abrir o relatório da MRPA'));
   expect(mockPush).toHaveBeenLastCalledWith('/(app)/coracao/mrpa/relatorio?sessao=s9');
   act(() => apertar(arvore, 'Abrir o relatório da glicemia'));
@@ -82,7 +80,7 @@ it('com MRPA concluída, o aviso leva ao relatório dela', async () => {
 });
 
 it('se a lista de sessões falhar, a tela abre sem o aviso', async () => {
-  mockSessoes = null as any; // .find em null lança dentro do then → catch
+  listarSessoes.mockRejectedValueOnce(new Error('sem conexão'));
   const arvore = await montar();
   expect(textoDe(arvore.toJSON())).toContain('Resumo completo');
   expect(textoDe(arvore.toJSON())).not.toContain('Abrir o relatório da MRPA');

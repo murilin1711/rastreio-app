@@ -79,7 +79,7 @@ export default function RegistrarPressao() {
     return (
       <SafeAreaView style={styles.tela} edges={['top']}>
         <ScrollView contentContainerStyle={styles.conteudo}>
-          <InternalHeader sectionLabel="Minha Pressão" title="Medida registrada" onBack={() => router.back()} />
+          <InternalHeader sectionLabel="Minha pressão" title="Medida registrada" onBack={() => router.back()} />
           <View style={styles.resultado}>
             <LeituraPA pas={saida.pas} pad={saida.pad} tamanho="grande" />
             {nivel ? <StatusBadge nivel={nivel} label={nivel === 'vermelho' ? 'Procure atendimento agora' : 'Valor muito elevado'} /> : null}
@@ -103,7 +103,7 @@ export default function RegistrarPressao() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Minha Pressão" title="Registrar medida" />
+        <InternalHeader sectionLabel="Minha pressão" title="Anotar minha pressão" />
 
         <Text style={styles.rotulo}>Quando</Text>
         <View style={styles.linhaCampos}>

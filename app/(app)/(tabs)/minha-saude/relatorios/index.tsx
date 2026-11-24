@@ -78,10 +78,10 @@ export default function Relatorios() {
           // A MRPA e a glicemia têm relatório próprio, com o formato que o médico espera (spec §6.6).
           <View style={styles.aviso}>
             <Text style={styles.avisoTexto}>O relatório da MRPA e o da glicemia ficam nas telas deles.</Text>
-            <Pressable onPress={() => abrir(`/(app)/coracao/mrpa/relatorio?sessao=${mrpaConcluida}`)} accessibilityRole="link" accessibilityLabel="Abrir o relatório da MRPA" hitSlop={8}>
+            <Pressable onPress={() => abrir(`/(app)/coracao/mrpa/relatorio?sessao=${mrpaConcluida}`)} style={styles.link} accessibilityRole="link" accessibilityLabel="Abrir o relatório da MRPA" hitSlop={8}>
               <Text style={styles.avisoLink}>Abrir o relatório da MRPA</Text>
             </Pressable>
-            <Pressable onPress={() => abrir('/(app)/coracao/glicemia/relatorio')} accessibilityRole="link" accessibilityLabel="Abrir o relatório da glicemia" hitSlop={8}>
+            <Pressable onPress={() => abrir('/(app)/coracao/glicemia/relatorio')} style={styles.link} accessibilityRole="link" accessibilityLabel="Abrir o relatório da glicemia" hitSlop={8}>
               <Text style={styles.avisoLink}>Abrir o relatório da glicemia</Text>
             </Pressable>
           </View>
@@ -128,6 +128,7 @@ const styles = StyleSheet.create({
   seloTexto: { ...Typography.chip, color: Colors.textSecondary },
   aviso: { backgroundColor: Colors.surface, borderRadius: Radius.linha, padding: Spacing.lg, gap: Spacing.sm, marginTop: Spacing.md },
   avisoTexto: { ...Typography.body, color: Colors.textSecondary },
+  link: { minHeight: 44, justifyContent: 'center' },
   avisoLink: { ...Typography.subheading, fontSize: 17, lineHeight: 23, color: Colors.primary, textDecorationLine: 'underline' },
   divisor: { height: 1, backgroundColor: Colors.border, marginTop: Spacing.xxl },
   especifico: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md, paddingVertical: Spacing.lg },

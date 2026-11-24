@@ -85,7 +85,7 @@ export default function PlanoGlicemia() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Minha Glicemia" title="Meu plano de glicemia" />
+        <InternalHeader sectionLabel="Minha glicemia" title="Meu plano de glicemia" />
 
         <Text style={styles.secao}>Seu diabetes</Text>
         <Opcoes<TipoDiabetes> opcoes={[{ valor: 'dm1', rotulo: 'Tipo 1' }, { valor: 'dm2', rotulo: 'Tipo 2' }, { valor: 'gestacional', rotulo: 'Gestacional' }, { valor: 'outro', rotulo: 'Outro' }]} valor={tipo} onChange={setTipo} />
