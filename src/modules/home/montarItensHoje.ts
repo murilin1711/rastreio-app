@@ -51,13 +51,18 @@ interface Entrada {
   cardio?: ResumoCardio;
   consultas?: ConsultasResumo;
   bemEstar?: BemEstarResumo;
-  /** Doses de hoje dos remédios com horário (de `useDosesHoje`), já com o nome do remédio. */
+  /**
+   * Doses de hoje dos remédios com horário (de `useDosesHoje`), já com o nome do remédio. Só viram item
+   * as pendentes de hoje cujo horário já chegou; as outras são ignoradas.
+   */
   dosesHoje?: DoseHoje[];
   agora?: Date;
   /**
    * Todas as fontes da home já responderam. Falso enquanto alguma carrega: aí o "Nada pendente" não
    * é emitido, porque seria uma afirmação sobre dados que ainda não chegaram (D-027). O resto dos
-   * itens continua saindo — um perfil incompleto é fato assim que o perfil chega.
+   * itens continua saindo — um perfil incompleto é fato assim que o perfil chega. A Home também passa
+   * falso enquanto as doses de hoje carregam ou deram erro: elas não seguram o esqueleto, mas sem elas
+   * não dá para afirmar que não há remédio a marcar. Este campo só controla o "Nada pendente".
    */
   pronto?: boolean;
 }
@@ -134,7 +139,8 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, 
   }
 
   // Remédio: dose de hoje cujo horário chegou e ainda sem marca — marcar sem depender da notificação.
-  // As de ontem (ainda marcáveis até o fim de hoje) ficam na lista "Tomei remédio", não aqui.
+  // Dose de hoje que ainda não chegou ou já marcada fica de fora. As de ontem sem marca (marcáveis até o
+  // fim de hoje) não entram aqui: aparecem na seção "De ontem" da lista "Tomei remédio" (＋ Anotar).
   if (dosesHoje) {
     const hoje = diaDe(agora);
     const agoraHora = horaDe(agora);

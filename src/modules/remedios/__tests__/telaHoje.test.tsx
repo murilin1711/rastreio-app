@@ -21,7 +21,7 @@ const dose = (extra: Record<string, unknown>) => ({
 
 let mockLista: any[] = [];
 let mockErroLista: Error | null = null;
-const mockDoses = { doses: [] as any[], carregando: false, erro: null as string | null, recarregar: jest.fn(async () => {}) };
+const mockDoses = { doses: [] as any[], dosesOntem: [] as any[], carregando: false, erro: null as string | null, recarregar: jest.fn(async () => {}) };
 const mockAbrir = jest.fn();
 const mockFoco: (() => void)[] = [];
 
@@ -38,7 +38,8 @@ jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: { 
 jest.mock('@core/medicacoes/repositorio', () => ({
   listarMedicacoes: async () => { if (mockErroLista) throw mockErroLista; return mockLista; },
 }));
-jest.mock('@core/medicacoes/useDosesHoje', () => ({ useDosesHoje: () => mockDoses }));
+const mockOpcoesDoses = jest.fn();
+jest.mock('@core/medicacoes/useDosesHoje', () => ({ useDosesHoje: (o: unknown) => { mockOpcoesDoses(o); return mockDoses; } }));
 
 const Hoje = require('../../../../app/(app)/remedios/hoje').default;
 
@@ -52,6 +53,8 @@ beforeEach(() => {
   mockLista = [remedio({}), remedio({ id: 'm3', nome: 'Dipirona', dose: '500 mg', horarios: [], sePrecisar: true })];
   mockErroLista = null;
   mockDoses.doses = [dose({}), dose({ hora: '20:00' })];
+  mockDoses.dosesOntem = [];
+  mockOpcoesDoses.mockClear();
   mockDoses.carregando = false;
   mockDoses.erro = null;
   mockDoses.recarregar = jest.fn(async () => {});
@@ -105,11 +108,15 @@ it('sem remédio nenhum: convida a cadastrar', async () => {
   expect(existe('/(app)/(tabs)/minha-saude/medicamentos')).toBe(true);
 });
 
-it('erro nas doses de hoje: mostra o erro e "Tentar de novo", não uma lista vazia', async () => {
+it('erro nas doses de hoje: mostra o erro e "Tentar de novo" no lugar das doses, sem esconder "Se precisar"', async () => {
   mockDoses.doses = [];
   mockDoses.erro = 'Sem conexão com a internet.';
   await abrir();
   expect(tela()).toContain('Sem conexão com a internet.');
+  expect(tela()).toContain('Se precisar');
+  expect(tela()).toContain('Dipirona 500 mg');
+  await tocar('Tomei agora');
+  expect(mockAbrir).toHaveBeenCalledWith('/(app)/remedios/tomar?med=m3');
   expect(tela()).not.toContain('Nenhum remédio cadastrado.');
   expect(tela()).not.toContain('Doses de hoje');
   mockDoses.recarregar.mockClear();
@@ -137,4 +144,25 @@ it('volta para a tela (depois de marcar) recarrega as doses', async () => {
 it('as rotas que a tela abre existem', () => {
   expect(existe('/(app)/remedios/tomar?med=m1&hora=08:00&data=2026-11-23')).toBe(true);
   expect(existe('/(app)/remedios/hoje')).toBe(true);
+});
+
+describe('doses de ontem (marcáveis até o fim de hoje)', () => {
+  it('pede as doses de ontem ao hook', async () => {
+    await abrir();
+    expect(mockOpcoesDoses).toHaveBeenCalledWith({ incluirOntem: true });
+  });
+
+  it('mostra "De ontem" com as doses ainda sem marca, cada uma abrindo "Tomou?" com a data de ontem', async () => {
+    mockDoses.dosesOntem = [dose({ data: '2026-11-22', hora: '20:00' })];
+    await abrir();
+    expect(tela()).toContain('De ontem');
+    expect(tela()).toContain('Losartana · 20h · ontem');
+    await tocar('Losartana · 20h · ontem');
+    expect(mockAbrir).toHaveBeenCalledWith('/(app)/remedios/tomar?med=m1&hora=20:00&data=2026-11-22');
+  });
+
+  it('sem dose de ontem pendente: não mostra a seção', async () => {
+    await abrir();
+    expect(tela()).not.toContain('De ontem');
+  });
 });

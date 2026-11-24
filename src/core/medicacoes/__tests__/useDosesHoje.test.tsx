@@ -76,3 +76,28 @@ it('falha na carga vira `erro` (sem rejeição solta) e recarregar limpa', async
   expect(api.erro).toBeNull();
   expect(api.doses).toHaveLength(3);
 });
+
+describe('com `incluirOntem` (lista "Tomei remédio")', () => {
+  function SondaOntem() { api = useDosesHoje({ incluirOntem: true }); return <Text>{String(api.doses.length)}</Text>; }
+
+  it('busca ontem e hoje; `doses` continua só de hoje e `dosesOntem` traz as de ontem ainda sem marca', async () => {
+    mockTomadas = [
+      ...mockTomadas,
+      { id: 't2', medicacaoId: 'm2', dataPrevista: '2026-11-22', horaPrevista: '07:00', quantidadePrevista: 2, tomou: true, quantidade: 2, marcadoEm: new Date('2026-11-22T07:10:00').toISOString() },
+    ];
+    await act(async () => { arvore = create(<SondaOntem />); });
+    expect(mockListarTomadas).toHaveBeenCalledWith('u1', '2026-11-22', '2026-11-23');
+    expect(api.doses.map((d: any) => `${d.data} ${d.medicacaoId} ${d.hora}`)).toEqual([
+      '2026-11-23 m2 07:00', '2026-11-23 m1 08:00', '2026-11-23 m2 20:00',
+    ]);
+    expect(api.dosesOntem.map((d: any) => `${d.data} ${d.medicacaoId} ${d.hora} ${d.estado}`)).toEqual([
+      '2026-11-22 m1 08:00 pendente', '2026-11-22 m2 20:00 pendente',
+    ]);
+  });
+
+  it('sem a opção, `dosesOntem` vem vazia e a busca é só de hoje', async () => {
+    await act(async () => { arvore = create(<Sonda />); });
+    expect(api.dosesOntem).toEqual([]);
+    expect(mockListarTomadas).toHaveBeenCalledWith('u1', '2026-11-23', '2026-11-23');
+  });
+});

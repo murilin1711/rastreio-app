@@ -22,7 +22,12 @@ jest.mock('react-native-safe-area-context', () => {
   return { SafeAreaView: View, useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }) };
 });
 jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: { user: { id: 'u1' } }, carregando: false }) }));
-jest.mock('@core/perfil/usePerfil', () => ({ usePerfil: () => ({ perfil: { nome: 'M', semMedicacoes: false, semAntecedentesFamiliares: true }, antecedentes: [], carregando: false, recarregar: jest.fn(), salvar: jest.fn() }) }));
+const PERFIL_COMPLETO = {
+  nome: 'M', semMedicacoes: false, semAntecedentesFamiliares: true,
+  dataNascimento: '1960-01-01', sexoNascimento: 'feminino', alturaCm: 160, tabagismoStatus: 'nunca', temDiabetes: false, temHipertensao: true,
+};
+let mockPerfil: Record<string, unknown> = PERFIL_COMPLETO;
+jest.mock('@core/perfil/usePerfil', () => ({ usePerfil: () => ({ perfil: mockPerfil, antecedentes: [], carregando: false, recarregar: jest.fn(), salvar: jest.fn() }) }));
 jest.mock('@core/medicacoes/useMedicacoes', () => ({ useMedicacoes: () => ({ ativas: [{ id: 'm1', nome: 'Losartana', lembrar: false, horarios: [] }], recarregar: jest.fn() }) }));
 jest.mock('@core/medicacoes/useDosesHoje', () => ({ useDosesHoje: () => mockDoses }));
 jest.mock('@core/rastreando/useRastreando', () => ({ useRastreando: () => ({ avaliacoes: {}, pendencias: [], sintomas: [], carregando: false, recarregar: jest.fn() }) }));
@@ -51,6 +56,7 @@ beforeEach(() => {
   mockDoses.carregando = false;
   mockDoses.recarregar = jest.fn(async () => {});
   mockAbrir.mockClear();
+  mockPerfil = PERFIL_COMPLETO;
 });
 afterEach(() => {
   act(() => a?.unmount());
@@ -80,4 +86,31 @@ it('voltar para a Home recarrega as doses de hoje', async () => {
   mockDoses.recarregar.mockClear();
   await act(async () => { mockFoco.forEach((cb) => cb()); });
   expect(mockDoses.recarregar).toHaveBeenCalled();
+});
+
+describe('"Nada pendente" só com as doses de hoje carregadas', () => {
+  it('doses carregadas e sem nada a fazer: "Nada pendente"', async () => {
+    await act(async () => { a = create(<Home />); });
+    expect(tela()).toContain('Nada pendente');
+  });
+
+  it.each([
+    ['com erro', { erro: 'Sem conexão com a internet.' }],
+    ['carregando', { carregando: true }],
+  ])('doses %s: "Nada pendente" não aparece', async (_c, estado) => {
+    Object.assign(mockDoses, estado);
+    await act(async () => { a = create(<Home />); });
+    expect(tela()).not.toContain('Nada pendente');
+  });
+
+  it.each([
+    ['com erro', { erro: 'Sem conexão com a internet.' }],
+    ['carregando', { carregando: true }],
+  ])('doses %s: a pendência de outra fonte continua na tela', async (_c, estado) => {
+    mockPerfil = { ...PERFIL_COMPLETO, alturaCm: null };
+    Object.assign(mockDoses, estado);
+    await act(async () => { a = create(<Home />); });
+    expect(tela()).toContain('Completar meu perfil de saúde');
+    expect(tela()).not.toContain('Nada pendente');
+  });
 });
