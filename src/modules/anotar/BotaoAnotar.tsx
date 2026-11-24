@@ -3,11 +3,12 @@ import { Pressable, StyleSheet } from 'react-native';
 import { useRouter, type Href } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { ALTURA_BARRA, FOLGA_BOTAO_ANOTAR, TAMANHO_BOTAO_ANOTAR } from '@ui/components/espacoAbas';
+import { TAMANHO_BOTAO_ANOTAR, distanciaBotaoAnotar } from '@ui/components/espacoAbas';
 import { Colors, Shadows, Spacing } from '@ui/theme';
 
 /**
- * Círculo "Anotar" (spec §6.1): logo acima da barra de abas, no canto direito, só nas telas raiz das
+ * Círculo "Anotar" (spec §6.1): logo acima da barra de abas (no iOS a barra flutua sobre o conteúdo; no
+ * Android o conteúdo já termina em cima dela — ver `distanciaBotaoAnotar`), no canto direito, só nas telas raiz das
  * quatro abas. A barra é a nativa (`NativeTabs`) e não muda; o círculo é nosso e flutua sobre a rolagem —
  * `useEspacoAbas` já deixa lugar para ele no fim do conteúdo. `origem` é o caminho da aba (formato de
  * `usePathname`), para a folha saber para onde voltar.
@@ -20,7 +21,7 @@ export function BotaoAnotar({ origem }: { origem: string }) {
       accessibilityRole="button"
       accessibilityLabel="Anotar"
       onPress={() => router.push({ pathname: '/(app)/anotar', params: { origem } } as Href)}
-      style={[styles.circulo, { bottom: ALTURA_BARRA + FOLGA_BOTAO_ANOTAR + bottom }]}
+      style={[styles.circulo, { bottom: distanciaBotaoAnotar(bottom) }]}
     >
       <Ionicons name="add" size={34} color={Colors.white} />
     </Pressable>

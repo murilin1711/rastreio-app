@@ -26,3 +26,17 @@ it('é um botão "Anotar" de pelo menos 60 pt que abre a folha com a origem', ()
   b.props.onPress();
   expect(mockPush).toHaveBeenCalledWith({ pathname: '/(app)/anotar', params: { origem: '/historico' } });
 });
+
+it('no Android fica logo acima da barra (o conteúdo já termina em cima dela), sem somar barra e área segura', () => {
+  const { Platform } = require('react-native');
+  const antes = Platform.OS;
+  Platform.OS = 'android';
+  try {
+    let a: any;
+    act(() => { a = create(<BotaoAnotar origem="/" />); });
+    const b = a.root.find((n: any) => n.props.accessibilityLabel === 'Anotar' && typeof n.props.onPress === 'function');
+    expect(StyleSheet.flatten(b.props.style).bottom).toBe(12);
+  } finally {
+    Platform.OS = antes;
+  }
+});
