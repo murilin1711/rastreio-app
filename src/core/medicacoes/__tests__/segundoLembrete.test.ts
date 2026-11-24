@@ -80,3 +80,29 @@ it('vagas: 40 no máximo, e nunca passa de 64 somando os outros avisos', () => {
   expect(vagasSegundos(30)).toBe(30);
   expect(vagasSegundos(70)).toBe(0);
 });
+
+describe('virada do dia (R-T5-a)', () => {
+  const tarde = { ...med('a'), horarios: [{ hora: '08:00', quantidade: 1 }, { hora: '23:45', quantidade: 1 }] };
+  const meiaNoite = new Date('2026-11-24T00:05:00');
+
+  it('sincronizar às 00:05 mantém o aviso das 00:15 da dose de 23:45 de ontem', () => {
+    const p = planejarSegundosLembretes([tarde], [], meiaNoite, 40);
+    expect(p[0]).toMatchObject({ identificador: 'medicacao2:a:2026-11-23:23:45', data: '2026-11-23', rota: '/(app)/remedios/tomar?med=a&hora=23:45&data=2026-11-23' });
+    expect(p[0].quando).toEqual(new Date('2026-11-24T00:15:00'));
+    // O resto de ontem (08:00) já tocou; hoje e amanhã completos.
+    expect(p.map((s) => s.identificador)).toEqual([
+      'medicacao2:a:2026-11-23:23:45', 'medicacao2:a:2026-11-24:08:00', 'medicacao2:a:2026-11-24:23:45',
+      'medicacao2:a:2026-11-25:08:00', 'medicacao2:a:2026-11-25:23:45',
+    ]);
+  });
+
+  it('dose de ontem já marcada: sem aviso', () => {
+    const marcada = { id: 't', medicacaoId: 'a', dataPrevista: '2026-11-23', horaPrevista: '23:45', quantidadePrevista: 1, tomou: true, quantidade: 1, marcadoEm: '' };
+    expect(planejarSegundosLembretes([tarde], [marcada], meiaNoite, 40).map((s) => s.identificador)).not.toContain('medicacao2:a:2026-11-23:23:45');
+  });
+
+  it('passou do teto: o resto de ontem fica junto com hoje', () => {
+    const p = planejarSegundosLembretes([tarde], [], meiaNoite, 3);
+    expect(p.map((s) => s.data)).toEqual(['2026-11-23', '2026-11-24', '2026-11-24']);
+  });
+});

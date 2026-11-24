@@ -112,6 +112,18 @@ export async function sincronizarLembretesMedicacao(userId: string, ativasComLem
   await sincronizarSegundosLembretes(userId, ativasComLembrete);
 }
 
+/**
+ * Fila dos segundos lembretes (R-T5-a): a Home, `useMedicacoes` e a tela "Tomou?" podem mexer neles ao
+ * mesmo tempo. Cada chamada espera a anterior terminar; assim uma sincronização com a lista velha não
+ * agenda depois da nova, nem reagenda o aviso de uma dose que acabou de ser marcada.
+ */
+let fila: Promise<void> = Promise.resolve();
+function naFila(tarefa: () => Promise<void>): Promise<void> {
+  const vez = fila.then(tarefa);
+  fila = vez.catch(() => {});
+  return vez;
+}
+
 /** Cancela os segundos lembretes agendados e devolve quantos OUTROS avisos continuam no celular. */
 async function cancelarSegundosAgendados(): Promise<number> {
   const agendados = await Notifications.getAllScheduledNotificationsAsync();
@@ -124,19 +136,24 @@ async function cancelarSegundosAgendados(): Promise<number> {
 }
 
 /**
- * Segundo lembrete (spec §6.2): troca os avulsos `medicacao2:` agendados pelos da janela de hoje + amanhã.
+ * Segundo lembrete (spec §6.2): troca os avulsos `medicacao2:` agendados pelos da janela de hoje + amanhã
+ * (mais o resto de ontem: a dose das 23:45 toca às 00:15). Passa pela fila (`naFila`).
  * A janela é de todos os remédios (por causa do teto), então quem chama passa a lista inteira.
  * As vagas são contadas aqui (R7): até 40 avulsos e nunca mais de 64 no total, somando os outros
  * avisos que já estão no celular — o iOS descarta o excedente sem erro, inclusive os principais.
  * Preferência "Medicamentos" desligada ou sem permissão: só cancela.
  */
-export async function sincronizarSegundosLembretes(userId: string, medicacoes: Medicacao[], agora: Date = new Date()): Promise<void> {
+export function sincronizarSegundosLembretes(userId: string, medicacoes: Medicacao[], agora: Date = new Date()): Promise<void> {
+  return naFila(() => sincronizarAgora(userId, medicacoes, agora));
+}
+
+async function sincronizarAgora(userId: string, medicacoes: Medicacao[], agora: Date): Promise<void> {
   const outros = await cancelarSegundosAgendados();
   if (!(await notificacoesPermitidas(userId, 'medicacao'))) return;
-  const [hoje, amanha] = janelaSegundos(agora);
+  const [ontem, , amanha] = janelaSegundos(agora);
   let tomadas;
   try {
-    tomadas = await listarTomadas(userId, hoje, amanha);
+    tomadas = await listarTomadas(userId, ontem, amanha);
   } catch {
     // Sem as marcas, melhor nenhum segundo lembrete do que um para dose já marcada.
     return;
@@ -153,13 +170,13 @@ export async function sincronizarSegundosLembretes(userId: string, medicacoes: M
 }
 
 /** Marcar a dose (tomei ou não tomei) cancela o segundo lembrete dela. */
-export async function cancelarSegundoLembrete(medicacaoId: string, data: string, hora: string): Promise<void> {
-  await Notifications.cancelScheduledNotificationAsync(idSegundoLembrete(medicacaoId, data, hora)).catch(() => {});
+export function cancelarSegundoLembrete(medicacaoId: string, data: string, hora: string): Promise<void> {
+  return naFila(() => Notifications.cancelScheduledNotificationAsync(idSegundoLembrete(medicacaoId, data, hora)).catch(() => {}));
 }
 
 /** Preferência "Medicamentos" desligada: tira todos os segundos lembretes do celular. */
-export async function cancelarTodosSegundosLembretes(): Promise<void> {
-  await cancelarSegundosAgendados();
+export function cancelarTodosSegundosLembretes(): Promise<void> {
+  return naFila(async () => { await cancelarSegundosAgendados(); });
 }
 
 const ROTULO_MOMENTO: Record<string, string> = { jejum: 'em jejum', antes_cafe: 'antes do café', pos_cafe_1h: '1 h após o café', pos_cafe_2h: '2 h após o café', antes_almoco: 'antes do almoço', pos_almoco_1h: '1 h após o almoço', pos_almoco_2h: '2 h após o almoço', antes_jantar: 'antes do jantar', pos_jantar_1h: '1 h após o jantar', pos_jantar_2h: '2 h após o jantar', antes_dormir: 'antes de dormir', madrugada: 'de madrugada' };

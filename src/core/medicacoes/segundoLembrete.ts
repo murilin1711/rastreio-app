@@ -39,17 +39,23 @@ function diaLocal(d: Date): string {
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 }
 
-/** Hoje e amanhã, no fuso local. */
-export function janelaSegundos(agora: Date): [string, string] {
-  return [diaLocal(agora), diaLocal(new Date(agora.getFullYear(), agora.getMonth(), agora.getDate() + 1))];
+/**
+ * Ontem, hoje e amanhã, no fuso local. Ontem entra por causa da virada do dia (R-T5-a): sincronizar às
+ * 00:05 cancela todos os avulsos, e o das 00:15 da dose de 23:45 de ontem precisa voltar. Só sobra de
+ * ontem o que ainda não tocou (`quando > agora`).
+ */
+export function janelaSegundos(agora: Date): [string, string, string] {
+  const dia = (n: number) => diaLocal(new Date(agora.getFullYear(), agora.getMonth(), agora.getDate() + n));
+  return [dia(-1), dia(0), dia(1)];
 }
 
 /**
  * Os segundos lembretes da janela, ordenados pelo instante em que tocam. Se não cabem nas `vagas`,
- * fica só com as doses de hoje; se ainda não couberem, com as mais próximas.
+ * fica só com as doses de hoje (e o resto de ontem); se ainda não couberem, com as mais próximas.
  */
 export function planejarSegundosLembretes(medicacoes: Medicacao[], tomadas: Tomada[], agora: Date, vagas: number): SegundoLembrete[] {
   const dias = janelaSegundos(agora);
+  const amanha = dias[2];
   const marcadas = new Set(tomadas.filter((t) => t.dataPrevista && t.horaPrevista).map((t) => `${t.medicacaoId}|${t.dataPrevista}|${t.horaPrevista}`));
   const candidatos: SegundoLembrete[] = [];
   for (const m of medicacoes) {
@@ -67,5 +73,6 @@ export function planejarSegundosLembretes(medicacoes: Medicacao[], tomadas: Toma
   }
   candidatos.sort((x, y) => x.quando.getTime() - y.quando.getTime());
   if (candidatos.length <= vagas) return candidatos;
-  return candidatos.filter((s) => s.data === dias[0]).slice(0, Math.max(0, vagas));
+  // "Só hoje" inclui o resto de ontem (23:45 → 00:15), que toca antes de tudo.
+  return candidatos.filter((s) => s.data !== amanha).slice(0, Math.max(0, vagas));
 }

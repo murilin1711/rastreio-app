@@ -20,6 +20,8 @@ let mockAgendadas: { identifier?: string; title: string; body: string; rota: str
 let mockJaAgendadas: { identifier: string }[] = [];
 let mockTomadas: any[] = [];
 let mockFalhaTomadas = false;
+let mockEsperaTomadas: Promise<void> | null = null;
+let mockFalhaLista = false;
 let mockCanceladas: string[] = [];
 let mockLinhas: { titulo: string; agendado_para: string; mensagem: string }[] = [];
 let mockPermissao = true;
@@ -28,16 +30,18 @@ let mockPendentes: { id: string; mensagem: string }[] = [];
 
 jest.mock('expo-notifications', () => ({
   SchedulableTriggerInputTypes: { DATE: 'date', DAILY: 'daily' },
-  getAllScheduledNotificationsAsync: async () => mockJaAgendadas,
+  getAllScheduledNotificationsAsync: async () => { if (mockFalhaLista) throw new Error('sem acesso'); return [...mockJaAgendadas]; },
   scheduleNotificationAsync: async ({ identifier, content, trigger }: any) => {
     if (mockIosRecusa) throw new Error('limite de notificações');
     mockAgendadas.push({ identifier, title: content.title, body: content.body, rota: content.data?.rota, tipo: trigger.type, hour: trigger.hour, minute: trigger.minute, date: trigger.date });
+    // O celular passa a ter o aviso: `getAllScheduledNotificationsAsync` o devolve depois.
+    if (identifier) mockJaAgendadas = [...mockJaAgendadas, { identifier }];
     return identifier ?? `notif-${mockAgendadas.length}`;
   },
-  cancelScheduledNotificationAsync: async (id: string) => { mockCanceladas.push(id); },
+  cancelScheduledNotificationAsync: async (id: string) => { mockCanceladas.push(id); mockJaAgendadas = mockJaAgendadas.filter((n) => n.identifier !== id); },
 }));
 jest.mock('@core/medicacoes/repositorio', () => ({
-  listarTomadas: async () => { if (mockFalhaTomadas) throw new Error('sem rede'); return mockTomadas; },
+  listarTomadas: async () => { if (mockEsperaTomadas) await mockEsperaTomadas; if (mockFalhaTomadas) throw new Error('sem rede'); return mockTomadas; },
 }));
 jest.mock('@core/lembretes/configurar', () => ({ CANAL_LEMBRETES: 'lembretes' }));
 jest.mock('@core/lembretes/permissao', () => ({ notificacoesPermitidas: async () => mockPermissao }));
@@ -55,7 +59,7 @@ const { agendarLembretesMedicacao, sincronizarSegundosLembretes, cancelarSegundo
 
 beforeEach(() => {
   mockAgendadas = []; mockCanceladas = []; mockLinhas = []; mockPermissao = true; mockIosRecusa = false; mockPendentes = [];
-  mockJaAgendadas = []; mockTomadas = []; mockFalhaTomadas = false;
+  mockJaAgendadas = []; mockTomadas = []; mockFalhaTomadas = false; mockEsperaTomadas = null; mockFalhaLista = false;
   jest.useFakeTimers().setSystemTime(AGORA);
 });
 afterEach(() => { jest.useRealTimers(); });
@@ -201,6 +205,44 @@ describe('segundo lembrete (spec §6.2)', () => {
     await expect(sincronizarSegundosLembretes('u1', [losartana], AGORA)).resolves.toBeUndefined();
     expect(aviso).toHaveBeenCalled();
     aviso.mockRestore();
+  });
+
+  /** Segura `listarTomadas` até `soltar()`: a sincronização fica parada no meio. */
+  const segurar = () => { let soltar = () => {}; mockEsperaTomadas = new Promise<void>((r) => { soltar = r; }); return () => soltar(); };
+  const noCelular = () => mockJaAgendadas.map((n) => n.identifier).filter((id) => id.startsWith('medicacao2:'));
+
+  it('R-T5-a: duas sincronizações ao mesmo tempo terminam com o estado da segunda', async () => {
+    const soltar = segurar();
+    const primeira = sincronizarSegundosLembretes('u1', [losartana], AGORA); // lista velha
+    const segunda = sincronizarSegundosLembretes('u1', [], AGORA);          // remédio interrompido
+    soltar();
+    await Promise.all([primeira, segunda]);
+    expect(noCelular()).toEqual([]);
+
+    const soltar2 = segurar();
+    const a = sincronizarSegundosLembretes('u1', [], AGORA);
+    const b = sincronizarSegundosLembretes('u1', [losartana], AGORA);
+    soltar2();
+    await Promise.all([a, b]);
+    expect(noCelular()).toEqual(['medicacao2:m1:2026-09-24:20:00', 'medicacao2:m1:2026-09-25:08:00', 'medicacao2:m1:2026-09-25:20:00']);
+  });
+
+  it('R-T5-a: marcar a dose durante uma sincronização não deixa o aviso dela agendado', async () => {
+    const soltar = segurar();
+    const sincronizando = sincronizarSegundosLembretes('u1', [losartana], AGORA);
+    const cancelando = cancelarSegundoLembrete('m1', '2026-09-24', '20:00');
+    soltar();
+    await Promise.all([sincronizando, cancelando]);
+    expect(noCelular()).not.toContain('medicacao2:m1:2026-09-24:20:00');
+    expect(noCelular()).toHaveLength(2);
+  });
+
+  it('uma sincronização que falha não trava a fila', async () => {
+    mockFalhaLista = true;
+    await expect(sincronizarSegundosLembretes('u1', [losartana], AGORA)).rejects.toThrow('sem acesso');
+    mockFalhaLista = false;
+    await sincronizarSegundosLembretes('u1', [losartana], AGORA);
+    expect(noCelular()).toHaveLength(3);
   });
 
   it('marcar a dose cancela o segundo lembrete dela', async () => {
