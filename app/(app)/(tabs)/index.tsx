@@ -46,8 +46,8 @@ function saudacao(nome?: string | null) {
 }
 
 /**
- * Home do NERO (§55, §56, §89; D-065): no topo, "O que você quer fazer?" com até cinco ações; depois
- * "Para fazer hoje" (as pendências) e "Meus cuidados", com os três módulos em cartões largos.
+ * Home do NERO (§55, §56, §89; D-065): no topo, "Para fazer hoje" (as pendências; pedido do Murilo em
+ * 24/11/2026); depois "O que você quer fazer?" com até cinco ações e "Meus cuidados", com os três módulos em cartões largos.
  */
 export default function Home() {
   const espacoAbas = useEspacoAbas();
@@ -210,17 +210,7 @@ export default function Home() {
           <View style={styles.selo}><SeloSequencia dias={sequencia.sequencia} /></View>
         </View>
 
-        <Text style={[styles.secao, { marginBottom: Spacing.md }]}>O que você quer fazer?</Text>
-        <View style={styles.grade}>
-          {[acoes.grade.slice(0, 2), acoes.grade.slice(2, 4)].map((linha) => (
-            <View key={linha[0].chave} style={styles.linhaGrade}>
-              {linha.map((a) => <BotaoAcao key={a.chave} icone={a.icone} rotulo={a.rotulo} onPress={() => abrir(a.rota)} />)}
-            </View>
-          ))}
-          <BotaoAcao largo icone={acoes.largo.icone} rotulo={acoes.largo.rotulo} onPress={() => abrir(acoes.largo.rota)} />
-        </View>
-
-        <View style={[styles.secaoTopo, { marginTop: Spacing.xxxl }]}>
+        <View style={styles.secaoTopo}>
           <Text style={styles.secao}>Para fazer hoje</Text>
           {liberada && pendentes > 0 ? <View style={styles.contador}><Text style={styles.contadorTexto}>{pendentes}</Text></View> : null}
         </View>
@@ -248,6 +238,16 @@ export default function Home() {
           ) : null}
         </Animated.View>
         )}
+
+        <Text style={[styles.secao, { marginTop: Spacing.xxxl, marginBottom: Spacing.md }]}>O que você quer fazer?</Text>
+        <View style={styles.grade}>
+          {[acoes.grade.slice(0, 2), acoes.grade.slice(2, 4)].map((linha) => (
+            <View key={linha[0].chave} style={styles.linhaGrade}>
+              {linha.map((a) => <BotaoAcao key={a.chave} icone={a.icone} rotulo={a.rotulo} onPress={() => abrir(a.rota)} />)}
+            </View>
+          ))}
+          <BotaoAcao largo icone={acoes.largo.icone} rotulo={acoes.largo.rotulo} onPress={() => abrir(acoes.largo.rota)} />
+        </View>
 
         <Text style={[styles.secao, { marginTop: Spacing.xxxl, marginBottom: Spacing.md }]}>Meus cuidados</Text>
         <View style={styles.grade}>

@@ -1,6 +1,6 @@
 /**
- * Topo do Início (spec de navegação §6.3, D-065): "O que você quer fazer?" com até cinco ações,
- * "Para fazer hoje" no lugar de "Pendências" e "Meus cuidados" com os três módulos em cartões largos.
+ * Topo do Início (spec de navegação §6.3, D-065; ordem trocada a pedido do Murilo em 24/11/2026):
+ * "Para fazer hoje" no lugar de "Pendências", depois "O que você quer fazer?" com até cinco ações e "Meus cuidados" com os três módulos em cartões largos.
  */
 import React from 'react';
 import { StyleSheet, Text } from 'react-native';
@@ -61,9 +61,9 @@ it('abre com "O que você quer fazer?" e as cinco ações', async () => {
   const t = textos(a);
   expect(t).toContain('O que você quer fazer?');
   for (const r of CINCO) expect(botao(a, r)).toHaveLength(1);
-  // Antes de "Para fazer hoje": as ações vêm no topo.
-  expect(t.indexOf('O que você quer fazer?')).toBeLessThan(t.indexOf('Para fazer hoje'));
-  expect(t.indexOf('Minhas consultas')).toBeLessThan(t.indexOf('Para fazer hoje'));
+  // Pedido do Murilo (24/11/2026): "Para fazer hoje" vem primeiro; as ações logo depois, antes de "Meus cuidados".
+  expect(t.indexOf('Para fazer hoje')).toBeLessThan(t.indexOf('O que você quer fazer?'));
+  expect(t.indexOf('Minhas consultas')).toBeLessThan(t.indexOf('Meus cuidados'));
 });
 
 it('com diabetes, mostra "Anotar minha glicemia"; sem, "Meus exames"', async () => {

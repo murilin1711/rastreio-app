@@ -861,6 +861,8 @@ deixaram de ser entrada e as rotas fixas de `montarItensHoje`, e `nomesNovos.tes
 **Falta ver no aparelho:** folha Anotar por cima, arrastar fecha, ＋ some nas telas internas, voltas de Histórico e
 Levar ao médico, e botões a 17 pt com letra grande.
 
+**Ajuste de 24/11/2026 (pedido do Murilo, depois do teste interno):** na tela inicial, "Para fazer hoje" passou a vir **antes** de "O que você quer fazer?". Quem abre o app vê primeiro o que precisa fazer hoje; as cinco ações vêm logo depois. Também no Android o ＋ Anotar passou a ficar logo acima da barra (lá a barra do Material fica abaixo do conteúdo; só no iOS 26 ela flutua por cima).
+
 ### D-066 — Marcar remédio tomado — 23/11/2026
 **Por quê:** o NERO lembrava o horário do remédio, mas não sabia se a pessoa tomou. O Murilo quer que o idoso
 registre cada dose e que o médico veja esse registro (no check-in semanal e no PDF). É também a base do projeto
