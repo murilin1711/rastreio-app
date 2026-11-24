@@ -39,12 +39,20 @@ export interface ConteudoCompartilhamento {
   htmlPdf: (qrSvg: string, validade: string) => string;
 }
 
+/** Melhor esforço: nunca lança, para não trocar o erro original pelo da limpeza. Diz se o passo deu certo. */
+async function semFalhar(passo: () => PromiseLike<{ error: unknown }>): Promise<boolean> {
+  try { return !(await passo()).error; } catch { return false; }
+}
+
 /**
  * Compartilhamento por QR (D-007, D-067). O QR abre a página `/r/` (link com caminho e token depois do `#`), que lê
  * um JSON ao lado do PDF no bucket privado `relatorios`:
- * (1) sobe o JSON provisório → (2) URL assinada de 7 dias do JSON → link da página → (3) PDF com o QR desse link →
- * (4) URL assinada do PDF → (5) JSON final com o HTML da página e a URL do PDF (a assinatura é do caminho, não do
- * conteúdo, então o link continua valendo) → (6) registro em `compartilhamentos` (caminho = PDF).
+ * (1) linha em `compartilhamentos` com caminho e prazo, ANTES de qualquer arquivo (R3-T9-b): se o app morrer no
+ * meio, `limparExpirados` acha a linha e apaga os arquivos quando vencer, então nada fica no bucket sem prazo →
+ * (2) JSON provisório → (3) URL assinada de 7 dias do JSON → link da página → (4) PDF com o QR desse link →
+ * (5) URL assinada do PDF → (6) JSON final com o HTML da página e a URL do PDF (a assinatura é do caminho, não do
+ * conteúdo, então o link continua valendo). Em falha depois da linha: apaga os arquivos e, se saíram, a linha
+ * (melhor esforço), e relança o erro original.
  */
 export async function criarCompartilhamento(userId: string, tipo: TipoRelatorio, especialidade: Especialidade | null, conteudo: ConteudoCompartilhamento): Promise<Compartilhamento & { url: string; qrSvg: string }> {
   const uuid = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
@@ -52,20 +60,21 @@ export async function criarCompartilhamento(userId: string, tipo: TipoRelatorio,
   const json = caminhoJson(caminho);
   // Antes de assinar: a validade mostrada (PDF, tela, registro) nunca passa da validade real das URLs.
   const expiraEm = new Date(Date.now() + VALIDADE_QR_SEGUNDOS * 1000).toISOString();
-  await subirJson(json, { versao: 1, preparando: true }, false);
+  const { data, error } = await supabase.from('compartilhamentos').insert({ user_id: userId, tipo_relatorio: TIPO_BANCO[tipo], especialidade, caminho, expira_em: expiraEm }).select('id, created_at').single();
+  if (error) throw traduzirErro(error);
   try {
+    await subirJson(json, { versao: 1, preparando: true }, false);
     const link = linkDaPagina(await assinar(json), json);
     await subirPdf(caminho, await gerarPdf(conteudo.htmlPdf(await qrSvg(link, 96), dataBr(expiraEm))));
     const pdfUrl = await assinar(caminho);
     const final: ConteudoQr = { versao: 1, titulo: conteudo.titulo, geradoEm: conteudo.geradoEm, expiraEm, html: conteudo.htmlWeb, pdfUrl };
     await subirJson(json, final, true);
-    const svgTela = await qrSvg(link, 240);
-    const { data, error } = await supabase.from('compartilhamentos').insert({ user_id: userId, tipo_relatorio: TIPO_BANCO[tipo], especialidade, caminho, expira_em: expiraEm }).select('id, created_at').single();
-    if (error) throw traduzirErro(error);
-    return { id: data.id, tipo, especialidade, caminho, url: link, qrSvg: svgTela, expiraEm, criadoEm: data.created_at };
+    return { id: data.id, tipo, especialidade, caminho, url: link, qrSvg: await qrSvg(link, 240), expiraEm, criadoEm: data.created_at };
   } catch (e) {
-    // Dado de saúde não fica órfão no bucket sem registro nem prazo: apaga o que subiu e devolve o erro original.
-    await Promise.resolve().then(() => supabase.storage.from('relatorios').remove([caminho, json])).catch(() => undefined);
+    // A linha só sai se os arquivos saíram; senão ela fica, com prazo, e `limparExpirados` apaga os arquivos depois.
+    if (await semFalhar(() => supabase.storage.from('relatorios').remove([caminho, json]))) {
+      await semFalhar(() => supabase.from('compartilhamentos').delete().eq('user_id', userId).eq('id', data.id));
+    }
     throw e;
   }
 }

@@ -1,4 +1,7 @@
-/** Compartilhamento por QR (D-067): JSON da página /r/ ao lado do PDF; revogar e limpar apagam os dois. */
+/**
+ * Compartilhamento por QR (D-067): JSON da página /r/ ao lado do PDF; revogar e limpar apagam os dois.
+ * A linha em `compartilhamentos` entra ANTES de qualquer arquivo (R3-T9-b): nada fica no bucket sem prazo.
+ */
 import { criarCompartilhamento, limparExpirados, revogar } from '../compartilharQr';
 
 interface Chamada { op: string; caminho?: string; corpo?: string; opcoes?: Record<string, unknown>; quando?: number }
@@ -6,7 +9,8 @@ const mockChamadas: Chamada[] = [];
 const mockRemove = jest.fn(async (_c: string[]): Promise<{ error: { message: string } | null }> => ({ error: null }));
 const mockGerarPdf = jest.fn(async (_h: string) => 'file:///tmp/r.pdf');
 let mockAssinaturas = 0;
-const mockFalhas: { uploadJsonFinal?: boolean; insert?: boolean; removeLimpeza?: boolean } = {};
+const mockFalhas: { uploadJsonFinal?: boolean; uploadPdf?: boolean; insert?: boolean } = {};
+const mockDelete = jest.fn(async (_filtros: [string, unknown][]): Promise<{ error: { message: string } | null }> => ({ error: null }));
 const mockUpdate = jest.fn();
 const UID = '00000000-0000-0000-0000-00000000003a';
 
@@ -28,6 +32,7 @@ jest.mock('@core/supabase/client', () => {
             upload: async (caminho: string, corpo: unknown, opcoes: Record<string, unknown>) => {
               mockChamadas.push({ op: `upload:${tipo(caminho)}`, caminho, corpo: typeof corpo === 'string' ? corpo : undefined, opcoes });
               if (mockFalhas.uploadJsonFinal && opcoes.upsert && caminho.endsWith('.json')) return { error: { message: 'falha no upload' } };
+              if (mockFalhas.uploadPdf && caminho.endsWith('.pdf')) return { error: { message: 'falha no upload do PDF' } };
               return { error: null };
             },
             createSignedUrl: async (caminho: string) => {
@@ -42,14 +47,20 @@ jest.mock('@core/supabase/client', () => {
       from: (t: string) => {
         if (t !== 'compartilhamentos') throw new Error(`tabela ${t}`);
         return {
-          insert: () => {
-            mockChamadas.push({ op: 'insert' });
+          insert: (linha: Record<string, unknown>) => {
+            mockChamadas.push({ op: 'insert', caminho: linha.caminho as string, opcoes: linha });
             return { select: () => ({ single: async () => (mockFalhas.insert ? { data: null, error: { message: 'falha no insert' } } : { data: { id: 'c1', created_at: '2026-09-18T10:31:00Z' }, error: null }) }) };
           },
           select: () => encadeia({
             maybeSingle: async () => ({ data: { caminho: 'u/x.pdf' }, error: null }),
             then: (ok: (v: unknown) => unknown) => ok({ data: [{ id: 'c2', caminho: 'u/y.pdf' }], error: null }),
           }),
+          delete: () => {
+            mockChamadas.push({ op: 'delete' });
+            const filtros: [string, unknown][] = [];
+            const q = { eq: (c: string, v: unknown) => { filtros.push([c, v]); return q; }, then: (ok: (v: unknown) => unknown, erro: (e: unknown) => unknown) => mockDelete(filtros).then(ok, erro) };
+            return q;
+          },
           update: (v: unknown) => { mockUpdate(v); return encadeia({ then: (ok: (v: unknown) => unknown) => ok({ error: null }) }); },
         };
       },
@@ -64,30 +75,34 @@ beforeEach(() => {
   mockRemove.mockReset();
   mockRemove.mockImplementation(async () => ({ error: null }));
   mockUpdate.mockClear();
-  delete mockFalhas.uploadJsonFinal; delete mockFalhas.insert;
+  delete mockFalhas.uploadJsonFinal; delete mockFalhas.uploadPdf; delete mockFalhas.insert;
+  mockDelete.mockReset();
+  mockDelete.mockImplementation(async () => ({ error: null }));
   mockGerarPdf.mockClear();
   global.fetch = jest.fn(async () => ({ blob: async () => new Blob(['%PDF']) })) as unknown as typeof fetch;
 });
 afterAll(() => { global.fetch = fetchOriginal; });
 
-test('ordem: JSON provisório → link → PDF com o QR do link → JSON final com pdfUrl', async () => {
+test('ordem: linha com prazo → JSON provisório → link → PDF com o QR do link → JSON final com pdfUrl', async () => {
   const c = await criarCompartilhamento(UID, 'geral', null, { titulo: 'R', geradoEm: '2026-09-18T10:30:00', htmlWeb: '<html>web</html>', htmlPdf: (svg) => `<html>${svg}</html>` });
-  expect(mockChamadas.map((x) => x.op)).toEqual(['upload:json', 'sign:json', 'upload:pdf', 'sign:pdf', 'upload:json', 'insert']);
-  expect(JSON.parse(mockChamadas[0].corpo!)).toEqual({ versao: 1, preparando: true });
-  expect(mockChamadas[0].opcoes).toMatchObject({ contentType: 'application/json' });
-  expect(mockChamadas[0].caminho).toBe(mockChamadas[2].caminho!.replace(/\.pdf$/, '.json'));
-  expect(mockChamadas[2].opcoes).toMatchObject({ contentType: 'application/pdf' });
+  expect(mockChamadas.map((x) => x.op)).toEqual(['insert', 'upload:json', 'sign:json', 'upload:pdf', 'sign:pdf', 'upload:json']);
+  expect(JSON.parse(mockChamadas[1].corpo!)).toEqual({ versao: 1, preparando: true });
+  expect(mockChamadas[1].opcoes).toMatchObject({ contentType: 'application/json' });
+  expect(mockChamadas[1].caminho).toBe(mockChamadas[3].caminho!.replace(/\.pdf$/, '.json'));
+  expect(mockChamadas[3].opcoes).toMatchObject({ contentType: 'application/pdf' });
   expect(mockGerarPdf).toHaveBeenCalledTimes(1);
   expect(mockGerarPdf).toHaveBeenCalledWith(expect.stringContaining(`data-link="https://nerosaude.com.br/r/#c=${UID}/`));
-  const final = JSON.parse(mockChamadas[4].corpo!);
+  const final = JSON.parse(mockChamadas[5].corpo!);
   expect(final).toMatchObject({ versao: 1, titulo: 'R', geradoEm: '2026-09-18T10:30:00', html: '<html>web</html>', pdfUrl: expect.stringContaining('.pdf?token=') });
   expect(final.expiraEm).toBe(c.expiraEm);
   expect(Object.keys(final).sort()).toEqual(['expiraEm', 'geradoEm', 'html', 'pdfUrl', 'titulo', 'versao']);
-  expect(mockChamadas[4].opcoes).toMatchObject({ contentType: 'application/json', upsert: true });
+  expect(mockChamadas[5].opcoes).toMatchObject({ contentType: 'application/json', upsert: true });
   expect(c.url.startsWith(`https://nerosaude.com.br/r/#c=${UID}/`)).toBe(true);
   expect(c.url).toContain('.json&t=T-1');
   expect(c.qrSvg).toBe(`<svg data-link="${c.url}"/>`);
-  expect(c.caminho).toBe(mockChamadas[2].caminho);
+  expect(c.caminho).toBe(mockChamadas[3].caminho);
+  expect(mockChamadas[0].opcoes).toMatchObject({ user_id: UID, caminho: c.caminho, expira_em: c.expiraEm });
+  expect(mockDelete).not.toHaveBeenCalled();
 });
 
 test('revogar apaga PDF e JSON', async () => { await revogar('u', 'c1'); expect(mockRemove).toHaveBeenCalledWith(['u/x.pdf', 'u/x.json']); });
@@ -106,25 +121,52 @@ test('limparExpirados: se o Storage falhar, NÃO marca revogado_em (tenta de nov
 
 const CONTEUDO = { titulo: 'R', geradoEm: '2026-09-18T10:30:00', htmlWeb: '<html>web</html>', htmlPdf: (svg: string) => `<html>${svg}</html>` };
 
-test('insert falha: apaga PDF e JSON do bucket e o erro chega a quem chamou', async () => {
+test('insert falha: nenhum arquivo sobe e o erro chega a quem chamou', async () => {
   mockFalhas.insert = true;
   await expect(criarCompartilhamento(UID, 'geral', null, CONTEUDO)).rejects.toBeTruthy();
-  const pdf = mockChamadas.find((x) => x.op === 'upload:pdf')!.caminho!;
-  expect(mockRemove).toHaveBeenCalledWith([pdf, pdf.replace(/\.pdf$/, '.json')]);
+  expect(mockChamadas.map((x) => x.op)).toEqual(['insert']);
+  expect(mockRemove).not.toHaveBeenCalled();
 });
 
-test('upload do JSON final falha: apaga PDF e JSON e relança', async () => {
+const apagouTudo = () => {
+  const pdf = mockChamadas.find((x) => x.op === 'insert')!.caminho!;
+  expect(mockRemove).toHaveBeenCalledWith([pdf, pdf.replace(/\.pdf$/, '.json')]);
+  expect(mockDelete).toHaveBeenCalledWith(expect.arrayContaining([['id', 'c1'], ['user_id', UID]]));
+};
+
+test('upload do PDF falha: apaga arquivos e a linha e relança', async () => {
+  mockFalhas.uploadPdf = true;
+  await expect(criarCompartilhamento(UID, 'geral', null, CONTEUDO)).rejects.toBeTruthy();
+  apagouTudo();
+});
+
+test('upload do JSON final falha: apaga arquivos e a linha e relança', async () => {
   mockFalhas.uploadJsonFinal = true;
   await expect(criarCompartilhamento(UID, 'geral', null, CONTEUDO)).rejects.toBeTruthy();
-  expect(mockChamadas.map((x) => x.op)).not.toContain('insert');
-  const pdf = mockChamadas.find((x) => x.op === 'upload:pdf')!.caminho!;
-  expect(mockRemove).toHaveBeenCalledWith([pdf, pdf.replace(/\.pdf$/, '.json')]);
+  apagouTudo();
 });
 
-test('falha na limpeza não esconde o erro original', async () => {
-  mockFalhas.insert = true;
+test('arquivos não saíram (rede): a linha FICA, com prazo, para limparExpirados; o erro original chega', async () => {
+  mockGerarPdf.mockRejectedValueOnce(new Error('PDF quebrou'));
   mockRemove.mockImplementation(async () => { throw new Error('rede'); });
-  await expect(criarCompartilhamento(UID, 'geral', null, CONTEUDO)).rejects.not.toThrow('rede');
+  await expect(criarCompartilhamento(UID, 'geral', null, CONTEUDO)).rejects.toThrow(/^PDF quebrou$/);
+  expect(mockRemove).toHaveBeenCalled();
+  expect(mockDelete).not.toHaveBeenCalled();
+});
+
+test('Storage recusa apagar (erro devolvido): a linha também fica', async () => {
+  mockGerarPdf.mockRejectedValueOnce(new Error('PDF quebrou'));
+  mockRemove.mockImplementation(async () => ({ error: { message: 'negado' } }));
+  await expect(criarCompartilhamento(UID, 'geral', null, CONTEUDO)).rejects.toThrow(/^PDF quebrou$/);
+  expect(mockDelete).not.toHaveBeenCalled();
+});
+
+test('falha ao apagar a linha não esconde o erro original', async () => {
+  mockGerarPdf.mockRejectedValueOnce(new Error('PDF quebrou'));
+  mockDelete.mockImplementation(async () => { throw new Error('rede de novo'); });
+  await expect(criarCompartilhamento(UID, 'geral', null, CONTEUDO)).rejects.toThrow(/^PDF quebrou$/);
+  expect(mockRemove).toHaveBeenCalled();
+  expect(mockDelete).toHaveBeenCalled();
 });
 
 test('a validade é calculada antes de assinar o JSON (a data mostrada nunca passa da assinatura)', async () => {
