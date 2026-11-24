@@ -1,6 +1,7 @@
 import { TITULO_COMPLEMENTO, type Bloco, type CartaoNumero, type LinhaAdesao, type PainelRelatorio, type Periodo, type ProgramaPainel, type SecaoRelatorio, type TipoRelatorio } from './tipos';
 import { CREDITOS } from '@core/publicacao';
 import { LEGENDA_DOSES, ROTULO_DOSE, SIMBOLO_DOSE, contaRemedio, rotuloDoses } from './adesaoRelatorio';
+import { dataLocal } from './datas';
 import { fontesDoRelatorio } from './fontes';
 import { svgSistolica } from './grafico';
 
@@ -172,8 +173,9 @@ function htmlPainel(e: EntradaHtml, p: PainelRelatorio, geradoEm: string): strin
 
 export function htmlRelatorio(e: EntradaHtml): string {
   const ressalvas = ressalvasPara(e.tipo);
+  // Data e hora no fuso local (o ISO vem em UTC: às 22:30 de Brasília o slice daria o dia seguinte).
   const dt = new Date(e.geradoEm);
-  const geradoEm = `${dataBr(e.geradoEm)} ${String(dt.getHours()).padStart(2, '0')}:${String(dt.getMinutes()).padStart(2, '0')}`;
+  const geradoEm = `${dataBr(dataLocal(dt))} ${String(dt.getHours()).padStart(2, '0')}:${String(dt.getMinutes()).padStart(2, '0')}`;
   const topo = e.painel
     ? htmlPainel(e, e.painel, geradoEm)
     : `<header><div><div class="marca">NERO</div><h1>${escapar(e.titulo)}</h1><div class="meta">${escapar(e.paciente.nome)}${e.paciente.nascimento ? ` · nascimento ${dataBr(e.paciente.nascimento)}` : ''}<br>Período das medidas: ${escapar(e.periodo.rotulo)} (${dataBr(e.periodo.desde)} a ${dataBr(e.periodo.ate)})<br>Gerado em ${geradoEm}</div></div>${e.qrSvg ? `<div class="qr">${e.qrSvg}</div>` : ''}</header>`;

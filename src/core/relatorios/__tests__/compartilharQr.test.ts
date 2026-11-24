@@ -178,3 +178,13 @@ test('a validade é calculada antes de assinar o JSON (a data mostrada nunca pas
     expect(new Date(c.expiraEm).getTime()).toBeLessThan(assinou + 7 * 24 * 3600 * 1000);
   } finally { relogio.mockRestore(); }
 });
+
+test('a validade mostrada no PDF é o dia local do vencimento (22:30 não vira o dia seguinte)', async () => {
+  const agora = new Date(2026, 8, 18, 22, 30).getTime(); // 18/09 22:30 local; +7 dias = 25/09 22:30 local
+  const spy = jest.spyOn(Date, 'now').mockReturnValue(agora);
+  let validade = '';
+  try {
+    await criarCompartilhamento(UID, 'geral', null, { titulo: 'R', geradoEm: '2026-09-18T22:30:00', htmlWeb: '<html/>', htmlPdf: (svg, v) => { validade = v; return `<html>${svg}</html>`; } });
+  } finally { spy.mockRestore(); }
+  expect(validade).toBe('25/09/2026');
+});

@@ -5,7 +5,7 @@ import { PROGRAMAS, ROTULO_PROGRAMA } from '@core/rastreando/tipos';
 import { resumoGlicemia } from '@core/regras/cardio/glicemia';
 import { avaliarMedidaCasual } from '@core/regras/cardio/pressao';
 import { DIAS_ADESAO_PAINEL, linhasAdesao } from './adesaoRelatorio';
-import { dataLocal } from './datas';
+import { diaDe } from './datas';
 import { PRIORIDADES, SECOES_BEMESTAR, SECOES_CARDIO, SECOES_GERAL, SECOES_ONCOLOGICO, SEMPRE_PRESENTE } from './especialidades';
 import { ROTULO_CATEGORIA_RISCO, ROTULO_STATUS, condicoesInformadas, dataBr, num, textoTabagismo } from './montar';
 import type { Programa } from '@core/regras/tipos';
@@ -134,7 +134,6 @@ const SECAO_DO_PROGRAMA: Record<Programa, ChaveSecao> = { mama: 'mama', colo_ute
 /** Medidas avulsas que contam: fora de sessão MRPA e não excluídas (mesmo filtro da seção `pa` e de "Para atenção"). */
 export const avulsasValidas = (d: DadosNero) => d.medidasPA.filter((m) => !m.sessaoId && !m.contexto.excluida);
 
-const diaDe = (iso: string) => (iso.length > 10 ? dataLocal(new Date(iso)) : iso);
 const tendencia = (atual: number, anterior: number | null | undefined): CartaoNumero['tendencia'] =>
   anterior == null || atual === anterior ? null : atual > anterior ? 'subiu' : 'desceu';
 
@@ -201,7 +200,7 @@ function cartaoPeso(d: DadosNero): CartaoNumero | null {
   const kg = ultimo.valores.kg!;
   const altura = d.bemEstar!.alturaCm;
   return {
-    tipo: 'peso', titulo: 'Peso e IMC', valor: num(kg, 1), unidade: 'kg', data: dataBr(ultimo.medidoEm),
+    tipo: 'peso', titulo: 'Peso e IMC', valor: num(kg, 1), unidade: 'kg', data: dataBr(diaDe(ultimo.medidoEm)),
     detalhe: altura ? `IMC ${num(kg / (altura / 100) ** 2, 1)}` : null, tendencia: tendencia(kg, pesos[1]?.valores.kg),
   };
 }
@@ -209,7 +208,7 @@ function cartaoPeso(d: DadosNero): CartaoNumero | null {
 function cartaoCintura(d: DadosNero): CartaoNumero | null {
   const c = medidasCorporais(d, 'cintura', 'cm')[0];
   if (!c) return null;
-  return { tipo: 'cintura', titulo: 'Circunferência abdominal', valor: num(c.valores.cm, 0), unidade: 'cm', data: dataBr(c.medidoEm), detalhe: null, tendencia: null };
+  return { tipo: 'cintura', titulo: 'Circunferência abdominal', valor: num(c.valores.cm, 0), unidade: 'cm', data: dataBr(diaDe(c.medidoEm)), detalhe: null, tendencia: null };
 }
 
 const CONSTRUTOR_CARTAO: Record<TipoCartao, (d: DadosNero) => CartaoNumero | null> = {

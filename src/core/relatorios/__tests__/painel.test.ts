@@ -216,6 +216,17 @@ test('número do cartão = número do detalhe: peso, IMC e cintura batem com a s
   expect(corpo).toContain(`Peso atual ${peso.valor} kg (${peso.data}) · ${peso.detalhe}`);
   expect(corpo).toContain(`Circunferência abdominal ${cintura.valor} cm (${cintura.data})`);
 });
+test('peso e cintura às 22:30 local: cartão e detalhe mostram o dia local (não o dia UTC)', () => {
+  const d = dadosNeroTeste();
+  const noite = new Date(2026, 8, 15, 22, 30).toISOString(); // 16/09 em UTC
+  d.bemEstar!.corporais = d.bemEstar!.corporais.map((m) => (m.id === 'w1' || m.id === 'w4' ? { ...m, medidoEm: noite } : m));
+  const [peso, cintura] = cartoesDoPainel(d, 'bemestar', escopoDoRelatorio({ tipo: 'bemestar' }), false);
+  expect([peso.data, cintura.data]).toEqual(['15/09/2026', '15/09/2026']);
+  const corpo = JSON.stringify(montarBemEstar(d, PERIODO_TESTE).find((x) => x.chave === 'corpo'));
+  expect(corpo).toContain('Peso atual 82,0 kg (15/09/2026)');
+  expect(corpo).toContain('Circunferência abdominal 96 cm (15/09/2026)');
+  expect(corpo).toContain('["15/09/2026","82,0","28,4","96"]');
+});
 test('HbA1c e LDL com o mesmo formato do detalhe (fmtNum)', () => {
   const d = dadosNeroTeste();
   d.examesCardio = d.examesCardio.map((e) => (e.id === 'e5' ? { ...e, resultado: { ...e.resultado, valor: 6.85 } } : e));

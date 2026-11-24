@@ -1,5 +1,6 @@
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
+import { dataLocal } from './datas';
 import { gerarPdf } from './gerarPdf';
 import { caminhoJson, linkDaPagina, type ConteudoQr } from './linkQr';
 import { qrSvg } from './qr';
@@ -65,7 +66,7 @@ export async function criarCompartilhamento(userId: string, tipo: TipoRelatorio,
   try {
     await subirJson(json, { versao: 1, preparando: true }, false);
     const link = linkDaPagina(await assinar(json), json);
-    await subirPdf(caminho, await gerarPdf(conteudo.htmlPdf(await qrSvg(link, 96), dataBr(expiraEm))));
+    await subirPdf(caminho, await gerarPdf(conteudo.htmlPdf(await qrSvg(link, 96), dataBr(dataLocal(new Date(expiraEm))))));
     const pdfUrl = await assinar(caminho);
     const final: ConteudoQr = { versao: 1, titulo: conteudo.titulo, geradoEm: conteudo.geradoEm, expiraEm, html: conteudo.htmlWeb, pdfUrl };
     await subirJson(json, final, true);
@@ -108,6 +109,7 @@ export async function limparExpirados(userId: string): Promise<number> {
   return data.length;
 }
 
+/** 'AAAA-MM-DD' (já no dia local) → 'dd/mm/aaaa'. */
 function dataBr(iso: string): string {
   const [a, m, d] = iso.slice(0, 10).split('-');
   return `${d}/${m}/${a}`;

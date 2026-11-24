@@ -8,3 +8,8 @@ export function somarDias(dia: string, n: number): string {
   const [a, m, d] = dia.split('-').map(Number);
   return dataLocal(new Date(a, m - 1, d + n));
 }
+
+/** Dia local de um registro: instante ISO vira o dia local; 'AAAA-MM-DD' passa como veio. */
+export function diaDe(iso: string): string {
+  return iso.length > 10 ? dataLocal(new Date(iso)) : iso;
+}

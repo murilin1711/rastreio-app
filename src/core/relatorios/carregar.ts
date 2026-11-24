@@ -38,8 +38,9 @@ import type { ConsultaResumo, DadosNero, Especialidade, Periodo } from './tipos'
 
 /** Período de medidas: 30/90/180 dias até hoje (§26). */
 export function periodoDias(dias: 30 | 90 | 180, hoje = new Date()): Periodo {
-  const ate = hoje.toISOString().slice(0, 10);
-  const desde = new Date(hoje.getTime() - dias * 86_400_000).toISOString().slice(0, 10);
+  // Calendário local: às 22:30 de Brasília o ISO em UTC já seria o dia seguinte.
+  const ate = dataLocal(hoje);
+  const desde = somarDias(ate, -dias);
   return { desde, ate, rotulo: `últimos ${dias} dias` };
 }
 

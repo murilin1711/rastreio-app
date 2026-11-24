@@ -17,6 +17,7 @@ import { avaliarPMAV, classificarCintura, classificarRCA, faixaIMC, faixaIMCIdos
 import { formatarHm, resumo7d } from '@core/regras/bemestar/sono';
 import type { ParametrosBemEstar } from '@core/regras/bemestar/tipos';
 import { blocosAdesaoDetalhe } from './adesaoRelatorio';
+import { diaDe } from './datas';
 import { PRIORIDADES, SECOES_BEMESTAR, SECOES_CARDIO, SECOES_GERAL, SECOES_ONCOLOGICO, SEMPRE_PRESENTE, rotuloEspecialidade } from './especialidades';
 import { SEM_REGISTROS, type Bloco, type ChaveSecao, type DadosNero, type Especialidade, type Periodo, type SecaoRelatorio } from './tipos';
 
@@ -120,17 +121,17 @@ const CONSTRUTORES: Record<ChaveSecao, Construtor> = {
     const ultimo = pesos[0]; const cintura = cinturas[0];
     const imc = ultimo && be.alturaCm ? ultimo.valores.kg! / (be.alturaCm / 100) ** 2 : null;
     const itens: string[] = [];
-    if (ultimo) itens.push(`Peso atual ${num(ultimo.valores.kg, 1)} kg (${dataBr(ultimo.medidoEm)})${imc != null ? ` · IMC ${num(imc, 1)}: ${faixaIMC(imc, p).rotulo}${faixaIMCIdoso(imc, be.idade, p) ? ` · ${faixaIMCIdoso(imc, be.idade, p)!.rotulo}` : ''}` : ''}`);
-    if (cintura) { const v = be.alturaCm ? rca(cintura.valores.cm!, be.alturaCm) : null; itens.push(`Circunferência abdominal ${num(cintura.valores.cm, 0)} cm (${dataBr(cintura.medidoEm)})${be.sexo ? `: ${classificarCintura(cintura.valores.cm!, be.sexo, p).faixa.replace('_', ' ')}` : ''}${v != null ? ` · relação cintura/altura ${num(v, 2)} (${classificarRCA(v, p).acima ? 'acima' : 'abaixo'} de 0,5)` : ''}`); }
+    if (ultimo) itens.push(`Peso atual ${num(ultimo.valores.kg, 1)} kg (${dataBr(diaDe(ultimo.medidoEm))})${imc != null ? ` · IMC ${num(imc, 1)}: ${faixaIMC(imc, p).rotulo}${faixaIMCIdoso(imc, be.idade, p) ? ` · ${faixaIMCIdoso(imc, be.idade, p)!.rotulo}` : ''}` : ''}`);
+    if (cintura) { const v = be.alturaCm ? rca(cintura.valores.cm!, be.alturaCm) : null; itens.push(`Circunferência abdominal ${num(cintura.valores.cm, 0)} cm (${dataBr(diaDe(cintura.medidoEm))})${be.sexo ? `: ${classificarCintura(cintura.valores.cm!, be.sexo, p).faixa.replace('_', ' ')}` : ''}${v != null ? ` · relação cintura/altura ${num(v, 2)} (${classificarRCA(v, p).acima ? 'acima' : 'abaixo'} de 0,5)` : ''}`); }
     const tend = tendenciaPeso(pesos.map((m) => ({ medidoEm: m.medidoEm, kg: m.valores.kg! })), periodo.ate, p);
     if (tend) itens.push(`Tendência do peso: ${tend === 'estavel' ? 'estável' : tend === 'aumento' ? 'aumento' : 'redução'} (médias de 14 dias)`);
     if (d.perfil.pesoMaximoVidaKg != null && ultimo && imc != null) { const r = avaliarPMAV(ultimo.valores.kg!, d.perfil.pesoMaximoVidaKg, imc, p); itens.push(`Peso máximo da vida ${num(d.perfil.pesoMaximoVidaKg, 1)} kg · ${num(r.perdaPct, 1)} % abaixo${r.faixa && r.faixa !== 'nenhuma' ? ` · faixa de obesidade ${r.faixa} (ABESO 2026)` : ''}`); }
     if (d.perfil.objetivoPeso) itens.push(`Objetivo de peso escolhido: ${{ reducao: 'redução', manutencao: 'manutenção', aumento: 'aumento', sem_meta: 'sem meta' }[d.perfil.objetivoPeso]}`);
     for (const m of be.metas.filter((x) => x.tipo === 'peso' || x.tipo === 'cintura')) itens.push(`Meta de ${m.tipo}: ${num(m.valor, 1)} ${m.tipo === 'peso' ? 'kg' : 'cm'} (${m.origem === 'profissional' ? 'definida com profissional' : 'do paciente'})`);
     blocos.push({ tipo: 'lista', itens });
-    const linhas = pesos.slice(0, 12).map((m) => [dataBr(m.medidoEm), num(m.valores.kg, 1), be.alturaCm ? num(m.valores.kg! / (be.alturaCm / 100) ** 2, 1) : '—', (() => { const c = cinturas.find((x) => x.medidoEm.slice(0, 10) === m.medidoEm.slice(0, 10)); return c ? num(c.valores.cm, 0) : '—'; })()]);
+    const linhas = pesos.slice(0, 12).map((m) => [dataBr(diaDe(m.medidoEm)), num(m.valores.kg, 1), be.alturaCm ? num(m.valores.kg! / (be.alturaCm / 100) ** 2, 1) : '—', (() => { const c = cinturas.find((x) => diaDe(x.medidoEm) === diaDe(m.medidoEm)); return c ? num(c.valores.cm, 0) : '—'; })()]);
     if (linhas.length) blocos.push({ tipo: 'tabela', colunas: ['Data', 'Peso (kg)', 'IMC', 'Cintura (cm)'], linhas });
-    if (comps.length) blocos.push({ tipo: 'tabela', colunas: ['Data', 'Método', 'Gordura %', 'Massa muscular (kg)', 'Massa magra (kg)'], linhas: comps.slice(0, 6).map((c) => [dataBr(c.medidoEm), c.valores.metodo != null ? ROTULO_METODO_COMPOSICAO[c.valores.metodo] ?? c.valores.metodo : '—', num(c.valores.gordura_pct, 1), num(c.valores.massa_muscular_kg, 1), num(c.valores.massa_magra_kg, 1)]) });
+    if (comps.length) blocos.push({ tipo: 'tabela', colunas: ['Data', 'Método', 'Gordura %', 'Massa muscular (kg)', 'Massa magra (kg)'], linhas: comps.slice(0, 6).map((c) => [dataBr(diaDe(c.medidoEm)), c.valores.metodo != null ? ROTULO_METODO_COMPOSICAO[c.valores.metodo] ?? c.valores.metodo : '—', num(c.valores.gordura_pct, 1), num(c.valores.massa_muscular_kg, 1), num(c.valores.massa_magra_kg, 1)]) });
     return { chave: 'corpo', titulo: 'Evolução corporal', blocos };
   },
   alimentacao: (d, periodo) => {

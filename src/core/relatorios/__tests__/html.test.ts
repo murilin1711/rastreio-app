@@ -166,3 +166,10 @@ test('estilos só de tela dependem da classe "tela", que o PDF nunca leva', () =
   const tela = htmlRelatorio({ ...base, tipo: 'geral', titulo: 'x', secoes: [], painel: montarPainel(d, { tipo: 'geral', periodo: PERIODO_TESTE }), tela: true });
   expect(tela).toContain('<html lang="pt-BR" class="tela">');
 });
+
+test('"Gerado em" traz data e hora locais (22:30 local não vira o dia seguinte)', () => {
+  const geradoEm = new Date(2026, 8, 18, 22, 30).toISOString();
+  const d = dadosNeroTeste();
+  expect(htmlRelatorio({ ...base, geradoEm, tipo: 'geral', titulo: 'x', secoes: [], painel: montarPainel(d, { tipo: 'geral', periodo: PERIODO_TESTE }) })).toContain('Gerado em 18/09/2026 22:30');
+  expect(htmlRelatorio({ ...base, geradoEm, tipo: 'geral', titulo: 'R', secoes: [] })).toContain('Gerado em 18/09/2026 22:30');
+});
