@@ -46,6 +46,19 @@ function apertar(arvore: any, rotulo: string) {
   alvo.props.onPress();
 }
 
+/**
+ * Termina o envio com o relógio já depois do piso da espera do Nero (D-023): a tela sai na hora, sem
+ * esperar 2 s de verdade nem deixar um timer pendente para depois do teste.
+ */
+async function salvarPulandoOPiso() {
+  const relogio = jest.spyOn(Date, 'now').mockReturnValue(Date.now() + PISO_ESPERA_MS);
+  try {
+    await act(async () => { resolverEnvio!({ caminho: 'u1/abc.jpg', tamanho: 10, mime: 'image/jpeg' }); });
+  } finally {
+    relogio.mockRestore();
+  }
+}
+
 beforeEach(() => { mockInseridos = []; mockApagados = []; resolverEnvio = null; mockVoltar.mockClear(); });
 
 it('cancelar durante o envio apaga o arquivo enviado e não grava o documento', async () => {
@@ -67,26 +80,18 @@ it('sem cancelar, grava o documento e não apaga nada', async () => {
   await act(async () => { arvore = create(<NovoDocumento />); });
 
   await act(async () => { apertar(arvore, 'Salvar documento'); });
-  await act(async () => { resolverEnvio!({ caminho: 'u1/abc.jpg', tamanho: 10, mime: 'image/jpeg' }); });
+  await salvarPulandoOPiso();
 
   expect(mockApagados).toEqual([]);
   expect(mockInseridos).toHaveLength(1);
 }, 10000);
 
-it('depois de salvar, volta pelo useVoltar (respeita voltarPara)', async () => {
+it('depois de salvar, sai pelo useVoltar', async () => {
   let arvore: any;
   await act(async () => { arvore = create(<NovoDocumento />); });
 
   await act(async () => { apertar(arvore, 'Salvar documento'); });
-  // A tela espera o piso da espera do Nero (D-023) antes de sair: o relógio pula o piso, para não
-  // esperar 2 s de verdade (e não confundir com o piso ainda pendente do teste anterior).
-  const agora = Date.now();
-  const relogio = jest.spyOn(Date, 'now').mockReturnValue(agora + PISO_ESPERA_MS);
-  try {
-    await act(async () => { resolverEnvio!({ caminho: 'u1/abc.jpg', tamanho: 10, mime: 'image/jpeg' }); });
-  } finally {
-    relogio.mockRestore();
-  }
+  await salvarPulandoOPiso();
 
   expect(mockInseridos).toHaveLength(1);
   expect(mockVoltar).toHaveBeenCalledTimes(1);
