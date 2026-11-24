@@ -6,6 +6,8 @@
  * traz só o detalhe. Sem "NERO:" (o ícone já diz) e sem nome de módulo ("Coração & Metabolismo" não
  * diz à pessoa o que fazer).
  */
+import { horaCurta } from '@core/medicacoes/horarios';
+
 export interface TextoNotificacao {
   titulo: string;
   emoji: string;
@@ -43,6 +45,14 @@ export function textoRemedio(nome: string, dose: string | null, quantidade: stri
   const d = dose?.trim();
   const remedio = d ? `${nome} ${d}` : nome;
   return { titulo: `${PREFIXO_REMEDIO}${remedio}${quantidade ? ` · ${quantidade}` : ''}`, emoji: '💊', corpo: 'Toque aqui para marcar' };
+}
+
+/**
+ * Segundo lembrete (spec §6.2), 30 min depois do horário, para quem ainda não marcou a dose:
+ * "Você tomou Losartana das 8h?" / "Toque aqui para marcar". Neutro em gênero; o toque abre "Tomou?".
+ */
+export function textoSegundoLembrete(nome: string, hora: string): TextoNotificacao {
+  return { titulo: `Você tomou ${nome} das ${horaCurta(hora)}?`, emoji: '💊', corpo: 'Toque aqui para marcar' };
 }
 
 /** `metaMl` nulo: a pessoa não definiu meta e não há peso para sugerir uma. */

@@ -5,6 +5,8 @@ import type { SessaoMrpa } from '@core/regras/cardio/tipos';
 import type { Medicacao } from '@core/medicacoes/tipos';
 import { rotaTomar } from '@core/medicacoes/horarios';
 import { formatarQuantidade } from '@core/medicacoes/unidades';
+import { listarTomadas } from '@core/medicacoes/repositorio';
+import { idSegundoLembrete, janelaSegundos, planejarSegundosLembretes, PREFIXO_SEGUNDO, vagasSegundos } from '@core/medicacoes/segundoLembrete';
 import { notificacoesPermitidas } from '@core/lembretes/permissao';
 import { origemDe } from '@core/lembretes/origem';
 import { mensagemDaLista, textoGlicemia, textoMrpa, textoRemedio, tituloCompleto, type TextoNotificacao } from '@core/lembretes/textos';
@@ -107,6 +109,57 @@ export async function agendarLembretesMedicacao(userId: string, m: Medicacao): P
  */
 export async function sincronizarLembretesMedicacao(userId: string, ativasComLembrete: Medicacao[]): Promise<void> {
   for (const m of ativasComLembrete) await agendarLembretesMedicacao(userId, m);
+  await sincronizarSegundosLembretes(userId, ativasComLembrete);
+}
+
+/** Cancela os segundos lembretes agendados e devolve quantos OUTROS avisos continuam no celular. */
+async function cancelarSegundosAgendados(): Promise<number> {
+  const agendados = await Notifications.getAllScheduledNotificationsAsync();
+  let outros = 0;
+  for (const n of agendados) {
+    if (n.identifier.startsWith(PREFIXO_SEGUNDO)) await Notifications.cancelScheduledNotificationAsync(n.identifier).catch(() => {});
+    else outros++;
+  }
+  return outros;
+}
+
+/**
+ * Segundo lembrete (spec §6.2): troca os avulsos `medicacao2:` agendados pelos da janela de hoje + amanhã.
+ * A janela é de todos os remédios (por causa do teto), então quem chama passa a lista inteira.
+ * As vagas são contadas aqui (R7): até 40 avulsos e nunca mais de 64 no total, somando os outros
+ * avisos que já estão no celular — o iOS descarta o excedente sem erro, inclusive os principais.
+ * Preferência "Medicamentos" desligada ou sem permissão: só cancela.
+ */
+export async function sincronizarSegundosLembretes(userId: string, medicacoes: Medicacao[], agora: Date = new Date()): Promise<void> {
+  const outros = await cancelarSegundosAgendados();
+  if (!(await notificacoesPermitidas(userId, 'medicacao'))) return;
+  const [hoje, amanha] = janelaSegundos(agora);
+  let tomadas;
+  try {
+    tomadas = await listarTomadas(userId, hoje, amanha);
+  } catch {
+    // Sem as marcas, melhor nenhum segundo lembrete do que um para dose já marcada.
+    return;
+  }
+  for (const s of planejarSegundosLembretes(medicacoes, tomadas, agora, vagasSegundos(outros))) {
+    await Notifications.scheduleNotificationAsync({
+      identifier: s.identificador,
+      content: { title: tituloCompleto(s.texto), body: s.texto.corpo, data: { rota: s.rota } },
+      trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: s.quando, channelId: CANAL_LEMBRETES },
+    }).catch((e) => {
+      console.warn('[lembretes] o sistema recusou o segundo lembrete', e);
+    });
+  }
+}
+
+/** Marcar a dose (tomei ou não tomei) cancela o segundo lembrete dela. */
+export async function cancelarSegundoLembrete(medicacaoId: string, data: string, hora: string): Promise<void> {
+  await Notifications.cancelScheduledNotificationAsync(idSegundoLembrete(medicacaoId, data, hora)).catch(() => {});
+}
+
+/** Preferência "Medicamentos" desligada: tira todos os segundos lembretes do celular. */
+export async function cancelarTodosSegundosLembretes(): Promise<void> {
+  await cancelarSegundosAgendados();
 }
 
 const ROTULO_MOMENTO: Record<string, string> = { jejum: 'em jejum', antes_cafe: 'antes do café', pos_cafe_1h: '1 h após o café', pos_cafe_2h: '2 h após o café', antes_almoco: 'antes do almoço', pos_almoco_1h: '1 h após o almoço', pos_almoco_2h: '2 h após o almoço', antes_jantar: 'antes do jantar', pos_jantar_1h: '1 h após o jantar', pos_jantar_2h: '2 h após o jantar', antes_dormir: 'antes de dormir', madrugada: 'de madrugada' };

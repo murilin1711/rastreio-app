@@ -2,7 +2,7 @@
  * Textos das notificações, decididos um a um com o Murilo em 25/09/2026 (`docs/nero/notificacoes.md`).
  * Se um destes testes quebrar, o documento e o código divergiram — atualizar os dois juntos.
  */
-import { litros, textoAgua, textoConsultaDia, textoConsultaVespera, textoExameAntes, textoExameDepois, textoExameDia, textoGlicemia, textoMrpa, textoRemedio, tituloCompleto, mensagemDaLista } from '../textos';
+import { litros, textoAgua, textoConsultaDia, textoConsultaVespera, textoExameAntes, textoExameDepois, textoExameDia, textoGlicemia, textoMrpa, textoRemedio, textoSegundoLembrete, tituloCompleto, mensagemDaLista } from '../textos';
 
 describe('remédio', () => {
   // Texto decidido na spec de 23/11 (D-066): o título diz o remédio, a dose e quanto tomar.
@@ -70,4 +70,12 @@ it('o título da notificação termina com o emoji; a lista do app guarda títul
   const t = textoRemedio('Losartana', '50 mg', '1 comprimido');
   expect(tituloCompleto(t)).toBe('Hora do remédio: Losartana 50 mg · 1 comprimido 💊');
   expect(mensagemDaLista(t)).toBe('Hora do remédio: Losartana 50 mg · 1 comprimido · Toque aqui para marcar');
+});
+
+describe('segundo lembrete do remédio', () => {
+  // Spec §6.2: 30 min depois, neutro em gênero; o toque abre a tela "Tomou?".
+  it('pergunta se tomou, com a hora curta', () => {
+    expect(textoSegundoLembrete('Losartana', '08:00')).toEqual({ titulo: 'Você tomou Losartana das 8h?', emoji: '💊', corpo: 'Toque aqui para marcar' });
+    expect(textoSegundoLembrete('Insulina', '20:30').titulo).toBe('Você tomou Insulina das 20h30?');
+  });
 });
