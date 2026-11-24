@@ -47,7 +47,13 @@ export function linhasAdesao(d: DadosNero): LinhaAdesao[] {
 const p2 = (n: number) => String(n).padStart(2, '0');
 const diaMes = (dia: string) => `${dia.slice(8, 10)}/${dia.slice(5, 7)}`;
 const dataBr = (dia: string) => `${diaMes(dia)}/${dia.slice(0, 4)}`;
-const horaLocal = (iso: string) => { const t = new Date(iso); return `${p2(t.getHours())}:${p2(t.getMinutes())}`; };
+/** 'HH:MM' local da marca; com 'DD/MM ' na frente quando foi marcada noutro dia que o da dose. */
+const marcadoAs = (iso: string, diaDose: string) => {
+  const t = new Date(iso);
+  const hora = `${p2(t.getHours())}:${p2(t.getMinutes())}`;
+  const dia = dataLocal(t);
+  return dia === diaDose ? hora : `${diaMes(dia)} ${hora}`;
+};
 const rotulo = (m: Medicacao) => (m.dose ? `${m.nome} ${m.dose}` : m.nome);
 
 function celulaSemana(m: Medicacao, r: ResumoAdesao | undefined): string {
@@ -65,7 +71,7 @@ function linhaDose(m: Medicacao, x: DoseClassificada): string[] {
     dataBr(x.data),
     m.nome,
     `${x.hora} · ${formatarQuantidade(x.quantidadePrevista, m.unidade)}`,
-    tomadas.length ? tomadas.map((t) => horaLocal(t.marcadoEm)).join(', ') : '—',
+    tomadas.length ? tomadas.map((t) => marcadoAs(t.marcadoEm, x.data)).join(', ') : '—',
     tomadas.length ? tomadas.map((t) => (t.quantidade != null ? formatarQuantidade(t.quantidade, m.unidade) : '—')).join(' + ') : '—',
     situacao,
   ];

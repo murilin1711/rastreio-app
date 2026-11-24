@@ -47,17 +47,22 @@ test('detalhe: tabela por semana', () => {
   expect(t.linhas.find((l) => l[0] === 'Metformina 850 mg')).toEqual(['Metformina 850 mg', '14 de 14', '14 de 14', '14 de 14', '12 de 13']);
   expect(t.linhas.find((l) => l[0] === 'Dipirona 500 mg')).toEqual(['Dipirona 500 mg', '—', '—', 'usou 1 vez', 'usou 1 vez']);
 });
-test('detalhe: "usou N vezes" e remédio sem dose, sem rótulo de dose', () => {
-  const d = dadosNeroTeste();
-  d.medicacoes = [{ ...d.medicacoes[3], dose: null }, { ...d.medicacoes[0], horariosDesde: '2026-09-19' }];
-  d.tomadas = d.tomadas.filter((x) => x.medicacaoId !== 'm1');
+const tabelaSemanas = (d: ReturnType<typeof dadosNeroTeste>) => {
   const t = blocosAdesaoDetalhe(d).filter((b) => b.tipo === 'tabela')[0];
   if (t.tipo !== 'tabela') throw new Error('esperava tabela');
-  d.tomadas.push({ ...d.tomadas.find((x) => x.medicacaoId === 'm4')!, id: 'extra', marcadoEm: '2026-09-15T09:00:00' });
-  const t2 = blocosAdesaoDetalhe(d).filter((b) => b.tipo === 'tabela')[0];
-  if (t2.tipo !== 'tabela') throw new Error('esperava tabela');
-  expect(t.linhas[1]).toEqual(['Losartana 50 mg', '—', '—', '—', '—']);
-  expect(t2.linhas[0]).toEqual(['Dipirona', '—', '—', 'usou 1 vez', 'usou 2 vezes']);
+  return t;
+};
+test('detalhe: remédio sem dose prevista na semana mostra "—"', () => {
+  const d = dadosNeroTeste();
+  d.medicacoes = [{ ...d.medicacoes[0], horariosDesde: '2026-09-19' }];
+  d.tomadas = d.tomadas.filter((x) => x.medicacaoId !== 'm1');
+  expect(tabelaSemanas(d).linhas).toEqual([['Losartana 50 mg', '—', '—', '—', '—']]);
+});
+test('detalhe: "usou N vezes" e rótulo sem dose', () => {
+  const d = dadosNeroTeste();
+  const avulsa = d.tomadas.find((x) => x.medicacaoId === 'm4')!;
+  const e = { ...d, medicacoes: [{ ...d.medicacoes[3], dose: null }], tomadas: [...d.tomadas, { ...avulsa, id: 'extra', marcadoEm: '2026-09-15T09:00:00' }] };
+  expect(tabelaSemanas(e).linhas).toEqual([['Dipirona', '—', '—', 'usou 1 vez', 'usou 2 vezes']]);
 });
 test('detalhe: doses erradas e com atraso, coluna "Marcado às" (X10)', () => {
   const t = blocosAdesaoDetalhe(dadosNeroTeste()).filter((b) => b.tipo === 'tabela')[1];
@@ -67,6 +72,14 @@ test('detalhe: doses erradas e com atraso, coluna "Marcado às" (X10)', () => {
     ['16/09/2026', 'Metformina', '08:00 · 1 comprimido', '08:05', '2 comprimidos', 'errada'],
     ['17/09/2026', 'Metformina', '20:00 · 1 comprimido', '23:00', '1 comprimido', 'com atraso'],
   ]);
+});
+test('detalhe: "Marcado às" com o dia quando a marca é de outro dia que a dose', () => {
+  const d = dadosNeroTeste();
+  const t17 = d.tomadas.find((x) => x.medicacaoId === 'm2' && x.dataPrevista === '2026-09-17' && x.horaPrevista === '20:00')!;
+  t17.marcadoEm = '2026-09-18T09:00:00';
+  const t = blocosAdesaoDetalhe(d).filter((b) => b.tipo === 'tabela')[1];
+  if (t.tipo !== 'tabela') throw new Error('esperava tabela');
+  expect(t.linhas.map((l) => l[3])).toEqual(['08:05', '18/09 09:00']);
 });
 test('detalhe: dose errada e com atraso juntas; sem tomada a tabela de doses some', () => {
   const d = dadosNeroTeste();
