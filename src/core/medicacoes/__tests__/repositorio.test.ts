@@ -24,6 +24,11 @@ it('remédio sem horário é "se precisar"', () => {
   expect(paraMedicacao({ ...linha, horarios: [], se_precisar: false }).sePrecisar).toBe(true);
 });
 
+it('remédio com horário nunca é "se precisar", mesmo com se_precisar gravado (M1: o build antigo pode pôr horários)', () => {
+  expect(paraMedicacao({ ...linha, se_precisar: true }).sePrecisar).toBe(false);
+  expect(paraMedicacao({ ...linha, horarios: [], se_precisar: true }).sePrecisar).toBe(true);
+});
+
 it('grava horarios como textos e a quantidade à parte', () => {
   const l = paraLinhaMedicacao('u1', { ...paraMedicacao(linha) });
   expect(l.horarios).toEqual(['08:00', '20:00']);

@@ -17,7 +17,8 @@ type NovaTomada = Omit<Tomada, 'id' | 'marcadoEm'>;
 /**
  * Linha do banco → modelo do app. `horarios` continua uma lista de textos 'HH:MM' (o build antigo lê assim);
  * a quantidade vem de `quantidades` ({"08:00": 2}) e hora sem entrada vale 1. Remédio sem horário é
- * "se precisar" mesmo com `se_precisar` falso: o build antigo cadastra assim depois da migração (R-T1-b).
+ * "se precisar" mesmo com `se_precisar` falso: o build antigo cadastra assim depois da migração (R-T1-b);
+ * com horário nunca é, mesmo com `se_precisar` verdadeiro: o build antigo edita os horários sem mexer nele (M1).
  */
 export function paraMedicacao(linha: LinhaMedicacao): Medicacao {
   const horas = Array.isArray(linha.horarios)
@@ -39,7 +40,9 @@ export function paraMedicacao(linha: LinhaMedicacao): Medicacao {
     horarios,
     unidade,
     doseVariavel: linha.dose_variavel,
-    sePrecisar: linha.se_precisar || horarios.length === 0,
+    // Quem decide é ter horário: com horário nunca é "se precisar" (o build antigo pode pôr horários num
+    // remédio que era "se precisar"); sem horário é, mesmo com `se_precisar` falso (R-T1-b).
+    sePrecisar: horarios.length === 0,
     horariosDesde: linha.horarios_desde,
     desde: linha.desde,
     ate: linha.ate,
