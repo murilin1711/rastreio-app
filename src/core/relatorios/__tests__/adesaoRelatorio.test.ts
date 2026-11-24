@@ -1,4 +1,4 @@
-import { LEGENDA_DOSES, SIMBOLO_DOSE, blocosAdesaoDetalhe, janelaAdesao, linhasAdesao } from '../adesaoRelatorio';
+import { LEGENDA_DOSES, SIMBOLO_DOSE, blocosAdesaoDetalhe, janelaAdesao, linhasAdesao, nomeLinhaAdesao } from '../adesaoRelatorio';
 import { dadosNeroTeste } from './fixtures';
 
 test('símbolos e legenda das doses', () => {
@@ -33,7 +33,7 @@ test('remédio recém-cadastrado, sem dose prevista ainda: linha zerada, percent
   d.medicacoes = [{ ...d.medicacoes[0], horariosDesde: '2026-09-19' }];
   d.tomadas = [];
   expect(linhasAdesao(d)).toEqual([
-    { medicacaoId: 'm1', nome: 'Losartana', dose: '50 mg', sePrecisar: false, doses: [], tomou: 0, previstas: 0, errado: 0, percentual: null, usosSePrecisar: 0 },
+    { medicacaoId: 'm1', nome: 'Losartana', dose: '50 mg', sePrecisar: false, interrompidoEm: null, doses: [], tomou: 0, previstas: 0, errado: 0, percentual: null, usosSePrecisar: 0 },
   ]);
 });
 test('detalhe: texto de abertura', () => {
@@ -96,4 +96,29 @@ test('sem remédio ativo, sem detalhe', () => {
   d.medicacoes = d.medicacoes.map((m) => ({ ...m, ativa: false }));
   expect(blocosAdesaoDetalhe(d)).toEqual([]);
   expect(linhasAdesao(d)).toEqual([]);
+});
+
+/** I3: remédio interrompido dentro da janela entra com o rótulo; fora dela, não (mesmo critério de useAdesao). */
+const comInterrompido = (ate: string) => {
+  const d = dadosNeroTeste();
+  d.medicacoes = d.medicacoes.map((m) => (m.id === 'm3' ? { ...m, ate, horariosDesde: '2026-01-01' } : m));
+  return d;
+};
+test('painel: interrompido na janela de 2 semanas entra, na ordem do cadastro, com as doses até o fim', () => {
+  const ls = linhasAdesao(comInterrompido('2026-09-10'));
+  expect(ls.map((l) => l.nome)).toEqual(['Losartana', 'Metformina', 'Sinvastatina', 'Dipirona']);
+  const s = ls.find((l) => l.nome === 'Sinvastatina')!;
+  expect([s.interrompidoEm, s.previstas, s.doses.length]).toEqual(['2026-09-10', 6, 6]);
+  expect(nomeLinhaAdesao(s)).toBe('Sinvastatina 20 mg (interrompido em 10/09)');
+  expect(nomeLinhaAdesao(ls[0])).toBe('Losartana 50 mg');
+});
+test('painel: interrompido no 1º dia da janela entra; antes dela, não', () => {
+  expect(linhasAdesao(comInterrompido('2026-09-05')).map((l) => l.nome)).toContain('Sinvastatina');
+  expect(linhasAdesao(comInterrompido('2026-09-04')).map((l) => l.nome)).not.toContain('Sinvastatina');
+  expect(linhasAdesao(dadosNeroTeste()).map((l) => l.nome)).not.toContain('Sinvastatina');
+});
+test('detalhe: interrompido nas 4 semanas entra com o rótulo; antes delas, não', () => {
+  const t = tabelaSemanas(comInterrompido('2026-08-25'));
+  expect(t.linhas.find((l) => l[0].startsWith('Sinvastatina'))).toEqual(['Sinvastatina 20 mg (interrompido em 25/08)', '0 de 4', '—', '—', '—']);
+  expect(tabelaSemanas(comInterrompido('2026-08-21')).linhas.map((l) => l[0])).not.toContain('Sinvastatina 20 mg (interrompido em 21/08)');
 });

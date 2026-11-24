@@ -53,3 +53,9 @@ test('gráfico da sistólica na largura medida, com a referência', () => {
   expect(svg.props.xml).toContain(`data-ref="${painel.referenciaSistolica}"`);
   expect(textoDe(arvore.toJSON())).toContain(`referência domiciliar de ${painel.referenciaSistolica} mmHg`);
 });
+
+test('remédio interrompido na janela aparece com "(interrompido em dd/mm)" (I3)', () => {
+  const d = dadosNeroTeste();
+  d.medicacoes = d.medicacoes.map((m) => (m.id === 'm3' ? { ...m, ate: '2026-09-10', horariosDesde: '2026-01-01' } : m));
+  expect(montar(montarPainel(d, { tipo: 'geral', periodo: PERIODO_TESTE }))).toContain('Sinvastatina 20 mg (interrompido em 10/09)');
+});

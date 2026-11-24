@@ -142,7 +142,7 @@ const comAdesao = (adesao: LinhaAdesao[]) => {
   const p: PainelRelatorio = { ...montarPainel(d, { tipo: 'geral', periodo: PERIODO_TESTE }), adesao };
   return htmlRelatorio({ ...base, tipo: 'geral', titulo: 'x', secoes: [], painel: p });
 };
-const linhaAd = (x: Partial<LinhaAdesao>): LinhaAdesao => ({ medicacaoId: 'm', nome: 'Remédio', dose: null, sePrecisar: false, doses: [], tomou: 0, previstas: 0, errado: 0, percentual: null, usosSePrecisar: 0, ...x });
+const linhaAd = (x: Partial<LinhaAdesao>): LinhaAdesao => ({ medicacaoId: 'm', nome: 'Remédio', dose: null, sePrecisar: false, interrompidoEm: null, doses: [], tomou: 0, previstas: 0, errado: 0, percentual: null, usosSePrecisar: 0, ...x });
 test('contagem do remédio: não usou, usou 1 vez, sem doses previstas', () => {
   expect(comAdesao([linhaAd({ sePrecisar: true })])).toContain('<span class="conta">não usou</span>');
   expect(comAdesao([linhaAd({ sePrecisar: true, usosSePrecisar: 1 })])).toContain('<span class="conta">usou 1 vez</span>');
@@ -172,4 +172,8 @@ test('"Gerado em" traz data e hora locais (22:30 local não vira o dia seguinte)
   const d = dadosNeroTeste();
   expect(htmlRelatorio({ ...base, geradoEm, tipo: 'geral', titulo: 'x', secoes: [], painel: montarPainel(d, { tipo: 'geral', periodo: PERIODO_TESTE }) })).toContain('Gerado em 18/09/2026 22:30');
   expect(htmlRelatorio({ ...base, geradoEm, tipo: 'geral', titulo: 'R', secoes: [] })).toContain('Gerado em 18/09/2026 22:30');
+});
+
+test('remédio interrompido na janela: linha com "(interrompido em dd/mm)" (I3)', () => {
+  expect(comAdesao([linhaAd({ nome: 'Sinvastatina', dose: '20 mg', interrompidoEm: '2026-09-10' })])).toContain('<span class="nome">Sinvastatina 20 mg (interrompido em 10/09)</span>');
 });

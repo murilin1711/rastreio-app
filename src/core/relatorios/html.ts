@@ -1,6 +1,6 @@
 import { TITULO_COMPLEMENTO, type Bloco, type CartaoNumero, type LinhaAdesao, type PainelRelatorio, type Periodo, type ProgramaPainel, type SecaoRelatorio, type TipoRelatorio } from './tipos';
 import { CREDITOS } from '@core/publicacao';
-import { LEGENDA_DOSES, ROTULO_DOSE, SIMBOLO_DOSE, contaRemedio, rotuloDoses } from './adesaoRelatorio';
+import { LEGENDA_DOSES, ROTULO_DOSE, SIMBOLO_DOSE, contaRemedio, nomeLinhaAdesao, rotuloDoses } from './adesaoRelatorio';
 import { dataLocal } from './datas';
 import { fontesDoRelatorio } from './fontes';
 import { svgSistolica } from './grafico';
@@ -145,7 +145,7 @@ function cartao(c: CartaoNumero): string {
 }
 
 function linhaRemedio(l: LinhaAdesao): string {
-  const nome = l.dose ? `${l.nome} ${l.dose}` : l.nome;
+  const nome = nomeLinhaAdesao(l);
   const doses = l.doses.map((e) => `<span class="dose" title="${ROTULO_DOSE[e]}">${SIMBOLO_DOSE[e]}</span>`).join('');
   const contagem = rotuloDoses(l.doses);
   const rotulo = contagem ? ` aria-label="${contagem}"` : '';

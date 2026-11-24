@@ -32,23 +32,29 @@ export function janelaAdesao(hoje: string, dias: 14 | 28): { desde: string; ate:
 }
 
 const hojeDe = (d: DadosNero) => dataLocal(new Date(d.geradoEm));
-const ativasDe = (d: DadosNero) => d.medicacoes.filter((m) => m.ativa);
+/**
+ * Remédios da adesão numa janela que começa em `desde`: os ativos e os interrompidos com fim (`ate`) dentro dela
+ * (I3, mesmo critério de useAdesao: interrompido sem data de fim não entra, não há como saber até quando valia).
+ * A tabela "Medicamentos em uso" continua só com os ativos.
+ */
+const daJanela = (d: DadosNero, desde: string) => d.medicacoes.filter((m) => m.ativa || (m.ate != null && m.ate >= desde));
+const interrompidoEm = (m: Medicacao) => (m.ativa ? null : m.ate);
 
 function resumoPorId(d: DadosNero, ativas: Medicacao[], desde: string, ate: string): Map<string, ResumoAdesao> {
   return new Map(resumirAdesao(ativas, d.tomadas, desde, ate, new Date(d.geradoEm)).map((r) => [r.medicacaoId, r]));
 }
 
 /**
- * Uma linha por remédio ativo (ordem do cadastro) nas últimas 2 semanas até o dia de geração.
+ * Uma linha por remédio ativo ou interrompido na janela (ordem do cadastro) nas últimas 2 semanas até o dia de geração.
  * Remédio sem dose prevista nem uso na janela sai com a linha zerada (Ruling X1).
  */
 export function linhasAdesao(d: DadosNero): LinhaAdesao[] {
-  const ativas = ativasDe(d);
   const { desde, ate } = janelaAdesao(hojeDe(d), DIAS_ADESAO_PAINEL);
+  const ativas = daJanela(d, desde);
   const resumos = resumoPorId(d, ativas, desde, ate);
   return ativas.map((m) => {
     const r = resumos.get(m.id);
-    const base = { medicacaoId: m.id, nome: m.nome, dose: m.dose, sePrecisar: m.sePrecisar };
+    const base = { medicacaoId: m.id, nome: m.nome, dose: m.dose, sePrecisar: m.sePrecisar, interrompidoEm: interrompidoEm(m) };
     if (!r) return { ...base, doses: [], tomou: 0, previstas: 0, errado: 0, percentual: null, usosSePrecisar: 0 };
     return {
       ...base,
@@ -72,7 +78,12 @@ const marcadoAs = (iso: string, diaDose: string) => {
   const dia = dataLocal(t);
   return dia === diaDose ? hora : `${diaMes(dia)} ${hora}`;
 };
-const rotulo = (m: Medicacao) => (m.dose ? `${m.nome} ${m.dose}` : m.nome);
+const comFim = (nome: string, fim: string | null) => (fim ? `${nome} (interrompido em ${diaMes(fim)})` : nome);
+const rotulo = (m: Medicacao) => comFim(m.dose ? `${m.nome} ${m.dose}` : m.nome, interrompidoEm(m));
+/** Nome do remédio na linha do painel (PDF e prévia): nome, dose e, se interrompido, "(interrompido em dd/mm)". */
+export function nomeLinhaAdesao(l: LinhaAdesao): string {
+  return comFim(l.dose ? `${l.nome} ${l.dose}` : l.nome, l.interrompidoEm);
+}
 
 function celulaSemana(m: Medicacao, r: ResumoAdesao | undefined): string {
   if (m.sePrecisar) {
@@ -97,9 +108,9 @@ function linhaDose(m: Medicacao, x: DoseClassificada): string[] {
 
 /** Detalhe das últimas 4 semanas (seção de remédios): por semana e as doses erradas ou com atraso. */
 export function blocosAdesaoDetalhe(d: DadosNero): Bloco[] {
-  const ativas = ativasDe(d);
-  if (!ativas.length) return [];
   const hoje = hojeDe(d);
+  const ativas = daJanela(d, janelaAdesao(hoje, 28).desde);
+  if (!ativas.length) return [];
   const semanas = [3, 2, 1, 0].map((i) => {
     const ate = somarDias(hoje, -7 * i);
     const desde = somarDias(ate, -6);

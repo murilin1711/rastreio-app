@@ -12,7 +12,7 @@ interface Props {
 
 export function ListItem({ icon, title, subtitle, onPress }: Props) {
   return (
-    <TouchableOpacity activeOpacity={0.7} onPress={onPress} style={styles.row} accessibilityRole="button" accessibilityLabel={title}>
+    <TouchableOpacity activeOpacity={0.7} onPress={onPress} style={styles.row} accessibilityRole="button" accessibilityLabel={subtitle ? `${title}, ${subtitle}` : title}>
       <View style={styles.iconBox}>
         <Ionicons name={icon} size={22} color={Colors.primary} />
       </View>

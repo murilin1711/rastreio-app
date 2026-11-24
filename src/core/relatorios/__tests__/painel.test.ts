@@ -7,7 +7,7 @@ import { PERIODO_TESTE, dadosNeroTeste } from './fixtures';
 
 const adesao = (d = dadosNeroTeste()) => linhasAdesao(d);
 const linha = (nome: string, doses: LinhaAdesao['doses'], x: Partial<LinhaAdesao> = {}): LinhaAdesao => ({
-  medicacaoId: nome, nome, dose: null, sePrecisar: false, doses, tomou: 0, previstas: doses.length, errado: 0, percentual: null, usosSePrecisar: 0, ...x,
+  medicacaoId: nome, nome, dose: null, sePrecisar: false, interrompidoEm: null, doses, tomou: 0, previstas: doses.length, errado: 0, percentual: null, usosSePrecisar: 0, ...x,
 });
 
 test('geral com os dados de teste: pendência, MRPA e os dois remédios, nessa ordem', () => {

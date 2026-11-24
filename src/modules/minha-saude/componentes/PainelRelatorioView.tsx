@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View, type LayoutChangeEvent } from 'react-native';
 import { SvgXml } from 'react-native-svg';
-import { LEGENDA_DOSES, SIMBOLO_DOSE, contaRemedio, rotuloDoses } from '@core/relatorios/adesaoRelatorio';
+import { LEGENDA_DOSES, SIMBOLO_DOSE, contaRemedio, nomeLinhaAdesao, rotuloDoses } from '@core/relatorios/adesaoRelatorio';
 import { svgSistolica } from '@core/relatorios/grafico';
 import { RESSALVA_CURTA_PAINEL, SETA_TENDENCIA } from '@core/relatorios/html';
 import { dataBr } from '@core/relatorios/montar';
@@ -93,7 +93,7 @@ function LinhaRemedio({ linha: l }: { linha: LinhaAdesao }) {
   const rotulo = rotuloDoses(l.doses);
   return (
     <View style={styles.remedio}>
-      <Text style={styles.remedioNome}>{l.dose ? `${l.nome} ${l.dose}` : l.nome}</Text>
+      <Text style={styles.remedioNome}>{nomeLinhaAdesao(l)}</Text>
       {l.doses.length ? (
         <Text style={styles.doses} accessibilityLabel={rotulo}>{l.doses.map((e) => SIMBOLO_DOSE[e]).join(' ')}</Text>
       ) : null}

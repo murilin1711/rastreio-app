@@ -191,3 +191,17 @@ describe('detalhe mais curto (D-067)', () => {
     expect(t).not.toMatch(/"medicacao"|bioimpedancia/); expect(t).toContain('bioimpedância'); expect(t).toContain('remédios');
   });
 });
+
+test('"Medicamentos em uso" só com ativos; interrompido nas 4 semanas fica na adesão, também sem nenhum ativo (I3)', () => {
+  const d = dadosNeroTeste();
+  d.medicacoes = d.medicacoes.map((m) => (m.id === 'm3' ? { ...m, ate: '2026-09-10', horariosDesde: '2026-01-01' } : m));
+  const sec = montarGeral(d, PERIODO_TESTE).find((x) => x.chave === 'medicamentos')!;
+  const uso = sec.blocos[0];
+  if (uso.tipo !== 'tabela') throw new Error('esperava tabela');
+  expect(uso.linhas.map((l) => l[0])).toEqual(['Losartana', 'Metformina', 'Dipirona']);
+  expect(textoDe([sec])).toContain('Sinvastatina 20 mg (interrompido em 10/09)');
+  d.medicacoes = d.medicacoes.filter((m) => m.id === 'm3');
+  const so = montarGeral(d, PERIODO_TESTE).find((x) => x.chave === 'medicamentos')!;
+  expect(so.blocos[0]).toEqual({ tipo: 'texto', texto: 'Nenhum medicamento cadastrado.' });
+  expect(textoDe([so])).toContain('Sinvastatina 20 mg (interrompido em 10/09)');
+});

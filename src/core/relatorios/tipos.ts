@@ -96,7 +96,8 @@ export interface CabecalhoPainel { nome: string; idade: number | null; sexo: str
 /** Estados de dose desenhados no painel: o que ainda pode ser marcado não entra. */
 export type EstadoDosePainel = Exclude<EstadoDose, 'pendente'>;
 
-export interface LinhaAdesao { medicacaoId: string; nome: string; dose: string | null; sePrecisar: boolean; doses: EstadoDosePainel[]; tomou: number; previstas: number; errado: number; percentual: number | null; usosSePrecisar: number }
+/** `interrompidoEm`: 'AAAA-MM-DD' do fim, quando o remédio foi interrompido dentro da janela (I3); `null` se ativo. */
+export interface LinhaAdesao { medicacaoId: string; nome: string; dose: string | null; sePrecisar: boolean; interrompidoEm: string | null; doses: EstadoDosePainel[]; tomou: number; previstas: number; errado: number; percentual: number | null; usosSePrecisar: number }
 
 export interface ProgramaPainel { programa: Programa; rotulo: string; situacao: string; proximaData: string | null; mensagem: string }
 
