@@ -131,7 +131,7 @@ Na tela do check-in semanal, acima das perguntas, um quadro só de leitura:
 - Percentual por remédio = tomou (incluindo com atraso) ÷ doses previstas.
 - O mesmo resumo (por semana, das últimas 4 semanas) entra no PDF "Coração e diabetes" e no "Resumo completo",
   com a lista das doses erradas e atrasadas (data, horário previsto, horário real, quantidade).
-- Linha do tempo (aba Histórico): não recebe cada dose (seria ruído); recebe só a semana com adesão < 80 %.
+- Linha do tempo (aba Histórico): não recebe as doses (decisão de 23/11/2026: sem limite de adesão, que seria julgamento clínico).
 
 ### 6.7 Dados
 

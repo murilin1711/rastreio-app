@@ -131,7 +131,7 @@ Ordem, de cima para baixo:
 | Coração & Metabolismo | **Pressão, coração e diabetes** |
 | Rastreamentos | **Exames de prevenção** |
 | Saúde & Bem-estar | **Hábitos e bem-estar** |
-| MRPA (cartão) | **Medir a pressão por 7 dias (MRPA)** |
+| MRPA (cartão) | **Medir a pressão por alguns dias (MRPA)** |
 | HbA1c / LDL | **Glicada (HbA1c)** / **Colesterol LDL** |
 | Relatório / Relatório de Saúde & Hábitos | **Levar ao médico** (tipos escolhidos lá dentro) |
 | Pendências | **Para fazer hoje** |
@@ -159,8 +159,8 @@ o "Anotar". Assim nenhuma tela interna perde a entrada quando os cartões vazios
 formulário fica na tela inicial e no ＋ Anotar. Nome do item: "Minha pressão", com subtítulo "anotar e ver
 como está".
 
-- **Pressão, coração e diabetes:** Minha pressão · Medir a pressão por 7 dias (MRPA) (se houver MRPA em
-  andamento: "Continuar o MRPA — dia X de 7") · Minha glicemia (inclui plano e relatório da glicemia) · Ver meus
+- **Pressão, coração e diabetes:** Minha pressão · Medir a pressão por alguns dias (MRPA) (se houver MRPA em
+  andamento: "Continuar o MRPA — dia X de N") · Minha glicemia (inclui plano e relatório da glicemia) · Ver meus
   exames · Calcular o risco do meu coração · Como está minha prevenção? · Quando procurar o pronto-socorro.
 - **Exames de prevenção:** mantém as pendências e a lista "Para o seu perfil" (já são ações por programa);
   sobem para o topo "Ver meus lembretes" e "Levar ao médico (relatório de prevenção)" como itens de lista,

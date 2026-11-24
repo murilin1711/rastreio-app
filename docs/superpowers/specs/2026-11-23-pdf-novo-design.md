@@ -4,6 +4,20 @@
 (`2026-11-23-reorganizacao-navegacao-design.md`) e remédio tomado (`2026-11-23-remedio-tomado-design.md`).
 **Esboço visto pelo Murilo:** `.superpowers/brainstorm/9406-1795471797/content/pdf-novo.html`.
 
+## 0. Atualização de 23/11/2026 (decisão do Murilo) — vale sobre o resto deste documento
+
+**Sem julgamento clínico novo no relatório.** Saem por completo:
+- os **selos de cor** (verde/amarelo/vermelho) dos cartões, da adesão e da prevenção, e a tabela da §6.5;
+- a folha de revisão para a Dra. Denise e a trava `VALIDACAO_SELOS`;
+- o limite de **80 % de adesão** como gatilho.
+
+O que fica é só o que o app **já diz hoje** por regras aprovadas: a pendência de rastreamento aberta, o sintoma de
+alerta registrado, a MRPA acima da referência domiciliar (C-010/C-011, o mesmo aviso do PDF atual), as glicemias
+fora da meta (metas SBD já usadas) e a **situação de cada rastreamento com o mesmo texto do app** (sem cor nova).
+Remédios em "Para atenção": só **fatos** ("Losartana: 2 doses não tomadas e 1 sem registro em 14 dias"), quando
+houver alguma dose não tomada, errada ou sem registro; sem limite percentual. Cartões mostram valor, unidade, data
+e tendência; LDL e HbA1c com a referência do laboratório, como hoje.
+
 ## 1. Por que
 
 O Murilo acha o PDF "muito difícil de ver, muito texto". Gerado com os dados de teste, o "Resumo completo" tem
