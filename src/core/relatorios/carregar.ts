@@ -15,7 +15,7 @@ import { ultimoRisco } from '@core/cardio/riscoCv';
 import { listarSessoes } from '@core/cardio/sessoesMrpa';
 import { listarExamesCardio } from '@core/cardio/examesCardio';
 import * as documentos from '@core/documentos/repositorio';
-import { listarMedicacoes } from '@core/medicacoes/repositorio';
+import { listarMedicacoes, listarTomadas } from '@core/medicacoes/repositorio';
 import { calcularIdade } from '@core/perfil/calculos';
 import { listarAntecedentes, obterPerfil } from '@core/perfil/repositorio';
 import { extrairParametrosBemEstar } from '@core/regras/bemestar/parametros';
@@ -24,13 +24,16 @@ import { carregarRegras } from '@core/rastreando/regras';
 import { PROGRAMAS } from '@core/rastreando/tipos';
 import { avaliarCheckup } from '@core/regras/cardio/checkup';
 import { metasPara } from '@core/regras/cardio/glicemia';
+import { extrairParametros } from '@core/regras/cardio/parametros';
 import { extrairParametrosGlicemia } from '@core/regras/cardio/parametrosGlicemia';
 import { extrairParametrosRisco } from '@core/regras/cardio/parametrosRisco';
 import { avaliarElegibilidade } from '@core/regras/elegibilidade';
 import { handlers } from '@core/regras/programas';
+import type { ParametrosPressao } from '@core/regras/cardio/tipos';
 import type { Programa, ResultadoElegibilidade } from '@core/regras/tipos';
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
+import { dataLocal, somarDias } from './datas';
 import type { ConsultaResumo, DadosNero, Especialidade, Periodo } from './tipos';
 
 /** Período de medidas: 30/90/180 dias até hoje (§26). */
@@ -41,9 +44,10 @@ export function periodoDias(dias: 30 | 90 | 180, hoje = new Date()): Periodo {
 }
 
 /** Único ponto que lê o banco para os relatórios: reúne todos os módulos num `DadosNero`. */
-export async function carregarDadosNero(userId: string, periodo: Periodo): Promise<DadosNero> {
+export async function carregarDadosNero(userId: string, periodo: Periodo, agora: Date = new Date()): Promise<DadosNero> {
   const desdeISO = `${periodo.desde}T00:00:00.000Z`;
-  const [perfil, antecedentes, medicacoes, medidasPA, sessoes, glicemias, examesCardio, risco, ctx, docs, consultas, regrasGli, regrasRisco, corporais, aguas, atividades, sonos, refeicoes, checkins, metas, vinculos, regrasBem] = await Promise.all([
+  const hoje = dataLocal(agora);
+  const [perfil, antecedentes, medicacoes, medidasPA, sessoes, glicemias, examesCardio, risco, ctx, docs, consultas, regrasGli, regrasRisco, corporais, aguas, atividades, sonos, refeicoes, checkins, metas, vinculos, regrasBem, tomadas, regrasPressao] = await Promise.all([
     obterPerfil(userId),
     listarAntecedentes(userId),
     listarMedicacoes(userId),
@@ -66,6 +70,8 @@ export async function carregarDadosNero(userId: string, periodo: Periodo): Promi
     listarMetas(userId),
     listarVinculos(userId, desdeISO),
     carregarRegrasBemEstar(),
+    listarTomadas(userId, somarDias(hoje, -27), hoje),
+    carregarRegrasCardio('pressao'),
   ]);
 
   const avaliacoes: Partial<Record<Programa, ResultadoElegibilidade>> = {};
@@ -77,9 +83,12 @@ export async function carregarDadosNero(userId: string, periodo: Periodo): Promi
   const peso = await ultimoPeso(userId);
 
   return {
+    geradoEm: agora.toISOString(),
     perfil,
     antecedentes,
     medicacoes,
+    tomadas,
+    parametrosPressao: parametrosPressaoOuNull(regrasPressao),
     medidasPA,
     sessoesMrpa: sessoes.filter((s) => s.status === 'concluida' && s.inicio >= periodo.desde),
     glicemias,
@@ -101,6 +110,11 @@ export async function carregarDadosNero(userId: string, periodo: Periodo): Promi
       alturaCm: perfil.alturaCm, sexo: perfil.sexoNascimento, idade: perfil.dataNascimento ? calcularIdade(perfil.dataNascimento) : null,
     },
   };
+}
+
+/** `extrairParametros` lança se faltar camada; sem os parâmetros o relatório sai, só sem a referência de pressão. */
+function parametrosPressaoOuNull(regras: Awaited<ReturnType<typeof carregarRegrasCardio>>): ParametrosPressao | null {
+  try { return extrairParametros(regras); } catch { return null; }
 }
 
 async function ultimoPeso(userId: string): Promise<DadosNero['peso']> {

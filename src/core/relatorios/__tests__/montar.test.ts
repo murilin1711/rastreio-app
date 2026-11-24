@@ -9,10 +9,14 @@ const textoDe = (s: SecaoRelatorio[]) => JSON.stringify(s);
 describe('montarCardio', () => {
   const s = montarCardio(dadosNeroTeste(), PERIODO_TESTE);
   test('seções na ordem do §26 (+ pendências abertas ao final)', () => expect(chaves(s)).toEqual([...SECOES_CARDIO, 'pendencias']));
-  test('tabela de medicações só com as ativas e "desde quando"', () => {
+  test('tabela de remédios só com os ativos, horários e "se precisar"', () => {
     const b = s.find((x) => x.chave === 'medicamentos')!.blocos[0];
-    expect(b.tipo).toBe('tabela');
-    if (b.tipo === 'tabela') { expect(b.linhas.map((l) => l[0])).toEqual(['Losartana', 'Metformina']); expect(b.linhas[0][3]).toBe('01/03/2024'); }
+    if (b.tipo !== 'tabela') throw new Error('esperava tabela');
+    expect(b.linhas.map((l) => l[0])).toEqual(['Losartana', 'Metformina', 'Dipirona']);
+    expect(b.linhas[0][2]).toBe('08:00');
+    expect(b.linhas[1][2]).toBe('08:00, 20:00');
+    expect(b.linhas[2][2]).toBe('se precisar');
+    expect(b.linhas[0][3]).toBe('01/03/2024');
   });
   test('PA traz média e barras; MRPA traz médias e chip acima da referência', () => {
     expect(textoDe(s)).toContain('média 130/83 mmHg');

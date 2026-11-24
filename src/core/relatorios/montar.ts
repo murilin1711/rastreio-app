@@ -191,7 +191,7 @@ const CONSTRUTORES: Record<ChaveSecao, Construtor> = {
   medicamentos: (d) => {
     const ativas = d.medicacoes.filter((m) => m.ativa);
     if (!ativas.length) return { chave: 'medicamentos', titulo: 'Medicamentos em uso', blocos: [texto(d.perfil.semMedicacoes ? 'O paciente declarou não usar medicamentos.' : 'Nenhum medicamento cadastrado.')] };
-    return { chave: 'medicamentos', titulo: 'Medicamentos em uso', blocos: [{ tipo: 'tabela', colunas: ['Medicamento', 'Dose', 'Horários', 'Desde', 'Prescritor'], linhas: ativas.map((m) => [m.nome, m.dose ?? '—', m.horarios.map((h) => h.hora).join(', ') || '—', dataBr(m.desde), m.prescritor ?? '—']) }] };
+    return { chave: 'medicamentos', titulo: 'Medicamentos em uso', blocos: [{ tipo: 'tabela', colunas: ['Medicamento', 'Dose', 'Horários', 'Desde', 'Prescritor'], linhas: ativas.map((m) => [m.nome, m.dose ?? '—', m.sePrecisar ? 'se precisar' : m.horarios.map((h) => h.hora).join(', ') || '—', dataBr(m.desde), m.prescritor ?? '—']) }] };
   },
   documentos: (d) => ({ chave: 'documentos', titulo: 'Documentos anexados no período', blocos: d.documentos.length ? [{ tipo: 'lista', itens: d.documentos.map((x) => `${x.nome} · ${ROTULO_TIPO_DOCUMENTO[x.tipo]} · ${dataBr(x.dataDocumento ?? x.criadoEm)}`) }] : vazio() }),
   pa: (d) => {
