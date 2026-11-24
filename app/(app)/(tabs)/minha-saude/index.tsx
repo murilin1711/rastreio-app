@@ -1,4 +1,4 @@
-import { useFocusEffect, useRouter } from 'expo-router';
+import { type Href, useFocusEffect, useRouter } from 'expo-router';
 import * as WebBrowser from 'expo-web-browser';
 import Constants from 'expo-constants';
 import { Alert, Linking, Platform, Switch } from 'react-native';
@@ -20,7 +20,7 @@ import { useSessao } from '@core/sessao/SessaoProvider';
 import { dataHoraBr } from '@modules/coracao/componentes/formato';
 import { Creditos } from '@modules/conta/Creditos';
 import { BotaoAnotar } from '@modules/anotar/BotaoAnotar';
-import { Button, Colors, ListItem, NeroAnimado, Radius, Spacing, Typography, useEspacoAbas } from '@ui/index';
+import { type AcaoModulo, Button, Colors, ListaAcoes, ListItem, NeroAnimado, Radius, Spacing, Typography, useEspacoAbas } from '@ui/index';
 
 const plural = (n: number, s: string, p: string) => `${n} ${n === 1 ? s : p}`;
 
@@ -69,6 +69,15 @@ export default function MinhaSaude() {
     });
     Linking.openURL(url).catch(() => Alert.alert('Fale com o NERO', `Escreva para ${EMAIL_CONTATO}. Respondemos por e-mail.`));
   };
+  const acoes: AcaoModulo[] = [
+    { chave: 'remedios', icone: 'medkit-outline', titulo: 'Meus remédios', subtitulo: ativas.length ? `${plural(ativas.length, 'em uso', 'em uso')} · histórico` : perfil?.semMedicacoes ? 'Você informou que não usa medicamentos' : 'Nenhum cadastrado ainda', rota: '/(app)/(tabs)/minha-saude/medicamentos' },
+    { chave: 'exames', icone: 'flask-outline', titulo: 'Meus exames', subtitulo: contadores ? plural(contadores.exames, 'exame de todos os módulos', 'exames de todos os módulos') : 'Laboratoriais, cardiológicos e de rastreamento', rota: '/(app)/(tabs)/minha-saude/exames' },
+    { chave: 'documentos', icone: 'folder-open-outline', titulo: 'Meus documentos', subtitulo: contadores?.documentos ? plural(contadores.documentos, 'documento guardado', 'documentos guardados') : 'Laudos, receitas e imagens de exames', rota: '/(app)/(tabs)/minha-saude/documentos' },
+    { chave: 'relatorios', icone: 'document-text-outline', titulo: 'Levar ao médico', subtitulo: consultas.proxima ? `Sua consulta de ${dataHoraBr(consultas.proxima.dataHora)} · ${nomeComum(consultas.proxima.especialidade)}` : 'Um resumo da sua saúde para a consulta', rota: '/(app)/(tabs)/minha-saude/relatorios' },
+    { chave: 'lembretes', icone: 'notifications-outline', titulo: 'Meus lembretes', subtitulo: contadores?.proximoLembrete ? `Próximo: ${contadores.proximoLembrete}` : 'Próximos 30 dias, preferências e consultas', rota: '/(app)/(tabs)/agenda' },
+    { chave: 'perfil', icone: 'person-outline', titulo: 'Meu perfil', subtitulo: perfil?.perfilInicialCompleto ? 'Dados básicos, tabagismo, condições e histórico' : 'Faltam informações essenciais', rota: '/(app)/(tabs)/minha-saude/perfil' },
+    { chave: 'antecedentes', icone: 'people-outline', titulo: 'Antecedentes familiares', subtitulo: antecedentes.length ? plural(antecedentes.length, 'registrado', 'registrados') : perfil?.semAntecedentesFamiliares ? 'Você informou que não há casos na família' : 'Nenhum registrado ainda', rota: '/(app)/(tabs)/minha-saude/antecedentes' },
+  ];
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={[styles.conteudo, { paddingBottom: espacoAbas }]}>
@@ -80,26 +89,10 @@ export default function MinhaSaude() {
           <NeroAnimado size={96} style={styles.nero} />
         </View>
 
-        <Text style={styles.secao}>Meus dados</Text>
-        <View style={{ gap: Spacing.sm }}>
-          <ListItem icon="person-outline" title="Meu perfil" subtitle={perfil?.perfilInicialCompleto ? 'Dados básicos, tabagismo, condições e histórico' : 'Faltam informações essenciais'} onPress={() => router.push('/(app)/(tabs)/minha-saude/perfil')} />
-          <ListItem icon="people-outline" title="Antecedentes familiares" subtitle={antecedentes.length ? plural(antecedentes.length, 'registrado', 'registrados') : perfil?.semAntecedentesFamiliares ? 'Você informou que não há casos na família' : 'Nenhum registrado ainda'} onPress={() => router.push('/(app)/(tabs)/minha-saude/antecedentes')} />
-          <ListItem icon="medkit-outline" title="Meus medicamentos" subtitle={ativas.length ? `${plural(ativas.length, 'em uso', 'em uso')} · histórico` : perfil?.semMedicacoes ? 'Você informou que não usa medicamentos' : 'Nenhum cadastrado ainda'} onPress={() => router.push('/(app)/(tabs)/minha-saude/medicamentos')} />
-        </View>
-
-        <Text style={styles.secao}>Meus registros</Text>
-        <View style={{ gap: Spacing.sm }}>
-          <ListItem icon="flask-outline" title="Meus exames" subtitle={contadores ? plural(contadores.exames, 'exame de todos os módulos', 'exames de todos os módulos') : 'Laboratoriais, cardiológicos e de rastreamento'} onPress={() => router.push('/(app)/(tabs)/minha-saude/exames')} />
-          <ListItem icon="folder-open-outline" title="Meus documentos" subtitle={contadores?.documentos ? plural(contadores.documentos, 'documento guardado', 'documentos guardados') : 'Laudos, receitas e imagens de exames'} onPress={() => router.push('/(app)/(tabs)/minha-saude/documentos')} />
-          <ListItem icon="time-outline" title="Linha do tempo" subtitle="Tudo em ordem cronológica, de todos os módulos" onPress={() => router.push('/(app)/(tabs)/historico')} />
-        </View>
-
-        <Text style={styles.secao}>Para o médico</Text>
-        <View style={{ gap: Spacing.sm }}>
-          {/* Uma porta só para relatório e consulta (D-025): eram dois itens que produziam quase o
-              mesmo documento, e nem quem fez o app distinguia os dois de imediato. */}
-          <ListItem icon="document-text-outline" title="Levar ao médico" subtitle={consultas.proxima ? `Sua consulta de ${dataHoraBr(consultas.proxima.dataHora)} · ${nomeComum(consultas.proxima.especialidade)}` : 'Um resumo da sua saúde para a consulta'} onPress={() => router.push('/(app)/(tabs)/minha-saude/relatorios')} />
-          <ListItem icon="notifications-outline" title="Meus lembretes" subtitle={contadores?.proximoLembrete ? `Próximo: ${contadores.proximoLembrete}` : 'Próximos 30 dias, preferências e consultas'} onPress={() => router.push('/(app)/(tabs)/agenda')} />
+        {/* Lista única (spec de navegação §6.3, D-065): as três seções viraram uma, na ordem do uso. A
+            "Linha do tempo" saiu daqui: mora na aba Histórico. Levar ao médico é uma porta só (D-025). */}
+        <View style={styles.acoes}>
+          <ListaAcoes acoes={acoes} onAbrir={(rota) => router.push(rota as Href)} />
         </View>
 
         {biometria?.disponivel ? (
@@ -140,6 +133,7 @@ const styles = StyleSheet.create({
   nero: { marginRight: 30, transform: [{ translateY: -11 }] },
   contexto: { ...Typography.caption, color: Colors.textSecondary },
   titulo: { ...Typography.display, fontSize: 26, lineHeight: 32, color: Colors.primary },
+  acoes: { marginTop: Spacing.xxl },
   secao: { ...Typography.heading, color: Colors.textPrimary, marginTop: Spacing.xxl, marginBottom: Spacing.sm },
   trava: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md, backgroundColor: Colors.surface, borderRadius: Radius.linha, borderWidth: 1, borderColor: Colors.border, padding: Spacing.lg },
   travaTitulo: { ...Typography.subheading, color: Colors.textPrimary },

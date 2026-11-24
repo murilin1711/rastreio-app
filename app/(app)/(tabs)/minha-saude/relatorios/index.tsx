@@ -8,6 +8,8 @@ import { rotuloEspecialidade } from '@core/relatorios/especialidades';
 import { dataHoraBr } from '@core/relatorios/montar';
 import { tituloRelatorio } from '@core/relatorios/montar';
 import type { TipoRelatorio } from '@core/relatorios/tipos';
+import { listarSessoes } from '@core/cardio/sessoesMrpa';
+import { useAbrir } from '@core/navegacao/useVoltar';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro } from '@core/supabase/erros';
 import { Button, Colors, InternalHeader, Opcoes, Radius, Spacing, Typography } from '@ui/index';
@@ -16,13 +18,14 @@ type Dias = '30' | '90' | '180';
 /**
  * D-025: o Geral vem primeiro e recomendado — é o que serve para qualquer médico e o que a maioria
  * vai querer. Os outros três são recortes por assunto, para quem sabe o que procura. As descrições
- * foram reescritas sem jargão: quem lê é o paciente, não o médico.
+ * foram reescritas sem jargão: quem lê é o paciente, não o médico. D-065: os recortes levam o nome
+ * do módulo de onde vêm (spec de navegação §6.4), para a pessoa reconhecer o mesmo assunto aqui.
  */
 const CARTOES: { tipo: TipoRelatorio; icone: keyof typeof Ionicons.glyphMap; titulo: string; descricao: string; recomendado?: boolean }[] = [
   { tipo: 'geral', icone: 'document-text-outline', titulo: 'Resumo completo', descricao: 'Tudo o que você registrou. Serve para qualquer médico.', recomendado: true },
-  { tipo: 'cardio', icone: 'heart-outline', titulo: 'Coração e diabetes', descricao: 'Pressão, açúcar no sangue, colesterol, exames do coração e seus remédios.' },
-  { tipo: 'oncologico', icone: 'shield-checkmark-outline', titulo: 'Rastreamentos', descricao: 'Mamografia, papanicolau, colonoscopia e os outros exames de rotina: o que já fez e o que falta.' },
-  { tipo: 'bemestar', icone: 'leaf-outline', titulo: 'Peso, alimentação e sono', descricao: 'Como você tem comido, se movimentado, bebido água e dormido.' },
+  { tipo: 'cardio', icone: 'heart-outline', titulo: 'Pressão, coração e diabetes', descricao: 'Pressão, açúcar no sangue, colesterol, exames do coração e seus remédios.' },
+  { tipo: 'oncologico', icone: 'shield-checkmark-outline', titulo: 'Exames de prevenção', descricao: 'Mamografia, papanicolau, colonoscopia e os outros exames de rotina: o que já fez e o que falta.' },
+  { tipo: 'bemestar', icone: 'leaf-outline', titulo: 'Hábitos e bem-estar', descricao: 'Como você tem comido, se movimentado, bebido água e dormido.' },
 ];
 
 /** Central de relatórios (§61, D-007): três relatórios, período das medidas e compartilhamentos ativos por QR. */
@@ -31,9 +34,13 @@ export default function Relatorios() {
   const { sessao } = useSessao();
   const [dias, setDias] = useState<Dias>('90');
   const [ativos, setAtivos] = useState<Compartilhamento[]>([]);
+  /** Id da MRPA concluída mais recente (a lista vem do início mais novo ao mais antigo), ou null. */
+  const [mrpaConcluida, setMrpaConcluida] = useState<string | null>(null);
+  const abrir = useAbrir();
 
   const carregar = useCallback(async () => {
     if (!sessao?.user.id) return;
+    listarSessoes(sessao.user.id).then((l) => l.find((s) => s.concluidaEm)?.id ?? null).catch(() => null).then(setMrpaConcluida);
     try { await limparExpirados(sessao.user.id); setAtivos(await listarAtivos(sessao.user.id)); } catch { setAtivos([]); }
   }, [sessao?.user.id]);
   useFocusEffect(useCallback(() => { carregar(); }, [carregar]));
@@ -67,6 +74,18 @@ export default function Relatorios() {
             </Pressable>
           ))}
         </View>
+        {mrpaConcluida ? (
+          // A MRPA e a glicemia têm relatório próprio, com o formato que o médico espera (spec §6.6).
+          <View style={styles.aviso}>
+            <Text style={styles.avisoTexto}>O relatório da MRPA e o da glicemia ficam nas telas deles.</Text>
+            <Pressable onPress={() => abrir(`/(app)/coracao/mrpa/relatorio?sessao=${mrpaConcluida}`)} accessibilityRole="link" accessibilityLabel="Abrir o relatório da MRPA" hitSlop={8}>
+              <Text style={styles.avisoLink}>Abrir o relatório da MRPA</Text>
+            </Pressable>
+            <Pressable onPress={() => abrir('/(app)/coracao/glicemia/relatorio')} accessibilityRole="link" accessibilityLabel="Abrir o relatório da glicemia" hitSlop={8}>
+              <Text style={styles.avisoLink}>Abrir o relatório da glicemia</Text>
+            </Pressable>
+          </View>
+        ) : null}
         <View style={styles.divisor} />
         <Pressable style={({ pressed }) => [styles.especifico, pressed && { opacity: 0.85 }]} onPress={() => router.push('/(app)/(tabs)/minha-saude/consulta')} accessibilityRole="button">
           <View style={{ flex: 1 }}>
@@ -107,6 +126,9 @@ const styles = StyleSheet.create({
   /** Destaque contido: diz qual escolher sem gritar (D-025). */
   selo: { backgroundColor: Colors.surfaceAlt, borderRadius: Radius.chip, paddingHorizontal: 8, paddingVertical: 2 },
   seloTexto: { ...Typography.chip, color: Colors.textSecondary },
+  aviso: { backgroundColor: Colors.surface, borderRadius: Radius.linha, padding: Spacing.lg, gap: Spacing.sm, marginTop: Spacing.md },
+  avisoTexto: { ...Typography.body, color: Colors.textSecondary },
+  avisoLink: { ...Typography.subheading, fontSize: 17, lineHeight: 23, color: Colors.primary, textDecorationLine: 'underline' },
   divisor: { height: 1, backgroundColor: Colors.border, marginTop: Spacing.xxl },
   especifico: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md, paddingVertical: Spacing.lg },
   secao: { ...Typography.heading, color: Colors.textPrimary, marginTop: Spacing.xxxl, marginBottom: Spacing.sm },
