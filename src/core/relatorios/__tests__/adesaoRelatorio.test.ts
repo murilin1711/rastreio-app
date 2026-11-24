@@ -3,7 +3,7 @@ import { dadosNeroTeste } from './fixtures';
 
 test('símbolos e legenda das doses', () => {
   expect(SIMBOLO_DOSE).toEqual({ tomou: '●', nao_tomou: '○', errado: '◆', sem_registro: '–' });
-  expect(LEGENDA_DOSES).toBe('● tomou · ○ não tomou · ◆ errada · – sem registro');
+  expect(LEGENDA_DOSES).toBe('● tomou · ○ não tomou · ◆ dose errada · – sem registro');
 });
 test('janela termina no dia de geração', () => {
   expect(janelaAdesao('2026-09-18', 14)).toEqual({ desde: '2026-09-05', ate: '2026-09-18' });
@@ -69,7 +69,7 @@ test('detalhe: doses erradas e com atraso, coluna "Marcado às" (X10)', () => {
   if (t.tipo !== 'tabela') throw new Error('esperava tabela');
   expect(t.colunas).toEqual(['Data', 'Remédio', 'Previsto', 'Marcado às', 'Quantidade', 'Situação']);
   expect(t.linhas).toEqual([
-    ['16/09/2026', 'Metformina', '08:00 · 1 comprimido', '08:05', '2 comprimidos', 'errada'],
+    ['16/09/2026', 'Metformina', '08:00 · 1 comprimido', '08:05', '2 comprimidos', 'dose errada'],
     ['17/09/2026', 'Metformina', '20:00 · 1 comprimido', '23:00', '1 comprimido', 'com atraso'],
   ]);
 });
@@ -87,7 +87,7 @@ test('detalhe: dose errada e com atraso juntas; sem tomada a tabela de doses som
   t16.marcadoEm = '2026-09-16T11:00:00';
   const t = blocosAdesaoDetalhe(d).filter((b) => b.tipo === 'tabela')[1];
   if (t.tipo !== 'tabela') throw new Error('esperava tabela');
-  expect(t.linhas[0]).toEqual(['16/09/2026', 'Metformina', '08:00 · 1 comprimido', '11:00', '2 comprimidos', 'errada, com atraso']);
+  expect(t.linhas[0]).toEqual(['16/09/2026', 'Metformina', '08:00 · 1 comprimido', '11:00', '2 comprimidos', 'dose errada, com atraso']);
   d.tomadas = [];
   expect(blocosAdesaoDetalhe(d).filter((b) => b.tipo === 'tabela')).toHaveLength(1);
 });

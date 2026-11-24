@@ -4,7 +4,7 @@ import type { Medicacao } from '@core/medicacoes/tipos';
 const ROTULO: Record<EstadoDose, string> = {
   tomou: '✓ Tomou',
   nao_tomou: '✗ Não tomou',
-  errado: '⚠ Dose diferente',
+  errado: '⚠ Dose errada',
   sem_registro: '— Sem registro',
   pendente: 'Marcar',
 };
@@ -37,7 +37,7 @@ export function textoResumoAdesao(r: ResumoAdesao): string {
   const base = `${r.tomou} de ${r.previstas}`;
   const partes = [r.previstas > 0 && r.tomou === r.previstas ? `${base} ✓` : base];
   if (r.naoTomou > 0) partes.push(plural(r.naoTomou, 'não tomada', 'não tomadas'));
-  if (r.errado > 0) partes.push(plural(r.errado, 'errada', 'erradas'));
+  if (r.errado > 0) partes.push(plural(r.errado, 'dose errada', 'doses erradas'));
   if (r.semRegistro > 0) partes.push(`${r.semRegistro} sem registro`);
   if (r.comAtraso > 0) partes.push(`${r.comAtraso} com atraso`);
   return partes.join(' · ');

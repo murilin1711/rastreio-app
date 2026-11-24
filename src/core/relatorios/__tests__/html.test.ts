@@ -100,7 +100,7 @@ test('gráfico e remédios no painel', () => {
   expect(h).toContain('data-ref="130"');
   expect(h).toContain('<h3>Pressão sistólica no período</h3>');
   expect(h).toContain('10 de 14'); expect(h).toContain('usou 2 vezes'); expect(h).toContain(LEGENDA_DOSES);
-  expect(h).toContain('<span class="dose" title="errada">◆</span>');
+  expect(h).toContain('<span class="dose" title="dose errada">◆</span>');
 });
 test('linha do gráfico segue a referência domiciliar do painel', () => {
   const d = dadosNeroTeste();
@@ -150,7 +150,7 @@ test('contagem do remédio: não usou, usou 1 vez, sem doses previstas', () => {
 });
 test('bolinhas com rótulo da contagem por estado', () => {
   const h = comAdesao([linhaAd({ doses: ['tomou', 'tomou', 'nao_tomou', 'errado', 'sem_registro'], tomou: 2, previstas: 5 })]);
-  expect(h).toContain('<span class="doses" aria-label="2 tomou, 1 não tomou, 1 errada, 1 sem registro">');
+  expect(h).toContain('<span class="doses" aria-label="2 tomou, 1 não tomou, 1 dose errada, 1 sem registro">');
   expect(comAdesao([linhaAd({ sePrecisar: true, usosSePrecisar: 2 })])).toContain('<span class="doses"></span>');
 });
 test('linha de doses quebra em vez de transbordar no celular', () => {

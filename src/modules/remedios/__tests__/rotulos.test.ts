@@ -10,7 +10,7 @@ it('rótulo de cada estado da dose', () => {
   expect(rotuloEstadoDose({ ...d, estado: 'tomou', comAtraso: false })).toBe('✓ Tomou');
   expect(rotuloEstadoDose({ ...d, estado: 'tomou', comAtraso: true })).toBe('✓ Tomou, com atraso');
   expect(rotuloEstadoDose({ ...d, estado: 'nao_tomou' })).toBe('✗ Não tomou');
-  expect(rotuloEstadoDose({ ...d, estado: 'errado' })).toBe('⚠ Dose diferente');
+  expect(rotuloEstadoDose({ ...d, estado: 'errado' })).toBe('⚠ Dose errada');
   expect(rotuloEstadoDose({ ...d, estado: 'sem_registro' })).toBe('— Sem registro');
   expect(rotuloEstadoDose({ ...d, estado: 'pendente' })).toBe('Marcar');
 });
@@ -45,8 +45,8 @@ describe('resumo da semana (check-in)', () => {
   it('texto do resumo: só fatos, na ordem fixa, com plural', () => {
     expect(textoResumoAdesao({ ...r, previstas: 14, tomou: 12, naoTomou: 1, semRegistro: 1, errado: 0, comAtraso: 0 })).toBe('12 de 14 · 1 não tomada · 1 sem registro');
     expect(textoResumoAdesao({ ...r, previstas: 7, tomou: 7, naoTomou: 0, semRegistro: 0, errado: 0, comAtraso: 0 })).toBe('7 de 7 ✓');
-    expect(textoResumoAdesao({ ...r, previstas: 14, tomou: 11, naoTomou: 2, semRegistro: 0, errado: 1, comAtraso: 2 })).toBe('11 de 14 · 2 não tomadas · 1 errada · 2 com atraso');
-    expect(textoResumoAdesao({ ...r, previstas: 4, tomou: 1, naoTomou: 0, semRegistro: 1, errado: 2, comAtraso: 0 })).toBe('1 de 4 · 2 erradas · 1 sem registro');
+    expect(textoResumoAdesao({ ...r, previstas: 14, tomou: 11, naoTomou: 2, semRegistro: 0, errado: 1, comAtraso: 2 })).toBe('11 de 14 · 2 não tomadas · 1 dose errada · 2 com atraso');
+    expect(textoResumoAdesao({ ...r, previstas: 4, tomou: 1, naoTomou: 0, semRegistro: 1, errado: 2, comAtraso: 0 })).toBe('1 de 4 · 2 doses erradas · 1 sem registro');
     expect(textoResumoAdesao({ ...r, previstas: 7, tomou: 7, comAtraso: 2 })).toBe('7 de 7 ✓ · 2 com atraso'); // R-T9-b
     expect(textoResumoAdesao({ ...r, previstas: 0, tomou: 0 })).toBe('0 de 0'); // sem dose fechada: sem ✓
   });

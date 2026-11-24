@@ -28,7 +28,7 @@ test('sem selo de cor em lugar nenhum (Ruling S0)', () => {
 
 test('doses por símbolo, com rótulo acessível (a cor nunca sozinha)', () => {
   montar();
-  const doses = arvore.root.findAll((n) => typeof n.type === 'string' && typeof n.props.accessibilityLabel === 'string' && /\d+ (tomou|não tomou|errada|sem registro)/.test(n.props.accessibilityLabel));
+  const doses = arvore.root.findAll((n) => typeof n.type === 'string' && typeof n.props.accessibilityLabel === 'string' && /\d+ (tomou|não tomou|dose errada|sem registro)/.test(n.props.accessibilityLabel));
   expect(doses.length).toBeGreaterThan(0);
   expect(textoDe(arvore.toJSON())).toMatch(/[●○◆–]/);
 });

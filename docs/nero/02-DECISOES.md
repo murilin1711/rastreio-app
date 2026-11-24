@@ -899,7 +899,7 @@ adesão abaixo de 80 %. Saiu: seria julgamento clínico novo, sem diretriz que o
 as doses, e nenhum resumo pinta a adesão de verde, amarelo ou vermelho.
 
 **Check-in semanal:** acima das perguntas, o quadro só de leitura **"Seus remédios nesta semana"**, só com fatos:
-uma fileira de símbolos (● tomou, ○ não tomou, ⚠ errado, – sem registro; a pendente fica de fora) e o texto
+uma fileira de símbolos (● tomou, ○ não tomou, ⚠ dose errada, – sem registro; a pendente fica de fora) e o texto
 `12 de 14 · 1 não tomada · 1 sem registro`, `7 de 7 ✓` (o ✓ é fato: todas tomadas, e o atraso continua junto:
 `7 de 7 ✓ · 2 com atraso`) ou `usou 3 vezes` para "se precisar". O quadro reserva o lugar enquanto carrega. O PDF
 fica para o plano do relatório (**D-067**).
@@ -1002,8 +1002,10 @@ com a linha tracejada da referência domiciliar (130 se faltar), sem cor por pon
 
 **Remédios:** 2 semanas no painel e 4 no detalhe, contadas para trás a partir da data de geração (o dia vem sempre
 de `dataLocal(geradoEm)`). Uma linha por remédio ativo, na ordem do cadastro, inclusive o recém-cadastrado ("sem
-doses previstas no período"). Bolinhas por dose e a contagem "11 de 14" (ou "usou 2 vezes" no "se precisar"), sem
-selo. Símbolos `● tomou · ○ não tomou · ◆ errada · – sem registro`: no relatório a dose errada é **◆**, e não o ⚠ do
+doses previstas no período"), e por remédio interrompido dentro da janela, com "(interrompido em dd/mm)" e as doses
+até o fim (o detalhe de 4 semanas faz o mesmo; "Medicamentos em uso" segue só com os ativos). Bolinhas por dose e a
+contagem "11 de 14" (ou "usou 2 vezes" no "se precisar"), sem selo. Símbolos `● tomou · ○ não tomou · ◆ dose errada ·
+– sem registro` ("Dose errada" é o mesmo nome no app, no check-in e no relatório): no relatório a dose errada é **◆**, e não o ⚠ do
 app (D-066), porque o ⚠ é um caractere de emoji que sai diferente no expo-print e no iframe; o mapa fica em
 `@core/relatorios` (o core não importa `@modules/remedios`). No detalhe, a tabela das doses tem as colunas Data,
 Remédio, Previsto, **Marcado às** (a hora em que a pessoa marcou, não a hora em que tomou), Quantidade e Situação.

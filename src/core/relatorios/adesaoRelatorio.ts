@@ -4,11 +4,11 @@ import { formatarQuantidade } from '@core/medicacoes/unidades';
 import { dataLocal, somarDias } from './datas';
 import type { Bloco, DadosNero, EstadoDosePainel, LinhaAdesao } from './tipos';
 
-/** Símbolo de cada dose no painel. `◆` para errada (e não o `⚠` do app) porque renderiza igual no PDF e no navegador (Ruling X2). */
+/** Símbolo de cada dose no painel ("Dose errada" é o mesmo nome no app, no check-in e no relatório). `◆` para dose errada (e não o `⚠` do app) porque renderiza igual no PDF e no navegador (Ruling X2). */
 export const SIMBOLO_DOSE: Record<EstadoDosePainel, string> = { tomou: '●', nao_tomou: '○', errado: '◆', sem_registro: '–' };
-export const LEGENDA_DOSES = '● tomou · ○ não tomou · ◆ errada · – sem registro';
+export const LEGENDA_DOSES = '● tomou · ○ não tomou · ◆ dose errada · – sem registro';
 /** Estado de cada dose em palavras: rótulo acessível dos símbolos (a forma nunca sozinha). */
-export const ROTULO_DOSE: Record<EstadoDosePainel, string> = { tomou: 'tomou', nao_tomou: 'não tomou', errado: 'errada', sem_registro: 'sem registro' };
+export const ROTULO_DOSE: Record<EstadoDosePainel, string> = { tomou: 'tomou', nao_tomou: 'não tomou', errado: 'dose errada', sem_registro: 'sem registro' };
 
 /** Contagem por estado em palavras ("10 tomou, 4 não tomou"), para leitor de tela; '' sem doses. */
 export function rotuloDoses(doses: EstadoDosePainel[]): string {
@@ -95,7 +95,7 @@ function celulaSemana(m: Medicacao, r: ResumoAdesao | undefined): string {
 
 function linhaDose(m: Medicacao, x: DoseClassificada): string[] {
   const tomadas = x.tomadas.filter((t) => t.tomou);
-  const situacao = [x.estado === 'errado' && 'errada', x.comAtraso && 'com atraso'].filter(Boolean).join(', ');
+  const situacao = [x.estado === 'errado' && 'dose errada', x.comAtraso && 'com atraso'].filter(Boolean).join(', ');
   return [
     dataBr(x.data),
     m.nome,
