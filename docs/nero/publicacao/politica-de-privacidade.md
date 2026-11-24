@@ -4,7 +4,7 @@
 >
 > **Antes de publicar:** confirmar no painel da Supabase que os backups diários começaram. A seção 8 promete cópias de 7 dias.
 
-**Última atualização:** 26 de setembro de 2026
+**Última atualização:** 23 de novembro de 2026
 
 ## 1. Quem é o responsável
 
@@ -32,7 +32,7 @@ Todos os dados abaixo são fornecidos por você, no app. Não coletamos dados de
 - Exames de rastreamento (tipo, data, resultado) e pendências geradas a partir deles.
 - Medidas: pressão arterial (inclusive sessões de MRPA), glicemia, peso, cintura, quadril, composição corporal, sono.
 - Exames laboratoriais e estimativa de risco cardiovascular calculada a partir deles.
-- Medicações e horários; sintomas de alarme assinalados.
+- Medicações, horários e quantidade de cada dose; registro de tomada de remédios (se tomou ou não, quanto e a hora em que marcou); sintomas de alarme assinalados.
 - Refeições, atividades físicas, check-ins de bem-estar, metas.
 - Ingestão de água (quantidade e horário de cada registro) e a meta diária, calculada a partir do seu peso.
 - Consultas (data, especialidade, anotações) e lembretes.

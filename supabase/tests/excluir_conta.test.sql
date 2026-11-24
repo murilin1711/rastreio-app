@@ -1,5 +1,5 @@
 begin;
-select plan(9);
+select plan(10);
 
 insert into auth.users (id, email) values
   ('00000000-0000-0000-0000-0000000000a1', 'a1@teste.dev'),
@@ -8,6 +8,10 @@ insert into auth.users (id, email) values
 insert into public.medicacoes (user_id, nome) values
   ('00000000-0000-0000-0000-0000000000a1', 'Losartana'),
   ('00000000-0000-0000-0000-0000000000b1', 'Metformina');
+
+insert into public.tomadas_medicacao (user_id, medicacao_id, data_prevista, hora_prevista, tomou, quantidade)
+  select user_id, id, '2026-11-23', '08:00', true, 1 from public.medicacoes
+  where user_id = '00000000-0000-0000-0000-0000000000a1' and nome = 'Losartana';
 
 insert into storage.objects (bucket_id, name, owner_id) values
   ('laudos', '00000000-0000-0000-0000-0000000000a1/laudo-a.pdf', '00000000-0000-0000-0000-0000000000a1'),
@@ -37,6 +41,7 @@ reset role;
 select is((select count(*) from auth.users where id = '00000000-0000-0000-0000-0000000000a1'), 0::bigint, 'usuário A removido de auth.users');
 select is((select count(*) from public.perfil_saude where user_id = '00000000-0000-0000-0000-0000000000a1'), 0::bigint, 'perfil de A removido por cascata');
 select is((select count(*) from public.medicacoes where user_id = '00000000-0000-0000-0000-0000000000a1'), 0::bigint, 'medicações de A removidas por cascata');
+select is((select count(*) from public.tomadas_medicacao where user_id = '00000000-0000-0000-0000-0000000000a1'), 0::bigint, 'tomadas de A removidas por cascata');
 
 -- B continua intacto
 select is((select count(*) from auth.users where id = '00000000-0000-0000-0000-0000000000b1'), 1::bigint, 'usuário B preservado');
