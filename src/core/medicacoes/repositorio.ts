@@ -123,25 +123,49 @@ export async function alternarAtiva(id: string, ativa: boolean): Promise<void> {
  */
 export async function listarTomadas(userId: string, desde: string, ate: string): Promise<Tomada[]> {
   const [previstas, avulsas] = await Promise.all([
-    supabase
-      .from('tomadas_medicacao')
-      .select('*')
-      .eq('user_id', userId)
-      .gte('data_prevista', desde)
-      .lte('data_prevista', ate),
-    supabase
-      .from('tomadas_medicacao')
-      .select('*')
-      .eq('user_id', userId)
-      .is('data_prevista', null)
-      .gte('marcado_em', meiaNoiteLocal(desde))
-      .lt('marcado_em', meiaNoiteLocal(ate, 1)),
+    paginar(() =>
+      supabase
+        .from('tomadas_medicacao')
+        .select('*')
+        .eq('user_id', userId)
+        .gte('data_prevista', desde)
+        .lte('data_prevista', ate),
+    ),
+    paginar(() =>
+      supabase
+        .from('tomadas_medicacao')
+        .select('*')
+        .eq('user_id', userId)
+        .is('data_prevista', null)
+        .gte('marcado_em', meiaNoiteLocal(desde))
+        .lt('marcado_em', meiaNoiteLocal(ate, 1)),
+    ),
   ]);
-  if (previstas.error) throw traduzirErro(previstas.error);
-  if (avulsas.error) throw traduzirErro(avulsas.error);
-  return [...previstas.data, ...avulsas.data]
+  return [...previstas, ...avulsas]
     .map(paraTomada)
     .sort((x, y) => Date.parse(x.marcadoEm) - Date.parse(y.marcadoEm));
+}
+
+/** Tamanho da página: o PostgREST corta cada resposta em `max_rows` (1000, supabase/config.toml). */
+const PAGINA = 1000;
+
+/** Busca todas as páginas (ordem estável por marcado_em, id) até vir uma página incompleta. */
+async function paginar(
+  consulta: () => {
+    order: (coluna: string) => {
+      order: (coluna: string) => {
+        range: (de: number, ate: number) => PromiseLike<{ data: Tables<'tomadas_medicacao'>[] | null; error: unknown }>;
+      };
+    };
+  },
+): Promise<Tables<'tomadas_medicacao'>[]> {
+  const linhas: Tables<'tomadas_medicacao'>[] = [];
+  for (let de = 0; ; de += PAGINA) {
+    const { data, error } = await consulta().order('marcado_em').order('id').range(de, de + PAGINA - 1);
+    if (error) throw traduzirErro(error);
+    linhas.push(...(data ?? []));
+    if (!data || data.length < PAGINA) return linhas;
+  }
 }
 
 /** Grava uma marca; `marcado_em` é a hora do banco (agora). */
