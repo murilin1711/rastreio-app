@@ -1,6 +1,7 @@
 import { ROTULO_PROGRAMA } from '@core/rastreando/tipos';
 import { resumoGlicemia } from '@core/regras/cardio/glicemia';
 import { avaliarMedidaCasual } from '@core/regras/cardio/pressao';
+import { DIAS_ADESAO_PAINEL } from './adesaoRelatorio';
 import { PRIORIDADES, SECOES_BEMESTAR, SECOES_CARDIO, SECOES_GERAL, SECOES_ONCOLOGICO, SEMPRE_PRESENTE } from './especialidades';
 import { dataBr } from './montar';
 import type { ChaveSecao, DadosNero, Especialidade, EstadoDosePainel, LinhaAdesao, Periodo, TipoRelatorio } from './tipos';
@@ -29,10 +30,9 @@ function itemPendencias(d: DadosNero): string[] {
   return d.pendencias.map((p) => `${ROTULO_PROGRAMA[p.programa]}: ${p.descricao} (aberta em ${dataBr(p.abertaEm)})`);
 }
 
-function itemSintomas(d: DadosNero, periodo: Periodo): string[] {
-  return d.sintomas
-    .filter((s) => s.registradoEm.slice(0, 10) >= periodo.desde)
-    .map((s) => `Sintoma de alerta registrado em ${dataBr(s.registradoEm)}: ${s.sintoma} (${ROTULO_PROGRAMA[s.programa]})`);
+/** `d.sintomas` são os sintomas de alarme abertos (não resolvidos): entram todos, sem filtro de período (§66). */
+function itemSintomas(d: DadosNero): string[] {
+  return d.sintomas.map((s) => `Sintoma de alerta registrado em ${dataBr(s.registradoEm)}: ${s.sintoma} (${ROTULO_PROGRAMA[s.programa]})`);
 }
 
 /** Última sessão (por início) com protocolo válido e média acima da referência — o que a regra de MRPA já marcou. */
@@ -41,10 +41,11 @@ function itemMrpa(d: DadosNero): string[] {
   const r = ultima?.resultado;
   const t = r?.medias.total;
   if (!r || !r.valido || r.acimaReferencia !== true || !t) return [];
-  return [`Média da MRPA acima da referência domiciliar (130/80 mmHg): ${Math.round(t.pas)}/${Math.round(t.pad)} mmHg`];
+  const ref = d.parametrosPressao?.referenciaDomiciliar ?? { pas: 130, pad: 80 };
+  return [`Média da MRPA acima da referência domiciliar (${ref.pas}/${ref.pad} mmHg): ${Math.round(t.pas)}/${Math.round(t.pad)} mmHg`];
 }
 
-/** Medidas avulsas que a C-010 já marca como muito elevadas (fora da camada de contexto). */
+/** Medidas avulsas que a C-010 já marca como muito elevadas (fora da camada de contexto). A C-010 é "PAS e/ou PAD". */
 function itemPressaoAvulsa(d: DadosNero): string[] {
   const p = d.parametrosPressao;
   if (!p) return [];
@@ -53,7 +54,7 @@ function itemPressaoAvulsa(d: DadosNero): string[] {
     .filter((m) => avaliarMedidaCasual(m, m.contexto.sintomas ?? [], p).camada !== 'contexto');
   if (!marcadas.length) return [];
   const maior = [...marcadas].sort((a, b) => b.pas - a.pas || b.pad - a.pad)[0];
-  return [`${plural(marcadas.length, 'medida avulsa', 'medidas avulsas')} a partir de ${p.muitoElevado.pas}/${p.muitoElevado.pad} mmHg no período (maior: ${maior.pas}/${maior.pad} em ${dataBr(maior.medidoEm)})`];
+  return [`${plural(marcadas.length, 'medida avulsa', 'medidas avulsas')} com PAS ≥ ${p.muitoElevado.pas} e/ou PAD ≥ ${p.muitoElevado.pad} mmHg no período (maior: ${maior.pas}/${maior.pad} em ${dataBr(maior.medidoEm)})`];
 }
 
 /** Contagem pelas metas já em uso (SBD pelo perfil ou do médico). */
@@ -67,11 +68,13 @@ function itemGlicemia(d: DadosNero): string[] {
 
 /**
  * Só fatos das últimas 2 semanas (Ruling S0): doses não tomadas, sem registro e erradas. Sem limite de
- * percentual. A primeira parte leva o substantivo ("2 doses não tomadas"); as seguintes não ("e 1 sem registro").
+ * percentual. Só dispara com não tomada ou errada; "sem registro" sozinho não entra (R3-T4-a), mas vai na
+ * frase quando ela existe. A primeira parte leva o substantivo ("2 doses não tomadas"); as seguintes não.
  */
 function itemRemedio(l: LinhaAdesao): string | null {
   if (l.sePrecisar) return null;
   const conta = (e: EstadoDosePainel) => l.doses.filter((x) => x === e).length;
+  if (conta('nao_tomou') === 0 && conta('errado') === 0) return null;
   const fatos = [
     { n: conta('nao_tomou'), primeiro: ['dose não tomada', 'doses não tomadas'], depois: 'não tomada' },
     { n: conta('sem_registro'), primeiro: ['dose sem registro', 'doses sem registro'], depois: 'sem registro' },
@@ -79,19 +82,20 @@ function itemRemedio(l: LinhaAdesao): string | null {
   ].filter((f) => f.n > 0);
   if (!fatos.length) return null;
   const partes = fatos.map((f, i) => (i === 0 ? plural(f.n, f.primeiro[0], f.primeiro[1]) : `${f.n} ${f.depois}`));
-  return `${l.nome}: ${juntar(partes)} em 14 dias`;
+  return `${l.nome}: ${juntar(partes)} em ${DIAS_ADESAO_PAINEL} dias`;
 }
 
 /**
- * Itens de "Para atenção nesta consulta", na ordem da spec, cortados em `LIMITE_ATENCAO`.
- * Pendência aberta entra em todo tipo de relatório (§66); o resto só se a seção estiver no escopo.
+ * Itens de "Para atenção nesta consulta", cortados em `LIMITE_ATENCAO`. Primeiro a hierarquia de segurança
+ * (§66, `regras/seguranca.ts`), em todo tipo de relatório: sintoma de alarme aberto, depois pendência aberta.
+ * O resto só se a seção estiver no escopo. `periodo` fica na assinatura para os itens que dependam dele.
  * Nenhuma regra nova: cada item repete o que uma regra existente já marcou.
  */
 export function itensAtencao(d: DadosNero, escopo: ChaveSecao[], periodo: Periodo, adesao: LinhaAdesao[]): string[] {
   const tem = (c: ChaveSecao) => escopo.includes(c);
   const itens = [
+    ...itemSintomas(d),
     ...itemPendencias(d),
-    ...(tem('sintomas') ? itemSintomas(d, periodo) : []),
     ...(tem('mrpa') ? itemMrpa(d) : []),
     ...(tem('pa') ? itemPressaoAvulsa(d) : []),
     ...(tem('glicemia') ? itemGlicemia(d) : []),

@@ -8,6 +8,9 @@ import type { Bloco, DadosNero, EstadoDosePainel, LinhaAdesao } from './tipos';
 export const SIMBOLO_DOSE: Record<EstadoDosePainel, string> = { tomou: '●', nao_tomou: '○', errado: '◆', sem_registro: '–' };
 export const LEGENDA_DOSES = '● tomou · ○ não tomou · ◆ errada · – sem registro';
 
+/** Janela da adesão no painel (2 semanas); o "em 14 dias" de "Para atenção" vem daqui. */
+export const DIAS_ADESAO_PAINEL = 14;
+
 /** Janela de `dias` dias terminando em `hoje` (inclusive). */
 export function janelaAdesao(hoje: string, dias: 14 | 28): { desde: string; ate: string } {
   return { desde: somarDias(hoje, -(dias - 1)), ate: hoje };
@@ -26,7 +29,7 @@ function resumoPorId(d: DadosNero, ativas: Medicacao[], desde: string, ate: stri
  */
 export function linhasAdesao(d: DadosNero): LinhaAdesao[] {
   const ativas = ativasDe(d);
-  const { desde, ate } = janelaAdesao(hojeDe(d), 14);
+  const { desde, ate } = janelaAdesao(hojeDe(d), DIAS_ADESAO_PAINEL);
   const resumos = resumoPorId(d, ativas, desde, ate);
   return ativas.map((m) => {
     const r = resumos.get(m.id);
