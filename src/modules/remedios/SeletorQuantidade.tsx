@@ -27,7 +27,7 @@ export function SeletorQuantidade({ valor, unidade, onChange }: { valor: number;
       >
         <Text style={styles.sinal}>−</Text>
       </Pressable>
-      <Text style={styles.valor} accessibilityLiveRegion="polite">{numeroBr(valor)}</Text>
+      <Text style={styles.valor} testID="quantidade" accessibilityLiveRegion="polite">{numeroBr(valor)}</Text>
       <Pressable
         onPress={() => ajustar(passo)}
         accessibilityRole="button"

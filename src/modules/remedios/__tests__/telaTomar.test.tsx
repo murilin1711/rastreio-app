@@ -3,7 +3,7 @@
  * quantidade escolhida, corrige uma marca já feita e não trava esperando a fila dos lembretes (R-T5-b).
  */
 import React from 'react';
-import { Alert } from 'react-native';
+import { AccessibilityInfo, Alert } from 'react-native';
 import { act, create, type ReactTestRenderer } from 'react-test-renderer';
 import { apertar, textoDe } from '../../../testes/arvore';
 
@@ -213,11 +213,11 @@ it('fora do prazo: só a explicação, sem botões', async () => {
 });
 
 it('dose de ontem ainda pode ser marcada', async () => {
-  mockParams = { med: 'm1', hora: '20:00', data: '2026-11-22' };
+  mockParams = { med: 'm1', hora: '08:00', data: '2026-11-22' };
   await abrir();
   expect(tela()).toContain('✓ Tomei');
   await tocar('✓ Tomei');
-  expect(mockRegistrar).toHaveBeenCalledWith('u1', expect.objectContaining({ dataPrevista: '2026-11-22', horaPrevista: '20:00' }));
+  expect(mockRegistrar).toHaveBeenCalledWith('u1', expect.objectContaining({ dataPrevista: '2026-11-22', horaPrevista: '08:00' }));
 });
 
 it('sem data: a dose é de hoje', async () => {
@@ -246,4 +246,58 @@ it('"se precisar": sem horário, grava sem data prevista', async () => {
   });
   expect(mockCancelarSegundo).not.toHaveBeenCalled();
   expect(tela()).toContain('Marcado ✓');
+});
+
+describe('R-T6-a', () => {
+  const marca = (extra: Record<string, unknown>) => ({
+    id: 't1', medicacaoId: 'm1', dataPrevista: '2026-11-23', horaPrevista: '08:00', quantidadePrevista: 1,
+    tomou: true, quantidade: 1, marcadoEm: new Date('2026-11-23T08:10:00').toISOString(), ...extra,
+  });
+
+  it('última marca "não tomei": o aviso diz isso e o botão é "✓ Tomei" (sem "Tomei de novo")', async () => {
+    mockTomadas = [marca({ tomou: false, quantidade: null, marcadoEm: new Date('2026-11-23T08:00:00').toISOString() })];
+    await abrir();
+    expect(tela()).toContain('Você marcou que não tomou essa dose às 8h');
+    expect(tela()).not.toContain('Você já marcou');
+    expect(tela()).not.toContain('Tomei de novo');
+    expect(tela()).toContain('Corrigir');
+    await tocar('✓ Tomei');
+    expect(mockRegistrar).toHaveBeenCalledWith('u1', {
+      medicacaoId: 'm1', dataPrevista: '2026-11-23', horaPrevista: '08:00', quantidadePrevista: 1, tomou: true, quantidade: 1,
+    });
+    expect(mockSubstituir).not.toHaveBeenCalled();
+  });
+
+  it('horário que saiu do cadastro e sem marca: avisa e não oferece gravar', async () => {
+    mockParams = { med: 'm1', hora: '09:00', data: '2026-11-23' };
+    await abrir();
+    expect(tela()).toContain('O horário desse remédio mudou');
+    expect(tela()).not.toContain('✓ Tomei');
+    expect(tela()).not.toContain('Não tomei');
+  });
+
+  it('horário que saiu do cadastro mas tem marca: ainda dá para corrigir', async () => {
+    mockParams = { med: 'm1', hora: '07:00', data: '2026-11-23' };
+    mockTomadas = [marca({ horaPrevista: '07:00' })];
+    await abrir();
+    expect(tela()).toContain('Você já marcou essa dose às 8h10');
+    expect(tela()).not.toContain('O horário desse remédio mudou');
+  });
+
+  it('o "carregando" aparece só no botão tocado', async () => {
+    mockRegistrar.mockImplementation(() => new Promise<void>(() => {}));
+    await abrir();
+    await tocar('Não tomei');
+    const botao = (rotulo: string) => arvore.root.find((n) => n.props.label === rotulo && typeof n.props.onPress === 'function');
+    expect(botao('Não tomei').props.loading).toBe(true);
+    expect(botao('✓ Tomei').props.loading).toBe(false);
+    expect(botao('✓ Tomei').props.disabled).toBe(true);
+  });
+
+  it('"Marcado" é anunciado ao leitor de tela (iOS também)', async () => {
+    const anunciar = jest.spyOn(AccessibilityInfo, 'announceForAccessibility').mockImplementation(() => {});
+    await abrir();
+    await tocar('✓ Tomei');
+    expect(anunciar).toHaveBeenCalledWith('Marcado');
+  });
 });

@@ -12,11 +12,12 @@ const remedio = (id: string, horarios: { hora: string; quantidade: number }[], e
 
 let mockLista: any[] = [];
 let mockTomadas: any[] = [];
+let mockFalhar = false;
 const mockListarTomadas = jest.fn(async (..._a: any[]) => mockTomadas);
 
 jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: { user: { id: 'u1' } } }) }));
 jest.mock('../repositorio', () => ({
-  listarMedicacoes: async () => mockLista,
+  listarMedicacoes: async () => { if (mockFalhar) throw new Error('Network request failed'); return mockLista; },
   listarTomadas: (...a: any[]) => mockListarTomadas(...a),
 }));
 
@@ -39,6 +40,7 @@ beforeEach(() => {
     tomou: true, quantidade: 1, marcadoEm: new Date('2026-11-23T08:05:00').toISOString(),
   }];
   mockListarTomadas.mockClear();
+  mockFalhar = false;
 });
 afterEach(() => { act(() => arvore.unmount()); jest.useRealTimers(); });
 
@@ -60,4 +62,17 @@ it('recarregar busca de novo', async () => {
   await act(async () => { await api.recarregar(); });
   expect(mockListarTomadas).toHaveBeenCalledTimes(2);
   expect(api.doses.find((d: any) => d.medicacaoId === 'm1').estado).toBe('pendente');
+});
+
+it('falha na carga vira `erro` (sem rejeição solta) e recarregar limpa', async () => {
+  mockFalhar = true;
+  await act(async () => { arvore = create(<Sonda />); });
+  expect(typeof api.erro).toBe('string');
+  expect(api.erro.length).toBeGreaterThan(0);
+  expect(api.doses).toEqual([]);
+  expect(api.carregando).toBe(false);
+  mockFalhar = false;
+  await act(async () => { await api.recarregar(); });
+  expect(api.erro).toBeNull();
+  expect(api.doses).toHaveLength(3);
 });

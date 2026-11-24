@@ -1,9 +1,9 @@
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { AccessibilityInfo, ActivityIndicator, Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { cancelarSegundoLembrete } from '@core/cardio/lembretesCardio';
-import { podeMarcar } from '@core/medicacoes/adesao';
+import { classificarDoses, podeMarcar } from '@core/medicacoes/adesao';
 import { horaCurta } from '@core/medicacoes/horarios';
 import { listarMedicacoes, listarTomadas, registrarTomada, substituirTomadas } from '@core/medicacoes/repositorio';
 import type { Medicacao, Tomada } from '@core/medicacoes/tipos';
@@ -24,6 +24,8 @@ function horaDe(iso: string): string {
   return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
 }
 
+type Acao = 'tomei' | 'nao' | 'denovo';
+
 type Carga =
   | { tipo: 'carregando' }
   | { tipo: 'erro' }
@@ -34,7 +36,9 @@ type Carga =
  * Params: `med`; `hora` ausente = uso de remédio "se precisar" (tomada avulsa); `data` ausente = hoje.
  *
  * "✓ Tomei" grava com a quantidade mostrada; se a dose já tem marca, a tela avisa e oferece "Corrigir"
- * (troca a marca) ou "Tomei de novo" (segunda tomada, que conta como dose dobrada). Depois de gravar,
+ * (troca a marca) ou "Tomei de novo" (segunda tomada, que conta como dose dobrada). Se a última marca foi
+ * "não tomei", o aviso diz isso e o botão é "✓ Tomei" (vale como tomada). Hora que não está mais no
+ * cadastro e sem marca: só o aviso de que o horário mudou (a marca não contaria). Depois de gravar,
  * mostra "Marcado ✓" e volta. O cancelamento do segundo lembrete corre em segundo plano: ele passa pela
  * fila dos lembretes, que não tem prazo, e não pode segurar a tela (R-T5-b).
  */
@@ -47,7 +51,8 @@ export default function Tomar() {
   const [carga, setCarga] = useState<Carga>({ tipo: 'carregando' });
   const [quantidade, setQuantidade] = useState(1);
   const [corrigindo, setCorrigindo] = useState(false);
-  const [salvando, setSalvando] = useState(false);
+  /** Qual botão está gravando (mostra o "carregando" nele); `null` = nenhum. */
+  const [salvando, setSalvando] = useState<Acao | null>(null);
   const [marcado, setMarcado] = useState(false);
   // O estado só trava os botões na próxima renderização; dois toques no mesmo quadro passariam.
   const ocupado = useRef(false);
@@ -72,6 +77,8 @@ export default function Tomar() {
 
   useEffect(() => {
     if (!marcado) return;
+    // O iOS não lê sozinho a região que mudou (accessibilityLiveRegion é só do Android).
+    AccessibilityInfo.announceForAccessibility('Marcado');
     const t = setTimeout(() => router.back(), MS_SAIDA_CONCLUIDA);
     return () => clearTimeout(t);
   }, [marcado, router]);
@@ -126,10 +133,20 @@ export default function Tomar() {
     );
   }
 
-  const salvar = async (tomou: boolean, modo: 'registrar' | 'substituir') => {
+  // Dose que não existe na classificação (horário mudou, ou fora do período do remédio): uma marca
+  // gravada ali nunca contaria em lugar nenhum.
+  if (hora && !classificarDoses(remedio, tomadas, dataDose, dataDose, agora).some((d) => d.hora === hora)) {
+    return (
+      <Moldura titulo={titulo} subtitulo={subtitulo}>
+        <Text style={styles.texto}>O horário desse remédio mudou.</Text>
+      </Moldura>
+    );
+  }
+
+  const salvar = async (tomou: boolean, modo: 'registrar' | 'substituir', acao: Acao) => {
     if (!userId || ocupado.current) return;
     ocupado.current = true;
-    setSalvando(true);
+    setSalvando(acao);
     const nova = {
       medicacaoId: remedio.id,
       dataPrevista: hora ? dataDose : null,
@@ -146,7 +163,7 @@ export default function Tomar() {
       }
     } catch (e) {
       ocupado.current = false;
-      setSalvando(false);
+      setSalvando(null);
       Alert.alert('Não foi possível marcar', traduzirErro(e).mensagemUsuario);
       return;
     }
@@ -164,16 +181,25 @@ export default function Tomar() {
       {jaMarcada ? (
         <>
           <View style={styles.aviso}>
-            <Text style={styles.avisoTexto}>{`Você já marcou essa dose às ${horaCurta(horaDe(ultima.marcadoEm))}`}</Text>
+            <Text style={styles.avisoTexto}>
+              {ultima.tomou
+                ? `Você já marcou essa dose às ${horaCurta(horaDe(ultima.marcadoEm))}`
+                : `Você marcou que não tomou essa dose às ${horaCurta(horaDe(ultima.marcadoEm))}`}
+            </Text>
           </View>
-          <Button label="Corrigir" variant="outline" disabled={salvando} onPress={() => setCorrigindo(true)} style={styles.botao} />
-          <Button label="Tomei de novo" variant="outline" disabled={salvando} loading={salvando} onPress={() => salvar(true, 'registrar')} style={styles.botao} />
+          {ultima.tomou ? (
+            <Button label="Tomei de novo" variant="outline" disabled={!!salvando} loading={salvando === 'denovo'} onPress={() => salvar(true, 'registrar', 'denovo')} style={styles.botao} />
+          ) : (
+            // Marcou "não tomei" e depois tomou: a nova marca vale como tomada (R-T3-a).
+            <Button label="✓ Tomei" disabled={!!salvando} loading={salvando === 'tomei'} onPress={() => salvar(true, 'registrar', 'tomei')} style={[styles.botao, styles.principal]} />
+          )}
+          <Button label="Corrigir" variant="outline" disabled={!!salvando} onPress={() => setCorrigindo(true)} style={styles.botao} />
         </>
       ) : (
         <>
-          <Button label="✓ Tomei" disabled={salvando} loading={salvando} onPress={() => salvar(true, modo)} style={[styles.botao, styles.principal]} />
+          <Button label="✓ Tomei" disabled={!!salvando} loading={salvando === 'tomei'} onPress={() => salvar(true, modo, 'tomei')} style={[styles.botao, styles.principal]} />
           {hora ? (
-            <Button label="Não tomei" variant="outline" disabled={salvando} onPress={() => salvar(false, modo)} style={styles.botao} />
+            <Button label="Não tomei" variant="outline" disabled={!!salvando} loading={salvando === 'nao'} onPress={() => salvar(false, modo, 'nao')} style={styles.botao} />
           ) : null}
         </>
       )}
