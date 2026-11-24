@@ -36,10 +36,10 @@ it('tocar numa ação chama onAbrir com a rota dela', () => {
   expect(onAbrir).toHaveBeenCalledTimes(1);
 });
 
-it('o título do item tem 17 pt e accessibilityLabel igual ao título', () => {
+it('o título do item tem 17 pt e accessibilityLabel com título e subtítulo (I1)', () => {
   const a = renderiza(<ListaAcoes acoes={ACOES} onAbrir={() => {}} />);
   const titulo = a.root.findAllByType(Text).find((t: any) => t.props.children === 'Minha pressão');
   expect(StyleSheet.flatten(titulo!.props.style).fontSize).toBe(17);
-  const item = a.root.find((n: any) => n.props.accessibilityLabel === 'Minha pressão');
+  const item = a.root.find((n: any) => n.props.accessibilityLabel === 'Minha pressão, anotar e ver como está');
   expect(item.props.accessibilityRole).toBe('button');
 });

@@ -117,7 +117,7 @@ export default function TomeiRemedio() {
               {sePrecisar.map((m) => (
                 <View key={m.id} style={styles.linha}>
                   <Text style={styles.nome}>{nomeCompleto(m)}</Text>
-                  <Button label="Tomei agora" variant="outline" onPress={() => abrir(rotaTomar(m.id))} />
+                  <Button label="Tomei agora" variant="outline" accessibilityLabel={`Tomei agora: ${nomeCompleto(m)}`} onPress={() => abrir(rotaTomar(m.id))} />
                 </View>
               ))}
             </View>

@@ -92,6 +92,12 @@ it('"Tomei agora" abre "Tomou?" sem hora (uso avulso)', async () => {
   expect(mockAbrir).toHaveBeenCalledWith('/(app)/remedios/tomar?med=m3');
 });
 
+it('"Tomei agora" diz ao leitor de tela qual remédio (nome completo)', async () => {
+  await abrir();
+  const botao = arvore.root.findAll((n) => n.props?.label === 'Tomei agora' && typeof n.props.onPress === 'function')[0];
+  expect(botao.props.accessibilityLabel).toBe('Tomei agora: Dipirona 500 mg');
+});
+
 it('sem remédio "se precisar": não mostra a seção', async () => {
   mockLista = [remedio({})];
   await abrir();
