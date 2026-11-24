@@ -8,6 +8,7 @@ import { rotuloEspecialidade } from '@core/relatorios/especialidades';
 import { dataHoraBr } from '@core/relatorios/montar';
 import { tituloRelatorio } from '@core/relatorios/montar';
 import type { TipoRelatorio } from '@core/relatorios/tipos';
+import { listarGlicemia } from '@core/cardio/glicemia';
 import { listarSessoes } from '@core/cardio/sessoesMrpa';
 import { useAbrir } from '@core/navegacao/useVoltar';
 import { useSessao } from '@core/sessao/SessaoProvider';
@@ -36,11 +37,14 @@ export default function Relatorios() {
   const [ativos, setAtivos] = useState<Compartilhamento[]>([]);
   /** Id da MRPA concluída mais recente (a lista vem do início mais novo ao mais antigo), ou null. */
   const [mrpaConcluida, setMrpaConcluida] = useState<string | null>(null);
+  /** Há glicemia registrada: o relatório dela tem tela própria e o link aparece por conta própria (M5). */
+  const [temGlicemia, setTemGlicemia] = useState(false);
   const abrir = useAbrir();
 
   const carregar = useCallback(async () => {
     if (!sessao?.user.id) return;
     listarSessoes(sessao.user.id).then((l) => l.find((s) => s.concluidaEm)?.id ?? null).catch(() => null).then(setMrpaConcluida);
+    listarGlicemia(sessao.user.id, { limite: 1 }).then((l) => l.length > 0).catch(() => false).then(setTemGlicemia);
     try { await limparExpirados(sessao.user.id); setAtivos(await listarAtivos(sessao.user.id)); } catch { setAtivos([]); }
   }, [sessao?.user.id]);
   useFocusEffect(useCallback(() => { carregar(); }, [carregar]));
@@ -74,16 +78,25 @@ export default function Relatorios() {
             </Pressable>
           ))}
         </View>
-        {mrpaConcluida ? (
+        {mrpaConcluida || temGlicemia ? (
           // A MRPA e a glicemia têm relatório próprio, com o formato que o médico espera (spec §6.6).
+          // Cada link aparece quando há o que mostrar: a MRPA concluída, ou glicemias registradas (M5).
           <View style={styles.aviso}>
-            <Text style={styles.avisoTexto}>O relatório da MRPA e o da glicemia ficam nas telas deles.</Text>
-            <Pressable onPress={() => abrir(`/(app)/coracao/mrpa/relatorio?sessao=${mrpaConcluida}`)} style={styles.link} accessibilityRole="link" accessibilityLabel="Abrir o relatório da MRPA" hitSlop={8}>
-              <Text style={styles.avisoLink}>Abrir o relatório da MRPA</Text>
-            </Pressable>
-            <Pressable onPress={() => abrir('/(app)/coracao/glicemia/relatorio')} style={styles.link} accessibilityRole="link" accessibilityLabel="Abrir o relatório da glicemia" hitSlop={8}>
-              <Text style={styles.avisoLink}>Abrir o relatório da glicemia</Text>
-            </Pressable>
+            <Text style={styles.avisoTexto}>
+              {mrpaConcluida && temGlicemia
+                ? 'O relatório da MRPA e o da glicemia ficam nas telas deles.'
+                : mrpaConcluida ? 'O relatório da MRPA fica na tela dela.' : 'O relatório da glicemia fica na tela dela.'}
+            </Text>
+            {mrpaConcluida ? (
+              <Pressable onPress={() => abrir(`/(app)/coracao/mrpa/relatorio?sessao=${mrpaConcluida}`)} style={styles.link} accessibilityRole="link" accessibilityLabel="Abrir o relatório da MRPA" hitSlop={8}>
+                <Text style={styles.avisoLink}>Abrir o relatório da MRPA</Text>
+              </Pressable>
+            ) : null}
+            {temGlicemia ? (
+              <Pressable onPress={() => abrir('/(app)/coracao/glicemia/relatorio')} style={styles.link} accessibilityRole="link" accessibilityLabel="Abrir o relatório da glicemia" hitSlop={8}>
+                <Text style={styles.avisoLink}>Abrir o relatório da glicemia</Text>
+              </Pressable>
+            ) : null}
           </View>
         ) : null}
         <View style={styles.divisor} />

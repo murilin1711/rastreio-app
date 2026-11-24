@@ -9,6 +9,7 @@ import { existe } from '../../../testes/rotas';
 const mockPush = jest.fn();
 let mockSessoes: { id: string; concluidaEm: string | null }[] = [];
 let mockAtivos: object[] = [];
+let mockGlicemias: object[] = [];
 
 // O jest.setup.js simplifica o useAbrir; aqui vale o de verdade (módulo do Coração: sem voltarPara).
 jest.unmock('@core/navegacao/useVoltar');
@@ -27,6 +28,7 @@ jest.mock('react-native-safe-area-context', () => {
 jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: { user: { id: 'u1' } }, carregando: false }) }));
 jest.mock('@core/relatorios/compartilharQr', () => ({ limparExpirados: async () => {}, listarAtivos: async () => mockAtivos, revogar: jest.fn() }));
 jest.mock('@core/cardio/sessoesMrpa', () => ({ listarSessoes: jest.fn(async () => mockSessoes) }));
+jest.mock('@core/cardio/glicemia', () => ({ listarGlicemia: jest.fn(async () => mockGlicemias) }));
 
 const Relatorios = require('../../../../app/(app)/(tabs)/minha-saude/relatorios/index').default;
 const { listarSessoes } = require('@core/cardio/sessoesMrpa');
@@ -38,7 +40,7 @@ async function montar() {
   return arvore;
 }
 
-beforeEach(() => { mockPush.mockClear(); mockSessoes = []; mockAtivos = []; });
+beforeEach(() => { mockPush.mockClear(); mockSessoes = []; mockAtivos = []; mockGlicemias = []; });
 
 it('cartões com os nomes novos', async () => {
   const arvore = await montar();
@@ -59,7 +61,8 @@ it('sem MRPA concluída, não há aviso', async () => {
   act(() => arvore.unmount());
 });
 
-it('com MRPA concluída, o aviso leva ao relatório dela', async () => {
+it('com MRPA concluída e glicemias, o aviso leva aos dois relatórios', async () => {
+  mockGlicemias = [{ id: 'g1' }];
   mockSessoes = [{ id: 'em', concluidaEm: null }, { id: 's9', concluidaEm: '2026-11-01T10:00:00Z' }, { id: 's1', concluidaEm: '2026-05-01T10:00:00Z' }];
   const arvore = await montar();
   const texto = textoDe(arvore.toJSON());
@@ -97,4 +100,37 @@ it('encerrar um compartilhamento avisa que o relatório e o PDF saem da nuvem (D
   expect(alerta).toHaveBeenCalledWith('Encerrar compartilhamento?', 'O código QR deixa de funcionar imediatamente e o relatório e o PDF são removidos da nuvem.', expect.any(Array));
   alerta.mockRestore();
   act(() => arvore.unmount());
+});
+
+const links = (arvore: ReactTestRenderer) =>
+  arvore.root.findAll((n) => n.props?.accessibilityRole === 'link' && typeof n.props?.onPress === 'function' && typeof n.type !== 'string').map((n) => n.props.accessibilityLabel);
+
+it('glicemias registradas, sem MRPA: o link da glicemia aparece sozinho (M5)', async () => {
+  mockGlicemias = [{ id: 'g1' }];
+  const arvore = await montar();
+  expect(links(arvore)).toEqual(['Abrir o relatório da glicemia']);
+  expect(textoDe(arvore.toJSON())).toContain('O relatório da glicemia fica na tela dela.');
+  act(() => apertar(arvore, 'Abrir o relatório da glicemia'));
+  expect(mockPush).toHaveBeenLastCalledWith('/(app)/coracao/glicemia/relatorio');
+  act(() => arvore.unmount());
+});
+
+it('MRPA concluída, sem glicemia: só o link da MRPA (M5)', async () => {
+  mockSessoes = [{ id: 's9', concluidaEm: '2026-11-01T10:00:00Z' }];
+  const arvore = await montar();
+  expect(links(arvore)).toEqual(['Abrir o relatório da MRPA']);
+  expect(textoDe(arvore.toJSON())).toContain('O relatório da MRPA fica na tela dela.');
+  act(() => arvore.unmount());
+});
+
+it('sem glicemia e sem MRPA, sem aviso; falha ao ler as glicemias também não mostra', async () => {
+  const { listarGlicemia } = require('@core/cardio/glicemia');
+  const arvore = await montar();
+  expect(links(arvore)).toEqual([]);
+  act(() => arvore.unmount());
+  listarGlicemia.mockRejectedValueOnce(new Error('sem conexão'));
+  const outra = await montar();
+  expect(links(outra)).toEqual([]);
+  expect(listarGlicemia).toHaveBeenCalledWith('u1', { limite: 1 });
+  act(() => outra.unmount());
 });
