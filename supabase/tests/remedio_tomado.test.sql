@@ -1,5 +1,5 @@
 begin;
-select plan(26);
+select plan(29);
 
 insert into auth.users (id, email) values
   ('00000000-0000-0000-0000-0000000000d1', 'd1@teste.dev'),
@@ -34,6 +34,19 @@ update public.medicacoes set horarios = '["09:00"]' where id = '00000000-0000-00
 update public.medicacoes set horarios = '[]' where id = '00000000-0000-0000-0000-00000000da02';
 select is((select horarios_desde from public.medicacoes where id = '00000000-0000-0000-0000-00000000da02'), null,
   'tirar todos os horários limpa horarios_desde');
+
+-- reativação pelo build antigo (só muda ativa): o tempo parado não vira "sem registro" (D-066, M2)
+update public.medicacoes set horarios_desde = '2020-01-01' where id = '00000000-0000-0000-0000-00000000da01';
+update public.medicacoes set ativa = false where id = '00000000-0000-0000-0000-00000000da01';
+select is((select horarios_desde from public.medicacoes where id = '00000000-0000-0000-0000-00000000da01'), '2020-01-01'::timestamptz,
+  'interromper não mexe em horarios_desde');
+update public.medicacoes set ativa = true where id = '00000000-0000-0000-0000-00000000da01';
+select is((select horarios_desde from public.medicacoes where id = '00000000-0000-0000-0000-00000000da01'), now(),
+  'reativar (só ativa = true, como o build antigo) marca horarios_desde = agora');
+update public.medicacoes set ativa = false where id = '00000000-0000-0000-0000-00000000da02';
+update public.medicacoes set ativa = true where id = '00000000-0000-0000-0000-00000000da02';
+select is((select horarios_desde from public.medicacoes where id = '00000000-0000-0000-0000-00000000da02'), null,
+  'reativar remédio sem horário não marca horarios_desde');
 
 select lives_ok($$insert into public.medicacoes (id, user_id, nome, horarios) values
   ('00000000-0000-0000-0000-00000000da03', '00000000-0000-0000-0000-0000000000d1', 'Formato estranho', '"08:00"')$$,

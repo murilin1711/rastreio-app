@@ -38,7 +38,9 @@ revoke execute on function public.remedio_tomado_preencher_existentes() from pub
 select public.remedio_tomado_preencher_existentes();
 
 -- horarios_desde = desde quando valem os horários atuais (a adesão não cobra doses de antes disso).
--- Mantido pelo banco para valer também nas edições feitas pelo build antigo.
+-- Mantido pelo banco para valer também nas edições feitas pelo build antigo. Reativar (ativa false → true)
+-- também conta de novo a partir de agora: o build antigo reativa mudando só `ativa`, e sem isso o tempo
+-- parado viraria "sem registro" (D-066).
 create or replace function public.medicacoes_horarios_desde()
 returns trigger
 language plpgsql
@@ -47,7 +49,8 @@ as $$
 begin
   if tg_op = 'INSERT'
      or new.horarios is distinct from old.horarios
-     or new.quantidades is distinct from old.quantidades then
+     or new.quantidades is distinct from old.quantidades
+     or (old.ativa = false and new.ativa = true) then
     -- guarda de tipo: `horarios` que não seja lista não pode quebrar o update do build antigo
     new.horarios_desde := case
       when jsonb_typeof(new.horarios) <> 'array' then null
