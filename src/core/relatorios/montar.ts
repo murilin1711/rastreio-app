@@ -15,6 +15,7 @@ import { mediasMensais } from '@core/regras/bemestar/checkin';
 import { avaliarPMAV, classificarCintura, classificarRCA, faixaIMC, faixaIMCIdoso, rca, tendenciaPeso } from '@core/regras/bemestar/corpo';
 import { formatarHm, resumo7d } from '@core/regras/bemestar/sono';
 import type { ParametrosBemEstar } from '@core/regras/bemestar/tipos';
+import { blocosAdesaoDetalhe } from './adesaoRelatorio';
 import { PRIORIDADES, SECOES_BEMESTAR, SECOES_CARDIO, SECOES_GERAL, SECOES_ONCOLOGICO, SEMPRE_PRESENTE, rotuloEspecialidade } from './especialidades';
 import { SEM_REGISTROS, type Bloco, type ChaveSecao, type DadosNero, type Especialidade, type Periodo, type SecaoRelatorio } from './tipos';
 
@@ -191,7 +192,7 @@ const CONSTRUTORES: Record<ChaveSecao, Construtor> = {
   medicamentos: (d) => {
     const ativas = d.medicacoes.filter((m) => m.ativa);
     if (!ativas.length) return { chave: 'medicamentos', titulo: 'Medicamentos em uso', blocos: [texto(d.perfil.semMedicacoes ? 'O paciente declarou não usar medicamentos.' : 'Nenhum medicamento cadastrado.')] };
-    return { chave: 'medicamentos', titulo: 'Medicamentos em uso', blocos: [{ tipo: 'tabela', colunas: ['Medicamento', 'Dose', 'Horários', 'Desde', 'Prescritor'], linhas: ativas.map((m) => [m.nome, m.dose ?? '—', m.sePrecisar ? 'se precisar' : m.horarios.map((h) => h.hora).join(', ') || '—', dataBr(m.desde), m.prescritor ?? '—']) }] };
+    return { chave: 'medicamentos', titulo: 'Medicamentos em uso', blocos: [{ tipo: 'tabela', colunas: ['Medicamento', 'Dose', 'Horários', 'Desde', 'Prescritor'], linhas: ativas.map((m) => [m.nome, m.dose ?? '—', m.sePrecisar ? 'se precisar' : m.horarios.map((h) => h.hora).join(', ') || '—', dataBr(m.desde), m.prescritor ?? '—']) }, ...blocosAdesaoDetalhe(d)] };
   },
   documentos: (d) => ({ chave: 'documentos', titulo: 'Documentos anexados no período', blocos: d.documentos.length ? [{ tipo: 'lista', itens: d.documentos.map((x) => `${x.nome} · ${ROTULO_TIPO_DOCUMENTO[x.tipo]} · ${dataBr(x.dataDocumento ?? x.criadoEm)}`) }] : vazio() }),
   pa: (d) => {

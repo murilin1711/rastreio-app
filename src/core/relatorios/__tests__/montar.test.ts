@@ -18,6 +18,7 @@ describe('montarCardio', () => {
     expect(b.linhas[2][2]).toBe('se precisar');
     expect(b.linhas[0][3]).toBe('01/03/2024');
   });
+  test('seção de remédios traz o resumo de 4 semanas', () => expect(textoDe([s.find((x) => x.chave === 'medicamentos')!])).toContain('Semana de 12/09'));
   test('PA traz média e barras; MRPA traz médias e chip acima da referência', () => {
     expect(textoDe(s)).toContain('média 130/83 mmHg');
     const mrpa = s.find((x) => x.chave === 'mrpa')!;
