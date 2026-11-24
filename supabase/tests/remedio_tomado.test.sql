@@ -1,5 +1,5 @@
 begin;
-select plan(12);
+select plan(19);
 
 insert into auth.users (id, email) values
   ('00000000-0000-0000-0000-0000000000d1', 'd1@teste.dev'),
@@ -49,12 +49,37 @@ select throws_ok($$insert into public.tomadas_medicacao (user_id, medicacao_id, 
 
 set local request.jwt.claims to '{"sub":"00000000-0000-0000-0000-0000000000d2","role":"authenticated"}';
 select is((select count(*) from public.tomadas_medicacao), 0::bigint, 'D2 não vê as tomadas de D1');
+select throws_ok($$insert into public.tomadas_medicacao (user_id, medicacao_id, tomou)
+  values ('00000000-0000-0000-0000-0000000000d2', '00000000-0000-0000-0000-00000000da01', false)$$,
+  '23503', null, 'ninguém registra tomada no remédio de outra pessoa');
+select throws_ok('select public.remedio_tomado_preencher_existentes()', '42501', null,
+  'o app não chama o preenchimento dos remédios existentes');
 
 -- cascata
 reset role;
 delete from public.medicacoes where id = '00000000-0000-0000-0000-00000000da01';
 select is((select count(*) from public.tomadas_medicacao where medicacao_id = '00000000-0000-0000-0000-00000000da01'), 0::bigint,
   'apagar o remédio apaga as tomadas');
+
+-- preenchimento dos remédios existentes (mesma função que a migração rodou): linhas no estado de antes da 0023
+insert into public.medicacoes (id, user_id, nome, horarios, ativa) values
+  ('00000000-0000-0000-0000-00000000db01', '00000000-0000-0000-0000-0000000000d2', 'Ativo sem horário', '[]', true),
+  ('00000000-0000-0000-0000-00000000db02', '00000000-0000-0000-0000-0000000000d2', 'Inativo sem horário', '[]', false),
+  ('00000000-0000-0000-0000-00000000db03', '00000000-0000-0000-0000-0000000000d2', 'Com horário', '["08:00", "20:00"]', true);
+update public.medicacoes set se_precisar = false, horarios_desde = null
+  where id in ('00000000-0000-0000-0000-00000000db01', '00000000-0000-0000-0000-00000000db02', '00000000-0000-0000-0000-00000000db03');
+select public.remedio_tomado_preencher_existentes();
+
+select is((select se_precisar from public.medicacoes where id = '00000000-0000-0000-0000-00000000db01'), true,
+  'existente ativo sem horário vira se precisar');
+select is((select se_precisar from public.medicacoes where id = '00000000-0000-0000-0000-00000000db02'), false,
+  'existente inativo sem horário não vira se precisar');
+select is((select se_precisar from public.medicacoes where id = '00000000-0000-0000-0000-00000000db03'), false,
+  'existente com horário não vira se precisar');
+select isnt((select horarios_desde from public.medicacoes where id = '00000000-0000-0000-0000-00000000db03'), null,
+  'existente com horário ganha horarios_desde');
+select is((select quantidades from public.medicacoes where id = '00000000-0000-0000-0000-00000000db03'), '{}'::jsonb,
+  'existente fica com quantidades vazio (1 por horário)');
 
 select * from finish();
 rollback;

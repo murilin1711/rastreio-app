@@ -12,10 +12,22 @@ alter table public.medicacoes
   add column se_precisar boolean not null default false,
   add column horarios_desde timestamptz;
 
+-- (id, user_id) único para a FK composta de tomadas_medicacao: a tomada só aponta para remédio do mesmo dono.
+alter table public.medicacoes add constraint medicacoes_id_user_key unique (id, user_id);
+
 -- Dados existentes: remédio ativo sem horário passa a ser "se precisar"; quem tem horário começa a contar
--- agora (quantidades fica {} = 1 por horário).
-update public.medicacoes set se_precisar = true where ativa and jsonb_array_length(horarios) = 0;
-update public.medicacoes set horarios_desde = now() where jsonb_array_length(horarios) > 0;
+-- agora (quantidades fica {} = 1 por horário). Em função para o pgTAP conseguir exercitar o mesmo código;
+-- roda uma vez aqui e não é chamável pelo app (execute só para o dono do banco).
+create or replace function public.remedio_tomado_preencher_existentes()
+returns void
+language sql
+set search_path = ''
+as $$
+  update public.medicacoes set se_precisar = true where ativa and jsonb_array_length(horarios) = 0;
+  update public.medicacoes set horarios_desde = now() where jsonb_array_length(horarios) > 0;
+$$;
+revoke execute on function public.remedio_tomado_preencher_existentes() from public, anon, authenticated, service_role;
+select public.remedio_tomado_preencher_existentes();
 
 -- horarios_desde = desde quando valem os horários atuais (a adesão não cobra doses de antes disso).
 -- Mantido pelo banco para valer também nas edições feitas pelo build antigo.
@@ -41,7 +53,7 @@ create trigger medicacoes_horarios_desde before insert or update on public.medic
 create table public.tomadas_medicacao (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
-  medicacao_id uuid not null references public.medicacoes(id) on delete cascade,
+  medicacao_id uuid not null,
   data_prevista date,
   hora_prevista text check (hora_prevista ~ '^\d{2}:\d{2}$'),
   quantidade_prevista numeric check (quantidade_prevista is null or quantidade_prevista > 0),
@@ -50,8 +62,12 @@ create table public.tomadas_medicacao (
   marcado_em timestamptz not null default now(),
   created_at timestamptz not null default now(),
   check ((data_prevista is null) = (hora_prevista is null)),
-  check (not tomou or quantidade is not null)
+  check (not tomou or quantidade is not null),
+  -- FK composta: a tomada só aponta para remédio do mesmo user_id (FK ignora RLS; sem isso dava para gravar,
+  -- com o próprio user_id, uma tomada no remédio de outra pessoa).
+  foreign key (medicacao_id, user_id) references public.medicacoes (id, user_id) on delete cascade
 );
+create index tomadas_medicacao_medicacao_idx on public.tomadas_medicacao (medicacao_id, user_id);
 create index tomadas_medicacao_user_data_idx on public.tomadas_medicacao (user_id, data_prevista);
 create index tomadas_medicacao_user_avulsas_idx on public.tomadas_medicacao (user_id, marcado_em)
   where data_prevista is null;

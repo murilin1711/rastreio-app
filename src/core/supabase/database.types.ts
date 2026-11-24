@@ -1063,11 +1063,11 @@ export type Database = {
         }
         Relationships: [
           {
-            foreignKeyName: "tomadas_medicacao_medicacao_id_fkey"
-            columns: ["medicacao_id"]
+            foreignKeyName: "tomadas_medicacao_medicacao_id_user_id_fkey"
+            columns: ["medicacao_id", "user_id"]
             isOneToOne: false
             referencedRelation: "medicacoes"
-            referencedColumns: ["id"]
+            referencedColumns: ["id", "user_id"]
           },
         ]
       }
@@ -1120,6 +1120,7 @@ export type Database = {
     }
     Functions: {
       excluir_minha_conta: { Args: never; Returns: undefined }
+      remedio_tomado_preencher_existentes: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never
