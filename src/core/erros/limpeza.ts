@@ -28,6 +28,17 @@ export function limparEvento<T extends Evento>(e: T): T {
 }
 
 /**
+ * Etiquetas de um erro tratado: o contexto e o código do erro (`ERR_REQUEST_UNKNOWN`, `-1`). O filtro de dados
+ * sensíveis do Sentry chegou a trocar a mensagem do erro da Apple por `[Filtered]`; o código, como etiqueta,
+ * continua legível. Etiqueta do Sentry vai até 200 caracteres.
+ */
+export function etiquetasDoErro(erro: unknown, contexto: Record<string, string>): Record<string, string> {
+  const codigo = (erro as { code?: unknown } | null)?.code;
+  if (typeof codigo !== 'string' && typeof codigo !== 'number') return { ...contexto };
+  return { ...contexto, codigo: String(codigo).slice(0, 200) };
+}
+
+/**
  * Um defeito que dispara em sequência (tela que recarrega sozinha) gastaria as 5.000 ocorrências/mês do
  * plano gratuito num dia. Cada erro diferente vai até `maximo` vezes por abertura do app; o resto fica.
  */

@@ -36,3 +36,15 @@ test('senha vazada ganha mensagem própria, não a de tamanho', () => {
   expect(traduzirErro({ code: 'weak_password', message: 'x', reasons: ['pwned'] }).mensagemUsuario).toMatch(/vazamento/);
   expect(traduzirErro({ code: 'weak_password', message: 'x', reasons: ['length'] }).mensagemUsuario).toBe('A senha precisa ter pelo menos 8 caracteres.');
 });
+
+test('Apple recusando depois do Face ID ganha mensagem própria, com saída pelo e-mail', () => {
+  // expo-apple-authentication: ASAuthorizationError .unknown/.failed/... viram estes códigos.
+  for (const code of ['ERR_REQUEST_UNKNOWN', 'ERR_REQUEST_FAILED', 'ERR_REQUEST_NOT_HANDLED', 'ERR_INVALID_RESPONSE']) {
+    expect(traduzirErro({ code, message: 'The authorization attempt failed' }).mensagemUsuario).toMatch(/A Apple não concluiu o login.*e-mail e senha/);
+  }
+});
+
+test('Google sem conseguir abrir a janela de login ganha mensagem própria', () => {
+  const e = new Error('RNGoogleSignIn: Unknown error in google sign in., Error Domain=com.google.GIDSignIn Code=-1 "Unable to open Safari."');
+  expect(traduzirErro(e).mensagemUsuario).toMatch(/O Google não abriu a janela de login/);
+});

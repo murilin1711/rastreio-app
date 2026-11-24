@@ -1,6 +1,6 @@
 import * as Sentry from '@sentry/react-native';
 import type React from 'react';
-import { limitarRepeticao, limparEvento, limparRastro } from './limpeza';
+import { etiquetasDoErro, limitarRepeticao, limparEvento, limparRastro } from './limpeza';
 
 /**
  * Relatório de erros (D-058). Só liga com a chave do projeto no Sentry (`EXPO_PUBLIC_SENTRY_DSN`) e
@@ -34,5 +34,5 @@ export function envolverRaiz(Raiz: () => React.JSX.Element | null): React.Compon
 /** Erro tratado na tela (o app mostra um aviso), mas que precisamos ver: falha de login, por exemplo. */
 export function registrarErro(erro: unknown, contexto: Record<string, string> = {}): void {
   if (!DSN || __DEV__) return;
-  Sentry.captureException(erro, { tags: contexto });
+  Sentry.captureException(erro, { tags: etiquetasDoErro(erro, contexto) });
 }
