@@ -92,11 +92,14 @@ footer p { margin: 3px 0; }
 .legenda { font-size: 8pt; color: #4A5C7A; }
 .remedio { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 8px; font-size: 9.5pt; padding: 2px 0; border-bottom: 1px solid #E9EDF5; }
 .remedio .nome { flex: 0 0 150px; }
-.remedio .doses { flex: 1; letter-spacing: 1px; color: #0f2d63; }
+/* Bolinhas sem ponto de quebra: cada uma é um item, e a linha quebra em vez de transbordar (3x/dia ou mais no celular). */
+.remedio .doses { flex: 1; display: flex; flex-wrap: wrap; min-width: 0; gap: 0 1px; color: #0f2d63; }
 .remedio .conta { white-space: nowrap; }
 .prevencao p, .prevencao ul { font-size: 9.5pt; }
 .painel-rodape { font-size: 8.5pt; color: #4A5C7A; border-top: 1px solid #DCE2EE; padding-top: 6px; }
-@media screen { body { max-width: 820px; margin: 0 auto; padding: 24px; } .painel { border-bottom: 2px solid #DCE2EE; padding-bottom: 8px; margin-bottom: 16px; } }
+/* Só na página do QR (html.tela): o PDF não depende do media type do expo-print. */
+html.tela body { max-width: 820px; margin: 0 auto; padding: 24px; }
+html.tela .painel { border-bottom: 2px solid #DCE2EE; padding-bottom: 8px; margin-bottom: 16px; }
 @media screen and (max-width: 640px) { .cartoes { grid-template-columns: 1fr; } .fontes ol { columns: 1; } header { flex-direction: column; } body { padding: 16px; } .remedio .nome { flex-basis: 100%; } th, td { padding: 1px 3px; overflow-wrap: anywhere; } }
 `;
 
@@ -111,6 +114,8 @@ export interface EntradaHtml {
   validadeQr?: string;
   /** Página 1 (D-067). Com ele, o cabeçalho vira o do painel e o detalhe começa na página 2. */
   painel?: PainelRelatorio | null;
+  /** Página do QR no navegador: liga os estilos só de tela (`html.tela`). O PDF nunca passa. */
+  tela?: boolean;
 }
 
 function dataBr(iso: string | null): string {
@@ -148,7 +153,9 @@ function contaRemedio(l: LinhaAdesao): string {
 function linhaRemedio(l: LinhaAdesao): string {
   const nome = l.dose ? `${l.nome} ${l.dose}` : l.nome;
   const doses = l.doses.map((e) => `<span class="dose" title="${ROTULO_DOSE[e]}">${SIMBOLO_DOSE[e]}</span>`).join('');
-  return `<div class="remedio"><span class="nome">${escapar(nome)}</span><span class="doses">${doses}</span><span class="conta">${escapar(contaRemedio(l))}</span></div>`;
+  const contagem = (Object.keys(ROTULO_DOSE) as EstadoDosePainel[]).map((e) => ({ e, n: l.doses.filter((x) => x === e).length })).filter((x) => x.n > 0);
+  const rotulo = contagem.length ? ` aria-label="${contagem.map((x) => `${x.n} ${ROTULO_DOSE[x.e]}`).join(', ')}"` : '';
+  return `<div class="remedio"><span class="nome">${escapar(nome)}</span><span class="doses"${rotulo}>${doses}</span><span class="conta">${escapar(contaRemedio(l))}</span></div>`;
 }
 
 function blocoPrevencao(itens: ProgramaPainel[], detalhada: boolean): string {
@@ -177,7 +184,7 @@ export function htmlRelatorio(e: EntradaHtml): string {
   const topo = e.painel
     ? htmlPainel(e, e.painel, geradoEm)
     : `<header><div><div class="marca">NERO</div><h1>${escapar(e.titulo)}</h1><div class="meta">${escapar(e.paciente.nome)}${e.paciente.nascimento ? ` · nascimento ${dataBr(e.paciente.nascimento)}` : ''}<br>Período das medidas: ${escapar(e.periodo.rotulo)} (${dataBr(e.periodo.desde)} a ${dataBr(e.periodo.ate)})<br>Gerado em ${geradoEm}</div></div>${e.qrSvg ? `<div class="qr">${e.qrSvg}</div>` : ''}</header>`;
-  return `<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escapar(e.titulo)}</title><style>${CSS}</style></head><body>
+  return `<!DOCTYPE html><html lang="pt-BR"${e.tela ? ' class="tela"' : ''}><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>${escapar(e.titulo)}</title><style>${CSS}</style></head><body>
 ${topo}
 ${e.secoes.map((s) => `${s.abreComplemento ? `<h2 class="complemento">${escapar(TITULO_COMPLEMENTO)}</h2>` : ''}<section><h2>${escapar(s.titulo)}</h2>${s.blocos.map(bloco).join('')}</section>`).join('\n')}
 ${blocoFontes(e.secoes)}

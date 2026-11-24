@@ -35,3 +35,17 @@ test('eixo Y: de min(110, menor − 10) a max(150, maior + 10); a linha de refer
   const ysb = [...baixo.matchAll(/<circle[^>]*cy="([\d.]+)"/g)].map((m) => Number(m[1]));
   expect(Math.min(...ysb)).toBeGreaterThan(yb);
 });
+test('referência fora da faixa dos valores: o eixo se estende e a linha fica dentro do desenho', () => {
+  const s = svgSistolica(serie.slice(0, 2), { largura: 520, altura: 150, referencia: 160 });
+  const y = Number(/<line[^>]*data-ref="160"[^>]*y1="([\d.]+)"/.exec(s)?.[1]);
+  expect(y).toBeGreaterThanOrEqual(8); // margem do topo
+  expect(y).toBeLessThanOrEqual(150 - 18);
+  expect(s).toMatch(/>170<\/text>/); // topo = ref + 10
+  const baixa = svgSistolica(serie.slice(0, 2), { largura: 520, altura: 150, referencia: 100 });
+  expect(baixa).toMatch(/>90<\/text>/); // base = ref − 10
+});
+test('título e descrição para leitor de tela', () => {
+  const s = svgSistolica(serie, { largura: 520, altura: 150 });
+  expect(s).toContain('<title>Pressão sistólica no período</title>');
+  expect(s).toContain('<desc>3 medidas de 01/09 a 03/09; menor 128 mmHg, maior 186 mmHg; linha de referência em 130 mmHg.</desc>');
+});

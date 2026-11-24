@@ -12,15 +12,18 @@ const diaMes = (dia: string) => `${dia.slice(8, 10)}/${dia.slice(5, 7)}`;
 
 /**
  * Sistólica do período em SVG (página 1 do relatório, D-067). Gerado só a partir de números e datas, sem texto
- * do paciente. Eixo Y de min(110, menor − 10) a max(150, maior + 10); X pelo índice da medida; linha tracejada
+ * do paciente. Eixo Y de min(110, menor − 10, ref − 10) a max(150, maior + 10, ref + 10); X pelo índice da medida; linha tracejada
  * na referência domiciliar (`referencia`, padrão 130). Menos de 2 pontos: '' (não há o que ligar).
  */
 export function svgSistolica(serie: PontoPressao[], o: { largura: number; altura: number; referencia?: number }): string {
   if (serie.length < 2) return '';
   const ref = o.referencia ?? 130;
   const valores = serie.map((p) => p.pas);
-  const lo = Math.min(110, Math.min(...valores) - 10);
-  const hi = Math.max(150, Math.max(...valores) + 10);
+  const menor = Math.min(...valores);
+  const maior = Math.max(...valores);
+  // A linha de referência fica sempre dentro do eixo, mesmo com referência fora da faixa padrão.
+  const lo = Math.min(110, menor - 10, ref - 10);
+  const hi = Math.max(150, maior + 10, ref + 10);
   const larguraUtil = o.largura - MARGEM.esq - MARGEM.dir;
   const alturaUtil = o.altura - MARGEM.topo - MARGEM.base;
   const x = (i: number) => MARGEM.esq + (i * larguraUtil) / (serie.length - 1);
@@ -33,6 +36,8 @@ export function svgSistolica(serie: PontoPressao[], o: { largura: number; altura
     `<text x="${px}" y="${py}" font-size="9" fill="${COR_TEXTO}" text-anchor="${ancora}"${extra}>${t}</text>`;
   return [
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${o.largura} ${o.altura}" width="${o.largura}" height="${o.altura}" role="img" aria-label="Pressão sistólica no período">`,
+    '<title>Pressão sistólica no período</title>',
+    `<desc>${serie.length} medidas de ${diaMes(serie[0].data)} a ${diaMes(serie[serie.length - 1].data)}; menor ${menor} mmHg, maior ${maior} mmHg; linha de referência em ${ref} mmHg.</desc>`,
     `<line x1="${MARGEM.esq}" y1="${base}" x2="${o.largura - MARGEM.dir}" y2="${base}" stroke="#DCE2EE" stroke-width="1"/>`,
     texto(MARGEM.esq - 4, r1(MARGEM.topo + 3), String(hi), 'end'),
     texto(MARGEM.esq - 4, base, String(lo), 'end'),

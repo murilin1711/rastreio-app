@@ -2,7 +2,7 @@ import { LEGENDA_DOSES } from '../adesaoRelatorio';
 import { RESSALVA_CARDIO, RESSALVA_CURTA_PAINEL, RESSALVA_HABITOS, RESSALVA_ONCOLOGICO, htmlRelatorio } from '../html';
 import { montarBemEstar, montarCardio, montarConsulta, montarGeral, montarOncologico, tituloRelatorio } from '../montar';
 import { montarPainel } from '../painel';
-import type { TipoRelatorio } from '../tipos';
+import type { LinhaAdesao, PainelRelatorio, TipoRelatorio } from '../tipos';
 import { PERIODO_TESTE, dadosNeroTeste } from './fixtures';
 
 const base = { paciente: { nome: 'Ana Souza', nascimento: '1975-04-10' }, periodo: PERIODO_TESTE, geradoEm: '2026-09-18T10:30:00' };
@@ -135,4 +135,34 @@ test('sem painel o cabeçalho antigo continua', () => {
   const h = htmlRelatorio({ ...base, tipo: 'cardio', titulo: 'x', secoes: [] });
   expect(h).not.toContain('class="painel"');
   expect(h).toContain('Ana Souza · nascimento 10/04/1975');
+});
+
+const comAdesao = (adesao: LinhaAdesao[]) => {
+  const d = dadosNeroTeste();
+  const p: PainelRelatorio = { ...montarPainel(d, { tipo: 'geral', periodo: PERIODO_TESTE }), adesao };
+  return htmlRelatorio({ ...base, tipo: 'geral', titulo: 'x', secoes: [], painel: p });
+};
+const linhaAd = (x: Partial<LinhaAdesao>): LinhaAdesao => ({ medicacaoId: 'm', nome: 'Remédio', dose: null, sePrecisar: false, doses: [], tomou: 0, previstas: 0, errado: 0, percentual: null, usosSePrecisar: 0, ...x });
+test('contagem do remédio: não usou, usou 1 vez, sem doses previstas', () => {
+  expect(comAdesao([linhaAd({ sePrecisar: true })])).toContain('<span class="conta">não usou</span>');
+  expect(comAdesao([linhaAd({ sePrecisar: true, usosSePrecisar: 1 })])).toContain('<span class="conta">usou 1 vez</span>');
+  expect(comAdesao([linhaAd({})])).toContain('<span class="conta">sem doses previstas no período</span>');
+});
+test('bolinhas com rótulo da contagem por estado', () => {
+  const h = comAdesao([linhaAd({ doses: ['tomou', 'tomou', 'nao_tomou', 'errado', 'sem_registro'], tomou: 2, previstas: 5 })]);
+  expect(h).toContain('<span class="doses" aria-label="2 tomou, 1 não tomou, 1 errada, 1 sem registro">');
+  expect(comAdesao([linhaAd({ sePrecisar: true, usosSePrecisar: 2 })])).toContain('<span class="doses"></span>');
+});
+test('linha de doses quebra em vez de transbordar no celular', () => {
+  expect(comPainel('geral')).toMatch(/\.remedio \.doses\s*{[^}]*display:\s*flex;[^}]*flex-wrap:\s*wrap;[^}]*min-width:\s*0/);
+});
+test('estilos só de tela dependem da classe "tela", que o PDF nunca leva', () => {
+  const pdf = comPainel('geral');
+  expect(pdf).not.toContain('class="tela"');
+  expect(pdf).toMatch(/<html lang="pt-BR">/);
+  expect(pdf).not.toMatch(/@media screen\s*{/);
+  expect(pdf).toMatch(/html\.tela body\s*{[^}]*max-width/);
+  const d = dadosNeroTeste();
+  const tela = htmlRelatorio({ ...base, tipo: 'geral', titulo: 'x', secoes: [], painel: montarPainel(d, { tipo: 'geral', periodo: PERIODO_TESTE }), tela: true });
+  expect(tela).toContain('<html lang="pt-BR" class="tela">');
 });
