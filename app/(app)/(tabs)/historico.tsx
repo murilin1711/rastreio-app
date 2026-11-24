@@ -8,6 +8,7 @@ import { useSessao } from '@core/sessao/SessaoProvider';
 import { dataCurtaBr } from '@modules/coracao/componentes/formato';
 import { Alerta, Colors, InternalHeader, Spacing, Typography, useEspacoAbas } from '@ui/index';
 import { useAbrir } from '@core/navegacao/useVoltar';
+import { BotaoAnotar } from '@modules/anotar/BotaoAnotar';
 
 const COR_MODULO: Record<ModuloItem, string> = { cardio: '#c2410c', rastreando: Colors.logoCeu, medicacao: Colors.logoArdosia, consulta: Colors.accent, documento: Colors.textMuted, bem_estar: '#15803D' };
 
@@ -43,6 +44,7 @@ export default function LinhaDoTempoGeral() {
           </View>
         )) : !carregando ? <Text style={styles.vazio}>Exames, medidas, medicamentos, consultas e documentos aparecem aqui em ordem, conforme você registra.</Text> : null}
       </ScrollView>
+      <BotaoAnotar origem="/historico" />
     </SafeAreaView>
   );
 }

@@ -9,6 +9,7 @@ import { CardRotina } from '@modules/minha-saude/componentes/CardRotina';
 import { LinhaLembrete } from '@modules/minha-saude/componentes/LinhaLembrete';
 import { Button, Colors, InternalHeader, Spacing, Typography, useEspacoAbas } from '@ui/index';
 import { useAbrir } from '@core/navegacao/useVoltar';
+import { BotaoAnotar } from '@modules/anotar/BotaoAnotar';
 
 const DIAS_SEMANA = ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'];
 function tituloDia(dia: string, hoje = new Date()): string {
@@ -60,6 +61,7 @@ export default function Lembretes() {
           </>
         ) : null}
       </ScrollView>
+      <BotaoAnotar origem="/agenda" />
     </SafeAreaView>
   );
 }

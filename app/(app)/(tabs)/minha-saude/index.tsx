@@ -19,6 +19,7 @@ import { nomeComum } from '@core/relatorios/especialidades';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { dataHoraBr } from '@modules/coracao/componentes/formato';
 import { Creditos } from '@modules/conta/Creditos';
+import { BotaoAnotar } from '@modules/anotar/BotaoAnotar';
 import { Button, Colors, ListItem, NeroAnimado, Radius, Spacing, Typography, useEspacoAbas } from '@ui/index';
 
 const plural = (n: number, s: string, p: string) => `${n} ${n === 1 ? s : p}`;
@@ -126,6 +127,7 @@ export default function MinhaSaude() {
         <Button label="Termos de uso" variant="ghost" onPress={() => WebBrowser.openBrowserAsync(URL_TERMOS).catch(() => {})} />
         <Creditos />
       </ScrollView>
+      <BotaoAnotar origem="/minha-saude" />
     </SafeAreaView>
   );
 }

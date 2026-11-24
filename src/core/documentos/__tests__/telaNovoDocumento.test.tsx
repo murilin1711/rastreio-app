@@ -11,6 +11,8 @@ let mockInseridos: unknown[] = [];
 let mockApagados: string[] = [];
 let resolverEnvio: ((v: { caminho: string; tamanho: number; mime: string }) => void) | null = null;
 (globalThis as any).mockReact = React;
+const mockVoltar = jest.fn();
+jest.mock('@core/navegacao/useVoltar', () => ({ useVoltar: () => mockVoltar, useAbrir: () => jest.fn() }));
 
 jest.mock('expo-router', () => ({
   useRouter: () => ({ push: jest.fn(), replace: jest.fn(), back: jest.fn() }),
@@ -27,6 +29,7 @@ jest.mock('@core/documentos/storage', () => ({
 }));
 jest.mock('@modules/minha-saude/componentes/escolherArquivo', () => ({ escolherArquivo: async () => null }));
 
+const { PISO_ESPERA_MS } = require('@ui/components/EsperaNero');
 const NovoDocumento = require('../../../../app/(app)/(tabs)/minha-saude/documentos/novo').default;
 
 /** Texto visível de um nó: as strings soltas em toda a sua descendência. */
@@ -43,7 +46,7 @@ function apertar(arvore: any, rotulo: string) {
   alvo.props.onPress();
 }
 
-beforeEach(() => { mockInseridos = []; mockApagados = []; resolverEnvio = null; });
+beforeEach(() => { mockInseridos = []; mockApagados = []; resolverEnvio = null; mockVoltar.mockClear(); });
 
 it('cancelar durante o envio apaga o arquivo enviado e não grava o documento', async () => {
   let arvore: any;
@@ -68,4 +71,23 @@ it('sem cancelar, grava o documento e não apaga nada', async () => {
 
   expect(mockApagados).toEqual([]);
   expect(mockInseridos).toHaveLength(1);
+}, 10000);
+
+it('depois de salvar, volta pelo useVoltar (respeita voltarPara)', async () => {
+  let arvore: any;
+  await act(async () => { arvore = create(<NovoDocumento />); });
+
+  await act(async () => { apertar(arvore, 'Salvar documento'); });
+  // A tela espera o piso da espera do Nero (D-023) antes de sair: o relógio pula o piso, para não
+  // esperar 2 s de verdade (e não confundir com o piso ainda pendente do teste anterior).
+  const agora = Date.now();
+  const relogio = jest.spyOn(Date, 'now').mockReturnValue(agora + PISO_ESPERA_MS);
+  try {
+    await act(async () => { resolverEnvio!({ caminho: 'u1/abc.jpg', tamanho: 10, mime: 'image/jpeg' }); });
+  } finally {
+    relogio.mockRestore();
+  }
+
+  expect(mockInseridos).toHaveLength(1);
+  expect(mockVoltar).toHaveBeenCalledTimes(1);
 }, 10000);

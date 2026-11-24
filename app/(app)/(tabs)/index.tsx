@@ -28,6 +28,7 @@ import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
 import { Colors, LogoNero, MS_ATRASO_AO_VOLTAR, ModalAtivarAvisos, ModalComemoracao, NeroAnimado, Radius, SaidaConcluida, Spacing, Typography, useEspacoAbas, useSaidaConcluida } from '@ui/index';
 import { useAbrir } from '@core/navegacao/useVoltar';
 import { LinkFontes } from '@modules/fontes/FontesDaTela';
+import { BotaoAnotar } from '@modules/anotar/BotaoAnotar';
 
 /**
  * Abertura das pendências (D-041): espera todas as fontes, até este limite. Com sinal ruim, uma fonte
@@ -241,6 +242,7 @@ export default function Home() {
         <Text style={styles.rodape}>O NERO organiza suas informações e não substitui a avaliação do seu médico.</Text>
         <LinkFontes />
       </ScrollView>
+      <BotaoAnotar origem="/" />
       <ModalComemoracao conteudo={sequencia.marco ? TEXTO_SEQUENCIA[sequencia.marco] : null} aoFechar={sequencia.dispensarMarco} />
       <ModalComemoracao conteudo={conquistas.proxima ? TEXTO_CONQUISTA[conquistas.proxima] : null} aoFechar={conquistas.dispensar} />
       <ModalAtivarAvisos visivel={avisos.precisa && !sequencia.marco} aoAtivar={() => { avisos.ativar(); }} aoAdiar={() => { avisos.adiar(); }} />
