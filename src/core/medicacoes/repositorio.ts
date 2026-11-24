@@ -108,11 +108,20 @@ export async function salvarMedicacao(userId: string, m: DadosMedicacao): Promis
   if (error) throw traduzirErro(error);
 }
 
-/** Interromper preenche `ate` com hoje; reativar limpa. */
+/** 'AAAA-MM-DD' do dia local (não UTC: às 22h no Brasil o UTC já é amanhã). */
+function hojeLocal(agora = new Date()): string {
+  return `${agora.getFullYear()}-${String(agora.getMonth() + 1).padStart(2, '0')}-${String(agora.getDate()).padStart(2, '0')}`;
+}
+
+/**
+ * Interromper preenche `ate` com hoje (dia local); reativar limpa `ate` e recomeça `horarios_desde` agora,
+ * para o tempo em que esteve parado não virar "sem registro" na adesão (R-T3-b).
+ */
 export async function alternarAtiva(id: string, ativa: boolean): Promise<void> {
+  const agora = new Date();
   const { error } = await supabase
     .from('medicacoes')
-    .update({ ativa, ate: ativa ? null : new Date().toISOString().slice(0, 10) })
+    .update(ativa ? { ativa, ate: null, horarios_desde: agora.toISOString() } : { ativa, ate: hojeLocal(agora) })
     .eq('id', id);
   if (error) throw traduzirErro(error);
 }

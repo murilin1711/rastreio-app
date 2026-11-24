@@ -1,6 +1,6 @@
 jest.mock('@core/supabase/client', () => ({ supabase: { from: jest.fn() } }));
 import { supabase } from '@core/supabase/client';
-import { listarTomadas, paraLinhaMedicacao, paraMedicacao, substituirTomadas } from '../repositorio';
+import { alternarAtiva, listarTomadas, paraLinhaMedicacao, paraMedicacao, substituirTomadas } from '../repositorio';
 
 const linha = {
   id: 'm1', nome: 'Losartana', dose: '50 mg', horarios: ['08:00', '20:00'], quantidades: { '08:00': 2 },
@@ -39,7 +39,7 @@ it('unidade desconhecida vira comprimido', () => {
 function consulta(resposta: { data?: unknown; error?: unknown } | ((chamadas: [string, ...unknown[]][]) => { data?: unknown; error?: unknown })) {
   const chamadas: [string, ...unknown[]][] = [];
   const q: Record<string, unknown> = {};
-  for (const nome of ['select', 'insert', 'delete', 'eq', 'is', 'gte', 'lte', 'lt', 'order', 'range']) {
+  for (const nome of ['select', 'insert', 'update', 'delete', 'eq', 'is', 'gte', 'lte', 'lt', 'order', 'range']) {
     q[nome] = (...args: unknown[]) => { chamadas.push([nome, ...args]); return q; };
   }
   q.then = (ok: (v: unknown) => unknown, erro: (e: unknown) => unknown) =>
@@ -138,4 +138,28 @@ it('substituirTomadas apaga as marcas da dose e grava a nova', async () => {
     'insert',
     { user_id: 'u1', medicacao_id: 'm1', data_prevista: '2026-11-23', hora_prevista: '08:00', quantidade_prevista: 1, tomou: false, quantidade: null },
   ]]);
+});
+
+describe('alternarAtiva', () => {
+  const from = supabase.from as jest.Mock;
+  beforeEach(() => from.mockReset());
+  afterEach(() => jest.useRealTimers());
+
+  it('interromper grava `ate` com a data local, não a UTC', async () => {
+    jest.useFakeTimers({ now: new Date(2026, 10, 23, 23, 30) }); // 23/11 23h30 local
+    const { q, chamadas } = consulta({});
+    from.mockReturnValue(q);
+    await alternarAtiva('m1', false);
+    expect(chamadas).toContainEqual(['update', { ativa: false, ate: '2026-11-23' }]);
+    expect(chamadas).toContainEqual(['eq', 'id', 'm1']);
+  });
+
+  it('reativar limpa `ate` e recomeça horarios_desde agora', async () => {
+    const agora = new Date(2026, 10, 23, 9, 0);
+    jest.useFakeTimers({ now: agora });
+    const { q, chamadas } = consulta({});
+    from.mockReturnValue(q);
+    await alternarAtiva('m1', true);
+    expect(chamadas).toContainEqual(['update', { ativa: true, ate: null, horarios_desde: agora.toISOString() }]);
+  });
 });

@@ -84,6 +84,35 @@ describe('classificarDoses', () => {
   });
 });
 
+describe('classificarDoses — bordas (R-T3-a)', () => {
+  it('"Não tomei" seguido de "Tomei de novo" na mesma dose → tomou', () => {
+    const d = um([
+      t('2026-11-20', '08:00', { tomou: false, quantidade: null }),
+      t('2026-11-20', '08:00', { marcadoEm: new Date('2026-11-20T08:30:00').toISOString() }),
+    ]);
+    expect(d.estado).toBe('tomou');
+    expect(d.tomadas).toHaveLength(2);
+  });
+
+  it('com atraso se soma a errado', () => {
+    const d = um([t('2026-11-20', '08:00', { quantidade: 2, marcadoEm: new Date('2026-11-20T11:00:00').toISOString() })]);
+    expect(d).toMatchObject({ estado: 'errado', comAtraso: true });
+  });
+
+  it('dose no instante exato de horariosDesde conta', () => {
+    const mm = { ...m, horariosDesde: new Date('2026-11-20T08:00:00').toISOString() };
+    expect(classificarDoses(mm, [], '2026-11-20', '2026-11-20', agora).map((d) => d.hora)).toEqual(['08:00', '20:00']);
+    const depois = { ...m, horariosDesde: new Date('2026-11-20T08:00:01').toISOString() };
+    expect(classificarDoses(depois, [], '2026-11-20', '2026-11-20', agora).map((d) => d.hora)).toEqual(['20:00']);
+  });
+
+  it('"se precisar" ainda mostra as doses marcadas de quando tinha horário', () => {
+    const virou = { ...m, sePrecisar: true, horarios: [] };
+    const doses = classificarDoses(virou, [t('2026-11-18', '08:00'), t('2026-11-18', '15:00', { dataPrevista: null, horaPrevista: null })], '2026-11-16', '2026-11-22', agora);
+    expect(doses.map((d) => `${d.data} ${d.hora} ${d.estado}`)).toEqual(['2026-11-18 08:00 tomou']);
+  });
+});
+
 describe('podeMarcar', () => {
   it('hoje e ontem sim; anteontem e amanhã não', () => {
     expect(podeMarcar('2026-11-23', agora)).toBe(true);
@@ -132,6 +161,25 @@ describe('resumirAdesao', () => {
     const r = resumirAdesao([metformina], semMarca, '2026-11-16', '2026-11-22', new Date('2026-11-22T21:00:00'));
     expect(r[0]).toMatchObject({ previstas: 5, tomou: 5, semRegistro: 0, percentual: 100 });
     expect(r[0].doses.filter((d) => d.estado === 'pendente')).toHaveLength(2);
+  });
+
+  it('usosSePrecisar só conta avulsas marcadas dentro da janela (dia local)', () => {
+    const fora = [
+      ...tomadas,
+      t('2026-11-15', '23:30', { medicacaoId: 'm3', dataPrevista: null, horaPrevista: null, quantidadePrevista: null }),
+      t('2026-11-23', '00:10', { medicacaoId: 'm3', dataPrevista: null, horaPrevista: null, quantidadePrevista: null }),
+    ];
+    const agora24 = new Date('2026-11-24T09:00:00');
+    expect(resumirAdesao([dipirona], fora, '2026-11-16', '2026-11-22', agora24)[0].usosSePrecisar).toBe(3);
+    expect(resumirAdesao([dipirona], fora, '2026-11-16', '2026-11-17', agora24)[0].usosSePrecisar).toBe(1);
+    expect(resumirAdesao([dipirona], fora, '2026-11-19', '2026-11-20', agora24)).toEqual([]);
+  });
+
+  it('avulsa de remédio com horário fixo não conta nem gera linha sozinha', () => {
+    const avulsa = t('2026-11-18', '15:00', { dataPrevista: null, horaPrevista: null });
+    const agora24 = new Date('2026-11-24T09:00:00');
+    expect(resumirAdesao([{ ...m, ate: '2026-11-01' }], [avulsa], '2026-11-16', '2026-11-22', agora24)).toEqual([]);
+    expect(resumirAdesao([m], [avulsa], '2026-11-16', '2026-11-22', agora24)[0].usosSePrecisar).toBe(0);
   });
 
   it('só pendentes → percentual null', () => {

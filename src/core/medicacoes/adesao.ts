@@ -29,7 +29,7 @@ export interface ResumoAdesao {
   comAtraso: number;
   /** Inteiro 0–100; null para "se precisar" ou sem dose prevista. */
   percentual: number | null;
-  /** Tomadas avulsas (sem data prevista) no período. */
+  /** Só remédio "se precisar": tomadas avulsas (sem data prevista) marcadas no período (dia local de marcadoEm). */
   usosSePrecisar: number;
   doses: DoseClassificada[];
 }
@@ -61,12 +61,12 @@ export function podeMarcar(data: string, agora: Date): boolean {
 
 /**
  * Classifica cada dose prevista do remédio entre `desde` e `ate` (inclusive).
- * - "Se precisar" não tem dose prevista.
+ * - "Se precisar" (ou sem horário) não gera dose pelo cadastro; as tomadas que já têm data/hora prevista
+ *   no período continuam aparecendo (histórico de quando o remédio tinha horário).
  * - Só conta dentro de desde/ate do remédio e, pelo cadastro, a partir de `horariosDesde`
  *   (antes disso só as doses que têm marca, com a quantidade copiada na tomada).
  */
 export function classificarDoses(m: Medicacao, tomadas: Tomada[], desde: string, ate: string, agora: Date): DoseClassificada[] {
-  if (m.sePrecisar) return [];
   const inicio = m.desde && m.desde > desde ? m.desde : desde;
   const fim = m.ate && m.ate < ate ? m.ate : ate;
   if (inicio > fim) return [];
@@ -78,7 +78,7 @@ export function classificarDoses(m: Medicacao, tomadas: Tomada[], desde: string,
 
   const chave = (data: string, hora: string) => `${data} ${hora}`;
   const slots = new Map<string, { data: string; hora: string }>();
-  for (let dia = inicio; dia <= fim; dia = somarDias(dia, 1)) {
+  for (let dia = inicio; !m.sePrecisar && dia <= fim; dia = somarDias(dia, 1)) {
     for (const h of m.horarios) {
       if (instanteLocal(dia, h.hora) >= inicioCadastro) slots.set(chave(dia, h.hora), { data: dia, hora: h.hora });
     }
@@ -106,14 +106,22 @@ export function classificarDoses(m: Medicacao, tomadas: Tomada[], desde: string,
 }
 
 /**
- * Resumo por remédio no período. Entra quem tem dose no período ou uso "se precisar".
- * `tomadas` já vêm do período (listarTomadas), inclusive as avulsas.
+ * Resumo por remédio no período. Entra quem tem dose no período ou, sendo "se precisar", uso no período.
+ * `usosSePrecisar` conta só remédio "se precisar" e só avulsas marcadas entre `desde` e `ate` (dia local de
+ * `marcadoEm`, o mesmo critério de listarTomadas): quem busca um período maior e resume janelas menores
+ * não infla a contagem. Uma avulsa de remédio com horário fixo não gera linha sozinha.
  */
 export function resumirAdesao(medicacoes: Medicacao[], tomadas: Tomada[], desde: string, ate: string, agora: Date): ResumoAdesao[] {
   const resumos: ResumoAdesao[] = [];
   for (const m of medicacoes) {
     const doses = classificarDoses(m, tomadas, desde, ate, agora);
-    const usosSePrecisar = tomadas.filter((x) => x.medicacaoId === m.id && x.tomou && x.dataPrevista === null).length;
+    const usosSePrecisar = m.sePrecisar
+      ? tomadas.filter((x) => {
+          if (x.medicacaoId !== m.id || !x.tomou || x.dataPrevista !== null) return false;
+          const dia = diaLocal(new Date(x.marcadoEm));
+          return dia >= desde && dia <= ate;
+        }).length
+      : 0;
     if (!doses.length && !usosSePrecisar) continue;
     const contar = (e: EstadoDose) => doses.filter((d) => d.estado === e).length;
     const tomou = contar('tomou');
