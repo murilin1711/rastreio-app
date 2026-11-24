@@ -951,6 +951,118 @@ Remédio com horário e lembrete desligado conta na adesão e aparece em "Para f
 30 min e cancelado ao marcar, "De ontem", quadro do check-in, interromper e reativar, e as 5 unidades em tela de
 320 pt.
 
+### D-067 — Relatório novo: painel na página 1, prévia no celular e página do QR — 23/11/2026
+**Por quê:** o médico tem poucos minutos na consulta e o PDF começava pelo detalhe, seção a seção. O Murilo quer
+que a primeira página diga logo o que importa, que o paciente veja o mesmo no celular antes de gerar, e que o QR
+abra o relatório inteiro na tela do médico (antes abria só o PDF).
+
+**Sem selos de cor e sem julgamento clínico novo (decisão do Murilo, 23/11):** a spec propunha selos
+verde/amarelo/vermelho nos cartões, na adesão e na prevenção (tabela §6.5, a validar pela Dra. Denise) e adesão
+< 80 % como gatilho de atenção. **Saiu tudo:** não há `selos.ts`, `VALIDACAO_SELOS` nem folha de revisão, e nenhum
+limite percentual. O relatório só **mostra** o que regras já aprovadas dizem; nenhum cálculo, meta ou regra nova.
+Os avisos do detalhe que já existiam antes (MRPA acima da referência, pendência) ficam: não são julgamento novo.
+
+**Três saídas, o mesmo conteúdo:**
+
+| Saída | Como é feita |
+|---|---|
+| PDF A4 | `htmlRelatorio` com o painel e **sem** `tela`: página 1 é o painel (quebra de página depois), cartões em 2 colunas, fontes em letra menor e em 2 colunas |
+| Prévia no app | `PainelRelatorioView` (componentes nativos, 1 coluna, gráfico em `SvgXml` com a largura da tela), depois as seções como antes; rodapé "Detalhes logo abaixo." |
+| Página do QR (`/r/`) | o mesmo HTML com `tela: true` (classe `tela` no `<html>`: corpo centralizado e espaçado só na tela; o PDF nunca recebe, para não depender do media type do expo-print), 1 coluna no celular |
+
+**Página 1 (painel), nesta ordem:** cabeçalho (nome e idade em destaque, sexo ao nascer, condições informadas,
+tabagismo, período, "Gerado em" e o QR no PDF) → "Para atenção nesta consulta" → cartões → gráfico da sistólica →
+"Remédios: últimas 2 semanas" → prevenção → rodapé "Detalhes nas páginas seguintes." com a ressalva curta
+(`RESSALVA_CURTA_PAINEL`). Bloco sem dado não aparece. Blocos por tipo (`montarPainel`, `painel.ts`), além do
+cabeçalho e da atenção: geral e consulta trazem cartões, gráfico, remédios e prevenção; cardio, cartões, gráfico e
+remédios; oncológico, só a prevenção (com próxima data e mensagem); bem-estar, só os cartões de peso e cintura. O filtro `apenas` do relatório cardio vale também para o painel, e na consulta só entram os cartões
+e a prevenção das seções da especialidade.
+
+**"Para atenção nesta consulta"** (caixa vermelha, só se houver algo, **no máximo 5 itens**), na ordem da hierarquia
+de segurança aprovada (§66, `regras/seguranca.ts`), em todo tipo de relatório:
+1. sintoma de alarme **aberto** (não resolvido): sempre e primeiro, sem filtro de período;
+2. pendência de rastreamento aberta;
+3. média da última **MRPA**, se o protocolo for válido, acima da referência domiciliar (C-010/C-011; a referência vem dos parâmetros,
+   130/80 se faltarem);
+4. pressão avulsa **só** se a C-010 já marcar: "PAS ≥ 180 e/ou PAD ≥ 110 mmHg" (a C-010 é e/ou);
+5. glicemias fora da meta (contagem, metas SBD já usadas);
+6. remédios, **só fatos** e só quando houver dose **não tomada ou errada** nas 2 semanas:
+   "Losartana: 2 doses não tomadas e 1 sem registro em 14 dias". "Sem registro" entra na frase, mas sozinho não
+   dispara o item (não é evidência de falta e lotaria os 5 lugares).
+
+Do 3 ao 6, só se a seção estiver no escopo do relatório. Medidas `excluida` (valores implausíveis) ficam fora do
+item da avulsa, do cartão, do gráfico e da seção de pressão.
+
+**Cartões:** valor, unidade, data e tendência (↑ ↓), com o mesmo formato numérico do detalhe; LDL e HbA1c com a
+referência do laboratório; risco com a categoria do PREVENT já existente; sem cor. O número de cada cartão sai da
+mesma fonte da seção do detalhe (o cardio não tem cartão de peso, porque não tem a seção). **Gráfico:** só a
+sistólica (a diastólica fica na tabela), avulsas válidas + média de cada dia de MRPA, a partir do início do período,
+com a linha tracejada da referência domiciliar (130 se faltar), sem cor por ponto, com `<title>`/`<desc>`.
+**Prevenção:** uma linha por programa aplicável, com o mesmo texto de situação do app, sem cor.
+
+**Remédios:** 2 semanas no painel e 4 no detalhe, contadas para trás a partir da data de geração (o dia vem sempre
+de `dataLocal(geradoEm)`). Uma linha por remédio ativo, na ordem do cadastro, inclusive o recém-cadastrado ("sem
+doses previstas no período"). Bolinhas por dose e a contagem "11 de 14" (ou "usou 2 vezes" no "se precisar"), sem
+selo. Símbolos `● tomou · ○ não tomou · ◆ errada · – sem registro`: no relatório a dose errada é **◆**, e não o ⚠ do
+app (D-066), porque o ⚠ é um caractere de emoji que sai diferente no expo-print e no iframe; o mapa fica em
+`@core/relatorios` (o core não importa `@modules/remedios`). No detalhe, a tabela das doses tem as colunas Data,
+Remédio, Previsto, **Marcado às** (a hora em que a pessoa marcou, não a hora em que tomou), Quantidade e Situação.
+
+**Detalhe:** mesma ordem de antes, **sem as seções vazias, também no foco** (revê a D-025, que mantinha no foco as
+seções sem registro); sem barras repetindo a tabela em pressão, água e atividade (a MRPA mantém as barras por dia);
+termos internos corrigidos ("medicacao" → "remédios", "bioimpedancia" → "bioimpedância"); títulos com os nomes da
+D-065 ("Relatório de pressão, coração e diabetes", "Relatório de exames de prevenção", "Relatório de hábitos e
+bem-estar", seção "Exames de prevenção aplicáveis"). Corpo a 9,5 pt e tabelas a 8 pt.
+
+**Tamanho:** o "Resumo completo" dos dados de teste tem **5 páginas** (painel 1, detalhe cerca de 3, fontes e
+ressalvas cerca de 1). A meta de 4 da spec saiu: chegar a ela exigiria cortar as fontes com link, que ficam nas três
+saídas por exigência da Apple (diretriz 1.4.1). As ressalvas `RESSALVA_CARDIO`, `RESSALVA_ONCOLOGICO` e
+`RESSALVA_HABITOS` não mudaram.
+
+**QR (compartilhamento), `compartilharQr.ts` e `linkQr.ts`:**
+- O QR abre `https://nerosaude.com.br/r/#c=<caminho do JSON>&t=<token>`: **só o caminho e o token**, e depois do
+  `#`, que o navegador não envia a servidor nenhum. O caminho e o token seguem regras estritas (`RE_CAMINHO_QR`,
+  `RE_TOKEN_QR`), as mesmas na página (um teste confere).
+- Cada compartilhamento sobe **dois arquivos** no bucket privado `relatorios`: o PDF e um `<nome>.json` ao lado, com
+  `{versao, titulo, geradoEm, expiraEm, html, pdfUrl}`. O token do link é o da URL assinada do **JSON**, e o JSON
+  leva a URL assinada do **PDF**. As duas valem **7 dias**. O JSON traz o HTML já montado e a página só o exibe
+  (a spec deixava o formato ao construtor).
+- Ordem: **primeiro a linha em `compartilhamentos`** com o caminho e `expira_em` (a validade é calculada antes de
+  assinar, então a mostrada nunca passa da real) → JSON provisório → URL do JSON → link → PDF com o QR desse link →
+  URL do PDF → JSON final. Em falha, apaga os arquivos e, se saíram, a linha (melhor esforço). Se o app morrer no
+  meio, a linha com prazo garante que `limparExpirados` apague os arquivos: nada fica no bucket sem prazo.
+- **Encerrar apaga os dois arquivos** (as URLs passam a dar erro) e marca `revogado_em`. Excluir a conta apaga a
+  pasta inteira (0014).
+- **Migração 0024:** o bucket `relatorios` passa a aceitar `application/json` além de PDF (teto de 10 MB da 0020).
+
+**Página `/r/`** (`scripts/site/r/`, gerada em `site/r/` por `npm run site`): lê o fragmento, apaga-o da barra de
+endereço (`replaceState`), busca o JSON **só** no Supabase do projeto (o host entra no build, nunca vem do link;
+`gerar-site.mjs` se recusa a gerar sem `https://<projeto>.supabase.co`), confere que `pdfUrl` é do mesmo bucket,
+host e relatório, e mostra o HTML num **iframe `sandbox` sem permissão de scripts** (`allow-same-origin allow-popups
+allow-popups-to-escape-sandbox`, para medir a altura e abrir os links em aba nova) com o botão "Baixar PDF". CSP
+`default-src 'none'` (só o próprio script e o Supabase), `noindex`, `no-referrer`, nenhum script de terceiros, nada
+guardado no navegador. Revogado, vencido, provisório ou link estranho: "Este relatório não está mais disponível."
+Recarregar a página perde o link (o fragmento foi apagado): o médico lê o QR de novo (aceito). O link pode ficar no
+histórico e no autocompletar do navegador de quem leu: a proteção real é o prazo e o encerramento.
+
+**Ordem de lançamento:** migrações 0023 e 0024 no Supabase remoto e `npm run site:publicar` (página `/r/` e
+política) **antes** do build; sem isso, o QR do app novo aponta para uma página que não existe e o upload do JSON é
+recusado. Roteiro em `docs/nero/checklists/publicacao.md`.
+
+**Risco que já existia (não resolvido aqui):** os arquivos vencidos só são apagados quando o app abre "Levar ao
+médico" (`limparExpirados`). Depois de 7 dias ninguém os abre pelo link, mas continuam no Storage até lá. Sugestão:
+um job no servidor (pg_cron) que apague os vencidos, no projeto 4.
+
+**Fontes:** spec `docs/superpowers/specs/2026-11-23-pdf-novo-design.md` (§0 vale sobre o resto); plano
+`docs/superpowers/plans/2026-11-23-nero-relatorio-novo.md`. Arquivos principais: `src/core/relatorios/painel.ts`,
+`adesaoRelatorio.ts`, `grafico.ts`, `html.ts`, `montar.ts`, `linkQr.ts`, `compartilharQr.ts`;
+`src/modules/minha-saude/componentes/PainelRelatorioView.tsx`; `scripts/site/r/`;
+`supabase/migrations/0024_relatorios_json.sql`. Política de privacidade, seções 3, 6 e 8.
+
+**Falta ver no aparelho:** prévia num iPhone SE (gráfico sem corte), PDF do expo-print no iOS e no Android (a
+paginação foi medida no Chrome), QR impresso lido por câmera de iPhone e de Android, página `/r/` no Safari do iOS
+(iframe com `srcdoc` e a CSP, altura, "Baixar PDF" e links abrindo em aba nova) e QR encerrado.
+
 ---
 
 ## Decisões clínicas (protocolos adotados)

@@ -27,6 +27,10 @@ fragmento da barra de endereço, busca o JSON assinado **só** no Supabase do pr
 sem permissão de rodar código, com o botão "Baixar PDF". Revogado, vencido ou ainda em preparo: "Este relatório não
 está mais disponível." Não guarda nada no navegador, tem `noindex` e CSP restritiva, sem scripts de terceiros.
 
+Apagar o fragmento **não** faz o link sumir por completo: o navegador de quem leu o QR pode tê-lo guardado no
+histórico e no autocompletar. A proteção real é o prazo de 7 dias da URL assinada e o encerramento pelo app (que
+apaga o PDF e o JSON). Recarregar a página depois de aberta mostra "não está mais disponível": basta ler o QR de novo.
+
 O endereço do Supabase entra no build: `gerar-site.mjs` lê `EXPO_PUBLIC_SUPABASE_URL` (ambiente, `.env.local` ou
 `.env`) e **se recusa a gerar** se não for `https://<projeto>.supabase.co` — assim o Supabase local nunca vai ao ar.
 

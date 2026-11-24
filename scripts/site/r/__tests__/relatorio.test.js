@@ -46,8 +46,9 @@ test('página sem rastros: noindex, sem scripts de fora, sem armazenamento, ifra
   expect(html).not.toMatch(/<script[^>]+src="https?:/);
   expect(html.match(/<script\b[^>]*>/g)).toEqual(['<script type="module" src="relatorio.js" data-supabase="__SUPABASE_URL__">']);
   expect(js).not.toMatch(/localStorage|sessionStorage|indexedDB|document\.cookie/);
-  expect(js).toContain('sandbox');
+  expect(js).toContain("'allow-same-origin allow-popups allow-popups-to-escape-sandbox'");
   expect(js).not.toContain('allow-scripts');
+  expect(js).not.toContain('__SUPABASE_URL__'); // o marcador só no index.html; no .js viraria o endereço num comentário
   expect(js).toContain('replaceState');
   expect(js).toContain('Este relatório não está mais disponível.');
 });

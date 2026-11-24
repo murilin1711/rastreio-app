@@ -4,7 +4,8 @@
  * Supabase do projeto (o endereço vem do build, nunca do link) e mostra o HTML pronto num iframe isolado, sem
  * permissão de rodar código. Nada é guardado no navegador.
  *
- * Sem dependências: gerado por scripts/gerar-site.mjs, que troca __SUPABASE_URL__ pelo endereço do projeto.
+ * Sem dependências: scripts/gerar-site.mjs copia este arquivo para site/r/ e põe o endereço do Supabase do projeto
+ * no index.html (atributo data-supabase da tag <script>).
  */
 
 /** As mesmas regras de src/core/relatorios/linkQr.ts (RE_CAMINHO_QR, RE_TOKEN_QR); um teste confere que coincidem. */
@@ -100,7 +101,8 @@ function mostrarRelatorio(doc, win, corpo) {
 /** Liga a página: lê e apaga o fragmento, busca o JSON e mostra o relatório ou o aviso. */
 export async function iniciar(doc, win, supabaseUrl) {
   const partes = lerHash(win.location.hash);
-  // O fragmento sai da barra de endereço e do histórico (o celular pode ser compartilhado).
+  // O fragmento sai da barra de endereço e desta entrada do histórico da aba. O navegador pode ter guardado o link
+  // inteiro no histórico global e no autocompletar: a proteção real é o prazo de 7 dias e o encerramento pelo app.
   if (win.location.hash) win.history.replaceState(null, '', win.location.pathname + win.location.search);
   if (!partes) { mostrarIndisponivel(doc); return; }
 
