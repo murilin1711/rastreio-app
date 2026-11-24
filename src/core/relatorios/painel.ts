@@ -1,5 +1,6 @@
 import type { ExameCardio } from '@core/cardio/mapeamento';
-import { calcularIdade, calcularIMC } from '@core/perfil/calculos';
+import { fmtNum } from '@core/cardio/formato';
+import { calcularIdade } from '@core/perfil/calculos';
 import { PROGRAMAS, ROTULO_PROGRAMA } from '@core/rastreando/tipos';
 import { resumoGlicemia } from '@core/regras/cardio/glicemia';
 import { avaliarMedidaCasual } from '@core/regras/cardio/pressao';
@@ -7,6 +8,7 @@ import { DIAS_ADESAO_PAINEL, linhasAdesao } from './adesaoRelatorio';
 import { dataLocal } from './datas';
 import { PRIORIDADES, SECOES_BEMESTAR, SECOES_CARDIO, SECOES_GERAL, SECOES_ONCOLOGICO, SEMPRE_PRESENTE } from './especialidades';
 import { ROTULO_CATEGORIA_RISCO, ROTULO_STATUS, condicoesInformadas, dataBr, num, textoTabagismo } from './montar';
+import type { Programa } from '@core/regras/tipos';
 import type { CabecalhoPainel, CartaoNumero, ChaveSecao, DadosNero, Especialidade, EstadoDosePainel, LinhaAdesao, PainelRelatorio, Periodo, PontoPressao, ProgramaPainel, TipoCartao, TipoRelatorio } from './tipos';
 
 /** Opções do painel (página 1, D-067). Sem selos de cor (Ruling S0). `apenas` = mesmo filtro do relatório cardio. */
@@ -112,7 +114,8 @@ export function itensAtencao(d: DadosNero, escopo: ChaveSecao[], periodo: Period
 /** Cartões candidatos por tipo, nesta ordem (spec §6.1, tabela de blocos). */
 const CARTOES_POR_TIPO: Record<TipoRelatorio, TipoCartao[]> = {
   geral: ['pressao', 'hba1c', 'ldl', 'risco', 'glicemia', 'peso', 'cintura'],
-  cardio: ['pressao', 'hba1c', 'ldl', 'risco', 'glicemia', 'peso'],
+  // Sem peso: SECOES_CARDIO não tem `peso` nem `corpo`, e o número do cartão tem de estar no detalhe (R3-T5-b).
+  cardio: ['pressao', 'hba1c', 'ldl', 'risco', 'glicemia'],
   oncologico: [],
   bemestar: ['peso', 'cintura'],
   consulta: ['pressao', 'hba1c', 'ldl', 'risco', 'glicemia', 'peso', 'cintura'],
@@ -125,6 +128,12 @@ const SECOES_DO_CARTAO: Record<TipoCartao, ChaveSecao[]> = {
 
 /** Seções de rastreamento: com alguma delas no escopo, o painel traz a prevenção. */
 const SECOES_PREVENCAO: ChaveSecao[] = ['rastreamentos_status', 'mama', 'colo', 'colorretal', 'pulmao', 'prostata'];
+
+/** Seção de cada programa (a mesma dos construtores de montar.ts). `rastreamentos_status` no escopo traz todos. */
+const SECAO_DO_PROGRAMA: Record<Programa, ChaveSecao> = { mama: 'mama', colo_utero: 'colo', colorretal: 'colorretal', pulmao: 'pulmao', prostata: 'prostata' };
+
+/** Medidas avulsas que contam: fora de sessão MRPA e não excluídas (mesmo filtro da seção `pa` e de "Para atenção"). */
+export const avulsasValidas = (d: DadosNero) => d.medidasPA.filter((m) => !m.sessaoId && !m.contexto.excluida);
 
 const diaDe = (iso: string) => (iso.length > 10 ? dataLocal(new Date(iso)) : iso);
 const tendencia = (atual: number, anterior: number | null | undefined): CartaoNumero['tendencia'] =>
@@ -141,7 +150,7 @@ function cartaoPressao(d: DadosNero): CartaoNumero | null {
     };
   }
   // Mesmas medidas e mesma média da seção "Pressão arterial: medidas avulsas" do detalhe.
-  const ms = d.medidasPA.filter((m) => !m.sessaoId).sort((a, b) => a.medidoEm.localeCompare(b.medidoEm));
+  const ms = avulsasValidas(d).sort((a, b) => a.medidoEm.localeCompare(b.medidoEm));
   if (!ms.length) return null;
   const media = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
   return {
@@ -157,7 +166,7 @@ function cartaoExame(d: DadosNero, tipo: 'hba1c' | 'ldl', titulo: string): Carta
   const r = exames[0].resultado;
   const temRef = r.referenciaMin != null || r.referenciaMax != null;
   return {
-    tipo, titulo, valor: num(r.valor, Number.isInteger(r.valor) ? 0 : 1), unidade: r.unidade ?? '', data: dataBr(exames[0].dataRealizacao),
+    tipo, titulo, valor: fmtNum(r.valor), unidade: r.unidade ?? '', data: dataBr(exames[0].dataRealizacao),
     detalhe: temRef ? `referência do laboratório: ${r.referenciaMin != null ? num(r.referenciaMin, 1) : '—'} a ${r.referenciaMax != null ? num(r.referenciaMax, 1) : '—'}` : null,
     tendencia: tendencia(r.valor, exames[1]?.resultado.valor),
   };
@@ -166,7 +175,7 @@ function cartaoExame(d: DadosNero, tipo: 'hba1c' | 'ldl', titulo: string): Carta
 function cartaoRisco(d: DadosNero): CartaoNumero | null {
   const r = d.riscos[0];
   if (!r) return null;
-  return { tipo: 'risco', titulo: 'Risco cardiovascular em 10 anos (PREVENT)', valor: num(r.ascvd10, 1), unidade: '%', data: dataBr(diaDe(r.calculadoEm)), detalhe: `categoria ${ROTULO_CATEGORIA_RISCO[r.categoria]}`, tendencia: null };
+  return { tipo: 'risco', titulo: 'Risco cardiovascular em 10 anos (PREVENT)', valor: num(r.ascvd10, 1), unidade: '%', data: dataBr(r.calculadoEm), detalhe: `categoria ${ROTULO_CATEGORIA_RISCO[r.categoria]}`, tendencia: null };
 }
 
 function cartaoGlicemia(d: DadosNero): CartaoNumero | null {
@@ -176,24 +185,32 @@ function cartaoGlicemia(d: DadosNero): CartaoNumero | null {
   return { tipo: 'glicemia', titulo: 'Glicemia capilar', valor: num(r.media), unidade: 'mg/dL', data: dataBr(diaDe(ultima.medidoEm)), detalhe: `${r.n} ${r.n === 1 ? 'medida' : 'medidas'} no período`, tendencia: null };
 }
 
-const medidasCorporais = (d: DadosNero, tipo: 'peso' | 'cintura', campo: 'kg' | 'cm') =>
-  (d.bemEstar?.corporais ?? []).filter((m) => m.tipo === tipo && m.valores[campo] != null).sort((a, b) => b.medidoEm.localeCompare(a.medidoEm));
+/**
+ * Medidas corporais com a mesma fonte e as mesmas condições da seção `corpo` do detalhe: sem bem-estar ou sem
+ * parâmetros a seção sai vazia, e então não há cartão (R3-T5-b).
+ */
+function medidasCorporais(d: DadosNero, tipo: 'peso' | 'cintura', campo: 'kg' | 'cm') {
+  const be = d.bemEstar;
+  if (!be || !be.parametros) return [];
+  return be.corporais.filter((m) => m.tipo === tipo && m.valores[campo] != null).sort((a, b) => b.medidoEm.localeCompare(a.medidoEm));
+}
 
 function cartaoPeso(d: DadosNero): CartaoNumero | null {
   const pesos = medidasCorporais(d, 'peso', 'kg');
-  const atual = pesos.length ? { kg: pesos[0].valores.kg!, data: pesos[0].medidoEm } : d.peso;
-  if (!atual) return null;
-  const altura = d.bemEstar?.alturaCm ?? d.perfil.alturaCm;
+  const ultimo = pesos[0];
+  if (!ultimo) return null;
+  const kg = ultimo.valores.kg!;
+  const altura = d.bemEstar!.alturaCm;
   return {
-    tipo: 'peso', titulo: 'Peso e IMC', valor: num(atual.kg, 1), unidade: 'kg', data: dataBr(diaDe(atual.data)),
-    detalhe: altura ? `IMC ${num(calcularIMC(atual.kg, altura), 1)}` : null, tendencia: pesos.length ? tendencia(atual.kg, pesos[1]?.valores.kg) : null,
+    tipo: 'peso', titulo: 'Peso e IMC', valor: num(kg, 1), unidade: 'kg', data: dataBr(ultimo.medidoEm),
+    detalhe: altura ? `IMC ${num(kg / (altura / 100) ** 2, 1)}` : null, tendencia: tendencia(kg, pesos[1]?.valores.kg),
   };
 }
 
 function cartaoCintura(d: DadosNero): CartaoNumero | null {
   const c = medidasCorporais(d, 'cintura', 'cm')[0];
   if (!c) return null;
-  return { tipo: 'cintura', titulo: 'Circunferência abdominal', valor: num(c.valores.cm, 0), unidade: 'cm', data: dataBr(diaDe(c.medidoEm)), detalhe: null, tendencia: null };
+  return { tipo: 'cintura', titulo: 'Circunferência abdominal', valor: num(c.valores.cm, 0), unidade: 'cm', data: dataBr(c.medidoEm), detalhe: null, tendencia: null };
 }
 
 const CONSTRUTOR_CARTAO: Record<TipoCartao, (d: DadosNero) => CartaoNumero | null> = {
@@ -214,18 +231,25 @@ export function cartoesDoPainel(d: DadosNero, tipo: TipoRelatorio, escopo: Chave
     .filter((c): c is CartaoNumero => c !== null);
 }
 
-/** Sistólica do período: medidas avulsas + média de cada dia das sessões MRPA, por data crescente. Sem cor por ponto (C-010). */
-export function seriePressao(d: DadosNero): PontoPressao[] {
-  const avulsas = d.medidasPA.filter((m) => !m.sessaoId).map((m) => ({ data: diaDe(m.medidoEm), pas: m.pas }));
+/**
+ * Sistólica do período: medidas avulsas válidas + média de cada dia das sessões MRPA, por data crescente, a partir
+ * de `periodo.desde` (dia de MRPA antiga não estica o eixo). Sem cor por ponto (C-010).
+ */
+export function seriePressao(d: DadosNero, periodo: Periodo): PontoPressao[] {
+  const avulsas = avulsasValidas(d).map((m) => ({ data: diaDe(m.medidoEm), pas: m.pas }));
   const dias = d.sessoesMrpa.flatMap((s) => (s.resultado?.medias.porDia ?? []).filter((x) => x.total).map((x) => ({ data: x.data, pas: x.total!.pas })));
-  return [...avulsas, ...dias].sort((a, b) => a.data.localeCompare(b.data));
+  return [...avulsas, ...dias].filter((x) => x.data >= periodo.desde).sort((a, b) => a.data.localeCompare(b.data));
 }
 
-/** Um item por programa avaliado e aplicável, com o mesmo texto de situação do app (sem cor, Ruling S0). */
-export function prevencaoDoPainel(d: DadosNero): ProgramaPainel[] {
+/**
+ * Um item por programa avaliado e aplicável, com o mesmo texto de situação do app (sem cor, Ruling S0). Só os
+ * programas do escopo: `rastreamentos_status` traz todos; senão, os que têm a seção (ex.: mastologia → mama).
+ */
+export function prevencaoDoPainel(d: DadosNero, escopo: ChaveSecao[]): ProgramaPainel[] {
+  const todos = escopo.includes('rastreamentos_status');
   return PROGRAMAS.flatMap((programa) => {
     const av = d.avaliacoes[programa];
-    if (!av || av.naoAplicavel) return [];
+    if (!av || av.naoAplicavel || (!todos && !escopo.includes(SECAO_DO_PROGRAMA[programa]))) return [];
     return [{ programa, rotulo: ROTULO_PROGRAMA[programa], situacao: ROTULO_STATUS[av.status] ?? av.status, proximaData: av.proximaData ?? null, mensagem: av.mensagem }];
   });
 }
@@ -247,7 +271,7 @@ export function montarPainel(d: DadosNero, o: OpcoesPainel): PainelRelatorio {
   const comMedidas = o.tipo === 'geral' || o.tipo === 'cardio' || o.tipo === 'consulta';
   const adesao = comMedidas ? linhasAdesao(d) : null;
   const filtrar = o.tipo === 'consulta' || (o.tipo === 'cardio' && !!o.apenas);
-  const serie = comMedidas && (escopo.includes('pa') || escopo.includes('mrpa')) ? seriePressao(d) : [];
+  const serie = comMedidas && (escopo.includes('pa') || escopo.includes('mrpa')) ? seriePressao(d, o.periodo) : [];
   const comPrevencao = o.tipo === 'geral' || o.tipo === 'oncologico' || (o.tipo === 'consulta' && SECOES_PREVENCAO.some((s) => escopo.includes(s)));
   return {
     cabecalho: cabecalhoDoPainel(d),
@@ -256,7 +280,7 @@ export function montarPainel(d: DadosNero, o: OpcoesPainel): PainelRelatorio {
     seriePressao: serie.length >= 2 ? serie : null,
     referenciaSistolica: d.parametrosPressao?.referenciaDomiciliar.pas ?? 130,
     adesao,
-    prevencao: comPrevencao ? prevencaoDoPainel(d) : null,
+    prevencao: comPrevencao ? prevencaoDoPainel(d, escopo) : null,
     prevencaoDetalhada: o.tipo === 'oncologico',
   };
 }

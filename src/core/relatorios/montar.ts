@@ -190,7 +190,7 @@ const CONSTRUTORES: Record<ChaveSecao, Construtor> = {
   },
   perfil: (d) => {
     const p = d.perfil;
-    const idade = p.dataNascimento ? `${calcularIdade(p.dataNascimento)} anos` : 'idade não informada';
+    const idade = p.dataNascimento ? `${calcularIdade(p.dataNascimento, new Date(d.geradoEm))} anos` : 'idade não informada';
     const condicoes = condicoesInformadas(p);
     const itens = [
       `${p.nome || 'Paciente'} · ${idade} · sexo ao nascer: ${p.sexoNascimento ?? 'não informado'}`,
@@ -208,7 +208,7 @@ const CONSTRUTORES: Record<ChaveSecao, Construtor> = {
   },
   documentos: (d) => ({ chave: 'documentos', titulo: 'Documentos anexados no período', blocos: d.documentos.length ? [{ tipo: 'lista', itens: d.documentos.map((x) => `${x.nome} · ${ROTULO_TIPO_DOCUMENTO[x.tipo]} · ${dataBr(x.dataDocumento ?? x.criadoEm)}`) }] : vazio() }),
   pa: (d) => {
-    const ms = d.medidasPA.filter((m) => !m.sessaoId).sort((a, b) => a.medidoEm.localeCompare(b.medidoEm));
+    const ms = d.medidasPA.filter((m) => !m.sessaoId && !m.contexto.excluida).sort((a, b) => a.medidoEm.localeCompare(b.medidoEm));
     if (!ms.length) return { chave: 'pa', titulo: 'Pressão arterial: medidas avulsas', blocos: vazio() };
     const mPas = media(ms.map((m) => m.pas))!; const mPad = media(ms.map((m) => m.pad))!;
     return { chave: 'pa', titulo: 'Pressão arterial: medidas avulsas', blocos: [

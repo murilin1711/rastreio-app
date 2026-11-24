@@ -1,6 +1,6 @@
 import { DIAS_ADESAO_PAINEL, linhasAdesao } from '../adesaoRelatorio';
 import { SECOES_BEMESTAR, SECOES_CARDIO, SECOES_GERAL, SECOES_ONCOLOGICO } from '../especialidades';
-import { condicoesInformadas, textoTabagismo } from '../montar';
+import { condicoesInformadas, montarBemEstar, montarCardio, montarGeral, textoTabagismo } from '../montar';
 import { LIMITE_ATENCAO, cartoesDoPainel, escopoDoRelatorio, itensAtencao, montarPainel, prevencaoDoPainel, seriePressao, type OpcoesPainel } from '../painel';
 import type { LinhaAdesao } from '../tipos';
 import { PERIODO_TESTE, dadosNeroTeste } from './fixtures';
@@ -201,15 +201,55 @@ test('pressão: tendência pela sessão MRPA anterior; sem MRPA, média das avul
   d.sessoesMrpa = [];
   expect(montarPainel(d, { tipo: 'cardio', periodo: PERIODO_TESTE }).cartoes[0]).toEqual({ tipo: 'pressao', titulo: 'Pressão arterial (média das medidas avulsas)', valor: '130/83', unidade: 'mmHg', data: '06/09/2026', detalhe: '6 medidas', tendencia: null });
 });
-test('peso sem bem-estar vem de d.peso, com IMC pela altura do perfil', () => {
+test('peso e cintura vêm da mesma fonte da seção corpo: sem bem-estar não há cartão (d.peso não entra)', () => {
   const d = dadosNeroTeste();
   d.bemEstar = undefined;
-  const c = cartoesDoPainel(d, 'bemestar', escopoDoRelatorio({ tipo: 'bemestar' }), false);
-  expect(c).toEqual([{ tipo: 'peso', titulo: 'Peso e IMC', valor: '72,5', unidade: 'kg', data: '01/09/2026', detalhe: 'IMC 26,6', tendencia: null }]);
+  expect(cartoesDoPainel(d, 'bemestar', escopoDoRelatorio({ tipo: 'bemestar' }), false)).toEqual([]);
+  const e = dadosNeroTeste();
+  e.bemEstar!.alturaCm = null;
+  expect(cartoesDoPainel(e, 'bemestar', escopoDoRelatorio({ tipo: 'bemestar' }), false)[0]).toMatchObject({ valor: '82,0', detalhe: null });
+});
+test('número do cartão = número do detalhe: peso, IMC e cintura batem com a seção corpo', () => {
+  const d = dadosNeroTeste();
+  const corpo = JSON.stringify(montarBemEstar(d, PERIODO_TESTE).find((x) => x.chave === 'corpo'));
+  const [peso, cintura] = cartoesDoPainel(d, 'bemestar', escopoDoRelatorio({ tipo: 'bemestar' }), false);
+  expect(corpo).toContain(`Peso atual ${peso.valor} kg (${peso.data}) · ${peso.detalhe}`);
+  expect(corpo).toContain(`Circunferência abdominal ${cintura.valor} cm (${cintura.data})`);
+});
+test('HbA1c e LDL com o mesmo formato do detalhe (fmtNum)', () => {
+  const d = dadosNeroTeste();
+  d.examesCardio = d.examesCardio.map((e) => (e.id === 'e5' ? { ...e, resultado: { ...e.resultado, valor: 6.85 } } : e));
+  const c = cartoesDoPainel(d, 'cardio', escopoDoRelatorio({ tipo: 'cardio' }), false);
+  expect(c.find((x) => x.tipo === 'hba1c')!.valor).toBe('6,85');
+  expect(JSON.stringify(montarCardio(d, PERIODO_TESTE).find((x) => x.chave === 'hba1c'))).toContain('6,85 %');
+});
+test('medida avulsa excluída fica fora do cartão, da seção pa e da série', () => {
+  const d = dadosNeroTeste();
+  d.sessoesMrpa = [];
+  d.medidasPA.push({ id: 'pa9', medidoEm: '2026-09-09T08:00:00.000Z', pas: 200, pad: 120, fc: 70, sessaoId: null, contexto: { excluida: true } });
+  const c = cartoesDoPainel(d, 'cardio', escopoDoRelatorio({ tipo: 'cardio' }), false)[0];
+  expect(c).toMatchObject({ valor: '130/83', detalhe: '6 medidas', data: '06/09/2026' });
+  const pa = JSON.stringify(montarCardio(d, PERIODO_TESTE).find((x) => x.chave === 'pa'));
+  expect(pa).toContain('6 medidas no período · média 130/83 mmHg');
+  expect(pa).not.toContain('200/120');
+  expect(seriePressao(d, PERIODO_TESTE).some((x) => x.pas === 200)).toBe(false);
+});
+test('série começa em periodo.desde: dia de MRPA antiga não entra', () => {
+  const d = dadosNeroTeste();
+  const s = d.sessoesMrpa[0];
+  d.sessoesMrpa.push({ ...s, id: 's0', inicio: '2026-03-01', resultado: { ...s.resultado!, medias: { ...s.resultado!.medias, porDia: [{ dia: 1, data: '2026-03-01', manha: null, noite: null, total: { pas: 150, pad: 90, n: 4 } }] } } });
+  const serie = seriePressao(d, PERIODO_TESTE);
+  expect(serie).toHaveLength(8);
+  expect(serie[0].data >= PERIODO_TESTE.desde).toBe(true);
+});
+test('idade da seção "Dados gerais" conta no dia da geração, como o cabeçalho', () => {
+  const d = dadosNeroTeste();
+  d.geradoEm = '2026-04-09T10:00:00';
+  expect(JSON.stringify(montarGeral(d, PERIODO_TESTE).find((x) => x.chave === 'perfil'))).toContain('Ana Souza · 50 anos');
 });
 test('blocos por tipo', () => {
   const p = (o: Partial<OpcoesPainel>) => montarPainel(dadosNeroTeste(), { tipo: 'geral', periodo: PERIODO_TESTE, ...o });
-  expect(p({ tipo: 'cardio' }).cartoes.map((x) => x.tipo)).toEqual(['pressao', 'hba1c', 'ldl', 'risco', 'glicemia', 'peso']);
+  expect(p({ tipo: 'cardio' }).cartoes.map((x) => x.tipo)).toEqual(['pressao', 'hba1c', 'ldl', 'risco', 'glicemia']);
   expect(p({ tipo: 'cardio' }).prevencao).toBeNull();
   expect(p({ tipo: 'cardio' }).seriePressao).toHaveLength(8);
   expect(p({ tipo: 'cardio', apenas: ['mrpa'] }).cartoes.map((x) => x.tipo)).toEqual(['pressao']);
@@ -219,13 +259,15 @@ test('blocos por tipo', () => {
   const bem = p({ tipo: 'bemestar' });
   expect([bem.cartoes.map((x) => x.tipo), bem.seriePressao, bem.adesao, bem.prevencao]).toEqual([['peso', 'cintura'], null, null, null]);
   const masto = p({ tipo: 'consulta', especialidade: 'mastologia' });
-  expect([masto.cartoes, masto.seriePressao, masto.adesao !== null, masto.prevencao !== null, masto.prevencaoDetalhada]).toEqual([[], null, true, true, false]);
+  expect([masto.cartoes, masto.seriePressao, masto.adesao !== null, masto.prevencao!.map((x) => x.programa), masto.prevencaoDetalhada]).toEqual([[], null, true, ['mama'], false]);
+  expect(p({ tipo: 'consulta', especialidade: 'gastro_coloprocto' }).prevencao!.map((x) => x.programa)).toEqual(['colorretal']);
+  expect(p({ tipo: 'consulta', especialidade: 'clinica_medica' }).prevencao!.map((x) => x.programa)).toEqual(['mama', 'colorretal']);
   const cardiologia = p({ tipo: 'consulta', especialidade: 'cardiologia' });
   expect([cardiologia.cartoes.map((x) => x.tipo), cardiologia.seriePressao !== null, cardiologia.prevencao]).toEqual([['pressao', 'hba1c', 'ldl', 'risco', 'glicemia', 'peso', 'cintura'], true, null]);
   expect(p({}).atencao).toEqual(itensAtencao(dadosNeroTeste(), escopoDoRelatorio({ tipo: 'geral' }), PERIODO_TESTE, linhasAdesao(dadosNeroTeste())));
 });
 test('série da sistólica junta avulsas e dias da MRPA, por data', () => {
-  const s = seriePressao(dadosNeroTeste());
+  const s = seriePressao(dadosNeroTeste(), PERIODO_TESTE);
   expect(s).toHaveLength(8);
   expect(s[0]).toEqual({ data: '2026-08-02', pas: 130 });
   expect(s.map((x) => x.data)).toEqual([...s.map((x) => x.data)].sort());
@@ -250,7 +292,7 @@ test('prevenção: texto de situação do app, sem cor; programa não aplicável
   ]);
   const d = dadosNeroTeste();
   d.avaliacoes.pulmao = { programa: 'pulmao', status: 'nao_indicado_no_momento', mensagem: 'x', regraId: 'r', regraVersao: '1', proximaData: null, naoAplicavel: true };
-  expect(prevencaoDoPainel(d).map((x) => x.programa)).toEqual(['mama', 'colorretal']);
+  expect(prevencaoDoPainel(d, escopoDoRelatorio({ tipo: 'geral' })).map((x) => x.programa)).toEqual(['mama', 'colorretal']);
 });
 test('conta sem dados: só o cabeçalho', () => {
   const d = dadosNeroTeste();
