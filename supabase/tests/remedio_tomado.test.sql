@@ -1,5 +1,5 @@
 begin;
-select plan(19);
+select plan(26);
 
 insert into auth.users (id, email) values
   ('00000000-0000-0000-0000-0000000000d1', 'd1@teste.dev'),
@@ -24,6 +24,23 @@ update public.medicacoes set quantidades = '{"08:00": 2}' where id = '00000000-0
 select is((select horarios_desde from public.medicacoes where id = '00000000-0000-0000-0000-00000000da01'), now(),
   'mudar quantidade marca horarios_desde');
 
+update public.medicacoes set horarios_desde = '2020-01-01' where id = '00000000-0000-0000-0000-00000000da01';
+update public.medicacoes set horarios = '["08:00", "20:00"]' where id = '00000000-0000-0000-0000-00000000da01';
+select is((select horarios_desde from public.medicacoes where id = '00000000-0000-0000-0000-00000000da01'), now(),
+  'mudar horários marca horarios_desde');
+
+update public.medicacoes set horarios = '[]' where id = '00000000-0000-0000-0000-00000000da02';
+update public.medicacoes set horarios = '["09:00"]' where id = '00000000-0000-0000-0000-00000000da02';
+update public.medicacoes set horarios = '[]' where id = '00000000-0000-0000-0000-00000000da02';
+select is((select horarios_desde from public.medicacoes where id = '00000000-0000-0000-0000-00000000da02'), null,
+  'tirar todos os horários limpa horarios_desde');
+
+select lives_ok($$insert into public.medicacoes (id, user_id, nome, horarios) values
+  ('00000000-0000-0000-0000-00000000da03', '00000000-0000-0000-0000-0000000000d1', 'Formato estranho', '"08:00"')$$,
+  'horarios que não é lista não quebra o gatilho');
+select is((select horarios_desde from public.medicacoes where id = '00000000-0000-0000-0000-00000000da03'), null,
+  'horarios que não é lista não marca horarios_desde');
+
 select is((select unidade from public.medicacoes where id = '00000000-0000-0000-0000-00000000da01'), 'comprimido',
   'unidade padrão é comprimido');
 select is(jsonb_typeof((select horarios->0 from public.medicacoes where id = '00000000-0000-0000-0000-00000000da01')), 'string',
@@ -33,6 +50,9 @@ select is(jsonb_typeof((select horarios->0 from public.medicacoes where id = '00
 select throws_ok($$insert into public.tomadas_medicacao (user_id, medicacao_id, data_prevista, hora_prevista, tomou, quantidade)
   values ('00000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-00000000da01', '2026-11-23', null, true, 1)$$,
   '23514', null, 'data sem hora é recusada');
+select throws_ok($$insert into public.tomadas_medicacao (user_id, medicacao_id, data_prevista, hora_prevista, tomou, quantidade)
+  values ('00000000-0000-0000-0000-0000000000d1', '00000000-0000-0000-0000-00000000da01', '2026-11-23', '24:00', true, 1)$$,
+  '23514', null, 'hora 24:00 é recusada');
 select throws_ok($$update public.medicacoes set unidade = 'colher' where id = '00000000-0000-0000-0000-00000000da01'$$,
   '23514', null, 'unidade fora da lista é recusada');
 
@@ -68,7 +88,8 @@ insert into public.medicacoes (id, user_id, nome, horarios, ativa) values
   ('00000000-0000-0000-0000-00000000db03', '00000000-0000-0000-0000-0000000000d2', 'Com horário', '["08:00", "20:00"]', true);
 update public.medicacoes set se_precisar = false, horarios_desde = null
   where id in ('00000000-0000-0000-0000-00000000db01', '00000000-0000-0000-0000-00000000db02', '00000000-0000-0000-0000-00000000db03');
-select public.remedio_tomado_preencher_existentes();
+select lives_ok('select public.remedio_tomado_preencher_existentes()',
+  'preenchimento não aborta com horarios que não é lista');
 
 select is((select se_precisar from public.medicacoes where id = '00000000-0000-0000-0000-00000000db01'), true,
   'existente ativo sem horário vira se precisar');
@@ -80,6 +101,11 @@ select isnt((select horarios_desde from public.medicacoes where id = '00000000-0
   'existente com horário ganha horarios_desde');
 select is((select quantidades from public.medicacoes where id = '00000000-0000-0000-0000-00000000db03'), '{}'::jsonb,
   'existente fica com quantidades vazio (1 por horário)');
+
+update public.medicacoes set horarios_desde = '2020-01-01' where id = '00000000-0000-0000-0000-00000000db03';
+select public.remedio_tomado_preencher_existentes();
+select is((select horarios_desde from public.medicacoes where id = '00000000-0000-0000-0000-00000000db03'), '2020-01-01'::timestamptz,
+  'rodar o preenchimento de novo não mexe em horarios_desde já preenchido');
 
 select * from finish();
 rollback;

@@ -17,15 +17,23 @@ alter table public.medicacoes add constraint medicacoes_id_user_key unique (id, 
 
 -- Dados existentes: remédio ativo sem horário passa a ser "se precisar"; quem tem horário começa a contar
 -- agora (quantidades fica {} = 1 por horário). Em função para o pgTAP conseguir exercitar o mesmo código;
--- roda uma vez aqui e não é chamável pelo app (execute só para o dono do banco).
+-- roda uma vez aqui e não é chamável pelo app (execute só para o dono do banco). Idempotente: só mexe em linhas
+-- ainda sem horarios_desde. Guarda de tipo: `horarios` que não seja lista não aborta a migração (o case garante
+-- que jsonb_array_length só roda em array; num AND o Postgres não promete a ordem de avaliação).
 create or replace function public.remedio_tomado_preencher_existentes()
 returns void
 language sql
 set search_path = ''
 as $$
-  update public.medicacoes set se_precisar = true where ativa and jsonb_array_length(horarios) = 0;
-  update public.medicacoes set horarios_desde = now() where jsonb_array_length(horarios) > 0;
+  update public.medicacoes set se_precisar = true
+    where ativa and horarios_desde is null
+      and case when jsonb_typeof(horarios) = 'array' then jsonb_array_length(horarios) = 0 else false end;
+  update public.medicacoes set horarios_desde = now()
+    where horarios_desde is null
+      and case when jsonb_typeof(horarios) = 'array' then jsonb_array_length(horarios) > 0 else false end;
 $$;
+comment on function public.remedio_tomado_preencher_existentes() is
+  'Migração 0023 (D-066): preenche se_precisar e horarios_desde dos remédios cadastrados antes dela. Idempotente; não é para o app.';
 revoke execute on function public.remedio_tomado_preencher_existentes() from public, anon, authenticated, service_role;
 select public.remedio_tomado_preencher_existentes();
 
@@ -40,7 +48,12 @@ begin
   if tg_op = 'INSERT'
      or new.horarios is distinct from old.horarios
      or new.quantidades is distinct from old.quantidades then
-    new.horarios_desde := case when jsonb_array_length(new.horarios) > 0 then now() else null end;
+    -- guarda de tipo: `horarios` que não seja lista não pode quebrar o update do build antigo
+    new.horarios_desde := case
+      when jsonb_typeof(new.horarios) <> 'array' then null
+      when jsonb_array_length(new.horarios) > 0 then now()
+      else null
+    end;
   end if;
   return new;
 end;
@@ -55,7 +68,7 @@ create table public.tomadas_medicacao (
   user_id uuid not null references auth.users(id) on delete cascade,
   medicacao_id uuid not null,
   data_prevista date,
-  hora_prevista text check (hora_prevista ~ '^\d{2}:\d{2}$'),
+  hora_prevista text check (hora_prevista ~ '^([01][0-9]|2[0-3]):[0-5][0-9]$'),
   quantidade_prevista numeric check (quantidade_prevista is null or quantidade_prevista > 0),
   tomou boolean not null,
   quantidade numeric check (quantidade is null or quantidade > 0),
