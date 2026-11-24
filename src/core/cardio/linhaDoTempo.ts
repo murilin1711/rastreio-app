@@ -7,7 +7,8 @@ import * as sessoesRepo from './sessoesMrpa';
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
 
-export interface ItemLinhaDoTempo { data: string; tipo: 'exame' | 'pa' | 'glicemia' | 'risco' | 'mrpa' | 'peso'; titulo: string; valor: string }
+/** `id` só nos exames: o Histórico abre o exame direto (D-065). */
+export interface ItemLinhaDoTempo { data: string; tipo: 'exame' | 'pa' | 'glicemia' | 'risco' | 'mrpa' | 'peso'; titulo: string; valor: string; id?: string }
 export interface AnoLinhaDoTempo { ano: number; itens: ItemLinhaDoTempo[] }
 
 const MESES = ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'];
@@ -30,7 +31,7 @@ export async function montarLinhaDoTempo(userId: string): Promise<AnoLinhaDoTemp
   for (const e of exames) {
     const r = e.resultado;
     const valor = r.valor != null ? `${fmt(r.valor)} ${r.unidade ?? ''}`.trim() : r.agatston != null ? `${r.agatston} Agatston` : r.conclusao ? r.conclusao.slice(0, 60) : '';
-    itens.push({ data: e.dataRealizacao, tipo: 'exame', titulo: rotuloExame(e.tipo), valor });
+    itens.push({ data: e.dataRealizacao, tipo: 'exame', titulo: rotuloExame(e.tipo), valor, id: e.id });
   }
   const porMes = <T extends { medidoEm: string }>(lista: T[]) => {
     const m = new Map<string, T[]>();

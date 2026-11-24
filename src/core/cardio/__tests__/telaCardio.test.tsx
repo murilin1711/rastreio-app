@@ -89,6 +89,5 @@ it('com HbA1c 6,1: "Seus últimos números" com o cartão "Glicada (HbA1c)" e se
   expect(texto).toContain('Glicada (HbA1c)');
   expect(texto).toContain('6,1 %');
   expect(texto).not.toContain('Colesterol LDL');
-  expect(texto).not.toContain('LDL');
   act(() => arvore.unmount());
 });

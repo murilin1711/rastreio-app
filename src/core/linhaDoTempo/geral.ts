@@ -2,7 +2,7 @@ import { listarAtividades } from '@core/bemestar/atividades';
 import { listarCheckins } from '@core/bemestar/checkins';
 import { listarCorporais } from '@core/bemestar/medidasCorporais';
 import { listarSono } from '@core/bemestar/sono';
-import { montarLinhaDoTempo } from '@core/cardio/linhaDoTempo';
+import { montarLinhaDoTempo, type ItemLinhaDoTempo } from '@core/cardio/linhaDoTempo';
 import * as documentos from '@core/documentos/repositorio';
 import { ROTULO_TIPO_DOCUMENTO } from '@core/documentos/tipos';
 import { listarConsultas } from '@core/lembretes/consultas';
@@ -15,11 +15,20 @@ import { formatarHm } from '@core/regras/bemestar/sono';
 import { rotuloEspecialidade } from '@core/relatorios/especialidades';
 import { agruparPorAno, itensBemEstar, type AnoGeral, type ItemGeral } from './agrupar';
 
+/**
+ * Exame abre a própria tela (rota de módulo: empilha sobre a aba e a seta volta para quem abriu). Sem id,
+ * a lista única de Minha Saúde. Nunca `/(app)/coracao/exames`: esse redirecionamento fixa a volta no módulo (D-065).
+ */
+export function rotaCardio(i: ItemLinhaDoTempo): string {
+  if (i.tipo !== 'exame') return '/(app)/coracao';
+  return i.id ? `/(app)/coracao/exames/${i.id}` : '/(app)/(tabs)/minha-saude/exames';
+}
+
 /** Linha do tempo geral (§60): cardio (já agregada) + exames do Rastreando + medicações + consultas passadas + documentos avulsos. */
 export async function montarLinhaDoTempoGeral(userId: string): Promise<AnoGeral[]> {
   const [cardio, ctx, medicacoes, consultas, docs, corporais, sonos, atividades, checkins] = await Promise.all([montarLinhaDoTempo(userId), montarContexto(userId), listarMedicacoes(userId), listarConsultas(userId), documentos.listar(userId), listarCorporais(userId), listarSono(userId), listarAtividades(userId), listarCheckins(userId)]);
   const itens: ItemGeral[] = [];
-  for (const a of cardio) for (const i of a.itens) itens.push({ data: i.data, modulo: 'cardio', titulo: i.titulo, valor: i.valor, rota: i.tipo === 'exame' ? '/(app)/coracao/exames' : '/(app)/coracao' });
+  for (const a of cardio) for (const i of a.itens) itens.push({ data: i.data, modulo: 'cardio', titulo: i.titulo, valor: i.valor, rota: rotaCardio(i) });
   for (const e of ctx.exames) itens.push({ data: e.dataRealizacao, modulo: 'rastreando', titulo: `${ROTULO_EXAME[e.tipo as TipoExameRastreamento] ?? e.tipo} · ${ROTULO_PROGRAMA[e.programa]}`, valor: resumoResultado(e), nivel: e.nivelAlerta as ItemGeral['nivel'], rota: `/(app)/rastreando/${e.programa}/exames` });
   for (const m of medicacoes) {
     if (m.desde) itens.push({ data: m.desde, modulo: 'medicacao', titulo: `Início: ${m.nome}`, valor: m.dose ?? '', rota: '/(app)/(tabs)/minha-saude/medicamentos' });
