@@ -116,6 +116,7 @@ it('o QR leva a página do celular (htmlTela) e o PDF com o QR (html), com títu
   let arvore: any;
   await act(async () => { arvore = create(<Previa />); });
   await act(async () => { apertar(arvore, 'Mostrar QR para o médico'); });
+  expect(alerta.mock.calls[0][0]).toBe('Enviar o relatório para a nuvem?');
   const botoes = alerta.mock.calls[0][2] as { text: string; onPress?: () => Promise<void> }[];
   await act(async () => { await botoes.find((b) => b.text === 'Gerar código QR')!.onPress!(); });
   const [uid, tipo, esp, conteudo] = criarCompartilhamento.mock.calls[0];

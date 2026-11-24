@@ -16,11 +16,24 @@ export function caminhoJson(caminhoPdf: string): string {
   return caminhoPdf.replace(/\.pdf$/, '.json');
 }
 
-const URL_ASSINADA = /\/storage\/v1\/object\/sign\/relatorios\/([^?#]+)\?(?:[^#]*&)?token=([^&#]+)/;
+/** Regras do link, as mesmas na página `/r/` (Task 10): `c` = `<uuid do usuário>/<nome>.json`, `t` = token JWT. */
+export const RE_CAMINHO_QR = /^[0-9a-f-]{36}\/[a-z0-9-]+\.json$/;
+export const RE_TOKEN_QR = /^[A-Za-z0-9._-]+$/;
 
-/** Link da página a partir da URL assinada do JSON. Lança se a URL não for uma assinatura do bucket `relatorios`. */
-export function linkDaPagina(urlAssinadaJson: string): string {
+/** `c` e `t` do fragmento seguem o formato estrito (sem `..`, barras extras, `&` ou outros caracteres). */
+export function partesValidas(c: string, t: string): boolean {
+  return RE_CAMINHO_QR.test(c) && RE_TOKEN_QR.test(t);
+}
+
+const URL_ASSINADA = /\/storage\/v1\/object\/sign\/relatorios\/([^?#]+)\?token=([^#]*)$/;
+
+/**
+ * Link da página a partir da URL assinada do JSON. Lança se a URL não for uma assinatura do bucket `relatorios` no
+ * formato estrito, ou (com `caminhoEsperado`) se o caminho assinado não for o do JSON que acabou de subir.
+ */
+export function linkDaPagina(urlAssinadaJson: string, caminhoEsperado?: string): string {
   const m = URL_ASSINADA.exec(urlAssinadaJson);
-  if (!m) throw new Error('URL assinada do relatório inválida.');
+  if (!m || !partesValidas(m[1], m[2])) throw new Error('URL assinada do relatório inválida.');
+  if (caminhoEsperado !== undefined && m[1] !== caminhoEsperado) throw new Error('URL assinada de outro arquivo.');
   return `${ENDERECO_PAGINA_QR}#c=${m[1]}&t=${m[2]}`;
 }

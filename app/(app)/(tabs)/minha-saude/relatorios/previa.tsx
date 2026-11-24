@@ -54,7 +54,7 @@ export default function PreviaRelatorio() {
   };
 
   const mostrarQr = () => {
-    Alert.alert('Enviar o PDF para a nuvem?', TEXTO_QR.confirmacao, [
+    Alert.alert('Enviar o relatório para a nuvem?', TEXTO_QR.confirmacao, [
       { text: 'Cancelar', style: 'cancel' },
       { text: 'Gerar código QR', onPress: async () => {
         if (!sessao?.user.id) return;
