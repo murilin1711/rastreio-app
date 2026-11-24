@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View } from 'react-native';
 import type { ResumoAdesao } from '@core/medicacoes/adesao';
 import { Button, Card, Colors, Spacing, Typography } from '@ui/index';
 import { simboloDose, textoResumoAdesao } from './rotulos';
@@ -14,22 +14,34 @@ function nomeDaLinha(r: ResumoAdesao): string {
 /**
  * Quadro só de leitura do check-in semanal (spec §6.6): por remédio, o nome, a fileira de símbolos das doses
  * já fechadas e o resumo em texto. Só fatos, sem cor nem selo de "bom/ruim" (Ruling S0). Remédio com horário
- * sem nenhuma dose fechada no período fica de fora; sem linha nenhuma, o quadro não aparece. Com `erro`,
+ * sem nenhuma dose fechada no período fica de fora; sem linha nenhuma, o quadro não aparece. Enquanto `carregando`, título e indicador
+ * reservam o lugar. Com `erro`,
  * mostra a mensagem e "Tentar de novo" — nunca um quadro vazio que pareceria "nenhum remédio".
  */
 export function QuadroAdesao({
   resumos,
+  carregando = false,
   erro = null,
   aoTentarDeNovo,
 }: {
   resumos: ResumoAdesao[];
+  carregando?: boolean;
   erro?: string | null;
   aoTentarDeNovo?: () => void;
 }) {
+  if (carregando) {
+    // Reserva o lugar enquanto carrega (também no "Tentar de novo"): as perguntas não pulam de posição.
+    return (
+      <Card style={styles.card}>
+        <Text style={styles.titulo} accessibilityRole="header">{TITULO}</Text>
+        <ActivityIndicator color={Colors.primary} accessibilityLabel="Carregando seus remédios" />
+      </Card>
+    );
+  }
   if (erro) {
     return (
       <Card style={styles.card}>
-        <Text style={styles.titulo}>{TITULO}</Text>
+        <Text style={styles.titulo} accessibilityRole="header">{TITULO}</Text>
         <Text style={styles.texto}>{erro}</Text>
         {aoTentarDeNovo ? <Button label="Tentar de novo" variant="outline" onPress={aoTentarDeNovo} /> : null}
       </Card>

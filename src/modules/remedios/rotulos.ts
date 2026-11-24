@@ -30,13 +30,12 @@ const plural = (n: number, um: string, varios: string) => `${n} ${n === 1 ? um :
 
 /**
  * Resumo de um remédio no período (check-in semanal, spec §6.6), só com fatos: "12 de 14 · 1 não tomada ·
- * 1 sem registro"; "7 de 7 ✓" quando tomou todas; "usou 3 vezes" para "se precisar".
+ * 1 sem registro"; "7 de 7 ✓" quando tomou todas (com "· 2 com atraso" se houver: o fato não some); "usou 3 vezes" para "se precisar".
  */
 export function textoResumoAdesao(r: ResumoAdesao): string {
   if (r.sePrecisar) return `usou ${plural(r.usosSePrecisar, 'vez', 'vezes')}`;
   const base = `${r.tomou} de ${r.previstas}`;
-  if (r.previstas > 0 && r.tomou === r.previstas) return `${base} ✓`;
-  const partes = [base];
+  const partes = [r.previstas > 0 && r.tomou === r.previstas ? `${base} ✓` : base];
   if (r.naoTomou > 0) partes.push(plural(r.naoTomou, 'não tomada', 'não tomadas'));
   if (r.errado > 0) partes.push(plural(r.errado, 'errada', 'erradas'));
   if (r.semRegistro > 0) partes.push(`${r.semRegistro} sem registro`);

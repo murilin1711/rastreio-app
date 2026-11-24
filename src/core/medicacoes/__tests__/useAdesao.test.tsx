@@ -14,7 +14,8 @@ const remedio = (id: string, extra: Record<string, unknown> = {}) => ({
 let mockLista: any[] = [];
 let mockTomadas: any[] = [];
 let mockFalhar = false;
-const mockListarTomadas = jest.fn(async (..._a: any[]) => mockTomadas);
+let mockFalharTomadas = false;
+const mockListarTomadas = jest.fn(async (..._a: any[]) => { if (mockFalharTomadas) throw new Error('Network request failed'); return mockTomadas; });
 
 jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: { user: { id: 'u1' } } }) }));
 jest.mock('../repositorio', () => ({
@@ -34,13 +35,16 @@ beforeEach(() => {
     remedio('m1'),
     remedio('m2', { horarios: [], sePrecisar: true }),
     remedio('m3', { ativa: false, ate: null }), // interrompido sem data de fim: sem doses fantasmas
+    remedio('m4', { horarios: [], sePrecisar: true, ativa: false, ate: null }), // "se precisar" legado: mantém os usos
   ];
   mockTomadas = [
     { id: 't1', medicacaoId: 'm1', dataPrevista: '2026-11-16', horaPrevista: '08:00', quantidadePrevista: 1, tomou: true, quantidade: 1, marcadoEm: new Date('2026-11-16T08:05:00').toISOString() },
     { id: 't2', medicacaoId: 'm2', dataPrevista: null, horaPrevista: null, quantidadePrevista: null, tomou: true, quantidade: 1, marcadoEm: new Date('2026-11-18T15:00:00').toISOString() },
+    { id: 't3', medicacaoId: 'm4', dataPrevista: null, horaPrevista: null, quantidadePrevista: null, tomou: true, quantidade: 1, marcadoEm: new Date('2026-11-19T10:00:00').toISOString() },
   ];
   mockListarTomadas.mockClear();
   mockFalhar = false;
+  mockFalharTomadas = false;
 });
 afterEach(() => { act(() => arvore.unmount()); jest.useRealTimers(); });
 
@@ -52,6 +56,7 @@ it('busca as tomadas do período e resume por remédio', async () => {
   expect(api.resumos.map((r: any) => `${r.medicacaoId} ${r.tomou}/${r.previstas} usos ${r.usosSePrecisar}`)).toEqual([
     'm1 1/6 usos 0', // a dose de domingo (22) ainda pode ser marcada: pendente, fora da conta,
     'm2 0/0 usos 1',
+    'm4 0/0 usos 1',
   ]);
 });
 
@@ -65,7 +70,16 @@ it('falha na carga vira erro, sem resumo; recarregar tenta de novo', async () =>
   mockFalhar = false;
   await act(async () => { await api.recarregar(); });
   expect(api.erro).toBeNull();
-  expect(api.resumos).toHaveLength(2);
+  expect(api.resumos).toHaveLength(3);
+});
+
+it('falha em listarTomadas também vira erro, sem resumo', async () => {
+  mockFalharTomadas = true;
+  await act(async () => { arvore = create(<Sonda desde="2026-11-16" ate="2026-11-22" />); });
+  expect(api.erro).toEqual(expect.any(String));
+  expect(api.erro.length).toBeGreaterThan(0);
+  expect(api.resumos).toEqual([]);
+  expect(api.carregando).toBe(false);
 });
 
 it('trocar o período busca de novo', async () => {

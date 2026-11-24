@@ -51,7 +51,7 @@ export default function CheckinSemanal() {
         <InternalHeader sectionLabel="Hábitos e bem-estar" title={TEXTO_CHECKIN.titulo} onBack={() => router.back()} />
         <Text style={styles.sub}>{TEXTO_CHECKIN.subtitulo}</Text>
         <Text style={styles.semana}>Semana de {dataCurtaBr(semanaAlvo)} a {dataCurtaBr(somarDias(semanaAlvo, 6))}{atual ? ' · já respondida, pode ajustar' : ''}</Text>
-        <QuadroAdesao resumos={adesao.resumos} erro={adesao.erro} aoTentarDeNovo={adesao.recarregar} />
+        <QuadroAdesao resumos={adesao.resumos} carregando={adesao.carregando} erro={adesao.erro} aoTentarDeNovo={adesao.recarregar} />
         <View style={{ gap: Spacing.xl, marginTop: Spacing.lg }}>
           {PERGUNTAS_CHECKIN.map((q) => <Escala010 key={q.chave} rotulo={q.pergunta} valor={r[q.chave]} onChange={(v) => setR((s) => ({ ...s, [q.chave]: v }))} extremos={q.chave === 'estresse' ? ['nenhum', 'muito'] : ['muito ruim', 'muito bom']} />)}
         </View>

@@ -40,6 +40,7 @@ beforeEach(() => {
   mockUseAdesao.mockClear();
   mockAdesao.resumos = [losartana];
   mockAdesao.erro = null;
+  mockAdesao.carregando = false;
   mockAdesao.recarregar = jest.fn(async () => {});
 });
 afterEach(() => { act(() => arvore?.unmount()); jest.useRealTimers(); });
@@ -73,4 +74,14 @@ it('erro na carga: mensagem e "Tentar de novo" recarrega', async () => {
   expect(tela()).toContain('Sem conexão com a internet.');
   await act(async () => { apertar(arvore, 'Tentar de novo'); });
   expect(mockAdesao.recarregar).toHaveBeenCalledTimes(1);
+});
+
+it('enquanto carrega, o quadro reserva o lugar com título e indicador', async () => {
+  mockAdesao.resumos = [];
+  mockAdesao.carregando = true;
+  await abrir();
+  const t = tela();
+  expect(t).toContain('Seus remédios nesta semana');
+  expect(arvore.root.findAll((n) => n.props.accessibilityLabel === 'Carregando seus remédios')).not.toHaveLength(0);
+  expect(t.indexOf('Salvar check-in')).toBeGreaterThan(t.indexOf('Seus remédios nesta semana'));
 });

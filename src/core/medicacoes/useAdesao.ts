@@ -6,7 +6,8 @@ import * as repo from './repositorio';
 
 /**
  * Resumo de adesão de `desde` a `ate` ('AAAA-MM-DD', inclusive), por remédio (check-in semanal, spec §6.6).
- * Remédio interrompido sem data de fim não entra (não há como saber até quando valiam as doses).
+ * Remédio com horário interrompido sem data de fim não entra (não há como saber até quando valiam as doses);
+ * "se precisar" interrompido continua com seus usos (não gera dose pelo cadastro).
  * Falha na carga não rejeita: vira `erro` e a tela mostra "Tentar de novo", não um quadro vazio.
  */
 export function useAdesao(desde: string, ate: string): {
@@ -27,7 +28,7 @@ export function useAdesao(desde: string, ate: string): {
     setErro(null);
     try {
       const [medicacoes, tomadas] = await Promise.all([repo.listarMedicacoes(userId), repo.listarTomadas(userId, desde, ate)]);
-      const validas = medicacoes.filter((m) => m.ativa || m.ate !== null);
+      const validas = medicacoes.filter((m) => m.ativa || m.ate !== null || m.sePrecisar);
       setResumos(resumirAdesao(validas, tomadas, desde, ate, new Date()));
     } catch (e) {
       setResumos([]);

@@ -71,3 +71,18 @@ it('falha na carga: mostra o erro e "Tentar de novo"', async () => {
   await act(async () => { apertar(arvore, 'Tentar de novo'); });
   expect(aoTentar).toHaveBeenCalledTimes(1);
 });
+
+it('carregando: título e indicador reservam o lugar, sem linhas', async () => {
+  await act(async () => { arvore = create(<QuadroAdesao resumos={[]} carregando />); });
+  expect(tela()).toContain('Seus remédios nesta semana');
+  expect(arvore.root.findAll((n) => n.props.accessibilityLabel === 'Carregando seus remédios')).not.toHaveLength(0);
+  expect(arvore.toJSON()).not.toBeNull();
+});
+
+it('título é cabeçalho também no erro e no carregando', async () => {
+  const titulos = () => arvore.root.findAll((n) => n.props.accessibilityRole === 'header' && typeof n.type === 'string').map((n) => textoDe(n));
+  await act(async () => { arvore = create(<QuadroAdesao resumos={[]} erro="Sem conexão com a internet." aoTentarDeNovo={() => {}} />); });
+  expect(titulos()).toEqual(['Seus remédios nesta semana']);
+  await act(async () => { arvore.update(<QuadroAdesao resumos={[]} carregando />); });
+  expect(titulos()).toEqual(['Seus remédios nesta semana']);
+});
