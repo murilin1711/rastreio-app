@@ -20,12 +20,12 @@ import { CardModulo } from '@modules/home/CardModulo';
 import { SeloSequencia } from '@modules/home/SeloSequencia';
 import { ItemHoje } from '@modules/home/ItemHoje';
 import { EsqueletoPendencias } from '@modules/home/EsqueletoPendencias';
-import { FaixaAtalhos } from '@modules/home/FaixaAtalhos';
+import { acoesInicio } from '@modules/home/acoesInicio';
 import { montarItensHoje, type ItemHoje as Item } from '@modules/home/montarItensHoje';
 import { traduzirErro } from '@core/supabase/erros';
 import { TEXTO_SEQUENCIA } from '@modules/bem-estar/conteudo/sequencia';
 import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
-import { Colors, LogoNero, MS_ATRASO_AO_VOLTAR, ModalAtivarAvisos, ModalComemoracao, NeroAnimado, Radius, SaidaConcluida, Spacing, Typography, useEspacoAbas, useSaidaConcluida } from '@ui/index';
+import { BotaoAcao, Colors, LogoNero, MS_ATRASO_AO_VOLTAR, ModalAtivarAvisos, ModalComemoracao, NeroAnimado, Radius, SaidaConcluida, Spacing, Typography, useEspacoAbas, useSaidaConcluida } from '@ui/index';
 import { useAbrir } from '@core/navegacao/useVoltar';
 import { LinkFontes } from '@modules/fontes/FontesDaTela';
 import { BotaoAnotar } from '@modules/anotar/BotaoAnotar';
@@ -44,7 +44,10 @@ function saudacao(nome?: string | null) {
   return primeiro ? `${periodo}, ${primeiro}` : periodo;
 }
 
-/** Home do NERO (§55, §56, §89): pendências e galeria de módulos. */
+/**
+ * Home do NERO (§55, §56, §89; D-065): no topo, "O que você quer fazer?" com até cinco ações; depois
+ * "Para fazer hoje" (as pendências) e "Meus cuidados", com os três módulos em cartões largos.
+ */
 export default function Home() {
   const espacoAbas = useEspacoAbas();
   const router = useRouter();
@@ -108,6 +111,7 @@ export default function Home() {
       .then((reduzir) => Animated.timing(entrada, { toValue: 1, duration: reduzir ? 0 : MS_ENTRADA_LISTA, useNativeDriver: true }).start());
   }, [liberada, entrada]);
 
+  const acoes = acoesInicio(perfil?.temDiabetes);
   const pendentes = itens.filter((i) => i.nivel !== 'verde').length;
   const inicial = perfil?.nome?.trim().charAt(0).toUpperCase() ?? '';
 
@@ -155,7 +159,7 @@ export default function Home() {
     // O alerta diz onde completar a informação depois — é a única hora em que a pessoa aprende o
     // caminho. Ele confirma; o "Desfazer" dos 15 s cobre o arrependimento, não a desinformação.
     const explicacao = acao.campo === 'semMedicacoes'
-      ? 'Vamos registrar que você não usa medicamentos. Se começar a usar algum, adicione em Minha Saúde › Meus medicamentos.'
+      ? 'Vamos registrar que você não usa medicamentos. Se começar a usar algum, adicione em Minha Saúde › Meus remédios.'
       : 'Vamos registrar que não há casos de câncer ou infarto precoce na família. Se souber de algum depois, adicione em Minha Saúde › Antecedentes familiares.';
     Alert.alert(acao.rotulo, explicacao, [
       { text: 'Cancelar', style: 'cancel' },
@@ -198,12 +202,21 @@ export default function Home() {
         <View style={styles.boasVindas}>
           <NeroAnimado entrada="acenar" size={135} />
           <Text style={styles.saudacao}>{saudacao(perfil?.nome)}</Text>
-          <Text style={styles.pergunta}>Como está sua saúde hoje?</Text>
           <View style={styles.selo}><SeloSequencia dias={sequencia.sequencia} /></View>
         </View>
 
-        <View style={styles.secaoTopo}>
-          <Text style={styles.secao}>Pendências</Text>
+        <Text style={[styles.secao, { marginBottom: Spacing.md }]}>O que você quer fazer?</Text>
+        <View style={styles.grade}>
+          {[acoes.grade.slice(0, 2), acoes.grade.slice(2, 4)].map((linha) => (
+            <View key={linha[0].chave} style={styles.linhaGrade}>
+              {linha.map((a) => <BotaoAcao key={a.chave} icone={a.icone} rotulo={a.rotulo} onPress={() => abrir(a.rota)} />)}
+            </View>
+          ))}
+          <BotaoAcao largo icone={acoes.largo.icone} rotulo={acoes.largo.rotulo} onPress={() => abrir(acoes.largo.rota)} />
+        </View>
+
+        <View style={[styles.secaoTopo, { marginTop: Spacing.xxxl }]}>
+          <Text style={styles.secao}>Para fazer hoje</Text>
           {liberada && pendentes > 0 ? <View style={styles.contador}><Text style={styles.contadorTexto}>{pendentes}</Text></View> : null}
         </View>
         {!liberada ? <EsqueletoPendencias /> : (
@@ -224,20 +237,12 @@ export default function Home() {
         </Animated.View>
         )}
 
-        <Text style={[styles.secao, { marginTop: Spacing.xxxl, marginBottom: Spacing.md }]}>Módulos</Text>
+        <Text style={[styles.secao, { marginTop: Spacing.xxxl, marginBottom: Spacing.md }]}>Meus cuidados</Text>
         <View style={styles.grade}>
-          <View style={styles.linhaGrade}>
-            <CardModulo titulo="Rastreamentos" icone="search-outline" capa={[Colors.logoAco, Colors.logoCiano]} onPress={() => router.push('/(app)/rastreando')} />
-            <CardModulo titulo="Minha Saúde" icone="person-outline" capa={[Colors.logoMarinho, Colors.logoAco]} onPress={() => router.push('/(app)/(tabs)/minha-saude')} />
-          </View>
-          <View style={styles.linhaGrade}>
-            <CardModulo titulo="Coração & Metabolismo" icone="heart-outline" capa={['#B4321F', '#F2734A']} onPress={() => router.push('/(app)/coracao')} />
-            <CardModulo titulo="Saúde & Bem-estar" icone="leaf-outline" capa={['#15803D', '#5FCB8A']} onPress={() => router.push('/(app)/bem-estar')} />
-          </View>
+          <CardModulo largo titulo="Pressão, coração e diabetes" descricao="Pressão, MRPA, glicemia, exames e risco do coração" icone="heart-outline" capa={['#B4321F', '#F2734A']} onPress={() => router.push('/(app)/coracao')} />
+          <CardModulo largo titulo="Exames de prevenção" descricao="Mamografia, papanicolau, intestino e outros exames de rotina" icone="search-outline" capa={[Colors.logoAco, Colors.logoCiano]} onPress={() => router.push('/(app)/rastreando')} />
+          <CardModulo largo titulo="Hábitos e bem-estar" descricao="Peso, sono, atividades, água, alimentação e metas" icone="leaf-outline" capa={['#15803D', '#5FCB8A']} onPress={() => router.push('/(app)/bem-estar')} />
         </View>
-
-        <Text style={[styles.secao, { marginTop: Spacing.xxxl, marginBottom: Spacing.md }]}>Atalhos</Text>
-        <FaixaAtalhos sangria={Spacing.xxl} onAbrir={abrir} />
 
         <Text style={styles.rodape}>O NERO organiza suas informações e não substitui a avaliação do seu médico.</Text>
         <LinkFontes />
@@ -260,7 +265,6 @@ const styles = StyleSheet.create({
   avatarTexto: { fontFamily: 'Poppins-Bold', fontSize: 15, color: Colors.white },
   boasVindas: { alignItems: 'center', marginTop: Spacing.sm + 2, marginBottom: Spacing.xxl },
   saudacao: { ...Typography.display, fontSize: 28, lineHeight: 34, color: Colors.primary, textAlign: 'center' },
-  pergunta: { ...Typography.body, color: Colors.textSecondary, marginTop: Spacing.xs, textAlign: 'center' },
   /** `SeloSequencia` se alinha à esquerda por conta própria; a linha o recentraliza. */
   selo: { flexDirection: 'row', justifyContent: 'center', marginTop: Spacing.sm },
   secaoTopo: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, marginBottom: Spacing.md },
