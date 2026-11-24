@@ -23,7 +23,7 @@ export function DosesPorHorario({ horarios, unidade, onChange }: { horarios: Hor
             <Text style={styles.hora}>{horaCurta(h.hora)}</Text>
             <Text style={styles.quanto}>{formatarQuantidade(h.quantidade, unidade)}</Text>
           </View>
-          <SeletorQuantidade valor={h.quantidade} unidade={unidade} onChange={(q) => mudar(h.hora, q)} />
+          <SeletorQuantidade valor={h.quantidade} unidade={unidade} onChange={(q) => mudar(h.hora, q)} contexto={`a dose das ${horaCurta(h.hora)}`} />
         </View>
       ))}
     </View>

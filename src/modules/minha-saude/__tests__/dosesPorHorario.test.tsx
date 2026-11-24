@@ -10,9 +10,9 @@ const horarios: HorarioDose[] = [{ hora: '08:00', quantidade: 1 }, { hora: '20:0
 let arvore: ReactTestRenderer;
 afterEach(() => act(() => arvore.unmount()));
 
-/** O botão `rotulo` (Aumentar/Diminuir) da linha de índice `i`. */
-const botao = (i: number, rotulo: string) =>
-  arvore.root.findAll((n) => n.props.accessibilityLabel === rotulo && typeof n.props.onPress === 'function')[i];
+/** O botão pelo rótulo acessível completo ("Aumentar a dose das 20h"). */
+const botao = (rotulo: string) =>
+  arvore.root.find((n) => n.props.accessibilityLabel === rotulo && typeof n.props.onPress === 'function');
 
 it('uma linha por horário, com a hora curta e um seletor', () => {
   act(() => { arvore = create(<DosesPorHorario horarios={horarios} unidade="comprimido" onChange={jest.fn()} />); });
@@ -26,14 +26,14 @@ it('uma linha por horário, com a hora curta e um seletor', () => {
 it('aumentar a das 20h muda só ela', () => {
   const onChange = jest.fn();
   act(() => { arvore = create(<DosesPorHorario horarios={horarios} unidade="gota" onChange={onChange} />); });
-  act(() => { botao(1, 'Aumentar').props.onPress(); });
+  act(() => { botao('Aumentar a dose das 20h').props.onPress(); });
   expect(onChange).toHaveBeenCalledWith([{ hora: '08:00', quantidade: 1 }, { hora: '20:00', quantidade: 2 }]);
 });
 
 it('comprimido: diminuir a das 8h vai para meio', () => {
   const onChange = jest.fn();
   act(() => { arvore = create(<DosesPorHorario horarios={horarios} unidade="comprimido" onChange={onChange} />); });
-  act(() => { botao(0, 'Diminuir').props.onPress(); });
+  act(() => { botao('Diminuir a dose das 8h').props.onPress(); });
   expect(onChange).toHaveBeenCalledWith([{ hora: '08:00', quantidade: 0.5 }, { hora: '20:00', quantidade: 1 }]);
 });
 

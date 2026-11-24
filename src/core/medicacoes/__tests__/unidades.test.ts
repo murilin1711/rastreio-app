@@ -1,4 +1,4 @@
-import { UNIDADES, formatarQuantidade, numeroBr } from '../unidades';
+import { UNIDADES, ajustarAoPasso, formatarQuantidade, numeroBr } from '../unidades';
 
 test('passo da quantidade por unidade', () => {
   expect(UNIDADES.comprimido.passo).toBe(0.5);
@@ -33,4 +33,13 @@ test('pergunta e rótulos', () => {
 test('número no formato brasileiro', () => {
   expect(numeroBr(1.5)).toBe('1,5');
   expect(numeroBr(2)).toBe('2');
+});
+
+test('ajustarAoPasso: arredonda para o passo da nova unidade e respeita o mínimo', () => {
+  expect(ajustarAoPasso(1.5, 'gota')).toBe(2);
+  expect(ajustarAoPasso(0.5, 'gota')).toBe(1);
+  expect(ajustarAoPasso(2.5, 'jato')).toBe(3);
+  expect(ajustarAoPasso(1.5, 'ml')).toBe(1.5);
+  expect(ajustarAoPasso(3, 'comprimido')).toBe(3);
+  expect(ajustarAoPasso(1.25, 'comprimido')).toBe(1.5);
 });

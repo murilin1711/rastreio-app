@@ -6,7 +6,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import type { DoseClassificada } from '@core/medicacoes/adesao';
 import { formatarHorarios, horaCurta, mesclarQuantidades, rotaTomar } from '@core/medicacoes/horarios';
 import type { Medicacao, UnidadeDose } from '@core/medicacoes/tipos';
-import { UNIDADES } from '@core/medicacoes/unidades';
+import { ajustarAoPasso, UNIDADES } from '@core/medicacoes/unidades';
 import { useDosesHoje } from '@core/medicacoes/useDosesHoje';
 import { useMedicacoes } from '@core/medicacoes/useMedicacoes';
 import { useAbrir } from '@core/navegacao/useVoltar';
@@ -31,7 +31,7 @@ const dataBr = (iso: string) => `${iso.slice(8, 10)}/${iso.slice(5, 7)}/${iso.sl
 
 export default function Medicamentos() {
   const { online } = useSessao();
-  const { medicacoes, salvar, alternarAtiva } = useMedicacoes();
+  const { medicacoes, carregando, salvar, alternarAtiva } = useMedicacoes();
   const { perfil, salvar: salvarPerfil } = usePerfil();
   const [editando, setEditando] = useState<Form | null>(null);
   const [salvando, setSalvando] = useState(false);
@@ -55,14 +55,15 @@ export default function Medicamentos() {
   const gravar = async () => {
     const nome = editando?.nome?.trim();
     if (!nome) {
-      Alert.alert('Faltou algo', 'Informe o nome do medicamento.');
+      Alert.alert('Faltou algo', 'Informe o nome do remédio.');
       return;
     }
     // Horários vêm da roda (D-045): não há formato a validar. Sem horário, é "se precisar".
     const sePrecisar = !!editando?.sePrecisar || !(editando?.horarios ?? []).length;
     const horarios = sePrecisar ? [] : editando?.horarios ?? [];
-    // Decide antes de salvar: depois, a lista já traz o remédio novo.
-    const explicar = deveExplicarMarcacao(medicacoes, !sePrecisar);
+    // Decide antes de salvar: depois, a lista já traz o remédio novo. Com a lista ainda carregando
+    // não dá para saber se é o primeiro: na dúvida, não explica.
+    const explicar = !carregando && deveExplicarMarcacao(medicacoes, !sePrecisar);
     setSalvando(true);
     try {
       await salvar({
@@ -71,7 +72,7 @@ export default function Medicamentos() {
         dose: editando?.dose?.trim() || null,
         horarios,
         unidade: editando?.unidade ?? 'comprimido',
-        doseVariavel: editando?.doseVariavel ?? false,
+        doseVariavel: !sePrecisar && (editando?.doseVariavel ?? false),
         sePrecisar,
         desde: editando?.desde ?? null,
         ate: editando?.ate ?? null,
@@ -83,8 +84,14 @@ export default function Medicamentos() {
       if (perfil?.semMedicacoes) await salvarPerfil({ semMedicacoes: false });
       setEditando(null);
       recarregarDoses();
-      conquistas.avaliar();
-      if (explicar) Alert.alert('Marque cada dose', FRASE_MARCAR);
+      // A explicação e a comemoração não abrem juntas: a conquista espera o OK da explicação.
+      if (explicar) {
+        Alert.alert('Marque cada dose', FRASE_MARCAR, [{ text: 'OK', onPress: () => conquistas.avaliar() }], {
+          onDismiss: () => conquistas.avaliar(),
+        });
+      } else {
+        conquistas.avaliar();
+      }
     } catch (e) {
       Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario);
     } finally {
@@ -127,7 +134,7 @@ export default function Medicamentos() {
               <Text style={styles.avisoTexto}>Você informou que não usa medicamentos. Se começar a usar algum, adicione aqui.</Text>
             </View>
           ) : (
-            <Text style={styles.vazio}>Nenhum medicamento registrado. Se não usa nenhum, pode marcar isso na tela inicial.</Text>
+            <Text style={styles.vazio}>Nenhum remédio registrado. Se não usa nenhum, pode marcar isso na tela inicial.</Text>
           )
         ) : null}
 
@@ -153,7 +160,7 @@ export default function Medicamentos() {
 
         <View style={{ marginTop: Spacing.xxl }}>
           {editando ? (
-            <Secao titulo={editando.id ? 'Editar medicamento' : 'Novo medicamento'}>
+            <Secao titulo={editando.id ? 'Editar remédio' : 'Novo remédio'}>
               <Input placeholder="Nome, por exemplo Losartana" value={editando.nome ?? ''} onChangeText={(v) => setEditando({ ...editando, nome: v })} />
               <Input placeholder="Dose, por exemplo 50 mg" value={editando.dose ?? ''} onChangeText={(v) => setEditando({ ...editando, dose: v })} />
               <Chave
@@ -165,10 +172,24 @@ export default function Medicamentos() {
               {!editando.sePrecisar ? (
                 <>
                   <HorariosRemedio horarios={(editando.horarios ?? []).map((h) => h.hora)} onChange={(hs) => setEditando({ ...editando, horarios: mesclarQuantidades(hs, editando.horarios ?? []) })} />
-                  <Text style={styles.rotulo}>Como você toma?</Text>
-                  {/* Trocar a unidade não mexe nas quantidades já escolhidas. */}
-                  <Opcoes<UnidadeDose> opcoes={OPCOES_UNIDADE} valor={editando.unidade ?? 'comprimido'} onChange={(u) => setEditando({ ...editando, unidade: u })} />
-                  <DosesPorHorario horarios={editando.horarios ?? []} unidade={editando.unidade ?? 'comprimido'} onChange={(hs) => setEditando({ ...editando, horarios: hs })} />
+                  {!(editando.horarios ?? []).length ? (
+                    <Text style={styles.toggleSub}>Sem horário, o remédio fica como 'se precisar'.</Text>
+                  ) : null}
+                </>
+              ) : null}
+              <Text style={styles.rotulo}>Como você toma?</Text>
+              {/* Trocar a unidade leva as quantidades ao passo e ao mínimo da nova (1,5 comprimido → 2 gotas). */}
+              <Opcoes<UnidadeDose>
+                opcoes={OPCOES_UNIDADE}
+                valor={editando.unidade ?? 'comprimido'}
+                onChange={(u) => setEditando({ ...editando, unidade: u, horarios: (editando.horarios ?? []).map((h) => ({ ...h, quantidade: ajustarAoPasso(h.quantidade, u) })) })}
+              />
+              {!editando.sePrecisar ? (
+                <>
+                  {/* Dose variável: a quantidade é anotada ao tomar, não há uma fixa por horário. */}
+                  {!editando.doseVariavel ? (
+                    <DosesPorHorario horarios={editando.horarios ?? []} unidade={editando.unidade ?? 'comprimido'} onChange={(hs) => setEditando({ ...editando, horarios: hs })} />
+                  ) : null}
                   <Chave
                     titulo="A dose muda conforme o dia"
                     sub="Ex.: insulina de correção. Você anota a quantidade ao tomar."
@@ -193,7 +214,7 @@ export default function Medicamentos() {
               </View>
             </Secao>
           ) : (
-            <Button label="Adicionar medicamento" variant="outline" onPress={() => abrir()} />
+            <Button label="Adicionar remédio" variant="outline" onPress={() => abrir()} />
           )}
         </View>
       </ScrollView>

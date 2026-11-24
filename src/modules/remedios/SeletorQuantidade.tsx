@@ -6,9 +6,11 @@ import { Colors, Radius, Spacing, Typography } from '@ui/theme';
 
 /**
  * `[−] n [+]` da quantidade tomada. O passo e o mínimo são os da unidade (meio comprimido, uma gota…):
- * não dá para chegar a zero — quem não tomou usa "Não tomei".
+ * não dá para chegar a zero — quem não tomou usa "Não tomei". `contexto` completa o rótulo acessível
+ * quando há vários seletores na tela ("a dose das 8h" → "Diminuir a dose das 8h").
  */
-export function SeletorQuantidade({ valor, unidade, onChange }: { valor: number; unidade: UnidadeDose; onChange: (q: number) => void }) {
+export function SeletorQuantidade({ valor, unidade, onChange, contexto }: { valor: number; unidade: UnidadeDose; onChange: (q: number) => void; contexto?: string }) {
+  const rotulo = (acao: string) => (contexto ? `${acao} ${contexto}` : acao);
   const { passo } = UNIDADES[unidade];
   // Arredonda para não acumular 0,1 + 0,2 do ponto flutuante.
   const ajustar = (delta: number) => onChange(Math.max(passo, Math.round((valor + delta) * 100) / 100));
@@ -20,7 +22,7 @@ export function SeletorQuantidade({ valor, unidade, onChange }: { valor: number;
         onPress={() => ajustar(-passo)}
         disabled={noMinimo}
         accessibilityRole="button"
-        accessibilityLabel="Diminuir"
+        accessibilityLabel={rotulo('Diminuir')}
         accessibilityState={{ disabled: noMinimo }}
         hitSlop={8}
         style={({ pressed }) => [styles.botao, noMinimo && styles.desligado, pressed && styles.pressionado]}
@@ -31,7 +33,7 @@ export function SeletorQuantidade({ valor, unidade, onChange }: { valor: number;
       <Pressable
         onPress={() => ajustar(passo)}
         accessibilityRole="button"
-        accessibilityLabel="Aumentar"
+        accessibilityLabel={rotulo('Aumentar')}
         hitSlop={8}
         style={({ pressed }) => [styles.botao, pressed && styles.pressionado]}
       >

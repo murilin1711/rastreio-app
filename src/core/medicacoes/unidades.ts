@@ -28,3 +28,12 @@ export function formatarQuantidade(q: number, u: UnidadeDose): string {
   }
   return `${numeroBr(q)} ${q === 1 ? singular : plural}`;
 }
+
+/**
+ * Quantidade levada ao passo da unidade (ao trocar a unidade no cadastro): arredonda para o múltiplo
+ * mais próximo do passo e nunca fica abaixo dele. 1,5 comprimido → gota vira 2; 0,5 → 1.
+ */
+export function ajustarAoPasso(q: number, u: UnidadeDose): number {
+  const { passo } = UNIDADES[u];
+  return Math.max(passo, Math.round(Math.round(q / passo) * passo * 100) / 100);
+}
