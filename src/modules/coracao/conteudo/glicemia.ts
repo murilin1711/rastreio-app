@@ -1,6 +1,6 @@
 import type { MomentoGlicemia, SintomaGlicemia } from '@core/regras/cardio/tiposGlicemia';
 
-/** Textos do Minha Glicemia (§5–§8). Fonte: Diretriz da SBD ed. 2026; linguagem do §25. Revisão clínica: docs/nero/revisao/ (Fase 2b). */
+/** Textos do Minha glicemia (§5–§8). Fonte: Diretriz da SBD ed. 2026; linguagem do §25. Revisão clínica: docs/nero/revisao/ (Fase 2b). */
 export const MOMENTOS: { valor: MomentoGlicemia; rotulo: string }[] = [
   { valor: 'jejum', rotulo: 'Em jejum' },
   { valor: 'antes_cafe', rotulo: 'Antes do café' },

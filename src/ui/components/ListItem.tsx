@@ -12,7 +12,7 @@ interface Props {
 
 export function ListItem({ icon, title, subtitle, onPress }: Props) {
   return (
-    <TouchableOpacity activeOpacity={0.7} onPress={onPress} style={styles.row} accessibilityRole="button">
+    <TouchableOpacity activeOpacity={0.7} onPress={onPress} style={styles.row} accessibilityRole="button" accessibilityLabel={subtitle ? `${title}, ${subtitle}` : title}>
       <View style={styles.iconBox}>
         <Ionicons name={icon} size={22} color={Colors.primary} />
       </View>
@@ -29,6 +29,6 @@ const styles = StyleSheet.create({
   row:      { flexDirection: 'row', alignItems: 'center', backgroundColor: Colors.surface, borderRadius: Radius.linha, padding: Spacing.lg, gap: Spacing.md },
   iconBox:  { width: 44, height: 44, backgroundColor: Colors.background, borderRadius: Radius.linha, alignItems: 'center', justifyContent: 'center' },
   content:  { flex: 1 },
-  title:    { ...Typography.subheading, color: Colors.textPrimary },
+  title:    { ...Typography.subheading, fontSize: 17, lineHeight: 23, color: Colors.textPrimary },
   subtitle: { ...Typography.caption, color: Colors.textSecondary, marginTop: 2 },
 });

@@ -2,15 +2,18 @@
  * Textos das notificações, decididos um a um com o Murilo em 25/09/2026 (`docs/nero/notificacoes.md`).
  * Se um destes testes quebrar, o documento e o código divergiram — atualizar os dois juntos.
  */
-import { litros, textoAgua, textoConsultaDia, textoConsultaVespera, textoExameAntes, textoExameDepois, textoExameDia, textoGlicemia, textoMrpa, textoRemedio, tituloCompleto, mensagemDaLista } from '../textos';
+import { litros, textoAgua, textoConsultaDia, textoConsultaVespera, textoExameAntes, textoExameDepois, textoExameDia, textoGlicemia, textoMrpa, textoRemedio, textoSegundoLembrete, tituloCompleto, mensagemDaLista } from '../textos';
 
 describe('remédio', () => {
-  it('nome e dose embaixo', () => {
-    expect(textoRemedio('Losartana', '50 mg')).toEqual({ titulo: 'Hora de tomar seu remédio', emoji: '💊', corpo: 'Losartana 50 mg' });
+  // Texto decidido na spec de 23/11 (D-066): o título diz o remédio, a dose e quanto tomar.
+  it('nome, dose e quantidade no título; o texto chama para marcar', () => {
+    expect(textoRemedio('Losartana', '50 mg', '1 comprimido')).toEqual({ titulo: 'Hora do remédio: Losartana 50 mg · 1 comprimido', emoji: '💊', corpo: 'Toque aqui para marcar' });
   });
-  it('sem dose, só o nome', () => {
-    expect(textoRemedio('Losartana', null).corpo).toBe('Losartana');
-    expect(textoRemedio('Losartana', '  ').corpo).toBe('Losartana');
+  it('sem dose, só o nome e a quantidade', () => {
+    expect(textoRemedio('Losartana', '  ', '2 comprimidos').titulo).toBe('Hora do remédio: Losartana · 2 comprimidos');
+  });
+  it('"dose muda conforme o dia": sem quantidade', () => {
+    expect(textoRemedio('Insulina', null, null).titulo).toBe('Hora do remédio: Insulina');
   });
 });
 
@@ -64,7 +67,15 @@ describe('exames: "exame" no título resolve o gênero', () => {
 });
 
 it('o título da notificação termina com o emoji; a lista do app guarda título e texto sem emoji', () => {
-  const t = textoRemedio('Losartana', '50 mg');
-  expect(tituloCompleto(t)).toBe('Hora de tomar seu remédio 💊');
-  expect(mensagemDaLista(t)).toBe('Hora de tomar seu remédio · Losartana 50 mg');
+  const t = textoRemedio('Losartana', '50 mg', '1 comprimido');
+  expect(tituloCompleto(t)).toBe('Hora do remédio: Losartana 50 mg · 1 comprimido 💊');
+  expect(mensagemDaLista(t)).toBe('Hora do remédio: Losartana 50 mg · 1 comprimido · Toque aqui para marcar');
+});
+
+describe('segundo lembrete do remédio', () => {
+  // Spec §6.2: 30 min depois, neutro em gênero; o toque abre a tela "Tomou?".
+  it('pergunta se tomou, com a hora curta', () => {
+    expect(textoSegundoLembrete('Losartana', '08:00')).toEqual({ titulo: 'Você tomou Losartana das 8h?', emoji: '💊', corpo: 'Toque aqui para marcar' });
+    expect(textoSegundoLembrete('Insulina', '20:30').titulo).toBe('Você tomou Insulina das 20h30?');
+  });
 });

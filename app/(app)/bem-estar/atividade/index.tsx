@@ -9,6 +9,7 @@ import { ROTULO_INTENSIDADE, TEXTO_ATIVIDADE } from '@modules/bem-estar/conteudo
 import { CardResumo } from '@modules/coracao/componentes/CardResumo';
 import { dataHoraBr } from '@modules/coracao/componentes/formato';
 import { Button, Card, Colors, Input, InternalHeader, ProgressBar, Radius, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 const DIAS = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'];
 
@@ -36,9 +37,9 @@ export default function Atividades() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled" refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Saúde & Bem-estar" title="Minhas Atividades" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Hábitos e bem-estar" title="Minhas Atividades" onBack={() => router.back()} />
         <Text style={styles.sub}>{TEXTO_ATIVIDADE.subtitulo}</Text>
-        <Button label="Registrar atividade" onPress={() => router.push('/(app)/bem-estar/atividade/registrar')} style={{ marginTop: Spacing.lg }} />
+        <Button label="Anotar atividade" onPress={() => router.push('/(app)/bem-estar/atividade/registrar')} style={{ marginTop: Spacing.lg }} />
         {erro ? <Text style={styles.erro}>{erro.mensagemUsuario}</Text> : null}
 
         {semana ? (
@@ -109,6 +110,7 @@ export default function Atividades() {
             <Text style={styles.nota}>Toque e segure um registro para apagar.</Text>
           </>
         ) : null}
+        <FontesDaTela tema='atividade' />
       </ScrollView>
     </SafeAreaView>
   );

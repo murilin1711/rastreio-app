@@ -22,6 +22,7 @@ jest.mock('react-native-safe-area-context', () => {
 jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: { user: { id: 'u1' } }, carregando: false }) }));
 jest.mock('@core/perfil/usePerfil', () => ({ usePerfil: () => ({ perfil: { nome: 'M', semMedicacoes: false, semAntecedentesFamiliares: false }, antecedentes: [], carregando: false, recarregar: jest.fn(), salvar: jest.fn() }) }));
 jest.mock('@core/medicacoes/useMedicacoes', () => ({ useMedicacoes: () => ({ ativas: Array.from({ length: mockEstado.ativas }, (_, i) => ({ id: `m${i}`, lembrar: false, horarios: [] })), recarregar: () => { mockEstado.recargas++; } }) }));
+jest.mock('@core/medicacoes/useDosesHoje', () => ({ useDosesHoje: () => ({ doses: [], carregando: false, erro: null, recarregar: async () => {} }) }));
 jest.mock('@core/rastreando/useRastreando', () => ({ useRastreando: () => ({ avaliacoes: {}, pendencias: [], sintomas: [], carregando: false, recarregar: jest.fn() }) }));
 jest.mock('@core/cardio/useResumoCardio', () => ({ useResumoCardio: () => ({ resumo: undefined, carregando: false, recarregar: jest.fn() }) }));
 jest.mock('@core/lembretes/useConsultas', () => ({ useConsultas: () => ({ proxima: null, carregando: false, recarregar: jest.fn() }) }));

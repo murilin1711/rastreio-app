@@ -1,3 +1,5 @@
+import type { EstadoDose } from '@core/medicacoes/adesao';
+import { horaCurta, rotaTomar } from '@core/medicacoes/horarios';
 import type { PerfilSaude } from '@core/perfil/tipos';
 import type { NivelAlertaUI } from '@ui/theme';
 
@@ -38,6 +40,9 @@ export interface ConsultasResumo { proxima: { id: string; especialidade: string;
 /** Saúde & Bem-estar (Fase 4a): movimento da semana e perda de peso não intencional (C-019). */
 export interface BemEstarResumo { movimentoMin: number; metaMin: number; perdaNaoIntencional: { pct: number; desde: string } | null; checkinPendente?: boolean }
 
+/** Dose de hoje para a Home: entra quando está pendente e o horário já chegou. */
+export interface DoseHoje { medicacaoId: string; nome: string; data: string; hora: string; estado: EstadoDose }
+
 interface Entrada {
   perfil: PerfilSaude | null;
   antecedentesQtd: number;
@@ -46,16 +51,24 @@ interface Entrada {
   cardio?: ResumoCardio;
   consultas?: ConsultasResumo;
   bemEstar?: BemEstarResumo;
+  /**
+   * Doses de hoje dos remédios com horário (de `useDosesHoje`), já com o nome do remédio. Só viram item
+   * as pendentes de hoje cujo horário já chegou; as outras são ignoradas.
+   */
+  dosesHoje?: DoseHoje[];
   agora?: Date;
   /**
    * Todas as fontes da home já responderam. Falso enquanto alguma carrega: aí o "Nada pendente" não
    * é emitido, porque seria uma afirmação sobre dados que ainda não chegaram (D-027). O resto dos
-   * itens continua saindo — um perfil incompleto é fato assim que o perfil chega.
+   * itens continua saindo — um perfil incompleto é fato assim que o perfil chega. A Home também passa
+   * falso enquanto as doses de hoje carregam ou deram erro: elas não seguram o esqueleto, mas sem elas
+   * não dá para afirmar que não há remédio a marcar. Este campo só controla o "Nada pendente".
    */
   pronto?: boolean;
 }
 
 const mesmoDia = (a: Date, b: Date) => a.getFullYear() === b.getFullYear() && a.getMonth() === b.getMonth() && a.getDate() === b.getDate();
+const diaDe = (d: Date) => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
 const horaDe = (d: Date) => `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`;
 
 const NOME_PROGRAMA: Record<string, string> = { mama: 'mama', colo_utero: 'colo do útero', colorretal: 'intestino', pulmao: 'pulmão', prostata: 'próstata' };
@@ -65,7 +78,7 @@ const NIVEL: Record<string, NivelAlertaUI> = { verde: 'verde', amarelo: 'amarelo
  * Bloco "Hoje" da Home (§56): o que precisa de atenção, do mais grave ao mais leve.
  * Fase 0: só completude do perfil. A Fase 1 acrescenta pendências e exames do Rastreando.
  */
-export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, rastreando, cardio, consultas, bemEstar, agora = new Date(), pronto = true }: Entrada): ItemHoje[] {
+export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, rastreando, cardio, consultas, bemEstar, dosesHoje, agora = new Date(), pronto = true }: Entrada): ItemHoje[] {
   if (!perfil) return [];
   const itens: ItemHoje[] = [];
 
@@ -122,6 +135,18 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, 
     }
     if (mrpaAcimaSemLeitura) {
       itens.push({ id: 'mrpa_levar', nivel: 'amarelo', titulo: 'Levar o relatório da MRPA ao médico', descricao: 'Suas medidas ficaram acima da referência. Converse com seu profissional de saúde.', rota: `/(app)/coracao/mrpa/relatorio?sessao=${mrpaAcimaSemLeitura.id}` });
+    }
+  }
+
+  // Remédio: dose de hoje cujo horário chegou e ainda sem marca — marcar sem depender da notificação.
+  // Dose de hoje que ainda não chegou ou já marcada fica de fora. As de ontem sem marca (marcáveis até o
+  // fim de hoje) não entram aqui: aparecem na seção "De ontem" da lista "Tomei remédio" (＋ Anotar).
+  if (dosesHoje) {
+    const hoje = diaDe(agora);
+    const agoraHora = horaDe(agora);
+    for (const d of dosesHoje) {
+      if (d.estado !== 'pendente' || d.data !== hoje || d.hora > agoraHora) continue;
+      itens.push({ id: `dose_${d.medicacaoId}_${d.hora}`, nivel: 'amarelo', titulo: `${d.nome} · ${horaCurta(d.hora)}`, descricao: 'Toque para marcar se tomou.', rota: rotaTomar(d.medicacaoId, d.hora, d.data) });
     }
   }
 

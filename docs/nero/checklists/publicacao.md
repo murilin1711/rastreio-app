@@ -2,7 +2,69 @@
 
 > Revisado em 25/09/2026 contra o código atual. Rodar no aparelho e anotar o que quebrar.
 > **Primeira rodada no TestFlight em 25/09** (build 2): cadastro, código por e-mail e Face ID passaram.
-> Migrações aplicadas até a **0020**.
+> Migrações aplicadas no remoto até a **0022** (conferido em 24/11 com `supabase migration list --linked`); 0023 e 0024 pendentes (D-066, D-067).
+
+## Build 6: navegação, remédio tomado e relatório novo (D-065, D-066, D-067)
+
+> **Cada passo abaixo só roda com o OK do Murilo**, um de cada vez, nesta ordem. Nada daqui foi feito pelo
+> Claude durante o desenvolvimento: as migrações rodaram só no Supabase local e o site só foi gerado em `site/`.
+> A ordem importa: o app novo grava em `tomadas_medicacao` (0023), sobe um JSON no bucket `relatorios` (0024) e
+> põe no QR o endereço `https://nerosaude.com.br/r/`. Se o build sair antes, marcar remédio e gerar o QR falham.
+
+### (a) Migrações no Supabase remoto (OK do Murilo)
+- [ ] Conferir o que o remoto já tem: `npx supabase migration list` (local e remoto lado a lado). Devem faltar só a 0023 e a 0024; se faltar outra, ela sobe junto no `db push`: avisar o Murilo antes.
+- [ ] **OK do Murilo** → `npx supabase db push`: aplica a **0023** (`tomadas_medicacao`, quantidades, `horarios_desde` com gatilho) e a **0024** (bucket `relatorios` aceita `application/json`).
+- [ ] `migration list` mostra 0023 e 0024 no remoto. No painel: Storage → `relatorios` → tipos permitidos = PDF e JSON; tabela `tomadas_medicacao` com RLS ligada.
+- [ ] O build que está nas lojas continua abrindo "Meus remédios" e os lembretes (a 0023 manteve `horarios` como lista de `'HH:MM'`).
+
+### (b) Site: página do QR e política (OK do Murilo) — ANTES do build
+- [ ] `.env.local` com o `EXPO_PUBLIC_SUPABASE_URL` **remoto** (o `gerar-site.mjs` se recusa a gerar com o local).
+- [ ] `npm run site` e conferir `git diff site/`: só `privacidade/` (política de 24/11) e `r/` mudam.
+- [ ] **OK do Murilo** → `npm run site:publicar`.
+- [ ] https://nerosaude.com.br/r/ responde e, sem link, mostra "Este relatório não está mais disponível."
+- [ ] https://nerosaude.com.br/privacidade mostra "Última atualização: 24 de novembro de 2026" e o item "Compartilhamento por QR Code" novo.
+
+### (c) Build e envio às lojas (OK do Murilo)
+- [ ] **OK do Murilo** → build iOS e Android (`eas build`) e envio (TestFlight / teste interno do Play).
+- [ ] Se o Murilo também quiser atualização pelo ar (`eas update`) para quem já tem o app, ela só sai depois de (a) e (b), com o mesmo OK.
+
+### (d) QA no aparelho (build novo, logado com Apple ou Google)
+
+**Navegação (D-065)**
+- [ ] **Folha Anotar:** nas 4 abas raiz, o ＋ (≥ 60 pt, canto direito, acima da barra) abre "O que você quer anotar?" por cima, como modal. "Fechar" fecha; arrastar para baixo fecha.
+- [ ] **Itens da folha:** Pressão, Glicemia, Peso e medidas, Sono, Atividade, Água, Refeição e Resultado de exame abrem por cima da folha e, ao salvar, voltam a ela. Foto de documento fecha a folha e volta à tela de antes do ＋. Cada item a ≤ 2 toques.
+- [ ] **＋ some nas telas internas** (módulos, temas, formulários): não cobre "Salvar".
+- [ ] **Espaço no fim:** nas 4 abas, rolando até o fim, o ＋ não cobre o último item.
+- [ ] **Início:** as 5 ações abrem a tela certa em 1 toque e a seta volta ao Início. Em "Meus cuidados", o VoiceOver lê o nome e depois a descrição.
+- [ ] **Voltas:** exame cardio aberto do Histórico volta ao Histórico; links do aviso da MRPA em Levar ao médico voltam a Levar ao médico; `coracao/exames` (link antigo) leva a Meus exames.
+- [ ] **Formulários** dizem "Anotar minha pressão", "Anotar noite de sono"…; seções "Minha pressão" / "Minha glicemia".
+- [ ] **Letra grande** (Ajustes › Acessibilidade › Tamanho do texto, no máximo): botões a 17 pt quebram linha sem corte ("Salvar e adicionar outro da mesma data", "Encerrar compartilhamento", "Mostrar QR para o médico", "Gerar PDF e compartilhar" etc.); atenção aos botões lado a lado.
+- [ ] **Exames de prevenção sem rede:** o texto de erro tem respiro.
+
+**Remédio tomado (D-066)**
+- [ ] **Cadastro:** remédio "Teste" com 1 horário daqui a 2 min, 1 comprimido, lembrete ligado → aparece uma vez "Sempre que tomar, marque no NERO…", que fica fixa no topo de "Meus remédios". As 5 unidades cabem em tela de 320 pt.
+- [ ] **Notificação:** `Hora do remédio: Teste · 1 comprimido 💊` / `Toque aqui para marcar`.
+- [ ] **Toque abre "Tomou?"** (app fechado e aberto) na dose e data certas, com "Quantos comprimidos?" em 1. Conferir a ordem botões × seletor.
+- [ ] **2º aviso em 30 min** sem marcar: `Você tomou Teste das <h>? 💊`; tocar abre a mesma dose.
+- [ ] **Marcar cancela o 2º** ("✓ Tomei" e também "Não tomei").
+- [ ] **Já marcado:** "Você já marcou essa dose às …" com "Corrigir" e "Tomei de novo".
+- [ ] **"De ontem"** em ＋ Anotar › Tomei remédio; no outro dia some (vira "sem registro").
+- [ ] **Para fazer hoje** mostra a dose passada não marcada ("Teste · 8h") e abre "Tomou?".
+- [ ] **Check-in semanal:** quadro "Seus remédios nesta semana" com símbolos e "3 de 4 · 1 não tomada", sem cor; "se precisar" mostra "usou N vezes".
+- [ ] **Interromper/reativar:** lembretes param e as doses somem; ao reativar, o período parado não vira "sem registro".
+- [ ] **Preferência "Medicamentos" desligada:** nem o principal nem o 2º chegam.
+- [ ] **Virada do dia:** dose às 23:45 sem marcar → aviso das 00:15 chega mesmo abrindo o app logo após a meia-noite.
+- [ ] Android: anúncio do leitor de tela não repete duas vezes ao marcar.
+
+**Relatório e QR (D-067)**
+- [ ] **Prévia:** Levar ao médico → "Resumo completo": painel em 1 coluna antes das seções, "Gerado em …", gráfico na largura da tela e nada cortado num iPhone SE.
+- [ ] **PDF** (iOS e Android): página 1 é o painel inteiro; "Para atenção nesta consulta" só quando há algo; cartões em 2 colunas; remédios com ● ○ ◆ –; no detalhe, a coluna "Marcado às". Sem nenhuma cor de julgamento. "Resumo completo" da conta de teste com **5 páginas** (o expo-print pode paginar diferente do Chrome).
+- [ ] **Gerar o QR:** o alerta de envio aparece; o QR e "Compartilhamentos ativos" mostram a validade de 7 dias.
+- [ ] **QR do PDF impresso** lido por câmera de iPhone e de Android abre https://nerosaude.com.br/r/ com o relatório inteiro.
+- [ ] **Página no Safari do iOS:** relatório em 1 coluna dentro do iframe, altura certa (sem rolagem dupla nem corte), "Baixar PDF" abre o PDF, links das fontes abrem em aba nova. Também no Chrome do Android.
+- [ ] A barra de endereço fica `nerosaude.com.br/r/` (sem o `#…`); recarregar mostra "não está mais disponível" (esperado: ler o QR de novo).
+- [ ] **Encerrar** o compartilhamento (prévia ou Compartilhamentos ativos) → o mesmo QR mostra "Este relatório não está mais disponível."; no painel da Supabase, o PDF e o `.json` sumiram de `relatorios/<usuário>/`.
+- [ ] **Exclusão de conta** com QR ativo: a pasta do usuário some de `relatorios` e o QR não abre mais.
 
 ## Entrada no app (D-033) — nunca testado, tudo novo
 

@@ -21,7 +21,7 @@ export interface EntradaPA {
   sintomas: SintomaPA[];
 }
 
-/** Minha Pressão (§1, C-010): medidas casuais dos últimos 90 dias, parâmetros das regras e convite para MRPA. */
+/** Minha pressão (§1, C-010): medidas casuais dos últimos 90 dias, parâmetros das regras e convite para MRPA. */
 export function usePressao() {
   const { sessao } = useSessao();
   const userId = sessao?.user.id;

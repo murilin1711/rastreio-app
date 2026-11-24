@@ -11,6 +11,7 @@ import { INTERVALOS_AGUA, PORCOES_AGUA, TEXTO_AGUA } from '@modules/bem-estar/co
 import { horariosAgua, validarConfigAgua } from '@core/regras/bemestar/lembretesAgua';
 import { horaLocal } from '@modules/coracao/componentes/formato';
 import { CampoHorario, Button, Card, Colors, Input, InternalHeader, ModalComemoracao, Opcoes, ProgressBar, Radius, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 const litros = (ml: number) => `${String(Math.round(ml / 100) / 10).replace('.', ',')} L`;
 
@@ -48,7 +49,7 @@ export default function MinhaAgua() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled" refreshControl={<RefreshControl refreshing={agua.carregando} onRefresh={agua.recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Saúde & Bem-estar" title="Minha Água" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Hábitos e bem-estar" title="Minha Água" onBack={() => router.back()} />
         <Text style={styles.sub}>{TEXTO_AGUA.subtitulo}</Text>
 
         <Card style={styles.hoje}>
@@ -135,6 +136,7 @@ export default function MinhaAgua() {
             </Card>
           ))}
         </View>
+        <FontesDaTela tema='agua' />
       </ScrollView>
       <ModalComemoracao conteudo={agua.comemorar ? TEXTO_AGUA.metaBatida : null} aoFechar={agua.dispensarComemoracao} />
       {avisos.modal}

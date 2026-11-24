@@ -1,4 +1,3 @@
-import { useRouter } from 'expo-router';
 import { Pressable, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -6,14 +5,18 @@ import { handlers } from '@core/regras/programas';
 import type { Programa } from '@core/regras/tipos';
 import { PROGRAMAS, ROTULO_PROGRAMA } from '@core/rastreando/tipos';
 import { useRastreando } from '@core/rastreando/useRastreando';
+import { ACOES_PREVENCAO } from '@modules/rastreando/acoes';
 import { CardPrograma } from '@modules/rastreando/componentes/CardPrograma';
 import { NIVEL_PENDENCIA } from '@modules/rastreando/componentes/statusUI';
-import { Alerta, Button, Colors, LogoNero, Radius, SaidaConcluida, Spacing, Typography, useSaidaConcluida } from '@ui/index';
+import { Alerta, Button, Colors, ListaAcoes, LogoNero, Radius, SaidaConcluida, Spacing, Typography, useSaidaConcluida } from '@ui/index';
 import { useAbrir } from '@core/navegacao/useVoltar';
+import { LinkFontes } from '@modules/fontes/FontesDaTela';
 
-/** "Seus rastreamentos" (§28, §37): só o que é aplicável ao perfil, com o que exige ação no topo. */
+/**
+ * Módulo "Exames de prevenção" no molde único (spec de navegação §6.5, D-065; §28, §37): o que fazer primeiro,
+ * depois o que exige ação e só o que é aplicável ao perfil.
+ */
 export default function Rastreando() {
-  const router = useRouter();
   const abrir = useAbrir();
   const { avaliacoes, perfil, pendencias, sintomas, carregando, erro, recarregar } = useRastreando();
   // Pendência resolvida fica verde e só então sai da lista (D-024).
@@ -27,10 +30,9 @@ export default function Rastreando() {
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
         <View style={styles.topo}>
-          <View style={styles.marca}><LogoNero variante="simbolo" width={26} /><Text style={styles.marcaTexto}>RASTREAMENTOS</Text></View>
+          <View style={styles.marca}><LogoNero variante="simbolo" width={26} /><Text style={styles.marcaTexto}>EXAMES DE PREVENÇÃO</Text></View>
         </View>
-        <Text style={styles.titulo}>Seus rastreamentos</Text>
-        <Text style={styles.sub}>Organizados pelo seu perfil, segundo as diretrizes brasileiras. Rastreamento é para quem não tem sintomas.</Text>
+        <Text style={styles.titulo}>Exames de prevenção</Text>
 
         {erro ? (
           <View style={styles.erro}>
@@ -38,6 +40,10 @@ export default function Rastreando() {
             <Button label="Tentar de novo" variant="outline" onPress={recarregar} />
           </View>
         ) : null}
+
+        <View style={styles.acoes}>
+          <ListaAcoes acoes={ACOES_PREVENCAO} onAbrir={abrir} />
+        </View>
 
         {saidaPendencias.lista.length > 0 ? (
           <>
@@ -84,11 +90,9 @@ export default function Rastreando() {
           </>
         ) : null}
 
-        <View style={{ marginTop: Spacing.xxxl, gap: Spacing.sm }}>
-          <Button label="Ver lembretes" variant="outline" onPress={() => abrir('/(app)/rastreando/lembretes')} />
-          <Button label="Relatório de rastreamento" variant="outline" onPress={() => abrir({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: 'oncologico', dias: '180' } })} />
-        </View>
+        <Text style={styles.sub}>Organizados pelo seu perfil, segundo as diretrizes brasileiras. Rastreamento é para quem não tem sintomas.</Text>
         <Text style={styles.rodape}>O NERO organiza as recomendações para o seu perfil e não substitui a avaliação do seu médico.</Text>
+        <LinkFontes />
       </ScrollView>
     </SafeAreaView>
   );
@@ -101,8 +105,9 @@ const styles = StyleSheet.create({
   marca: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm },
   marcaTexto: { fontFamily: 'Poppins-ExtraBold', fontSize: 13, letterSpacing: 2, color: Colors.accent },
   titulo: { ...Typography.display, fontSize: 28, lineHeight: 34, color: Colors.primary },
-  sub: { ...Typography.body, color: Colors.textSecondary, marginTop: Spacing.xs, marginBottom: Spacing.xxl },
-  erro: { gap: Spacing.md, marginBottom: Spacing.xxl },
+  sub: { ...Typography.body, color: Colors.textSecondary, marginTop: Spacing.xxxl },
+  acoes: { marginTop: Spacing.lg, marginBottom: Spacing.xxl },
+  erro: { gap: Spacing.md, marginTop: Spacing.lg },
   erroTexto: { ...Typography.body, color: Colors.danger },
   secaoTopo: { flexDirection: 'row', alignItems: 'center', gap: Spacing.sm, marginBottom: Spacing.md },
   secao: { ...Typography.heading, color: Colors.textPrimary, marginBottom: Spacing.md },

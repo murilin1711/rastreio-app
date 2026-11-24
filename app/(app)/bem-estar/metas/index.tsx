@@ -11,6 +11,7 @@ import type { Meta, TipoMeta } from '@core/regras/bemestar/tipos';
 import { traduzirErro } from '@core/supabase/erros';
 import { ROTULO_OBJETIVO, TEXTO_MARCO } from '@modules/bem-estar/conteudo/corpo';
 import { Button, Card, Colors, Input, InternalHeader, ModalComemoracao, Opcoes, Select, Spacing, Typography } from '@ui/index';
+import { LinkFontes } from '@modules/fontes/FontesDaTela';
 
 const fmt = (n: number) => String(Math.round(n * 10) / 10).replace('.', ',');
 const ROTULO_TIPO: Record<TipoMeta, string> = { peso: 'Peso (kg)', cintura: 'Circunferência abdominal (cm)', atividade_min: 'Atividade (minutos por semana)', atividade_dias: 'Dias ativos por semana', fortalecimento_dias: 'Fortalecimento (dias por semana)', sono_min: 'Sono (horas por noite)', pressao: 'Pressão (definida pelo médico)', agua_ml: 'Água (ml por dia)' };
@@ -86,7 +87,7 @@ export default function Metas() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Saúde & Bem-estar" title="Minhas Metas" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Hábitos e bem-estar" title="Minhas Metas" onBack={() => router.back()} />
         <Text style={styles.sub}>Objetivos definidos por você ou junto com seu profissional. O NERO mostra a distância; não define metas de peso por conta própria.</Text>
 
 
@@ -114,6 +115,7 @@ export default function Metas() {
         <Text style={styles.rotulo}>Quem definiu</Text>
         <Opcoes<Origem> opcoes={[{ valor: 'usuario', rotulo: 'Eu' }, { valor: 'profissional', rotulo: 'Meu médico ou outro profissional' }]} valor={origem} onChange={setOrigem} />
         <Button label="Salvar meta" onPress={definir} style={{ marginTop: Spacing.lg }} />
+        <LinkFontes />
       </ScrollView>
       <ModalComemoracao conteudo={festa ? TEXTO_MARCO[festa.tipo][festa.marco] : null} aoFechar={() => setFesta(null)} />
     </SafeAreaView>

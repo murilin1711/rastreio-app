@@ -13,6 +13,7 @@ import { CONTEUDO } from '@modules/rastreando/conteudo';
 import { STATUS_UI, dataBr } from '@modules/rastreando/componentes/statusUI';
 import { perguntasFaltantes, type CampoFaltante } from '@modules/rastreando/perguntasFaltantes';
 import { Button, CampoData, Card, Colors, Input, InternalHeader, Opcoes, Select, Spacing, StatusBadge, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 const TITULOS: Record<CampoFaltante, string> = {
   dataNascimento: 'Quando você nasceu?', sexoNascimento: 'Sexo atribuído ao nascimento', antecedentes: 'Alguém na família teve câncer?',
@@ -98,6 +99,7 @@ export default function Preciso() {
             <Button label="Ver sinais de alerta" variant="outline" onPress={() => router.push({ pathname: '/(app)/rastreando/[programa]/sinais', params: { programa: p } })} />
           </View>
           <Text style={styles.rodape}>Este resultado organiza as recomendações das diretrizes para o seu perfil e não substitui a avaliação do seu médico. Fontes: {c.fonteResumo}</Text>
+          <FontesDaTela tema={programa as Programa} />
         </ScrollView>
       </SafeAreaView>
     );

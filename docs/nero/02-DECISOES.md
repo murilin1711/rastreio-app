@@ -646,7 +646,7 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 
 **Para depois:** os planos que o médico passar (quando existir o portal do médico) e a próxima consulta.
 
-**Visto no simulador em 25/09.**
+**Visto no simulador em 25/09.** **Substituída pela D-065** (23/11/2026): as ações saíram da faixa e foram para o topo do Início.
 
 ### D-054 — A seta de voltar leva de onde a pessoa veio, com a barra de baixo visível — 25/09/2026
 **Relato do Murilo (25/09):** pelos atalhos Relatório ou Remédios, a seta de voltar levava ao "Relatório de rastreamento oncológico", nos dois casos. Pediu: manter a barra de baixo e voltar sempre para a última área em que estava.
@@ -801,6 +801,270 @@ Junto: `envolverRaiz` só aplica o `Sentry.wrap` quando o Sentry foi iniciado, o
 
 **Falta ver no aparelho:** os três só aparecem num build Android novo (a barra nativa e o ícone não existem no
 Expo Go). Entram no próximo lote.
+
+### D-065 — Reorganização da navegação: ações no topo, ＋ Anotar e molde único — 23/11/2026
+**Por quê:** o Murilo, que conhece o app, não achava funções ao mostrá-lo a outras pessoas ("onde está o MRPA?").
+O app era organizado por área médica, e o público (em boa parte idoso) pensa pela ação: "anotar minha pressão".
+
+**Escolha do Murilo (23/11):** abordagens **A + B juntas**: manter os módulos, com as ações no topo, molde único e
+sem duplicações (A), e um círculo "＋ Anotar" sempre à mão (B). A abordagem C (refazer por ação, sem módulos)
+foi descartada. Regra: a entrada de cada função fica a no máximo 2 toques da tela inicial (a aba ou o ＋ contam 1).
+
+**Nomes novos** (valem em todo texto visível):
+
+| Antes | Agora |
+|---|---|
+| Coração & Metabolismo | Pressão, coração e diabetes |
+| Rastreamentos | Exames de prevenção |
+| Saúde & Bem-estar | Hábitos e bem-estar |
+| MRPA (cartão) | Medir a pressão por alguns dias (MRPA); em andamento, "Continuar o MRPA — dia X de N" |
+| HbA1c / LDL | Glicada (HbA1c) / Colesterol LDL |
+| Relatório / Relatório de Saúde & Hábitos | Levar ao médico |
+| Pendências (Início) | Para fazer hoje |
+| Sinais de alerta (Coração) | Quando procurar o pronto-socorro |
+
+A spec dizia "por 7 dias"; o app faz a MRPA de **4 a 6 dias** (C-011), então o nome ficou "por alguns dias" e o
+"N" vem de `diasPrevistos` (confirmado pelo Murilo, 23/11). Os formulários passaram a dizer o mesmo verbo dos
+botões que levam a eles ("Anotar minha pressão", "Anotar noite de sono"…), e "Minha Pressão"/"Minha Glicemia"
+viraram "Minha pressão"/"Minha glicemia". O rótulo do `Button` subiu de 15 para 17 pt no app inteiro.
+
+**Onde mora cada coisa:**
+
+| Função | Casa única | Em outros lugares |
+|---|---|---|
+| Minha Saúde | aba | saiu da grade da tela inicial |
+| Meus exames | Minha Saúde › Meus exames | Coração: "Ver meus exames" abre a mesma lista; `coracao/exames` virou redirecionamento para ela |
+| Linha do tempo | aba Histórico | saiu do Coração e de Minha Saúde; a rota `coracao/linha-do-tempo` continua existindo, sem entrada |
+| Peso | Hábitos e bem-estar | o Coração só mostra o número |
+| Remédios | Minha Saúde | botão na tela inicial e na folha Anotar |
+| Relatórios gerais | Minha Saúde › Levar ao médico | botão na tela inicial |
+| Relatório da MRPA e da glicemia | nas telas da MRPA e de "Minha glicemia" | "Levar ao médico" mostra um aviso com os dois links quando há MRPA concluída |
+
+**Tela inicial:** "O que você quer fazer?" com no máximo 5 ações (pressão, remédios, glicemia ou exames, Levar ao
+médico e, largo, Minhas consultas), depois "Para fazer hoje" e "Meus cuidados" (os 3 módulos em cartões largos,
+com uma linha do que tem dentro). **Substitui a faixa de atalhos da D-053** (`FaixaAtalhos` e seu teste saíram).
+
+**Módulos:** todos no molde único: "O que você quer fazer?" (lista de ações, letra ≥ 17 pt) e depois "Seus últimos
+números" só com os cartões que a pessoa já tem. O item de um tema abre a tela do tema, cujo primeiro botão é "Anotar".
+
+**Folha Anotar:** o círculo "＋" (≥ 60 pt, `Colors.primary`, só nas 4 telas raiz das abas) abre `app/(app)/anotar.tsx`
+com `presentation: 'modal'` (fecha por "Fechar" ou arrastando). Regra `abrirDaFolha`
+(`src/modules/anotar/abrirDaFolha.ts`): rota de módulo empilha sobre a folha, e quem salva volta para ela; rota de
+aba fecha a folha antes e leva `voltarPara` (D-054), para voltar aonde a pessoa estava antes do ＋.
+
+**Rotas antigas não quebram:** nenhuma tela de `app/` foi apagada; `rotasAntigas.test.ts` confere as rotas que
+deixaram de ser entrada e as rotas fixas de `montarItensHoje`, e `nomesNovos.test.ts` procura os nomes antigos.
+
+**Fontes:** spec `docs/superpowers/specs/2026-11-23-reorganizacao-navegacao-design.md`; plano
+`docs/superpowers/plans/2026-11-23-nero-navegacao.md`.
+
+**Falta ver no aparelho:** folha Anotar por cima, arrastar fecha, ＋ some nas telas internas, voltas de Histórico e
+Levar ao médico, e botões a 17 pt com letra grande.
+
+### D-066 — Marcar remédio tomado — 23/11/2026
+**Por quê:** o NERO lembrava o horário do remédio, mas não sabia se a pessoa tomou. O Murilo quer que o idoso
+registre cada dose e que o médico veja esse registro (no check-in semanal e no PDF). É também a base do projeto
+"Familiar e emergência" (avisar um familiar quando a dose ficar sem resposta).
+
+**Como marca (escolha do Murilo):** **toque simples na notificação abre a tela "Tomou?"** já no remédio, no horário e
+na data certos (a data é a da entrega da notificação). **Botões dentro da notificação ("✓ Tomei" ao segurar) foram
+descartados:** o idoso não descobre o gesto de segurar. A tela tem `✓ Tomei` (grande), `Não tomei` e a quantidade
+pré-preenchida com o previsto (`Quantos comprimidos?` segue a unidade); dose já marcada mostra
+`Você já marcou essa dose às 8h10` com `Corrigir` (troca o registro) ou `Tomei de novo` (segunda tomada). Salvar
+mostra `Marcado ✓` sem esperar o cancelamento do segundo lembrete. Remédio "se precisar" não tem `Não tomei`.
+
+**Onde mais se marca:** tela inicial › "Para fazer hoje" (cada dose de hoje não marcada cujo horário já chegou);
+＋ Anotar › **"Tomei remédio"** (doses de hoje, uma seção **"De ontem"** com as doses de ontem ainda não marcadas e
+os remédios "se precisar" com "Tomei agora"); e "Meus remédios" (novo nome da tela de medicamentos), com as doses
+de hoje e o estado de cada uma. Sem "De ontem" o prazo até o fim do dia seguinte não teria onde ser usado.
+
+**Só a dose marcada vira linha** (`tomadas_medicacao`); as previstas são calculadas do cadastro. Cada tomada guarda
+cópia do previsto (`hora_prevista`, `quantidade_prevista`), então mudar o cadastro não reescreve o passado.
+
+**Classificação de cada dose prevista** (funções puras em `src/core/medicacoes/adesao.ts`):
+
+| Estado | Regra |
+|---|---|
+| Tomou | marcou "Tomei" com a quantidade prevista |
+| Não tomou | marcou "Não tomei" |
+| Errado | **quantidade diferente da prevista ou dose dobrada** (mais de uma tomada na mesma dose; escolha do Murilo). Em "a dose muda conforme o dia", só a dose dobrada |
+| Com atraso | tomou mais de **2 h** depois do horário. **Só informação, não é erro**: soma-se a Tomou ou Errado |
+| Sem registro | nada marcado **até o fim do dia seguinte**; quem só esqueceu de marcar não vira "não tomou" |
+
+Não contam doses fora de `desde`/`ate` nem de antes de `horarios_desde`. "Se precisar" não tem percentual: conta
+os usos dentro do período do remédio.
+
+**Sem limite de 80 % e sem cor (decisão do Murilo, 23/11):** a spec previa marcar na linha do tempo as semanas com
+adesão abaixo de 80 %. Saiu: seria julgamento clínico novo, sem diretriz que o sustente. A linha do tempo não recebe
+as doses, e nenhum resumo pinta a adesão de verde, amarelo ou vermelho.
+
+**Check-in semanal:** acima das perguntas, o quadro só de leitura **"Seus remédios nesta semana"**, só com fatos:
+uma fileira de símbolos (● tomou, ○ não tomou, ⚠ dose errada, – sem registro; a pendente fica de fora) e o texto
+`12 de 14 · 1 não tomada · 1 sem registro`, `7 de 7 ✓` (o ✓ é fato: todas tomadas, e o atraso continua junto:
+`7 de 7 ✓ · 2 com atraso`) ou `usou 3 vezes` para "se precisar". O quadro reserva o lugar enquanto carrega. O PDF
+fica para o plano do relatório (**D-067**).
+
+**Tomar remédio não conta na sequência de dias** (`dias_ativos`), por ora: decisão de produto.
+
+**Cadastro:** cada horário ganha "quanto tomar". **Unidades:** comprimido (passo 0,5, com "meio comprimido" e
+"1 comprimido e meio"), gota (1), unidade de insulina (1), mL (0,5) e jato ou inalação (1); a unidade vale também
+em "se precisar", e trocar a unidade leva as quantidades ao passo da nova. Opções **"a dose muda conforme o dia"** e
+**"se precisar"** (sem horário, sem lembrete). Ao salvar o primeiro remédio com horário aparece uma vez, e fica fixa
+no topo de "Meus remédios": `Sempre que tomar, marque no NERO. É assim que você e seu médico acompanham o tratamento.`
+Remédio com horário e lembrete desligado conta na adesão e aparece em "Para fazer hoje"; só não recebe aviso.
+
+**Dados (migração 0023):**
+- **`quantidades jsonb` à parte (`{"08:00": 1, "20:00": 2}`), e `horarios` continua `string[]`.** A spec pedia
+  `{hora, quantidade}` dentro de `horarios`, mas o build que está nas lojas lê `horarios` como lista de `'HH:MM'`
+  (`h.split(':')`) e quebraria a tela e os lembretes de quem não atualizou. Hora sem entrada vale 1. No app o
+  modelo é `HorarioDose[]`.
+- Colunas `unidade`, `dose_variavel`, `se_precisar`, `horarios_desde`. Ao migrar: remédio ativo sem horário vira
+  "se precisar" (e, no app, ativo com `horarios = []` também é tratado como "se precisar", porque o build antigo
+  ainda pode cadastrá-lo); quem tem horário começa a contar na migração, 1 comprimido por horário.
+- **`horarios_desde` mantido por gatilho** (insert ou mudança em `horarios`/`quantidades`), para valer também nas
+  edições do build antigo. **Reativar um remédio grava `horarios_desde` = agora**: o tempo parado não vira "sem
+  registro". Interromper grava `ate` com a data local.
+- **FK composta `(medicacao_id, user_id)` → `medicacoes(id, user_id)`**: a tomada só aponta para remédio do mesmo
+  dono (FK ignora RLS). RLS de dono como na 0005; a exclusão de conta apaga junto. Hora validada (00:00–23:59).
+- `listarTomadas` pagina além do teto de 1000 linhas do PostgREST. Política de privacidade: "registro de tomada de
+  remédios".
+
+**Notificações:**
+- Lembrete principal (diário, como na D-048): `Hora do remédio: Losartana 50 mg · 1 comprimido 💊` /
+  `Toque aqui para marcar` (o 💊 vem pelo padrão da D-044; "dose muda conforme o dia" não mostra a quantidade).
+  Todos são reagendados na primeira abertura depois da atualização.
+- **Segundo lembrete, 30 min depois**, só se a dose não foi marcada: `Você tomou Losartana das 8h? 💊` /
+  `Toque aqui para marcar`. É avulso (um diário não se cancela num dia só), no máximo um por dose, com
+  identificador `medicacao2:<remédio>:<data>:<hora>`, e **não grava linha em `lembretes`** (não aparece na Agenda).
+  Janela **ontem, hoje e amanhã**: ontem só o que ainda vai tocar (a dose das 23:45 avisa às 00:15, e a
+  sincronização depois da meia-noite não pode perdê-la). **Teto de 40 avulsos e nunca mais de 64 avisos no
+  total** (iOS, D-048), contando o que já está agendado; passou, fica só hoje (e o resto de ontem). Refeito ao
+  abrir o app e ao salvar remédio, numa **fila de sincronização** (uma de cada vez, conferindo as marcas logo antes
+  de agendar). Marcar a dose (tomei ou não tomei) cancela o dela. A preferência "Medicamentos" desligada cala os
+  dois. Se o app ficar dias sem abrir, os segundos param e o principal continua (aceito).
+- **Textos neutros em gênero** ("Hora do remédio", "Você tomou … das 8h?"), sem "esqueceu" nem cobrança.
+
+**Fontes:** spec `docs/superpowers/specs/2026-11-23-remedio-tomado-design.md`; plano
+`docs/superpowers/plans/2026-11-23-nero-remedio-tomado.md`; textos em `docs/nero/notificacoes.md`.
+
+**Falta ver no aparelho:** lembrete com o texto novo, toque abrindo "Tomou?" na dose certa, segundo lembrete aos
+30 min e cancelado ao marcar, "De ontem", quadro do check-in, interromper e reativar, e as 5 unidades em tela de
+320 pt.
+
+### D-067 — Relatório novo: painel na página 1, prévia no celular e página do QR — 23/11/2026
+**Por quê:** o médico tem poucos minutos na consulta e o PDF começava pelo detalhe, seção a seção. O Murilo quer
+que a primeira página diga logo o que importa, que o paciente veja o mesmo no celular antes de gerar, e que o QR
+abra o relatório inteiro na tela do médico (antes abria só o PDF).
+
+**Sem selos de cor e sem julgamento clínico novo (decisão do Murilo, 23/11):** a spec propunha selos
+verde/amarelo/vermelho nos cartões, na adesão e na prevenção (tabela §6.5, a validar pela Dra. Denise) e adesão
+< 80 % como gatilho de atenção. **Saiu tudo:** não há `selos.ts`, `VALIDACAO_SELOS` nem folha de revisão, e nenhum
+limite percentual. O relatório só **mostra** o que regras já aprovadas dizem; nenhum cálculo, meta ou regra nova.
+Os avisos do detalhe que já existiam antes (MRPA acima da referência, pendência) ficam: não são julgamento novo.
+
+**Três saídas, o mesmo conteúdo:**
+
+| Saída | Como é feita |
+|---|---|
+| PDF A4 | `htmlRelatorio` com o painel e **sem** `tela`: página 1 é o painel (quebra de página depois), cartões em 2 colunas, fontes em letra menor e em 2 colunas |
+| Prévia no app | `PainelRelatorioView` (componentes nativos, 1 coluna, gráfico em `SvgXml` com a largura da tela), depois as seções como antes; rodapé "Detalhes logo abaixo." |
+| Página do QR (`/r/`) | o mesmo HTML com `tela: true` (classe `tela` no `<html>`: corpo centralizado e espaçado só na tela; o PDF nunca recebe, para não depender do media type do expo-print), 1 coluna no celular |
+
+**Página 1 (painel), nesta ordem:** cabeçalho (nome e idade em destaque, sexo ao nascer, condições informadas,
+tabagismo, período, "Gerado em" e o QR no PDF) → "Para atenção nesta consulta" → cartões → gráfico da sistólica →
+"Remédios: últimas 2 semanas" → prevenção → rodapé "Detalhes nas páginas seguintes." com a ressalva curta
+(`RESSALVA_CURTA_PAINEL`). Bloco sem dado não aparece. Blocos por tipo (`montarPainel`, `painel.ts`), além do
+cabeçalho e da atenção: geral e consulta trazem cartões, gráfico, remédios e prevenção; cardio, cartões, gráfico e
+remédios; oncológico, só a prevenção (com próxima data e mensagem); bem-estar, só os cartões de peso e cintura. O filtro `apenas` do relatório cardio vale também para o painel, e na consulta só entram os cartões
+e a prevenção das seções da especialidade.
+
+**"Para atenção nesta consulta"** (caixa vermelha, só se houver algo, **no máximo 5 itens**), na ordem da hierarquia
+de segurança aprovada (§66, `regras/seguranca.ts`), em todo tipo de relatório:
+1. sintoma de alarme **aberto** (não resolvido): sempre e primeiro, sem filtro de período;
+2. pendência de rastreamento aberta;
+3. média da última **MRPA**, se o protocolo for válido, acima da referência domiciliar (C-010/C-011; a referência vem dos parâmetros,
+   130/80 se faltarem);
+4. pressão avulsa **só** se a C-010 já marcar: "PAS ≥ 180 e/ou PAD ≥ 110 mmHg" (a C-010 é e/ou);
+5. glicemias fora da meta (contagem, metas SBD já usadas);
+6. remédios, **só fatos** e só quando houver dose **não tomada ou errada** nas 2 semanas:
+   "Losartana: 2 doses não tomadas e 1 sem registro em 14 dias". "Sem registro" entra na frase, mas sozinho não
+   dispara o item (não é evidência de falta e lotaria os 5 lugares).
+
+Do 3 ao 6, só se a seção estiver no escopo do relatório. Medidas `excluida` (valores implausíveis) ficam fora do
+item da avulsa, do cartão, do gráfico e da seção de pressão.
+
+**Cartões:** valor, unidade, data e tendência (↑ ↓), com o mesmo formato numérico do detalhe; LDL e HbA1c com a
+referência do laboratório; risco com a categoria do PREVENT já existente; sem cor. O número de cada cartão sai da
+mesma fonte da seção do detalhe (o cardio não tem cartão de peso, porque não tem a seção). **Gráfico:** só a
+sistólica (a diastólica fica na tabela), avulsas válidas + média de cada dia de MRPA, a partir do início do período,
+com a linha tracejada da referência domiciliar (130 se faltar), sem cor por ponto, com `<title>`/`<desc>`.
+**Prevenção:** uma linha por programa aplicável, com o mesmo texto de situação do app, sem cor.
+
+**Remédios:** 2 semanas no painel e 4 no detalhe, contadas para trás a partir da data de geração (o dia vem sempre
+de `dataLocal(geradoEm)`). Uma linha por remédio ativo, na ordem do cadastro, inclusive o recém-cadastrado ("sem
+doses previstas no período"), e por remédio interrompido dentro da janela, com "(interrompido em dd/mm)" e as doses
+até o fim (o detalhe de 4 semanas faz o mesmo; "Medicamentos em uso" segue só com os ativos). Bolinhas por dose e a
+contagem "11 de 14" (ou "usou 2 vezes" no "se precisar"), sem selo. Símbolos `● tomou · ○ não tomou · ◆ dose errada ·
+– sem registro` ("Dose errada" é o mesmo nome no app, no check-in e no relatório): no relatório a dose errada é **◆**, e não o ⚠ do
+app (D-066), porque o ⚠ é um caractere de emoji que sai diferente no expo-print e no iframe; o mapa fica em
+`@core/relatorios` (o core não importa `@modules/remedios`). No detalhe, a tabela das doses tem as colunas Data,
+Remédio, Previsto, **Marcado às** (a hora em que a pessoa marcou, não a hora em que tomou), Quantidade e Situação.
+
+**Detalhe:** mesma ordem de antes, **sem as seções vazias, também no foco** (revê a D-025, que mantinha no foco as
+seções sem registro); sem barras repetindo a tabela em pressão, água e atividade (a MRPA mantém as barras por dia);
+termos internos corrigidos ("medicacao" → "remédios", "bioimpedancia" → "bioimpedância"); títulos com os nomes da
+D-065 ("Relatório de pressão, coração e diabetes", "Relatório de exames de prevenção", "Relatório de hábitos e
+bem-estar", seção "Exames de prevenção aplicáveis"). Corpo a 9,5 pt e tabelas a 8 pt.
+
+**Tamanho:** o "Resumo completo" dos dados de teste tem **5 páginas** (painel 1, detalhe cerca de 3, fontes e
+ressalvas cerca de 1). A meta de 4 da spec saiu: chegar a ela exigiria cortar as fontes com link, que ficam nas três
+saídas por exigência da Apple (diretriz 1.4.1). As ressalvas `RESSALVA_CARDIO`, `RESSALVA_ONCOLOGICO` e
+`RESSALVA_HABITOS` não mudaram.
+
+**QR (compartilhamento), `compartilharQr.ts` e `linkQr.ts`:**
+- O QR abre `https://nerosaude.com.br/r/#c=<caminho do JSON>&t=<token>`: **só o caminho e o token**, e depois do
+  `#`, que o navegador não envia a servidor nenhum. O caminho e o token seguem regras estritas (`RE_CAMINHO_QR`,
+  `RE_TOKEN_QR`), as mesmas na página (um teste confere).
+- Cada compartilhamento sobe **dois arquivos** no bucket privado `relatorios`: o PDF e um `<nome>.json` ao lado, com
+  `{versao, titulo, geradoEm, expiraEm, html, pdfUrl}`. O token do link é o da URL assinada do **JSON**, e o JSON
+  leva a URL assinada do **PDF**. As duas valem **7 dias**. O JSON traz o HTML já montado e a página só o exibe
+  (a spec deixava o formato ao construtor).
+- Ordem: **primeiro a linha em `compartilhamentos`** com o caminho e `expira_em` (a validade é calculada antes de
+  assinar, então a mostrada nunca passa da real) → JSON provisório → URL do JSON → link → PDF com o QR desse link →
+  URL do PDF → JSON final. Em falha, apaga os arquivos e, se saíram, a linha (melhor esforço). Se o app morrer no
+  meio, a linha com prazo garante que `limparExpirados` apague os arquivos: nada fica no bucket sem prazo.
+- **Encerrar apaga os dois arquivos** (as URLs passam a dar erro) e marca `revogado_em`. Excluir a conta apaga a
+  pasta inteira (0014).
+- **Migração 0024:** o bucket `relatorios` passa a aceitar `application/json` além de PDF (teto de 10 MB da 0020).
+
+**Página `/r/`** (`scripts/site/r/`, gerada em `site/r/` por `npm run site`): lê o fragmento, apaga-o da barra de
+endereço (`replaceState`), busca o JSON **só** no Supabase do projeto (o host entra no build, nunca vem do link;
+`gerar-site.mjs` se recusa a gerar sem `https://<projeto>.supabase.co`), confere que `pdfUrl` é do mesmo bucket,
+host e relatório, e mostra o HTML num **iframe `sandbox` sem permissão de scripts** (`allow-same-origin allow-popups
+allow-popups-to-escape-sandbox`, para medir a altura e abrir os links em aba nova) com o botão "Baixar PDF". CSP
+`default-src 'none'` (só o próprio script e o Supabase), `noindex`, `no-referrer`, nenhum script de terceiros, nada
+guardado no navegador. Revogado, vencido, provisório ou link estranho: "Este relatório não está mais disponível."
+Recarregar a página perde o link (o fragmento foi apagado): o médico lê o QR de novo (aceito). O link pode ficar no
+histórico e no autocompletar do navegador de quem leu: a proteção real é o prazo e o encerramento.
+
+**Ordem de lançamento:** migrações 0023 e 0024 no Supabase remoto e `npm run site:publicar` (página `/r/` e
+política) **antes** do build; sem isso, o QR do app novo aponta para uma página que não existe e o upload do JSON é
+recusado. Roteiro em `docs/nero/checklists/publicacao.md`.
+
+**Risco que já existia (não resolvido aqui):** os arquivos vencidos só são apagados quando o app abre "Levar ao
+médico" (`limparExpirados`). Depois de 7 dias ninguém os abre pelo link, mas continuam no Storage até lá. Sugestão:
+um job no servidor (pg_cron) que apague os vencidos, no projeto 4.
+
+**Fontes:** spec `docs/superpowers/specs/2026-11-23-pdf-novo-design.md` (§0 vale sobre o resto); plano
+`docs/superpowers/plans/2026-11-23-nero-relatorio-novo.md`. Arquivos principais: `src/core/relatorios/painel.ts`,
+`adesaoRelatorio.ts`, `grafico.ts`, `html.ts`, `montar.ts`, `linkQr.ts`, `compartilharQr.ts`;
+`src/modules/minha-saude/componentes/PainelRelatorioView.tsx`; `scripts/site/r/`;
+`supabase/migrations/0024_relatorios_json.sql`. Política de privacidade, seções 3, 6 e 8.
+
+**Falta ver no aparelho:** prévia num iPhone SE (gráfico sem corte), PDF do expo-print no iOS e no Android (a
+paginação foi medida no Chrome), QR impresso lido por câmera de iPhone e de Android, página `/r/` no Safari do iOS
+(iframe com `srcdoc` e a CSP, altura, "Baixar PDF" e links abrindo em aba nova) e QR encerrado.
+
 ---
 
 ## Decisões clínicas (protocolos adotados)

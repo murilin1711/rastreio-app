@@ -186,3 +186,36 @@ describe('Saúde & Bem-estar (Fase 4a)', () => {
     expect(domingoOk.some((x) => x.id === 'atividade_semana')).toBe(false);
   });
 });
+
+describe('doses de remédio de hoje (marcar sem notificação)', () => {
+  const agora = new Date('2026-11-23T09:00:00');
+  const doses = [
+    { medicacaoId: 'm1', nome: 'Losartana', data: '2026-11-23', hora: '08:00', estado: 'pendente' },
+    { medicacaoId: 'm1', nome: 'Losartana', data: '2026-11-23', hora: '20:00', estado: 'pendente' }, // ainda não chegou
+    { medicacaoId: 'm2', nome: 'Metformina', data: '2026-11-23', hora: '08:00', estado: 'tomou' }, // já marcada
+  ] as const;
+
+  test('só a dose pendente cujo horário já chegou entra, e tira o "Nada pendente"', () => {
+    const itens = montarItensHoje({ perfil: completo, antecedentesQtd: 1, medicacoesAtivasQtd: 2, dosesHoje: [...doses], agora });
+    expect(itens.filter((i) => i.id.startsWith('dose_'))).toEqual([
+      { id: 'dose_m1_08:00', nivel: 'amarelo', titulo: 'Losartana · 8h', descricao: 'Toque para marcar se tomou.', rota: '/(app)/remedios/tomar?med=m1&hora=08:00&data=2026-11-23' },
+    ]);
+    expect(itens.map((i) => i.id)).not.toContain('tudo_em_dia');
+  });
+
+  test('dose no minuto exato entra; dose de ontem não', () => {
+    const itens = montarItensHoje({
+      perfil: completo, antecedentesQtd: 1, medicacoesAtivasQtd: 1, agora,
+      dosesHoje: [
+        { medicacaoId: 'm3', nome: 'Insulina', data: '2026-11-23', hora: '09:00', estado: 'pendente' },
+        { medicacaoId: 'm3', nome: 'Insulina', data: '2026-11-22', hora: '08:00', estado: 'pendente' },
+      ],
+    });
+    expect(itens.filter((i) => i.id.startsWith('dose_')).map((i) => i.titulo)).toEqual(['Insulina · 9h']);
+  });
+
+  test('sem dose pendente que já chegou → continua "Nada pendente"', () => {
+    const itens = montarItensHoje({ perfil: completo, antecedentesQtd: 1, medicacoesAtivasQtd: 2, dosesHoje: [doses[1], doses[2]], agora });
+    expect(itens.map((i) => i.id)).toEqual(['tudo_em_dia']);
+  });
+});

@@ -1,6 +1,6 @@
 import { SECOES_BEMESTAR, SECOES_CARDIO, SECOES_GERAL, SECOES_ONCOLOGICO } from '../especialidades';
-import { montarBemEstar, montarCardio, montarConsulta, montarGeral, montarOncologico } from '../montar';
-import { SEM_REGISTROS, type ChaveSecao, type SecaoRelatorio } from '../tipos';
+import { montarBemEstar, montarCardio, montarConsulta, montarGeral, montarOncologico, tituloRelatorio } from '../montar';
+import { type ChaveSecao, type SecaoRelatorio } from '../tipos';
 import { PERIODO_TESTE, dadosNeroTeste } from './fixtures';
 
 const chaves = (s: SecaoRelatorio[]) => s.map((x) => x.chave);
@@ -9,12 +9,17 @@ const textoDe = (s: SecaoRelatorio[]) => JSON.stringify(s);
 describe('montarCardio', () => {
   const s = montarCardio(dadosNeroTeste(), PERIODO_TESTE);
   test('seções na ordem do §26 (+ pendências abertas ao final)', () => expect(chaves(s)).toEqual([...SECOES_CARDIO, 'pendencias']));
-  test('tabela de medicações só com as ativas e "desde quando"', () => {
+  test('tabela de remédios só com os ativos, horários e "se precisar"', () => {
     const b = s.find((x) => x.chave === 'medicamentos')!.blocos[0];
-    expect(b.tipo).toBe('tabela');
-    if (b.tipo === 'tabela') { expect(b.linhas.map((l) => l[0])).toEqual(['Losartana', 'Metformina']); expect(b.linhas[0][3]).toBe('01/03/2024'); }
+    if (b.tipo !== 'tabela') throw new Error('esperava tabela');
+    expect(b.linhas.map((l) => l[0])).toEqual(['Losartana', 'Metformina', 'Dipirona']);
+    expect(b.linhas[0][2]).toBe('08:00');
+    expect(b.linhas[1][2]).toBe('08:00, 20:00');
+    expect(b.linhas[2][2]).toBe('se precisar');
+    expect(b.linhas[0][3]).toBe('01/03/2024');
   });
-  test('PA traz média e barras; MRPA traz médias e chip acima da referência', () => {
+  test('seção de remédios traz o resumo de 4 semanas', () => expect(textoDe([s.find((x) => x.chave === 'medicamentos')!])).toContain('Semana de 12/09'));
+  test('PA traz média; MRPA traz médias e chip acima da referência', () => {
     expect(textoDe(s)).toContain('média 130/83 mmHg');
     const mrpa = s.find((x) => x.chave === 'mrpa')!;
     expect(mrpa.blocos.some((b) => b.tipo === 'chip' && b.texto.includes('acima da referência'))).toBe(true);
@@ -32,7 +37,7 @@ describe('montarCardio', () => {
 
 describe('montarOncologico', () => {
   const s = montarOncologico(dadosNeroTeste(), PERIODO_TESTE);
-  test('ordem do §40 (perfil, história familiar, programas…) + pendências', () => expect(chaves(s)).toEqual([...SECOES_ONCOLOGICO, 'pendencias']));
+  test('ordem do §40 (perfil, história familiar, programas…) + pendências', () => expect(chaves(s)).toEqual(SECOES_ONCOLOGICO.filter((c) => !['colo', 'pulmao', 'prostata'].includes(c)).concat('pendencias')));
   test('programa traz situação, exames e próxima recomendação', () => {
     const mama = s.find((x) => x.chave === 'mama')!;
     expect(textoDe([mama])).toContain('Em dia');
@@ -43,17 +48,15 @@ describe('montarOncologico', () => {
     const cr = s.find((x) => x.chave === 'colorretal')!;
     expect(cr.blocos.some((b) => b.tipo === 'chip' && b.nivel === 'laranja' && b.texto.includes('colonoscopia'))).toBe(true);
   });
-  test('programa sem dados → "Sem registros no período"', () => {
-    const pulmao = s.find((x) => x.chave === 'pulmao')!;
-    expect(pulmao.blocos).toEqual([{ tipo: 'texto', texto: SEM_REGISTROS }]);
-  });
+  test('seções sem registro não entram', () => expect(chaves(s)).toEqual(['perfil', 'hist_familiar', 'tabagismo', 'rastreamentos_status', 'mama', 'colorretal', 'sintomas', 'documentos', 'pendencias']));
 });
 
 describe('montarGeral', () => {
   test('união sem repetir e com consultas', () => {
     const c = chaves(montarGeral(dadosNeroTeste(), PERIODO_TESTE));
     expect(new Set(c).size).toBe(c.length);
-    expect(c).toEqual(expect.arrayContaining([...SECOES_CARDIO, ...SECOES_ONCOLOGICO, 'consultas']));
+    // Sem registro (D-067), colo, pulmão e próstata não entram com os dados de teste.
+    expect(c).toEqual(expect.arrayContaining([...SECOES_CARDIO, ...SECOES_ONCOLOGICO, 'consultas'].filter((x) => !['colo', 'pulmao', 'prostata'].includes(x))));
   });
   /**
    * O geral é o documento que promete tudo. `agua` tinha ficado de fora dele até 23/09/2026 (D-025).
@@ -119,19 +122,9 @@ describe('montarConsulta (D-009, revista em D-025)', () => {
     expect(marcadas).toHaveLength(1);
     expect(s.indexOf(marcadas[0])).toBeGreaterThan(s.findIndex((x) => x.chave === 'mama'));
   });
-  test('o complemento omite seções sem registro; o foco as mantém', () => {
-    const d = dadosNeroTeste();
-    d.medidasPA = [];      // pa não é da mastologia → complemento → some
-    d.sintomas = [];       // sintomas é prioridade da mastologia → foco → fica com o texto padrão
-    const s = montarConsulta(d, 'mastologia', PERIODO_TESTE);
-    expect(chaves(s)).not.toContain('pa');
-    expect(s.find((x) => x.chave === 'sintomas')!.blocos).toEqual([{ tipo: 'texto', texto: 'Nenhum sintoma de alerta registrado.' }]);
-  });
+  test('sem medidas de PA, a seção some também do foco da cardiologia', () => { const d = dadosNeroTeste(); d.medidasPA = []; expect(chaves(montarConsulta(d, 'cardiologia', PERIODO_TESTE))).not.toContain('pa'); });
+  test('"Nenhum sintoma…" não é seção vazia: fica', () => { const d = dadosNeroTeste(); d.sintomas = []; expect(montarConsulta(d, 'mastologia', PERIODO_TESTE).find((x) => x.chave === 'sintomas')!.blocos).toEqual([{ tipo: 'texto', texto: 'Nenhum sintoma de alerta registrado.' }]); });
   test('outra = relatório geral', () => expect(montarConsulta(dadosNeroTeste(), 'outra', PERIODO_TESTE)).toEqual(montarGeral(dadosNeroTeste(), PERIODO_TESTE)));
-  test('sem dados de PA → texto padrão (PA é prioridade da cardiologia)', () => {
-    const d = dadosNeroTeste(); d.medidasPA = [];
-    expect(montarConsulta(d, 'cardiologia', PERIODO_TESTE).find((x) => x.chave === 'pa')!.blocos).toEqual([{ tipo: 'texto', texto: SEM_REGISTROS }]);
-  });
 });
 
 describe('montarBemEstar (§88) e integrações da Fase 4', () => {
@@ -164,7 +157,7 @@ describe('montarBemEstar (§88) e integrações da Fase 4', () => {
     expect(textoDe([s.find((x) => x.chave === 'alimentacao')!])).toContain('arroz, feijão e frango');
     expect(textoDe([s.find((x) => x.chave === 'checkins')!])).toContain('semana corrida');
     const d = dadosNeroTeste(); d.bemEstar!.sonos = [];
-    expect(montarBemEstar(d, PERIODO_TESTE).find((x) => x.chave === 'sono')!.blocos).toEqual([{ tipo: 'texto', texto: SEM_REGISTROS }]);
+    expect(chaves(montarBemEstar(d, PERIODO_TESTE))).not.toContain('sono');
   });
   test('glicemia mostra a refeição vinculada (C-020)', () => {
     const g = montarCardio(dadosNeroTeste(), PERIODO_TESTE).find((x) => x.chave === 'glicemia')!;
@@ -175,4 +168,40 @@ describe('montarBemEstar (§88) e integrações da Fase 4', () => {
     const c = chaves(montarConsulta(dadosNeroTeste(), 'endocrinologia', PERIODO_TESTE));
     expect(c).toContain('corpo'); expect(c).toContain('atividade');
   });
+});
+
+describe('detalhe mais curto (D-067)', () => {
+  test('títulos com os nomes novos da navegação', () => {
+    expect(tituloRelatorio('cardio')).toBe('Relatório de pressão, coração e diabetes');
+    expect(tituloRelatorio('oncologico')).toBe('Relatório de exames de prevenção');
+    expect(tituloRelatorio('bemestar')).toBe('Relatório de hábitos e bem-estar');
+  });
+  test('seção de status da prevenção com o nome novo (X3)', () => {
+    expect(montarOncologico(dadosNeroTeste(), PERIODO_TESTE).find((x) => x.chave === 'rastreamentos_status')!.titulo).toBe('Exames de prevenção aplicáveis');
+  });
+  test('sem barras repetindo tabela em PA, água e atividade', () => {
+    const g = montarGeral(dadosNeroTeste(), PERIODO_TESTE);
+    for (const c of ['pa', 'agua', 'atividade'] as const) expect(g.find((x) => x.chave === c)!.blocos.some((b) => b.tipo === 'barras')).toBe(false);
+  });
+  test('MRPA mantém as barras por dia', () => {
+    expect(montarGeral(dadosNeroTeste(), PERIODO_TESTE).find((x) => x.chave === 'mrpa')!.blocos.some((b) => b.tipo === 'barras')).toBe(true);
+  });
+  test('sem termos internos', () => {
+    const t = textoDe(montarGeral(dadosNeroTeste(), PERIODO_TESTE));
+    expect(t).not.toMatch(/"medicacao"|bioimpedancia/); expect(t).toContain('bioimpedância'); expect(t).toContain('remédios');
+  });
+});
+
+test('"Medicamentos em uso" só com ativos; interrompido nas 4 semanas fica na adesão, também sem nenhum ativo (I3)', () => {
+  const d = dadosNeroTeste();
+  d.medicacoes = d.medicacoes.map((m) => (m.id === 'm3' ? { ...m, ate: '2026-09-10', horariosDesde: '2026-01-01' } : m));
+  const sec = montarGeral(d, PERIODO_TESTE).find((x) => x.chave === 'medicamentos')!;
+  const uso = sec.blocos[0];
+  if (uso.tipo !== 'tabela') throw new Error('esperava tabela');
+  expect(uso.linhas.map((l) => l[0])).toEqual(['Losartana', 'Metformina', 'Dipirona']);
+  expect(textoDe([sec])).toContain('Sinvastatina 20 mg (interrompido em 10/09)');
+  d.medicacoes = d.medicacoes.filter((m) => m.id === 'm3');
+  const so = montarGeral(d, PERIODO_TESTE).find((x) => x.chave === 'medicamentos')!;
+  expect(so.blocos[0]).toEqual({ tipo: 'texto', texto: 'Nenhum medicamento cadastrado.' });
+  expect(textoDe([so])).toContain('Sinvastatina 20 mg (interrompido em 10/09)');
 });

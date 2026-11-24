@@ -1,5 +1,5 @@
 import * as Notifications from 'expo-notifications';
-import { agendarLembretesGlicemia, agendarLembretesMrpa, sincronizarLembretesMedicacao } from '@core/cardio/lembretesCardio';
+import { agendarLembretesGlicemia, agendarLembretesMrpa, cancelarTodosSegundosLembretes, sincronizarLembretesMedicacao } from '@core/cardio/lembretesCardio';
 import { sessaoAtiva } from '@core/cardio/sessoesMrpa';
 import { agendarLembretesAgua } from '@core/bemestar/lembretesAgua';
 import { agendarLembretesCheckin } from '@core/bemestar/lembretesCheckin';
@@ -53,6 +53,8 @@ export async function aplicarPreferencias(userId: string, antes: PreferenciasLem
 
 /** Cancela as notificações pendentes do tipo, mantém as linhas e marca ` silenciado` (o item continua visível no app). */
 async function silenciarTipo(userId: string, tipo: TipoLembrete): Promise<void> {
+  // Os segundos lembretes não têm linha em `lembretes`: saem pelo identificador da notificação.
+  if (tipo === 'medicacao') await cancelarTodosSegundosLembretes().catch(() => {});
   let q = supabase.from('lembretes').select('id, mensagem').eq('user_id', userId).eq('status', 'pendente');
   q = tipo === 'exame' ? q.eq('origem_tipo', 'exame') : q.like('titulo', `${PREFIXO_DO_TIPO[tipo]}%`);
   const { data, error } = await q;

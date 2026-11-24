@@ -1,6 +1,8 @@
 import { supabase } from '@core/supabase/client';
 import { traduzirErro } from '@core/supabase/erros';
+import { dataLocal } from './datas';
 import { gerarPdf } from './gerarPdf';
+import { caminhoJson, linkDaPagina, type ConteudoQr } from './linkQr';
 import { qrSvg } from './qr';
 import type { Especialidade, TipoRelatorio } from './tipos';
 
@@ -11,37 +13,79 @@ export interface Compartilhamento { id: string; tipo: TipoRelatorio; especialida
 const TIPO_BANCO: Record<TipoRelatorio, string> = { cardio: 'cardiovascular', oncologico: 'oncologico', geral: 'geral', consulta: 'consulta', bemestar: 'bemestar' };
 const TIPO_DOMINIO: Record<string, TipoRelatorio> = { cardiovascular: 'cardio', oncologico: 'oncologico', geral: 'geral', consulta: 'consulta', bemestar: 'bemestar' };
 
-async function subirPdf(caminho: string, uriLocal: string, upsert: boolean): Promise<void> {
+async function subirPdf(caminho: string, uriLocal: string): Promise<void> {
   const blob = await (await fetch(uriLocal)).blob();
   const buf = await new Response(blob).arrayBuffer();
-  const { error } = await supabase.storage.from('relatorios').upload(caminho, buf, { contentType: 'application/pdf', upsert });
+  const { error } = await supabase.storage.from('relatorios').upload(caminho, buf, { contentType: 'application/pdf', upsert: false });
   if (error) throw traduzirErro(error);
+}
+
+async function subirJson(caminho: string, conteudo: object, upsert: boolean): Promise<void> {
+  const { error } = await supabase.storage.from('relatorios').upload(caminho, JSON.stringify(conteudo), { contentType: 'application/json', upsert });
+  if (error) throw traduzirErro(error);
+}
+
+async function assinar(caminho: string): Promise<string> {
+  const { data, error } = await supabase.storage.from('relatorios').createSignedUrl(caminho, VALIDADE_QR_SEGUNDOS);
+  if (error) throw traduzirErro(error);
+  return data.signedUrl;
+}
+
+export interface ConteudoCompartilhamento {
+  titulo: string;
+  geradoEm: string;
+  /** HTML da página do celular: `htmlRelatorio` com o painel e `tela: true`. */
+  htmlWeb: string;
+  /** HTML do PDF (sem `tela`), com o QR do link da página e a validade. */
+  htmlPdf: (qrSvg: string, validade: string) => string;
+}
+
+/** Melhor esforço: nunca lança, para não trocar o erro original pelo da limpeza. Diz se o passo deu certo. */
+async function semFalhar(passo: () => PromiseLike<{ error: unknown }>): Promise<boolean> {
+  try { return !(await passo()).error; } catch { return false; }
 }
 
 /**
- * Compartilhamento por QR (D-007), em duas passagens: sobe o PDF sem QR → URL assinada de 7 dias → regenera o PDF
- * com o QR dessa URL e sobrescreve o mesmo objeto (a assinatura é do caminho, não do conteúdo).
+ * Compartilhamento por QR (D-007, D-067). O QR abre a página `/r/` (link com caminho e token depois do `#`), que lê
+ * um JSON ao lado do PDF no bucket privado `relatorios`:
+ * (1) linha em `compartilhamentos` com caminho e prazo, ANTES de qualquer arquivo (R3-T9-b): se o app morrer no
+ * meio, `limparExpirados` acha a linha e apaga os arquivos quando vencer, então nada fica no bucket sem prazo →
+ * (2) JSON provisório → (3) URL assinada de 7 dias do JSON → link da página → (4) PDF com o QR desse link →
+ * (5) URL assinada do PDF → (6) JSON final com o HTML da página e a URL do PDF (a assinatura é do caminho, não do
+ * conteúdo, então o link continua valendo). Em falha depois da linha: apaga os arquivos e, se saíram, a linha
+ * (melhor esforço), e relança o erro original.
  */
-export async function criarCompartilhamento(userId: string, tipo: TipoRelatorio, especialidade: Especialidade | null, htmlSemQr: string, htmlComQr: (qrSvg: string, validade: string) => string): Promise<Compartilhamento & { url: string; qrSvg: string }> {
+export async function criarCompartilhamento(userId: string, tipo: TipoRelatorio, especialidade: Especialidade | null, conteudo: ConteudoCompartilhamento): Promise<Compartilhamento & { url: string; qrSvg: string }> {
   const uuid = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 10)}`;
   const caminho = `${userId}/${uuid}.pdf`;
-  await subirPdf(caminho, await gerarPdf(htmlSemQr), false);
-  const { data: assinado, error: erroUrl } = await supabase.storage.from('relatorios').createSignedUrl(caminho, VALIDADE_QR_SEGUNDOS);
-  if (erroUrl) throw traduzirErro(erroUrl);
+  const json = caminhoJson(caminho);
+  // Antes de assinar: a validade mostrada (PDF, tela, registro) nunca passa da validade real das URLs.
   const expiraEm = new Date(Date.now() + VALIDADE_QR_SEGUNDOS * 1000).toISOString();
-  const svg = await qrSvg(assinado.signedUrl, 96);
-  await subirPdf(caminho, await gerarPdf(htmlComQr(svg, dataBr(expiraEm))), true);
   const { data, error } = await supabase.from('compartilhamentos').insert({ user_id: userId, tipo_relatorio: TIPO_BANCO[tipo], especialidade, caminho, expira_em: expiraEm }).select('id, created_at').single();
   if (error) throw traduzirErro(error);
-  return { id: data.id, tipo, especialidade, caminho, url: assinado.signedUrl, qrSvg: await qrSvg(assinado.signedUrl, 240), expiraEm, criadoEm: data.created_at };
+  try {
+    await subirJson(json, { versao: 1, preparando: true }, false);
+    const link = linkDaPagina(await assinar(json), json);
+    await subirPdf(caminho, await gerarPdf(conteudo.htmlPdf(await qrSvg(link, 96), dataBr(dataLocal(new Date(expiraEm))))));
+    const pdfUrl = await assinar(caminho);
+    const final: ConteudoQr = { versao: 1, titulo: conteudo.titulo, geradoEm: conteudo.geradoEm, expiraEm, html: conteudo.htmlWeb, pdfUrl };
+    await subirJson(json, final, true);
+    return { id: data.id, tipo, especialidade, caminho, url: link, qrSvg: await qrSvg(link, 240), expiraEm, criadoEm: data.created_at };
+  } catch (e) {
+    // A linha só sai se os arquivos saíram; senão ela fica, com prazo, e `limparExpirados` apaga os arquivos depois.
+    if (await semFalhar(() => supabase.storage.from('relatorios').remove([caminho, json]))) {
+      await semFalhar(() => supabase.from('compartilhamentos').delete().eq('user_id', userId).eq('id', data.id));
+    }
+    throw e;
+  }
 }
 
-/** Encerra: apaga o PDF (a URL assinada passa a devolver 404) e marca `revogado_em`. */
+/** Encerra: apaga o PDF e o JSON (as URLs assinadas passam a devolver 404; a página mostra "Este relatório não está mais disponível") e marca `revogado_em`. */
 export async function revogar(userId: string, id: string): Promise<void> {
   const { data, error } = await supabase.from('compartilhamentos').select('caminho').eq('user_id', userId).eq('id', id).maybeSingle();
   if (error) throw traduzirErro(error);
   if (!data) return;
-  const { error: erroStorage } = await supabase.storage.from('relatorios').remove([data.caminho]);
+  const { error: erroStorage } = await supabase.storage.from('relatorios').remove([data.caminho, caminhoJson(data.caminho)]);
   if (erroStorage) throw traduzirErro(erroStorage);
   const { error: erroUpd } = await supabase.from('compartilhamentos').update({ revogado_em: new Date().toISOString() }).eq('user_id', userId).eq('id', id);
   if (erroUpd) throw traduzirErro(erroUpd);
@@ -53,16 +97,19 @@ export async function listarAtivos(userId: string): Promise<Compartilhamento[]> 
   return data.map((c) => ({ id: c.id, tipo: TIPO_DOMINIO[c.tipo_relatorio] ?? 'geral', especialidade: c.especialidade as Especialidade | null, caminho: c.caminho, url: null, expiraEm: c.expira_em, criadoEm: c.created_at }));
 }
 
-/** Limpeza: PDFs vencidos saem do Storage (o registro fica como histórico). */
+/** Limpeza (melhor esforço): PDFs e JSONs vencidos saem do Storage (o registro fica como histórico). */
 export async function limparExpirados(userId: string): Promise<number> {
   const { data, error } = await supabase.from('compartilhamentos').select('id, caminho').eq('user_id', userId).is('revogado_em', null).lte('expira_em', new Date().toISOString());
   if (error) throw traduzirErro(error);
   if (!data.length) return 0;
-  await supabase.storage.from('relatorios').remove(data.map((c) => c.caminho));
+  const { error: erroStorage } = await supabase.storage.from('relatorios').remove(data.flatMap((c) => [c.caminho, caminhoJson(c.caminho)]));
+  // Sem apagar os arquivos, não marca como revogado: a próxima abertura da tela tenta de novo.
+  if (erroStorage) return 0;
   await supabase.from('compartilhamentos').update({ revogado_em: new Date().toISOString() }).in('id', data.map((c) => c.id));
   return data.length;
 }
 
+/** 'AAAA-MM-DD' (já no dia local) → 'dd/mm/aaaa'. */
 function dataBr(iso: string): string {
   const [a, m, d] = iso.slice(0, 10).split('-');
   return `${d}/${m}/${a}`;

@@ -460,12 +460,17 @@ export type Database = {
           created_at: string
           desde: string | null
           dose: string | null
+          dose_variavel: boolean
           horarios: Json
+          horarios_desde: string | null
           id: string
           lembrar: boolean
           nome: string
           observacao: string | null
           prescritor: string | null
+          quantidades: Json
+          se_precisar: boolean
+          unidade: string
           updated_at: string
           user_id: string
         }
@@ -475,12 +480,17 @@ export type Database = {
           created_at?: string
           desde?: string | null
           dose?: string | null
+          dose_variavel?: boolean
           horarios?: Json
+          horarios_desde?: string | null
           id?: string
           lembrar?: boolean
           nome: string
           observacao?: string | null
           prescritor?: string | null
+          quantidades?: Json
+          se_precisar?: boolean
+          unidade?: string
           updated_at?: string
           user_id: string
         }
@@ -490,12 +500,17 @@ export type Database = {
           created_at?: string
           desde?: string | null
           dose?: string | null
+          dose_variavel?: boolean
           horarios?: Json
+          horarios_desde?: string | null
           id?: string
           lembrar?: boolean
           nome?: string
           observacao?: string | null
           prescritor?: string | null
+          quantidades?: Json
+          se_precisar?: boolean
+          unidade?: string
           updated_at?: string
           user_id?: string
         }
@@ -1009,6 +1024,53 @@ export type Database = {
         }
         Relationships: []
       }
+      tomadas_medicacao: {
+        Row: {
+          created_at: string
+          data_prevista: string | null
+          hora_prevista: string | null
+          id: string
+          marcado_em: string
+          medicacao_id: string
+          quantidade: number | null
+          quantidade_prevista: number | null
+          tomou: boolean
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          data_prevista?: string | null
+          hora_prevista?: string | null
+          id?: string
+          marcado_em?: string
+          medicacao_id: string
+          quantidade?: number | null
+          quantidade_prevista?: number | null
+          tomou: boolean
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          data_prevista?: string | null
+          hora_prevista?: string | null
+          id?: string
+          marcado_em?: string
+          medicacao_id?: string
+          quantidade?: number | null
+          quantidade_prevista?: number | null
+          tomou?: boolean
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tomadas_medicacao_medicacao_id_user_id_fkey"
+            columns: ["medicacao_id", "user_id"]
+            isOneToOne: false
+            referencedRelation: "medicacoes"
+            referencedColumns: ["id", "user_id"]
+          },
+        ]
+      }
       vinculos_glicemia: {
         Row: {
           atividade_id: string | null
@@ -1058,6 +1120,7 @@ export type Database = {
     }
     Functions: {
       excluir_minha_conta: { Args: never; Returns: undefined }
+      remedio_tomado_preencher_existentes: { Args: never; Returns: undefined }
     }
     Enums: {
       [_ in never]: never

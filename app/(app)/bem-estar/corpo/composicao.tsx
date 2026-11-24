@@ -7,6 +7,7 @@ import { traduzirErro } from '@core/supabase/erros';
 import { LinhaMedidaCorporal } from '@modules/bem-estar/componentes/LinhaMedidaCorporal';
 import { ROTULO_METODO, TEXTO_CORPO } from '@modules/bem-estar/conteudo/corpo';
 import { Button, CampoData, Colors, Input, InternalHeader, Radius, Select, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 const numero = (t: string) => { const n = Number(t.replace(',', '.')); return t.trim() === '' || Number.isNaN(n) ? undefined : n; };
 type Metodo = 'bioimpedancia' | 'dexa' | 'profissional' | 'outro';
@@ -47,6 +48,7 @@ export default function Composicao() {
         <CampoData valor={data} onChange={setData} />
         <Button label="Salvar avaliação" onPress={gravar} loading={salvando} style={{ marginTop: Spacing.xxl }} />
         {historico.length ? (<><Text style={styles.secao}>Histórico</Text>{historico.map((m) => <LinhaMedidaCorporal key={m.id} medida={m} />)}</>) : null}
+        <FontesDaTela tema='corpo' />
       </ScrollView>
     </SafeAreaView>
   );

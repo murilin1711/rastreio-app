@@ -29,7 +29,7 @@ test('atividade física: aponta para o registro no Bem-estar e vale pela janela 
   const base = { pa: { data: null, ehMrpa: false, nCasual7d: 0 }, peso: null, tabagismoAtualizadoEm: null, glicemiaOuHba1c: null, lipidios: null, renal: null, risco: null };
   const sem = avaliarCheckup({ ...base, atividadeFisica: null }, { temDiabetes: false }, hoje, p).itens.find((i) => i.chave === 'atividade')!;
   expect(sem.atualizado).toBe(false);
-  expect(sem.frase).toBe('Falta registrar sua atividade física em Saúde & Bem-estar.');
+  expect(sem.frase).toBe('Falta registrar sua atividade física em Hábitos e bem-estar.');
   const com = avaliarCheckup({ ...base, atividadeFisica: dias(5) }, { temDiabetes: false }, hoje, p).itens.find((i) => i.chave === 'atividade')!;
   expect(com.atualizado).toBe(true);
 });

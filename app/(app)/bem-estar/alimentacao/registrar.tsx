@@ -14,7 +14,7 @@ const horaValida = (h: string) => /^([01]\d|2[0-3]):[0-5]\d$/.test(h);
 const agoraHHMM = () => { const d = new Date(); return `${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`; };
 type Quantidade = NonNullable<Refeicao['quantidade']>; type Saciedade = NonNullable<Refeicao['saciedade']>; type Local = NonNullable<Refeicao['local']>;
 
-/** Registrar refeição (§74–§75): tipo, data/hora, descrição livre; opcionais leves para não desanimar o registro. */
+/** Anotar refeição (§74–§75): tipo, data/hora, descrição livre; opcionais leves para não desanimar o registro. */
 export default function RegistrarRefeicao() {
   const router = useRouter();
   const { inserir } = useAlimentacao();
@@ -44,7 +44,7 @@ export default function RegistrarRefeicao() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Minha Alimentação" title="Registrar refeição" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Minha Alimentação" title="Anotar refeição" onBack={() => router.back()} />
         <Text style={styles.rotulo}>Qual refeição?</Text>
         <Opcoes<TipoRefeicao> opcoes={(Object.keys(ROTULO_REFEICAO) as TipoRefeicao[]).map((t) => ({ valor: t, rotulo: ROTULO_REFEICAO[t] }))} valor={tipo} onChange={setTipo} />
         <Text style={styles.rotulo}>Data e horário</Text>

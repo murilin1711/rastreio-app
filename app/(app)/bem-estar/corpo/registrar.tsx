@@ -6,11 +6,12 @@ import { useCorpo } from '@core/bemestar/useCorpo';
 import { traduzirErro } from '@core/supabase/erros';
 import { ROTULO_METODO } from '@modules/bem-estar/conteudo/corpo';
 import { Button, CampoData, Colors, Input, InternalHeader, Radius, Select, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 const numero = (t: string) => (t.trim() === '' ? null : Number(t.replace(',', '.')));
 type Metodo = keyof typeof ROTULO_METODO;
 
-/** Registrar medidas (§70): peso, altura, cintura, quadril, método, data. Validação de plausibilidade (spec §10). */
+/** Anotar peso e medidas (§70): peso, altura, cintura, quadril, método, data. Validação de plausibilidade (spec §10). */
 export default function RegistrarMedidas() {
   const router = useRouter();
   const { perfil, ultimos, parametros, registrar } = useCorpo();
@@ -47,7 +48,7 @@ export default function RegistrarMedidas() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Meu Corpo" title="Registrar medidas" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Meu Corpo" title="Anotar peso e medidas" onBack={() => router.back()} />
         <Text style={styles.rotulo}>Peso (kg)</Text>
         <Input value={peso} onChangeText={setPeso} placeholder="Ex.: 72,4" keyboardType="decimal-pad" />
         <Text style={styles.rotulo}>Altura (cm)</Text>
@@ -62,6 +63,7 @@ export default function RegistrarMedidas() {
         <Text style={styles.rotulo}>Data da medida</Text>
         <CampoData valor={data} onChange={setData} />
         <Button label="Salvar medidas" onPress={gravar} loading={salvando} style={{ marginTop: Spacing.xxl }} />
+        <FontesDaTela tema='corpo' />
       </ScrollView>
       <Modal visible={tecnica} transparent animationType="fade" onRequestClose={() => setTecnica(false)}>
         <Pressable style={styles.fundo} onPress={() => setTecnica(false)}>

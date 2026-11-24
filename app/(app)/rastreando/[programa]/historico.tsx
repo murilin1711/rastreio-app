@@ -8,6 +8,7 @@ import { resumoResultado } from '@modules/rastreando/componentes/CartaoExame';
 import { dataBr, NIVEL_PENDENCIA } from '@modules/rastreando/componentes/statusUI';
 import { CONTEUDO } from '@modules/rastreando/conteudo';
 import { Alerta, Colors, InternalHeader, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 /** §39: linha do tempo do programa, por ano. */
 export default function Historico() {
@@ -39,6 +40,7 @@ export default function Historico() {
             ))}
           </View>
         ))}
+        <FontesDaTela tema={programa as Programa} />
       </ScrollView>
     </SafeAreaView>
   );

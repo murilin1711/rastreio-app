@@ -1,4 +1,4 @@
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,6 +8,7 @@ import { inserir, listarExamesParaVinculo } from '@core/documentos/repositorio';
 import { apagarArquivo, enviar, type ArquivoEscolhido } from '@core/documentos/storage';
 import { ROTULO_TIPO_DOCUMENTO, type TipoDocumento } from '@core/documentos/tipos';
 import { ROTULO_EXAME } from '@core/rastreando/tipos';
+import { useVoltar } from '@core/navegacao/useVoltar';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro } from '@core/supabase/erros';
 import { escolherArquivo } from '@modules/minha-saude/componentes/escolherArquivo';
@@ -21,7 +22,7 @@ const TIPOS = (Object.keys(ROTULO_TIPO_DOCUMENTO) as TipoDocumento[]).map((t) =>
  * ou só com `exameId` (vindo do detalhe de um exame) — neste caso pede o arquivo aqui mesmo.
  */
 export default function NovoDocumento() {
-  const router = useRouter();
+  const voltar = useVoltar();
   const params = useLocalSearchParams<{ uri?: string; mime?: string; nome?: string; exameId?: string }>();
   const { sessao } = useSessao();
   const [arquivo, setArquivo] = useState<ArquivoEscolhido | null>(params.uri && params.mime ? { uri: params.uri, mime: params.mime, nome: params.nome ?? 'documento' } : null);
@@ -66,7 +67,8 @@ export default function NovoDocumento() {
       await inserir(sessao.user.id, { exameId: exameId === SEM_VINCULO ? null : exameId, tipo, nome: nomeFinal, caminho: enviado.caminho, mime: enviado.mime, tamanho: enviado.tamanho, dataDocumento: data, observacao: observacao.trim() || null });
       // Arquivo pequeno em rede boa sobe em menos de um segundo — o piso evita o piscar (D-023).
       await completarPiso(inicio);
-      router.back();
+      // Aberta pela folha Anotar de outra aba, volta para lá (D-054); sem `voltarPara`, desempilha.
+      voltar();
     } catch (e) {
       if (!cancelado.current) Alert.alert('Não foi possível salvar', traduzirErro(e).mensagemUsuario);
     } finally {

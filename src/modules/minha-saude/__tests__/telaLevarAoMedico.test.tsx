@@ -1,0 +1,136 @@
+/** "Levar ao médico" (spec de navegação §6.4, D-065): cartões com os nomes novos e o aviso da MRPA concluída. */
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { act, create, type ReactTestRenderer } from 'react-test-renderer';
+import { apertar, textoDe } from '../../../testes/arvore';
+import { existe } from '../../../testes/rotas';
+
+(globalThis as any).mockReact = React;
+const mockPush = jest.fn();
+let mockSessoes: { id: string; concluidaEm: string | null }[] = [];
+let mockAtivos: object[] = [];
+let mockGlicemias: object[] = [];
+
+// O jest.setup.js simplifica o useAbrir; aqui vale o de verdade (módulo do Coração: sem voltarPara).
+jest.unmock('@core/navegacao/useVoltar');
+jest.mock('expo-router', () => ({
+  useRouter: () => ({ push: mockPush, replace: jest.fn(), back: jest.fn() }),
+  usePathname: () => '/minha-saude/relatorios',
+  useLocalSearchParams: () => ({}),
+  useNavigation: () => ({ setOptions: () => {}, getState: () => ({}), dispatch: () => {} }),
+  useFocusEffect: (cb: () => void) => { (globalThis as any).mockReact.useEffect(() => { cb(); }, [cb]); },
+}));
+jest.mock('@expo/vector-icons', () => ({ Ionicons: Object.assign(() => null, { glyphMap: {} }) }));
+jest.mock('react-native-safe-area-context', () => {
+  const { View } = require('react-native');
+  return { SafeAreaView: View, useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }) };
+});
+jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: { user: { id: 'u1' } }, carregando: false }) }));
+jest.mock('@core/relatorios/compartilharQr', () => ({ limparExpirados: async () => {}, listarAtivos: async () => mockAtivos, revogar: jest.fn() }));
+jest.mock('@core/cardio/sessoesMrpa', () => ({ listarSessoes: jest.fn(async () => mockSessoes) }));
+jest.mock('@core/cardio/glicemia', () => ({ listarGlicemia: jest.fn(async () => mockGlicemias) }));
+
+const Relatorios = require('../../../../app/(app)/(tabs)/minha-saude/relatorios/index').default;
+const { listarSessoes } = require('@core/cardio/sessoesMrpa');
+
+async function montar() {
+  let arvore!: ReactTestRenderer;
+  await act(async () => { arvore = create(<Relatorios />); });
+  await act(async () => { await new Promise((r) => setTimeout(r, 0)); });
+  return arvore;
+}
+
+beforeEach(() => { mockPush.mockClear(); mockSessoes = []; mockAtivos = []; mockGlicemias = []; });
+
+it('cartões com os nomes novos', async () => {
+  const arvore = await montar();
+  const texto = textoDe(arvore.toJSON());
+  const posicoes = ['Resumo completo', 'Pressão, coração e diabetes', 'Exames de prevenção', 'Hábitos e bem-estar'].map((t) => texto.indexOf(t));
+  expect(posicoes.every((p) => p >= 0)).toBe(true);
+  expect([...posicoes].sort((a, b) => a - b)).toEqual(posicoes);
+  for (const antigo of ['Coração e diabetes', 'Rastreamentos', 'Peso, alimentação e sono']) expect(texto).not.toContain(antigo);
+  act(() => arvore.unmount());
+});
+
+it('sem MRPA concluída, não há aviso', async () => {
+  mockSessoes = [{ id: 'em', concluidaEm: null }];
+  const arvore = await montar();
+  const texto = textoDe(arvore.toJSON());
+  expect(texto).not.toContain('Abrir o relatório da MRPA');
+  expect(texto).not.toContain('ficam nas telas deles');
+  act(() => arvore.unmount());
+});
+
+it('com MRPA concluída e glicemias, o aviso leva aos dois relatórios', async () => {
+  mockGlicemias = [{ id: 'g1' }];
+  mockSessoes = [{ id: 'em', concluidaEm: null }, { id: 's9', concluidaEm: '2026-11-01T10:00:00Z' }, { id: 's1', concluidaEm: '2026-05-01T10:00:00Z' }];
+  const arvore = await montar();
+  const texto = textoDe(arvore.toJSON());
+  const aviso = texto.indexOf('O relatório da MRPA e o da glicemia ficam nas telas deles.');
+  // Entre os cartões e "Vou a um médico específico".
+  expect(aviso).toBeGreaterThan(texto.indexOf('Hábitos e bem-estar'));
+  expect(texto.indexOf('Vou a um médico específico')).toBeGreaterThan(aviso);
+  const links = arvore.root.findAll((n) => n.props?.accessibilityRole === 'link' && typeof n.props?.onPress === 'function' && typeof n.type !== 'string');
+  expect(links.map((n) => n.props.accessibilityLabel)).toEqual(['Abrir o relatório da MRPA', 'Abrir o relatório da glicemia']);
+  // Área de toque mínima de 44 pt, sem depender do hitSlop.
+  for (const l of links) expect(StyleSheet.flatten(l.props.style)?.minHeight).toBeGreaterThanOrEqual(44);
+  act(() => apertar(arvore, 'Abrir o relatório da MRPA'));
+  expect(mockPush).toHaveBeenLastCalledWith('/(app)/coracao/mrpa/relatorio?sessao=s9');
+  act(() => apertar(arvore, 'Abrir o relatório da glicemia'));
+  expect(mockPush).toHaveBeenLastCalledWith('/(app)/coracao/glicemia/relatorio');
+  expect(existe('/(app)/coracao/mrpa/relatorio')).toBe(true);
+  expect(existe('/(app)/coracao/glicemia/relatorio')).toBe(true);
+  act(() => arvore.unmount());
+});
+
+it('se a lista de sessões falhar, a tela abre sem o aviso', async () => {
+  listarSessoes.mockRejectedValueOnce(new Error('sem conexão'));
+  const arvore = await montar();
+  expect(textoDe(arvore.toJSON())).toContain('Resumo completo');
+  expect(textoDe(arvore.toJSON())).not.toContain('Abrir o relatório da MRPA');
+  act(() => arvore.unmount());
+});
+
+it('encerrar um compartilhamento avisa que o relatório e o PDF saem da nuvem (D-067)', async () => {
+  const { Alert } = require('react-native');
+  const alerta = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+  mockAtivos = [{ id: 'c1', tipo: 'geral', especialidade: null, caminho: 'u1/x.pdf', url: null, expiraEm: '2026-12-01T10:00:00Z', criadoEm: '2026-11-24T10:00:00Z' }];
+  const arvore = await montar();
+  act(() => apertar(arvore, 'Encerrar'));
+  expect(alerta).toHaveBeenCalledWith('Encerrar compartilhamento?', 'O código QR deixa de funcionar imediatamente e o relatório e o PDF são removidos da nuvem.', expect.any(Array));
+  alerta.mockRestore();
+  act(() => arvore.unmount());
+});
+
+const links = (arvore: ReactTestRenderer) =>
+  arvore.root.findAll((n) => n.props?.accessibilityRole === 'link' && typeof n.props?.onPress === 'function' && typeof n.type !== 'string').map((n) => n.props.accessibilityLabel);
+
+it('glicemias registradas, sem MRPA: o link da glicemia aparece sozinho (M5)', async () => {
+  mockGlicemias = [{ id: 'g1' }];
+  const arvore = await montar();
+  expect(links(arvore)).toEqual(['Abrir o relatório da glicemia']);
+  expect(textoDe(arvore.toJSON())).toContain('O relatório da glicemia fica na tela dela.');
+  act(() => apertar(arvore, 'Abrir o relatório da glicemia'));
+  expect(mockPush).toHaveBeenLastCalledWith('/(app)/coracao/glicemia/relatorio');
+  act(() => arvore.unmount());
+});
+
+it('MRPA concluída, sem glicemia: só o link da MRPA (M5)', async () => {
+  mockSessoes = [{ id: 's9', concluidaEm: '2026-11-01T10:00:00Z' }];
+  const arvore = await montar();
+  expect(links(arvore)).toEqual(['Abrir o relatório da MRPA']);
+  expect(textoDe(arvore.toJSON())).toContain('O relatório da MRPA fica na tela dela.');
+  act(() => arvore.unmount());
+});
+
+it('sem glicemia e sem MRPA, sem aviso; falha ao ler as glicemias também não mostra', async () => {
+  const { listarGlicemia } = require('@core/cardio/glicemia');
+  const arvore = await montar();
+  expect(links(arvore)).toEqual([]);
+  act(() => arvore.unmount());
+  listarGlicemia.mockRejectedValueOnce(new Error('sem conexão'));
+  const outra = await montar();
+  expect(links(outra)).toEqual([]);
+  expect(listarGlicemia).toHaveBeenCalledWith('u1', { limite: 1 });
+  act(() => outra.unmount());
+});

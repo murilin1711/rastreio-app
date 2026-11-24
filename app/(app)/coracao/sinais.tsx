@@ -2,13 +2,14 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { fraseSinais, sinaisAlerta } from '@modules/coracao/conteudo/sinais';
 import { Alerta, Colors, InternalHeader, Radius, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 /** §23 — quando procurar atendimento. */
 export default function SinaisAlerta() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo}>
-        <InternalHeader sectionLabel="Coração & Metabolismo" title="Quando procurar atendimento" />
+        <InternalHeader sectionLabel="Pressão, coração e diabetes" title="Quando procurar o pronto-socorro" />
         <View style={styles.lista}>
           {sinaisAlerta.map((s) => (
             <View key={s} style={styles.item}>
@@ -20,6 +21,7 @@ export default function SinaisAlerta() {
         <View style={styles.destaque}>
           <Text style={styles.destaqueTexto}>{fraseSinais}</Text>
         </View>
+        <FontesDaTela tema='sinaisCardio' />
       </ScrollView>
     </SafeAreaView>
   );

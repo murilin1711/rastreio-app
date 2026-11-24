@@ -8,15 +8,40 @@
  *
  *   node scripts/gerar-site.mjs            gera em site/
  *   node scripts/gerar-site.mjs --publicar  gera e envia para o repositório do site
+ *
+ * A página do QR (`/r/`, fonte em scripts/site/r/) recebe o endereço do Supabase do projeto no build: ela só lê
+ * relatórios desse host. Sem o endereço remoto (ou com o Supabase local), nada é gerado.
  */
 import { execFileSync } from 'node:child_process';
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync, cpSync, rmSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync, cpSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const RAIZ = join(dirname(fileURLToPath(import.meta.url)), '..');
 const REPO_SITE = 'https://github.com/murilin1711/nerosaude-site.git';
+
+/** EXPO_PUBLIC_SUPABASE_URL do ambiente, ou de `.env.local`, ou de `.env` (o mesmo endereço que o app usa). */
+function lerSupabaseUrl() {
+  if (process.env.EXPO_PUBLIC_SUPABASE_URL) return process.env.EXPO_PUBLIC_SUPABASE_URL.trim();
+  for (const arquivo of ['.env.local', '.env']) {
+    const caminho = join(RAIZ, arquivo);
+    if (!existsSync(caminho)) continue;
+    const linha = readFileSync(caminho, 'utf8').split('\n').find((l) => l.startsWith('EXPO_PUBLIC_SUPABASE_URL='));
+    if (linha) return linha.slice('EXPO_PUBLIC_SUPABASE_URL='.length).trim().replace(/^["']|["']$/g, '');
+  }
+  return '';
+}
+
+// Antes de escrever qualquer arquivo: a página /r/ só pode sair com o Supabase remoto do projeto.
+const SUPABASE_URL = lerSupabaseUrl();
+if (!/^https:\/\/[a-z0-9]+\.supabase\.co$/.test(SUPABASE_URL)) {
+  console.error(
+    `EXPO_PUBLIC_SUPABASE_URL ausente ou fora do formato https://<projeto>.supabase.co (lido: "${SUPABASE_URL}").\n` +
+    'A página do QR (/r/) não pode ser gerada com o Supabase local nem com outro host.',
+  );
+  process.exit(1);
+}
 
 const escapar = (t) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
@@ -110,7 +135,18 @@ writeFileSync(
   '<meta http-equiv="refresh" content="0; url=/privacidade">' +
   '<title>NERO</title><p><a href="/privacidade">Política de Privacidade do NERO</a> · <a href="/termos">Termos de Uso</a></p></html>\n',
 );
-console.log('site/ gerado a partir da política e dos termos.');
+
+// Página do QR: copia as fontes trocando o marcador pelo endereço do projeto.
+mkdirSync(join(RAIZ, 'site/r'), { recursive: true });
+for (const arquivo of ['index.html', 'relatorio.js']) {
+  const conteudo = readFileSync(join(RAIZ, 'scripts/site/r', arquivo), 'utf8').replaceAll('__SUPABASE_URL__', SUPABASE_URL);
+  if (conteudo.includes('__SUPABASE_URL__')) {
+    console.error(`site/r/${arquivo} ainda tem __SUPABASE_URL__.`);
+    process.exit(1);
+  }
+  writeFileSync(join(RAIZ, 'site/r', arquivo), conteudo);
+}
+console.log('site/ gerado a partir da política, dos termos e da página do QR.');
 
 if (!process.argv.includes('--publicar')) process.exit(0);
 
@@ -120,10 +156,11 @@ try {
   execFileSync('git', ['clone', '--depth', '1', REPO_SITE, tmp], { stdio: 'inherit' });
   cpSync(join(RAIZ, 'site/index.html'), join(tmp, 'index.html'));
   for (const p of PAGINAS) cpSync(join(RAIZ, 'site', p.pasta), join(tmp, p.pasta), { recursive: true });
+  cpSync(join(RAIZ, 'site/r'), join(tmp, 'r'), { recursive: true });
   const mudou = execFileSync('git', ['status', '--porcelain'], { cwd: tmp }).toString().trim();
   if (!mudou) { console.log('Nada mudou desde a última publicação.'); process.exit(0); }
   execFileSync('git', ['add', '-A'], { cwd: tmp });
-  execFileSync('git', ['commit', '-m', 'Atualiza a política de privacidade e os termos de uso\n\nGerado por scripts/gerar-site.mjs a partir do Markdown do aplicativo.'], { cwd: tmp, stdio: 'inherit' });
+  execFileSync('git', ['commit', '-m', 'Atualiza o site (política, termos e página do QR)\n\nGerado por scripts/gerar-site.mjs a partir do Markdown do aplicativo.'], { cwd: tmp, stdio: 'inherit' });
   execFileSync('git', ['push'], { cwd: tmp, stdio: 'inherit' });
   console.log('Publicado. A Hostinger republica sozinha em alguns instantes.');
 } finally {

@@ -1,11 +1,14 @@
 import { Animated, StyleSheet, Text, View } from 'react-native';
+import { textoRemedio, tituloCompleto } from '@core/lembretes/textos';
 import { LogoNero } from '@ui/components/LogoNero';
 import { Colors, Radius, Spacing, Typography } from '@ui/theme';
 import { useEntrada } from './useEntrada';
 
-/** As quatro notificações da tela 6, com os textos reais do app (`docs/nero/notificacoes.md`). */
+const REMEDIO = textoRemedio('Losartana', '50 mg', '1 comprimido');
+
+/** As quatro notificações da tela 6, com os textos reais do app (`docs/nero/notificacoes.md`); o do remédio vem de `textoRemedio`. */
 const AVISOS: Record<string, { titulo: string; corpo: string }> = {
-  remedio: { titulo: 'Hora de tomar seu remédio 💊', corpo: 'Losartana 50 mg' },
+  remedio: { titulo: tituloCompleto(REMEDIO), corpo: REMEDIO.corpo },
   consulta: { titulo: 'Sua consulta é amanhã 📅', corpo: 'Cardiologia às 14:30. Toque para preparar o relatório.' },
   exame: { titulo: 'Seu exame está chegando 🔎', corpo: 'Mamografia · daqui a 30 dias' },
   agua: { titulo: 'Hora de beber água 💧', corpo: 'Sua meta de hoje: 2 L.' },

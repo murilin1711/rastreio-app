@@ -8,8 +8,9 @@ import { LeituraGlicemia } from '@modules/coracao/componentes/LeituraGlicemia';
 import { LinhaGlicemia } from '@modules/coracao/componentes/LinhaGlicemia';
 import { entendaMetas, ROTULO_PERFIL_META, semDiabetesRodape } from '@modules/coracao/conteudo/glicemia';
 import { Button, Card, Colors, InternalHeader, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
-/** Minha Glicemia (§5, C-012): registros, metas visíveis com origem, resumo dos 7 dias. */
+/** Minha glicemia (§5, C-012): registros, metas visíveis com origem, resumo dos 7 dias. */
 export default function MinhaGlicemia() {
   const router = useRouter();
   const { medidas, metas, perfil, resumo7, carregando, erro, avaliar, recarregar } = useGlicemia();
@@ -19,8 +20,15 @@ export default function MinhaGlicemia() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Coração & Metabolismo" title="Minha Glicemia" />
+        <InternalHeader sectionLabel="Pressão, coração e diabetes" title="Minha glicemia" />
         {erro ? <Text style={styles.erro}>{erro.mensagemUsuario}</Text> : null}
+        <View style={styles.acoes}>
+          <Button label="Anotar minha glicemia" onPress={() => router.push('/(app)/coracao/glicemia/registrar')} />
+          <View style={{ flexDirection: 'row', gap: Spacing.sm }}>
+            <Button label="Meu plano" variant="outline" onPress={() => router.push('/(app)/coracao/glicemia/plano')} style={{ flex: 1 }} />
+            <Button label="Relatório" variant="outline" onPress={() => router.push('/(app)/coracao/glicemia/relatorio')} style={{ flex: 1 }} />
+          </View>
+        </View>
 
         {resumo7.n > 0 ? (
           <Card style={styles.resumo}>
@@ -43,14 +51,6 @@ export default function MinhaGlicemia() {
           <Text style={styles.nota}>{semDiabetesRodape}</Text>
         ) : null}
 
-        <View style={styles.acoes}>
-          <Button label="Registrar glicemia" onPress={() => router.push('/(app)/coracao/glicemia/registrar')} />
-          <View style={{ flexDirection: 'row', gap: Spacing.sm }}>
-            <Button label="Meu plano" variant="outline" onPress={() => router.push('/(app)/coracao/glicemia/plano')} style={{ flex: 1 }} />
-            <Button label="Relatório" variant="outline" onPress={() => router.push('/(app)/coracao/glicemia/relatorio')} style={{ flex: 1 }} />
-          </View>
-        </View>
-
         {ultimos30.length ? (
           <View style={styles.bloco}>
             <Text style={styles.secao}>Últimos 30 dias</Text>
@@ -60,6 +60,7 @@ export default function MinhaGlicemia() {
         ) : !carregando ? (
           <View style={styles.bloco}><Text style={styles.secao}>Registre sua primeira glicemia</Text><Text style={styles.texto}>Escolha o momento da medida (em jejum, antes ou depois das refeições) para o app comparar com a meta certa.</Text></View>
         ) : null}
+        <FontesDaTela tema='glicemia' />
       </ScrollView>
     </SafeAreaView>
   );

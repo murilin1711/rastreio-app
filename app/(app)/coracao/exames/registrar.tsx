@@ -6,6 +6,7 @@ import { categoriaDe, TIPOS_CARDIO, TIPOS_LAB, unidadePadrao, type TipoExameCard
 import { useExamesCardio } from '@core/cardio/useExamesCardio';
 import { traduzirErro } from '@core/supabase/erros';
 import { Button, CampoData, Colors, Input, InternalHeader, Opcoes, Select, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 type Categoria = 'laboratorial' | 'cardiologico';
 const numero = (t: string) => (t.trim() === '' ? null : Number(t.replace(',', '.')));
@@ -121,6 +122,7 @@ export default function RegistrarExame() {
           <Button label="Salvar exame" onPress={() => gravar(false)} loading={salvando} />
           {categoria === 'laboratorial' ? <Button label="Salvar e adicionar outro da mesma data" variant="outline" onPress={() => gravar(true)} disabled={salvando} /> : null}
         </View>
+        <FontesDaTela tema='examesCardio' />
       </ScrollView>
     </SafeAreaView>
   );

@@ -12,6 +12,7 @@ import { LeituraGlicemia } from '@modules/coracao/componentes/LeituraGlicemia';
 import { MOMENTOS, rotuloMomento, SINTOMAS_GLICEMIA } from '@modules/coracao/conteudo/glicemia';
 import { VinculoGlicemia } from '@modules/bem-estar/componentes/VinculoGlicemia';
 import { Alerta, Button, CampoData, Colors, Input, InternalHeader, Opcoes, Radius, Select, Spacing, StatusBadge, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 type Refeicao = NonNullable<MedidaGlicemia['contexto']['refeicao']>;
 const numero = (t: string) => (t.trim() === '' ? null : Number(t.replace(',', '.')));
@@ -69,7 +70,7 @@ export default function RegistrarGlicemia() {
     return (
       <SafeAreaView style={styles.tela} edges={['top']}>
         <ScrollView contentContainerStyle={styles.conteudo}>
-          <InternalHeader sectionLabel="Minha Glicemia" title="Glicemia registrada" onBack={() => router.back()} />
+          <InternalHeader sectionLabel="Minha glicemia" title="Glicemia registrada" onBack={() => router.back()} />
           <View style={styles.resultado}>
             <LeituraGlicemia mgdl={mgdl} tamanho="grande" />
             <Text style={styles.momentoTexto}>{momento ? rotuloMomento(momento) : ''}</Text>
@@ -82,6 +83,7 @@ export default function RegistrarGlicemia() {
           ) : null}
           <VinculoGlicemia glicemiaId={id} medidoEm={medidoEm} />
           <Button label="Concluir" onPress={() => router.back()} style={{ marginTop: Spacing.xxl }} />
+          <FontesDaTela tema='glicemia' />
         </ScrollView>
       </SafeAreaView>
     );
@@ -90,7 +92,7 @@ export default function RegistrarGlicemia() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Minha Glicemia" title="Registrar glicemia" />
+        <InternalHeader sectionLabel="Minha glicemia" title="Anotar minha glicemia" />
         <Text style={styles.rotulo}>Qual o momento da medida?</Text>
         <Select<MomentoGlicemia> opcoes={MOMENTOS} valor={momento} onChange={setMomento} placeholder="Escolha o momento" />
         <Text style={styles.rotulo}>Glicemia (mg/dL)</Text>
@@ -117,6 +119,7 @@ export default function RegistrarGlicemia() {
         <Input value={observacao} onChangeText={setObservacao} placeholder="ex.: almoço habitual" multiline />
 
         <Button label="Salvar glicemia" onPress={gravar} loading={salvando} disabled={carregando} style={{ marginTop: Spacing.xxl }} />
+        <FontesDaTela tema='glicemia' />
       </ScrollView>
     </SafeAreaView>
   );

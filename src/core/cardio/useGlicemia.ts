@@ -12,7 +12,7 @@ import { diasAtrasISO } from './usePressao';
 
 export interface EntradaGlicemia { medidoEm: string; mgdl: number; momento: MedidaGlicemia['momento']; contexto: MedidaGlicemia['contexto']; observacao?: string }
 
-/** Minha Glicemia (§5–§8, C-012): medidas dos últimos 90 dias, metas pelo perfil/médico, avaliação em camadas. */
+/** Minha glicemia (§5–§8, C-012): medidas dos últimos 90 dias, metas pelo perfil/médico, avaliação em camadas. */
 export function useGlicemia() {
   const { sessao } = useSessao();
   const userId = sessao?.user.id;

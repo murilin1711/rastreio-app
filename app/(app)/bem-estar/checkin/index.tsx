@@ -4,6 +4,7 @@ import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCheckin } from '@core/bemestar/useCheckin';
 import { useConquistas } from '@core/bemestar/useConquistas';
+import { useAdesao } from '@core/medicacoes/useAdesao';
 import { CONQUISTAS_BEM_ESTAR } from '@core/regras/bemestar/conquistas';
 import type { Checkin } from '@core/regras/bemestar/tipos';
 import { traduzirErro } from '@core/supabase/erros';
@@ -12,6 +13,8 @@ import { PERGUNTAS_CHECKIN, TEXTO_CHECKIN } from '@modules/bem-estar/conteudo/ch
 import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
 import { dataCurtaBr } from '@modules/coracao/componentes/formato';
 import { Button, Card, Colors, Input, InternalHeader, ModalComemoracao, Spacing, Typography } from '@ui/index';
+import { LinkFontes } from '@modules/fontes/FontesDaTela';
+import { QuadroAdesao } from '@modules/remedios/QuadroAdesao';
 
 type Chave = (typeof PERGUNTAS_CHECKIN)[number]['chave'];
 type Respostas = Pick<Checkin, Chave>;
@@ -27,6 +30,8 @@ export default function CheckinSemanal() {
   const [r, setR] = useState<Respostas>(vazio);
   const [observacao, setObservacao] = useState('');
   const [salvando, setSalvando] = useState(false);
+  // Remédios da semana avaliada (spec §6.6): só leitura, acima das perguntas.
+  const adesao = useAdesao(semanaAlvo, somarDias(semanaAlvo, 6));
   useEffect(() => { if (atual) { setR({ disposicao: atual.disposicao, alimentacao: atual.alimentacao, atividade: atual.atividade, sono: atual.sono, estresse: atual.estresse, energia: atual.energia, bemEstar: atual.bemEstar }); setObservacao(atual.observacao ?? ''); } }, [atual]);
 
   const conquistas = useConquistas({ auto: false, chaves: CONQUISTAS_BEM_ESTAR });
@@ -43,9 +48,10 @@ export default function CheckinSemanal() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Saúde & Bem-estar" title={TEXTO_CHECKIN.titulo} onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Hábitos e bem-estar" title={TEXTO_CHECKIN.titulo} onBack={() => router.back()} />
         <Text style={styles.sub}>{TEXTO_CHECKIN.subtitulo}</Text>
         <Text style={styles.semana}>Semana de {dataCurtaBr(semanaAlvo)} a {dataCurtaBr(somarDias(semanaAlvo, 6))}{atual ? ' · já respondida, pode ajustar' : ''}</Text>
+        <QuadroAdesao resumos={adesao.resumos} carregando={adesao.carregando} erro={adesao.erro} aoTentarDeNovo={adesao.recarregar} />
         <View style={{ gap: Spacing.xl, marginTop: Spacing.lg }}>
           {PERGUNTAS_CHECKIN.map((q) => <Escala010 key={q.chave} rotulo={q.pergunta} valor={r[q.chave]} onChange={(v) => setR((s) => ({ ...s, [q.chave]: v }))} extremos={q.chave === 'estresse' ? ['nenhum', 'muito'] : ['muito ruim', 'muito bom']} />)}
         </View>
@@ -68,6 +74,7 @@ export default function CheckinSemanal() {
             </Card>
           </>
         ) : null}
+        <LinkFontes />
       </ScrollView>
       <ModalComemoracao
         conteudo={conquistas.proxima ? TEXTO_CONQUISTA[conquistas.proxima] : null}

@@ -12,6 +12,7 @@ import { LeituraPA } from '@modules/coracao/componentes/LeituraPA';
 import { SintomasAlarmePA } from '@modules/coracao/componentes/SintomasAlarmePA';
 import { entendaReferencia, ROTULO_MOTIVO_EXCLUSAO } from '@modules/coracao/conteudo/pressao';
 import { Alerta, Button, CampoData, Colors, Input, InternalHeader, Opcoes, Radius, Spacing, StatusBadge, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 type Braco = NonNullable<MedidaPA['contexto']['braco']>;
 type Posicao = NonNullable<MedidaPA['contexto']['posicao']>;
@@ -78,7 +79,7 @@ export default function RegistrarPressao() {
     return (
       <SafeAreaView style={styles.tela} edges={['top']}>
         <ScrollView contentContainerStyle={styles.conteudo}>
-          <InternalHeader sectionLabel="Minha Pressão" title="Medida registrada" onBack={() => router.back()} />
+          <InternalHeader sectionLabel="Minha pressão" title="Medida registrada" onBack={() => router.back()} />
           <View style={styles.resultado}>
             <LeituraPA pas={saida.pas} pad={saida.pad} tamanho="grande" />
             {nivel ? <StatusBadge nivel={nivel} label={nivel === 'vermelho' ? 'Procure atendimento agora' : 'Valor muito elevado'} /> : null}
@@ -93,6 +94,7 @@ export default function RegistrarPressao() {
           ) : null}
           {avaliacao.camada === 'contexto' && avaliacao.acimaReferenciaDomiciliar ? <Text style={styles.nota}>{entendaReferencia}</Text> : null}
           <Button label="Concluir" onPress={() => router.back()} style={{ marginTop: Spacing.xxl }} />
+          <FontesDaTela tema='pressao' />
         </ScrollView>
       </SafeAreaView>
     );
@@ -101,7 +103,7 @@ export default function RegistrarPressao() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Minha Pressão" title="Registrar medida" />
+        <InternalHeader sectionLabel="Minha pressão" title="Anotar minha pressão" />
 
         <Text style={styles.rotulo}>Quando</Text>
         <View style={styles.linhaCampos}>
@@ -132,6 +134,7 @@ export default function RegistrarPressao() {
         <Input value={observacao} onChangeText={setObservacao} placeholder="ex.: depois de subir escada" multiline />
 
         <Button label="Salvar medida" onPress={() => gravar()} loading={salvando} style={{ marginTop: Spacing.xxl }} />
+        <FontesDaTela tema='pressao' />
       </ScrollView>
     </SafeAreaView>
   );

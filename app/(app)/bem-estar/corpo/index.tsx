@@ -11,6 +11,7 @@ import { ROTULO_FAIXA_CINTURA, ROTULO_OBJETIVO, ROTULO_PMAV, ROTULO_TENDENCIA, T
 import { CardResumo } from '@modules/coracao/componentes/CardResumo';
 import { dataLongaBr, haQuanto } from '@modules/coracao/componentes/formato';
 import { Button, Card, Colors, Input, InternalHeader, ListItem, Opcoes, Radius, Select, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 type Periodo = '30' | '90' | '180' | '365' | 'tudo';
 const PERIODOS: { valor: Periodo; rotulo: string }[] = [{ valor: '30', rotulo: '30 dias' }, { valor: '90', rotulo: '3 meses' }, { valor: '180', rotulo: '6 meses' }, { valor: '365', rotulo: '1 ano' }, { valor: 'tudo', rotulo: 'Tudo' }];
@@ -65,9 +66,9 @@ export default function MeuCorpo() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled" refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Saúde & Bem-estar" title="Meu Corpo" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Hábitos e bem-estar" title="Meu Corpo" onBack={() => router.back()} />
         <Text style={styles.sub}>{TEXTO_CORPO.subtitulo}</Text>
-        <Button label="Registrar medidas" onPress={() => router.push('/(app)/bem-estar/corpo/registrar')} style={{ marginTop: Spacing.lg }} />
+        <Button label="Anotar peso e medidas" onPress={() => router.push('/(app)/bem-estar/corpo/registrar')} style={{ marginTop: Spacing.lg }} />
 
         <Text style={styles.secao}>Composição corporal</Text>
         <View style={styles.grade}>
@@ -140,6 +141,7 @@ export default function MeuCorpo() {
             <Button label="Salvar" variant="outline" onPress={gravarPMAV} />
           </View>
         )}
+        <FontesDaTela tema='corpo' />
       </ScrollView>
     </SafeAreaView>
   );

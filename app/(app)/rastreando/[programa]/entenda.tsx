@@ -5,6 +5,7 @@ import type { Programa } from '@core/regras/tipos';
 import { PROGRAMAS } from '@core/rastreando/tipos';
 import { CONTEUDO } from '@modules/rastreando/conteudo';
 import { Colors, InternalHeader, Radius, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 export default function Entenda() {
   const { programa } = useLocalSearchParams<{ programa: string }>();
@@ -21,7 +22,7 @@ export default function Entenda() {
             <Text style={styles.susTexto}>{c.noSus}</Text>
           </View>
         ) : null}
-        <Text style={styles.fonte}>Fontes: {c.fonteResumo}</Text>
+        <FontesDaTela tema={programa as Programa} />
       </ScrollView>
     </SafeAreaView>
   );

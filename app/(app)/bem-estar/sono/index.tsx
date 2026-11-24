@@ -9,6 +9,7 @@ import { ROTULO_CONTEXTO_SONO, ROTULO_QUALIDADE, TEXTO_SONO } from '@modules/bem
 import { CardResumo } from '@modules/coracao/componentes/CardResumo';
 import { dataCurtaBr, dataHoraBr, horaLocal } from '@modules/coracao/componentes/formato';
 import { Button, Card, Colors, InternalHeader, Radius, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 /** Meu Sono (§80): média de 7 dias, horários médios, barras por noite, referência AASM (C-018), noites registradas. */
 export default function MeuSono() {
@@ -23,9 +24,9 @@ export default function MeuSono() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Saúde & Bem-estar" title="Meu Sono" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Hábitos e bem-estar" title="Meu Sono" onBack={() => router.back()} />
         <Text style={styles.sub}>{TEXTO_SONO.subtitulo}</Text>
-        <Button label="Registrar noite" onPress={() => router.push('/(app)/bem-estar/sono/registrar')} style={{ marginTop: Spacing.lg }} />
+        <Button label="Anotar noite de sono" onPress={() => router.push('/(app)/bem-estar/sono/registrar')} style={{ marginTop: Spacing.lg }} />
         {erro ? <Text style={styles.erro}>{erro.mensagemUsuario}</Text> : null}
 
         <Text style={styles.secao}>Últimos 7 dias</Text>
@@ -66,6 +67,7 @@ export default function MeuSono() {
             <Text style={styles.nota}>Toque e segure um registro para apagar.</Text>
           </>
         ) : !carregando ? <Text style={styles.vazio}>{TEXTO_SONO.semRegistros}</Text> : null}
+        <FontesDaTela tema='sono' />
       </ScrollView>
     </SafeAreaView>
   );

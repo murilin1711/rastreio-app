@@ -10,8 +10,9 @@ import { LeituraPA } from '@modules/coracao/componentes/LeituraPA';
 import { LinhaMedida } from '@modules/coracao/componentes/LinhaMedida';
 import { entendaReferencia, preparoMedida } from '@modules/coracao/conteudo/pressao';
 import { Button, Card, Colors, InternalHeader, Radius, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
-/** Minha Pressão (§1, C-010): registro casual, médias descritivas e convite para MRPA. Sem cor por valor. */
+/** Minha pressão (§1, C-010): registro casual, médias descritivas e convite para MRPA. Sem cor por valor. */
 export default function MinhaPressao() {
   const router = useRouter();
   const { medidas, parametros, resumo7, resumo30, convidarMrpa, carregando, erro, dispensarConvite, recarregar } = usePressao();
@@ -37,9 +38,14 @@ export default function MinhaPressao() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Coração & Metabolismo" title="Minha Pressão" />
+        <InternalHeader sectionLabel="Pressão, coração e diabetes" title="Minha pressão" />
 
         {erro ? <Text style={styles.erro}>{erro.mensagemUsuario}</Text> : null}
+
+        <View style={styles.acoes}>
+          <Button label="Anotar minha pressão" onPress={() => router.push('/(app)/coracao/pressao/registrar')} />
+          <Button label="Iniciar MRPA" variant="outline" onPress={() => router.push('/(app)/coracao/mrpa/iniciar')} />
+        </View>
 
         {resumo7.media ? (
           <Card style={styles.resumo}>
@@ -64,11 +70,6 @@ export default function MinhaPressao() {
           </View>
         ) : null}
 
-        <View style={styles.acoes}>
-          <Button label="Registrar medida" onPress={() => router.push('/(app)/coracao/pressao/registrar')} />
-          <Button label="Iniciar MRPA" variant="outline" onPress={() => router.push('/(app)/coracao/mrpa/iniciar')} />
-        </View>
-
         {barras.length > 1 ? (
           <View style={styles.bloco}>
             <Text style={styles.secao}>Últimos 14 dias</Text>
@@ -89,6 +90,7 @@ export default function MinhaPressao() {
             {preparoMedida.map((t) => <Text key={t} style={styles.item}>• {t}</Text>)}
           </View>
         ) : null}
+        <FontesDaTela tema='pressao' />
       </ScrollView>
     </SafeAreaView>
   );

@@ -12,6 +12,7 @@ import { traduzirErro } from '@core/supabase/erros';
 import { dataLongaBr } from '@modules/coracao/componentes/formato';
 import { coeficientesPendentes, ROTULO_ESTADO } from '@modules/coracao/conteudo/risco';
 import { Button, Colors, completarPiso, EsperaNero, Input, InternalHeader, Opcoes, Radius, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 type Resp = Record<string, string>;
 const numero = (t: string | undefined) => (!t || t.trim() === '' ? null : Number(t.replace(',', '.')));
@@ -138,6 +139,7 @@ export default function DadosRisco() {
           detalhe="Isso leva alguns segundos."
           onCancelar={() => { cancelado.current = true; setCalculando(false); }}
         />
+        <FontesDaTela tema='risco' />
       </ScrollView>
     </SafeAreaView>
   );

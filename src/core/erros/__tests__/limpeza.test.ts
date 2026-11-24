@@ -1,5 +1,5 @@
 /** D-058: o relatório de erros não pode levar dado de saúde nem identificar a pessoa. */
-import { limparEvento, limparRastro } from '../limpeza';
+import { etiquetasDoErro, limparEvento, limparRastro } from '../limpeza';
 
 test('toques e console são descartados: podem ter o texto da tela (nome de remédio, resultado)', () => {
   expect(limparRastro({ category: 'touch', message: 'Losartana 50' })).toBeNull();
@@ -31,4 +31,18 @@ test('o mesmo erro repetido em sequência para de ser enviado depois de 5 vezes 
   const enviados = Array.from({ length: 8 }, () => deixa(erro)).filter(Boolean).length;
   expect(enviados).toBe(5);
   expect(deixa({ exception: { values: [{ type: 'RangeError', value: 'outro' }] } })).toBeTruthy(); // erro diferente passa
+});
+
+describe('etiquetasDoErro', () => {
+  test('o código do erro vira etiqueta: a mensagem pode chegar apagada pelo filtro do Sentry', () => {
+    expect(etiquetasDoErro({ code: 'ERR_REQUEST_UNKNOWN', message: 'x' }, { login: 'apple' })).toEqual({ login: 'apple', codigo: 'ERR_REQUEST_UNKNOWN' });
+  });
+  test('código numérico também serve; sem código fica só o contexto', () => {
+    expect(etiquetasDoErro({ code: -1 }, {})).toEqual({ codigo: '-1' });
+    expect(etiquetasDoErro(new Error('x'), { login: 'google' })).toEqual({ login: 'google' });
+    expect(etiquetasDoErro(null, {})).toEqual({});
+  });
+  test('código longo é cortado no limite de etiqueta do Sentry (200)', () => {
+    expect(etiquetasDoErro({ code: 'A'.repeat(300) }, {}).codigo).toHaveLength(200);
+  });
 });

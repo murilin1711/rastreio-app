@@ -4,12 +4,15 @@ import { Alert, Modal, Pressable, ScrollView, StyleSheet, Text, View } from 'rea
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { SvgXml } from 'react-native-svg';
 import { criarCompartilhamento, revogar } from '@core/relatorios/compartilharQr';
+import { fontesDoRelatorio } from '@core/relatorios/fontes';
 import { compartilharArquivo, gerarPdf } from '@core/relatorios/gerarPdf';
 import { dataHoraBr } from '@core/relatorios/montar';
 import type { ChaveSecao, Especialidade, TipoRelatorio } from '@core/relatorios/tipos';
 import { useRelatorio } from '@core/relatorios/useRelatorio';
 import { useSessao } from '@core/sessao/SessaoProvider';
 import { traduzirErro } from '@core/supabase/erros';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
+import { PainelRelatorioView } from '@modules/minha-saude/componentes/PainelRelatorioView';
 import { SecaoRelatorioView } from '@modules/minha-saude/componentes/SecaoRelatorioView';
 import { TEXTO_QR } from '@modules/minha-saude/conteudo/relatorios';
 import { Button, Colors, completarPiso, EsperaNero, InternalHeader, Radius, Spacing, Typography, useFechamentoDaEspera } from '@ui/index';
@@ -51,13 +54,13 @@ export default function PreviaRelatorio() {
   };
 
   const mostrarQr = () => {
-    Alert.alert('Enviar o PDF para a nuvem?', TEXTO_QR.confirmacao, [
+    Alert.alert('Enviar o relatório para a nuvem?', TEXTO_QR.confirmacao, [
       { text: 'Cancelar', style: 'cancel' },
       { text: 'Gerar código QR', onPress: async () => {
         if (!sessao?.user.id) return;
         setCriandoQr(true);
         try {
-          const c = await criarCompartilhamento(sessao.user.id, p.tipo ?? 'geral', p.especialidade ?? null, rel.html(), (svg, validade) => rel.html(svg, validade));
+          const c = await criarCompartilhamento(sessao.user.id, p.tipo ?? 'geral', p.especialidade ?? null, { titulo: rel.titulo, geradoEm: rel.geradoEm, htmlWeb: rel.htmlTela(), htmlPdf: (svg, validade) => rel.html(svg, validade) });
           setQr({ id: c.id, svg: c.qrSvg, expiraEm: c.expiraEm });
         } catch (e) { Alert.alert('Não foi possível criar o código QR', traduzirErro(e).mensagemUsuario); } finally { setCriandoQr(false); }
       } },
@@ -74,6 +77,7 @@ export default function PreviaRelatorio() {
       <ScrollView contentContainerStyle={styles.conteudo}>
         <InternalHeader sectionLabel="Relatórios" title={rel.titulo} />
         <Text style={styles.meta}>Período das medidas: {rel.periodo.rotulo}. Exames e rastreamentos entram sem limite de data.</Text>
+        {rel.geradoEm ? <Text style={styles.meta}>{`Gerado em ${dataHoraBr(rel.geradoEm)}.`}</Text> : null}
         {/* Ações logo abaixo do título: antes ficavam no fim e exigiam rolar o relatório inteiro (D-049). */}
         {!rel.carregando && rel.dados ? (
           <View style={{ gap: Spacing.sm, marginTop: Spacing.lg }}>
@@ -82,11 +86,14 @@ export default function PreviaRelatorio() {
             <Text style={styles.nota}>{TEXTO_QR.nota}</Text>
           </View>
         ) : null}
+        {/* Página 1 do relatório (painel, D-067), em 1 coluna, antes do detalhe. */}
+        {rel.painel ? <View style={{ marginTop: Spacing.lg }}><PainelRelatorioView painel={rel.painel} /></View> : null}
         {rel.erro ? <Text style={styles.erro}>{rel.erro.mensagemUsuario}</Text> : null}
         {rel.carregando ? <Text style={styles.meta}>Montando o relatório…</Text> : null}
         <View style={{ gap: Spacing.md, marginTop: Spacing.lg }}>
           {rel.secoes.map((s) => <SecaoRelatorioView key={s.chave} secao={s} />)}
         </View>
+        {rel.secoes.length && fontesDoRelatorio(rel.secoes).length ? <FontesDaTela referencias={fontesDoRelatorio(rel.secoes)} /> : null}
       </ScrollView>
 
       <EsperaNero

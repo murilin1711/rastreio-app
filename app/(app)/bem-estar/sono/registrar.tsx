@@ -12,6 +12,7 @@ import { traduzirErro } from '@core/supabase/erros';
 import { ROTULO_CONTEXTO_SONO, ROTULO_QUALIDADE } from '@modules/bem-estar/conteudo/sono';
 import { paraISO } from '@modules/coracao/componentes/formato';
 import { Button, CampoData, Colors, Input, InternalHeader, ModalComemoracao, Opcoes, Radius, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 const horaValida = (h: string) => /^([01]\d|2[0-3]):[0-5]\d$/.test(h);
 const ontemISO = () => new Date(Date.now() - 86_400_000).toISOString().slice(0, 10);
@@ -19,7 +20,7 @@ const somarDia = (iso: string) => { const [a, m, d] = iso.split('-').map(Number)
 type Qualidade = '1' | '2' | '3' | '4' | '5';
 type ChaveCtx = keyof typeof ROTULO_CONTEXTO_SONO;
 
-/** Registrar noite (§80): dormiu (data + hora), acordou (hora; se antes de dormir, assume o dia seguinte), qualidade, opcionais. */
+/** Anotar noite de sono (§80): dormiu (data + hora), acordou (hora; se antes de dormir, assume o dia seguinte), qualidade, opcionais. */
 export default function RegistrarSono() {
   const router = useRouter();
   const { inserir } = useSono();
@@ -53,7 +54,7 @@ export default function RegistrarSono() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Meu Sono" title="Registrar noite" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Meu Sono" title="Anotar noite de sono" onBack={() => router.back()} />
         <Text style={styles.rotulo}>Data em que dormiu</Text>
         <CampoData valor={data} onChange={setData} />
         <Text style={styles.rotulo}>Horários</Text>
@@ -72,6 +73,7 @@ export default function RegistrarSono() {
           </View>
         ))}
         <Button label="Salvar noite" onPress={gravar} loading={salvando} style={{ marginTop: Spacing.xxl }} />
+        <FontesDaTela tema='sono' />
       </ScrollView>
       <ModalComemoracao
         conteudo={conquistas.proxima ? TEXTO_CONQUISTA[conquistas.proxima] : null}

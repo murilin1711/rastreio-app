@@ -8,6 +8,7 @@ import { act, create } from 'react-test-renderer';
 
 let mockCompartilhados: string[] = [];
 let mockGerou = 0;
+let mockPainel: unknown = null;
 
 jest.mock('expo-router', () => ({
   useRouter: () => ({ push: jest.fn(), replace: jest.fn(), back: jest.fn() }),
@@ -15,7 +16,7 @@ jest.mock('expo-router', () => ({
 }));
 jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: { user: { id: 'u1' } }, carregando: false, online: true, sair: jest.fn() }) }));
 jest.mock('@core/relatorios/useRelatorio', () => ({
-  useRelatorio: () => ({ titulo: 'Relatório', periodo: { rotulo: '90 dias' }, secoes: [], dados: {}, carregando: false, erro: null, html: () => '<html></html>' }),
+  useRelatorio: () => ({ titulo: 'Relatório', periodo: { rotulo: '90 dias' }, secoes: [], dados: {}, painel: mockPainel, geradoEm: '2026-09-18T10:30:00', carregando: false, erro: null, html: (svg?: string) => `<html>pdf${svg ?? ''}</html>`, htmlTela: () => '<html class="tela"></html>' }),
 }));
 jest.mock('@core/relatorios/gerarPdf', () => ({
   gerarPdf: async () => { mockGerou++; return 'file:///relatorio.pdf'; },
@@ -47,7 +48,7 @@ async function avancar(ms: number) {
   await act(async () => {});
 }
 
-beforeEach(() => { mockCompartilhados = []; mockGerou = 0; jest.useFakeTimers(); });
+beforeEach(() => { mockCompartilhados = []; mockGerou = 0; mockPainel = null; jest.useFakeTimers(); });
 afterEach(() => { jest.useRealTimers(); });
 
 it('segura a espera pelo piso e só compartilha depois que ela sai da tela', async () => {
@@ -92,3 +93,36 @@ it('se o aviso de fechamento nunca vier, compartilha mesmo assim depois do limit
   await avancar(LIMITE_FECHAMENTO_MS + 50);
   expect(mockCompartilhados).toEqual(['file:///relatorio.pdf']);
 }, 10000);
+
+it('com o painel pronto, mostra a página 1 depois das ações e a data de geração', async () => {
+  const { montarPainel } = require('@core/relatorios/painel');
+  const { dadosNeroTeste, PERIODO_TESTE } = require('./fixtures');
+  const { PainelRelatorioView } = require('@modules/minha-saude/componentes/PainelRelatorioView');
+  mockPainel = montarPainel(dadosNeroTeste(), { tipo: 'geral', periodo: PERIODO_TESTE });
+  let arvore: any;
+  await act(async () => { arvore = create(<Previa />); });
+  expect(arvore.root.findAllByType(PainelRelatorioView)).toHaveLength(1);
+  const texto = textoDe(arvore.toJSON());
+  expect(texto).toContain('Gerado em 18/09/2026 10:30.');
+  expect(texto.indexOf('Mostrar QR para o médico')).toBeLessThan(texto.indexOf('Para atenção nesta consulta'));
+  act(() => arvore.unmount());
+});
+
+it('o QR leva a página do celular (htmlTela) e o PDF com o QR (html), com título e data de geração', async () => {
+  const { Alert } = require('react-native');
+  const { criarCompartilhamento } = require('@core/relatorios/compartilharQr');
+  criarCompartilhamento.mockResolvedValue({ id: 'c1', qrSvg: '<svg/>', expiraEm: '2026-09-25T10:30:00Z' });
+  const alerta = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+  let arvore: any;
+  await act(async () => { arvore = create(<Previa />); });
+  await act(async () => { apertar(arvore, 'Mostrar QR para o médico'); });
+  expect(alerta.mock.calls[0][0]).toBe('Enviar o relatório para a nuvem?');
+  const botoes = alerta.mock.calls[0][2] as { text: string; onPress?: () => Promise<void> }[];
+  await act(async () => { await botoes.find((b) => b.text === 'Gerar código QR')!.onPress!(); });
+  const [uid, tipo, esp, conteudo] = criarCompartilhamento.mock.calls[0];
+  expect([uid, tipo, esp]).toEqual(['u1', 'geral', null]);
+  expect(conteudo).toMatchObject({ titulo: 'Relatório', geradoEm: '2026-09-18T10:30:00', htmlWeb: '<html class="tela"></html>' });
+  expect(conteudo.htmlPdf('<svg id="q"/>', '25/09/2026')).toBe('<html>pdf<svg id="q"/></html>');
+  alerta.mockRestore();
+  act(() => arvore.unmount());
+});

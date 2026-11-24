@@ -2,10 +2,11 @@ import type { ExameCardio } from '@core/cardio/mapeamento';
 import type { SessaoComResultado } from '@core/cardio/mapeamento';
 import type { RiscoSalvo } from '@core/cardio/riscoCv';
 import type { Documento } from '@core/documentos/tipos';
-import type { Medicacao } from '@core/medicacoes/tipos';
+import type { EstadoDose } from '@core/medicacoes/adesao';
+import type { Medicacao, Tomada } from '@core/medicacoes/tipos';
 import type { AntecedenteFamiliar, PerfilSaude } from '@core/perfil/tipos';
 import type { ExameRegistrado, PendenciaAberta, SintomaAberto } from '@core/rastreando/contexto';
-import type { MedidaPA } from '@core/regras/cardio/tipos';
+import type { MedidaPA, ParametrosPressao } from '@core/regras/cardio/tipos';
 import type { MedidaGlicemia, Metas } from '@core/regras/cardio/tiposGlicemia';
 import type { ItemCheckup } from '@core/regras/cardio/tiposRisco';
 import type { Atividade, Checkin, MedidaCorporal, Meta, ParametrosBemEstar, Refeicao, RegistroAgua, Sono } from '@core/regras/bemestar/tipos';
@@ -24,10 +25,16 @@ export interface ConsultaResumo { id: string; especialidade: Especialidade; data
 
 /** Tudo que um relatório pode usar. Montado por `carregar.ts`; os `montar*` são puros sobre este objeto. */
 export interface DadosNero {
+  /** ISO do momento da carga; as janelas de adesão (2 e 4 semanas) contam para trás a partir do dia local dele. */
+  geradoEm: string;
   perfil: PerfilSaude;
   antecedentes: AntecedenteFamiliar[];
   /** Ativas e históricas; a montagem separa. */
   medicacoes: Medicacao[];
+  /** Tomadas das 4 semanas até o dia local de geração (previstas e "se precisar"). */
+  tomadas: Tomada[];
+  /** Parâmetros de pressão (referência domiciliar, C-010); null se as regras não vierem. */
+  parametrosPressao: ParametrosPressao | null;
   /** Medidas casuais do período (fora de sessão MRPA). */
   medidasPA: MedidaPA[];
   /** Sessões concluídas do período, com resultado. */
@@ -77,3 +84,27 @@ export interface SecaoRelatorio {
 export const TITULO_COMPLEMENTO = 'Outras informações do meu histórico';
 
 export const SEM_REGISTROS = 'Sem registros no período';
+
+// ---- Painel (página 1 do relatório novo, D-067). Sem selos de cor (Ruling S0). ----
+
+export type TipoCartao = 'pressao' | 'hba1c' | 'ldl' | 'risco' | 'glicemia' | 'peso' | 'cintura';
+
+export interface CartaoNumero { tipo: TipoCartao; titulo: string; valor: string; unidade: string; data: string | null; detalhe: string | null; tendencia: 'subiu' | 'desceu' | null }
+
+export interface CabecalhoPainel { nome: string; idade: number | null; sexo: string | null; condicoes: string[]; tabagismo: string }
+
+/** Estados de dose desenhados no painel: o que ainda pode ser marcado não entra. */
+export type EstadoDosePainel = Exclude<EstadoDose, 'pendente'>;
+
+/** `interrompidoEm`: 'AAAA-MM-DD' do fim, quando o remédio foi interrompido dentro da janela (I3); `null` se ativo. */
+export interface LinhaAdesao { medicacaoId: string; nome: string; dose: string | null; sePrecisar: boolean; interrompidoEm: string | null; doses: EstadoDosePainel[]; tomou: number; previstas: number; errado: number; percentual: number | null; usosSePrecisar: number }
+
+export interface ProgramaPainel { programa: Programa; rotulo: string; situacao: string; proximaData: string | null; mensagem: string }
+
+export interface PontoPressao { data: string; pas: number }
+
+/**
+ * `null` em `seriePressao`/`adesao`/`prevencao` = bloco não desenhado. `referenciaSistolica` = linha do gráfico:
+ * PAS da referência domiciliar dos parâmetros de pressão, ou 130 quando eles não vierem (R3-T1-a).
+ */
+export interface PainelRelatorio { cabecalho: CabecalhoPainel; atencao: string[]; cartoes: CartaoNumero[]; seriePressao: PontoPressao[] | null; referenciaSistolica: number; adesao: LinhaAdesao[] | null; prevencao: ProgramaPainel[] | null; prevencaoDetalhada: boolean }

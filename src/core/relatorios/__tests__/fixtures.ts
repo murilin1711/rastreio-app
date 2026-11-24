@@ -1,6 +1,10 @@
+import type { Tomada } from '@core/medicacoes/tipos';
 import type { PerfilSaude } from '@core/perfil/tipos';
 import { extrairParametrosBemEstar } from '@core/regras/bemestar/parametros';
 import { regrasBemEstarTeste } from '@core/regras/bemestar/__tests__/fixtures';
+import { regrasPressaoTeste } from '@core/regras/cardio/__tests__/fixtures';
+import { extrairParametros } from '@core/regras/cardio/parametros';
+import { somarDias } from '../datas';
 import type { DadosNero, Periodo } from '../tipos';
 
 export const PERIODO_TESTE: Periodo = { desde: '2026-06-20', ate: '2026-09-18', rotulo: 'últimos 90 dias' };
@@ -19,16 +23,42 @@ const perfil: PerfilSaude = {
 const pa = (i: number, pas: number, pad: number) => ({ id: `pa${i}`, medidoEm: `2026-09-0${i}T08:00:00.000Z`, pas, pad, fc: 70, sessaoId: null, contexto: {} });
 const lab = (id: string, tipo: string, valor: number, unidade: string, data = '2026-08-15') => ({ id, tipo, categoria: 'laboratorial' as const, dataRealizacao: data, resultado: { valor, unidade, referenciaMin: undefined, referenciaMax: undefined }, instituicao: 'Lab Central', solicitante: null, observacoes: null });
 
+/**
+ * Tomadas de 22/08 a 18/09/2026 (4 semanas até a geração, 18/09 às 10:30), `marcadoEm` em hora local:
+ * Losartana 08:00 sem tomar em 05–08/09; Metformina 08:00 e 20:00 com 16/09 08:00 errada (2 em vez de 1),
+ * 17/09 20:00 marcada às 23:00 e 18/09 20:00 ainda sem marca; Dipirona "se precisar" em 10/09 e 14/09.
+ */
+export function tomadasTeste(): Tomada[] {
+  const t: Tomada[] = [];
+  const dose = (medicacaoId: string, dia: string, hora: string, x: Partial<Tomada> = {}) =>
+    t.push({ id: `t${t.length + 1}`, medicacaoId, dataPrevista: dia, horaPrevista: hora, quantidadePrevista: 1, tomou: true, quantidade: 1, marcadoEm: `${dia}T${hora.slice(0, 3)}05:00`, ...x });
+  for (let i = 0; i < 28; i++) {
+    const dia = somarDias('2026-08-22', i);
+    dose('m1', dia, '08:00', ['2026-09-05', '2026-09-06', '2026-09-07', '2026-09-08'].includes(dia) ? { tomou: false, quantidade: null } : {});
+    dose('m2', dia, '08:00', dia === '2026-09-16' ? { quantidade: 2 } : {});
+    if (dia === '2026-09-17') dose('m2', dia, '20:00', { marcadoEm: '2026-09-17T23:00:00' });
+    else if (dia !== '2026-09-18') dose('m2', dia, '20:00');
+  }
+  const avulsa = (marcadoEm: string) => t.push({ id: `t${t.length + 1}`, medicacaoId: 'm4', dataPrevista: null, horaPrevista: null, quantidadePrevista: null, tomou: true, quantidade: 1, marcadoEm });
+  avulsa('2026-09-10T15:00:00');
+  avulsa('2026-09-14T09:00:00');
+  return t;
+}
+
 /** Conjunto completo de dados para os testes de montagem: um pouco de cada módulo. */
 export function dadosNeroTeste(): DadosNero {
   return {
+    geradoEm: '2026-09-18T10:30:00',
     perfil,
     antecedentes: [{ id: 'a1', parentesco: 'mae', grau: 'primeiro', condicao: 'mama', idadeDiagnostico: 52, observacao: null }],
     medicacoes: [
-      { id: 'm1', nome: 'Losartana', dose: '50 mg', horarios: ['08:00'], desde: '2024-03-01', ate: null, prescritor: 'Dr. Lima', ativa: true, lembrar: true, observacao: null },
-      { id: 'm2', nome: 'Metformina', dose: '850 mg', horarios: ['08:00', '20:00'], desde: '2023-01-10', ate: null, prescritor: null, ativa: true, lembrar: false, observacao: null },
-      { id: 'm3', nome: 'Sinvastatina', dose: '20 mg', horarios: ['22:00'], desde: '2022-01-01', ate: '2024-01-01', prescritor: null, ativa: false, lembrar: false, observacao: null },
+      { id: 'm1', nome: 'Losartana', dose: '50 mg', horarios: [{ hora: '08:00', quantidade: 1 }], unidade: 'comprimido', doseVariavel: false, sePrecisar: false, horariosDesde: '2026-01-01', desde: '2024-03-01', ate: null, prescritor: 'Dr. Lima', ativa: true, lembrar: true, observacao: null },
+      { id: 'm2', nome: 'Metformina', dose: '850 mg', horarios: [{ hora: '08:00', quantidade: 1 }, { hora: '20:00', quantidade: 1 }], unidade: 'comprimido', doseVariavel: false, sePrecisar: false, horariosDesde: '2026-01-01', desde: '2023-01-10', ate: null, prescritor: null, ativa: true, lembrar: false, observacao: null },
+      { id: 'm3', nome: 'Sinvastatina', dose: '20 mg', horarios: [{ hora: '22:00', quantidade: 1 }], unidade: 'comprimido', doseVariavel: false, sePrecisar: false, horariosDesde: null, desde: '2022-01-01', ate: '2024-01-01', prescritor: null, ativa: false, lembrar: false, observacao: null },
+      { id: 'm4', nome: 'Dipirona', dose: '500 mg', horarios: [], unidade: 'comprimido', doseVariavel: false, sePrecisar: true, horariosDesde: null, desde: '2025-01-01', ate: null, prescritor: null, ativa: true, lembrar: false, observacao: null },
     ],
+    tomadas: tomadasTeste(),
+    parametrosPressao: extrairParametros(regrasPressaoTeste()),
     medidasPA: [pa(1, 128, 82), pa(2, 134, 86), pa(3, 126, 80), pa(4, 140, 90), pa(5, 122, 78), pa(6, 130, 84)],
     sessoesMrpa: [{
       id: 's1', inicio: '2026-08-01', diasPrevistos: 5, status: 'concluida', horarios: { manha: '07:00', noite: '21:00' }, paConsultorio: { pas: 142, pad: 92, medidoEm: '2026-07-28' }, concluidaEm: '2026-08-06T00:00:00.000Z',

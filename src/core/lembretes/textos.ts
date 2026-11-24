@@ -6,6 +6,8 @@
  * traz só o detalhe. Sem "NERO:" (o ícone já diz) e sem nome de módulo ("Coração & Metabolismo" não
  * diz à pessoa o que fazer).
  */
+import { horaCurta } from '@core/medicacoes/horarios';
+
 export interface TextoNotificacao {
   titulo: string;
   emoji: string;
@@ -31,9 +33,26 @@ export function litros(ml: number): string {
   return `${String(l).replace('.', ',')} L`;
 }
 
-export function textoRemedio(nome: string, dose: string | null): TextoNotificacao {
+/** O card de rotina da Agenda tira o nome do remédio do texto gravado (`rotina.nomeDo`). */
+export const PREFIXO_REMEDIO = 'Hora do remédio: ';
+
+/**
+ * Texto decidido na spec de 23/11 (D-066): "Hora do remédio: Losartana 50 mg · 1 comprimido" /
+ * "Toque aqui para marcar" — o toque abre a tela "Tomou?". `quantidade` nula quando a dose muda
+ * conforme o dia: o título fica só com o nome (e a dose, se houver).
+ */
+export function textoRemedio(nome: string, dose: string | null, quantidade: string | null): TextoNotificacao {
   const d = dose?.trim();
-  return { titulo: 'Hora de tomar seu remédio', emoji: '💊', corpo: d ? `${nome} ${d}` : nome };
+  const remedio = d ? `${nome} ${d}` : nome;
+  return { titulo: `${PREFIXO_REMEDIO}${remedio}${quantidade ? ` · ${quantidade}` : ''}`, emoji: '💊', corpo: 'Toque aqui para marcar' };
+}
+
+/**
+ * Segundo lembrete (spec §6.2), 30 min depois do horário, para quem ainda não marcou a dose:
+ * "Você tomou Losartana das 8h?" / "Toque aqui para marcar". Neutro em gênero; o toque abre "Tomou?".
+ */
+export function textoSegundoLembrete(nome: string, hora: string): TextoNotificacao {
+  return { titulo: `Você tomou ${nome} das ${horaCurta(hora)}?`, emoji: '💊', corpo: 'Toque aqui para marcar' };
 }
 
 /** `metaMl` nulo: a pessoa não definiu meta e não há peso para sugerir uma. */

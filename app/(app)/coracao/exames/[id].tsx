@@ -15,6 +15,7 @@ import { dataCurtaBr, dataLongaBr } from '@modules/coracao/componentes/formato';
 import { GraficoBarras } from '@modules/coracao/componentes/GraficoBarras';
 import { fmtNum, resumoResultadoExame } from '@modules/coracao/componentes/LinhaExame';
 import { Alerta, Card, Colors, InternalHeader, Radius, Spacing, StatusBadge, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 /** Detalhe do exame + série histórica do mesmo tipo. CAC com a regra da Tabela 4.4 (C-013). Laboratório sem chip. */
 export default function DetalheExame() {
@@ -67,6 +68,7 @@ export default function DetalheExame() {
         ) : null}
 
         <BlocoDocumentos exameId={exame.id} />
+        <FontesDaTela tema='examesCardio' />
       </ScrollView>
     </SafeAreaView>
   );

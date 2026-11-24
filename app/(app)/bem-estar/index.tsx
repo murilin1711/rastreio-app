@@ -7,14 +7,16 @@ import { CONQUISTAS_BEM_ESTAR } from '@core/regras/bemestar/conquistas';
 import { useHabitos } from '@core/bemestar/useHabitos';
 import { formatarHm } from '@core/regras/bemestar/sono';
 import { CardResumo } from '@modules/coracao/componentes/CardResumo';
+import { ACOES_BEM_ESTAR } from '@modules/bem-estar/acoes';
 import { TEXTO_CHECKIN } from '@modules/bem-estar/conteudo/checkin';
 import { TEXTO_CONQUISTA } from '@modules/bem-estar/conteudo/conquistas';
-import { Button, Colors, InternalHeader, ListItem, ModalComemoracao, NeroAnimado, Radius, Spacing, Typography } from '@ui/index';
+import { Button, Colors, InternalHeader, ListaAcoes, ModalComemoracao, NeroAnimado, Radius, Spacing, Typography } from '@ui/index';
 import { useAbrir } from '@core/navegacao/useVoltar';
+import { LinkFontes } from '@modules/fontes/FontesDaTela';
 
 const fmt = (n: number) => String(n).replace('.', ',');
 
-/** Saúde & Bem-estar — "Meus hábitos" (§85): os últimos 7 dias em cinco números e os atalhos do módulo. */
+/** Módulo "Hábitos e bem-estar" no molde único (spec de navegação §6.5, D-065): o que fazer primeiro, depois só os números que existem. */
 export default function BemEstar() {
   const router = useRouter();
   const abrir = useAbrir();
@@ -22,14 +24,19 @@ export default function BemEstar() {
   const conquistas = useConquistas({ chaves: CONQUISTAS_BEM_ESTAR });
   useFocusEffect(useCallback(() => { recarregar(); conquistas.avaliar(); }, [recarregar, conquistas.avaliar]));
 
+  // Só os cartões com valor: sem cartão vazio pedindo registro (spec §6.5).
+  const cartoes = h ? [
+    h.movimentoMin > 0 && <CardResumo key="movimento" titulo="Movimento" valor={`${h.movimentoMin} de ${h.metaMin} min`} detalhe="minutos que contam para a meta" vazio="" onPress={() => abrir('/(app)/bem-estar/atividade')} />,
+    h.sonoMediaMin != null && <CardResumo key="sono" titulo="Sono" valor={formatarHm(h.sonoMediaMin)} detalhe="média por noite" vazio="" onPress={() => abrir('/(app)/bem-estar/sono')} />,
+    h.pesoKg != null && <CardResumo key="peso" titulo="Peso" valor={`${fmt(h.pesoKg)} kg`} detalhe={h.pesoVariacaoKg != null ? `${h.pesoVariacaoKg > 0 ? '+' : ''}${fmt(h.pesoVariacaoKg)} kg vs. média anterior` : 'última medida'} vazio="" onPress={() => abrir('/(app)/bem-estar/corpo')} />,
+    h.cinturaCm != null && <CardResumo key="cintura" titulo="Cintura" valor={`${fmt(h.cinturaCm)} cm`} detalhe={h.cinturaHaDias != null ? (h.cinturaHaDias === 0 ? 'hoje' : `último registro há ${h.cinturaHaDias} dias`) : undefined} vazio="" onPress={() => abrir('/(app)/bem-estar/corpo')} />,
+    h.refeicoes > 0 && <CardResumo key="alimentacao" titulo="Alimentação" valor={`${h.refeicoes} ${h.refeicoes === 1 ? 'refeição' : 'refeições'}`} detalhe="registradas" vazio="" onPress={() => abrir('/(app)/bem-estar/alimentacao')} />,
+  ].filter(Boolean) : [];
+
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Módulo" title="Saúde & Bem-estar" onBack={() => router.replace('/(app)/(tabs)')} />
-        <View style={styles.cabecalho}>
-          <Text style={styles.sub}>Como seus hábitos e seu corpo estão evoluindo ao longo do tempo — sem contar calorias e sem julgar.</Text>
-          <NeroAnimado size={88} />
-        </View>
+        <InternalHeader sectionLabel="Módulo" title="Hábitos e bem-estar" onBack={() => router.replace('/(app)/(tabs)')} />
 
         {h?.checkinPendente ? (
           <View style={styles.checkin}>
@@ -38,26 +45,22 @@ export default function BemEstar() {
           </View>
         ) : null}
 
-        <Text style={styles.secao}>Seus últimos 7 dias</Text>
-        <View style={styles.grade}>
-          <CardResumo titulo="Movimento" valor={h ? `${h.movimentoMin} de ${h.metaMin} min` : undefined} detalhe={h ? 'minutos que contam para a meta' : undefined} vazio="Registre uma atividade" onPress={() => abrir('/(app)/bem-estar/atividade')} />
-          <CardResumo titulo="Sono" valor={h?.sonoMediaMin != null ? `${formatarHm(h.sonoMediaMin)}` : undefined} detalhe={h?.sonoMediaMin != null ? 'média por noite' : undefined} vazio="Registre uma noite" onPress={() => abrir('/(app)/bem-estar/sono')} />
-          <CardResumo titulo="Peso" valor={h?.pesoKg != null ? `${fmt(h.pesoKg)} kg` : undefined} detalhe={h?.pesoVariacaoKg != null ? `${h.pesoVariacaoKg > 0 ? '+' : ''}${fmt(h.pesoVariacaoKg)} kg vs. média anterior` : h?.pesoKg != null ? 'última medida' : undefined} vazio="Registre o peso" onPress={() => abrir('/(app)/bem-estar/corpo')} />
-          <CardResumo titulo="Cintura" valor={h?.cinturaCm != null ? `${fmt(h.cinturaCm)} cm` : undefined} detalhe={h?.cinturaHaDias != null ? (h.cinturaHaDias === 0 ? 'hoje' : `último registro há ${h.cinturaHaDias} dias`) : undefined} vazio="Registre a cintura" onPress={() => abrir('/(app)/bem-estar/corpo')} />
-          <CardResumo titulo="Alimentação" valor={h?.refeicoes ? `${h.refeicoes} ${h.refeicoes === 1 ? 'refeição' : 'refeições'}` : undefined} detalhe={h?.refeicoes ? 'registradas' : undefined} vazio="Registre uma refeição" onPress={() => abrir('/(app)/bem-estar/alimentacao')} />
+        <View style={styles.acoes}>
+          <ListaAcoes acoes={ACOES_BEM_ESTAR} onAbrir={abrir} />
         </View>
 
-        <Text style={styles.secao}>Ferramentas</Text>
-        <View style={{ gap: Spacing.sm }}>
-          <ListItem icon="body-outline" title="Meu Corpo" subtitle="Peso, IMC, cintura, composição corporal e evolução" onPress={() => abrir('/(app)/bem-estar/corpo')} />
-          <ListItem icon="walk-outline" title="Minhas Atividades" subtitle="Sua semana, últimos 30 dias e meta" onPress={() => abrir('/(app)/bem-estar/atividade')} />
-          <ListItem icon="moon-outline" title="Meu Sono" subtitle="Média de 7 dias e horários" onPress={() => abrir('/(app)/bem-estar/sono')} />
-          <ListItem icon="water-outline" title="Minha Água" subtitle="Quanto você bebeu hoje e sua meta do dia" onPress={() => abrir('/(app)/bem-estar/agua')} />
-          <ListItem icon="restaurant-outline" title="Minha Alimentação" subtitle="Diário simples e horários das refeições" onPress={() => abrir('/(app)/bem-estar/alimentacao')} />
-          <ListItem icon="flag-outline" title="Minhas Metas" subtitle="Objetivos definidos por você ou com o profissional" onPress={() => abrir('/(app)/bem-estar/metas')} />
-          <ListItem icon="chatbubble-ellipses-outline" title="Check-in semanal" subtitle="Como foi sua semana, de 0 a 10" onPress={() => abrir('/(app)/bem-estar/checkin')} />
-          <ListItem icon="document-text-outline" title="Relatório de Saúde & Hábitos" subtitle="PDF para clínico, endocrinologista, nutricionista ou educador físico" onPress={() => abrir({ pathname: '/(app)/(tabs)/minha-saude/relatorios/previa', params: { tipo: 'bemestar', dias: '90' } })} />
+        {cartoes.length ? (
+          <>
+            <Text style={styles.secao}>Seus últimos números</Text>
+            <View style={styles.grade}>{cartoes}</View>
+          </>
+        ) : null}
+
+        <View style={styles.cabecalho}>
+          <Text style={styles.sub}>Como seus hábitos e seu corpo estão evoluindo ao longo do tempo — sem contar calorias e sem julgar.</Text>
+          <NeroAnimado size={88} />
         </View>
+        <LinkFontes />
       </ScrollView>
       <ModalComemoracao conteudo={conquistas.proxima ? TEXTO_CONQUISTA[conquistas.proxima] : null} aoFechar={conquistas.dispensar} />
     </SafeAreaView>
@@ -67,7 +70,8 @@ export default function BemEstar() {
 const styles = StyleSheet.create({
   tela: { flex: 1, backgroundColor: Colors.background },
   conteudo: { padding: Spacing.xxl, paddingBottom: Spacing.xxxl },
-  cabecalho: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md },
+  acoes: { marginTop: Spacing.lg },
+  cabecalho: { flexDirection: 'row', alignItems: 'center', gap: Spacing.md, marginTop: Spacing.xxl, marginBottom: Spacing.lg },
   sub: { ...Typography.body, color: Colors.textSecondary, flex: 1 },
   secao: { ...Typography.heading, color: Colors.textPrimary, marginTop: Spacing.xxl, marginBottom: Spacing.sm },
   grade: { flexDirection: 'row', flexWrap: 'wrap', gap: Spacing.md },

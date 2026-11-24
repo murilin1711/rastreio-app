@@ -37,32 +37,45 @@ const Confirmar = require('../../../../app/(auth)/confirmar').default;
 const campo = (t: any) => t.root.findAll((n: any) => n.props?.testID === 'campo-codigo')[0];
 const botaoReenviar = (t: any) => t.root.findAll((n: any) => n.props?.testID === 'botao-reenviar')[0];
 
+// A tela tem um setInterval (contagem do reenviar): desmontar no fim de cada teste, senão ele atualiza o
+// estado depois do teste e o Jest avisa "Cannot log after tests are done".
+const montadas: any[] = [];
+async function montar() {
+  let t: any; await act(async () => { t = create(<Confirmar />); });
+  montadas.push(t);
+  return t;
+}
+
 beforeEach(() => {
   mockVerificacoes = []; mockReenvios = 0; mockErroVerificar = null; mockSubstituiu = [];
 });
+afterEach(() => {
+  for (const t of montadas.splice(0)) act(() => t.unmount());
+  jest.useRealTimers();
+});
 
 it('verifica sozinho quando os seis dígitos estão preenchidos, e entra no app', async () => {
-  let t: any; await act(async () => { t = create(<Confirmar />); });
+  const t = await montar();
   await act(async () => { campo(t).props.onChangeText('123456'); });
   expect(mockVerificacoes).toEqual([{ email: 'maria@exemplo.com', token: '123456', type: 'signup' }]);
   expect(mockSubstituiu).toEqual(['/']);
 });
 
 it('aceita o código colado com espaços ou texto junto', async () => {
-  let t: any; await act(async () => { t = create(<Confirmar />); });
+  const t = await montar();
   await act(async () => { campo(t).props.onChangeText('Código: 123 456'); });
   expect(mockVerificacoes[0].token).toBe('123456');
 });
 
 it('não verifica antes dos seis dígitos', async () => {
-  let t: any; await act(async () => { t = create(<Confirmar />); });
+  const t = await montar();
   await act(async () => { campo(t).props.onChangeText('12345'); });
   expect(mockVerificacoes).toHaveLength(0);
 });
 
 it('código errado mostra recado e deixa a pessoa tentar de novo, sem sair da tela', async () => {
   mockErroVerificar = 'Token has expired or is invalid';
-  let t: any; await act(async () => { t = create(<Confirmar />); });
+  const t = await montar();
   await act(async () => { campo(t).props.onChangeText('000000'); });
   expect(mockSubstituiu).toEqual([]);
   expect(JSON.stringify(t.toJSON())).toContain('não conferiu');
@@ -73,7 +86,7 @@ it('código errado mostra recado e deixa a pessoa tentar de novo, sem sair da te
 });
 
 it('não verifica o mesmo código duas vezes seguidas', async () => {
-  let t: any; await act(async () => { t = create(<Confirmar />); });
+  const t = await montar();
   await act(async () => { campo(t).props.onChangeText('123456'); });
   await act(async () => { campo(t).props.onChangeText('123456'); });
   expect(mockVerificacoes).toHaveLength(1);
@@ -81,7 +94,7 @@ it('não verifica o mesmo código duas vezes seguidas', async () => {
 
 it('o botão de reenviar começa travado e destrava depois da espera', async () => {
   jest.useFakeTimers();
-  let t: any; await act(async () => { t = create(<Confirmar />); });
+  const t = await montar();
   expect(botaoReenviar(t).props.disabled).toBe(true);
   await act(async () => { jest.advanceTimersByTime(61_000); });
   expect(botaoReenviar(t).props.disabled).toBe(false);

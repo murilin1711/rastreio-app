@@ -23,11 +23,11 @@ jest.mock('expo-router', () => ({
 }));
 jest.mock('@core/sessao/SessaoProvider', () => ({ useSessao: () => ({ sessao: mockSessao, carregando: mockCarregando }) }));
 
-const { useToqueNotificacao } = require('../useToqueNotificacao');
+const { useToqueNotificacao, rotaComData } = require('../useToqueNotificacao');
 
 function Sonda() { useToqueNotificacao(); return null; }
-const toque = (rota: unknown, id = 'n1', acao = 'expo.modules.notifications.actions.DEFAULT') =>
-  ({ actionIdentifier: acao, notification: { request: { identifier: id, content: { data: { rota } } } } });
+const toque = (rota: unknown, id = 'n1', acao = 'expo.modules.notifications.actions.DEFAULT', date = Date.now()) =>
+  ({ actionIdentifier: acao, notification: { date, request: { identifier: id, content: { data: { rota } } } } });
 
 beforeEach(() => { mockPush.mockClear(); mockLimpar.mockClear(); mockNavPronta = true; mockSessao = { user: { id: 'u1' } }; mockCarregando = false; });
 
@@ -63,4 +63,32 @@ it('ignora rota fora da área logada e toque que não é o padrão', async () =>
   mockResposta = toque('/(app)/bem-estar/agua', 'n3', 'outra-acao');
   await act(async () => { create(<Sonda />); });
   expect(mockPush).not.toHaveBeenCalled();
+});
+
+it('lembrete de remédio: a data da dose é a da entrega, não a do toque', async () => {
+  mockResposta = toque('/(app)/remedios/tomar?med=m1&hora=20:00', 'n9', undefined, new Date('2026-11-23T20:00:03').getTime());
+  await act(async () => { create(<Sonda />); });
+  expect(mockPush).toHaveBeenCalledWith('/(app)/remedios/tomar?med=m1&hora=20:00&data=2026-11-23');
+});
+
+it('entregue às 23h, tocado depois da meia-noite: a dose continua sendo do dia da entrega', () => {
+  expect(rotaComData('/(app)/remedios/tomar?med=m1&hora=23:00', new Date('2026-11-23T23:00:01').getTime()))
+    .toBe('/(app)/remedios/tomar?med=m1&hora=23:00&data=2026-11-23');
+});
+
+it('rota que já traz a data (segundo lembrete) não muda', () => {
+  expect(rotaComData('/(app)/remedios/tomar?med=m1&hora=23:45&data=2026-11-23', new Date('2026-11-24T00:15:00').getTime()))
+    .toBe('/(app)/remedios/tomar?med=m1&hora=23:45&data=2026-11-23');
+});
+
+it('outras rotas não ganham data', () => expect(rotaComData('/(app)/bem-estar/agua', Date.now())).toBe('/(app)/bem-estar/agua'));
+
+it('iOS entrega a data em segundos, o Android em milissegundos: os dois dão o mesmo dia', () => {
+  const ms = new Date('2026-11-23T08:00:02').getTime();
+  expect(rotaComData('/(app)/remedios/tomar?med=m1&hora=08:00', ms / 1000)).toBe('/(app)/remedios/tomar?med=m1&hora=08:00&data=2026-11-23');
+  expect(rotaComData('/(app)/remedios/tomar?med=m1&hora=08:00', ms)).toBe('/(app)/remedios/tomar?med=m1&hora=08:00&data=2026-11-23');
+});
+
+it('sem data de entrega válida, a rota segue sem data (a tela usa hoje)', () => {
+  expect(rotaComData('/(app)/remedios/tomar?med=m1&hora=08:00', NaN)).toBe('/(app)/remedios/tomar?med=m1&hora=08:00');
 });

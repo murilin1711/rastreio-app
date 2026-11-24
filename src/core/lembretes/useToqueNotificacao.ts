@@ -3,6 +3,21 @@ import { useRootNavigationState, useRouter, type Href } from 'expo-router';
 import { useEffect, useRef } from 'react';
 import { useSessao } from '@core/sessao/SessaoProvider';
 
+const p2 = (n: number) => String(n).padStart(2, '0');
+
+/**
+ * O lembrete principal do remédio é diário e não sabe a data; a dose é a do dia em que ele foi
+ * **entregue**, não a do toque (entregue às 23h e tocado depois da meia-noite continua sendo de
+ * ontem). Só a tela "Tomou?" ganha `&data=`, e só quando a rota ainda não traz uma (o segundo
+ * lembrete já vem com ela). O iOS manda `date` em segundos e o Android em milissegundos.
+ */
+export function rotaComData(rota: string, entregueEm: number): string {
+  if (!rota.startsWith('/(app)/remedios/tomar') || /[?&]data=/.test(rota)) return rota;
+  if (!Number.isFinite(entregueEm) || entregueEm <= 0) return rota;
+  const d = new Date(entregueEm < 1e11 ? entregueEm * 1000 : entregueEm);
+  return `${rota}${rota.includes('?') ? '&' : '?'}data=${d.getFullYear()}-${p2(d.getMonth() + 1)}-${p2(d.getDate())}`;
+}
+
 /**
  * Tocar numa notificação abre a tela do lembrete (D-044). A rota vai no `data` de cada notificação
  * (`agendar` em `lembretesCardio.ts`, `rastreando/lembretes.ts`), derivada de `origemDe`.
@@ -26,6 +41,6 @@ export function useToqueNotificacao() {
     Notifications.clearLastNotificationResponseAsync().catch(() => {});
     if (resposta.actionIdentifier !== Notifications.DEFAULT_ACTION_IDENTIFIER) return;
     const rota = resposta.notification.request.content.data?.rota;
-    if (typeof rota === 'string' && rota.startsWith('/(app)/')) router.push(rota as Href);
+    if (typeof rota === 'string' && rota.startsWith('/(app)/')) router.push(rotaComData(rota, resposta.notification.date) as Href);
   }, [resposta, navPronta, carregando, sessao, router]);
 }

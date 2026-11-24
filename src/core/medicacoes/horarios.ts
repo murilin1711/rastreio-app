@@ -1,3 +1,5 @@
+import type { HorarioDose } from './tipos';
+
 /** '8' | '08' | '8:00' | '08h' | '20h30' | '20:30' → 'HH:MM'; inválido → null. */
 export function normalizarHorario(texto: string): string | null {
   const m = texto.trim().match(/^(\d{1,2})(?:[:hH](\d{2})?)?$/);
@@ -54,4 +56,25 @@ export function ritmoDe(horarios: string[]): Ritmo | 'outro' {
   if (n < 1 || n > 4) return 'outro';
   const ordenados = [...horarios].sort();
   return horariosDoRitmo(ordenados[0], n as Ritmo).join() === ordenados.join() ? (n as Ritmo) : 'outro';
+}
+
+/** '08:00' → '8h'; '20:30' → '20h30'; '00:15' → '0h15' (para frases: "das 8h"). */
+export function horaCurta(hora: string): string {
+  const [hh, mm] = hora.split(':');
+  const h = String(Number(hh));
+  return mm === '00' ? `${h}h` : `${h}h${mm}`;
+}
+
+/** Novos horários, mantendo a quantidade de quem já existia; hora nova entra com 1. */
+export function mesclarQuantidades(horas: string[], anteriores: HorarioDose[]): HorarioDose[] {
+  return horas.map((hora) => ({ hora, quantidade: anteriores.find((a) => a.hora === hora)?.quantidade ?? 1 }));
+}
+
+/**
+ * Rota da tela "Tomou?" (`app/(app)/remedios/tomar.tsx`). Sem `hora`, é o uso de um remédio "se
+ * precisar"; sem `data`, a tela usa hoje. O lembrete principal (diário) não sabe a data: quem a
+ * acrescenta é o toque, com o dia em que a notificação foi entregue (`rotaComData`).
+ */
+export function rotaTomar(medicacaoId: string, hora?: string, data?: string): string {
+  return `/(app)/remedios/tomar?med=${medicacaoId}${hora ? `&hora=${hora}` : ''}${hora && data ? `&data=${data}` : ''}`;
 }

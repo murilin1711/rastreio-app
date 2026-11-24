@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useSessao } from '@core/sessao/SessaoProvider';
-import { agendarLembretesMedicacao, cancelarLembretes } from '@core/cardio/lembretesCardio';
+import { agendarLembretesMedicacao, cancelarLembretes, sincronizarSegundosLembretes } from '@core/cardio/lembretesCardio';
 import * as repo from './repositorio';
 import type { Medicacao } from './tipos';
 
@@ -31,13 +31,15 @@ export function useMedicacoes() {
     else await cancelarLembretes(userId, `medicacao:${m.id}:`);
   };
 
-  const salvar = async (m: Omit<Medicacao, 'id'> & { id?: string }) => {
+  const salvar = async (m: Omit<Medicacao, 'id' | 'horariosDesde'> & { id?: string }) => {
     if (!userId) return;
     await repo.salvarMedicacao(userId, m);
     const lista = await repo.listarMedicacoes(userId);
     setMedicacoes(lista);
     const salva = m.id ? lista.find((x) => x.id === m.id) : lista.find((x) => x.nome === m.nome && x.ativa);
     if (salva) await ajustarLembretes(salva).catch(() => {});
+    // A janela dos segundos lembretes é de todos os remédios (teto de 40), não só do que mudou.
+    await sincronizarSegundosLembretes(userId, lista).catch(() => {});
   };
 
   const alternarAtiva = async (id: string, ativa: boolean) => {
@@ -46,6 +48,7 @@ export function useMedicacoes() {
     setMedicacoes(lista);
     const m = lista.find((x) => x.id === id);
     if (m) await ajustarLembretes(m).catch(() => {});
+    if (userId) await sincronizarSegundosLembretes(userId, lista).catch(() => {});
   };
 
   return { medicacoes, ativas: medicacoes.filter((m) => m.ativa), carregando, salvar, alternarAtiva, recarregar };

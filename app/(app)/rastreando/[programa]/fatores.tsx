@@ -8,6 +8,7 @@ import { PROGRAMAS } from '@core/rastreando/tipos';
 import { useRastreando } from '@core/rastreando/useRastreando';
 import { CONTEUDO } from '@modules/rastreando/conteudo';
 import { Card, Colors, InternalHeader, Spacing, Typography } from '@ui/index';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 /** §29.3: fatores educativos × fatores que mudam o protocolo. */
 export default function Fatores() {
@@ -46,7 +47,7 @@ export default function Fatores() {
             <View key={f} style={styles.item}><Ionicons name="information-circle-outline" size={18} color={Colors.accent} /><Text style={styles.itemTexto}>{f}</Text></View>
           ))}
         </Card>
-        <Text style={styles.fonte}>Fontes: {c.fonteResumo}</Text>
+        <FontesDaTela tema={programa as Programa} />
       </ScrollView>
     </SafeAreaView>
   );

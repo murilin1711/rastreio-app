@@ -7,6 +7,7 @@ import { useCheckup } from '@core/cardio/useCheckup';
 import type { ItemCheckup } from '@core/regras/cardio/tiposRisco';
 import { Colors, InternalHeader, Spacing, Typography } from '@ui/index';
 import { useAbrir } from '@core/navegacao/useVoltar';
+import { FontesDaTela } from '@modules/fontes/FontesDaTela';
 
 const ROTA: Record<ItemCheckup['chave'], string> = { pa: '/(app)/coracao/pressao', peso: '/(app)/coracao/risco/dados', tabagismo: '/(app)/(tabs)/minha-saude/perfil', glicemia_hba1c: '/(app)/coracao/exames/registrar', lipidios: '/(app)/coracao/exames/registrar', renal: '/(app)/coracao/exames/registrar', atividade: '/(app)/bem-estar/atividade', risco: '/(app)/coracao/risco' };
 
@@ -20,7 +21,7 @@ export default function Checkup() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Coração & Metabolismo" title="Como está minha prevenção?" />
+        <InternalHeader sectionLabel="Pressão, coração e diabetes" title="Como está minha prevenção?" />
         {resultado ? (
           <>
             <Text style={styles.contador}>Informações atualizadas: {resultado.atualizados}/{resultado.total}</Text>
@@ -39,6 +40,7 @@ export default function Checkup() {
             </View>
           </>
         ) : <Text style={styles.sub}>{carregando ? 'Verificando…' : 'Complete seu perfil para usar o check-up.'}</Text>}
+        <FontesDaTela tema='checkup' />
       </ScrollView>
     </SafeAreaView>
   );

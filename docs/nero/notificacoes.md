@@ -21,7 +21,8 @@
 
 | Lembrete | Título | Texto | Decidido |
 |---|---|---|---|
-| Medicamento | Hora de tomar seu remédio 💊 | `<nome> <dose>` — ex.: "Losartana 50 mg". Sem dose cadastrada, só o nome. | 25/09 |
+| Medicamento | Hora do remédio: `<nome> <dose> · <quantidade>` 💊 — ex.: "Hora do remédio: Losartana 50 mg · 1 comprimido 💊". Sem dose cadastrada, sem a dose; "dose muda conforme o dia", sem a quantidade. | "Toque aqui para marcar" (o toque abre a tela "Tomou?" da dose) | 23/11 |
+| Medicamento, 30 min depois, só se a dose não foi marcada | Você tomou `<nome>` das `<8h>`? 💊 — ex.: "Você tomou Losartana das 8h? 💊" | "Toque aqui para marcar" | 23/11 |
 | Água | Hora de beber água 💧 | "Sua meta de hoje: 2 L." Meta = a definida pela pessoa, senão a sugerida pelo peso; em litros com vírgula ("1,8 L"). Sem meta nenhuma: "Um copo agora já ajuda." | 25/09 |
 | Glicemia | Hora de medir a glicemia 🩸 | O momento do plano, com inicial maiúscula — ex.: "2 h após o almoço", "Em jejum", "Antes de dormir" (rótulos de `ROTULO_MOMENTO`). | 25/09 |
 | MRPA | Hora de medir a pressão 🩺 | "Dia 2 de 7 · manhã" (ou "· noite"). Sem a sigla MRPA. | 25/09 |
@@ -47,7 +48,7 @@
   `addNotificationResponseReceivedListener`): tocar só abre o app onde estava. "Toque para preparar o
   relatório" **depende disso** — não pode ir para o celular antes. Cada notificação leva a rota no
   `content.data` e o app navega ao receber o toque, inclusive com o app fechado (a guarda de sessão
-  da D-038 já espera a sessão carregar). Destinos: remédio → Meus medicamentos; água → Água;
+  da D-038 já espera a sessão carregar). Destinos: remédio → tela "Tomou?" (`/(app)/remedios/tomar?med=<id>&hora=<HH:MM>`; a data da dose é o dia em que a notificação foi entregue, `notification.date`, acrescentada no toque por `rotaComData`); água → Água;
   glicemia → registrar glicemia; MRPA → medir; consulta véspera → Levar ao médico; consulta no dia →
   a consulta; exame → o programa no Rastreando.
 

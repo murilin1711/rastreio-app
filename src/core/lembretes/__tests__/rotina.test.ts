@@ -11,13 +11,23 @@ const linha = (titulo: string, quando: string, texto: string, extra: Partial<{ s
 
 test('remédio: uma linha por medicamento, com os horários do dia, e fora da agenda', () => {
   const { rotina, pontuais } = separarRotina([
-    linha('medicacao:m1:08:00', '2026-09-26T08:00:00', 'Hora de tomar seu remédio · Losartana 50 mg'),
-    linha('medicacao:m1:20:00', '2026-09-25T20:00:00', 'Hora de tomar seu remédio · Losartana 50 mg'),
-    linha('medicacao:m1:08:00', '2026-09-27T08:00:00', 'Hora de tomar seu remédio · Losartana 50 mg'),
+    linha('medicacao:m1:08:00', '2026-09-26T08:00:00', 'Hora do remédio: Losartana 50 mg · 1 comprimido · Toque aqui para marcar'),
+    linha('medicacao:m1:20:00', '2026-09-25T20:00:00', 'Hora do remédio: Losartana 50 mg · 1 comprimido · Toque aqui para marcar'),
+    linha('medicacao:m1:08:00', '2026-09-27T08:00:00', 'Hora do remédio: Losartana 50 mg · 1 comprimido · Toque aqui para marcar'),
     linha('consulta:c1:dia', '2026-09-30T09:00:00', 'Sua consulta é hoje · Cardiologia às 14:00', { tipo: 'consulta' }),
   ]);
   expect(rotina).toEqual([expect.objectContaining({ chave: 'medicacao:m1', nome: 'Losartana 50 mg', horarios: '08:00 e 20:00' })]);
   expect(pontuais.map((p) => p.chave)).toEqual(['consulta:c1:dia']);
+});
+
+test('remédio sem dose nem quantidade (dose muda conforme o dia): o nome é o que vem depois do prefixo', () => {
+  const { rotina } = separarRotina([linha('medicacao:m2:08:00', '2026-09-26T08:00:00', 'Hora do remédio: Insulina · Toque aqui para marcar')]);
+  expect(rotina[0].nome).toBe('Insulina');
+});
+
+test('linha gravada no texto antigo (antes de reagendar) ainda mostra o nome', () => {
+  const { rotina } = separarRotina([linha('medicacao:m1:08:00', '2026-09-26T08:00:00', 'Hora de tomar seu remédio · Losartana 50 mg')]);
+  expect(rotina[0].nome).toBe('Losartana 50 mg');
 });
 
 test('água em intervalo regular vira "das … às …, a cada …"', () => {
@@ -45,7 +55,7 @@ test('MRPA entra na rotina com a data do fim da sessão', () => {
 });
 
 test('silenciado: a linha avisa que o celular não vai tocar', () => {
-  const { rotina } = separarRotina([linha('medicacao:m1:08:00', '2026-09-26T08:00:00', 'Hora de tomar seu remédio · X', { silenciado: true })]);
+  const { rotina } = separarRotina([linha('medicacao:m1:08:00', '2026-09-26T08:00:00', 'Hora do remédio: X · 1 comprimido · Toque aqui para marcar', { silenciado: true })]);
   expect(rotina[0].silenciado).toBe(true);
 });
 
@@ -60,6 +70,6 @@ test('check-in semanal entra na rotina como "toda semana", não na agenda', () =
 });
 
 test('os diários são "todo dia"', () => {
-  const { rotina } = separarRotina([linha('medicacao:m1:08:00', '2026-09-26T08:00:00', 'Hora de tomar seu remédio · X')]);
+  const { rotina } = separarRotina([linha('medicacao:m1:08:00', '2026-09-26T08:00:00', 'Hora do remédio: X · 1 comprimido · Toque aqui para marcar')]);
   expect(rotina[0].frequencia).toBe('dia');
 });

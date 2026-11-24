@@ -1,6 +1,7 @@
 import * as AppleAuthentication from 'expo-apple-authentication';
 import Constants, { ExecutionEnvironment } from 'expo-constants';
 import { Platform } from 'react-native';
+import type { SignInResponse } from '@react-native-google-signin/google-signin';
 import { supabase } from '@core/supabase/client';
 
 /**
@@ -43,14 +44,35 @@ export async function entrarComApple(): Promise<ResultadoSocial> {
   return 'ok';
 }
 
+/** O Google não conseguiu abrir a janela de login ("Unable to open Safari", GIDSignIn código -1). */
+export function falhouAoAbrirJanela(e: unknown): boolean {
+  const msg = (e as { message?: unknown } | null)?.message;
+  return typeof msg === 'string' && /unable to open safari/i.test(msg);
+}
+
+/**
+ * Visto no Sentry em 20/11/2026: tocar no Google logo depois de fechar o alerta de erro da Apple deu "Unable to
+ * open Safari". O alerta do React Native usa uma janela própria por cima do app, e o Google tenta abrir o login
+ * enquanto ela ainda sai. Uma nova tentativa, depois de uma pausa curta, já encontra a tela do app.
+ */
+export async function comNovaTentativaAoAbrir<T>(fn: () => Promise<T>, esperaMs = 700): Promise<T> {
+  try {
+    return await fn();
+  } catch (e) {
+    if (!falhouAoAbrirJanela(e)) throw e;
+    await new Promise((r) => setTimeout(r, esperaMs));
+    return fn();
+  }
+}
+
 export async function entrarComGoogle(): Promise<ResultadoSocial> {
   // `require` aqui dentro: importar no topo derrubaria o Expo Go, que não tem o módulo nativo.
-  const { GoogleSignin, isSuccessResponse, isErrorWithCode, statusCodes } = require('@react-native-google-signin/google-signin');
+  const { GoogleSignin, isErrorWithCode, statusCodes } = require('@react-native-google-signin/google-signin');
   GoogleSignin.configure({ webClientId: GOOGLE_WEB_CLIENT_ID, iosClientId: GOOGLE_IOS_CLIENT_ID });
   try {
     await GoogleSignin.hasPlayServices();
-    const resposta = await GoogleSignin.signIn();
-    if (!isSuccessResponse(resposta)) return 'cancelado';
+    const resposta = await comNovaTentativaAoAbrir<SignInResponse>(() => GoogleSignin.signIn());
+    if (resposta.type !== 'success') return 'cancelado'; // o mesmo teste do `isSuccessResponse` da biblioteca
     const token = resposta.data.idToken;
     if (!token) throw new Error('O Google não devolveu o token de identidade.');
     const { error } = await supabase.auth.signInWithIdToken({ provider: 'google', token });

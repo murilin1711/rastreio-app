@@ -4,7 +4,7 @@
 >
 > **Antes de publicar:** confirmar no painel da Supabase que os backups diários começaram. A seção 8 promete cópias de 7 dias.
 
-**Última atualização:** 26 de setembro de 2026
+**Última atualização:** 24 de novembro de 2026
 
 ## 1. Quem é o responsável
 
@@ -32,7 +32,7 @@ Todos os dados abaixo são fornecidos por você, no app. Não coletamos dados de
 - Exames de rastreamento (tipo, data, resultado) e pendências geradas a partir deles.
 - Medidas: pressão arterial (inclusive sessões de MRPA), glicemia, peso, cintura, quadril, composição corporal, sono.
 - Exames laboratoriais e estimativa de risco cardiovascular calculada a partir deles.
-- Medicações e horários; sintomas de alarme assinalados.
+- Medicações, horários e quantidade de cada dose; registro de tomada de remédios (se tomou ou não, quanto e a hora em que marcou); sintomas de alarme assinalados.
 - Refeições, atividades físicas, check-ins de bem-estar, metas.
 - Ingestão de água (quantidade e horário de cada registro) e a meta diária, calculada a partir do seu peso.
 - Consultas (data, especialidade, anotações) e lembretes.
@@ -46,7 +46,7 @@ Todos os dados abaixo são fornecidos por você, no app. Não coletamos dados de
 - Imagens e PDFs de laudos, receitas e exames que você anexa por foto, galeria ou arquivo. Ficam em área de armazenamento privada, acessível só pela sua conta.
 
 **Relatórios**
-- PDFs gerados a partir dos seus registros. Se você escolher compartilhar por QR Code, o PDF é guardado em área privada e um link temporário é criado (ver seção 6).
+- PDFs gerados a partir dos seus registros. Se você escolher compartilhar por QR Code, o PDF e o conteúdo do relatório são guardados em área privada e um link temporário é criado (ver seção 6).
 
 **O que não coletamos**
 - Localização, contatos, microfone, dados de outros apps, identificadores de publicidade.
@@ -70,7 +70,7 @@ Não usamos seus dados para outra finalidade, não os vendemos e não os usamos 
 ## 6. Com quem os dados são compartilhados
 
 - **Ninguém recebe seus dados por padrão.** Só você acessa o que registrou; as regras de acesso do banco de dados impedem que uma conta leia dados de outra.
-- **Compartilhamento por QR Code:** quando você gera um relatório com QR, criamos um link assinado válido por **7 dias**; quem tiver o link (por exemplo, seu médico, ao escanear o QR) consegue abrir aquele PDF nesse período. Você pode revogar o link antes do prazo na tela do relatório. Depois de 7 dias o link deixa de funcionar.
+- **Compartilhamento por QR Code:** quando você gera um relatório com QR, o PDF e o conteúdo daquele relatório (o mesmo texto do PDF, preparado para a tela do celular) ficam guardados em área privada do nosso armazenamento, e o link de acesso vale por **7 dias**. O QR abre a página https://nerosaude.com.br/r/, que mostra esse relatório adaptado à tela de quem lê e tem o botão para baixar o PDF. O endereço de acesso fica na parte do link depois do "#", que o navegador não envia ao servidor do site: a página busca o relatório direto no nosso armazenamento, não pede login, não guarda nada no navegador, não usa scripts de terceiros e não aparece em buscadores. Quem tiver o QR ou o link (por exemplo, seu médico) consegue abrir aquele relatório nesse período. Ao abrir, a página tira o endereço de acesso da barra do navegador, mas o link pode continuar no histórico e no preenchimento automático do navegador de quem leu o QR; por isso o que protege o relatório é o prazo de 7 dias e a possibilidade de encerrar antes. Você pode encerrar antes do prazo na tela do relatório ou em **Minha Saúde → Levar ao médico → Compartilhamentos ativos**: o PDF e o conteúdo são apagados na hora. Encerrado ou vencido, a página informa que o relatório não está mais disponível. Depois dos 7 dias o link não abre mais, e os dois arquivos vencidos são apagados do armazenamento na próxima vez que você abre "Levar ao médico" no app (ou quando você exclui a conta).
 - **Operador de infraestrutura:** os dados ficam hospedados na Supabase (banco de dados, autenticação e armazenamento de arquivos), em servidores localizados em **São Paulo, Brasil**, com criptografia em trânsito (TLS) e em repouso. A Supabase atua como operadora, sob nossas instruções, mantém as cópias de segurança citadas na seção 8 e não usa os dados para fins próprios. Política da Supabase: https://supabase.com/privacy.
 - **Operador de envio de e-mail:** para enviar o código de confirmação de cadastro e a recuperação de senha, seu endereço de e-mail é transmitido ao serviço **Resend**, que atua como operador e o utiliza exclusivamente para entregar essas mensagens. Nenhum dado de saúde é enviado por e-mail.
 - **Operador de relatório de erros:** os relatórios técnicos de falha descritos na seção 3 são enviados ao serviço **Sentry** (Functional Software, Inc.), com dados armazenados na **União Europeia (Alemanha)**. Antes do envio, o próprio app remove qualquer conteúdo de tela, texto digitado e identificação da conta. Política do Sentry: https://sentry.io/privacy.
@@ -86,7 +86,7 @@ Os lembretes são notificações **locais**, agendadas no seu aparelho — de me
 - Guardamos seus dados enquanto sua conta existir.
 - **Excluir a conta:** em **Minha Saúde → Excluir minha conta**. A exclusão apaga a conta e **todos** os registros, documentos e relatórios vinculados a ela, de forma irreversível. Links de QR ainda ativos deixam de funcionar.
 - Os dados são apagados imediatamente do banco. Nosso operador de infraestrutura mantém cópias de segurança diárias do **banco de dados** por **7 dias**, para o caso de falha; essas cópias são sobrescritas nesse prazo, e depois disso não resta nenhum registro seu. Não guardamos cópias fora dele.
-- Os **arquivos** que você anexa (laudos, fotos de exame e os PDFs de relatório) ficam em armazenamento separado e **não entram nessas cópias de segurança**. Na prática: quando você exclui um documento ou a conta, ele desaparece na hora, sem ficar em cópia nenhuma; em compensação, um arquivo perdido não pode ser recuperado por nós.
+- Os **arquivos** que você anexa (laudos, fotos de exame) e os relatórios compartilhados por QR (PDF e conteúdo) ficam em armazenamento separado e **não entram nessas cópias de segurança**. Na prática: quando você exclui um documento ou a conta, ele desaparece na hora, sem ficar em cópia nenhuma; em compensação, um arquivo perdido não pode ser recuperado por nós.
 - Você também pode pedir a exclusão pelo e-mail da seção 1.
 
 ## 9. Seus direitos (art. 18 da LGPD)
@@ -114,4 +114,4 @@ nerosaudeapp@gmail.com · https://nerosaude.com.br/privacidade
 ### Referências
 - Lei nº 13.709/2018 (LGPD), especialmente arts. 5º, 7º, 11, 18, 41 e 48.
 - Especificação NERO §26 e §40 (ressalvas de não interpretação).
-- Decisões D-007 (QR de 7 dias, revogável) e D-008 (bucket privado `laudos`) em `02-DECISOES.md`.
+- Decisões D-007 (QR de 7 dias, revogável), D-008 (bucket privado `laudos`) e D-067 (página do QR em nerosaude.com.br/r/) em `02-DECISOES.md`.
