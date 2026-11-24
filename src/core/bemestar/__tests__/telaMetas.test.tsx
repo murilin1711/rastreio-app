@@ -4,7 +4,7 @@
  * de recarga infinita do Cardio. Renderiza a tela com repositórios simulados e conta as gravações.
  */
 import React from 'react';
-import { act, create } from 'react-test-renderer';
+import { act, create, type ReactTestRenderer } from 'react-test-renderer';
 
 let mockMarcacoes: { id: string; marco: number }[] = [];
 (globalThis as any).mockReact = React;
@@ -40,10 +40,13 @@ jest.mock('@core/bemestar/useAtividades', () => ({
 
 const Metas = require('../../../../app/(app)/bem-estar/metas/index').default;
 
+let arvore: ReactTestRenderer | undefined;
 beforeEach(() => { mockMarcacoes = []; });
+// Desmonta no fim: a comemoração tem animações que, vivas depois do teste, logam "Cannot log after tests are done".
+afterEach(() => { act(() => arvore?.unmount()); arvore = undefined; });
 
 it('grava o marco de 50% uma única vez, mesmo com as metas recarregando', async () => {
-  await act(async () => { create(<Metas />); });
+  await act(async () => { arvore = create(<Metas />); });
   for (let i = 0; i < 5; i++) await act(async () => { await new Promise((r) => setTimeout(r, 20)); });
   expect(mockMarcacoes).toEqual([{ id: 'm1', marco: 50 }]);
 }, 10000);
