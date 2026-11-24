@@ -17,7 +17,7 @@ export interface Referencia {
 }
 
 export const REFERENCIAS = {
-  // Coração & Metabolismo
+  // Pressão, coração e diabetes
   dbha2025: { titulo: 'Diretriz Brasileira de Hipertensão Arterial', emissor: 'SBC, SBH e SBN · Arq Bras Cardiol', ano: 2025, url: 'https://abccardiol.org/article/diretriz-brasileira-de-hipertensao-arterial-2025/' },
   medidasPa2023: { titulo: 'Diretrizes Brasileiras de Medidas da Pressão Arterial Dentro e Fora do Consultório (inclui MRPA)', emissor: 'SBC · Arq Bras Cardiol', ano: 2023, url: 'https://abccardiol.org/article/diretrizes-brasileiras-de-medidas-da-pressao-arterial-dentro-e-fora-do-consultorio-2023/' },
   dislipidemias2025: { titulo: 'Diretriz Brasileira de Dislipidemias e Prevenção da Aterosclerose', emissor: 'SBC · Arq Bras Cardiol', ano: 2025, url: 'https://abccardiol.org/article/diretriz-brasileira-de-dislipidemias-e-prevencao-da-aterosclerose-2025/' },
@@ -42,7 +42,7 @@ export const REFERENCIAS = {
   prostataSbu2023: { titulo: 'Posicionamento da SBU, SBOC e SBRT sobre o rastreamento do câncer de próstata', emissor: 'SBU, SBOC e SBRT', ano: 2023, url: 'https://sbradioterapia.com.br/wp-content/uploads/2023/11/rastreamento_2023_sociedades.pdf' },
   prostataInca2023: { titulo: 'Ministério da Saúde recomenda o não rastreamento populacional do câncer de próstata', emissor: 'INCA / Ministério da Saúde', ano: 2023, url: 'https://www.gov.br/inca/pt-br/assuntos/noticias/2023/ministerio-da-saude-recomenda-o-nao-rastreamento-populacional-do-cancer-de-proposta' },
 
-  // Saúde & Bem-estar
+  // Hábitos e bem-estar
   abeso2016: { titulo: 'Diretrizes Brasileiras de Obesidade, 4ª ed.', emissor: 'ABESO', ano: 2016, url: 'https://abeso.org.br/wp-content/uploads/2019/12/Diretrizes-Download-Diretrizes-Brasileiras-de-Obesidade-2016.pdf' },
   abeso2026: { titulo: 'Diretriz Brasileira de Tratamento Farmacológico da Obesidade', emissor: 'ABESO', ano: 2026, url: 'https://abeso.org.br/wp-content/uploads/2026/03/Diretrizes-ABESO_completo_20260320.pdf' },
   obesidadeControlada2023: { titulo: 'Obesidade Controlada (e-book)', emissor: 'ABESO e SBEM', ano: 2023, url: 'https://abeso.org.br/wp-content/uploads/2023/12/Ebook_Obesidade_Controlada.pdf' },
@@ -83,9 +83,9 @@ export type TemaFonte = keyof typeof FONTES_POR_TEMA;
 
 /** Grupos da tela "Fontes científicas", na ordem dos módulos do app. */
 export const GRUPOS_FONTES: { titulo: string; ids: readonly IdReferencia[] }[] = [
-  { titulo: 'Coração & Metabolismo', ids: ['dbha2025', 'medidasPa2023', 'dislipidemias2025', 'prevent2024', 'prevent2023', 'sbdMetas2026', 'sbdMonitorizacao2026', 'sbdDiagnostico2026', 'sbdDiasDoenca2026', 'sbdCetoacidose2026'] },
+  { titulo: 'Pressão, coração e diabetes', ids: ['dbha2025', 'medidasPa2023', 'dislipidemias2025', 'prevent2024', 'prevent2023', 'sbdMetas2026', 'sbdMonitorizacao2026', 'sbdDiagnostico2026', 'sbdDiasDoenca2026', 'sbdCetoacidose2026'] },
   { titulo: 'Rastreamento de câncer', ids: ['mamaCbr2023', 'mamaCnm2025', 'mamaMs2025', 'coloInca2025', 'coloIncaPagina', 'colorretalConitec2026', 'colorretalAcg2021', 'pulmaoUspstf2021', 'pulmaoLungRads2022', 'prostataSbu2023', 'prostataInca2023'] },
-  { titulo: 'Saúde & Bem-estar', ids: ['abeso2016', 'abeso2026', 'obesidadeControlada2023', 'obesidadeDcv2025', 'omsCintura2011', 'omsAtividade2020', 'msAtividade2021', 'sonoAasm2015', 'aguaEfsa2010', 'aguaIom2005', 'aguaEspen2022'] },
+  { titulo: 'Hábitos e bem-estar', ids: ['abeso2016', 'abeso2026', 'obesidadeControlada2023', 'obesidadeDcv2025', 'omsCintura2011', 'omsAtividade2020', 'msAtividade2021', 'sonoAasm2015', 'aguaEfsa2010', 'aguaIom2005', 'aguaEspen2022'] },
 ];
 
 export function fontesDoTema(tema: TemaFonte): (Referencia & { id: IdReferencia })[] {

@@ -646,7 +646,7 @@ Ela nomeia o que é do dia a dia, diz que o número é da pessoa e não do app, 
 
 **Para depois:** os planos que o médico passar (quando existir o portal do médico) e a próxima consulta.
 
-**Visto no simulador em 25/09.**
+**Visto no simulador em 25/09.** **Substituída pela D-065** (23/11/2026): as ações saíram da faixa e foram para o topo do Início.
 
 ### D-054 — A seta de voltar leva de onde a pessoa veio, com a barra de baixo visível — 25/09/2026
 **Relato do Murilo (25/09):** pelos atalhos Relatório ou Remédios, a seta de voltar levava ao "Relatório de rastreamento oncológico", nos dois casos. Pediu: manter a barra de baixo e voltar sempre para a última área em que estava.
@@ -801,6 +801,66 @@ Junto: `envolverRaiz` só aplica o `Sentry.wrap` quando o Sentry foi iniciado, o
 
 **Falta ver no aparelho:** os três só aparecem num build Android novo (a barra nativa e o ícone não existem no
 Expo Go). Entram no próximo lote.
+
+### D-065 — Reorganização da navegação: ações no topo, ＋ Anotar e molde único — 23/11/2026
+**Por quê:** o Murilo, que conhece o app, não achava funções ao mostrá-lo a outras pessoas ("onde está o MRPA?").
+O app era organizado por área médica, e o público (em boa parte idoso) pensa pela ação: "anotar minha pressão".
+
+**Escolha do Murilo (23/11):** abordagens **A + B juntas**: manter os módulos, com as ações no topo, molde único e
+sem duplicações (A), e um círculo "＋ Anotar" sempre à mão (B). A abordagem C (refazer por ação, sem módulos)
+foi descartada. Regra: a entrada de cada função fica a no máximo 2 toques da tela inicial (a aba ou o ＋ contam 1).
+
+**Nomes novos** (valem em todo texto visível):
+
+| Antes | Agora |
+|---|---|
+| Coração & Metabolismo | Pressão, coração e diabetes |
+| Rastreamentos | Exames de prevenção |
+| Saúde & Bem-estar | Hábitos e bem-estar |
+| MRPA (cartão) | Medir a pressão por alguns dias (MRPA); em andamento, "Continuar o MRPA — dia X de N" |
+| HbA1c / LDL | Glicada (HbA1c) / Colesterol LDL |
+| Relatório / Relatório de Saúde & Hábitos | Levar ao médico |
+| Pendências (Início) | Para fazer hoje |
+| Sinais de alerta (Coração) | Quando procurar o pronto-socorro |
+
+A spec dizia "por 7 dias"; o app faz a MRPA de **4 a 6 dias** (C-011), então o nome ficou "por alguns dias" e o
+"N" vem de `diasPrevistos` (confirmado pelo Murilo, 23/11). Os formulários passaram a dizer o mesmo verbo dos
+botões que levam a eles ("Anotar minha pressão", "Anotar noite de sono"…), e "Minha Pressão"/"Minha Glicemia"
+viraram "Minha pressão"/"Minha glicemia". O rótulo do `Button` subiu de 15 para 17 pt no app inteiro.
+
+**Onde mora cada coisa:**
+
+| Função | Casa única | Em outros lugares |
+|---|---|---|
+| Minha Saúde | aba | saiu da grade da tela inicial |
+| Meus exames | Minha Saúde › Meus exames | Coração: "Ver meus exames" abre a mesma lista; `coracao/exames` virou redirecionamento para ela |
+| Linha do tempo | aba Histórico | saiu do Coração e de Minha Saúde; a rota `coracao/linha-do-tempo` continua existindo, sem entrada |
+| Peso | Hábitos e bem-estar | o Coração só mostra o número |
+| Remédios | Minha Saúde | botão na tela inicial e na folha Anotar |
+| Relatórios gerais | Minha Saúde › Levar ao médico | botão na tela inicial |
+| Relatório da MRPA e da glicemia | nas telas da MRPA e de "Minha glicemia" | "Levar ao médico" mostra um aviso com os dois links quando há MRPA concluída |
+
+**Tela inicial:** "O que você quer fazer?" com no máximo 5 ações (pressão, remédios, glicemia ou exames, Levar ao
+médico e, largo, Minhas consultas), depois "Para fazer hoje" e "Meus cuidados" (os 3 módulos em cartões largos,
+com uma linha do que tem dentro). **Substitui a faixa de atalhos da D-053** (`FaixaAtalhos` e seu teste saíram).
+
+**Módulos:** todos no molde único: "O que você quer fazer?" (lista de ações, letra ≥ 17 pt) e depois "Seus últimos
+números" só com os cartões que a pessoa já tem. O item de um tema abre a tela do tema, cujo primeiro botão é "Anotar".
+
+**Folha Anotar:** o círculo "＋" (≥ 60 pt, `Colors.primary`, só nas 4 telas raiz das abas) abre `app/(app)/anotar.tsx`
+com `presentation: 'modal'` (fecha por "Fechar" ou arrastando). Regra `abrirDaFolha`
+(`src/modules/anotar/abrirDaFolha.ts`): rota de módulo empilha sobre a folha, e quem salva volta para ela; rota de
+aba fecha a folha antes e leva `voltarPara` (D-054), para voltar aonde a pessoa estava antes do ＋.
+
+**Rotas antigas não quebram:** nenhuma tela de `app/` foi apagada; `rotasAntigas.test.ts` confere as rotas que
+deixaram de ser entrada e as rotas fixas de `montarItensHoje`, e `nomesNovos.test.ts` procura os nomes antigos.
+
+**Fontes:** spec `docs/superpowers/specs/2026-11-23-reorganizacao-navegacao-design.md`; plano
+`docs/superpowers/plans/2026-11-23-nero-navegacao.md`.
+
+**Falta ver no aparelho:** folha Anotar por cima, arrastar fecha, ＋ some nas telas internas, voltas de Histórico e
+Levar ao médico, e botões a 17 pt com letra grande.
+
 ---
 
 ## Decisões clínicas (protocolos adotados)
