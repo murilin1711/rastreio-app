@@ -66,9 +66,9 @@ export default function MeuCorpo() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled" refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Saúde & Bem-estar" title="Meu Corpo" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Hábitos e bem-estar" title="Meu Corpo" onBack={() => router.back()} />
         <Text style={styles.sub}>{TEXTO_CORPO.subtitulo}</Text>
-        <Button label="Registrar medidas" onPress={() => router.push('/(app)/bem-estar/corpo/registrar')} style={{ marginTop: Spacing.lg }} />
+        <Button label="Anotar peso e medidas" onPress={() => router.push('/(app)/bem-estar/corpo/registrar')} style={{ marginTop: Spacing.lg }} />
 
         <Text style={styles.secao}>Composição corporal</Text>
         <View style={styles.grade}>

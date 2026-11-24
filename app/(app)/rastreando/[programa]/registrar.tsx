@@ -77,7 +77,7 @@ export default function Registrar() {
           <ResultadoClassificacaoView r={saida.resultado} lembretesOk={saida.lembretesOk} />
           <View style={{ gap: Spacing.sm, marginTop: Spacing.xxl }}>
             <Button label="Ver meus exames" onPress={() => router.replace({ pathname: '/(app)/rastreando/[programa]/exames', params: { programa: p } })} />
-            <Button label="Voltar aos Rastreamentos" variant="outline" onPress={() => router.replace('/(app)/rastreando')} />
+            <Button label="Voltar aos exames de prevenção" variant="outline" onPress={() => router.replace('/(app)/rastreando')} />
           </View>
           <FontesDaTela tema={programa as Programa} />
         </ScrollView>

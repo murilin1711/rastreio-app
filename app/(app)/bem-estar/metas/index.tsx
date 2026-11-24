@@ -87,7 +87,7 @@ export default function Metas() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Saúde & Bem-estar" title="Minhas Metas" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Hábitos e bem-estar" title="Minhas Metas" onBack={() => router.back()} />
         <Text style={styles.sub}>Objetivos definidos por você ou junto com seu profissional. O NERO mostra a distância; não define metas de peso por conta própria.</Text>
 
 

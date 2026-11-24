@@ -24,9 +24,9 @@ export default function MeuSono() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Saúde & Bem-estar" title="Meu Sono" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Hábitos e bem-estar" title="Meu Sono" onBack={() => router.back()} />
         <Text style={styles.sub}>{TEXTO_SONO.subtitulo}</Text>
-        <Button label="Registrar noite" onPress={() => router.push('/(app)/bem-estar/sono/registrar')} style={{ marginTop: Spacing.lg }} />
+        <Button label="Anotar noite de sono" onPress={() => router.push('/(app)/bem-estar/sono/registrar')} style={{ marginTop: Spacing.lg }} />
         {erro ? <Text style={styles.erro}>{erro.mensagemUsuario}</Text> : null}
 
         <Text style={styles.secao}>Últimos 7 dias</Text>

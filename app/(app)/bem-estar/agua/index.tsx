@@ -49,7 +49,7 @@ export default function MinhaAgua() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled" refreshControl={<RefreshControl refreshing={agua.carregando} onRefresh={agua.recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Saúde & Bem-estar" title="Minha Água" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Hábitos e bem-estar" title="Minha Água" onBack={() => router.back()} />
         <Text style={styles.sub}>{TEXTO_AGUA.subtitulo}</Text>
 
         <Card style={styles.hoje}>

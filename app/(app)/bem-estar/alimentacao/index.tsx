@@ -24,9 +24,9 @@ export default function Alimentacao() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Saúde & Bem-estar" title="Minha Alimentação" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Hábitos e bem-estar" title="Minha Alimentação" onBack={() => router.back()} />
         <Text style={styles.sub}>{TEXTO_ALIMENTACAO.subtitulo}</Text>
-        <Button label="Registrar refeição" onPress={() => router.push('/(app)/bem-estar/alimentacao/registrar')} style={{ marginTop: Spacing.lg }} />
+        <Button label="Anotar refeição" onPress={() => router.push('/(app)/bem-estar/alimentacao/registrar')} style={{ marginTop: Spacing.lg }} />
         {erro ? <Text style={styles.erro}>{erro.mensagemUsuario}</Text> : null}
 
         <Text style={styles.secao}>Sua semana</Text>

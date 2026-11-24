@@ -37,9 +37,9 @@ export default function Atividades() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled" refreshControl={<RefreshControl refreshing={carregando} onRefresh={recarregar} tintColor={Colors.primary} />}>
-        <InternalHeader sectionLabel="Saúde & Bem-estar" title="Minhas Atividades" onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Hábitos e bem-estar" title="Minhas Atividades" onBack={() => router.back()} />
         <Text style={styles.sub}>{TEXTO_ATIVIDADE.subtitulo}</Text>
-        <Button label="Registrar atividade" onPress={() => router.push('/(app)/bem-estar/atividade/registrar')} style={{ marginTop: Spacing.lg }} />
+        <Button label="Anotar atividade" onPress={() => router.push('/(app)/bem-estar/atividade/registrar')} style={{ marginTop: Spacing.lg }} />
         {erro ? <Text style={styles.erro}>{erro.mensagemUsuario}</Text> : null}
 
         {semana ? (

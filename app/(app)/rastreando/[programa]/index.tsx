@@ -28,7 +28,7 @@ export default function HubPrograma() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo}>
-        <InternalHeader sectionLabel="Rastreamentos" title={c.titulo} />
+        <InternalHeader sectionLabel="Exames de prevenção" title={c.titulo} />
 
         <View style={styles.resumo}>
           {sint.length ? <StatusBadge nivel="vermelho" label="Sinal de alerta" /> : pend.length ? <StatusBadge nivel="laranja" label="Pendência" /> : status ? <StatusBadge nivel={status.nivel} label={status.rotulo} /> : null}

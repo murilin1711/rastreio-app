@@ -44,7 +44,7 @@ export default function CheckinSemanal() {
   return (
     <SafeAreaView style={styles.tela} edges={['top']}>
       <ScrollView contentContainerStyle={styles.conteudo} keyboardShouldPersistTaps="handled">
-        <InternalHeader sectionLabel="Saúde & Bem-estar" title={TEXTO_CHECKIN.titulo} onBack={() => router.back()} />
+        <InternalHeader sectionLabel="Hábitos e bem-estar" title={TEXTO_CHECKIN.titulo} onBack={() => router.back()} />
         <Text style={styles.sub}>{TEXTO_CHECKIN.subtitulo}</Text>
         <Text style={styles.semana}>Semana de {dataCurtaBr(semanaAlvo)} a {dataCurtaBr(somarDias(semanaAlvo, 6))}{atual ? ' · já respondida, pode ajustar' : ''}</Text>
         <View style={{ gap: Spacing.xl, marginTop: Spacing.lg }}>
