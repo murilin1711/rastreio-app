@@ -37,7 +37,7 @@ it('lembrete: as quatro notificações com os textos reais (notificacoes.md)', a
   let a: any;
   await act(async () => { a = create(<DemoLembrete visiveis={['remedio', 'consulta', 'exame', 'agua']} />); });
   expect(textos(a)).toEqual(expect.arrayContaining([
-    'Hora de tomar seu remédio 💊', 'Losartana 50 mg',
+    'Hora do remédio: Losartana 50 mg · 1 comprimido 💊', 'Toque aqui para marcar',
     'Sua consulta é amanhã 📅', 'Cardiologia às 14:30. Toque para preparar o relatório.',
     'Seu exame está chegando 🔎', 'Mamografia · daqui a 30 dias',
     'Hora de beber água 💧', 'Sua meta de hoje: 2 L.',
@@ -47,6 +47,6 @@ it('lembrete: as quatro notificações com os textos reais (notificacoes.md)', a
 it('lembrete: só mostra as notificações já ditas', async () => {
   let a: any;
   await act(async () => { a = create(<DemoLembrete visiveis={['remedio']} />); });
-  expect(textos(a)).toContain('Hora de tomar seu remédio 💊');
+  expect(textos(a)).toContain('Hora do remédio: Losartana 50 mg · 1 comprimido 💊');
   expect(textos(a)).not.toContain('Sua consulta é amanhã 📅');
 });
