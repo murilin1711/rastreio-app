@@ -3,6 +3,7 @@ import type { ExameCardio } from '@core/cardio/mapeamento';
 import { rotuloExame } from '@core/cardio/tiposExames';
 import { ROTULO_TIPO_DOCUMENTO } from '@core/documentos/tipos';
 import { calcularIdade, calcularIMC, calcularMacosAno } from '@core/perfil/calculos';
+import type { PerfilSaude } from '@core/perfil/tipos';
 import { CLASSIFICACAO, resumoResultado } from '@core/rastreando/formato';
 import { ROTULO_EXAME, ROTULO_PROGRAMA, type TipoExameRastreamento } from '@core/rastreando/tipos';
 import { LISTA_AGRAVANTES } from '@core/regras/cardio/agravantes';
@@ -32,7 +33,7 @@ export function dataHoraBr(iso: string): string {
 }
 /** Mililitros com separador de milhar: 1.983 ml lê melhor que 1983 ml num relatório. */
 const ml = (n: number | null | undefined) => (n == null ? '—' : `${n.toLocaleString('pt-BR')} ml`);
-const num = (n: number | null | undefined, casas = 0) => (n == null ? '—' : n.toFixed(casas).replace('.', ','));
+export const num = (n: number | null | undefined, casas = 0) => (n == null ? '—' : n.toFixed(casas).replace('.', ','));
 const texto = (t: string): Bloco => ({ tipo: 'texto', texto: t });
 const vazio = (): Bloco[] => [texto(SEM_REGISTROS)];
 const media = (xs: number[]) => (xs.length ? xs.reduce((a, b) => a + b, 0) / xs.length : null);
@@ -44,8 +45,19 @@ const ROTULO_TABAGISMO = { nunca: 'nunca fumou', ex: 'ex-fumante', atual: 'fuman
 const ROTULO_PARENTESCO: Record<string, string> = { mae: 'mãe', pai: 'pai', irma_o: 'irmã/irmão', filha_o: 'filha/filho', avo_a: 'avó/avô', tia_o: 'tia/tio', outro: 'outro' };
 const ROTULO_CONDICAO: Record<string, string> = { mama: 'câncer de mama', ovario: 'câncer de ovário', colorretal: 'câncer colorretal', prostata: 'câncer de próstata', pulmao: 'câncer de pulmão', colo_utero: 'câncer do colo do útero', dcv_prematura: 'doença cardiovascular precoce', outro: 'outra condição' };
 const ROTULO_MOMENTO: Record<string, string> = { jejum: 'jejum', antes_cafe: 'antes do café', pos_cafe_1h: '1 h após café', pos_cafe_2h: '2 h após café', antes_almoco: 'antes do almoço', pos_almoco_1h: '1 h após almoço', pos_almoco_2h: '2 h após almoço', antes_jantar: 'antes do jantar', pos_jantar_1h: '1 h após jantar', pos_jantar_2h: '2 h após jantar', antes_dormir: 'antes de dormir', madrugada: 'madrugada', antes_exercicio: 'antes do exercício', depois_exercicio: 'depois do exercício', sintomas_hipoglicemia: 'com sintomas', aleatoria: 'aleatória', outro: 'outro' };
-const ROTULO_STATUS: Record<string, string> = { indicado: 'Indicado', proximo_de_iniciar: 'Próximo de iniciar', nao_indicado_no_momento: 'Não indicado no momento', avaliacao_individualizada: 'Avaliação individualizada', acompanhamento_medico: 'Acompanhamento médico', em_dia: 'Em dia', exame_proximo: 'Exame próximo', exame_atrasado: 'Exame atrasado' };
-const ROTULO_CATEGORIA_RISCO = { baixo: 'baixo', intermediario: 'intermediário', alto: 'alto' } as const;
+export const ROTULO_STATUS: Record<string, string> = { indicado: 'Indicado', proximo_de_iniciar: 'Próximo de iniciar', nao_indicado_no_momento: 'Não indicado no momento', avaliacao_individualizada: 'Avaliação individualizada', acompanhamento_medico: 'Acompanhamento médico', em_dia: 'Em dia', exame_proximo: 'Exame próximo', exame_atrasado: 'Exame atrasado' };
+export const ROTULO_CATEGORIA_RISCO = { baixo: 'baixo', intermediario: 'intermediário', alto: 'alto' } as const;
+
+/** Condições que o paciente informou no perfil (seção "Dados gerais" e cabeçalho do painel). */
+export function condicoesInformadas(p: PerfilSaude): string[] {
+  return [p.temHipertensao && 'hipertensão', p.temDiabetes && `diabetes${p.tipoDiabetes ? ` (${p.tipoDiabetes.toUpperCase()})` : ''}`, p.temDoencaRenal && 'doença renal', p.temDii && 'doença inflamatória intestinal', p.temHiv && 'HIV', p.temImunossupressao && 'imunossupressão', p.eventoCvPrevio && 'evento cardiovascular prévio'].filter(Boolean) as string[];
+}
+
+/** 'ex-fumante · 20,0 maços-ano', 'nunca fumou' ou 'não informado'. */
+export function textoTabagismo(p: PerfilSaude): string {
+  const ma = calcularMacosAno(p.cigarrosDia, p.anosFumando);
+  return `${p.tabagismoStatus ? ROTULO_TABAGISMO[p.tabagismoStatus] : 'não informado'}${p.tabagismoStatus && p.tabagismoStatus !== 'nunca' && ma != null ? ` · ${num(ma, 1)} maços-ano` : ''}`;
+}
 
 // ——— seções ———
 type Construtor = (d: DadosNero, periodo: Periodo) => SecaoRelatorio | null;
@@ -179,11 +191,11 @@ const CONSTRUTORES: Record<ChaveSecao, Construtor> = {
   perfil: (d) => {
     const p = d.perfil;
     const idade = p.dataNascimento ? `${calcularIdade(p.dataNascimento)} anos` : 'idade não informada';
-    const condicoes = [p.temHipertensao && 'hipertensão', p.temDiabetes && `diabetes${p.tipoDiabetes ? ` (${p.tipoDiabetes.toUpperCase()})` : ''}`, p.temDoencaRenal && 'doença renal', p.temDii && 'doença inflamatória intestinal', p.temHiv && 'HIV', p.temImunossupressao && 'imunossupressão', p.eventoCvPrevio && 'evento cardiovascular prévio'].filter(Boolean) as string[];
+    const condicoes = condicoesInformadas(p);
     const itens = [
       `${p.nome || 'Paciente'} · ${idade} · sexo ao nascer: ${p.sexoNascimento ?? 'não informado'}`,
       `Condições informadas: ${condicoes.length ? condicoes.join(', ') : 'nenhuma'}`,
-      `Tabagismo: ${p.tabagismoStatus ? ROTULO_TABAGISMO[p.tabagismoStatus] : 'não informado'}${p.tabagismoStatus && p.tabagismoStatus !== 'nunca' && calcularMacosAno(p.cigarrosDia, p.anosFumando) != null ? ` · ${num(calcularMacosAno(p.cigarrosDia, p.anosFumando), 1)} maços-ano` : ''}`,
+      `Tabagismo: ${textoTabagismo(p)}`,
     ];
     if (p.historicoCancerPessoal.length) itens.push(`Câncer prévio: ${p.historicoCancerPessoal.map((c) => `${c.tipo}${c.ano ? ` (${c.ano})` : ''}`).join(', ')}`);
     if (p.doencasGeneticas.length) itens.push(`Síndromes/mutações: ${p.doencasGeneticas.map((g) => g.nome).join(', ')}`);

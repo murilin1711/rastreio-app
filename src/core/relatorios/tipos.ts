@@ -102,5 +102,8 @@ export interface ProgramaPainel { programa: Programa; rotulo: string; situacao: 
 
 export interface PontoPressao { data: string; pas: number }
 
-/** `null` em `seriePressao`/`adesao`/`prevencao` = bloco não desenhado. */
-export interface PainelRelatorio { cabecalho: CabecalhoPainel; atencao: string[]; cartoes: CartaoNumero[]; seriePressao: PontoPressao[] | null; adesao: LinhaAdesao[] | null; prevencao: ProgramaPainel[] | null; prevencaoDetalhada: boolean }
+/**
+ * `null` em `seriePressao`/`adesao`/`prevencao` = bloco não desenhado. `referenciaSistolica` = linha do gráfico:
+ * PAS da referência domiciliar dos parâmetros de pressão, ou 130 quando eles não vierem (R3-T1-a).
+ */
+export interface PainelRelatorio { cabecalho: CabecalhoPainel; atencao: string[]; cartoes: CartaoNumero[]; seriePressao: PontoPressao[] | null; referenciaSistolica: number; adesao: LinhaAdesao[] | null; prevencao: ProgramaPainel[] | null; prevencaoDetalhada: boolean }
