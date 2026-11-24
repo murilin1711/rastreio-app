@@ -60,7 +60,7 @@ export default function PreviaRelatorio() {
         if (!sessao?.user.id) return;
         setCriandoQr(true);
         try {
-          const c = await criarCompartilhamento(sessao.user.id, p.tipo ?? 'geral', p.especialidade ?? null, rel.html(), (svg, validade) => rel.html(svg, validade));
+          const c = await criarCompartilhamento(sessao.user.id, p.tipo ?? 'geral', p.especialidade ?? null, { titulo: rel.titulo, geradoEm: rel.geradoEm, htmlWeb: rel.htmlTela(), htmlPdf: (svg, validade) => rel.html(svg, validade) });
           setQr({ id: c.id, svg: c.qrSvg, expiraEm: c.expiraEm });
         } catch (e) { Alert.alert('Não foi possível criar o código QR', traduzirErro(e).mensagemUsuario); } finally { setCriandoQr(false); }
       } },

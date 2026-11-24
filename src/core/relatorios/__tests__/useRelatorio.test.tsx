@@ -38,6 +38,16 @@ test('o HTML do PDF leva o painel (página 1), com e sem QR, e a hora de geraç�
   expect(rel.html('<svg id="qr"></svg>', '25/11/2026')).toContain('<svg id="qr"></svg>');
 });
 
+test('o HTML da página do QR (celular do médico) leva o painel e os estilos de tela, sem QR', async () => {
+  await montar({ tipo: 'geral', dias: 90 });
+  const h = rel.htmlTela();
+  expect(h).toContain('class="tela"');
+  expect(h).toContain('class="painel"');
+  expect(h).toContain('Para atenção nesta consulta');
+  expect(h).toContain('Gerado em 18/09/2026 10:30');
+  expect(h).not.toContain('<svg id="qr"');
+});
+
 test('cardio com "apenas" filtra também o painel', async () => {
   await montar({ tipo: 'cardio', dias: 90, apenas: ['glicemia'] });
   expect(rel.painel?.cartoes.map((c) => c.tipo)).toEqual(['glicemia']);
@@ -48,5 +58,6 @@ test('antes dos dados, sem painel e sem HTML', async () => {
   expect(rel.painel).toBeNull();
   expect(rel.geradoEm).toBe('');
   expect(rel.html()).toBe('');
+  expect(rel.htmlTela()).toBe('');
   await act(async () => {});
 });

@@ -11,7 +11,7 @@ export interface ParametrosRelatorio { tipo: TipoRelatorio; dias: 30 | 90 | 180;
 
 /**
  * Carrega os dados uma vez e monta painel (página 1, D-067) + seções + HTML (com ou sem QR) para a prévia, o PDF
- * e o compartilhamento. Todo PDF gerado no app sai daqui com o painel; nunca com a opção `tela` (só a página do QR).
+ * e o compartilhamento. Todo PDF gerado no app sai daqui com o painel; nunca com a opção `tela` (só `htmlTela`, a página do QR).
  */
 export function useRelatorio(p: ParametrosRelatorio) {
   const { sessao } = useSessao();
@@ -53,6 +53,11 @@ export function useRelatorio(p: ParametrosRelatorio) {
     if (!dados) return '';
     return htmlRelatorio({ tipo: p.tipo, titulo, paciente: { nome: dados.perfil.nome, nascimento: dados.perfil.dataNascimento }, periodo, secoes, painel, geradoEm: dados.geradoEm, qrSvg, validadeQr });
   }, [dados, p.tipo, titulo, periodo, secoes, painel]);
+  /** HTML da página do QR no celular do médico (`/r/`): o mesmo relatório, com o painel e os estilos de tela, sem QR. */
+  const htmlTela = useCallback(() => {
+    if (!dados) return '';
+    return htmlRelatorio({ tipo: p.tipo, titulo, paciente: { nome: dados.perfil.nome, nascimento: dados.perfil.dataNascimento }, periodo, secoes, painel, geradoEm: dados.geradoEm, tela: true });
+  }, [dados, p.tipo, titulo, periodo, secoes, painel]);
 
-  return { dados, painel, geradoEm, secoes, titulo, periodo, html, carregando, erro, recarregar };
+  return { dados, painel, geradoEm, secoes, titulo, periodo, html, htmlTela, carregando, erro, recarregar };
 }
