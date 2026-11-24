@@ -63,12 +63,16 @@ export const SECOES_CARDIO: ChaveSecao[] = ['perfil', 'medicamentos', 'pa', 'mrp
 /** Ordem do relatório de rastreamento oncológico (§40, §61). */
 export const SECOES_ONCOLOGICO: ChaveSecao[] = ['perfil', 'hist_familiar', 'tabagismo', 'rastreamentos_status', 'mama', 'colo', 'colorretal', 'pulmao', 'prostata', 'sintomas', 'documentos'];
 
-/** Relatório de Saúde & Hábitos (§88). */
+/** Relatório de hábitos e bem-estar (§88). */
 export const SECOES_BEMESTAR: ChaveSecao[] = ['perfil', 'corpo', 'alimentacao', 'agua', 'atividade', 'sono', 'checkins', 'documentos'];
 
 /**
- * Relatório geral = união, sem repetir (§61). É o documento que promete tudo, então **toda** chave de
- * `ChaveSecao` precisa estar aqui — `agua` tinha ficado de fora até 23/09/2026. Há um teste que trava
- * essa regressão e quebra sozinho quando uma seção nova nascer fora desta lista.
+ * Relatório geral = união, sem repetir (§61). É o documento que promete tudo, então toda seção dos
+ * outros relatórios precisa estar aqui — `agua` tinha ficado de fora até 23/09/2026. Há um teste que
+ * trava essa regressão e quebra sozinho quando uma seção nova nascer fora desta lista.
+ *
+ * Duas chaves de `ChaveSecao` ficam de fora de propósito: `peso`, construtor órfão de antes da Fase 4
+ * (a seção `corpo` já traz peso e IMC, e é dela que sai o cartão de peso do painel), e `pendencias`,
+ * que `montarPor` anexa a qualquer relatório quando há pendência aberta (§66).
  */
 export const SECOES_GERAL: ChaveSecao[] = Array.from(new Set<ChaveSecao>([...SECOES_CARDIO, ...SECOES_ONCOLOGICO, 'corpo', 'alimentacao', 'agua', 'atividade', 'sono', 'checkins', 'consultas']));

@@ -54,8 +54,7 @@ function itemMrpa(d: DadosNero): string[] {
 function itemPressaoAvulsa(d: DadosNero): string[] {
   const p = d.parametrosPressao;
   if (!p) return [];
-  const marcadas = d.medidasPA
-    .filter((m) => !m.sessaoId && !m.contexto.excluida)
+  const marcadas = avulsasValidas(d)
     .filter((m) => avaliarMedidaCasual(m, m.contexto.sintomas ?? [], p).camada !== 'contexto');
   if (!marcadas.length) return [];
   const maior = [...marcadas].sort((a, b) => b.pas - a.pas || b.pad - a.pad)[0];
@@ -123,7 +122,7 @@ const CARTOES_POR_TIPO: Record<TipoRelatorio, TipoCartao[]> = {
 
 /** Seções do relatório que sustentam cada cartão; com `filtrar`, o cartão só entra se alguma estiver no escopo. */
 const SECOES_DO_CARTAO: Record<TipoCartao, ChaveSecao[]> = {
-  pressao: ['mrpa', 'pa'], hba1c: ['hba1c'], ldl: ['lipidios'], risco: ['prevent'], glicemia: ['glicemia'], peso: ['corpo', 'peso'], cintura: ['corpo'],
+  pressao: ['mrpa', 'pa'], hba1c: ['hba1c'], ldl: ['lipidios'], risco: ['prevent'], glicemia: ['glicemia'], peso: ['corpo'], cintura: ['corpo'],
 };
 
 /** Seções de rastreamento: com alguma delas no escopo, o painel traz a prevenção. */

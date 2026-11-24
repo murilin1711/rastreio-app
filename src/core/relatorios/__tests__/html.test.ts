@@ -1,11 +1,11 @@
 import { RESSALVA_CARDIO, RESSALVA_HABITOS, RESSALVA_ONCOLOGICO, htmlRelatorio } from '../html';
-import { montarBemEstar, montarCardio, montarConsulta, montarOncologico } from '../montar';
+import { montarBemEstar, montarCardio, montarConsulta, montarOncologico, tituloRelatorio } from '../montar';
 import { PERIODO_TESTE, dadosNeroTeste } from './fixtures';
 
 const base = { paciente: { nome: 'Ana Souza', nascimento: '1975-04-10' }, periodo: PERIODO_TESTE, geradoEm: '2026-09-18T10:30:00' };
 
 test('cardio traz a ressalva do §26 literal, nome e período', () => {
-  const h = htmlRelatorio({ ...base, tipo: 'cardio', titulo: 'Relatório cardiovascular e metabólico', secoes: montarCardio(dadosNeroTeste(), PERIODO_TESTE) });
+  const h = htmlRelatorio({ ...base, tipo: 'cardio', titulo: tituloRelatorio('cardio'), secoes: montarCardio(dadosNeroTeste(), PERIODO_TESTE) });
   expect(h).toContain(RESSALVA_CARDIO);
   expect(h).not.toContain(RESSALVA_ONCOLOGICO);
   expect(h).toContain('Ana Souza');
@@ -31,10 +31,10 @@ test('com qrSvg inclui o svg e a validade; escapa HTML nos textos', () => {
   expect(h).toContain('A&lt;b&gt;');
 });
 test('snapshot do cardio', () => {
-  expect(htmlRelatorio({ ...base, tipo: 'cardio', titulo: 'Relatório cardiovascular e metabólico', secoes: montarCardio(dadosNeroTeste(), PERIODO_TESTE) })).toMatchSnapshot();
+  expect(htmlRelatorio({ ...base, tipo: 'cardio', titulo: tituloRelatorio('cardio'), secoes: montarCardio(dadosNeroTeste(), PERIODO_TESTE) })).toMatchSnapshot();
 });
-test('relatório de Saúde & Hábitos traz as três ressalvas', () => {
-  const h = htmlRelatorio({ ...base, tipo: 'bemestar', titulo: 'Relatório de Saúde & Hábitos', secoes: montarBemEstar(dadosNeroTeste(), PERIODO_TESTE) });
+test('relatório de hábitos e bem-estar traz as três ressalvas', () => {
+  const h = htmlRelatorio({ ...base, tipo: 'bemestar', titulo: tituloRelatorio('bemestar'), secoes: montarBemEstar(dadosNeroTeste(), PERIODO_TESTE) });
   expect(h).toContain(RESSALVA_CARDIO); expect(h).toContain(RESSALVA_ONCOLOGICO); expect(h).toContain(RESSALVA_HABITOS);
   expect(h.toLowerCase()).not.toContain('você tem');
   expect(h).toMatchSnapshot();
