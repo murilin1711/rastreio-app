@@ -198,7 +198,7 @@ describe('doses de remédio de hoje (marcar sem notificação)', () => {
   test('só a dose pendente cujo horário já chegou entra, e tira o "Nada pendente"', () => {
     const itens = montarItensHoje({ perfil: completo, antecedentesQtd: 1, medicacoesAtivasQtd: 2, dosesHoje: [...doses], agora });
     expect(itens.filter((i) => i.id.startsWith('dose_'))).toEqual([
-      { id: 'dose_m1_08:00', nivel: 'amarelo', titulo: 'Losartana · 8h', descricao: 'Toque para marcar se tomou.', rota: '/(app)/remedios/tomar?med=m1&hora=08:00&data=2026-11-23' },
+      { id: 'dose_m1_08:00', nivel: 'amarelo', titulo: 'Losartana · hoje, 23/11, às 8h', descricao: 'Toque para marcar se tomou.', rota: '/(app)/remedios/tomar?med=m1&hora=08:00&data=2026-11-23' },
     ]);
     expect(itens.map((i) => i.id)).not.toContain('tudo_em_dia');
   });
@@ -211,7 +211,7 @@ describe('doses de remédio de hoje (marcar sem notificação)', () => {
         { medicacaoId: 'm3', nome: 'Insulina', data: '2026-11-22', hora: '08:00', estado: 'pendente' },
       ],
     });
-    expect(itens.filter((i) => i.id.startsWith('dose_')).map((i) => i.titulo)).toEqual(['Insulina · 9h']);
+    expect(itens.filter((i) => i.id.startsWith('dose_')).map((i) => i.titulo)).toEqual(['Insulina · hoje, 23/11, às 9h']);
   });
 
   test('sem dose pendente que já chegou → continua "Nada pendente"', () => {

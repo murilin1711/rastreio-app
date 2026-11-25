@@ -66,9 +66,9 @@ afterEach(() => {
 it('dose cujo horário chegou aparece com o nome do remédio e abre "Tomou?"', async () => {
   mockDoses.doses = [dose({}), dose({ hora: '20:00' })];
   await act(async () => { a = create(<Home />); });
-  expect(tela()).toContain('Losartana · 8h');
-  expect(tela()).not.toContain('Losartana · 20h');
-  await act(async () => { apertar(a, 'Losartana · 8h'); });
+  expect(tela()).toContain('Losartana · hoje, 23/11, às 8h');
+  expect(tela()).not.toContain('Losartana · hoje, 23/11, às 20h');
+  await act(async () => { apertar(a, 'Losartana · hoje, 23/11, às 8h'); });
   expect(mockAbrir).toHaveBeenCalledWith('/(app)/remedios/tomar?med=m1&hora=08:00&data=2026-11-23');
 });
 

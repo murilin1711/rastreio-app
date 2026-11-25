@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pressable, StyleSheet, Text } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { Colors, Radius, Shadows, Spacing } from '@ui/theme';
 
@@ -11,26 +11,41 @@ interface Props {
   largo?: boolean;
 }
 
-/** Botão de ação grande: ícone + rótulo a 17 pt, sem cortar o texto em letra grande do sistema. */
+/** Cinza-azulado bem claro do ícone ao fundo: aparece como marca d'água, sem competir com o texto. */
+const MARCA_DAGUA = '#EEF2F8';
+
+/**
+ * Botão de ação grande (escolhido pelo Murilo em 24/11/2026, opção "Z"): fundo branco, o ícone
+ * gigante e clarinho no canto como marca d'água, o ícone pequeno em marinho no alto e o nome
+ * embaixo a 17 pt, sem cortar em letra grande do sistema. O largo ganha uma faixa ciano à esquerda.
+ * Sem cores próprias por ação: as cores da Home ficam nos cartões de "Meus cuidados".
+ */
 export function BotaoAcao({ icone, rotulo, onPress, largo }: Props) {
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={rotulo}
       onPress={onPress}
-      style={[styles.base, largo ? styles.largo : styles.normal]}
+      style={({ pressed }) => [styles.base, largo ? styles.largo : styles.normal, pressed && styles.pressionado]}
     >
-      <Ionicons name={icone} size={28} color={Colors.primary} />
-      <Text style={[styles.rotulo, largo ? styles.rotuloLargo : styles.rotuloNormal]}>{rotulo}</Text>
+      {largo ? <View style={styles.faixa} /> : null}
+      <View pointerEvents="none" style={largo ? styles.fundoLargo : styles.fundo} importantForAccessibility="no-hide-descendants" accessibilityElementsHidden>
+        <Ionicons name={icone} size={largo ? 80 : 96} color={MARCA_DAGUA} />
+      </View>
+      <Ionicons name={icone} size={26} color={Colors.primary} />
+      <Text style={[styles.rotulo, largo && styles.rotuloLargo]}>{rotulo}</Text>
     </Pressable>
   );
 }
 
 const styles = StyleSheet.create({
-  base:         { backgroundColor: Colors.surface, borderRadius: Radius.bloco, ...Shadows.card, minHeight: 96, alignItems: 'center', justifyContent: 'center', padding: Spacing.md, gap: Spacing.sm },
-  normal:       { flex: 1, flexDirection: 'column' },
-  largo:        { width: '100%', minHeight: 64, flexDirection: 'row', justifyContent: 'flex-start', gap: Spacing.md },
-  rotulo:       { fontFamily: 'Poppins-SemiBold', fontSize: 17, lineHeight: 23, color: Colors.textPrimary },
-  rotuloNormal: { textAlign: 'center' },
-  rotuloLargo:  { flex: 1 },
+  base:        { backgroundColor: Colors.surface, borderRadius: Radius.bloco + 2, ...Shadows.card, overflow: 'hidden', padding: Spacing.lg },
+  normal:      { flex: 1, minHeight: 128, justifyContent: 'space-between', gap: Spacing.md },
+  largo:       { width: '100%', minHeight: 70, flexDirection: 'row', alignItems: 'center', gap: Spacing.md, paddingLeft: Spacing.lg + 4 },
+  pressionado: { opacity: 0.88, transform: [{ scale: 0.985 }] },
+  faixa:       { position: 'absolute', left: 0, top: 0, bottom: 0, width: 5, backgroundColor: Colors.logoCiano },
+  fundo:       { position: 'absolute', right: -14, top: -12 },
+  fundoLargo:  { position: 'absolute', right: -10, top: -10 },
+  rotulo:      { fontFamily: 'Poppins-Bold', fontSize: 17, lineHeight: 23, color: Colors.textPrimary },
+  rotuloLargo: { flex: 1 },
 });

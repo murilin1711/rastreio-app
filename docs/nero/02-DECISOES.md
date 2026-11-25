@@ -863,6 +863,8 @@ Levar ao médico, e botões a 17 pt com letra grande.
 
 **Ajuste de 24/11/2026 (pedido do Murilo, depois do teste interno):** na tela inicial, "Para fazer hoje" passou a vir **antes** de "O que você quer fazer?". Quem abre o app vê primeiro o que precisa fazer hoje; as cinco ações vêm logo depois. Também no Android o ＋ Anotar passou a ficar logo acima da barra (lá a barra do Material fica abaixo do conteúdo; só no iOS 26 ela flutua por cima).
 
+**Ajuste de 25/11/2026 (pedido do Murilo, teste no TestFlight):** os botões de "O que você quer fazer?" (e da tela ＋ Anotar) ganharam o estilo "Z": fundo branco, ícone gigante e clarinho no canto como marca d'água, ícone pequeno marinho no alto e o nome embaixo; o largo tem uma faixa ciano à esquerda. Sem cor por ação nem emoji — as cores da Home ficam em "Meus cuidados". O remédio em "Para fazer hoje" passou a mostrar o dia ("Losartana · hoje, 25/11, às 8h").
+
 ### D-066 — Marcar remédio tomado — 23/11/2026
 **Por quê:** o NERO lembrava o horário do remédio, mas não sabia se a pessoa tomou. O Murilo quer que o idoso
 registre cada dose e que o médico veja esse registro (no check-in semanal e no PDF). É também a base do projeto

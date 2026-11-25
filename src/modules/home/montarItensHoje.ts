@@ -146,7 +146,7 @@ export function montarItensHoje({ perfil, antecedentesQtd, medicacoesAtivasQtd, 
     const agoraHora = horaDe(agora);
     for (const d of dosesHoje) {
       if (d.estado !== 'pendente' || d.data !== hoje || d.hora > agoraHora) continue;
-      itens.push({ id: `dose_${d.medicacaoId}_${d.hora}`, nivel: 'amarelo', titulo: `${d.nome} · ${horaCurta(d.hora)}`, descricao: 'Toque para marcar se tomou.', rota: rotaTomar(d.medicacaoId, d.hora, d.data) });
+      itens.push({ id: `dose_${d.medicacaoId}_${d.hora}`, nivel: 'amarelo', titulo: `${d.nome} · hoje, ${d.data.slice(8, 10)}/${d.data.slice(5, 7)}, às ${horaCurta(d.hora)}`, descricao: 'Toque para marcar se tomou.', rota: rotaTomar(d.medicacaoId, d.hora, d.data) });
     }
   }
 
